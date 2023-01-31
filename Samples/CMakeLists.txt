@@ -109,3 +109,6 @@ if (MSVC AND OGRE_BUILD_SAMPLES)
 	add_dependencies(demo_installer SampleBrowser)
   endif()
 endif()
+
+add_subdirectory(Tutorials)
+add_subdirectory(HelloOgre)
