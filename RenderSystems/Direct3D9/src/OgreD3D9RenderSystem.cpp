@@ -848,7 +848,6 @@ namespace Ogre
         rsc->setCapability(RSC_NON_POWER_OF_2_TEXTURES);
         rsc->setNonPOW2TexturesLimited(false);
         rsc->setNumMultiRenderTargets(OGRE_MAX_MULTIPLE_RENDER_TARGETS);
-        rsc->setCapability(RSC_MRT_DIFFERENT_BIT_DEPTHS);       
         rsc->setCapability(RSC_POINT_SPRITES);          
         rsc->setCapability(RSC_POINT_EXTENDED_PARAMETERS);                              
         rsc->setMaxPointSize(2.19902e+012f);
@@ -964,7 +963,7 @@ namespace Ogre
 
             if((rkCurCaps.PrimitiveMiscCaps & D3DPMISCCAPS_MRTINDEPENDENTBITDEPTHS) == 0)
             {
-                rsc->unsetCapability(RSC_MRT_DIFFERENT_BIT_DEPTHS);
+                rsc->setCapability(RSC_MRT_SAME_BIT_DEPTHS);
             }
 
             // Point sprites 
@@ -2013,18 +2012,6 @@ namespace Ogre
         }
     }
     //---------------------------------------------------------------------
-    void D3D9RenderSystem::_setTextureAddressingMode( size_t stage, 
-        const Sampler::UVWAddressingMode& uvw )
-    {
-        HRESULT hr;
-        if( FAILED( hr = __SetSamplerState( getSamplerId(stage), D3DSAMP_ADDRESSU, D3D9Mappings::get(uvw.u, mDeviceManager->getActiveDevice()->getD3D9DeviceCaps()) ) ) )
-            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set texture addressing mode for U", "D3D9RenderSystem::_setTextureAddressingMode" );
-        if( FAILED( hr = __SetSamplerState( getSamplerId(stage), D3DSAMP_ADDRESSV, D3D9Mappings::get(uvw.v, mDeviceManager->getActiveDevice()->getD3D9DeviceCaps()) ) ) )
-            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set texture addressing mode for V", "D3D9RenderSystem::_setTextureAddressingMode" );
-        if( FAILED( hr = __SetSamplerState( getSamplerId(stage), D3DSAMP_ADDRESSW, D3D9Mappings::get(uvw.w, mDeviceManager->getActiveDevice()->getD3D9DeviceCaps()) ) ) )
-            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set texture addressing mode for W", "D3D9RenderSystem::_setTextureAddressingMode" );
-    }
-    //---------------------------------------------------------------------
     void D3D9RenderSystem::_setTextureBlendMode( size_t stage, const LayerBlendModeEx& bm )
     {
         HRESULT hr = S_OK;
@@ -2470,17 +2457,6 @@ namespace Ogre
             "D3D9RenderSystem::setStencilBufferParams");
     }
     //---------------------------------------------------------------------
-    void D3D9RenderSystem::_setTextureUnitFiltering(size_t unit, FilterType ftype, 
-        FilterOptions filter)
-    {
-        HRESULT hr;
-        D3D9Mappings::eD3DTexType texType = mTexStageDesc[unit].texType;
-        hr = __SetSamplerState( getSamplerId(unit), D3D9Mappings::get(ftype), 
-            D3D9Mappings::get(ftype, filter, mDeviceManager->getActiveDevice()->getD3D9DeviceCaps(), texType));
-        if (FAILED(hr))
-            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set texture filter ", "D3D9RenderSystem::_setTextureUnitFiltering");
-    }
-    //---------------------------------------------------------------------
     DWORD D3D9RenderSystem::_getCurrentAnisotropy(size_t unit)
     {
         DWORD oldVal;
@@ -2901,32 +2877,6 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Error ending frame", "D3D9RenderSystem::_endFrame" );
 
         mDeviceManager->destroyInactiveRenderDevices();
-    }
-    //---------------------------------------------------------------------
-    struct D3D9RenderContext : public RenderSystem::RenderSystemContext
-    {
-        RenderTarget* target;
-    };
-    //---------------------------------------------------------------------
-    RenderSystem::RenderSystemContext* D3D9RenderSystem::_pauseFrame(void)
-    {
-        //Stop rendering
-        _endFrame();
-
-        D3D9RenderContext* context = OGRE_ALLOC_T(D3D9RenderContext, 1, MEMCATEGORY_RENDERSYS);
-        context->target = mActiveRenderTarget;
-        
-        
-        return context;
-    }
-    //---------------------------------------------------------------------
-    void D3D9RenderSystem::_resumeFrame(RenderSystemContext* context)
-    {
-        //Resume rendering
-        _beginFrame();
-        D3D9RenderContext* d3dContext = static_cast<D3D9RenderContext*>(context);
-
-        OGRE_FREE(context, MEMCATEGORY_RENDERSYS);
     }
     void D3D9RenderSystem::setVertexDeclaration(VertexDeclaration* decl)
     {
@@ -3659,11 +3609,6 @@ namespace Ogre
 	{
 		return D3D9RenderSystem::getDeviceManager()->getActiveDevice()->isDeviceLost();
 	}
-
-    unsigned int D3D9RenderSystem::getDisplayMonitorCount() const
-    {
-        return mD3D->GetAdapterCount();
-    }
 
     //---------------------------------------------------------------------
     void D3D9RenderSystem::beginProfileEvent( const String &eventName )

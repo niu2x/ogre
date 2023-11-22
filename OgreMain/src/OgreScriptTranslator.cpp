@@ -47,7 +47,7 @@ THE SOFTWARE.
 #include "OgreGpuProgramUsage.h"
 
 namespace Ogre{
-    static void applyTextureAliases(const Material* mat, const NameValuePairList& aliasList)
+    static void applyTextureAliases(ScriptCompiler *compiler, const Material* mat, const NameValuePairList& aliasList)
     {
         for (auto t : mat->getTechniques())
         {
@@ -59,11 +59,14 @@ namespace Ogre{
                     if (aliasIt == aliasList.end())
                         continue;
 
+                    ProcessResourceNameScriptCompilerEvent evt(ProcessResourceNameScriptCompilerEvent::TEXTURE, aliasIt->second);
+                    compiler->_fireEvent(&evt, 0);
+
                     if (tus->getNumFrames() > 1)
-                        tus->setAnimatedTextureName(aliasIt->second, tus->getNumFrames(),
+                        tus->setAnimatedTextureName(evt.mName, tus->getNumFrames(),
                                                     tus->getAnimationDuration());
                     else
-                        tus->setTextureName(aliasIt->second, tus->getTextureType());
+                        tus->setTextureName(evt.mName, tus->getTextureType());
                 }
             }
         }
@@ -1072,6 +1075,7 @@ namespace Ogre{
         mMaterial->_notifyOrigin(obj->file);
 
         bool bval;
+        String sval;
 
         for(auto & i : obj->children)
         {
@@ -1121,26 +1125,17 @@ namespace Ogre{
                     }
                     break;
                 case ID_LOD_STRATEGY:
-                    if (prop->values.empty())
+                    if(getValue(prop, compiler, sval))
                     {
-                        compiler->addError(ScriptCompiler::CE_STRINGEXPECTED, prop->file, prop->line);
-                    }
-                    else if (prop->values.size() > 1)
-                    {
-                        compiler->addError(ScriptCompiler::CE_FEWERPARAMETERSEXPECTED, prop->file, prop->line,
-                                           "lod_strategy only supports 1 argument");
-                    }
-                    else
-                    {
-                        LodStrategy *strategy = LodStrategyManager::getSingleton().getStrategy(prop->values.front()->getString());
-                        if (strategy)
-                            mMaterial->setLodStrategy(strategy);
+                            if (sval == "Distance" || sval == "PixelCount")
+                                compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line,
+                                                   sval + ". use distance_box or pixel_count");
 
-                        if (!strategy)
-                        {
-                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                               "lod_strategy argument must be a valid LOD strategy");
-                        }
+                            LodStrategy* strategy = LodStrategyManager::getSingleton().getStrategy(sval);
+                            if (strategy)
+                                mMaterial->setLodStrategy(strategy);
+                            else
+                                compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, sval);
                     }
                     break;
                 case ID_RECEIVE_SHADOWS:
@@ -1179,15 +1174,7 @@ namespace Ogre{
             }
         }
 
-        OGRE_IGNORE_DEPRECATED_BEGIN
-        // Apply the texture aliases
-        if(compiler->getListener())
-        {
-            PreApplyTextureAliasesScriptCompilerEvent locEvt(mMaterial, &mTextureAliases);
-            compiler->_fireEvent(&locEvt, 0);
-        }
-        OGRE_IGNORE_DEPRECATED_END
-        applyTextureAliases(mMaterial, mTextureAliases);
+        applyTextureAliases(compiler, mMaterial, mTextureAliases);
         mTextureAliases.clear();
     }
 
@@ -1813,14 +1800,6 @@ namespace Ogre{
                         mPass->setManualCullingMode(mmode);
                     compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line,
                                        prop->name + ". Only used by the BSP scene manager.");
-                    break;
-                case ID_NORMALISE_NORMALS:
-                    OGRE_IGNORE_DEPRECATED_BEGIN
-                    if(getValue(prop, compiler, bval))
-                        mPass->setNormaliseNormals(bval);
-                    OGRE_IGNORE_DEPRECATED_END
-                    compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line,
-                                       prop->name + ". Only used by fixed function APIs.");
                     break;
                 case ID_LIGHTING:
                     if(getValue(prop, compiler, bval))
@@ -3744,7 +3723,7 @@ namespace Ogre{
         }
     }
 
-    void GpuProgramTranslator::translateProgramParameters(ScriptCompiler *compiler, GpuProgramParametersSharedPtr params, ObjectAbstractNode *obj)
+    void GpuProgramTranslator::translateProgramParameters(ScriptCompiler *compiler, const GpuProgramParametersSharedPtr& params, ObjectAbstractNode *obj)
     {
         uint32 animParametricsCount = 0;
 

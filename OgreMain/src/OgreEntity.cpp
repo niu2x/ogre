@@ -64,7 +64,6 @@ namespace Ogre {
         mMinMeshLodIndex(99),
         mMaxMeshLodIndex(0),        // Backwards, remember low value = high detail
         mMaterialLodFactor(1.0f),
-        mMaterialLodFactorTransformed(1.0f),
         mMinMaterialLodIndex(99),
         mMaxMaterialLodIndex(0),        // Backwards, remember low value = high detail
         mSkeletonInstance(0),
@@ -371,32 +370,30 @@ namespace Ogre {
 
             // Change LOD index
             mMeshLodIndex = evt.newLodIndex;
-
-            // Now do material LOD
-            lodValue *= mMaterialLodFactorTransformed;
 #endif
 
 
             for (auto *s : mSubEntityList)
             {
-#if !OGRE_NO_MESHLOD
                 // Get sub-entity material
                 const MaterialPtr& material = s->getMaterial();
                 
                 // Get material LOD strategy
                 const LodStrategy *materialStrategy = material->getLodStrategy();
-                
+
                 // Recalculate LOD value if strategies do not match
                 Real biasedMaterialLodValue;
+#if !OGRE_NO_MESHLOD
                 if (meshStrategy == materialStrategy)
-                    biasedMaterialLodValue = lodValue;
+                    biasedMaterialLodValue = biasedMeshLodValue;
                 else
+#endif
                     biasedMaterialLodValue = materialStrategy->getValue(this, cam) * materialStrategy->transformBias(mMaterialLodFactor);
 
                 // Get the index at this biased depth
                 unsigned short idx = material->getLodIndex(biasedMaterialLodValue);
                 // Apply maximum detail restriction (remember lower = higher detail, higher = lower detail)
-                idx = Math::Clamp(idx, mMaxMeshLodIndex, mMinMeshLodIndex);
+                idx = Math::Clamp(idx, mMaxMaterialLodIndex, mMinMaterialLodIndex);
 
                 // Construct event object
                 EntityMaterialLodChangedEvent subEntEvt;
@@ -411,7 +408,6 @@ namespace Ogre {
 
                 // Change LOD index
                 s->mMaterialLodIndex = subEntEvt.newLodIndex;
-#endif
                 // Also invalidate any camera distance cache
                 s->_invalidateCameraCache ();
             }
@@ -681,13 +677,11 @@ namespace Ogre {
         }
 
         // HACK to display bones
-        // This won't work if the entity is not centered at the origin
-        // TODO work out a way to allow bones to be rendered when Entity not centered
         if (mDisplaySkeleton && hasSkeleton() && mManager && mManager->getDebugDrawer())
         {
             for (Bone* bone : mSkeletonInstance->getBones())
             {
-                mManager->getDebugDrawer()->drawBone(bone);
+                mManager->getDebugDrawer()->drawBone(bone, mParentNode->_getFullTransform());
             }
         }
     }
@@ -710,7 +704,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& Entity::getMovableType(void) const
     {
-        return EntityFactory::FACTORY_TYPE_NAME;
+        return MOT_ENTITY;
     }
     //-----------------------------------------------------------------------
     bool Entity::tempVertexAnimBuffersBound(void) const
@@ -1363,15 +1357,15 @@ namespace Ogre {
         mMaxMeshLodIndex = maxDetailIndex;
         mMinMeshLodIndex = minDetailIndex;
     }
+#endif
     //-----------------------------------------------------------------------
     void Entity::setMaterialLodBias(Real factor, ushort maxDetailIndex, ushort minDetailIndex)
     {
         mMaterialLodFactor = factor;
-        mMaterialLodFactorTransformed = mMesh->getLodStrategy()->transformBias(factor);
         mMaxMaterialLodIndex = maxDetailIndex;
         mMinMaterialLodIndex = minDetailIndex;
     }
-#endif
+
     //-----------------------------------------------------------------------
     void Entity::buildSubEntityList(MeshPtr& mesh, SubEntityList* sublist)
     {
@@ -1575,9 +1569,6 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     EdgeData* Entity::getEdgeList(void)
     {
-#if OGRE_NO_MESHLOD
-        unsigned short mMeshLodIndex = 0;
-#endif
         // Get from Mesh
         return mMesh->getEdgeList(mMeshLodIndex);
     }
@@ -2230,11 +2221,11 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String EntityFactory::FACTORY_TYPE_NAME = "Entity";
+    const String MOT_ENTITY = "Entity";
     //-----------------------------------------------------------------------
     const String& EntityFactory::getType(void) const
     {
-        return FACTORY_TYPE_NAME;
+        return MOT_ENTITY;
     }
     //-----------------------------------------------------------------------
     MovableObject* EntityFactory::createInstanceImpl( const String& name,

@@ -54,7 +54,7 @@ namespace Ogre {
         removeAllKeyFrames();
     }
     //---------------------------------------------------------------------
-    Real AnimationTrack::getKeyFramesAtTime(const TimeIndex& timeIndex, KeyFrame** keyFrame1, KeyFrame** keyFrame2,
+    float AnimationTrack::getKeyFramesAtTime(const TimeIndex& timeIndex, KeyFrame** keyFrame1, KeyFrame** keyFrame2,
         unsigned short* firstKeyIndex) const
     {
         // Parametric time
@@ -117,7 +117,7 @@ namespace Ogre {
         if (t1 == t2)
         {
             // Same KeyFrame (only one)
-            return 0.0;
+            return 0.0f;
         }
         else
         {
@@ -162,12 +162,8 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void AnimationTrack::removeAllKeyFrames(void)
     {
-        KeyFrameList::iterator i = mKeyFrames.begin();
-
-        for (; i != mKeyFrames.end(); ++i)
-        {
-            OGRE_DELETE *i;
-        }
+        for (auto *f : mKeyFrames)
+            OGRE_DELETE f;
 
         _keyFrameDataChanged();
         mParent->_keyFrameListChanged();
@@ -536,11 +532,9 @@ namespace Ogre {
         splines->rotationSpline.clear();
         splines->scaleSpline.clear();
 
-        KeyFrameList::const_iterator i, iend;
-        iend = mKeyFrames.end(); // precall to avoid overhead
-        for (i = mKeyFrames.begin(); i != iend; ++i)
+        for (auto *f : mKeyFrames)
         {
-            TransformKeyFrame* kf = static_cast<TransformKeyFrame*>(*i);
+            TransformKeyFrame* kf = static_cast<TransformKeyFrame*>(f);
             splines->positionSpline.addPoint(kf->getTranslate());
             splines->rotationSpline.addPoint(kf->getRotation());
             splines->scaleSpline.addPoint(kf->getScale());
@@ -812,7 +806,7 @@ namespace Ogre {
     }
     //--------------------------------------------------------------------------
     void VertexAnimationTrack::applyToVertexData(VertexData* data,
-        const TimeIndex& timeIndex, Real weight, const PoseList* poseList)
+        const TimeIndex& timeIndex, float weight, const PoseList* poseList)
     {
         // Nothing to do if no keyframes or no vertex data
         if (mKeyFrames.empty() || !data)
@@ -820,7 +814,7 @@ namespace Ogre {
 
         // Get keyframes
         KeyFrame *kf1, *kf2;
-        Real t = getKeyFramesAtTime(timeIndex, &kf1, &kf2);
+        float t = getKeyFramesAtTime(timeIndex, &kf1, &kf2);
 
         if (mAnimationType == VAT_MORPH)
         {
@@ -869,8 +863,8 @@ namespace Ogre {
             const VertexPoseKeyFrame::PoseRefList& poseList2 = vkf2->getPoseReferences();
             for (auto& p1 : poseList1)
             {
-                Real startInfluence = p1.influence;
-                Real endInfluence = 0;
+                float startInfluence = p1.influence;
+                float endInfluence = 0;
                 // Search for entry in keyframe 2 list (if not there, will be 0)
                 for (auto& p2 : poseList2)
                 {
@@ -881,7 +875,7 @@ namespace Ogre {
                     }
                 }
                 // Interpolate influence
-                Real influence = startInfluence + t*(endInfluence - startInfluence);
+                float influence = startInfluence + t*(endInfluence - startInfluence);
                 // Scale by animation weight
                 influence = weight * influence;
                 // Get pose
@@ -905,7 +899,7 @@ namespace Ogre {
                 if (!found)
                 {
                     // Need to apply this pose too, scaled from 0 start
-                    Real influence = t * p2.influence;
+                    float influence = t * p2.influence;
                     // Scale by animation weight
                     influence = weight * influence;
                     // Get pose
@@ -919,7 +913,7 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------------
     void VertexAnimationTrack::applyPoseToVertexData(const Pose* pose,
-        VertexData* data, Real influence)
+        VertexData* data, float influence)
     {
         if (mTargetMode == TM_HARDWARE)
         {

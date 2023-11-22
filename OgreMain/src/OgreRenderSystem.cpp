@@ -67,8 +67,6 @@ namespace Ogre {
         , mDerivedDepthBiasBase(0.0f)
         , mDerivedDepthBiasMultiplier(0.0f)
         , mDerivedDepthBiasSlopeScale(0.0f)
-        , mGlobalInstanceVertexBufferVertexDeclaration(NULL)
-        , mGlobalNumberOfInstances(1)
         , mClipPlanesDirty(true)
         , mRealCapabilities(0)
         , mCurrentCapabilities(0)
@@ -76,6 +74,8 @@ namespace Ogre {
         , mNativeShadingLanguageVersion(0)
         , mTexProjRelative(false)
         , mTexProjRelativeOrigin(Vector3::ZERO)
+        , mGlobalInstanceVertexDeclaration(NULL)
+        , mGlobalNumberOfInstances(1)
     {
         mEventNames.push_back("RenderSystemCapabilitiesCreated");
     }
@@ -456,15 +456,6 @@ namespace Ogre {
         _setTextureMatrix(texUnit, tl.getTextureTransform());
     }
     //-----------------------------------------------------------------------
-    void RenderSystem::_setVertexTexture(size_t unit, const TexturePtr& tex)
-    {
-        OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, 
-            "This rendersystem does not support separate vertex texture samplers, "
-            "you should use the regular texture samplers which are shared between "
-            "the vertex and fragment units.", 
-            "RenderSystem::_setVertexTexture");
-    }
-    //-----------------------------------------------------------------------
     void RenderSystem::_disableTextureUnit(size_t texUnit)
     {
         _setTexture(texUnit, false, sNullTexPtr);
@@ -480,16 +471,6 @@ namespace Ogre {
         {
             _disableTextureUnit(i);
         }
-    }
-    //-----------------------------------------------------------------------
-    void RenderSystem::_setTextureUnitFiltering(size_t unit, FilterOptions minFilter,
-            FilterOptions magFilter, FilterOptions mipFilter)
-    {
-        OGRE_IGNORE_DEPRECATED_BEGIN
-        _setTextureUnitFiltering(unit, FT_MIN, minFilter);
-        _setTextureUnitFiltering(unit, FT_MAG, magFilter);
-        _setTextureUnitFiltering(unit, FT_MIP, mipFilter);
-        OGRE_IGNORE_DEPRECATED_END
     }
     //---------------------------------------------------------------------
     void RenderSystem::_cleanupDepthBuffers( bool bCleanManualBuffers )
@@ -809,18 +790,6 @@ namespace Ogre {
 
     }
     //---------------------------------------------------------------------
-    RenderSystem::RenderSystemContext* RenderSystem::_pauseFrame(void)
-    {
-        _endFrame();
-        return new RenderSystem::RenderSystemContext;
-    }
-    //---------------------------------------------------------------------
-    void RenderSystem::_resumeFrame(RenderSystemContext* context)
-    {
-        _beginFrame();
-        delete context;
-    }
-    //---------------------------------------------------------------------
     const String& RenderSystem::_getDefaultViewportMaterialScheme( void ) const
     {
 #ifdef RTSHADER_SYSTEM_BUILD_CORE_SHADERS
@@ -832,40 +801,10 @@ namespace Ogre {
         return MSN_DEFAULT;
     }
     //---------------------------------------------------------------------
-    Ogre::HardwareVertexBufferSharedPtr RenderSystem::getGlobalInstanceVertexBuffer() const
-    {
-        return mGlobalInstanceVertexBuffer;
-    }
-    //---------------------------------------------------------------------
     void RenderSystem::setGlobalInstanceVertexBuffer( const HardwareVertexBufferSharedPtr &val )
     {
-        if ( val && !val->isInstanceData() )
-        {
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
-                        "A none instance data vertex buffer was set to be the global instance vertex buffer.",
-                        "RenderSystem::setGlobalInstanceVertexBuffer");
-        }
+        OgreAssert(!val || val->isInstanceData(), "not an instance buffer");
         mGlobalInstanceVertexBuffer = val;
-    }
-    //---------------------------------------------------------------------
-    size_t RenderSystem::getGlobalNumberOfInstances() const
-    {
-        return mGlobalNumberOfInstances;
-    }
-    //---------------------------------------------------------------------
-    void RenderSystem::setGlobalNumberOfInstances( const size_t val )
-    {
-        mGlobalNumberOfInstances = val;
-    }
-
-    VertexDeclaration* RenderSystem::getGlobalInstanceVertexBufferVertexDeclaration() const
-    {
-        return mGlobalInstanceVertexBufferVertexDeclaration;
-    }
-    //---------------------------------------------------------------------
-    void RenderSystem::setGlobalInstanceVertexBufferVertexDeclaration( VertexDeclaration* val )
-    {
-        mGlobalInstanceVertexBufferVertexDeclaration = val;
     }
     //---------------------------------------------------------------------
     void RenderSystem::getCustomAttribute(const String& name, void* pData)

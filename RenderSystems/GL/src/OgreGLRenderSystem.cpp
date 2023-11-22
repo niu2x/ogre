@@ -646,7 +646,6 @@ namespace Ogre {
                 GLint buffers;
                 glGetIntegerv(GL_MAX_DRAW_BUFFERS_ARB, &buffers);
                 rsc->setNumMultiRenderTargets(std::min<int>(buffers, (GLint)OGRE_MAX_MULTIPLE_RENDER_TARGETS));
-                rsc->setCapability(RSC_MRT_DIFFERENT_BIT_DEPTHS);
 
             }
             rsc->setCapability(RSC_HWRENDER_TO_TEXTURE);
@@ -1595,17 +1594,6 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------------
-    void GLRenderSystem::_setTextureAddressingMode(size_t stage, const Sampler::UVWAddressingMode& uvw)
-    {
-        mStateCacheManager->activateGLTextureUnit(stage);
-        mStateCacheManager->setTexParameteri( mTextureTypes[stage], GL_TEXTURE_WRAP_S,
-                         getTextureAddressingMode(uvw.u));
-        mStateCacheManager->setTexParameteri( mTextureTypes[stage], GL_TEXTURE_WRAP_T,
-                         getTextureAddressingMode(uvw.v));
-        mStateCacheManager->setTexParameteri( mTextureTypes[stage], GL_TEXTURE_WRAP_R,
-                         getTextureAddressingMode(uvw.w));
-    }
-    //-----------------------------------------------------------------------------
     void GLRenderSystem::_setTextureMatrix(size_t stage, const Matrix4& xform)
     {
         if (stage >= mFixedFunctionTextureUnits)
@@ -1744,31 +1732,15 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     void GLRenderSystem::_setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
     {
-        _setDepthBufferCheckEnabled(depthTest);
-        _setDepthBufferWriteEnabled(depthWrite);
-        _setDepthBufferFunction(depthFunction);
-    }
-    //-----------------------------------------------------------------------------
-    void GLRenderSystem::_setDepthBufferCheckEnabled(bool enabled)
-    {
-        if (enabled)
+        if (depthTest)
         {
             mStateCacheManager->setClearDepth(1.0f);
         }
-        mStateCacheManager->setEnabled(GL_DEPTH_TEST, enabled);
-    }
-    //-----------------------------------------------------------------------------
-    void GLRenderSystem::_setDepthBufferWriteEnabled(bool enabled)
-    {
-        GLboolean flag = enabled ? GL_TRUE : GL_FALSE;
-        mStateCacheManager->setDepthMask( flag );
+        mStateCacheManager->setEnabled(GL_DEPTH_TEST, depthTest);
+        mStateCacheManager->setDepthMask( depthWrite );
         // Store for reference in _beginFrame
-        mDepthWrite = enabled;
-    }
-    //-----------------------------------------------------------------------------
-    void GLRenderSystem::_setDepthBufferFunction(CompareFunction func)
-    {
-        mStateCacheManager->setDepthFunc(convertCompareFunction(func));
+        mDepthWrite = depthWrite;
+        mStateCacheManager->setDepthFunc(convertCompareFunction(depthFunction));
     }
     //-----------------------------------------------------------------------------
     void GLRenderSystem::_setDepthBias(float constantBias, float slopeScaleBias)
@@ -1993,50 +1965,6 @@ namespace Ogre {
         };
         // to keep compiler happy
         return SOP_KEEP;
-    }
-    //---------------------------------------------------------------------
-    void GLRenderSystem::_setTextureUnitFiltering(size_t unit,
-                                                  FilterType ftype, FilterOptions fo)
-    {
-        mStateCacheManager->activateGLTextureUnit(unit);
-        switch(ftype)
-        {
-        case FT_MIN:
-            mMinFilter = fo;
-            // Combine with existing mip filter
-            mStateCacheManager->setTexParameteri(
-                mTextureTypes[unit],
-                GL_TEXTURE_MIN_FILTER,
-                getCombinedMinMipFilter(mMinFilter, mMipFilter));
-            break;
-        case FT_MAG:
-            switch (fo)
-            {
-            case FO_ANISOTROPIC: // GL treats linear and aniso the same
-            case FO_LINEAR:
-                mStateCacheManager->setTexParameteri(
-                    mTextureTypes[unit],
-                    GL_TEXTURE_MAG_FILTER,
-                    GL_LINEAR);
-                break;
-            case FO_POINT:
-            case FO_NONE:
-                mStateCacheManager->setTexParameteri(
-                    mTextureTypes[unit],
-                    GL_TEXTURE_MAG_FILTER,
-                    GL_NEAREST);
-                break;
-            }
-            break;
-        case FT_MIP:
-            mMipFilter = fo;
-            // Combine with existing min filter
-            mStateCacheManager->setTexParameteri(
-                mTextureTypes[unit],
-                GL_TEXTURE_MIN_FILTER,
-                getCombinedMinMipFilter(mMinFilter, mMipFilter));
-            break;
-        }
     }
     //-----------------------------------------------------------------------------
     void GLRenderSystem::_setTextureBlendMode(size_t stage, const LayerBlendModeEx& bm)
@@ -2731,18 +2659,23 @@ namespace Ogre {
             // NSGLContext::makeCurrentContext does not flush automatically. everybody else does.
             glFlushRenderAPPLE();
 #endif
-            mCurrentContext->endCurrent();
+            if (mCurrentContext)
+                mCurrentContext->endCurrent();
             mCurrentContext = context;
         }
-        mCurrentContext->setCurrent();
 
-        mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GLStateCacheManager>();
-
-        // Check if the context has already done one-time initialisation
-        if(!mCurrentContext->getInitialized())
+        if (mCurrentContext)
         {
-            _oneTimeContextInitialization();
-            mCurrentContext->setInitialized();
+            mCurrentContext->setCurrent();
+
+            mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GLStateCacheManager>();
+
+            // Check if the context has already done one-time initialisation
+            if(!mCurrentContext->getInitialized())
+            {
+                _oneTimeContextInitialization();
+                mCurrentContext->setInitialized();
+            }
         }
 
         // Rebind GPU programs to new context

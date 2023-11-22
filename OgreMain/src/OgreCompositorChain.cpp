@@ -122,7 +122,7 @@ void CompositorChain::createOriginalScene()
         /// Render everything, including skies
         pass = tp->createPass(CompositionPass::PT_RENDERSCENE);
         pass->setFirstRenderQueue(RENDER_QUEUE_BACKGROUND);
-        pass->setLastRenderQueue(RENDER_QUEUE_SKIES_LATE);
+        pass->setLastRenderQueue(RENDER_QUEUE_TRANSPARENTS);
         scene->load();
     }
     mOriginalScene = OGRE_NEW CompositorInstance(scene->getSupportedTechnique(), this);
@@ -139,7 +139,7 @@ void CompositorChain::destroyOriginalScene()
 }
 
 //-----------------------------------------------------------------------
-CompositorInstance* CompositorChain::addCompositor(CompositorPtr filter, size_t addPosition, const String& scheme)
+CompositorInstance* CompositorChain::addCompositor(const CompositorPtr& filter, size_t addPosition, const String& scheme)
 {
 
 

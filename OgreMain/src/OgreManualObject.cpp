@@ -36,7 +36,7 @@ namespace Ogre {
 #define TEMP_INITIAL_INDEX_SIZE sizeof(uint32) * TEMP_INITIAL_SIZE
     //-----------------------------------------------------------------------------
 ManualObject::ManualObject(const String& name)
-    : MovableObject(name), mBufferUsage(HardwareBuffer::HBU_STATIC_WRITE_ONLY), mCurrentSection(0),
+    : MovableObject(name), mBufferUsage(HBU_GPU_ONLY), mCurrentSection(0),
       mCurrentUpdating(false), mFirstVertex(true), mTempVertexPending(false), mTempVertexBuffer(0),
       mTempVertexSize(TEMP_INITIAL_VERTEX_SIZE), mTempIndexBuffer(0),
       mTempIndexSize(TEMP_INITIAL_INDEX_SIZE), mDeclSize(0), mEstVertexCount(0), mEstIndexCount(0),
@@ -480,7 +480,7 @@ ManualObject::ManualObject(const String& name)
     //-----------------------------------------------------------------------------
     const String& ManualObject::getMovableType(void) const
     {
-        return ManualObjectFactory::FACTORY_TYPE_NAME;
+        return MOT_MANUAL_OBJECT;
     }
     //-----------------------------------------------------------------------------
     void ManualObject::_updateRenderQueue(RenderQueue* queue)
@@ -635,7 +635,7 @@ ManualObject::ManualObject(const String& name)
         mRenderOperation.operationType = opType;
         // default to no indexes unless we're told
         mRenderOperation.useIndexes = false;
-        mRenderOperation.useGlobalInstancingVertexBufferIsAvailable = false;
+        mRenderOperation.useGlobalInstancing = false;
         mRenderOperation.vertexData = OGRE_NEW VertexData();
         mRenderOperation.vertexData->vertexCount = 0;
     }
@@ -649,7 +649,7 @@ ManualObject::ManualObject(const String& name)
 
         mRenderOperation.operationType = opType;
         mRenderOperation.useIndexes = false;
-        mRenderOperation.useGlobalInstancingVertexBufferIsAvailable = false;
+        mRenderOperation.useGlobalInstancing = false;
         mRenderOperation.vertexData = OGRE_NEW VertexData();
         mRenderOperation.vertexData->vertexCount = 0;
     }
@@ -734,11 +734,11 @@ ManualObject::ManualObject(const String& name)
     }
     //-----------------------------------------------------------------------------
     //-----------------------------------------------------------------------------
-    String ManualObjectFactory::FACTORY_TYPE_NAME = "ManualObject";
+    const String MOT_MANUAL_OBJECT = "ManualObject";
     //-----------------------------------------------------------------------------
     const String& ManualObjectFactory::getType(void) const
     {
-        return FACTORY_TYPE_NAME;
+        return MOT_MANUAL_OBJECT;
     }
     //-----------------------------------------------------------------------------
     MovableObject* ManualObjectFactory::createInstanceImpl(

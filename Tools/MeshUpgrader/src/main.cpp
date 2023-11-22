@@ -207,12 +207,7 @@ void reorganiseVertexBuffers(const UpgradeOptions& opts, Mesh& mesh)
             mesh.sharedVertexData->vertexDeclaration->getAutoOrganisedDeclaration(
             mesh.hasSkeleton(), mesh.hasVertexAnimation(), mesh.getSharedVertexDataAnimationIncludesNormals());
         if (*newDcl != *(mesh.sharedVertexData->vertexDeclaration)) {
-            // Usages don't matter here since we're onlly exporting
-            BufferUsageList bufferUsages;
-            for (size_t u = 0; u <= newDcl->getMaxSource(); ++u) {
-                bufferUsages.push_back(HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-            }
-            mesh.sharedVertexData->reorganiseBuffers(newDcl, bufferUsages);
+            mesh.sharedVertexData->reorganiseBuffers(newDcl);
         }
     }
 
@@ -227,12 +222,7 @@ void reorganiseVertexBuffers(const UpgradeOptions& opts, Mesh& mesh)
                 sm->vertexData->vertexDeclaration->getAutoOrganisedDeclaration(
                 mesh.hasSkeleton(), hasVertexAnim, sm->getVertexAnimationIncludesNormals() );
             if (*newDcl != *(sm->vertexData->vertexDeclaration)) {
-                // Usages don't matter here since we're onlly exporting
-                BufferUsageList bufferUsages;
-                for (size_t u = 0; u <= newDcl->getMaxSource(); ++u) {
-                    bufferUsages.push_back(HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-                }
-                sm->vertexData->reorganiseBuffers(newDcl, bufferUsages);
+                sm->vertexData->reorganiseBuffers(newDcl);
             }
         }
     }
@@ -476,6 +466,7 @@ int main(int numargs, char** args)
         auto opts = parseOpts(unOptList, binOptList);
 
         logMgr.setDefaultLog(NULL); // swallow startup messages
+        DefaultHardwareBufferManager bufferManager; // needed because we don't have a rendersystem
         Root root("", "", "");
         // get rid of the temporary log as we use the new log now
         logMgr.destroyLog("Temporary log");
@@ -490,7 +481,6 @@ int main(int numargs, char** args)
         MeshResourceCreator resCreator;
         meshSerializer.setListener(&resCreator);
         SkeletonSerializer skeletonSerializer;
-        DefaultHardwareBufferManager bufferManager; // needed because we don't have a rendersystem
         // don't pad during upgrade
         MeshManager::getSingleton().setBoundsPaddingFactor(0.0f);
 
@@ -510,7 +500,7 @@ int main(int numargs, char** args)
                 "Unexpected error while reading file " + source, "OgreMeshUpgrader");
         fclose( pFile );
 
-        MeshPtr meshPtr = MeshManager::getSingleton().createManual("conversion", RGN_DEFAULT);
+        MeshPtr meshPtr = MeshManager::getSingleton().createManual("TmpConversionMesh", RGN_DEFAULT);
         Mesh* mesh = meshPtr.get();
 
         DataStreamPtr stream(memstream);

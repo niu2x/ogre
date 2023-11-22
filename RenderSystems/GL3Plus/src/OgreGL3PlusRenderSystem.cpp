@@ -307,7 +307,6 @@ namespace Ogre {
         GLint buffers;
         OGRE_CHECK_GL_ERROR(glGetIntegerv(GL_MAX_DRAW_BUFFERS, &buffers));
         rsc->setNumMultiRenderTargets(std::min<int>(buffers, (GLint)OGRE_MAX_MULTIPLE_RENDER_TARGETS));
-        rsc->setCapability(RSC_MRT_DIFFERENT_BIT_DEPTHS);
 
         // Stencil wrapping
         rsc->setCapability(RSC_STENCIL_WRAP);
@@ -719,17 +718,6 @@ namespace Ogre {
         static_cast<GL3PlusSampler&>(sampler).bind(unit);
     }
 
-    void GL3PlusRenderSystem::_setTextureAddressingMode(size_t stage, const Sampler::UVWAddressingMode& uvw)
-    {
-        mStateCacheManager->activateGLTextureUnit(stage);
-        mStateCacheManager->setTexParameteri(mTextureTypes[stage], GL_TEXTURE_WRAP_S,
-                                             GL3PlusSampler::getTextureAddressingMode(uvw.u));
-        mStateCacheManager->setTexParameteri(mTextureTypes[stage], GL_TEXTURE_WRAP_T,
-                                             GL3PlusSampler::getTextureAddressingMode(uvw.v));
-        mStateCacheManager->setTexParameteri(mTextureTypes[stage], GL_TEXTURE_WRAP_R,
-                                             GL3PlusSampler::getTextureAddressingMode(uvw.w));
-    }
-
     void GL3PlusRenderSystem::_setLineWidth(float width)
     {
         OGRE_CHECK_GL_ERROR(glLineWidth(width));
@@ -852,34 +840,17 @@ namespace Ogre {
 
     void GL3PlusRenderSystem::_setDepthBufferParams(bool depthTest, bool depthWrite, CompareFunction depthFunction)
     {
-        _setDepthBufferCheckEnabled(depthTest);
-        _setDepthBufferWriteEnabled(depthWrite);
-        _setDepthBufferFunction(depthFunction);
-    }
-
-    void GL3PlusRenderSystem::_setDepthBufferCheckEnabled(bool enabled)
-    {
-        if (enabled)
+        if (depthTest)
         {
             mStateCacheManager->setClearDepth(isReverseDepthBufferEnabled() ? 0.0f : 1.0f);
         }
-        mStateCacheManager->setEnabled(GL_DEPTH_TEST, enabled);
-    }
-
-    void GL3PlusRenderSystem::_setDepthBufferWriteEnabled(bool enabled)
-    {
-        GLboolean flag = enabled ? GL_TRUE : GL_FALSE;
-        mStateCacheManager->setDepthMask( flag );
-
+        mStateCacheManager->setEnabled(GL_DEPTH_TEST, depthTest);
+        mStateCacheManager->setDepthMask( depthWrite );
         // Store for reference in _beginFrame
-        mDepthWrite = enabled;
-    }
-
-    void GL3PlusRenderSystem::_setDepthBufferFunction(CompareFunction func)
-    {
+        mDepthWrite = depthWrite;
         if(isReverseDepthBufferEnabled())
-            func = reverseCompareFunction(func);
-        mStateCacheManager->setDepthFunc(convertCompareFunction(func));
+            depthFunction = reverseCompareFunction(depthFunction);
+        mStateCacheManager->setDepthFunc(convertCompareFunction(depthFunction));
     }
 
     void GL3PlusRenderSystem::_setDepthBias(float constantBias, float slopeScaleBias)
@@ -998,48 +969,6 @@ namespace Ogre {
                 convertStencilOp(state.stencilFailOp, flip),
                 convertStencilOp(state.depthFailOp, flip),
                 convertStencilOp(state.depthStencilPassOp, flip)));
-        }
-    }
-
-    void GL3PlusRenderSystem::_setTextureUnitFiltering(size_t unit, FilterType ftype, FilterOptions fo)
-    {
-        mStateCacheManager->activateGLTextureUnit(unit);
-        switch (ftype)
-        {
-        case FT_MIN:
-            mMinFilter = fo;
-
-            // Combine with existing mip filter
-            mStateCacheManager->setTexParameteri(
-                mTextureTypes[unit], GL_TEXTURE_MIN_FILTER,
-                GL3PlusSampler::getCombinedMinMipFilter(mMinFilter, mMipFilter));
-            break;
-
-        case FT_MAG:
-            switch (fo)
-            {
-            case FO_ANISOTROPIC: // GL treats linear and aniso the same
-            case FO_LINEAR:
-                mStateCacheManager->setTexParameteri(mTextureTypes[unit],
-                                                    GL_TEXTURE_MAG_FILTER,
-                                                    GL_LINEAR);
-                break;
-            case FO_POINT:
-            case FO_NONE:
-                mStateCacheManager->setTexParameteri(mTextureTypes[unit],
-                                                    GL_TEXTURE_MAG_FILTER,
-                                                    GL_NEAREST);
-                break;
-            }
-            break;
-        case FT_MIP:
-            mMipFilter = fo;
-
-            // Combine with existing min filter
-            mStateCacheManager->setTexParameteri(
-                mTextureTypes[unit], GL_TEXTURE_MIN_FILTER,
-                GL3PlusSampler::getCombinedMinMipFilter(mMinFilter, mMipFilter));
-            break;
         }
     }
 

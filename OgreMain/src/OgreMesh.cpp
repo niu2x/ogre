@@ -49,8 +49,8 @@ namespace Ogre {
         mHasManualLodLevel(false),
         mNumLods(1),
         mBufferManager(0),
-        mVertexBufferUsage(HardwareBuffer::HBU_STATIC_WRITE_ONLY),
-        mIndexBufferUsage(HardwareBuffer::HBU_STATIC_WRITE_ONLY),
+        mVertexBufferUsage(HBU_GPU_ONLY),
+        mIndexBufferUsage(HBU_GPU_ONLY),
         mVertexBufferShadowBuffer(false),
         mIndexBufferShadowBuffer(false),
         mPreparedForShadowVolumes(false),
@@ -73,6 +73,12 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Mesh::~Mesh()
     {
+        if (!HardwareBufferManager::getSingletonPtr()) // LogManager might be also gone already
+        {
+            printf("ERROR: '%s' is being destroyed after HardwareBufferManager. This is a bug in user code.\n", mName.c_str());
+            OgreAssertDbg(false,  "Mesh destroyed after HardwareBufferManager"); // assert in debug mode
+            return; // try not to crash
+        }
         // have to call this here reather than in Resource destructor
         // since calling virtual methods in base destructors causes crash
         unload();
@@ -243,8 +249,7 @@ namespace Ogre {
         }
         if (sharedVertexData)
         {
-            OGRE_DELETE sharedVertexData;
-            sharedVertexData = NULL;
+            resetVertexData();
         }
         // Clear SubMesh lists
         mSubMeshList.clear();
@@ -314,7 +319,7 @@ namespace Ogre {
         // Copy shared geometry and index map, if any
         if (sharedVertexData)
         {
-            newMesh->sharedVertexData = sharedVertexData->clone(true, mBufferManager);
+            newMesh->resetVertexData(sharedVertexData->clone(true, mBufferManager));
             newMesh->sharedBlendIndexToBoneIndexMap = sharedBlendIndexToBoneIndexMap;
         }
 
@@ -1237,13 +1242,13 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Mesh::setVertexBufferPolicy(HardwareBuffer::Usage vbUsage, bool shadowBuffer)
     {
-        mVertexBufferUsage = vbUsage;
+        mVertexBufferUsage = (HardwareBufferUsage)vbUsage;
         mVertexBufferShadowBuffer = shadowBuffer;
     }
     //---------------------------------------------------------------------
     void Mesh::setIndexBufferPolicy(HardwareBuffer::Usage vbUsage, bool shadowBuffer)
     {
-        mIndexBufferUsage = vbUsage;
+        mIndexBufferUsage = (HardwareBufferUsage)vbUsage;
         mIndexBufferShadowBuffer = shadowBuffer;
     }
     //---------------------------------------------------------------------
@@ -1693,7 +1698,7 @@ namespace Ogre {
 
         mMeshLodUsageList[0].edgeData = eb.build();
 
-#if OGREUG_MODE
+#if OGRE_DEBUG_MODE
         // Override default log
         Log* log = LogManager::getSingleton().createLog(
             mName + "_lod0"+
@@ -1895,7 +1900,7 @@ namespace Ogre {
             targetVertexData->vertexCount);
     }
     //---------------------------------------------------------------------
-    void Mesh::softwareVertexMorph(Real t,
+    void Mesh::softwareVertexMorph(float t,
         const HardwareVertexBufferSharedPtr& b1,
         const HardwareVertexBufferSharedPtr& b2,
         VertexData* targetVertexData)
@@ -1944,9 +1949,9 @@ namespace Ogre {
             morphNormals);
     }
     //---------------------------------------------------------------------
-    void Mesh::softwareVertexPoseBlend(Real weight,
-        const std::map<size_t, Vector3>& vertexOffsetMap,
-        const std::map<size_t, Vector3>& normalsMap,
+    void Mesh::softwareVertexPoseBlend(float weight,
+        const std::map<uint32, Vector3f>& vertexOffsetMap,
+        const std::map<uint32, Vector3f>& normalsMap,
         VertexData* targetVertexData)
     {
         // Do nothing if no weight
@@ -1976,11 +1981,11 @@ namespace Ogre {
             // Adjust pointer
             float *pdst = pBase + i.first*elemsPerVertex;
 
-            *pdst = *pdst + (i.second.x * weight);
+            *pdst = *pdst + (i.second[0] * weight);
             ++pdst;
-            *pdst = *pdst + (i.second.y * weight);
+            *pdst = *pdst + (i.second[01] * weight);
             ++pdst;
-            *pdst = *pdst + (i.second.z * weight);
+            *pdst = *pdst + (i.second[2] * weight);
             ++pdst;
             
         }
@@ -1994,11 +1999,11 @@ namespace Ogre {
                 // Adjust pointer
                 float *pdst = pNormBase + i.first*elemsPerVertex;
 
-                *pdst = *pdst + (i.second.x * weight);
+                *pdst = *pdst + (i.second[0] * weight);
                 ++pdst;
-                *pdst = *pdst + (i.second.y * weight);
+                *pdst = *pdst + (i.second[1] * weight);
                 ++pdst;
-                *pdst = *pdst + (i.second.z * weight);
+                *pdst = *pdst + (i.second[2] * weight);
                 ++pdst;             
                 
             }

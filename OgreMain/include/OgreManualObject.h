@@ -124,7 +124,7 @@ namespace Ogre
             of clear() begin(). However if you do want to modify the structure 
             from time to time you can do so by clearing and re-specifying the data.
         */
-        virtual void clear(void);
+        void clear(void);
         
         /** Estimate the number of vertices ahead of time.
 
@@ -169,17 +169,13 @@ namespace Ogre
         /** Use before defining geometry to indicate how you intend to update the
             geometry.
         */
-        void setBufferUsage(HardwareBuffer::Usage usage) { mBufferUsage = usage; }
+        void setBufferUsage(HardwareBuffer::Usage usage) { mBufferUsage = (HardwareBufferUsage)usage; }
 
         /// @overload
-        void setDynamic(bool dyn)
-        {
-            mBufferUsage =
-                dyn ? HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY : HardwareBuffer::HBU_STATIC_WRITE_ONLY;
-        }
+        void setDynamic(bool dyn) { mBufferUsage = dyn ? HBU_CPU_TO_GPU : HBU_GPU_ONLY; }
 
         /** Gets whether this object is marked as dynamic */
-        bool getDynamic() const { return mBufferUsage & HardwareBuffer::HBU_DYNAMIC; }
+        bool getDynamic() const { return mBufferUsage & HBU_CPU_ONLY; }
 
         /** Start the definition of an update to a part of the object.
 
@@ -620,7 +616,7 @@ namespace Ogre
         
     private:
         /// Dynamic?
-        HardwareBuffer::Usage mBufferUsage;
+        HardwareBufferUsage mBufferUsage;
         /// List of subsections
         SectionList mSectionList;
         /// Current section

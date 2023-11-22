@@ -38,6 +38,7 @@ THE SOFTWARE.
 #include "OgreHeaderPrefix.h"
 #include "OgreSharedPtr.h"
 #include "OgreUserObjectBindings.h"
+#include "OgreVertexIndexData.h"
 
 
 namespace Ogre {
@@ -168,8 +169,8 @@ namespace Ogre {
         MeshLodUsageList mMeshLodUsageList;
 #endif
         HardwareBufferManagerBase* mBufferManager;
-        HardwareBuffer::Usage mVertexBufferUsage;
-        HardwareBuffer::Usage mIndexBufferUsage;
+        HardwareBufferUsage mVertexBufferUsage;
+        HardwareBufferUsage mIndexBufferUsage;
         bool mVertexBufferShadowBuffer;
         bool mIndexBufferShadowBuffer;
 
@@ -308,6 +309,16 @@ namespace Ogre {
             model data is converted to the OGRE .mesh format.
         */
         VertexData *sharedVertexData;
+
+        /// replace the shared vertex data with a new one
+        void resetVertexData(VertexData* data = nullptr)
+        {
+            delete sharedVertexData;
+            sharedVertexData = data;
+        }
+
+        /// Creates a new shared vertex data object
+        void createVertexData(HardwareBufferManagerBase* mgr = nullptr) { resetVertexData(new VertexData(mgr)); }
 
         /** Shared index map for translating blend index to bone index.
 
@@ -572,9 +583,9 @@ namespace Ogre {
         */
         void setIndexBufferPolicy(HardwareBuffer::Usage usage, bool shadowBuffer = false);
         /** Gets the usage setting for this meshes vertex buffers. */
-        HardwareBuffer::Usage getVertexBufferUsage(void) const { return mVertexBufferUsage; }
+        HardwareBufferUsage getVertexBufferUsage(void) const { return mVertexBufferUsage; }
         /** Gets the usage setting for this meshes index buffers. */
-        HardwareBuffer::Usage getIndexBufferUsage(void) const { return mIndexBufferUsage; }
+        HardwareBufferUsage getIndexBufferUsage(void) const { return mIndexBufferUsage; }
         /** Gets whether or not this meshes vertex buffers are shadowed. */
         bool isVertexBufferShadowed(void) const { return mVertexBufferShadowBuffer; }
         /** Gets whether or not this meshes index buffers are shadowed. */
@@ -785,7 +796,7 @@ namespace Ogre {
             buffer already bound, and the number of vertices must agree with the
             number in start and end
         */
-        static void softwareVertexMorph(Real t, 
+        static void softwareVertexMorph(float t,
             const HardwareVertexBufferSharedPtr& b1, 
             const HardwareVertexBufferSharedPtr& b2, 
             VertexData* targetVertexData);
@@ -809,9 +820,9 @@ namespace Ogre {
             buffer already bound, and the number of vertices must agree with the
             number in start and end.
         */
-        static void softwareVertexPoseBlend(Real weight, 
-            const std::map<size_t, Vector3>& vertexOffsetMap,
-            const std::map<size_t, Vector3>& normalsMap,
+        static void softwareVertexPoseBlend(float weight,
+            const std::map<uint32, Vector3f>& vertexOffsetMap,
+            const std::map<uint32, Vector3f>& normalsMap,
             VertexData* targetVertexData);
         /** Gets a reference to the optional name assignments of the SubMeshes. */
         const SubMeshNameMap& getSubMeshNameMap(void) const { return mSubMeshNameMap; }

@@ -72,7 +72,7 @@ struct OgreIOStream : public Assimp::IOStream
 {
     DataStreamPtr stream;
 
-    OgreIOStream(DataStreamPtr _stream) : stream(_stream) {}
+    OgreIOStream(const DataStreamPtr& _stream) : stream(_stream) {}
 
     size_t Read(void* pvBuffer, size_t pSize, size_t pCount) override
     {
@@ -363,9 +363,6 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
     uint32 flags = aiProcessPreset_TargetRealtime_Fast | aiProcess_TransformUVCoords | aiProcess_FlipUVs;
     flags &= ~(aiProcess_JoinIdenticalVertices | aiProcess_CalcTangentSpace); // optimize for fast loading
 
-    if(StringUtil::endsWith(name, ".gltf") || StringUtil::endsWith(name, ".glb"))
-        flags |= aiProcess_JoinIdenticalVertices;
-
     flags |= options.postProcessSteps;
 
     if((flags & (aiProcess_GenSmoothNormals | aiProcess_GenNormals)) != aiProcess_GenNormals)
@@ -384,7 +381,6 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
     mAnimationSpeedModifier = options.animationSpeedModifier;
     mLoaderParams = options.params;
     mQuietMode = mLoaderParams & LP_QUIET_MODE;
-    mUseIndexBuffer = flags & aiProcess_JoinIdenticalVertices;
     mCustomAnimationName = options.customAnimationName;
     mNodeDerivedTransformByName.clear();
 
@@ -427,7 +423,15 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
         if(tex->mHeight == 0)
         {
             auto stream = std::make_shared<MemoryDataStream>(tex->pcData, tex->mWidth, false);
-            img.load(stream, tex->achFormatHint);
+            try
+            {
+                img.load(stream, tex->achFormatHint);
+            }
+            catch (Exception& e)
+            {
+                LogManager::getSingleton().logError("Could not load embedded image - " + e.getDescription());
+                continue;
+            }
         }
         else
         {
@@ -600,7 +604,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
             defBonePoseInv.makeInverseTransform(bone->getPosition(), bone->getScale(),
                                                 bone->getOrientation());
 
-            NodeAnimationTrack* track = animation->createNodeTrack(i, bone);
+            NodeAnimationTrack* track = animation->createNodeTrack(bone->getHandle(), bone);
 
             // Ogre needs translate rotate and scale for each keyframe in the track
             KeyframesMap keyframes;
@@ -813,8 +817,6 @@ bool AssimpLoader::isNodeNeeded(const char* name)
 
 void AssimpLoader::grabBoneNamesFromNode(const aiScene* mScene, const aiNode* pNode)
 {
-    static int meshNum = 0;
-    meshNum++;
     if (pNode->mNumMeshes > 0)
     {
         for (unsigned int idx = 0; idx < pNode->mNumMeshes; ++idx)
@@ -1026,11 +1028,17 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
             LogManager::getSingleton().logMessage("Found normal map: " + basename);
         }
 
+        auto tus = omat->getTechnique(0)->getPass(0)->createTextureUnitState(basename);
+
+        // mark as normal map
+        shaderGen->_markNonFFP(tus);
+        uint16 texureIdx = tus->getParent()->getNumTextureUnitStates() - 1;
+
         shaderGen->createShaderBasedTechnique(omat->getTechnique(0), MSN_SHADERGEN);
         auto rs = shaderGen->getRenderState(MSN_SHADERGEN, *omat, 0);
         auto srs = shaderGen->createSubRenderState("NormalMap");
 
-        srs->setParameter("texture", basename);
+        srs->setParameter("texture_index", std::to_string(texureIdx));
         rs->addTemplateSubRenderState(srs);
     }
 
@@ -1083,8 +1091,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
     aiColor4D *col = mesh->mColors[0];
 
     // We must create the vertex data, indicating how many vertices there will be
-    submesh->useSharedVertices = false;
-    submesh->vertexData = new VertexData();
+    submesh->createVertexData();
     submesh->vertexData->vertexStart = 0;
     submesh->vertexData->vertexCount = mesh->mNumVertices;
 
@@ -1252,9 +1259,6 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
     {
         LogManager::getSingleton().logMessage(StringConverter::toString(mesh->mNumFaces) + " faces");
     }
-
-    if(!mUseIndexBuffer)
-        return true;
 
     aiFace* faces = mesh->mFaces;
     int faceSz = mesh->mPrimitiveTypes == aiPrimitiveType_LINE ? 2 : 3;
