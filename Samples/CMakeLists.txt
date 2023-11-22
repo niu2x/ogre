@@ -110,5 +110,3 @@ if (MSVC AND OGRE_BUILD_SAMPLES)
   endif()
 endif()
 
-add_subdirectory(Tutorials)
-add_subdirectory(HelloOgre)
