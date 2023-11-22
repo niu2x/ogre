@@ -56,7 +56,7 @@ namespace Ogre {
         public:
             /// Should be called by HardwareBufferManager
             HardwareVertexBuffer(HardwareBufferManagerBase* mgr, size_t vertexSize, size_t numVertices,
-                                 Usage usage, bool useSystemMemory, bool useShadowBuffer);
+                                 Usage usage, bool useShadowBuffer);
             HardwareVertexBuffer(HardwareBufferManagerBase* mgr, size_t vertexSize, size_t numVertices,
                                  HardwareBuffer* delegate);
             ~HardwareVertexBuffer();
@@ -275,8 +275,6 @@ namespace Ogre {
     public:
         /// Defines the list of vertex elements that makes up this declaration
         typedef std::list<VertexElement> VertexElementList;
-        /// Sort routine for vertex elements
-        static bool vertexElementLess(const VertexElement& e1, const VertexElement& e2);
     protected:
         VertexElementList mElementList;
 

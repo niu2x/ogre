@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include "OgreViewport.h"
 
 #include <limits>
+#include <memory>
 
 namespace Ogre {
     const size_t BillboardChain::SEGMENT_EMPTY = std::numeric_limits<size_t>::max();
@@ -69,8 +70,8 @@ namespace Ogre {
         mNormalBase(Vector3::UNIT_X),
         mVertexCameraUsed(0)
     {
-        mVertexData.reset(new VertexData());
-        mIndexData.reset(new IndexData());
+        mVertexData = std::make_unique<VertexData>();
+        mIndexData = std::make_unique<IndexData>();
 
         mOtherTexCoordRange[0] = 0.0f;
         mOtherTexCoordRange[1] = 1.0f;
@@ -646,7 +647,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& BillboardChain::getMovableType(void) const
     {
-        return BillboardChainFactory::FACTORY_TYPE_NAME;
+        return MOT_BILLBOARD_CHAIN;
     }
     //-----------------------------------------------------------------------
     void BillboardChain::_updateRenderQueue(RenderQueue* queue)
@@ -703,11 +704,11 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String BillboardChainFactory::FACTORY_TYPE_NAME = "BillboardChain";
+    const String MOT_BILLBOARD_CHAIN = "BillboardChain";
     //-----------------------------------------------------------------------
     const String& BillboardChainFactory::getType(void) const
     {
-        return FACTORY_TYPE_NAME;
+        return MOT_BILLBOARD_CHAIN;
     }
     //-----------------------------------------------------------------------
     MovableObject* BillboardChainFactory::createInstanceImpl( const String& name,

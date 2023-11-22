@@ -81,7 +81,7 @@ namespace Ogre
         }
 
         mMainRenderState.reset(new RenderState());
-        mMainRenderState->setLightCount(Vector3i(0, 1, 0));
+        mMainRenderState->setLightCount(1);
         mMainRenderState->addTemplateSubRenderStates(
             {"TerrainTransform", "TerrainSurface", SRS_PER_PIXEL_LIGHTING, SRS_FOG});
     }
@@ -96,6 +96,7 @@ namespace Ogre
         : mParent(parent)
         , mLayerNormalMappingEnabled(true)
         , mLayerParallaxMappingEnabled(true)
+        , mLayerParallaxOcclusionMappingEnabled(true)
         , mLayerSpecularMappingEnabled(true)
         , mPSSM(0)
     {
@@ -127,6 +128,15 @@ namespace Ogre
         if (enabled != mLayerParallaxMappingEnabled)
         {
             mLayerParallaxMappingEnabled = enabled;
+            mParent->_markChanged();
+        }
+    }
+    //---------------------------------------------------------------------
+    void TerrainMaterialGeneratorA::SM2Profile::setLayerParallaxOcclusionMappingEnabled(bool enabled)
+    {
+        if (enabled != mLayerParallaxOcclusionMappingEnabled)
+        {
+            mLayerParallaxOcclusionMappingEnabled = enabled;
             mParent->_markChanged();
         }
     }
@@ -271,6 +281,7 @@ namespace Ogre
         auto mainRenderState = std::make_shared<TargetRenderState>();
         auto tplRS = static_cast<TerrainMaterialGeneratorA*>(mParent)->getMainRenderState();
         mainRenderState->setLightCount(tplRS->getLightCount());
+        mainRenderState->setHaveAreaLights(tplRS->haveAreaLights());
 
         if(auto surface = tplRS->getSubRenderState("TerrainSurface"))
             surface->setParameter("use_normal_mapping", std::to_string(mLayerNormalMappingEnabled));
@@ -281,10 +292,11 @@ namespace Ogre
             auto surface = mainRenderState->getSubRenderState("TerrainSurface");
             OgreAssert(surface, "TerrainSurface SubRenderState not found");
             surface->setParameter("use_parallax_mapping", std::to_string(mLayerParallaxMappingEnabled));
+            surface->setParameter("use_parallax_occlusion_mapping", std::to_string(mLayerParallaxOcclusionMappingEnabled));
             surface->setParameter("use_specular_mapping", std::to_string(mLayerSpecularMappingEnabled));
             if(isShadowingEnabled(HIGH_LOD, terrain))
             {
-                auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_INTEGRATED_PSSM3);
+                auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_SHADOW_MAPPING);
                 if(mPSSM)
                     pssm->setParameter("split_points", mPSSM->getSplitPoints());
                 pssm->preAddToRenderState(mainRenderState.get(), pass, pass);
@@ -320,8 +332,8 @@ namespace Ogre
                 if (isShadowingEnabled(LOW_LOD, terrain))
                 {
                     // light count needed to enable PSSM3
-                    lod1RenderState->setLightCount(Vector3i(0, 1, 0));
-                    auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_INTEGRATED_PSSM3);
+                    lod1RenderState->setLightCount(1);
+                    auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_SHADOW_MAPPING);
                     if(mPSSM)
                         pssm->setParameter("split_points", mPSSM->getSplitPoints());
                     pssm->preAddToRenderState(lod1RenderState.get(), pass, pass);
@@ -370,7 +382,7 @@ namespace Ogre
         pass->getUserObjectBindings().setUserAny("Terrain", terrain);
 
         auto compRenderState = std::make_shared<TargetRenderState>();
-        compRenderState->setLightCount(Vector3i(0, 1, 0));
+        compRenderState->setLightCount(1);
 
         try
         {

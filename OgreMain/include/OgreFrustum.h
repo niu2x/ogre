@@ -91,8 +91,6 @@ namespace Ogre
         mutable Quaternion mLastParentOrientation;
         mutable Vector3 mLastParentPosition;
 
-        /// Pre-calced projection matrix for the specific render system
-        mutable Matrix4 mProjMatrixRS;
         /// Pre-calced standard projection matrix but with render system depth range
         mutable Matrix4 mProjMatrixRSDepth;
         /// Pre-calced standard projection matrix
@@ -140,9 +138,6 @@ namespace Ogre
         virtual void invalidateFrustum(void) const;
         /// Signal to update view information.
         virtual void invalidateView(void) const;
-
-        /// Shared class-level name for Movable type
-        static String msMovableType;
 
         ColourValue mDebugColour;
         /// Pointer to a reflection plane (automatically updated)
@@ -300,13 +295,6 @@ namespace Ogre
         /** Get the extents of the frustum in view space. */
         RealRect getFrustumExtents() const;
 
-        /** Gets the projection matrix for this frustum adjusted for the current
-            rendersystem specifics (may be right or left-handed, depth range
-            may vary).
-
-            @deprecated do not use
-        */
-        OGRE_DEPRECATED const Matrix4& getProjectionMatrixRS(void) const;
         /** Gets the depth-adjusted projection matrix for the current rendersystem
 
             This differs from the rendering-API independent @ref getProjectionMatrix

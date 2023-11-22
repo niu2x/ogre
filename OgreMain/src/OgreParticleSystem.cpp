@@ -131,16 +131,16 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     // Local class for updating based on time
-    class ParticleSystemUpdateValue : public ControllerValue<Real>
+    class ParticleSystemUpdateValue : public ControllerValue<float>
     {
     protected:
         ParticleSystem* mTarget;
     public:
         ParticleSystemUpdateValue(ParticleSystem* target) : mTarget(target) {}
 
-        Real getValue(void) const override { return 0; } // N/A
+        float getValue(void) const override { return 0; } // N/A
 
-        void setValue(Real value) override { mTarget->_update(value); }
+        void setValue(float value) override { mTarget->_update(value); }
 
     };
     //-----------------------------------------------------------------------
@@ -920,7 +920,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& ParticleSystem::getMovableType(void) const
     {
-        return ParticleSystemFactory::FACTORY_TYPE_NAME;
+        return MOT_PARTICLE_SYSTEM;
     }
     //-----------------------------------------------------------------------
     void ParticleSystem::setDefaultDimensions( Real width, Real height )
@@ -1552,6 +1552,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     ParticleAffectorFactory::~ParticleAffectorFactory() 
     {
+        OGRE_IGNORE_DEPRECATED_BEGIN
         // Destroy all affectors
         for (auto *a : mAffectors)
         {
@@ -1559,20 +1560,23 @@ namespace Ogre {
         }
             
         mAffectors.clear();
+        OGRE_IGNORE_DEPRECATED_END
     }
     //-----------------------------------------------------------------------
     void ParticleAffectorFactory::destroyAffector(ParticleAffector* e)
     {
+        delete e;
+        OGRE_IGNORE_DEPRECATED_BEGIN
         std::vector<ParticleAffector*>::iterator i;
         for (i = mAffectors.begin(); i != mAffectors.end(); ++i)
         {
             if ((*i) == e)
             {
                 mAffectors.erase(i);
-                OGRE_DELETE e;
                 break;
             }
         }
+        OGRE_IGNORE_DEPRECATED_END
     }
 
 }

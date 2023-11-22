@@ -1,3 +1,5 @@
+#include "OgreComponents.h"
+#ifdef OGRE_BUILD_COMPONENT_MESHLODGENERATOR
 #include "MeshLod.h"
 
 using namespace Ogre;
@@ -6,7 +8,6 @@ using namespace OgreBites;
 #include "OgreLodConfigSerializer.h"
 #include "OgreMeshLodGenerator.h"
 #include "OgreLodCollapseCostQuadric.h"
-#include "OgreLodInputProviderMesh.h"
 #include "OgreLodOutsideMarker.h"
 #include "OgreLodData.h"
 #include "OgreLod0Stripifier.h"
@@ -61,7 +62,6 @@ void Sample_MeshLod::cleanupContent()
     if(mMeshEntity){
         mSceneMgr->destroyEntity(mMeshEntity);
         mMeshEntity = 0;
-        saveConfig();
     }
     cleanupControls();
 }
@@ -149,7 +149,6 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
     if(mMeshEntity){
         mSceneMgr->destroyEntity(mMeshEntity);
         mMeshEntity = 0;
-        saveConfig();
     }
     mLodConfig.mesh = MeshManager::getSingleton().load(name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     if(mLodConfig.mesh->getBounds().isNull() || mLodConfig.mesh->getBoundingSphereRadius() == 0.0){
@@ -190,10 +189,16 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
         Ogre::MeshManager::getSingleton().remove(meshHullName);
     }
 
-    LodData data;
-    LodInputProviderMesh input(mLodConfig.mesh);
-    input.initData(&data);
-    LodOutsideMarker outsideMarker(data.mVertexList, data.mMeshBoundingSphereRadius, 0.0);
+    LodConfig inputConfig(mLodConfig.mesh);
+    LodInputProviderPtr input;
+    LodCollapseCostPtr cost;
+    LodDataPtr data;
+    LodOutputProviderPtr output;
+    LodCollapserPtr collapser;
+    MeshLodGenerator::getSingleton()._resolveComponents(inputConfig, cost, data, input, output, collapser);
+
+    input->initData(data.get());
+    LodOutsideMarker outsideMarker(data->mVertexList, data->mMeshBoundingSphereRadius, 0.0);
     MeshPtr meshHull = outsideMarker.createConvexHullMesh(meshHullName);
 
     mHullEntity = mSceneMgr->createEntity(meshHull);
@@ -250,6 +255,9 @@ void Sample_MeshLod::loadAutomaticLod()
     LodConfig lodConfig;
     gen.getAutoconfig(mLodConfig.mesh, lodConfig);
     lodConfig.advanced.useBackgroundQueue = ENABLE_THREADING;
+    lodConfig.advanced.useCompression = ENABLE_COMPRESSION;
+    lodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
+    lodConfig.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
     lodConfig.advanced.profile = mLodConfig.advanced.profile;
     lodConfig.advanced.useVertexNormals = mLodConfig.advanced.useVertexNormals;
     gen.generateLodLevels(lodConfig);
@@ -271,6 +279,9 @@ void Sample_MeshLod::loadUserLod( bool useWorkLod )
 
     MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
     mLodConfig.advanced.useBackgroundQueue = ENABLE_THREADING;
+    mLodConfig.advanced.useCompression = ENABLE_COMPRESSION;
+    mLodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
+    mLodConfig.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
     if(!useWorkLod){
         gen.generateLodLevels(mLodConfig);
 #if !ENABLE_THREADING
@@ -310,6 +321,9 @@ size_t Sample_MeshLod::getUniqueVertexCount( MeshPtr mesh )
     // It is constructing a mesh grid at the beginning, so if we reduce 0%, we will get the unique vertex count.
     LodConfig lodConfig(mesh, PixelCountLodStrategy::getSingletonPtr());
     lodConfig.advanced.useBackgroundQueue = false; // Non-threaded
+    lodConfig.advanced.useCompression = ENABLE_COMPRESSION;
+    lodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
+    lodConfig.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
     lodConfig.createGeneratedLodLevel(0, 0);
     MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
     gen.generateLodLevels(lodConfig);
@@ -470,6 +484,9 @@ void Sample_MeshLod::addToProfile( Real cost )
     config.levels.clear();
     config.levels.push_back(mWorkLevel);
     config.advanced.useBackgroundQueue = false;
+    config.advanced.useCompression = ENABLE_COMPRESSION;
+    config.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
+    config.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
     MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
     LodCollapserPtr collapser(new LodCollapser());
     LodDataPtr data(new LodData());
@@ -597,6 +614,9 @@ void Sample_MeshLod::buttonHit( OgreBites::Button* button )
             MeshLodGenerator::getSingleton().clearPendingLodRequests();
             MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
             mLodConfig.advanced.useBackgroundQueue = false; // Non-threaded
+            mLodConfig.advanced.useCompression = ENABLE_COMPRESSION;
+            mLodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
+            mLodConfig.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
             gen.generateLodLevels(mLodConfig);
             forceLodLevel(-1); // disable Lod level forcing
         }
@@ -634,3 +654,4 @@ void Sample_MeshLod::injectionCompleted( LodWorkQueueRequest* request )
     recreateEntity(); // Needed for manual lod levels.
     forceLodLevel(mForcedLodLevel, false);
 }
+#endif

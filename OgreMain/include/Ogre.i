@@ -113,6 +113,9 @@ JNIEnv* OgreJNIGetEnv() {
     catch (Swig::DirectorException &e) { 
         SWIG_fail;
     }
+    catch (std::length_error &e) {
+        SWIG_fail;
+    }
 #endif
     catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
@@ -156,6 +159,19 @@ JNIEnv* OgreJNIGetEnv() {
 %define SHARED_PTR(classname)
 // %shared_ptr(type);
 %template(classname ## Ptr) Ogre::SharedPtr<Ogre::classname >;
+%enddef
+
+%ignore *::operator[];
+%define SEQUENCE_METHODS
+{
+    void __setitem__(uint i, float v) { (*$self)[i] = v; }
+    size_t __len__() { return sizeof(*$self)/sizeof(float); }
+    float __getitem__(uint i) {
+        if(i >= sizeof(*$self)/sizeof(float))
+            throw std::length_error("out of bounds");
+        return (*$self)[i];
+    }
+}
 %enddef
 
 #ifdef SWIGJAVA
@@ -205,15 +221,14 @@ JNIEnv* OgreJNIGetEnv() {
 %csmethodmodifiers Ogre::BillboardChain::preRender "public";
 #endif
 
-// connect operator[] to __getitem__
-%feature("python:slot", "sq_item", functype="ssizeargfunc") *::operator[];
-%rename(__getitem__) *::operator[];
-%ignore Ogre::Matrix3::operator[];
-%ignore Ogre::Matrix4::operator[];
-%ignore Ogre::ColourValue::operator[];
+// connect __getitem__
+%feature("python:slot", "sq_item", functype="ssizeargfunc") *::__getitem__;
 
 // connect __setitem__
 %feature("python:slot", "sq_ass_item", functype="ssizeobjargproc") *::__setitem__;
+
+// connect __len__
+%feature("python:slot", "sq_length", functype="lenfunc") *::__len__;
 
 // stringinterface internal
 %rename("$ignore", regextarget=1) "^Cmd+";
@@ -290,18 +305,20 @@ ADD_REPR(Vector)
 %template(VectorBase ## N) Ogre::VectorBase<N, Ogre::Real>;
 %template(Vector ## N) Ogre::Vector<N, Ogre::Real>;
 
-%extend Ogre::Vector<N, Ogre::Real> {
-    void __setitem__(uint i, float v) { (*$self)[i] = v; }
-}
+%extend Ogre::Vector<N, Ogre::Real> SEQUENCE_METHODS
 %enddef
 
 %ignore Ogre::VectorBase<3, int>::VectorBase;
 %template(VectorBase3i) Ogre::VectorBase<3, int>;
 %template(Vector3i) Ogre::Vector<3, int>;
+%extend Ogre::Vector<3, int> SEQUENCE_METHODS
 
 TPL_VECTOR(2)
 TPL_VECTOR(3)
 TPL_VECTOR(4)
+
+%extend Ogre::ColourValue SEQUENCE_METHODS
+%extend Ogre::Quaternion SEQUENCE_METHODS
 
 #ifdef SWIGCSHARP
 %define CS_VECTOR_OPS(N)
@@ -322,18 +339,24 @@ CS_VECTOR_OPS(4);
 
 #ifdef SWIGPYTHON
 // enable implicit conversion from float to Radian
-%typemap(in) const Ogre::Radian& (float tmp) {
+%typemap(in) const Ogre::Radian& (Ogre::Radian tmp) {
     void *argp = 0;
     int res = SWIG_ConvertPtr($input, &argp, $descriptor, $disown);
     if (SWIG_IsOK(res)) {
         $1 = ($ltype)(argp);
     }
-    else {
-        res = SWIG_AsVal_float($input, &tmp);
-        $1 = (Ogre::Radian*)&tmp;
+    else if(SWIG_IsOK(SWIG_ConvertPtr($input, &argp, $descriptor(Ogre::Degree*), $disown)))
+    {
+        tmp = *((Ogre::Degree*)argp);
+        $1 = &tmp;
+    }
+    else
+    {
+        res = SWIG_AsVal_float($input, (float*)&tmp);
+        $1 = &tmp;
 
         if (!SWIG_IsOK(res))
-            SWIG_exception_fail(SWIG_TypeError, "Expected float or Ogre::Radian");
+            SWIG_exception_fail(SWIG_TypeError, "Expected float (Ogre::Radian) or Ogre::Degree");
     }
 }
 // punch through overload resolution
@@ -368,13 +391,7 @@ CS_VECTOR_OPS(4);
     if (SWIG_IsOK(res)) {
         $1 = ($ltype)(argp);
     } else {
-        if (!PySequence_Check($input)) {
-            SWIG_exception_fail(SWIG_TypeError, "Expected TYPE or sequence") ;
-        }
         int len = PySequence_Length($input);
-        if (!(LEN_CHECK)) {
-            SWIG_exception_fail(SWIG_ValueError, "Size mismatch. Expected LEN_CHECK");
-        }
         for (int i = 0; i < len; i++) {
             PyObject *o = PySequence_GetItem($input, i);
             if (!PyNumber_Check(o)) {
@@ -387,14 +404,21 @@ CS_VECTOR_OPS(4);
         $1 = &temp;
     }
 }
-%typecheck(SWIG_TYPECHECK_POINTER) const TYPE& {
-    // actual check in the typemap, just skip strings here
-    $1 = PyUnicode_Check($input) == 0;
+%typecheck(SWIG_TYPECHECK_STRING) const TYPE& {
+    if (PySequence_Check($input))
+    {
+        int len = PySequence_Length($input);
+        $1 = (LEN_CHECK);
+    }
+    else {
+        $1 = false;
+    }
 }
 %enddef
 TYPEMAP_SEQUENCE_FOR(Ogre::Vector2, len == 2)
 TYPEMAP_SEQUENCE_FOR(Ogre::Vector3, len == 3)
 TYPEMAP_SEQUENCE_FOR(Ogre::Vector4, len == 4)
+TYPEMAP_SEQUENCE_FOR(Ogre::Quaternion, len == 4)
 TYPEMAP_SEQUENCE_FOR(Ogre::ColourValue, len >= 3 && len <= 4)
 #endif
 
@@ -552,7 +576,6 @@ SHARED_PTR(StringInterface);
             SHARED_PTR(HighLevelGpuProgram);
             %include "OgreHighLevelGpuProgram.h"
 %include "OgreRenderSystemCapabilities.h"
-%ignore Ogre::PreApplyTextureAliasesScriptCompilerEvent;
 %include "OgreScriptCompiler.h"
 %ignore Ogre::TextureUnitState::setCubicTexture;
 %ignore Ogre::TextureUnitState::setCubicTextureName;
@@ -564,9 +587,9 @@ SHARED_PTR(StringInterface);
 %ignore Ogre::TextureUnitState::setTextureNameAlias;
 %ignore Ogre::TextureUnitState::getTextureNameAlias;
 %include "OgreTextureUnitState.h"
-%template(ControllerReal) Ogre::Controller<Ogre::Real>;
-%template(ControllerValueRealPtr) Ogre::SharedPtr<Ogre::ControllerValue<Ogre::Real> >;
-%template(ControllerFunctionPtr) Ogre::SharedPtr<Ogre::ControllerFunction<Ogre::Real> >;
+%template(ControllerFloat) Ogre::Controller<float>;
+%template(ControllerValueFloatPtr) Ogre::SharedPtr<Ogre::ControllerValue<float> >;
+%template(ControllerFunctionPtr) Ogre::SharedPtr<Ogre::ControllerFunction<float> >;
 %include "OgreControllerManager.h"
 %include "OgrePredefinedControllers.h"
 SHARED_PTR(Compositor);
@@ -676,24 +699,17 @@ SHARED_PTR(Skeleton);
 SHARED_PTR(Material);
 %template(TechniqueList) std::vector<Ogre::Technique*>;
 %include "OgreMaterial.h"
-%ignore Ogre::RenderSystem::_setTextureUnitFiltering;
-%ignore Ogre::RenderSystem::_setTextureAddressingMode;
 %ignore Ogre::RenderSystem::_setSceneBlending;
 %ignore Ogre::RenderSystem::_setSeparateSceneBlending;
-%ignore Ogre::RenderSystem::_setDepthBufferCheckEnabled;
-%ignore Ogre::RenderSystem::_setDepthBufferWriteEnabled;
-%ignore Ogre::RenderSystem::_setDepthBufferFunction;
 %ignore Ogre::RenderSystem::_setColourBufferWriteEnabled;
 %ignore Ogre::RenderSystem::_setFog;
 %ignore Ogre::RenderSystem::_setWorldMatrix;
 %ignore Ogre::RenderSystem::_setViewMatrix;
-%ignore Ogre::RenderSystem::_setVertexTexture;
 %ignore Ogre::RenderSystem::_setProjectionMatrix;
 %ignore Ogre::RenderSystem::getRenderTargetIterator;
 %ignore Ogre::RenderSystem::getColourVertexElementType;
 %ignore Ogre::RenderSystem::setStencilCheckEnabled;
 %ignore Ogre::RenderSystem::setStencilBufferParams;
-%ignore Ogre::RenderSystem::getDisplayMonitorCount;
 %include "OgreRenderSystem.h"
 %include "OgreCompositorManager.h"
 #ifdef SWIGJAVA
@@ -727,7 +743,6 @@ SHARED_PTR(Material);
         %ignore Ogre::RibbonTrail::getNodeIterator;
         %include "OgreRibbonTrail.h"
     %ignore Ogre::BillboardSet::setTextureCoords(const FloatRect*, uint16);
-    %ignore Ogre::BillboardSet::getTextureCoords(uint16*);
     %include "OgreBillboardSet.h"
     %include "OgreMovablePlane.h"
     %ignore Ogre::Light::setPosition;
@@ -754,7 +769,6 @@ SHARED_PTR(Material);
         %include "OgreShadowCameraSetupPSSM.h"
             %template(SplitPointList) std::vector<Ogre::Real>;
     %ignore Ogre::Frustum::getFrustumExtents(Real&, Real& ,Real& ,Real&) const;
-    %ignore Ogre::Frustum::getProjectionMatrixRS;
     %include "OgreFrustum.h"
         %ignore Ogre::Camera::setPosition;
         %ignore Ogre::Camera::getPosition;
@@ -812,8 +826,6 @@ SHARED_PTR(Material);
 SHARED_PTR(Mesh);
 %include "OgreMesh.h"
 %ignore Ogre::SubMesh::getBoneAssignmentIterator;
-%ignore Ogre::SubMesh::getAliasTextureIterator;
-%ignore Ogre::SubMesh::removeAllTextureAliases;
 %include "OgreSubMesh.h"
 %ignore Ogre::StaticGeometry::getRegionIterator;
 %ignore Ogre::StaticGeometry::Region::getLODIterator;
@@ -856,8 +868,9 @@ SHARED_PTR(Mesh);
 %ignore Ogre::Viewport::getActualDimensions(int&, int& ,int& ,int&) const;
 %include "OgreViewport.h"
 %ignore Ogre::CompositorChain::getNumCompositors;
-%ignore Ogre::CompositorChain::getCompositor;
+%ignore Ogre::CompositorChain::getCompositor(size_t) const;
 %ignore Ogre::CompositorChain::getCompositors;
+%template(CompositorInstanceList) std::vector<Ogre::CompositorInstance*>;
 %include "OgreCompositorChain.h"
 %ignore Ogre::RenderQueueGroup::getIterator;
 %include "OgreRenderQueueSortingGrouping.h"
@@ -873,20 +886,12 @@ SHARED_PTR(Mesh);
 %template(MovableObjectMap) std::map<std::string, Ogre::MovableObject*>;
 %template(CameraMap) std::map<std::string, Ogre::Camera*>;
 %include "OgreSceneManager.h"
-%ignore Ogre::SceneManagerEnumerator::createSceneManager(uint16);
-%ignore Ogre::SceneManagerEnumerator::createSceneManager(uint16, const String&);
-%ignore Ogre::SceneManagerEnumerator::getSceneManagerIterator;
-%ignore Ogre::SceneManagerEnumerator::getMetaDataIterator;
 %include "OgreDefaultDebugDrawer.h"
-%include "OgreSceneManagerEnumerator.h"
 %include "OgreConfigDialog.h"
 %template(RenderSystemList) std::vector<Ogre::RenderSystem*>;
-%ignore Ogre::Root::getSceneManagerMetaDataIterator;
-%ignore Ogre::Root::getSceneManagerIterator;
 %ignore Ogre::Root::createSceneManager(uint16);
 %ignore Ogre::Root::createSceneManager(uint16, const String&);
 %ignore Ogre::Root::getMovableObjectFactoryIterator;
-%ignore Ogre::Root::getDisplayMonitorCount;
 %include "OgreRoot.h"
 // dont wrap: platform specific
 // %include "OgreWindowEventUtilities.h"

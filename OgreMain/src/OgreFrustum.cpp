@@ -31,7 +31,8 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-    String Frustum::msMovableType = "Frustum";
+    const String MOT_FRUSTUM = "Frustum";
+    const String MOT_FRUSTRUM = MOT_FRUSTUM;
     const Real Frustum::INFINITE_FAR_PLANE_ADJUST = 0.00001;
     //-----------------------------------------------------------------------
     Frustum::Frustum(const String& name) : 
@@ -159,14 +160,6 @@ namespace Ogre {
         updateFrustum();
 
         return mProjMatrixRSDepth;
-    }
-    //-----------------------------------------------------------------------
-    const Matrix4& Frustum::getProjectionMatrixRS(void) const
-    {
-
-        updateFrustum();
-
-        return mProjMatrixRS;
     }
     //-----------------------------------------------------------------------
     const Affine3& Frustum::getViewMatrix(void) const
@@ -459,12 +452,10 @@ namespace Ogre {
         if(renderSystem)
         {
             // API specific
-            renderSystem->_convertProjectionMatrix(mProjMatrix, mProjMatrixRS);
             renderSystem->_convertProjectionMatrix(mProjMatrix, mProjMatrixRSDepth, true);
         }
         else
         {
-            mProjMatrixRS = mProjMatrix;
             mProjMatrixRSDepth = mProjMatrix;
         }
 
@@ -744,7 +735,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& Frustum::getMovableType(void) const
     {
-        return msMovableType;
+        return MOT_FRUSTUM;
     }
     //-----------------------------------------------------------------------
     Real Frustum::getBoundingRadius(void) const

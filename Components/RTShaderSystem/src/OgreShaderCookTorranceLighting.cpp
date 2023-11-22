@@ -16,7 +16,7 @@ namespace RTShader
 const String SRS_COOK_TORRANCE_LIGHTING = "CookTorranceLighting";
 
 //-----------------------------------------------------------------------
-CookTorranceLighting::CookTorranceLighting() : mLightCount(0), mMRMapSamplerIndex(0) {}
+CookTorranceLighting::CookTorranceLighting() : mLightCount(0), mMRMapSamplerIndex(0), mLtcLUT1SamplerIndex(-1) {}
 
 //-----------------------------------------------------------------------
 const String& CookTorranceLighting::getType() const { return SRS_COOK_TORRANCE_LIGHTING; }
@@ -86,7 +86,7 @@ bool CookTorranceLighting::createCpuSubPrograms(ProgramSet* programSet)
     if (vsOutNormal)
     {
         auto worldViewITMatrix = vsProgram->resolveParameter(GpuProgramParameters::ACT_NORMAL_MATRIX);
-        vstage.callFunction(FFP_FUNC_TRANSFORM, worldViewITMatrix, vsInNormal, vsOutNormal);
+        vstage.callBuiltin("mul", worldViewITMatrix, vsInNormal, vsOutNormal);
     }
 
     // add the lighting computation
@@ -116,6 +116,7 @@ bool CookTorranceLighting::createCpuSubPrograms(ProgramSet* programSet)
 
     fstage.mul(In(diffuse).xyz(), In(outDiffuse).xyz(), baseColor);
     fstage.assign(Vector3(0), Out(outDiffuse).xyz());
+    fstage.assign(In(diffuse).w(), Out(outDiffuse).w()); // forward alpha
 
     fstage.callFunction("PBR_MakeParams", {In(baseColor), In(mrparams), InOut(pixelParams)});
 
@@ -132,10 +133,17 @@ bool CookTorranceLighting::createCpuSubPrograms(ProgramSet* programSet)
                                        In(lightDiffuse),     In(pointParams), In(lightDirView),      In(spotParams),
                                        In(pixelParams),      InOut(outDiffuse).xyz()};
 
+        if(mLtcLUT1SamplerIndex > -1)
+        {
+            auto ltcLUT1 = psProgram->resolveParameter(GCT_SAMPLER2D, "ltcLUT1Sampler", mLtcLUT1SamplerIndex);
+            auto ltcLUT2 = psProgram->resolveParameter(GCT_SAMPLER2D, "ltcLUT2Sampler", mLtcLUT1SamplerIndex + 1);
+            params.insert(params.begin(), {In(ltcLUT1), In(ltcLUT2)});
+            psProgram->addPreprocessorDefines("HAVE_AREA_LIGHTS");
+        }
+
         if (auto shadowFactor = psMain->getLocalParameter("lShadowFactor"))
         {
             params.insert(params.begin(), In(shadowFactor));
-            psProgram->addPreprocessorDefines("HAVE_SHADOW_FACTOR");
         }
 
         fstage.callFunction("PBR_Lights", params);
@@ -158,8 +166,10 @@ bool CookTorranceLighting::preAddToRenderState(const RenderState* renderState, P
     if (!srcPass->getLightingEnabled())
         return false;
 
-    auto lightsPerType = renderState->getLightCount();
-    mLightCount = lightsPerType[0] + lightsPerType[1] + lightsPerType[2];
+    mLightCount = renderState->getLightCount();
+
+    if(renderState->haveAreaLights())
+        mLtcLUT1SamplerIndex = ensureLtcLUTPresent(dstPass);
 
     if(mMetalRoughnessMapName.empty())
         return true;

@@ -440,22 +440,22 @@ namespace Ogre
 
         /** Returns the global instance vertex buffer.
         */
-        HardwareVertexBufferSharedPtr getGlobalInstanceVertexBuffer() const;
+        HardwareVertexBufferPtr getGlobalInstanceVertexBuffer() const { return mGlobalInstanceVertexBuffer; }
         /** Sets the global instance vertex buffer.
         */
-        void setGlobalInstanceVertexBuffer(const HardwareVertexBufferSharedPtr &val);
+        void setGlobalInstanceVertexBuffer(const HardwareVertexBufferPtr &val);
         /** Gets vertex declaration for the global vertex buffer for the global instancing
         */
-        VertexDeclaration* getGlobalInstanceVertexBufferVertexDeclaration() const;
+        VertexDeclaration* getGlobalInstanceVertexDeclaration() const { return mGlobalInstanceVertexDeclaration; }
         /** Sets vertex declaration for the global vertex buffer for the global instancing
         */
-        void setGlobalInstanceVertexBufferVertexDeclaration( VertexDeclaration* val);
+        void setGlobalInstanceVertexDeclaration( VertexDeclaration* val) { mGlobalInstanceVertexDeclaration = val; }
         /** Gets the global number of instances.
         */
-        size_t getGlobalNumberOfInstances() const;
+        uint32 getGlobalInstanceCount() const { return mGlobalNumberOfInstances; }
         /** Sets the global number of instances.
         */
-        void setGlobalNumberOfInstances(const size_t val);
+        void setGlobalInstanceCount(uint32 val) { mGlobalNumberOfInstances = val; }
 
         /** Retrieves an existing DepthBuffer or creates a new one suited for the given RenderTarget
             and sets it.
@@ -538,9 +538,6 @@ namespace Ogre
         virtual void _setTexture(size_t unit, bool enabled, 
             const TexturePtr &texPtr) = 0;
 
-        /// @deprecated obsolete
-        OGRE_DEPRECATED virtual void _setVertexTexture(size_t unit, const TexturePtr& tex);
-
         /**
         Sets the texture coordinate set to use for a texture unit.
 
@@ -572,16 +569,6 @@ namespace Ogre
         @deprecated only needed for fixed function APIs
         */
         virtual void _setTextureBlendMode(size_t unit, const LayerBlendModeEx& bm) {}
-
-        /// @deprecated use _setSampler
-        OGRE_DEPRECATED virtual void _setTextureUnitFiltering(size_t unit, FilterType ftype, FilterOptions filter) {}
-
-        /// @deprecated use _setSampler
-        OGRE_DEPRECATED virtual void _setTextureUnitFiltering(size_t unit, FilterOptions minFilter,
-            FilterOptions magFilter, FilterOptions mipFilter);
-
-        /// @deprecated use _setSampler
-        OGRE_DEPRECATED virtual void _setTextureAddressingMode(size_t unit, const Sampler::UVWAddressingMode& uvw) {}
 
         /** Sets the texture coordinate transformation matrix for a texture unit.
         @param unit Texture unit to affect
@@ -644,23 +631,6 @@ namespace Ogre
         * several times per complete frame if multiple viewports exist.
         */
         virtual void _beginFrame();
-        
-        /// Dummy structure for render system contexts - implementing RenderSystems can extend
-        /// as needed
-        struct RenderSystemContext { };
-        /**
-        * Pause rendering for a frame. This has to be called after _beginFrame and before _endFrame.
-        * Will usually be called by the SceneManager, don't use this manually unless you know what
-        * you are doing.
-        */
-        virtual RenderSystemContext* _pauseFrame(void);
-        /**
-        * Resume rendering for a frame. This has to be called after a _pauseFrame call
-        * Will usually be called by the SceneManager, don't use this manually unless you know what
-        * you are doing.
-        * @param context the render system context, as returned by _pauseFrame
-        */
-        virtual void _resumeFrame(RenderSystemContext* context);
 
         /**
         * Ends rendering of a frame to the current viewport.
@@ -699,12 +669,6 @@ namespace Ogre
         */
         virtual void _setDepthBufferParams(bool depthTest = true, bool depthWrite = true, CompareFunction depthFunction = CMPF_LESS_EQUAL) = 0;
 
-        /// @deprecated use _setDepthBufferParams
-        OGRE_DEPRECATED virtual void _setDepthBufferCheckEnabled(bool enabled = true) {}
-        /// @deprecated use _setDepthBufferParams
-        OGRE_DEPRECATED virtual void _setDepthBufferWriteEnabled(bool enabled = true) {}
-        /// @deprecated use _setDepthBufferParams
-        OGRE_DEPRECATED virtual void _setDepthBufferFunction(CompareFunction func = CMPF_LESS_EQUAL) {}
         /// @deprecated use setColourBlendState
         OGRE_DEPRECATED void _setColourBufferWriteEnabled(bool red, bool green, bool blue, bool alpha)
         {
@@ -1095,9 +1059,6 @@ namespace Ogre
         */
         virtual void unregisterThread() {}
 
-        /// @deprecated do not use
-        OGRE_DEPRECATED virtual unsigned int getDisplayMonitorCount() const { return 1; }
-
         /**
         * This marks the beginning of an event for GPU profiling.
         */
@@ -1176,13 +1137,6 @@ namespace Ogre
         float mDerivedDepthBiasMultiplier;
         float mDerivedDepthBiasSlopeScale;
 
-        /// a global vertex buffer for global instancing
-        HardwareVertexBufferSharedPtr mGlobalInstanceVertexBuffer;
-        /// a vertex declaration for the global vertex buffer for the global instancing
-        VertexDeclaration* mGlobalInstanceVertexBufferVertexDeclaration;
-        /// the number of global instances (this number will be multiply by the render op instance number) 
-        size_t mGlobalNumberOfInstances;
-
         /** updates pass iteration rendering state including bound gpu program parameter
         pass iteration auto constant entry
         @return True if more iterations are required
@@ -1244,6 +1198,13 @@ namespace Ogre
         static CompareFunction reverseCompareFunction(CompareFunction func);
     private:
         StencilState mStencilState;
+
+        /// a global vertex buffer for global instancing
+        HardwareVertexBufferSharedPtr mGlobalInstanceVertexBuffer;
+        /// a vertex declaration for the global vertex buffer for the global instancing
+        VertexDeclaration* mGlobalInstanceVertexDeclaration;
+        /// the number of global instances (this number will be multiply by the render op instance number)
+        uint32 mGlobalNumberOfInstances;
     };
     /** @} */
     /** @} */

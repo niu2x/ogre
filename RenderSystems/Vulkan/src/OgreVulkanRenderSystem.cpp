@@ -534,11 +534,6 @@ namespace Ogre
                 rsc->setCapability( RSC_TEXTURE_COMPRESSION_ETC2 );
             }
 
-            vkGetPhysicalDeviceFormatProperties( mDevice->mPhysicalDevice,
-                                                 VulkanMappings::get( PF_PVRTC_RGB2 ), &props );
-            if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
-                rsc->setCapability( RSC_TEXTURE_COMPRESSION_PVRTC );
-
             vkGetPhysicalDeviceFormatProperties(
                 mDevice->mPhysicalDevice, VulkanMappings::get( PF_ASTC_RGBA_4X4_LDR ), &props );
             if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
@@ -940,7 +935,7 @@ namespace Ogre
 
         for(uint32 i= 0; i < pipelineCi.stageCount; i++)
         {
-            hash = HashCombine(hash, pipelineCi.pStages[i]);
+            hash = HashCombine(hash, mBoundGpuPrograms[i]);
         }
 
         VkPipeline retVal = mPipelineCache[hash];
@@ -1079,6 +1074,7 @@ namespace Ogre
     {
         auto shader = static_cast<VulkanProgram*>(prg);
         shaderStages[prg->getType()] = shader->getPipelineShaderStageCi();
+        mBoundGpuPrograms[prg->getType()] = prg->_getHash();
     }
     void VulkanRenderSystem::bindGpuProgramParameters( GpuProgramType gptype,
                                                        const GpuProgramParametersPtr& params,

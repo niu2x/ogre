@@ -234,15 +234,6 @@ namespace Ogre
         ScriptCompilerListener *getListener();
         /// Returns the resource group currently set for this compiler
         const String &getResourceGroup() const;
-        /// Adds a name exclusion to the map
-        /**
-         * Name exclusions identify object types which cannot accept
-         * names. This means that excluded types will always have empty names.
-         * All values in the object header are stored as object values.
-         */
-        //void addNameExclusion(const String &type);
-        /// Removes a name exclusion
-        //void removeNameExclusion(const String &type);
         /// Internal method for firing the handleEvent method
         bool _fireEvent(ScriptCompilerEvent *evt, void *retval);
 
@@ -461,18 +452,6 @@ namespace Ogre
         static ScriptCompilerManager* getSingletonPtr(void);
     };
 
-    /// @deprecated do not use
-    class OGRE_DEPRECATED _OgreExport PreApplyTextureAliasesScriptCompilerEvent : public ScriptCompilerEvent
-    {
-    public:
-        Material *mMaterial;
-        AliasTextureNamePairList *mAliases;
-        static String eventType;
-
-        PreApplyTextureAliasesScriptCompilerEvent(Material *material, AliasTextureNamePairList *aliases)
-            :ScriptCompilerEvent(eventType), mMaterial(material), mAliases(aliases){}
-    };
-
     class _OgreExport ProcessResourceNameScriptCompilerEvent : public ScriptCompilerEvent
     {
     public:
@@ -650,7 +629,6 @@ namespace Ogre
         ID_CULL_SOFTWARE,
             ID_BACK,
             ID_FRONT,
-        ID_NORMALISE_NORMALS,
         ID_LIGHTING,
         ID_SHADING,
             ID_FLAT, 

@@ -145,8 +145,6 @@ namespace Ogre {
 
             void _setSampler(size_t unit, Sampler& sampler) override;
 
-            void _setTextureAddressingMode(size_t stage, const Sampler::UVWAddressingMode& uvw) override;
-
             void _setLineWidth(float width) override;
 
             void _setViewport(Viewport *vp) override;
@@ -157,12 +155,6 @@ namespace Ogre {
 
             void _setDepthBufferParams(bool depthTest = true, bool depthWrite = true, CompareFunction depthFunction = CMPF_LESS_EQUAL) override;
 
-            void _setDepthBufferCheckEnabled(bool enabled = true) override;
-
-            void _setDepthBufferWriteEnabled(bool enabled = true) override;
-
-            void _setDepthBufferFunction(CompareFunction func = CMPF_LESS_EQUAL) override;
-
             void _setDepthBias(float constantBias, float slopeScaleBias) override;
 
             void setColourBlendState(const ColourBlendState& state) override;
@@ -170,11 +162,6 @@ namespace Ogre {
             void _setPolygonMode(PolygonMode level) override;
 
             void setStencilState(const StencilState& state) override;
-
-            void _setTextureUnitFiltering(size_t unit, FilterOptions minFilter,
-                FilterOptions magFilter, FilterOptions mipFilter) override;
-
-            void _setTextureUnitFiltering(size_t unit, FilterType ftype, FilterOptions filter) override;
 
             void _render(const RenderOperation& op) override;
 

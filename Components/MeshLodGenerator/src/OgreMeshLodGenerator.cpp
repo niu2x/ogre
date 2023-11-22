@@ -33,6 +33,16 @@
 namespace Ogre
 {
 
+struct LodWorkQueueRequest {
+    LodConfig config;
+    LodDataPtr data;
+    LodInputProviderPtr input;
+    LodOutputProviderPtr output;
+    LodCollapseCostPtr cost;
+    LodCollapserPtr collapser;
+    bool isCancelled;
+};
+
 template<> MeshLodGenerator* Singleton<MeshLodGenerator>::msSingleton = 0;
 MeshLodGenerator* MeshLodGenerator::getSingletonPtr()
 {
@@ -122,13 +132,19 @@ void MeshLodGenerator::_resolveComponents(LodConfig& lodConfig,
 {
     if(!cost) {
         cost = LodCollapseCostPtr(new LodCollapseCostCurvature);
+        cost->setPreventPunchingHoles(lodConfig.advanced.preventPunchingHoles);
+        cost->setPreventBreakingLines(lodConfig.advanced.preventBreakingLines);
         if(lodConfig.advanced.outsideWeight != 0) {
             cost =
                 LodCollapseCostPtr(new LodCollapseCostOutside(cost, lodConfig.advanced.outsideWeight,
                                                               lodConfig.advanced.outsideWalkAngle));
+            cost->setPreventPunchingHoles(lodConfig.advanced.preventPunchingHoles);
+            cost->setPreventBreakingLines(lodConfig.advanced.preventBreakingLines);
         }
         if(!lodConfig.advanced.profile.empty()) {
             cost = LodCollapseCostPtr(new LodCollapseCostProfiler(lodConfig.advanced.profile, cost));
+            cost->setPreventPunchingHoles(lodConfig.advanced.preventPunchingHoles);
+            cost->setPreventBreakingLines(lodConfig.advanced.preventBreakingLines);
         }
 
     }
@@ -143,22 +159,14 @@ void MeshLodGenerator::_resolveComponents(LodConfig& lodConfig,
             input = LodInputProviderPtr(new LodInputProviderBuffer(lodConfig.mesh));
         }
         if(!output) {
-            if(lodConfig.advanced.useCompression) {
-                output = LodOutputProviderPtr(new LodOutputProviderCompressedBuffer(lodConfig.mesh));
-            } else {
-                output = LodOutputProviderPtr(new LodOutputProviderBuffer(lodConfig.mesh));
-            }
+            output = LodOutputProviderPtr(new LodOutputProviderBuffer(lodConfig.mesh, lodConfig.advanced.useCompression));
         }
     } else {
         if(!input) {
             input = LodInputProviderPtr(new LodInputProviderMesh(lodConfig.mesh));
         }
         if(!output) {
-            if(lodConfig.advanced.useCompression) {
-                output = LodOutputProviderPtr(new LodOutputProviderCompressedMesh(lodConfig.mesh));
-            } else {
-                output = LodOutputProviderPtr(new LodOutputProviderMesh(lodConfig.mesh));
-            }
+            output = LodOutputProviderPtr(new LodOutputProviderMesh(lodConfig.mesh, lodConfig.advanced.useCompression));
         }
     }
 }

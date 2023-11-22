@@ -80,7 +80,7 @@ Sample_ShaderSystem::~Sample_ShaderSystem()
 
 void Sample_ShaderSystem::_shutdown()
 {
-    mShaderGenerator->getRenderState(MSN_SHADERGEN)->reset();
+    mShaderGenerator->getRenderState(MSN_SHADERGEN)->resetToBuiltinSubRenderStates();
     destroyInstancedViewports();
     SdkSample::_shutdown();
 }
@@ -338,11 +338,6 @@ void Sample_ShaderSystem::setupContent()
     createDirectionalLight();
     createPointLight();
     createSpotLight();
-
-    RenderState* schemRenderState = mShaderGenerator->getRenderState(MSN_SHADERGEN);
-
-    // Take responsibility for updating the light count manually.
-    schemRenderState->setLightCountAutoUpdate(false);
     
     setupUI();
 
@@ -493,7 +488,7 @@ void Sample_ShaderSystem::setPerPixelFogEnable( bool enable )
         RenderState* schemRenderState = mShaderGenerator->getRenderState(MSN_SHADERGEN);
         // Search for the fog sub state.
         auto fogSubRenderState = schemRenderState->getSubRenderState(SRS_FOG);
-        
+
         // Select the desired fog calculation mode.
         fogSubRenderState->setParameter("calc_mode", mPerPixelFogEnable ? "per_pixel" : "per_vertex");
 
@@ -524,6 +519,18 @@ void Sample_ShaderSystem::updateSystemShaders()
 }
 
 //-----------------------------------------------------------------------
+static void setNormalMap(Pass* pass, const String& normalMapName)
+{
+    if(pass->getNumTextureUnitStates() > 1)
+    {
+        // remove the previous normal map
+        pass->removeTextureUnitState(1);
+    }
+
+    auto tu = pass->createTextureUnitState(normalMapName);
+    ShaderGenerator::_markNonFFP(tu);
+}
+
 void Sample_ShaderSystem::generateShaders(Entity* entity)
 {
     for (unsigned int i=0; i < entity->getNumSubEntities(); ++i)
@@ -560,18 +567,18 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 MSN_SHADERGEN, *curMaterial);
 
             // Remove all sub render states.
-            renderState->reset();
+            renderState->resetToBuiltinSubRenderStates();
 
 
 #ifdef RTSHADER_SYSTEM_BUILD_CORE_SHADERS
             if (mCurLightingModel == SSLM_CookTorranceLighting || mCurLightingModel == SSLM_ImageBasedLighting)
             {
-                auto lightModel = mShaderGenerator->createSubRenderState("CookTorranceLighting");
+                auto lightModel = mShaderGenerator->createSubRenderState(RTShader::SRS_COOK_TORRANCE_LIGHTING);
                 renderState->addTemplateSubRenderState(lightModel);
             }
             else if (mCurLightingModel == SSLM_PerPixelLighting)
             {
-                RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState("SGX_PerPixelLighting");
+                RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState(RTShader::SRS_PER_PIXEL_LIGHTING);
                 
                 renderState->addTemplateSubRenderState(perPixelLightModel);             
             }
@@ -580,18 +587,18 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 // Apply normal map only on main entity.
                 if (entity->getName() == MAIN_ENTITY_NAME)
                 {
-                    RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState("NormalMap");
+                    RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState(RTShader::SRS_NORMALMAP);
 
                     normalMapSubRS->setParameter("normalmap_space", "object_space");
-                    normalMapSubRS->setParameter("texture", "Panels_Normal_Obj.png");
-
+                    setNormalMap(curPass, "Panels_Normal_Obj.png");
+                    normalMapSubRS->setParameter("texture_index", "1");
                     renderState->addTemplateSubRenderState(normalMapSubRS);
                 }
 
                 // It is secondary entity -> use simple per pixel lighting.
                 else
                 {
-                    RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState("SGX_PerPixelLighting");
+                    RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState(RTShader::SRS_PER_PIXEL_LIGHTING);
                     renderState->addTemplateSubRenderState(perPixelLightModel);
                 }               
             }
@@ -602,10 +609,11 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 // Apply normal map only on main entity.
                 if (entity->getName() == MAIN_ENTITY_NAME)
                 {
-                    RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState("NormalMap");
+                    RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState(RTShader::SRS_NORMALMAP);
 
                     normalMapSubRS->setParameter("normalmap_space", "tangent_space");
-                    normalMapSubRS->setParameter("texture", "Panels_Normal_Tangent.png");
+                    setNormalMap(curPass, "Panels_Normal_Tangent.png");
+                    normalMapSubRS->setParameter("texture_index", "1");
 
                     renderState->addTemplateSubRenderState(normalMapSubRS);
                 }
@@ -613,7 +621,7 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 // It is secondary entity -> use simple per pixel lighting.
                 else
                 {
-                    RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState("SGX_PerPixelLighting");
+                    RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState(RTShader::SRS_PER_PIXEL_LIGHTING);
                     renderState->addTemplateSubRenderState(perPixelLightModel);
                 }
             }
@@ -831,33 +839,7 @@ void Sample_ShaderSystem::updateLightState(const String& lightName, bool visible
         else
         {
             mSceneMgr->getLight(lightName)->setVisible(visible);
-        }   
-
-        RenderState* schemRenderState = mShaderGenerator->getRenderState(MSN_SHADERGEN);
-        
-        Vector3i lightCount(0, 0, 0);
-
-        // Update point light count.
-        if (mSceneMgr->getLight(POINT_LIGHT_NAME)->isVisible())
-        {
-            lightCount[0] = 1;
         }
-
-        // Update directional light count.
-        if (mSceneMgr->getLight(DIRECTIONAL_LIGHT_NAME)->isVisible())
-        {
-            lightCount[1] = 1;
-        }
-
-        // Update spot light count.
-        if (mSceneMgr->getLight(SPOT_LIGHT_NAME)->isVisible())
-        {
-            lightCount[2] = 1;
-        }
-
-        // Update the scheme light count.
-        schemRenderState->setLightCount(lightCount);
-        
 
         // Invalidate the scheme in order to re-generate all shaders based technique related to this scheme.
         mShaderGenerator->invalidateScheme(Ogre::MSN_SHADERGEN);
@@ -877,7 +859,7 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
         mSceneMgr->setShadowTechnique(SHADOWTYPE_NONE);
 
 #ifdef RTSHADER_SYSTEM_BUILD_EXT_SHADERS
-        if (auto srs = schemRenderState->getSubRenderState(SRS_INTEGRATED_PSSM3))
+        if (auto srs = schemRenderState->getSubRenderState(SRS_SHADOW_MAPPING))
         {
             schemRenderState->removeSubRenderState(srs);
         }
@@ -932,7 +914,7 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
         mSceneMgr->setShadowCameraSetup(ShadowCameraSetupPtr(pssmSetup));
 
     
-        auto subRenderState = mShaderGenerator->createSubRenderState(SRS_INTEGRATED_PSSM3);
+        auto subRenderState = mShaderGenerator->createSubRenderState(SRS_SHADOW_MAPPING);
         subRenderState->setParameter("split_points", pssmSetup->getSplitPoints());
         subRenderState->setParameter("debug", menuIndex > 1);
         schemRenderState->addTemplateSubRenderState(subRenderState);        
@@ -1007,7 +989,7 @@ void Sample_ShaderSystem::updateTargetObjInfo()
 
     String targetObjMaterialName;
 
-    if (mTargetObj->getMovableType() == "Entity")
+    if (mTargetObj->getMovableType() == MOT_ENTITY)
     {
         Entity* targetEnt = static_cast<Entity*>(mTargetObj);
         targetObjMaterialName = targetEnt->getSubEntity(0)->getMaterialName();

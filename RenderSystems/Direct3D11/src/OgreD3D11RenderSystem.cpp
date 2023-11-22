@@ -37,7 +37,6 @@ THE SOFTWARE.
 #include "OgreViewport.h"
 #include "OgreLogManager.h"
 #include "OgreMeshManager.h"
-#include "OgreSceneManagerEnumerator.h"
 #include "OgreD3D11HardwareBufferManager.h"
 #include "OgreD3D11HardwareBuffer.h"
 #include "OgreD3D11VertexDeclaration.h"
@@ -52,6 +51,7 @@ THE SOFTWARE.
 #include "OgreD3D11HardwarePixelBuffer.h"
 #include "OgreD3D11RenderTarget.h"
 #include "OgreException.h"
+#include "OgreRoot.h"
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 #include "OgreD3D11StereoDriverBridge.h"
@@ -203,6 +203,12 @@ namespace Ogre
             delete mHLSLProgramFactory;
             mHLSLProgramFactory = 0;
         }
+
+#if OGRE_NO_QUAD_BUFFER_STEREO == 0
+        // Stereo driver must be freed after device is created
+        D3D11StereoDriverBridge* stereoBridge = D3D11StereoDriverBridge::getSingletonPtr();
+        OGRE_DELETE stereoBridge;
+#endif
 
         LogManager::getSingleton().logMessage( "D3D11: " + getName() + " destroyed." );
     }
@@ -883,7 +889,6 @@ namespace Ogre
 #endif
 
         rsc->setNumMultiRenderTargets(std::min(numMultiRenderTargets, (int)OGRE_MAX_MULTIPLE_RENDER_TARGETS));
-        rsc->setCapability(RSC_MRT_DIFFERENT_BIT_DEPTHS);
 
         rsc->setCapability(RSC_POINT_EXTENDED_PARAMETERS);
         rsc->setMaxPointSize(256); // TODO: guess!
@@ -1307,9 +1312,8 @@ namespace Ogre
         // release device depended resources
         fireDeviceEvent(&mDevice, "DeviceLost");
 
-        SceneManagerEnumerator::SceneManagerIterator scnIt = SceneManagerEnumerator::getSingleton().getSceneManagerIterator();
-        while(scnIt.hasMoreElements())
-            scnIt.getNext()->_releaseManualHardwareResources();
+        for(auto& it : Root::getSingleton().getSceneManagers())
+            it.second->_releaseManualHardwareResources();
 
         notifyDeviceLost(&mDevice);
 
@@ -1329,9 +1333,8 @@ namespace Ogre
 
         MeshManager::getSingleton().reloadAll(Resource::LF_PRESERVE_STATE);
 
-        scnIt = SceneManagerEnumerator::getSingleton().getSceneManagerIterator();
-        while(scnIt.hasMoreElements())
-            scnIt.getNext()->_restoreManualHardwareResources();
+        for(auto& it : Root::getSingleton().getSceneManagers())
+            it.second->_restoreManualHardwareResources();
 
         // Invalidate active view port.
         mActiveViewport = NULL;
@@ -1477,36 +1480,12 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D11RenderSystem::_setDepthBufferParams( bool depthTest, bool depthWrite, CompareFunction depthFunction )
     {
-        _setDepthBufferCheckEnabled( depthTest );
-        _setDepthBufferWriteEnabled( depthWrite );
-        _setDepthBufferFunction( depthFunction );
-    }
-    //---------------------------------------------------------------------
-    void D3D11RenderSystem::_setDepthBufferCheckEnabled( bool enabled )
-    {
-        mDepthStencilDesc.DepthEnable = enabled;
-        mDepthStencilDescChanged = true;
-    }
-    //---------------------------------------------------------------------
-    void D3D11RenderSystem::_setDepthBufferWriteEnabled( bool enabled )
-    {
-        if (enabled)
-        {
-            mDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-        }
-        else
-        {
-            mDepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-        }
-        mDepthStencilDescChanged = true;
-    }
-    //---------------------------------------------------------------------
-    void D3D11RenderSystem::_setDepthBufferFunction( CompareFunction func )
-    {
-        if(isReverseDepthBufferEnabled())
-            func = reverseCompareFunction(func);
+        mDepthStencilDesc.DepthEnable = depthTest;
+        mDepthStencilDesc.DepthWriteMask = depthWrite ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
 
-        mDepthStencilDesc.DepthFunc = D3D11Mappings::get(func);
+        if(isReverseDepthBufferEnabled())
+            depthFunction = reverseCompareFunction(depthFunction);
+        mDepthStencilDesc.DepthFunc = D3D11Mappings::get(depthFunction);
         mDepthStencilDescChanged = true;
     }
     //---------------------------------------------------------------------
@@ -1845,11 +1824,6 @@ namespace Ogre
         }
 
         size_t numberOfInstances = op.numberOfInstances;
-
-        if (op.useGlobalInstancingVertexBufferIsAvailable)
-        {
-            numberOfInstances *= getGlobalNumberOfInstances();
-        }
 
         // Call super class
         RenderSystem::_render(op);
@@ -2746,11 +2720,6 @@ namespace Ogre
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Attribute not found: " + name, "RenderSystem::getCustomAttribute");
         }
-    }
-    //---------------------------------------------------------------------
-    bool D3D11RenderSystem::_getDepthBufferCheckEnabled( void )
-    {
-        return mDepthStencilDesc.DepthEnable == TRUE;
     }
     //---------------------------------------------------------------------
     D3D11HLSLProgram* D3D11RenderSystem::_getBoundVertexProgram() const

@@ -51,11 +51,61 @@ namespace Ogre
         }
     }
 
+    bool LodCollapseCost::isEdgeCollapsible(LodData::Vertex * src, LodData::Vertex * dst)
+    {
+        // For every primitive on the src vertex we need a primitive in the same submesh connecting src and dst.
+        if (mPreventPunchingHoles)
+        {
+            for (auto & testTri : src->triangles)
+            {
+                auto srcSubmeshID = testTri->submeshID;
+                bool canConnect = false;
+
+                for (auto & solveTri : dst->triangles)
+                {
+                    if (solveTri->submeshID == srcSubmeshID && solveTri->hasVertex(src) && solveTri->hasVertex(dst))
+                    {
+                        canConnect = true;
+                        break;
+                    }
+                }
+
+                if (canConnect == false)
+                    return false;
+            }
+        }
+        if (mPreventBreakingLines)
+        {
+            for (auto & testLine : src->lines)
+            {
+                auto srcSubmeshID = testLine->submeshID;
+                bool canConnect = false;
+
+                for (auto & solveLine : dst->lines)
+                {
+                    if (solveLine->submeshID == srcSubmeshID && solveLine->hasVertex(src) && solveLine->hasVertex(dst))
+                    {
+                        canConnect = true;
+                        break;
+                    }
+                }
+
+                if (canConnect == false)
+                    return false;
+            }
+        }
+        return true;
+    }
+
     void LodCollapseCost::computeVertexCollapseCost( LodData* data, LodData::Vertex* vertex, Real& collapseCost, LodData::Vertex*& collapseTo )
     {
         LodData::VEdges::iterator it = vertex->edges.begin();
         for (; it != vertex->edges.end(); ++it) {
-            it->collapseCost = computeEdgeCollapseCost(data, vertex, &*it);
+            if (isEdgeCollapsible(vertex, it->dst)) {
+                it->collapseCost = computeEdgeCollapseCost(data, vertex, &*it);
+            } else {
+                it->collapseCost = LodData::NEVER_COLLAPSE_COST;
+            }
             if (collapseCost > it->collapseCost) {
                 collapseCost = it->collapseCost;
                 collapseTo = it->dst;
