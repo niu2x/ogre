@@ -64,18 +64,8 @@ OGRE_THREAD_SUPPORT = 3
 */
 #define OGRE_THREAD_SUPPORT @OGRE_SET_THREADS@
 
-/** Provider for threading functionality, there are 4 options.
-
-OGRE_THREAD_PROVIDER = 0
-    No support for threading.
-OGRE_THREAD_PROVIDER = 1
-    Boost libraries provide threading functionality.
-OGRE_THREAD_PROVIDER = 2
-    Poco libraries provide threading functionality.
-OGRE_THREAD_PROVIDER = 4
-    Standard library provides threading functionality. (requires compiler support)
-*/
-#define OGRE_THREAD_PROVIDER @OGRE_SET_THREAD_PROVIDER@
+/** Provider for threading functionality, there are 4 options. */
+#cmakedefine01 XDOG_USE_STD_THREAD
 
 #cmakedefine01 OGRE_NO_MESHLOD
 

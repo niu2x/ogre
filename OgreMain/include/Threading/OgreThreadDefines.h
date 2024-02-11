@@ -27,16 +27,11 @@ THE SOFTWARE
 #define __OgreThreadDefines_H__
 
 #define OGRE_AUTO_MUTEX_NAME mutex
-#if OGRE_THREAD_PROVIDER == 0
-    #include "OgreThreadDefinesNone.h"
-#elif OGRE_THREAD_PROVIDER == 1
-    #include "OgreThreadDefinesBoost.h"
-#elif OGRE_THREAD_PROVIDER == 2
-    #include "OgreThreadDefinesPoco.h"
-#elif OGRE_THREAD_PROVIDER == 3
-    #include "OgreThreadDefinesTBB.h"
-#elif OGRE_THREAD_PROVIDER == 4
+
+#if XDOG_USE_STD_THREAD
    #include "OgreThreadDefinesSTD.h"
+#else
+    #include "OgreThreadDefinesNone.h"
 #endif
 
 #if OGRE_THREAD_SUPPORT == 3

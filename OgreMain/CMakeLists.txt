@@ -80,29 +80,16 @@ endif()
 file(GLOB THREAD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/include/Threading/*.h")
 include_directories("include/Threading" "src/")
 
-if (OGRE_THREAD_PROVIDER EQUAL 0)
-	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesNone.h
-	)
-elseif (OGRE_THREAD_PROVIDER EQUAL 1)
-  include_directories(${Boost_INCLUDE_DIRS})
-  link_directories(${Boost_LIBRARY_DIRS})
-
-	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesBoost.h
-		include/Threading/OgreThreadHeadersBoost.h
-	)
-elseif (OGRE_THREAD_PROVIDER EQUAL 2)
-	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesPoco.h
-		include/Threading/OgreThreadHeadersPoco.h
-	)
-elseif (OGRE_THREAD_PROVIDER EQUAL 4)
-	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesSTD.h
-		include/Threading/OgreThreadHeadersSTD.h
-	)
-endif ()
+if(XDOG_USE_STD_THREAD)
+  list(APPEND THREAD_HEADER_FILES
+    include/Threading/OgreThreadDefinesSTD.h
+    include/Threading/OgreThreadHeadersSTD.h
+  )
+else()
+  list(APPEND THREAD_HEADER_FILES
+    include/Threading/OgreThreadDefinesNone.h
+  )
+endif()
 
 list(APPEND HEADER_FILES ${THREAD_HEADER_FILES})
 
