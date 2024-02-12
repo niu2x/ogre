@@ -26,7 +26,7 @@ THE SOFTWARE.
 */
 #include "OgreVolumeHalfFloatGridSource.h"
 #include "OgreRoot.h"
-#include "OgreDeflate.h"
+#include "deflate.h"
 #include "OgreStreamSerialiser.h"
 #include "OgreBitwise.h"
 #include "OgreMemoryAllocatorConfig.h"

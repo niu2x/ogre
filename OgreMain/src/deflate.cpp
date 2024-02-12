@@ -29,7 +29,7 @@
 
 #if OGRE_NO_ZIP_ARCHIVE == 0
 
-#include "OgreDeflate.h"
+#include "deflate.h"
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS || OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #include "macUtils.h"
 #endif
@@ -39,6 +39,11 @@
 
 namespace Ogre
 {
+    static int window_bits(DeflateStream::StreamType t) {
+        using StreamType = DeflateStream:: StreamType;
+        return (t == StreamType::Deflate) ? -MAX_WBITS : (t == StreamType::GZip) ? 16 + MAX_WBITS : MAX_WBITS;
+    }
+
     // memory implementations
     static void* OgreZalloc(void* opaque, size_t items, size_t size)
     {
@@ -53,13 +58,13 @@ namespace Ogre
     DeflateStream::DeflateStream(const DataStreamPtr& compressedStream, const String& tmpFileName, size_t avail_in)
     : DataStream()
     ,access_(compressedStream->access_mode())
-    , mCompressedStream(compressedStream)
-    , mTempFileName(tmpFileName)
-    , mZStream(0)
-    , mCurrentPos(0)
-    , mAvailIn(avail_in)
-    , mTmp(0)
-    , mStreamType(ZLib)
+    , compressed_stream_(compressedStream)
+    , temp_file_name_(tmpFileName)
+    , z_stream_(0)
+    , current_pos_(0)
+    , avail_in_(avail_in)
+    , tmp_(0)
+    , stream_type_(StreamType::ZLib)
     {
         init();
     }
@@ -67,13 +72,13 @@ namespace Ogre
     DeflateStream::DeflateStream(const String& name, const DataStreamPtr& compressedStream, const String& tmpFileName, size_t avail_in)
     : DataStream(name)
     ,access_(compressedStream->access_mode())
-    , mCompressedStream(compressedStream)
-    , mTempFileName(tmpFileName)
-    , mZStream(0)
-    , mCurrentPos(0)
-    , mAvailIn(avail_in)
-    , mTmp(0)
-    , mStreamType(ZLib)
+    , compressed_stream_(compressedStream)
+    , temp_file_name_(tmpFileName)
+    , z_stream_(0)
+    , current_pos_(0)
+    , avail_in_(avail_in)
+    , tmp_(0)
+    , stream_type_(StreamType::ZLib)
     {
         init();
     }
@@ -81,27 +86,27 @@ namespace Ogre
     DeflateStream::DeflateStream(const String& name, const DataStreamPtr& compressedStream, StreamType streamType, const String& tmpFileName, size_t avail_in)
     : DataStream(name)
     ,access_(compressedStream->access_mode())
-    , mCompressedStream(compressedStream)
-    , mTempFileName(tmpFileName)
-    , mZStream(0)
-    , mCurrentPos(0)
-    , mAvailIn(avail_in)
-    , mTmp(0)
-    , mStreamType(streamType)
+    , compressed_stream_(compressedStream)
+    , temp_file_name_(tmpFileName)
+    , z_stream_(0)
+    , current_pos_(0)
+    , avail_in_(avail_in)
+    , tmp_(0)
+    , stream_type_(streamType)
     {
         init();
     }
     //---------------------------------------------------------------------
-    size_t DeflateStream::getAvailInForSinglePass()
+    size_t DeflateStream::avail_in_for_single_pass()
     {
         size_t ret = OGRE_DEFLATE_TMP_SIZE;
 
         // if we are doing particial-uncompressing
-        if(mAvailIn>0)
+        if(avail_in_>0)
         {
-            if(mAvailIn<ret)
-                ret = mAvailIn;
-            mAvailIn -= ret;
+            if(avail_in_<ret)
+                ret = avail_in_;
+            avail_in_ -= ret;
         }
 
         return ret;
@@ -109,52 +114,52 @@ namespace Ogre
     //---------------------------------------------------------------------
     void DeflateStream::init()
     {
-        mZStream = OGRE_ALLOC_T(z_stream, 1, MEMCATEGORY_GENERAL);
-        mZStream->zalloc = OgreZalloc;
-        mZStream->zfree = OgreZfree;
+        z_stream_ = OGRE_ALLOC_T(ZStream, 1, MEMCATEGORY_GENERAL);
+        z_stream_->zalloc = OgreZalloc;
+        z_stream_->zfree = OgreZfree;
         
         if (access_mode() == READ)
         {
-            mTmp = (unsigned char*)OGRE_MALLOC(OGRE_DEFLATE_TMP_SIZE, MEMCATEGORY_GENERAL);
-            size_t restorePoint = mCompressedStream->tell();
+            tmp_ = (unsigned char*)OGRE_MALLOC(OGRE_DEFLATE_TMP_SIZE, MEMCATEGORY_GENERAL);
+            size_t restorePoint = compressed_stream_->tell();
             // read early chunk
-            mZStream->next_in = mTmp;
-            mZStream->avail_in = static_cast<uint>(mCompressedStream->read(mTmp, getAvailInForSinglePass()));
+            z_stream_->next_in = tmp_;
+            z_stream_->avail_in = static_cast<uint>(compressed_stream_->read(tmp_, avail_in_for_single_pass()));
             
-            int windowBits = (mStreamType == Deflate) ? -MAX_WBITS : (mStreamType == GZip) ? 16 + MAX_WBITS : MAX_WBITS;
-            if (inflateInit2(mZStream, windowBits) != Z_OK)
+            int windowBits = window_bits(stream_type_);
+            if (inflateInit2(z_stream_, windowBits) != Z_OK)
             {
-                mStreamType = Invalid;
+                stream_type_ = StreamType::Invalid;
             }
             
-            if (mStreamType != Invalid)
+            if (stream_type_ != StreamType::Invalid)
             {
                 // in fact, inflateInit on some implementations doesn't try to read
                 // anything. We need to at least read something to test
                 Bytef testOut[4];
-                size_t savedIn = mZStream->avail_in;
-                mZStream->avail_out = 4;
-                mZStream->next_out = testOut;
-                if (inflate(mZStream, Z_SYNC_FLUSH) != Z_OK)
-                    mStreamType = Invalid;
+                size_t savedIn = z_stream_->avail_in;
+                z_stream_->avail_out = 4;
+                z_stream_->next_out = testOut;
+                if (inflate(z_stream_, Z_SYNC_FLUSH) != Z_OK)
+                    stream_type_ = StreamType:: Invalid;
                 // restore for reading
-                mZStream->avail_in = static_cast<uint>(savedIn);
-                mZStream->next_in = mTmp;
+                z_stream_->avail_in = static_cast<uint>(savedIn);
+                z_stream_->next_in = tmp_;
 
-                inflateReset(mZStream);
+                inflateReset(z_stream_);
             }
 
-            if (mStreamType == Invalid)
+            if (stream_type_ == StreamType::Invalid)
             {
                 // Not compressed data!
                 // Fail gracefully, fall back on reading the underlying stream direct
                 destroy();
-                mCompressedStream->seek(restorePoint);
+                compressed_stream_->seek(restorePoint);
             }               
         }
         else 
         {
-            if(mTempFileName.empty())
+            if(temp_file_name_.empty())
             {
                 // Write to temp file
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
@@ -166,21 +171,21 @@ namespace Ogre
                 }
                 else
                 {
-                    mTempFileName = tmpname;
+                    temp_file_name_ = tmpname;
                     free(tmpname);
                 }
 #elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS || OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-                mTempFileName = macTempFileName();
+                temp_file_name_ = macTempFileName();
 #else
                 char tmpname[] = "/tmp/ogreXXXXXX";
                 if (mkstemp(tmpname) == -1)
                     OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "Temporary file name generation failed.", "DeflateStream::init");
 
-                mTempFileName = tmpname;
+                temp_file_name_ = tmpname;
 #endif
             }
 
-            mTmpWriteStream = _openFileStream(mTempFileName, std::ios::binary | std::ios::out);
+            tmp_write_stream_ = _openFileStream(temp_file_name_, std::ios::binary | std::ios::out);
             
         }
 
@@ -189,12 +194,12 @@ namespace Ogre
     void DeflateStream::destroy()
     {
         if (access_mode() == READ)
-            inflateEnd(mZStream);
+            inflateEnd(z_stream_);
 
-        OGRE_FREE(mZStream, MEMCATEGORY_GENERAL);
-        mZStream = 0;
-        OGRE_FREE(mTmp, MEMCATEGORY_GENERAL);
-        mTmp = 0;
+        OGRE_FREE(z_stream_, MEMCATEGORY_GENERAL);
+        z_stream_ = 0;
+        OGRE_FREE(tmp_, MEMCATEGORY_GENERAL);
+        tmp_ = 0;
     }
     //---------------------------------------------------------------------
     DeflateStream::~DeflateStream()
@@ -204,57 +209,57 @@ namespace Ogre
     //---------------------------------------------------------------------
     size_t DeflateStream::read(void* buf, size_t count)
     {
-        if (mStreamType == Invalid)
+        if (stream_type_ == StreamType::Invalid)
         {
-            return mCompressedStream->read(buf, count);
+            return compressed_stream_->read(buf, count);
         }
         
         if (access_mode() & WRITE)
         {
-            return mTmpWriteStream->read(buf, count);
+            return tmp_write_stream_->read(buf, count);
         }
         else 
         {
 
-            size_t restorePoint = mCompressedStream->tell();
+            size_t restorePoint = compressed_stream_->tell();
             // read from cache first
-            size_t cachereads = mReadCache.read(buf, count);
+            size_t cachereads = read_cache_.read(buf, count);
             
             size_t newReadUncompressed = 0;
 
             if (cachereads < count)
             {
-                mZStream->avail_out = static_cast<uint>(count - cachereads);
-                mZStream->next_out = (Bytef*)buf + cachereads;
+                z_stream_->avail_out = static_cast<uint>(count - cachereads);
+                z_stream_->next_out = (Bytef*)buf + cachereads;
                 
-                while (mZStream->avail_out)
+                while (z_stream_->avail_out)
                 {
                     // Pull next chunk of compressed data from the underlying stream
-                    if (!mZStream->avail_in && !mCompressedStream->eof())
+                    if (!z_stream_->avail_in && !compressed_stream_->eof())
                     {
-                        mZStream->avail_in = static_cast<uint>(mCompressedStream->read(mTmp, getAvailInForSinglePass()));
-                        mZStream->next_in = mTmp;
+                        z_stream_->avail_in = static_cast<uint>(compressed_stream_->read(tmp_, avail_in_for_single_pass()));
+                        z_stream_->next_in = tmp_;
                     }
                     
-                    if (mZStream->avail_in || mZStream->avail_out)
+                    if (z_stream_->avail_in || z_stream_->avail_out)
                     {
-                        int availpre = mZStream->avail_out;
-                        mStatus = inflate(mZStream, Z_SYNC_FLUSH);
-                        size_t readUncompressed = availpre - mZStream->avail_out;
+                        int availpre = z_stream_->avail_out;
+                        status_ = inflate(z_stream_, Z_SYNC_FLUSH);
+                        size_t readUncompressed = availpre - z_stream_->avail_out;
                         newReadUncompressed += readUncompressed;
-                        if (mStatus != Z_OK)
+                        if (status_ != Z_OK)
                         {
                             // End of data, or error
-                            if (mStatus != Z_STREAM_END)
+                            if (status_ != Z_STREAM_END)
                             {
-                                mCompressedStream->seek(restorePoint);
+                                compressed_stream_->seek(restorePoint);
                                 OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Error in compressed stream");
                             }
                             else 
                             {
                                 // back up the stream so that it can be used from the end onwards                                                   
-                                long unusedCompressed = mZStream->avail_in;
-                                mCompressedStream->skip(-unusedCompressed);
+                                long unusedCompressed = z_stream_->avail_in;
+                                compressed_stream_->skip(-unusedCompressed);
                             }
 
                             break;
@@ -263,10 +268,10 @@ namespace Ogre
                 }
             
                 // Cache the last bytes read not from cache
-                mReadCache.cacheData((char*)buf + cachereads, newReadUncompressed);
+                read_cache_.cache_data((char*)buf + cachereads, newReadUncompressed);
             }
             
-            mCurrentPos += newReadUncompressed + cachereads;
+            current_pos_ += newReadUncompressed + cachereads;
             
             return newReadUncompressed + cachereads;
         }
@@ -278,18 +283,18 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                         "Not a writable stream", "DeflateStream::write");
         
-        return mTmpWriteStream->write(buf, count);
+        return tmp_write_stream_->write(buf, count);
     }
     //---------------------------------------------------------------------
-    void DeflateStream::compressFinal()
+    void DeflateStream::compress_final()
     {
         // Prevent reenterancy
-        if( !mTmpWriteStream )
+        if( !tmp_write_stream_ )
             return;
         
         // Close temp stream
-        mTmpWriteStream->close();
-        mTmpWriteStream.reset();
+        tmp_write_stream_->close();
+        tmp_write_stream_.reset();
         
         // Copy & compress
         // We do this rather than compress directly because some code seeks
@@ -300,8 +305,9 @@ namespace Ogre
         char in[OGRE_DEFLATE_TMP_SIZE];
         char out[OGRE_DEFLATE_TMP_SIZE];
         
-        int windowBits = (mStreamType == Deflate) ? -MAX_WBITS : (mStreamType == GZip) ? 16 + MAX_WBITS : MAX_WBITS;
-        if (deflateInit2(mZStream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK)
+        int windowBits = window_bits(stream_type_);
+
+        if (deflateInit2(z_stream_, Z_DEFAULT_COMPRESSION, Z_DEFLATED, windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK)
         {
             destroy();
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, 
@@ -310,63 +316,64 @@ namespace Ogre
         }
         
         std::ifstream inFile;
-        inFile.open(mTempFileName.c_str(), std::ios::in | std::ios::binary);
+        inFile.open(temp_file_name_.c_str(), std::ios::in | std::ios::binary);
         
         do 
         {
             inFile.read(in, OGRE_DEFLATE_TMP_SIZE);
-            mZStream->avail_in = (uInt)inFile.gcount();
+            z_stream_->avail_in = (uInt)inFile.gcount();
             if (inFile.bad()) 
             {
-                deflateEnd(mZStream);
+                deflateEnd(z_stream_);
                 OGRE_EXCEPT(Exception::ERR_INVALID_STATE, 
                             "Error reading temp uncompressed stream!",
                             "DeflateStream::init");
             }
             flush = inFile.eof() ? Z_FINISH : Z_NO_FLUSH;
-            mZStream->next_in = (Bytef*)in;
+            z_stream_->next_in = (Bytef*)in;
             
             /* run deflate() on input until output buffer not full, finish
              compression if all of source has been read in */
             do 
             {
-                mZStream->avail_out = OGRE_DEFLATE_TMP_SIZE;
-                mZStream->next_out = (Bytef*)out;
-                ret = deflate(mZStream, flush);    /* no bad return value */
+                z_stream_->avail_out = OGRE_DEFLATE_TMP_SIZE;
+                z_stream_->next_out = (Bytef*)out;
+                ret = deflate(z_stream_, flush);    /* no bad return value */
                 assert(ret != Z_STREAM_ERROR);  /* state not clobbered */
-                size_t compressed = OGRE_DEFLATE_TMP_SIZE - mZStream->avail_out;
-                mCompressedStream->write(out, compressed);
-            } while (mZStream->avail_out == 0);
-            assert(mZStream->avail_in == 0);     /* all input will be used */
+                size_t compressed = OGRE_DEFLATE_TMP_SIZE - z_stream_->avail_out;
+                compressed_stream_->write(out, compressed);
+            } while (z_stream_->avail_out == 0);
+            assert(z_stream_->avail_in == 0);     /* all input will be used */
             
             /* done when last data in file processed */
         } while (flush != Z_FINISH);
+
         assert(ret == Z_STREAM_END);        /* stream will be complete */
-                (void)ret;
-        deflateEnd(mZStream);
+        (void)ret;
+        deflateEnd(z_stream_);
 
         inFile.close();
-        remove(mTempFileName.c_str());
+        remove(temp_file_name_.c_str());
                         
     }
     //---------------------------------------------------------------------
     void DeflateStream::skip(long count)
     {
-        if (mStreamType == Invalid)
+        if (stream_type_ == StreamType::Invalid)
         {
-            mCompressedStream->skip(count);
+            compressed_stream_->skip(count);
             return;
         }
         
         if (access_mode() & WRITE)
         {
-            mTmpWriteStream->skip(count);
+            tmp_write_stream_->skip(count);
         }
         else 
         {
             if (count > 0)
             {
-                if (!mReadCache.ff(count))
+                if (!read_cache_.ff(count))
                 {
                     OGRE_EXCEPT(Exception::ERR_INVALID_STATE, 
                                 "You can only skip within the cache range in a deflate stream.",
@@ -375,7 +382,7 @@ namespace Ogre
             }
             else if (count < 0)
             {
-                if (!mReadCache.rewind((size_t)(-count)))
+                if (!read_cache_.rewind((size_t)(-count)))
                 {
                     OGRE_EXCEPT(Exception::ERR_INVALID_STATE, 
                                 "You can only skip within the cache range in a deflate stream.",
@@ -383,32 +390,32 @@ namespace Ogre
                 }
             }
         }       
-        mCurrentPos = static_cast<size_t>(static_cast<long>(mCurrentPos) + count);
+        current_pos_ = static_cast<size_t>(static_cast<long>(current_pos_) + count);
         
         
     }
     //---------------------------------------------------------------------
     void DeflateStream::seek( size_t pos )
     {
-        if (mStreamType == Invalid)
+        if (stream_type_ == StreamType:: Invalid)
         {
-            mCompressedStream->seek(pos);
+            compressed_stream_->seek(pos);
             return;
         }
         if (access_mode() & WRITE)
         {
-            mTmpWriteStream->seek(pos);
+            tmp_write_stream_->seek(pos);
         }
         else
         {
             if (pos == 0)
             {
-                mCurrentPos = 0;
-                mZStream->next_in = mTmp;
-                mCompressedStream->seek(0);
-                mZStream->avail_in = static_cast<uint>(mCompressedStream->read(mTmp, getAvailInForSinglePass()));
-                inflateReset(mZStream);
-                mReadCache.clear();
+                current_pos_ = 0;
+                z_stream_->next_in = tmp_;
+                compressed_stream_->seek(0);
+                z_stream_->avail_in = static_cast<uint>(compressed_stream_->read(tmp_, avail_in_for_single_pass()));
+                inflateReset(z_stream_);
+                read_cache_.clear();
             }
             else 
             {
@@ -419,17 +426,17 @@ namespace Ogre
     //---------------------------------------------------------------------
     size_t DeflateStream::tell(void) const
     {
-        if (mStreamType == Invalid)
+        if (stream_type_ == StreamType:: Invalid)
         {
-            return mCompressedStream->tell();
+            return compressed_stream_->tell();
         }
         else if(access_mode() & WRITE) 
         {
-            return mTmpWriteStream->tell();
+            return tmp_write_stream_->tell();
         }
         else
         {
-            return mCurrentPos;
+            return current_pos_;
         }
 
     }
@@ -437,20 +444,20 @@ namespace Ogre
     bool DeflateStream::eof(void) const
     {
         if (access_mode() & WRITE)
-            return mTmpWriteStream->eof();
+            return tmp_write_stream_->eof();
         else 
         {
-            if (mStreamType == Invalid)
-                return mCompressedStream->eof();
+            if (stream_type_ == StreamType::Invalid)
+                return compressed_stream_->eof();
             else
-                return mCompressedStream->eof() && mStatus == Z_STREAM_END;
+                return compressed_stream_->eof() && status_ == Z_STREAM_END;
         }
     }
     //---------------------------------------------------------------------
     void DeflateStream::close(void)
     {
         if (access_mode() & WRITE)
-            compressFinal();
+            compress_final();
 
         destroy();
 

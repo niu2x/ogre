@@ -255,14 +255,14 @@ namespace Ogre {
         MemoryDataStream(const String& name, DataStream* sourceStream, 
                 bool freeOnClose = true, bool readOnly = false);
 
-        MemoryDataStream(const String& name, DataStreamPtr source, 
+        MemoryDataStream(const String& name, const DataStreamPtr& source, 
                 bool freeOnClose = true, bool readOnly = false) 
         :MemoryDataStream(name, source.get(), freeOnClose, readOnly)
         {
 
         }
 
-        MemoryDataStream( DataStreamPtr source, 
+        MemoryDataStream( const DataStreamPtr& source, 
                 bool freeOnClose = true, bool readOnly = false) 
         :MemoryDataStream(source.get(), freeOnClose, readOnly)
         {

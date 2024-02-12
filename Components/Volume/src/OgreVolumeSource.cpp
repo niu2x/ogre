@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "OgreVolumeSource.h"
 
 #include "OgreRoot.h"
-#include "OgreDeflate.h"
+#include "deflate.h"
 #include "OgreStreamSerialiser.h"
 #include "OgreBitwise.h"
 

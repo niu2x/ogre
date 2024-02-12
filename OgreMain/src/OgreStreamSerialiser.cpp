@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreStableHeaders.h"
 
 #include "OgreStreamSerialiser.h"
-#include "OgreDeflate.h"
+#include "deflate.h"
 
 namespace Ogre
 {

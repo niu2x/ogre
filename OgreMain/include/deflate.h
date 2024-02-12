@@ -36,65 +36,57 @@
 
 /// forward decls
 struct mz_stream_s;
-typedef struct mz_stream_s z_stream;
+using ZStream = struct mz_stream_s;
 
 namespace Ogre
 {
     /** Template version of cache based on static array.
-     'cacheSize' defines size of cache in bytes. */
-    template <size_t cacheSize>
+     'cache_size' defines size of cache in bytes. */
+    template <size_t cache_size>
     class StaticCache
     {
-    private:
-        /// Static buffer
-        char mBuffer[cacheSize];
-
-        /// Number of bytes valid in cache (written from the beginning of static buffer)
-        size_t mValidBytes;
-        /// Current read position
-        size_t mPos;
     public:
         /// Constructor
         StaticCache()
         {
-            mValidBytes = 0;
-            mPos = 0;
-            memset(mBuffer, 0, cacheSize);
+            valid_bytes_ = 0;
+            pos_ = 0;
+            memset(buf_, 0, cache_size);
         }
 
         /** Cache data pointed by 'buf'. If 'count' is greater than cache size, we cache only last bytes.
          Returns number of bytes written to cache. */
-        size_t cacheData(const void* buf, size_t count)
+        size_t cache_data(const void* buf, size_t count)
         {
             assert(avail() == 0 && "It is assumed that you cache data only after you have read everything.");
 
-            if (count < cacheSize)
+            if (count < cache_size)
             {
                 // number of bytes written is less than total size of cache
-                if (count + mValidBytes <= cacheSize)
+                if (count + valid_bytes_ <= cache_size)
                 {
                     // just append
-                    memcpy(mBuffer + mValidBytes, buf, count);
-                    mValidBytes += count;
+                    memcpy(buf_ + valid_bytes_, buf, count);
+                    valid_bytes_ += count;
                 }
                 else
                 {
-                    size_t begOff = count - (cacheSize - mValidBytes);
+                    size_t begOff = count - (cache_size - valid_bytes_);
                     // override old cache content in the beginning
-                    memmove(mBuffer, mBuffer + begOff, mValidBytes - begOff);
+                    memmove(buf_, buf_ + begOff, valid_bytes_ - begOff);
                     // append new data
-                    memcpy(mBuffer + cacheSize - count, buf, count);
-                    mValidBytes = cacheSize;
+                    memcpy(buf_ + cache_size - count, buf, count);
+                    valid_bytes_ = cache_size;
                 }
-                mPos = mValidBytes;
+                pos_ = valid_bytes_;
                 return count;
             }
             else
             {
                 // discard all
-                memcpy(mBuffer, (const char*)buf + count - cacheSize, cacheSize);
-                mValidBytes = mPos = cacheSize;
-                return cacheSize;
+                memcpy(buf_, (const char*)buf + count - cache_size, cache_size);
+                valid_bytes_ = pos_ = cache_size;
+                return cache_size;
             }
         }
         /** Read data from cache to 'buf' (maximum 'count' bytes). Returns number of bytes read from cache. */
@@ -102,22 +94,22 @@ namespace Ogre
         {
             size_t rb = avail();
             rb = (rb < count) ? rb : count;
-            memcpy(buf, mBuffer + mPos, rb);
-            mPos += rb;
+            memcpy(buf, buf_ + pos_, rb);
+            pos_ += rb;
             return rb;
         }
 
         /** Step back in cached stream by 'count' bytes. Returns 'true' if cache contains resulting position. */
         bool rewind(size_t count)
         {
-            if (mPos < count)
+            if (pos_ < count)
             {
                 clear();
                 return false;
             }
             else
             {
-                mPos -= count;
+                pos_ -= count;
                 return true;
             }
         }
@@ -131,7 +123,7 @@ namespace Ogre
             }
             else
             {
-                mPos += count;
+                pos_ += count;
                 return true;
             }
         }
@@ -139,15 +131,23 @@ namespace Ogre
         /** Returns number of bytes available for reading in cache after rewinding. */
         size_t avail() const
         {
-            return mValidBytes - mPos;
+            return valid_bytes_ - pos_;
         }
 
         /** Clear the cache */
         void clear()
         {
-            mValidBytes = 0;
-            mPos = 0;
+            valid_bytes_ = 0;
+            pos_ = 0;
         }
+    private:
+        /// Static buffer
+        char buf_[cache_size];
+
+        /// Number of bytes valid in cache (written from the beginning of static buffer)
+        size_t valid_bytes_;
+        /// Current read position
+        size_t pos_;
     };
 
     /** Stream which compresses / uncompresses data using the 'deflate' compression
@@ -164,13 +164,13 @@ namespace Ogre
         Also note that this cannot be used as a read / write stream, only a read-only
         or write-only stream.
     */
-    class _OgreExport DeflateStream : public DataStream
+    class  DeflateStream : public DataStream
     {
     public:
         /** Requested stream type. All are essentially the same deflate stream with varying wrapping.
             ZLib is used by default.
         */
-        enum StreamType
+        enum class StreamType
         {
             Invalid = -1, /// Unexpected stream type or uncompressed data
             Deflate = 0,  /// no header, no checksum, rfc1951
@@ -218,7 +218,7 @@ namespace Ogre
             deflate algorithm, this method returns false and all read commands
             will actually be executed as passthroughs as a fallback. 
         */
-        bool isCompressedStreamValid() const { return mStreamType != Invalid; }
+        bool compressed_stream_valid() const { return stream_type_ != StreamType:: Invalid; }
         
         /** @copydoc DataStream::read
          */
@@ -253,29 +253,29 @@ namespace Ogre
         }
 
     private:
-        DataStreamPtr mCompressedStream;
-        DataStreamPtr mTmpWriteStream;
-        String mTempFileName;
-        z_stream* mZStream;
-        int mStatus;
-        size_t mCurrentPos;
-        size_t mAvailIn;
+        DataStreamPtr compressed_stream_;
+        DataStreamPtr tmp_write_stream_;
+        String temp_file_name_;
+        ZStream* z_stream_;
+        int status_;
+        size_t current_pos_;
+        size_t avail_in_;
         uint16_t access_;
         
         /// Cache for read data in case skipping around
-        StaticCache<16 * XDOG_STREAM_TEMP_SIZE> mReadCache;
+        StaticCache<16 * XDOG_STREAM_TEMP_SIZE> read_cache_;
         
         /// Intermediate buffer for read / write
-        unsigned char *mTmp;
+        uint8_t *tmp_;
         
         /// Whether the underlying stream is valid compressed data
-        StreamType mStreamType;
+        StreamType stream_type_;
         
         void init();
         void destroy();
-        void compressFinal();
+        void compress_final();
 
-        size_t getAvailInForSinglePass();
+        size_t avail_in_for_single_pass();
         
     };
 }
