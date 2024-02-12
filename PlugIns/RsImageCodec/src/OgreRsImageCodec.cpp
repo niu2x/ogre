@@ -5,7 +5,7 @@
 
 #include "OgreRsImageCodec.h"
 #include "OgreLogManager.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreImage.h"
 
 enum ColorType
@@ -135,7 +135,7 @@ void RsImageCodec::encodeToFile(const Any& input, const String& outFileName) con
 void RsImageCodec::decode(const DataStreamPtr& input, const Any& output) const
 {
     auto image =std::any_cast<Image*>(output);
-    String contents = input->getAsString();
+    String contents = input->as_string();
 
     uint width, height;
     ColorType t;

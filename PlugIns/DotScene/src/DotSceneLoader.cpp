@@ -141,7 +141,7 @@ void DotSceneLoader::load(DataStreamPtr& stream, const String& groupName, SceneN
 
     pugi::xml_document XMLDoc; // character type defaults to char
 
-    auto result = XMLDoc.load_buffer(stream->getAsString().c_str(), stream->size());
+    auto result = XMLDoc.load_buffer(stream->as_string().c_str(), stream->size());
     if (!result)
     {
         LogManager::getSingleton().logError("DotSceneLoader - " + String(result.description()));

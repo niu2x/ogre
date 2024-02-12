@@ -10,7 +10,7 @@
 #include "OgreRenderWindow.h"
 #include "OgreViewport.h"
 #include "OgreOverlaySystem.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreBitesConfigDialog.h"
 #include "OgreWindowEventUtilities.h"
 #include "OgreSceneNode.h"

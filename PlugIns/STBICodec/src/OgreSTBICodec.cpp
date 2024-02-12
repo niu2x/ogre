@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreSTBICodec.h"
 #include "OgreLogManager.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreImage.h"
 
 #include "OgrePlatformInformation.h"
@@ -167,7 +167,7 @@ namespace Ogre {
     void STBIImageCodec::decode(const DataStreamPtr& input, const Any& output) const
     {
         auto image = std::any_cast<Image*>(output);
-        String contents = input->getAsString();
+        String contents = input->as_string();
 
         int width, height, components;
         stbi_uc* pixelData = stbi_load_from_memory((const uchar*)contents.data(),

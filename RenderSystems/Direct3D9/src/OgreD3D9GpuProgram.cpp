@@ -149,7 +149,7 @@ namespace Ogre {
                 DataStreamPtr stream = 
                     ResourceGroupManager::getSingleton().openResource(
                     mFilename, mGroup, true, this);
-                mSource = stream->getAsString();
+                mSource = stream->as_string();
             }
 
             // Call polymorphic load

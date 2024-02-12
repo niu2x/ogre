@@ -365,7 +365,7 @@ namespace Ogre
             outSource.append("#line 1 " + incLineFilename + "\n");
 
             // recurse into include
-            outSource.append(_resolveIncludes(resource->getAsString(), resourceBeingLoaded, filename, supportsFilename));
+            outSource.append(_resolveIncludes(resource->as_string(), resourceBeingLoaded, filename, supportsFilename));
 
             // Add #line to the end of the included file to correct the line count.
             // +1 as #line specifies the number of the following line

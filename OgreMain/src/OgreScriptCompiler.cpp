@@ -516,7 +516,7 @@ namespace Ogre
             if (!stream)
                 return retval;
 
-            nodes = ScriptParser::parse(ScriptLexer::tokenize(stream->getAsString(), name), name);
+            nodes = ScriptParser::parse(ScriptLexer::tokenize(stream->as_string(), name), name);
         }
 
         if(nodes)
@@ -1604,7 +1604,7 @@ namespace Ogre
     void ScriptCompilerManager::parseScript(DataStreamPtr& stream, const String& groupName)
     {
         ConcreteNodeListPtr nodes =
-            ScriptParser::parse(ScriptLexer::tokenize(stream->getAsString(), stream->getName()), stream->getName());
+            ScriptParser::parse(ScriptLexer::tokenize(stream->as_string(), stream->name()), stream->name());
         {
             // compile is not reentrant
             

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreBspPrerequisites.h"
 #include "OgreQuake3Types.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 
 
 namespace Ogre {

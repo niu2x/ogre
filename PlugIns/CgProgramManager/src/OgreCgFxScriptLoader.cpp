@@ -2723,7 +2723,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void CgFxScriptLoader::parseScript( DataStreamPtr& stream, const String& groupName )
     {
-        String streamAsString = stream->getAsString();
+        String streamAsString = stream->as_string();
 
         MaterialPtr ogreMaterial = MaterialManager::getSingleton().create(stream->getName(), groupName);
 

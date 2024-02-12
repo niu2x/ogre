@@ -31,7 +31,7 @@
 
 #include "OgreLodPrerequisites.h"
 
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreSerializer.h"
 
 namespace Ogre

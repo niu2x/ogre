@@ -143,14 +143,14 @@ namespace Ogre
         CapabilitiesLinesList capabilitiesLines;
 
         // for reading data
-        char tmpBuf[OGRE_STREAM_TEMP_SIZE]; 
+        char tmpBuf[XDOG_STREAM_TEMP_SIZE]; 
 
 
         // TODO: build a smarter tokenizer so that "{" and "}"
         // don't need separate lines
         while (!stream->eof())
         {
-            stream->readLine(tmpBuf, OGRE_STREAM_TEMP_SIZE-1);
+            stream->read_line(tmpBuf, XDOG_STREAM_TEMP_SIZE-1);
             line = String(tmpBuf);
             StringUtil::trim(line);
 
@@ -459,13 +459,13 @@ namespace Ogre
         if (mCurrentLine != 0 && mCurrentStream)
         {
             LogManager::getSingleton().logMessage(
-                "Error in .rendercaps " + mCurrentStream->getName() + ":" + StringConverter::toString(mCurrentLineNumber) +
+                "Error in .rendercaps " + mCurrentStream->name() + ":" + StringConverter::toString(mCurrentLineNumber) +
                 " : " + error);
         }
         else if (mCurrentStream)
         {
             LogManager::getSingleton().logMessage(
-                "Error in .rendercaps " + mCurrentStream->getName() +
+                "Error in .rendercaps " + mCurrentStream->name() +
                 " : " + error);
         }
     }

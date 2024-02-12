@@ -51,7 +51,8 @@ namespace Ogre
     #define OGRE_DEFLATE_TMP_SIZE 16384
     //---------------------------------------------------------------------
     DeflateStream::DeflateStream(const DataStreamPtr& compressedStream, const String& tmpFileName, size_t avail_in)
-    : DataStream(compressedStream->getAccessMode())
+    : DataStream()
+    ,access_(compressedStream->access_mode())
     , mCompressedStream(compressedStream)
     , mTempFileName(tmpFileName)
     , mZStream(0)
@@ -64,7 +65,8 @@ namespace Ogre
     }
     //---------------------------------------------------------------------
     DeflateStream::DeflateStream(const String& name, const DataStreamPtr& compressedStream, const String& tmpFileName, size_t avail_in)
-    : DataStream(name, compressedStream->getAccessMode())
+    : DataStream(name)
+    ,access_(compressedStream->access_mode())
     , mCompressedStream(compressedStream)
     , mTempFileName(tmpFileName)
     , mZStream(0)
@@ -77,7 +79,8 @@ namespace Ogre
     }
     //---------------------------------------------------------------------
     DeflateStream::DeflateStream(const String& name, const DataStreamPtr& compressedStream, StreamType streamType, const String& tmpFileName, size_t avail_in)
-    : DataStream(name, compressedStream->getAccessMode())
+    : DataStream(name)
+    ,access_(compressedStream->access_mode())
     , mCompressedStream(compressedStream)
     , mTempFileName(tmpFileName)
     , mZStream(0)
@@ -110,7 +113,7 @@ namespace Ogre
         mZStream->zalloc = OgreZalloc;
         mZStream->zfree = OgreZfree;
         
-        if (getAccessMode() == READ)
+        if (access_mode() == READ)
         {
             mTmp = (unsigned char*)OGRE_MALLOC(OGRE_DEFLATE_TMP_SIZE, MEMCATEGORY_GENERAL);
             size_t restorePoint = mCompressedStream->tell();
@@ -185,7 +188,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void DeflateStream::destroy()
     {
-        if (getAccessMode() == READ)
+        if (access_mode() == READ)
             inflateEnd(mZStream);
 
         OGRE_FREE(mZStream, MEMCATEGORY_GENERAL);
@@ -206,7 +209,7 @@ namespace Ogre
             return mCompressedStream->read(buf, count);
         }
         
-        if (getAccessMode() & WRITE)
+        if (access_mode() & WRITE)
         {
             return mTmpWriteStream->read(buf, count);
         }
@@ -271,7 +274,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     size_t DeflateStream::write(const void* buf, size_t count)
     {
-        if ((getAccessMode() & WRITE) == 0)
+        if ((access_mode() & WRITE) == 0)
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                         "Not a writable stream", "DeflateStream::write");
         
@@ -355,7 +358,7 @@ namespace Ogre
             return;
         }
         
-        if (getAccessMode() & WRITE)
+        if (access_mode() & WRITE)
         {
             mTmpWriteStream->skip(count);
         }
@@ -392,7 +395,7 @@ namespace Ogre
             mCompressedStream->seek(pos);
             return;
         }
-        if (getAccessMode() & WRITE)
+        if (access_mode() & WRITE)
         {
             mTmpWriteStream->seek(pos);
         }
@@ -420,7 +423,7 @@ namespace Ogre
         {
             return mCompressedStream->tell();
         }
-        else if(getAccessMode() & WRITE) 
+        else if(access_mode() & WRITE) 
         {
             return mTmpWriteStream->tell();
         }
@@ -433,7 +436,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     bool DeflateStream::eof(void) const
     {
-        if (getAccessMode() & WRITE)
+        if (access_mode() & WRITE)
             return mTmpWriteStream->eof();
         else 
         {
@@ -446,12 +449,12 @@ namespace Ogre
     //---------------------------------------------------------------------
     void DeflateStream::close(void)
     {
-        if (getAccessMode() & WRITE)
+        if (access_mode() & WRITE)
             compressFinal();
 
         destroy();
 
-        mAccess = 0;
+        access_  = 0;
 
         // don't close underlying compressed stream in case used for something else
     }

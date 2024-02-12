@@ -828,7 +828,7 @@ namespace Ogre {
 
                         if(fii.archive->getType() == "FileSystem" && stream->size() <= 1024 * 1024)
                         {
-                            DataStreamPtr cachedCopy(OGRE_NEW MemoryDataStream(stream->getName(), stream));
+                            DataStreamPtr cachedCopy(OGRE_NEW MemoryDataStream(stream->name(), stream.get()));
                             su->parseScript(cachedCopy, grp->name);
                         }
                         else

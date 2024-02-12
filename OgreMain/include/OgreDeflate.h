@@ -31,7 +31,7 @@
 #if OGRE_NO_ZIP_ARCHIVE == 0
 
 #include "OgrePrerequisites.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreHeaderPrefix.h"
 
 /// forward decls
@@ -177,29 +177,7 @@ namespace Ogre
             ZLib = 1,     /// 2 byte header, 4 byte footer with adler32 checksum, rfc1950
             GZip = 2,     /// 10 byte header, 8 byte footer with crc32 checksum and unpacked size, rfc1952
         };
-    private:
-        DataStreamPtr mCompressedStream;
-        DataStreamPtr mTmpWriteStream;
-        String mTempFileName;
-        z_stream* mZStream;
-        int mStatus;
-        size_t mCurrentPos;
-        size_t mAvailIn;
-        
-        /// Cache for read data in case skipping around
-        StaticCache<16 * OGRE_STREAM_TEMP_SIZE> mReadCache;
-        
-        /// Intermediate buffer for read / write
-        unsigned char *mTmp;
-        
-        /// Whether the underlying stream is valid compressed data
-        StreamType mStreamType;
-        
-        void init();
-        void destroy();
-        void compressFinal();
-
-        size_t getAvailInForSinglePass();
+    
     public:
         /** Constructor for creating unnamed stream wrapping another stream.
          @param compressedStream The stream that this stream will use when reading / 
@@ -269,6 +247,35 @@ namespace Ogre
         /** @copydoc DataStream::close
          */
         void close(void) override;
+
+        uint16_t access_mode() const override {
+            return access_;
+        }
+
+    private:
+        DataStreamPtr mCompressedStream;
+        DataStreamPtr mTmpWriteStream;
+        String mTempFileName;
+        z_stream* mZStream;
+        int mStatus;
+        size_t mCurrentPos;
+        size_t mAvailIn;
+        uint16_t access_;
+        
+        /// Cache for read data in case skipping around
+        StaticCache<16 * XDOG_STREAM_TEMP_SIZE> mReadCache;
+        
+        /// Intermediate buffer for read / write
+        unsigned char *mTmp;
+        
+        /// Whether the underlying stream is valid compressed data
+        StreamType mStreamType;
+        
+        void init();
+        void destroy();
+        void compressFinal();
+
+        size_t getAvailInForSinglePass();
         
     };
 }

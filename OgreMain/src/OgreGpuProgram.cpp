@@ -159,7 +159,7 @@ namespace Ogre
         if (!mLoadFromFile)
             return;
 
-        mSource = ResourceGroupManager::getSingleton().openResource(mFilename, mGroup, this)->getAsString();
+        mSource = ResourceGroupManager::getSingleton().openResource(mFilename, mGroup, this)->as_string();
     }
 
     void GpuProgram::safePrepare()

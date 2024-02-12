@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreSingleton.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreArchive.h"
 #include "OgreIteratorWrapper.h"
 #include "OgreCommon.h"

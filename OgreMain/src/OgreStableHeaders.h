@@ -57,7 +57,7 @@ extern "C" {
 #include "OgreCodec.h"
 #include "OgreColourValue.h"
 #include "OgreCommon.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreDefaultWorkQueue.h"
 #include "OgreException.h"
 #include "OgreFileSystem.h"

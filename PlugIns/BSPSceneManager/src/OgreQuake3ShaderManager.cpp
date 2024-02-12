@@ -103,7 +103,7 @@ namespace Ogre {
 
         while(!stream->eof())
         {
-            line = stream->getLine();
+            line = stream->get_line();
             // Ignore comments & blanks
             if (!(line.length() == 0 || line.substr(0,2) == "//"))
             {
@@ -124,7 +124,7 @@ namespace Ogre {
                     // So first valid data should be a shader name
                     pShader = create(line);
                     // Skip to and over next {
-                    stream->readLine(tempBuf, 511, "{");
+                    stream->read_line(tempBuf, 511, "{");
                 }
                 else
                 {
@@ -208,7 +208,7 @@ namespace Ogre {
 
         while (!stream->eof())
         {
-            line = stream->getLine();
+            line = stream->get_line();
             // Ignore comments & blanks
             if (line.length() != 0 && line.substr(0,2) != "//")
             {

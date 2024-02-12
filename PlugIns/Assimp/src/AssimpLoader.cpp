@@ -105,7 +105,7 @@ struct OgreIOSystem : public Assimp::IOSystem
     bool Exists(const char* pFile) const override
     {
         String file = StringUtil::normalizeFilePath(pFile, false);
-        if (file == source->getName())
+        if (file == source->name())
             return true;
         return ResourceGroupManager::getSingleton().resourceExists(_group, file);
     }
@@ -115,7 +115,7 @@ struct OgreIOSystem : public Assimp::IOSystem
     {
         String file = StringUtil::normalizeFilePath(pFile, false);
         DataStreamPtr res;
-        if (file == source->getName())
+        if (file == source->name())
         {
             res = source;
             // glTF2 importer wants to open files multiple times
@@ -345,7 +345,7 @@ bool AssimpLoader::load(const DataStreamPtr& source, Mesh* mesh, SkeletonPtr& sk
 {
     Assimp::Importer importer;
     importer.SetIOHandler(new OgreIOSystem(source, mesh->getGroup()));
-    _load(source->getName().c_str(), importer, mesh, skeletonPtr, options);
+    _load(source->name().c_str(), importer, mesh, skeletonPtr, options);
     return true;
 }
 

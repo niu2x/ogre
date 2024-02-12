@@ -58,7 +58,7 @@ namespace Ogre {
     void MeshSerializerImpl::exportMesh(const Mesh* pMesh, 
         const DataStreamPtr& stream, Endian endianMode)
     {
-        LogManager::getSingleton().logMessage("MeshSerializer writing mesh data to stream " + stream->getName() + "...");
+        LogManager::getSingleton().logMessage("MeshSerializer writing mesh data to stream " + stream->name() + "...");
 
         // Decide on endian mode
         determineEndianness(endianMode);
@@ -71,10 +71,10 @@ namespace Ogre {
                 "MeshSerializerImpl::exportMesh");
         }
         mStream = stream;
-        if (!mStream->isWriteable())
+        if (!mStream->writable())
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                "Unable to use stream " + mStream->getName() + " for writing",
+                "Unable to use stream " + mStream->name() + " for writing",
                 "MeshSerializerImpl::exportMesh");
         }
 
@@ -985,7 +985,7 @@ namespace Ogre {
 
             if (seenTexAlias)
                 LogManager::getSingleton().logError("texture aliases for SubMeshes are unsupported - " +
-                                                      stream->getName());
+                                                      stream->name());
 
             if (!stream->eof())
             {

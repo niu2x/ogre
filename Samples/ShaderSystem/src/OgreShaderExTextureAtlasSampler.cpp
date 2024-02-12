@@ -389,13 +389,13 @@ bool TextureAtlasSamplerFactory::addTexutreAtlasDefinition( const DataStreamPtr&
     stream->seek(0);
 
     bool isSuccess = false;
-    if (stream->isReadable() == true)
+    if (stream->readable() == true)
     {
         TextureAtlasMap tmpMap;
         
         while (stream->eof() == false)
         {
-            String line = stream->getLine(true);
+            String line = stream->get_line(true);
             size_t nonWhiteSpacePos = line.find_first_not_of(" \t\r\n");
             //check this is a line with information
             if ((nonWhiteSpacePos != String::npos) && (line[nonWhiteSpacePos] != '#'))
@@ -449,7 +449,7 @@ bool TextureAtlasSamplerFactory::addTexutreAtlasDefinition( const DataStreamPtr&
         if (maxTextureCount > TAS_MAX_SAFE_ATLASED_TEXTURES)
         {
             LogManager::getSingleton().logMessage(LML_CRITICAL, 
-                ("Warning : " + stream->getName() +
+                ("Warning : " + stream->name() +
                 " atlas texture has to many internally defined textures. Shader may fail to compile."));
         }
     }

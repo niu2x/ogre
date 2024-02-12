@@ -51,7 +51,7 @@ THE SOFTWARE.
 #include "OgreCompositionTargetPass.h"
 #include "OgreConfigFile.h"
 #include "OgreControllerManager.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreEntity.h"
 #include "OgreException.h"
 #include "OgreFrameListener.h"

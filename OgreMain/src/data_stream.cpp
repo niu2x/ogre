@@ -31,19 +31,19 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    template <typename T> DataStream& DataStream::operator >>(T& val)
+    template <typename T> DataStream& DataStream::operator >>(const T& val)
     {
         read(static_cast<void*>(&val), sizeof(T));
         return *this;
     }
     //-----------------------------------------------------------------------
-    String DataStream::getLine(bool trimAfter)
+    String DataStream::get_line(bool trimAfter)
     {
-        char tmpBuf[OGRE_STREAM_TEMP_SIZE];
+        char tmpBuf[XDOG_STREAM_TEMP_SIZE];
         String retString;
         size_t readCount;
         // Keep looping while not hitting delimiter
-        while ((readCount = read(tmpBuf, OGRE_STREAM_TEMP_SIZE-1)) != 0)
+        while ((readCount = read(tmpBuf, XDOG_STREAM_TEMP_SIZE-1)) != 0)
         {
             // Terminate string
             tmpBuf[readCount] = '\0';
@@ -79,7 +79,7 @@ namespace Ogre {
         return retString;
     }
     //-----------------------------------------------------------------------
-    size_t DataStream::readLine(char* buf, size_t maxCount, const String& delim)
+    size_t DataStream::read_line(char* buf, size_t maxCount, const String& delim)
     {
         // Deal with both Unix & Windows LFs
         bool trimCR = false;
@@ -88,8 +88,8 @@ namespace Ogre {
             trimCR = true;
         }
 
-        char tmpBuf[OGRE_STREAM_TEMP_SIZE];
-        size_t chunkSize = std::min(maxCount, (size_t)OGRE_STREAM_TEMP_SIZE-1);
+        char tmpBuf[XDOG_STREAM_TEMP_SIZE];
+        size_t chunkSize = std::min(maxCount, (size_t)XDOG_STREAM_TEMP_SIZE-1);
         size_t totalCount = 0;
         size_t readCount; 
         while (chunkSize && (readCount = read(tmpBuf, chunkSize)) != 0)
@@ -126,7 +126,7 @@ namespace Ogre {
             }
 
             // Adjust chunkSize for next time
-            chunkSize = std::min(maxCount-totalCount, (size_t)OGRE_STREAM_TEMP_SIZE-1);
+            chunkSize = std::min(maxCount-totalCount, (size_t)XDOG_STREAM_TEMP_SIZE-1);
         }
 
         // Terminate
@@ -136,13 +136,13 @@ namespace Ogre {
         return totalCount;
     }
     //-----------------------------------------------------------------------
-    size_t DataStream::skipLine(const String& delim)
+    size_t DataStream::skip_line(const String& delim)
     {
-        char tmpBuf[OGRE_STREAM_TEMP_SIZE];
+        char tmpBuf[XDOG_STREAM_TEMP_SIZE];
         size_t total = 0;
         size_t readCount;
         // Keep looping while not hitting delimiter
-        while ((readCount = read(tmpBuf, OGRE_STREAM_TEMP_SIZE-1)) != 0)
+        while ((readCount = read(tmpBuf, XDOG_STREAM_TEMP_SIZE-1)) != 0)
         {
             // Terminate string
             tmpBuf[readCount] = '\0';
@@ -167,11 +167,14 @@ namespace Ogre {
         return total;
     }
     //-----------------------------------------------------------------------
-    String DataStream::getAsString(void)
+    String DataStream::as_string(void)
     {
         // Read the entire buffer - ideally in one read, but if the size of
         // the buffer is unknown, do multiple fixed size reads.
-        size_t bufSize = (mSize > 0 ? mSize : 4096);
+        
+        auto data_len = size();
+
+        size_t bufSize = (data_len > 0 ? data_len : 4096);
         char* pBuf = OGRE_ALLOC_T(char, bufSize, MEMCATEGORY_GENERAL);
         // Ensure read from begin of stream
         seek(0);
@@ -186,152 +189,90 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(void* pMem, size_t inSize, bool freeOnClose, bool readOnly)
-        : DataStream(static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
+    MemoryDataStream::MemoryDataStream(void* p_mem, size_t in_size, bool free_on_close, bool read_only)
+        : MemoryDataStream("", p_mem, in_size, free_on_close, read_only)
     {
-        mData = mPos = static_cast<uchar*>(pMem);
-        mSize = inSize;
-        mEnd = mData + mSize;
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
     }
     //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(const String& name, void* pMem, size_t inSize, 
-        bool freeOnClose, bool readOnly)
-        : DataStream(name, static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
+    MemoryDataStream::MemoryDataStream(const String& name, void* p_mem, size_t in_size, 
+        bool free_on_close, bool read_only)
+        : DataStream(name)
     {
-        mData = mPos = static_cast<uchar*>(pMem);
-        mSize = inSize;
-        mEnd = mData + mSize;
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
+        data_ = pos_ = static_cast<uint8_t*>(p_mem);
+        size_ = in_size;
+        end_ = data_ + size_;
+        free_on_close_ = free_on_close;
+        access_ = static_cast<uint16_t>(read_only ? READ : (READ | WRITE));
+        assert(end_ >= pos_);
+    }
+
+        static uint8_t empty[1] = {};
+
+
+    //-----------------------------------------------------------------------
+    MemoryDataStream::MemoryDataStream(DataStream* source, 
+        bool free_on_close, bool read_only)
+        : MemoryDataStream("", source, free_on_close, read_only)
+    {
+
     }
     //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(DataStream& sourceStream, 
-        bool freeOnClose, bool readOnly)
-        : DataStream(static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
+    MemoryDataStream::MemoryDataStream(const String& name, DataStream* source,
+        bool free_on_close, bool read_only)
+        : DataStream(name)
     {
         // Copy data from incoming stream
-        mSize = sourceStream.size();
-        if (mSize == 0 && !sourceStream.eof())
+        data_ = end_ = empty;
+        size_ = 0;
+        access_ = static_cast<uint16_t>(read_only ? READ : (READ | WRITE));
+        copy_from(source, free_on_close);
+    }
+
+    void MemoryDataStream::copy_from(DataStream *source, bool free_on_close) {
+        size_ = source->size();
+        if (size_ == 0 && !source->eof())
         {
-            // size of source is unknown, read all of it into memory
-            String contents = sourceStream.getAsString();
-            mSize = contents.size();
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            memcpy(mData, contents.data(), mSize);
-            mEnd = mData + mSize;
+            String contents = source->as_string();
+            size_ = contents.size();
+            data_ = OGRE_ALLOC_T(uchar, size_, MEMCATEGORY_GENERAL);
+            pos_ = data_;
+            memcpy(data_, contents.data(), size_);
+            end_ = data_ + size_;
         }
         else
         {
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            mEnd = mData + sourceStream.read(mData, mSize);
+            data_ = OGRE_ALLOC_T(uchar, size_, MEMCATEGORY_GENERAL);
+            pos_ = data_;
+            end_ = data_ + source->read(data_, size_);
         }
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
+        free_on_close_ = free_on_close;
+        assert(end_ >= pos_);
+    }
+
+
+    MemoryDataStream::MemoryDataStream(size_t in_size, bool free_on_close, bool read_only)
+        : DataStream()
+    {
+        size_ = in_size;
+        data_ = OGRE_ALLOC_T(uchar, size_, MEMCATEGORY_GENERAL);
+        pos_ = data_;
+        end_ = data_ + size_;
+        free_on_close_ = free_on_close;
+        access_ = static_cast<uint16_t>(read_only ? READ : (READ | WRITE));
+        assert(end_ >= pos_);
     }
     //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(const DataStreamPtr& sourceStream,
-        bool freeOnClose, bool readOnly)
-        : DataStream(static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
+    MemoryDataStream::MemoryDataStream(const String& name, size_t in_size, 
+        bool free_on_close, bool read_only)
+        : DataStream(name)
     {
-        // Copy data from incoming stream
-        mSize = sourceStream->size();
-        if (mSize == 0 && !sourceStream->eof())
-        {
-            // size of source is unknown, read all of it into memory
-            String contents = sourceStream->getAsString();
-            mSize = contents.size();
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            memcpy(mData, contents.data(), mSize);
-            mEnd = mData + mSize;
-        }
-        else
-        {
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            mEnd = mData + sourceStream->read(mData, mSize);
-        }
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
-    }
-    //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(const String& name, DataStream& sourceStream, 
-        bool freeOnClose, bool readOnly)
-        : DataStream(name, static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
-    {
-        // Copy data from incoming stream
-        mSize = sourceStream.size();
-        if (mSize == 0 && !sourceStream.eof())
-        {
-            // size of source is unknown, read all of it into memory
-            String contents = sourceStream.getAsString();
-            mSize = contents.size();
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            memcpy(mData, contents.data(), mSize);
-            mEnd = mData + mSize;
-        }
-        else
-        {
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            mEnd = mData + sourceStream.read(mData, mSize);
-        }
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
-    }
-    //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(const String& name, const DataStreamPtr& sourceStream, 
-        bool freeOnClose, bool readOnly)
-        : DataStream(name, static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
-    {
-        // Copy data from incoming stream
-        mSize = sourceStream->size();
-        if (mSize == 0 && !sourceStream->eof())
-        {
-            // size of source is unknown, read all of it into memory
-            String contents = sourceStream->getAsString();
-            mSize = contents.size();
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            memcpy(mData, contents.data(), mSize);
-            mEnd = mData + mSize;
-        }
-        else
-        {
-            mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-            mPos = mData;
-            mEnd = mData + sourceStream->read(mData, mSize);
-        }
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
-    }
-    //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(size_t inSize, bool freeOnClose, bool readOnly)
-        : DataStream(static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
-    {
-        mSize = inSize;
-        mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-        mPos = mData;
-        mEnd = mData + mSize;
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
-    }
-    //-----------------------------------------------------------------------
-    MemoryDataStream::MemoryDataStream(const String& name, size_t inSize, 
-        bool freeOnClose, bool readOnly)
-        : DataStream(name, static_cast<uint16>(readOnly ? READ : (READ | WRITE)))
-    {
-        mSize = inSize;
-        mData = OGRE_ALLOC_T(uchar, mSize, MEMCATEGORY_GENERAL);
-        mPos = mData;
-        mEnd = mData + mSize;
-        mFreeOnClose = freeOnClose;
-        assert(mEnd >= mPos);
+        size_ = in_size;
+        data_ = OGRE_ALLOC_T(uchar, size_, MEMCATEGORY_GENERAL);
+        pos_ = data_;
+        end_ = data_ + size_;
+        free_on_close_ = free_on_close;
+        access_ = static_cast<uint16_t>(read_only ? READ : (READ | WRITE));
+        assert(end_ >= pos_);
     }
     //-----------------------------------------------------------------------
     MemoryDataStream::~MemoryDataStream()
@@ -343,38 +284,38 @@ namespace Ogre {
     {
         size_t cnt = count;
         // Read over end of memory?
-        if (mPos + cnt > mEnd)
-            cnt = mEnd - mPos;
+        if (pos_ + cnt > end_)
+            cnt = end_ - pos_;
         if (cnt == 0)
             return 0;
 
         assert (cnt<=count);
 
-        memcpy(buf, mPos, cnt);
-        mPos += cnt;
+        memcpy(buf, pos_, cnt);
+        pos_ += cnt;
         return cnt;
     }
     //---------------------------------------------------------------------
     size_t MemoryDataStream::write(const void* buf, size_t count)
     {
         size_t written = 0;
-        if (isWriteable())
+        if (writable())
         {
             written = count;
             // we only allow writing within the extents of allocated memory
             // check for buffer overrun & disallow
-            if (mPos + written > mEnd)
-                written = mEnd - mPos;
+            if (pos_ + written > end_)
+                written = end_ - pos_;
             if (written == 0)
                 return 0;
 
-            memcpy(mPos, buf, written);
-            mPos += written;
+            memcpy(pos_, buf, written);
+            pos_ += written;
         }
         return written;
     }
     //-----------------------------------------------------------------------
-    size_t MemoryDataStream::readLine(char* buf, size_t maxCount, 
+    size_t MemoryDataStream::read_line(char* buf, size_t maxCount, 
         const String& delim)
     {
         // Deal with both Unix & Windows LFs
@@ -387,9 +328,9 @@ namespace Ogre {
         size_t pos = 0;
 
         // Make sure pos can never go past the end of the data 
-        while (pos < maxCount && mPos < mEnd)
+        while (pos < maxCount && pos_ < end_)
         {
-            if (delim.find(*mPos) != String::npos)
+            if (delim.find(*pos_) != String::npos)
             {
                 // Trim off trailing CR if this was a CR/LF entry
                 if (trimCR && pos && buf[pos-1] == '\r')
@@ -399,11 +340,11 @@ namespace Ogre {
                 }
 
                 // Found terminator, skip and break out
-                ++mPos;
+                ++pos_;
                 break;
             }
 
-            buf[pos++] = *mPos++;
+            buf[pos++] = *pos_++;
         }
 
         // terminate
@@ -412,15 +353,15 @@ namespace Ogre {
         return pos;
     }
     //-----------------------------------------------------------------------
-    size_t MemoryDataStream::skipLine(const String& delim)
+    size_t MemoryDataStream::skip_line(const String& delim)
     {
         size_t pos = 0;
 
         // Make sure pos can never go past the end of the data 
-        while (mPos < mEnd)
+        while (pos_ < end_)
         {
             ++pos;
-            if (delim.find(*mPos++) != String::npos)
+            if (delim.find(*pos_++) != String::npos)
             {
                 // Found terminator, break out
                 break;
@@ -433,111 +374,112 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void MemoryDataStream::skip(long count)
     {
-        size_t newpos = (size_t)( ( mPos - mData ) + count );
-        assert( mData + newpos <= mEnd );        
+        size_t newpos = (size_t)( ( pos_ - data_ ) + count );
+        assert( data_ + newpos <= end_ );        
 
-        mPos = mData + newpos;
+        pos_ = data_ + newpos;
     }
     //-----------------------------------------------------------------------
     void MemoryDataStream::seek( size_t pos )
     {
-        assert( mData + pos <= mEnd );
-        mPos = mData + pos;
+        assert( data_ + pos <= end_ );
+        pos_ = data_ + pos;
     }
     //-----------------------------------------------------------------------
     size_t MemoryDataStream::tell(void) const
     {
-        //mData is start, mPos is current location
-        return mPos - mData;
+        //data_ is start, pos_ is current location
+        return pos_ - data_;
     }
     //-----------------------------------------------------------------------
     bool MemoryDataStream::eof(void) const
     {
-        return mPos >= mEnd;
+        return pos_ >= end_;
     }
     //-----------------------------------------------------------------------
     void MemoryDataStream::close(void)    
     {
-        mAccess = 0;
-        if (mFreeOnClose && mData)
+        access_ = 0;
+
+        if (free_on_close_ && data_)
         {
-            OGRE_FREE(mData, MEMCATEGORY_GENERAL);
-            mData = 0;
+            OGRE_FREE(data_, MEMCATEGORY_GENERAL);
+            data_ = 0;
         }
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    FileStreamDataStream::FileStreamDataStream(std::ifstream* s, bool freeOnClose)
-        : DataStream(), mInStream(s), mFStreamRO(s), mFStream(0), mFreeOnClose(freeOnClose)
+    FileStreamDataStream::FileStreamDataStream(std::ifstream* s, bool free_on_close)
+        : DataStream(), s_read_(s), s_ro_(s), s_rw_(0), free_on_close_(free_on_close), access_(0)
     {
         // calculate the size
-        mInStream->seekg(0, std::ios_base::end);
-        mSize = (size_t)mInStream->tellg();
-        mInStream->seekg(0, std::ios_base::beg);
-        determineAccess();
+        s_read_->seekg(0, std::ios_base::end);
+        size_ = (size_t)s_read_->tellg();
+        s_read_->seekg(0, std::ios_base::beg);
+        determine_access();
     }
     //-----------------------------------------------------------------------
     FileStreamDataStream::FileStreamDataStream(const String& name, 
-        std::ifstream* s, bool freeOnClose)
-        : DataStream(name), mInStream(s), mFStreamRO(s), mFStream(0), mFreeOnClose(freeOnClose)
+        std::ifstream* s, bool free_on_close)
+        : DataStream(name), s_read_(s), s_ro_(s), s_rw_(0), free_on_close_(free_on_close), access_(0)
     {
         // calculate the size
-        mInStream->seekg(0, std::ios_base::end);
-        mSize = (size_t)mInStream->tellg();
-        mInStream->seekg(0, std::ios_base::beg);
-        determineAccess();
+        s_read_->seekg(0, std::ios_base::end);
+        size_ = (size_t)s_read_->tellg();
+        s_read_->seekg(0, std::ios_base::beg);
+        determine_access();
     }
     //-----------------------------------------------------------------------
     FileStreamDataStream::FileStreamDataStream(const String& name, 
         std::ifstream* s, size_t inSize, bool freeOnClose)
-        : DataStream(name), mInStream(s), mFStreamRO(s), mFStream(0), mFreeOnClose(freeOnClose)
+        : DataStream(name), s_read_(s), s_ro_(s), s_rw_(0), free_on_close_(freeOnClose), access_(0)
     {
         // Size is passed in
-        mSize = inSize;
-        determineAccess();
+        size_ = inSize;
+        determine_access();
     }
     //---------------------------------------------------------------------
     FileStreamDataStream::FileStreamDataStream(std::fstream* s, bool freeOnClose)
-        : DataStream(false), mInStream(s), mFStreamRO(0), mFStream(s), mFreeOnClose(freeOnClose)
+        : DataStream(), s_read_(s), s_ro_(0), s_rw_(s), free_on_close_(freeOnClose), access_(0)
     {
         // writeable!
         // calculate the size
-        mInStream->seekg(0, std::ios_base::end);
-        mSize = (size_t)mInStream->tellg();
-        mInStream->seekg(0, std::ios_base::beg);
-        determineAccess();
+        s_read_->seekg(0, std::ios_base::end);
+        size_ = (size_t)s_read_->tellg();
+        s_read_->seekg(0, std::ios_base::beg);
+        determine_access();
 
     }
     //-----------------------------------------------------------------------
     FileStreamDataStream::FileStreamDataStream(const String& name, 
         std::fstream* s, bool freeOnClose)
-        : DataStream(name, false), mInStream(s), mFStreamRO(0), mFStream(s), mFreeOnClose(freeOnClose)
+        : DataStream(name), s_read_(s), s_ro_(0), s_rw_(s), free_on_close_(freeOnClose), access_(0)
     {
         // writeable!
         // calculate the size
-        mInStream->seekg(0, std::ios_base::end);
-        mSize = (size_t)mInStream->tellg();
-        mInStream->seekg(0, std::ios_base::beg);
-        determineAccess();
+        s_read_->seekg(0, std::ios_base::end);
+        size_ = (size_t)s_read_->tellg();
+        s_read_->seekg(0, std::ios_base::beg);
+        determine_access();
     }
     //-----------------------------------------------------------------------
     FileStreamDataStream::FileStreamDataStream(const String& name, 
         std::fstream* s, size_t inSize, bool freeOnClose)
-        : DataStream(name, false), mInStream(s), mFStreamRO(0), mFStream(s), mFreeOnClose(freeOnClose)
+        : DataStream(name), s_read_(s), s_ro_(0), s_rw_(s), free_on_close_(freeOnClose), access_(0)
     {
         // writeable!
         // Size is passed in
-        mSize = inSize;
-        determineAccess();
+        size_ = inSize;
+        determine_access();
     }
     //---------------------------------------------------------------------
-    void FileStreamDataStream::determineAccess()
+    void FileStreamDataStream::determine_access()
     {
-        mAccess = 0;
-        if (mInStream)
-            mAccess |= READ;
-        if (mFStream)
-            mAccess |= WRITE;
+        access_ = 0;
+        if (s_read_)
+            access_ |= READ;
+        if (s_rw_)
+            access_ |= WRITE;
     }
     //-----------------------------------------------------------------------
     FileStreamDataStream::~FileStreamDataStream()
@@ -547,33 +489,33 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     size_t FileStreamDataStream::read(void* buf, size_t count)
     {
-        mInStream->read(static_cast<char*>(buf), static_cast<std::streamsize>(count));
-        return (size_t)mInStream->gcount();
+        s_read_->read(static_cast<char*>(buf), static_cast<std::streamsize>(count));
+        return (size_t)s_read_->gcount();
     }
     //-----------------------------------------------------------------------
     size_t FileStreamDataStream::write(const void* buf, size_t count)
     {
         size_t written = 0;
-        if (isWriteable() && mFStream)
+        if (writable() && s_rw_)
         {
-            mFStream->write(static_cast<const char*>(buf), static_cast<std::streamsize>(count));
+            s_rw_->write(static_cast<const char*>(buf), static_cast<std::streamsize>(count));
             written = count;
         }
         return written;
     }
     //-----------------------------------------------------------------------
-    size_t FileStreamDataStream::readLine(char* buf, size_t maxCount, 
+    size_t FileStreamDataStream::read_line(char* buf, size_t maxCount, 
         const String& delim)
     {
         if (delim.empty())
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "No delimiter provided",
-                "FileStreamDataStream::readLine");
+                "FileStreamDataStream::read_line");
         }
         if (delim.size() > 1)
         {
             LogManager::getSingleton().logWarning(
-                "FileStreamDataStream::readLine - using only first delimiter");
+                "FileStreamDataStream::read_line - using only first delimiter");
         }
         // Deal with both Unix & Windows LFs
         bool trimCR = false;
@@ -582,32 +524,32 @@ namespace Ogre {
             trimCR = true;
         }
         // maxCount + 1 since count excludes terminator in getline
-        mInStream->getline(buf, static_cast<std::streamsize>(maxCount+1), delim.at(0));
-        size_t ret = (size_t)mInStream->gcount();
+        s_read_->getline(buf, static_cast<std::streamsize>(maxCount+1), delim.at(0));
+        size_t ret = (size_t)s_read_->gcount();
         // three options
         // 1) we had an eof before we read a whole line
         // 2) we ran out of buffer space
         // 3) we read a whole line - in this case the delim character is taken from the stream but not written in the buffer so the read data is of length ret-1 and thus ends at index ret-2
         // in all cases the buffer will be null terminated for us
 
-        if (mInStream->eof()) 
+        if (s_read_->eof()) 
         {
             // no problem
         }
-        else if (mInStream->fail())
+        else if (s_read_->fail())
         {
             // Did we fail because of maxCount hit? No - no terminating character
             // in included in the count in this case
             if (ret == maxCount)
             {
                 // clear failbit for next time 
-                mInStream->clear();
+                s_read_->clear();
             }
             else
             {
                 OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, 
                     "Streaming error occurred", 
-                    "FileStreamDataStream::readLine");
+                    "FileStreamDataStream::read_line");
             }
         }
         else 
@@ -636,78 +578,78 @@ namespace Ogre {
         // it's seems the stream was putted in intermediate state, and will be
         // fail if try to repositioning relative to current position.
         // Note: tellg() fail in this case too.
-        if (mInStream->eof())
+        if (s_read_->eof())
         {
-            mInStream->clear();
+            s_read_->clear();
             // Use seek relative to either begin or end to bring the stream
             // back to normal state.
-            mInStream->seekg(0, std::ios::end);
+            s_read_->seekg(0, std::ios::end);
         }
 #endif      
-        mInStream->clear(); //Clear fail status in case eof was set
-        mInStream->seekg(static_cast<std::ifstream::pos_type>(count), std::ios::cur);
+        s_read_->clear(); //Clear fail status in case eof was set
+        s_read_->seekg(static_cast<std::ifstream::pos_type>(count), std::ios::cur);
     }
     //-----------------------------------------------------------------------
     void FileStreamDataStream::seek( size_t pos )
     {
-        mInStream->clear(); //Clear fail status in case eof was set
-        mInStream->seekg(static_cast<std::streamoff>(pos), std::ios::beg);
+        s_read_->clear(); //Clear fail status in case eof was set
+        s_read_->seekg(static_cast<std::streamoff>(pos), std::ios::beg);
     }
     //-----------------------------------------------------------------------
     size_t FileStreamDataStream::tell(void) const
     {
-        mInStream->clear(); //Clear fail status in case eof was set
-        return (size_t)mInStream->tellg();
+        s_read_->clear(); //Clear fail status in case eof was set
+        return (size_t)s_read_->tellg();
     }
     //-----------------------------------------------------------------------
     bool FileStreamDataStream::eof(void) const
     {
-        return mInStream->eof();
+        return s_read_->eof();
     }
     //-----------------------------------------------------------------------
     void FileStreamDataStream::close(void)
     {
-        mAccess = 0;
-        if (mInStream)
+        access_ = 0;
+        if (s_read_)
         {
             // Unfortunately, there is no file-specific shared class hierarchy between fstream and ifstream (!!)
-            if (mFStreamRO)
-                mFStreamRO->close();
-            if (mFStream)
+            if (s_ro_)
+                s_ro_->close();
+            if (s_rw_)
             {
-                mFStream->flush();
-                mFStream->close();
+                s_rw_->flush();
+                s_rw_->close();
             }
 
-            if (mFreeOnClose)
+            if (free_on_close_)
             {
                 // delete the stream too
-                OGRE_DELETE_T(mFStreamRO, basic_ifstream, MEMCATEGORY_GENERAL);
-                OGRE_DELETE_T(mFStream, basic_fstream, MEMCATEGORY_GENERAL);
+                OGRE_DELETE_T(s_ro_, basic_ifstream, MEMCATEGORY_GENERAL);
+                OGRE_DELETE_T(s_rw_, basic_fstream, MEMCATEGORY_GENERAL);
             }
 
-            mInStream = 0;
-            mFStreamRO = 0; 
-            mFStream = 0; 
+            s_read_ = 0;
+            s_ro_ = 0; 
+            s_rw_ = 0; 
         }
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     FileHandleDataStream::FileHandleDataStream(FILE* handle, uint16 accessMode)
-        : DataStream(accessMode), mFileHandle(handle)
+        : DataStream(), mFileHandle(handle), access_(accessMode)
     {
         // Determine size
         fseek(mFileHandle, 0, SEEK_END);
-        mSize = ftell(mFileHandle);
+        size_ = ftell(mFileHandle);
         fseek(mFileHandle, 0, SEEK_SET);
     }
     //-----------------------------------------------------------------------
     FileHandleDataStream::FileHandleDataStream(const String& name, FILE* handle, uint16 accessMode)
-        : DataStream(name, accessMode), mFileHandle(handle)
+        : DataStream(name), mFileHandle(handle), access_(accessMode)
     {
         // Determine size
         fseek(mFileHandle, 0, SEEK_END);
-        mSize = ftell(mFileHandle);
+        size_ = ftell(mFileHandle);
         fseek(mFileHandle, 0, SEEK_SET);
     }
     //-----------------------------------------------------------------------
@@ -723,7 +665,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     size_t FileHandleDataStream::write(const void* buf, size_t count)
     {
-        if (!isWriteable())
+        if (!writable())
             return 0;
         else
             return fwrite(buf, 1, count, mFileHandle);
@@ -752,7 +694,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void FileHandleDataStream::close(void)
     {
-        mAccess = 0;
+        access_ = 0;
         if (mFileHandle != 0)
         {
             fclose(mFileHandle);

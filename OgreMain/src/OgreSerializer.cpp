@@ -319,7 +319,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     String Serializer::readString(const DataStreamPtr& stream)
     {
-        return stream->getLine(false);
+        return stream->get_line(false);
     }
     //---------------------------------------------------------------------
     void Serializer::writeObject(const Vector3& vec)

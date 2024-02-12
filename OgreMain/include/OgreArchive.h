@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _Archive_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreStringVector.h"
 #include <ctime>
 #include "OgreHeaderPrefix.h"

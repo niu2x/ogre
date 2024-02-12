@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreTerrainPrerequisites.h"
 #include "OgreCommon.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreImage.h"
 
 namespace Ogre

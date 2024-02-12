@@ -322,7 +322,7 @@ settings have been made.
 
 namespace Ogre
 {
-    typedef std::string String;
+    using String = std::string;
     typedef std::stringstream StringStream;
 
     template <typename T, size_t Alignment = OGRE_SIMD_ALIGNMENT>

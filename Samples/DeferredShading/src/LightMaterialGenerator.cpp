@@ -79,7 +79,7 @@ public:
                  "LightMaterial_ps.cg"
                 , ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             assert(ptrMasterSource);
-            mMasterSource = ptrMasterSource->getAsString();
+            mMasterSource = ptrMasterSource->as_string();
         }
 
         assert(mMasterSource.empty()==false);
@@ -245,7 +245,7 @@ public:
                 ResourceGroupManager::getSingleton().openResource("LightMaterial_ps.glsl", RGN_DEFAULT);
 
             OgreAssert(ptrMasterSource, "could not find 'LightMaterial_ps'");
-            mMasterSource = ptrMasterSource->getAsString();
+            mMasterSource = ptrMasterSource->as_string();
         }
 
         OgreAssert(!mMasterSource.empty(), "no source code");

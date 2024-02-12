@@ -252,10 +252,10 @@ namespace Ogre
         determineEndianness(endianMode);
 
         mStream =stream;
-        if (!stream->isWriteable())
+        if (!stream->writable())
         {
             OGRE_EXCEPT(Exception::ERR_CANNOT_WRITE_TO_FILE,
-                        "Unable to write to stream " + stream->getName(),
+                        "Unable to write to stream " + stream->name(),
                         "GpuNamedConstantsSerializer::exportNamedConstants");
         }
 

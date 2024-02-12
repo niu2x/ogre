@@ -133,7 +133,7 @@ namespace Ogre
         if (!mChunkStack.empty())
         {
             LogManager::getSingleton().stream(LML_WARNING) <<
-                "Warning: stream " << mStream->getName() << " was not fully read / written; " <<
+                "Warning: stream " << mStream->name() << " was not fully read / written; " <<
                 mChunkStack.size() << " chunks remain unterminated.";
         }
         for (auto & i : mChunkStack)
@@ -333,10 +333,10 @@ namespace Ogre
         if (failOnEof && mStream->eof())
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Invalid operation, end of file on stream");
 
-        if (validateReadable && !mStream->isReadable())
+        if (validateReadable && !mStream->readable())
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Invalid operation, file is not readable");
 
-        if (validateWriteable && !mStream->isWriteable())
+        if (validateWriteable && !mStream->writable())
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Invalid operation, file is not writeable");
     }
     //---------------------------------------------------------------------
@@ -434,7 +434,7 @@ namespace Ogre
             uint32 off = chunk->offset;
             OGRE_DELETE chunk;
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, 
-                "Corrupt chunk detected in stream " + mStream->getName() + " at byte "
+                "Corrupt chunk detected in stream " + mStream->name() + " at byte "
                 + StringConverter::toString(off), 
                 "StreamSerialiser::readChunkImpl");
         }

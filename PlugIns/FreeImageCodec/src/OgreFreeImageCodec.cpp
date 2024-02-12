@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <FreeImage.h>
 
 #include "OgreLogManager.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreImage.h"
 
 // freeimage 3.9.1~3.11.0 interoperability fix

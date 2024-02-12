@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreArchive.h"
 #include "OgreArchiveFactory.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 
 // Barebones archive containing a single 1-byte file "dummyArchiveTest" whose
 // contents are an unsigned char that increments on each construction of the

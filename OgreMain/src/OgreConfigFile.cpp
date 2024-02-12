@@ -84,7 +84,7 @@ namespace Ogre {
         String line, optName, optVal;
         while (!stream->eof())
         {
-            line = stream->getLine();
+            line = stream->get_line();
             /* Ignore comments & blanks */
             if (line.length() > 0 && line.at(0) != '#' && line.at(0) != '@')
             {

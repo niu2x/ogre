@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include "OgreHeaderPrefix.h"
 
 #include <deque>

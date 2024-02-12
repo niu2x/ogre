@@ -172,16 +172,16 @@ namespace Ogre
 
     void LodConfigSerializer::exportLodConfig(Ogre::LodConfig& config, Ogre::DataStreamPtr stream, Endian endianMode /*= ENDIAN_NATIVE*/ )
     {
-        Ogre::LogManager::getSingleton().logMessage("MeshSerializer writing mesh data to stream " + stream->getName() + "...");
+        Ogre::LogManager::getSingleton().logMessage("MeshSerializer writing mesh data to stream " + stream->name() + "...");
 
         // Decide on endian mode
         determineEndianness(endianMode);
         mLodConfig = &config;
         mStream = stream;
-        if (!stream->isWriteable())
+        if (!stream->writable())
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                "Unable to use stream " + stream->getName() + " for writing",
+                "Unable to use stream " + stream->name() + " for writing",
                 "LodConfigSerializer::export");
         }
 

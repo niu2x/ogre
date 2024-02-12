@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef _O_IStream_H__
 #define _O_IStream_H__
 
-#include "OgreDataStream.h"
+#include "data_stream.h"
 #include <ImfInt64.h>
 #include <ImfIO.h>
 
