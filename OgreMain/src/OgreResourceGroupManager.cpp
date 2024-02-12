@@ -102,7 +102,7 @@ namespace Ogre {
     {
         LogManager::getSingleton().logMessage("Initialising resource group " + name);
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex;
+         // lock group mutex;
 
         if (grp->groupStatus == ResourceGroup::UNINITIALSED)
         {
@@ -128,7 +128,7 @@ namespace Ogre {
         for (auto& g : mResourceGroupMap)
         {
             ResourceGroup* grp = g.second;
-            OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+             // lock group mutex
             if (grp->groupStatus == ResourceGroup::UNINITIALSED)
             {
                 // in the process of initialising
@@ -152,7 +152,7 @@ namespace Ogre {
         // load all created resources
         ResourceGroup* grp = getResourceGroup(name, true);
         OGRE_LOCK_AUTO_MUTEX;
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex 
+         // lock group mutex 
         // Set current group
         mCurrentGroup = grp;
 
@@ -216,7 +216,7 @@ namespace Ogre {
         // load all created resources
         ResourceGroup* grp = getResourceGroup(name, true);
         OGRE_LOCK_AUTO_MUTEX;
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex 
+         // lock group mutex 
         // Set current group
         mCurrentGroup = grp;
 
@@ -284,7 +284,7 @@ namespace Ogre {
         OGRE_LOCK_AUTO_MUTEX;
         // Set current group
         mCurrentGroup = grp;
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex 
+         // lock group mutex 
 
         // unload in reverse order
         for (auto& oi : grp->loadResourceOrderMap)
@@ -397,7 +397,7 @@ namespace Ogre {
         if (!grp)
             return false;
 
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         for (auto& li : grp->locationList)
         {
@@ -426,7 +426,7 @@ namespace Ogre {
             grp = getResourceGroup(resGroup);
         }
 
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
         grp->locationList.push_back(loc);
 
         // Index resources
@@ -446,7 +446,7 @@ namespace Ogre {
         const String& resGroup)
     {
         ResourceGroup* grp = getResourceGroup(resGroup, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Remove from location list
         auto liend = grp->locationList.end();
@@ -486,7 +486,7 @@ namespace Ogre {
         dcl.resourceName = name;
         dcl.resourceType = resourceType;
 
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
         grp->resourceDeclarations.push_back(dcl);
     }
     //-----------------------------------------------------------------------
@@ -494,7 +494,7 @@ namespace Ogre {
         const String& groupName)
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         for (auto i = grp->resourceDeclarations.begin();
             i != grp->resourceDeclarations.end(); ++i)
@@ -565,7 +565,7 @@ namespace Ogre {
         const String& pattern, const String& groupName) const
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Iterate through all the archives and build up a combined list of
         // streams
@@ -596,7 +596,7 @@ namespace Ogre {
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
         OGRE_LOCK_AUTO_MUTEX;
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
         
         for (auto& li : grp->locationList)
         {
@@ -629,7 +629,7 @@ namespace Ogre {
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
         OGRE_LOCK_AUTO_MUTEX;
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
         
         for (auto& li : grp->locationList)
         {
@@ -654,7 +654,7 @@ namespace Ogre {
         const String& groupName, const String& locationPattern)
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         for (auto& li : grp->locationList)
         {
@@ -899,7 +899,7 @@ namespace Ogre {
             ResourceGroup* grp = getResourceGroup(res->getGroup());
             if (grp)
             {
-                            OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+                             // lock group mutex
                 ResourceGroup::LoadResourceOrderMap::iterator i = 
                     grp->loadResourceOrderMap.find(
                         res->getCreator()->getLoadingOrder());
@@ -932,7 +932,7 @@ namespace Ogre {
 
         if (grp)
         {
-                    OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+                     // lock group mutex
 
             Real order = res->getCreator()->getLoadingOrder();
             ResourceGroup::LoadResourceOrderMap::iterator i = 
@@ -967,7 +967,7 @@ namespace Ogre {
         // Iterate over all groups
         for (const auto & grpi : mResourceGroupMap)
         {
-                    OGRE_LOCK_MUTEX(grpi.second->OGRE_AUTO_MUTEX_NAME);
+                    
             // Iterate over all priorities
             for (auto & oi : grpi.second->loadResourceOrderMap)
             {
@@ -994,7 +994,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::addCreatedResource(ResourcePtr& res, ResourceGroup& grp) const
     {
-            OGRE_LOCK_MUTEX(grp.OGRE_AUTO_MUTEX_NAME);
+            
         Real order = res->getCreator()->getLoadingOrder();
 
         ResourceGroup::LoadResourceOrderMap::iterator i = grp.loadResourceOrderMap.find(order);
@@ -1038,7 +1038,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::dropGroupContents(ResourceGroup* grp)
     {
-            OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME);
+            
 
         bool groupSet = false;
         if (!mCurrentGroup)
@@ -1067,7 +1067,7 @@ namespace Ogre {
     void ResourceGroupManager::deleteGroup(ResourceGroup* grp)
     {
         {
-            OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME);
+            
             // delete all the load list entries
             grp->loadResourceOrderMap.clear();
         }
@@ -1241,7 +1241,7 @@ namespace Ogre {
 
         // Try to find in resource index first
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Iterate over the archives
         for (auto& i : grp->locationList)
@@ -1261,7 +1261,7 @@ namespace Ogre {
 
         // Try to find in resource index first
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Iterate over the archives
         for (auto& i : grp->locationList)
@@ -1281,7 +1281,7 @@ namespace Ogre {
 
         // Try to find in resource index first
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
             // Iterate over the archives
         for (auto& i : grp->locationList)
@@ -1300,7 +1300,7 @@ namespace Ogre {
 
         // Try to find in resource index first
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Iterate over the archives
         for (auto& i : grp->locationList)
@@ -1322,7 +1322,7 @@ namespace Ogre {
     Archive* ResourceGroupManager::resourceExists(ResourceGroup* grp, const String& resourceName) const
     {
 
-            OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+             // lock group mutex
 
         // Try indexes first
         ResourceLocationIndex::iterator rit = grp->resourceIndexCaseSensitive.find(resourceName);
@@ -1417,7 +1417,7 @@ namespace Ogre {
 
         // Try to find in resource index first
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Iterate over the archives
         for (auto& i : grp->locationList)
@@ -1434,7 +1434,7 @@ namespace Ogre {
 
         // Try to find in resource index first
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
 
         // Iterate over the archives
         for (auto& i : grp->locationList)
@@ -1453,14 +1453,14 @@ namespace Ogre {
     void ResourceGroupManager::setCustomStagesForResourceGroup(const String& group, uint32 stageCount)
     {
         ResourceGroup* grp = getResourceGroup(group, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
         grp->customStageCount = stageCount;
     }
     //-----------------------------------------------------------------------
     uint32 ResourceGroupManager::getCustomStagesForResourceGroup(const String& group)
     {
         ResourceGroup* grp = getResourceGroup(group, true);
-        OGRE_LOCK_MUTEX(grp->OGRE_AUTO_MUTEX_NAME); // lock group mutex
+         // lock group mutex
         return grp->customStageCount;
     }
     //-----------------------------------------------------------------------

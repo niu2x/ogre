@@ -45,7 +45,7 @@ namespace Ogre
     void VulkanHardwareBufferManager::_notifyDeviceStalled( void )
     {
         {
-            OGRE_LOCK_MUTEX( mVertexBuffersMutex );
+            
             for (auto& b : mVertexBuffers)
             {
                 auto hwBuffer = b->_getImpl<VulkanHardwareBuffer>();
@@ -53,7 +53,7 @@ namespace Ogre
             }
         }
         {
-            OGRE_LOCK_MUTEX( mIndexBuffersMutex );
+            
             for (auto& i : mIndexBuffers)
             {
                 auto hwBuffer = i->_getImpl<VulkanHardwareBuffer>();
@@ -69,7 +69,7 @@ namespace Ogre
                                              useShadowBuffer, mDevice);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;
@@ -85,7 +85,7 @@ namespace Ogre
 
         auto buf = std::make_shared<HardwareIndexBuffer>(this, itype, numIndexes, impl);
         {
-            OGRE_LOCK_MUTEX(mIndexBuffersMutex);
+            
             //mIndexBuffers.insert(buf.get()); // TODO never deleted yet
         }
         return buf;

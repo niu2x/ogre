@@ -1057,7 +1057,7 @@ namespace Ogre {
             if (currentBuffer != NULL && currentBufferSize != NULL)
             {
                 def.physicalIndex = currentBuffer->bufferSize*4;
-                OGRE_LOCK_MUTEX(currentBuffer->mutex);
+                
                 currentBuffer->map.emplace(
                     paramIndex, GpuLogicalIndexUse(def.physicalIndex, def.arraySize * def.elementSize, GPV_GLOBAL, BCT_UNKNOWN));
                 currentBuffer->bufferSize += def.arraySize * def.elementSize;

@@ -2316,7 +2316,6 @@ namespace Ogre
         {
             if (cascadeToNeighbours)
             {
-                OGRE_LOCK_RW_MUTEX_READ(mNeighbourMutex);
                 Terrain* neighbour = raySelectNeighbour(ray, distanceLimit);
                 if (neighbour)
                     return neighbour->rayIntersects(ray, cascadeToNeighbours, distanceLimit);
@@ -4511,7 +4510,6 @@ namespace Ogre
     void Terrain::removeFromNeighbours()
     {
         // We are reading the list of neighbours here
-        OGRE_LOCK_RW_MUTEX_READ(mNeighbourMutex);
         for (int i = 0; i < (int)NEIGHBOUR_COUNT; ++i)
         {
             NeighbourIndex ni = static_cast<NeighbourIndex>(i);
@@ -4519,7 +4517,6 @@ namespace Ogre
             if (!neighbour)
                 continue;
 
-            OGRE_LOCK_RW_MUTEX_WRITE(neighbour->mNeighbourMutex);
             // TODO: do we want to re-calculate? probably not, but not sure
             neighbour->setNeighbour(getOppositeNeighbour(ni), 0, false, false);
         }

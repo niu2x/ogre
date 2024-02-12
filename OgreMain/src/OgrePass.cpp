@@ -42,7 +42,7 @@ namespace Ogre {
     {
         uint32 operator()(const Pass* p) const override
         {
-            OGRE_LOCK_MUTEX(p->mTexUnitChangeMutex);
+            
             uint32 hash = 0;
             ushort c = p->getNumTextureUnitStates();
 
@@ -65,7 +65,7 @@ namespace Ogre {
     {
         uint32 operator()(const Pass* p) const override
         {
-            OGRE_LOCK_MUTEX(p->mGpuProgramChangeMutex);
+            
             uint32 hash = 0;
 
             for(int i = 0; i < GPT_COUNT; i++)
@@ -372,7 +372,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Pass::addTextureUnitState(TextureUnitState* state)
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
 
         OgreAssert(state , "TextureUnitState is NULL");
 
@@ -400,7 +400,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     TextureUnitState* Pass::getTextureUnitState(const String& name) const
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
         TextureUnitState* foundTUS = 0;
 
         // iterate through TUS Container to find a match
@@ -419,7 +419,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     unsigned short Pass::getTextureUnitStateIndex(const TextureUnitState* state) const
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
         assert(state && "state is 0 in Pass::getTextureUnitStateIndex()");
 
         // only find index for state attached to this pass
@@ -444,7 +444,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Pass::removeTextureUnitState(unsigned short index)
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
         assert (index < mTextureUnitStates.size() && "Index out of bounds");
 
         TextureUnitStates::iterator i = mTextureUnitStates.begin() + index;
@@ -457,7 +457,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Pass::removeAllTextureUnitStates(void)
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
         TextureUnitStates::iterator i, iend;
         iend = mTextureUnitStates.end();
         for (i = mTextureUnitStates.begin(); i != iend; ++i)
@@ -760,7 +760,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Pass::setGpuProgramParameters(GpuProgramType type, const GpuProgramParametersSharedPtr& params)
     {
-        OGRE_LOCK_MUTEX(mGpuProgramChangeMutex);
+        
 
         const auto& programUsage = getProgramUsage(type);
         if (!programUsage)
@@ -777,7 +777,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Pass::setGpuProgram(GpuProgramType type, const GpuProgramPtr& program, bool resetParams)
     {
-        OGRE_LOCK_MUTEX(mGpuProgramChangeMutex);
+        
 
         std::unique_ptr<GpuProgramUsage>& programUsage = getProgramUsage(type);
 
@@ -867,7 +867,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const GpuProgramParametersSharedPtr& Pass::getGpuProgramParameters(GpuProgramType type) const
     {
-        OGRE_LOCK_MUTEX(mGpuProgramChangeMutex);
+        
         const auto& programUsage = getProgramUsage(type);
         if (!programUsage)
         {
@@ -895,14 +895,14 @@ namespace Ogre {
     }
     const GpuProgramPtr& Pass::getGpuProgram(GpuProgramType programType) const
 	{
-        OGRE_LOCK_MUTEX(mGpuProgramChangeMutex);
+        
         OgreAssert(mProgramUsage[programType], "check whether program is available using hasGpuProgram()");
         return mProgramUsage[programType]->getProgram();
 	}
     //-----------------------------------------------------------------------
     const String& Pass::getGpuProgramName(GpuProgramType type) const
     {
-        OGRE_LOCK_MUTEX(mGpuProgramChangeMutex);
+        
 
         const std::unique_ptr<GpuProgramUsage>& programUsage = getProgramUsage(type);
         if (!programUsage)
@@ -962,7 +962,7 @@ namespace Ogre {
         Material* mat = mParent->getParent();
         if (mat->isLoading() || mat->isLoaded())
         {
-            OGRE_LOCK_MUTEX(msDirtyHashListMutex);
+            
             // Mark this hash as for follow up
             msDirtyHashList.insert(this);
             mHashDirtyQueued = false;
@@ -975,7 +975,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Pass::clearDirtyHashList(void) 
     { 
-            OGRE_LOCK_MUTEX(msDirtyHashListMutex);
+            
         msDirtyHashList.clear(); 
     }
     //-----------------------------------------------------------------------
@@ -987,7 +987,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Pass::setTextureFiltering(TextureFilterOptions filterType)
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
         for (auto *t : mTextureUnitStates)
         {
             t->setTextureFiltering(filterType);
@@ -996,7 +996,7 @@ namespace Ogre {
     // --------------------------------------------------------------------
     void Pass::setTextureAnisotropy(unsigned int maxAniso)
     {
-        OGRE_LOCK_MUTEX(mTexUnitChangeMutex);
+        
         for (auto *t : mTextureUnitStates)
         {
             t->setTextureAnisotropy(maxAniso);
@@ -1019,7 +1019,7 @@ namespace Ogre {
     void Pass::processPendingPassUpdates(void)
     {
         {
-            OGRE_LOCK_MUTEX(msPassGraveyardMutex);
+            
             // Delete items in the graveyard
             for (auto& i : msPassGraveyard)
             {
@@ -1029,7 +1029,7 @@ namespace Ogre {
         }
         PassSet tempDirtyHashList;
         {
-            OGRE_LOCK_MUTEX(msDirtyHashListMutex);
+            
             // The dirty ones will have been removed from the groups above using the old hash now
             tempDirtyHashList.swap(msDirtyHashList);
         }
@@ -1049,11 +1049,11 @@ namespace Ogre {
 
         // remove from dirty list, if there
         {
-            OGRE_LOCK_MUTEX(msDirtyHashListMutex);
+            
             msDirtyHashList.erase(this);
         }
         {
-            OGRE_LOCK_MUTEX(msPassGraveyardMutex);
+            
             msPassGraveyard.insert(this);
         }
     }

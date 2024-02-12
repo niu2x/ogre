@@ -74,7 +74,7 @@ namespace Ogre {
         auto impl = new GLHardwareVertexBuffer(GL_ARRAY_BUFFER, vertexSize * numVerts, usage, useShadowBuffer);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;
@@ -140,7 +140,7 @@ namespace Ogre {
         // simple forward link search based on alloc sizes
         // not that fast but the list should never get that long since not many
         // locks at once (hopefully)
-            OGRE_LOCK_MUTEX(mScratchMutex);
+            
 
 
         // Alignment - round up the size to 32 bits
@@ -190,7 +190,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void GLHardwareBufferManager::deallocateScratch(void* ptr)
     {
-            OGRE_LOCK_MUTEX(mScratchMutex);
+            
 
         // Simple linear search dealloc
         uint32 bufferPos = 0;

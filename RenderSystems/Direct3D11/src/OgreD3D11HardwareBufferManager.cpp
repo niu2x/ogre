@@ -55,7 +55,7 @@ namespace Ogre {
 		auto impl = new D3D11HardwareBuffer(D3D11HardwareBuffer::VERTEX_BUFFER, vertexSize * numVerts, usage, mlpD3DDevice, useShadowBuffer, false);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;
@@ -71,7 +71,7 @@ namespace Ogre {
 		auto impl = new D3D11HardwareBuffer(D3D11HardwareBuffer::VERTEX_BUFFER, vertexSize * numVerts, usage, mlpD3DDevice, useShadowBuffer, true);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;

@@ -3205,7 +3205,7 @@ namespace Ogre
         {
         case GPT_VERTEX_PROGRAM:
             {
-                    OGRE_LOCK_MUTEX(floatLogical->mutex);
+                    
 
                     for (GpuLogicalIndexUseMap::const_iterator i = floatLogical->map.begin();
                         i != floatLogical->map.end(); ++i)
@@ -3242,7 +3242,7 @@ namespace Ogre
             break;
         case GPT_FRAGMENT_PROGRAM:
             {
-                            OGRE_LOCK_MUTEX(floatLogical->mutex);
+                            
 
                     for (GpuLogicalIndexUseMap::const_iterator i = floatLogical->map.begin();
                         i != floatLogical->map.end(); ++i)

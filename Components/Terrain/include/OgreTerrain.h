@@ -1588,8 +1588,6 @@ namespace Ogre
         // This mutex is write-locked by neighbours if they are in the process of deleting themselves.
         // It should be read-locked whenever using neighbours in calculations which are possibly running in a
         // background thread.
-        OGRE_RW_MUTEX(mNeighbourMutex);
-
         void waitForDerivedProcesses();
     private:
         /// WorkQueue::RequestHandler override

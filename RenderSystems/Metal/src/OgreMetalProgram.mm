@@ -352,7 +352,7 @@ namespace Ogre {
                 def.variability = GPV_GLOBAL;
 
                 def.physicalIndex = mLogicalToPhysical->bufferSize*4;
-                OGRE_LOCK_MUTEX(mLogicalToPhysical->mutex);
+                
                 mLogicalToPhysical->map.insert(
                 GpuLogicalIndexUseMap::value_type(def.logicalIndex,
                 GpuLogicalIndexUse(def.physicalIndex,
@@ -393,7 +393,7 @@ namespace Ogre {
                 }
                 def.variability = GPV_GLOBAL;
 
-                OGRE_LOCK_MUTEX(mLogicalToPhysical->mutex);
+                
                 mLogicalToPhysical->map.insert(
                 GpuLogicalIndexUseMap::value_type(def.logicalIndex,
                 GpuLogicalIndexUse(def.physicalIndex,

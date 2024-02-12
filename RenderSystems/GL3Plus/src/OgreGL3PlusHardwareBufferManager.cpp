@@ -47,7 +47,7 @@ namespace Ogre {
 
     void GL3PlusHardwareBufferManager::notifyContextDestroyed(GLContext* context)
     {
-        OGRE_LOCK_MUTEX(mVertexDeclarationsMutex);
+        
         for(auto& d : mVertexDeclarations)
             static_cast<GLVertexArrayObject*>(d)->notifyContextDestroyed(context);
     }
@@ -61,7 +61,7 @@ namespace Ogre {
         auto impl = new GL3PlusHardwareBuffer(GL_ARRAY_BUFFER, vertexSize * numVerts, usage, useShadowBuffer);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;

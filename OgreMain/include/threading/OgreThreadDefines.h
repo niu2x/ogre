@@ -35,14 +35,6 @@ THE SOFTWARE
 #endif
 
 // all empty definitions
-#define OGRE_LOCK_MUTEX(name)
-#define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName)
-
-#define OGRE_RW_MUTEX(name)
-#define OGRE_LOCK_RW_MUTEX_READ(name)
-#define OGRE_LOCK_RW_MUTEX_WRITE(name)
-#define OGRE_THREAD_SYNCHRONISER(sync)
-
 
 #endif
 

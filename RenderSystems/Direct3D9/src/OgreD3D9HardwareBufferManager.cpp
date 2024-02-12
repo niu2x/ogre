@@ -57,7 +57,7 @@ namespace Ogre {
         auto impl = new D3D9HardwareBuffer(D3DFMT_VERTEXDATA, vertexSize * numVerts, usage, useShadowBuffer);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;

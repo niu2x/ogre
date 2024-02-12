@@ -1208,7 +1208,7 @@ namespace Ogre
             return NULL;
 
         GpuLogicalIndexUse* indexUse = 0;
-        OGRE_LOCK_MUTEX(mLogicalToPhysical->mutex);
+        
 
         auto logi = mLogicalToPhysical->map.find(logicalIndex);
         if (logi == mLogicalToPhysical->map.end())

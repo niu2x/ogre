@@ -43,7 +43,7 @@ namespace Ogre {
     void MetalHardwareBufferManager::_notifyDeviceStalled(void)
     {
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             VertexBufferList::const_iterator itor = mVertexBuffers.begin();
             VertexBufferList::const_iterator end  = mVertexBuffers.end();
 
@@ -55,7 +55,7 @@ namespace Ogre {
             }
         }
         {
-            OGRE_LOCK_MUTEX(mIndexBuffersMutex);
+            
             IndexBufferList::const_iterator itor = mIndexBuffers.begin();
             IndexBufferList::const_iterator end  = mIndexBuffers.end();
 
@@ -77,7 +77,7 @@ namespace Ogre {
                                                   mDevice);
         auto buf = std::make_shared<HardwareVertexBuffer>(this, vertexSize, numVerts, impl);
         {
-            OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+            
             mVertexBuffers.insert(buf.get());
         }
         return buf;
@@ -95,7 +95,7 @@ namespace Ogre {
 
         auto buf = std::make_shared<HardwareIndexBuffer>(this, itype, numIndexes, impl);
         {
-            OGRE_LOCK_MUTEX(mIndexBuffersMutex);
+            
             mIndexBuffers.insert(buf.get());
         }
         return buf;

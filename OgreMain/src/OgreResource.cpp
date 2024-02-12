@@ -374,21 +374,21 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void Resource::addListener(Resource::Listener* lis)
     {
-            OGRE_LOCK_MUTEX(mListenerListMutex);
+            
         mListenerList.insert(lis);
     }
     //-----------------------------------------------------------------------
     void Resource::removeListener(Resource::Listener* lis)
     {
         // O(n) but not called very often
-            OGRE_LOCK_MUTEX(mListenerListMutex);
+            
         mListenerList.erase(lis);
     }
     //-----------------------------------------------------------------------
     void Resource::_fireLoadingComplete(bool unused)
     {
         // Lock the listener list
-        OGRE_LOCK_MUTEX(mListenerListMutex);
+        
         for (auto& l : mListenerList)
         {
             l->loadingComplete(this);
@@ -398,7 +398,7 @@ namespace Ogre
     void Resource::_firePreparingComplete(bool unused)
     {
         // Lock the listener list
-        OGRE_LOCK_MUTEX(mListenerListMutex);
+        
         for (auto& l : mListenerList)
         {
             l->preparingComplete(this);
@@ -408,7 +408,7 @@ namespace Ogre
     void Resource::_fireUnloadingComplete(void)
     {
         // Lock the listener list
-        OGRE_LOCK_MUTEX(mListenerListMutex);
+        
         for (auto& l : mListenerList)
         {
             l->unloadingComplete(this);

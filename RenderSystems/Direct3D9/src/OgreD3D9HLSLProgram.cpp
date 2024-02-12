@@ -309,7 +309,7 @@ namespace Ogre {
             mConstantDefs->map.emplace(iter->first, iter->second);
 
             // Record logical / physical mapping
-            OGRE_LOCK_MUTEX(mLogicalToPhysical->mutex);
+            
             mLogicalToPhysical->map.emplace(def.logicalIndex,
                     GpuLogicalIndexUse(def.physicalIndex, def.arraySize * def.elementSize, GPV_GLOBAL, def.isFloat() ? BCT_FLOAT : BCT_INT));
         }
@@ -369,7 +369,7 @@ namespace Ogre {
                 // populate type, array size & element size
                 populateDef(desc, def);
                 def.physicalIndex = mLogicalToPhysical->bufferSize*4;
-                OGRE_LOCK_MUTEX(mLogicalToPhysical->mutex);
+                
                 mLogicalToPhysical->map.emplace(paramIndex,
                     GpuLogicalIndexUse(def.physicalIndex, def.arraySize * def.elementSize, GPV_GLOBAL, def.isFloat() ? BCT_FLOAT : BCT_INT));
                 mLogicalToPhysical->bufferSize += def.arraySize * def.elementSize;

@@ -233,7 +233,7 @@ namespace Ogre
         : mDirtyFrameNumber(std::numeric_limits<unsigned long>::max())
     {
         // lock rhs
-            OGRE_LOCK_MUTEX(rhs.OGRE_AUTO_MUTEX_NAME);
+            
 
         for (const auto & mAnimationState : rhs.mAnimationStates)
         {
@@ -340,7 +340,7 @@ namespace Ogre
     void AnimationStateSet::copyMatchingState(AnimationStateSet* target) const
     {
         // lock target
-        OGRE_LOCK_MUTEX(target->OGRE_AUTO_MUTEX_NAME);
+        
         // lock source
         OGRE_LOCK_AUTO_MUTEX;
 

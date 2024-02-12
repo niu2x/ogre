@@ -1526,7 +1526,7 @@ namespace Ogre
         GpuLogicalBufferStructPtr floatLogical = params->getLogicalBufferStruct();
         if( floatLogical )
         {
-            OGRE_LOCK_MUTEX(floatLogical->mutex);
+            
 
             for(GpuLogicalIndexUseMap::const_iterator i = floatLogical->map.begin();
                 i != floatLogical->map.end(); ++i)

@@ -72,14 +72,14 @@ namespace Ogre {
     VertexDeclaration* HardwareBufferManagerBase::createVertexDeclaration(void)
     {
         VertexDeclaration* decl = createVertexDeclarationImpl();
-        OGRE_LOCK_MUTEX(mVertexDeclarationsMutex);
+        
         mVertexDeclarations.insert(decl);
         return decl;
     }
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::destroyVertexDeclaration(VertexDeclaration* decl)
     {
-        OGRE_LOCK_MUTEX(mVertexDeclarationsMutex);
+        
         OgreAssertDbg(mVertexDeclarations.find(decl) != mVertexDeclarations.end(), "unknown decl");
         mVertexDeclarations.erase(decl);
         destroyVertexDeclarationImpl(decl);
@@ -88,14 +88,14 @@ namespace Ogre {
     VertexBufferBinding* HardwareBufferManagerBase::createVertexBufferBinding(void)
     {
         VertexBufferBinding* ret = createVertexBufferBindingImpl();
-        OGRE_LOCK_MUTEX(mVertexBufferBindingsMutex);
+        
         mVertexBufferBindings.insert(ret);
         return ret;
     }
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::destroyVertexBufferBinding(VertexBufferBinding* binding)
     {
-        OGRE_LOCK_MUTEX(mVertexBufferBindingsMutex);
+        
         OgreAssertDbg(mVertexBufferBindings.find(binding) != mVertexBufferBindings.end(),
                       "unknown binding");
         mVertexBufferBindings.erase(binding);
@@ -124,7 +124,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::destroyAllDeclarations(void)
     {
-        OGRE_LOCK_MUTEX(mVertexDeclarationsMutex);
+        
         for (auto *decl : mVertexDeclarations)
         {
             destroyVertexDeclarationImpl(decl);
@@ -134,7 +134,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::destroyAllBindings(void)
     {
-        OGRE_LOCK_MUTEX(mVertexBufferBindingsMutex);
+        
         for (auto *bind : mVertexBufferBindings)
         {
             destroyVertexBufferBindingImpl(bind);
@@ -152,9 +152,9 @@ namespace Ogre {
         // createVertexBuffer
         // this prevents a deadlock in _notifyVertexBufferDestroyed
         // which locks the same mutexes (via other methods) but in reverse order
-        OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+        
         {
-            OGRE_LOCK_MUTEX(mTempBuffersMutex);
+            
             HardwareVertexBufferSharedPtr vbuf;
 
             // Locate existing buffer copy in temporary vertex buffers
@@ -191,7 +191,7 @@ namespace Ogre {
     void HardwareBufferManagerBase::releaseVertexBufferCopy(
         const HardwareVertexBufferSharedPtr& bufferCopy)
     {
-        OGRE_LOCK_MUTEX(mTempBuffersMutex);
+        
         TemporaryVertexBufferLicenseMap::iterator i =
             mTempVertexBufferLicenses.find(bufferCopy.get());
         if (i != mTempVertexBufferLicenses.end())
@@ -206,7 +206,7 @@ namespace Ogre {
     void HardwareBufferManagerBase::touchVertexBufferCopy(
             const HardwareVertexBufferSharedPtr& bufferCopy)
     {
-        OGRE_LOCK_MUTEX(mTempBuffersMutex);
+        
         TemporaryVertexBufferLicenseMap::iterator i =
             mTempVertexBufferLicenses.find(bufferCopy.get());
         if (i != mTempVertexBufferLicenses.end())
@@ -218,7 +218,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::_freeUnusedBufferCopies(void)
     {
-        OGRE_LOCK_MUTEX(mTempBuffersMutex);
+        
         size_t numFreed = 0;
 
         // Free unused temporary buffers
@@ -251,7 +251,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::_releaseBufferCopies(bool forceFreeUnused)
     {
-        OGRE_LOCK_MUTEX(mTempBuffersMutex);
+        
         size_t numUnused = mFreeTempVertexBufferMap.size();
         size_t numUsed = mTempVertexBufferLicenses.size();
 
@@ -307,7 +307,7 @@ namespace Ogre {
     void HardwareBufferManagerBase::_forceReleaseBufferCopies(
         HardwareVertexBuffer* sourceBuffer)
     {
-        OGRE_LOCK_MUTEX(mTempBuffersMutex);
+        
         // Erase the copies which are licensed out
         TemporaryVertexBufferLicenseMap::iterator i;
         i = mTempVertexBufferLicenses.begin();
@@ -359,7 +359,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::_notifyVertexBufferDestroyed(HardwareVertexBuffer* buf)
     {
-        OGRE_LOCK_MUTEX(mVertexBuffersMutex);
+        
         VertexBufferList::iterator i = mVertexBuffers.find(buf);
         if (i != mVertexBuffers.end())
         {

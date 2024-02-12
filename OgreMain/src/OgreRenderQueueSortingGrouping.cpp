@@ -233,7 +233,7 @@ namespace {
         // the list and can cause problems with future clones
         {
             // Hmm, a bit hacky but least obtrusive for now
-                    OGRE_LOCK_MUTEX(Pass::msPassGraveyardMutex);
+                    
             const Pass::PassSet& graveyardList = Pass::getPassGraveyard();
             for (auto* p : graveyardList)
             {
@@ -246,7 +246,7 @@ namespace {
         // If we don't do this, the std::map will become inconsistent for new insterts
         {
             // Hmm, a bit hacky but least obtrusive for now
-                    OGRE_LOCK_MUTEX(Pass::msDirtyHashListMutex);
+                    
             const Pass::PassSet& dirtyList = Pass::getDirtyHashList();
             for (auto* p : dirtyList)
             {

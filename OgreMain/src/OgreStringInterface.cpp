@@ -70,7 +70,7 @@ namespace Ogre {
 
     bool StringInterface::createParamDictionary(const String& className)
     {
-        OGRE_LOCK_MUTEX( msDictionaryMutex );
+        
 
         ParamDictionaryMap::iterator it = msDictionary.find(className);
 
@@ -165,7 +165,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void StringInterface::cleanupDictionary ()
     {
-            OGRE_LOCK_MUTEX( msDictionaryMutex );
+            
 
         msDictionary.clear();
     }
