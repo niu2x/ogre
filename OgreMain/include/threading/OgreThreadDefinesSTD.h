@@ -23,27 +23,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadDefinesNone_H__
-#define __OgreThreadDefinesNone_H__
+#ifndef __OgreThreadDefinesSTD_H__
+#define __OgreThreadDefinesSTD_H__
 
-#if OGRE_THREAD_SUPPORT != 3
-#define OGRE_THREAD_HARDWARE_CONCURRENCY 1
-#define OGRE_THREAD_CURRENT_ID "main"
+// Thread objects and related functions
+#define OGRE_THREAD_TYPE std::thread
+#define OGRE_THREAD_CREATE(name, worker) std::thread* name = OGRE_NEW_T(std::thread, MEMCATEGORY_GENERAL)(worker)
+#define OGRE_THREAD_DESTROY(name) OGRE_DELETE_T(name, thread, MEMCATEGORY_GENERAL)
+#define OGRE_THREAD_HARDWARE_CONCURRENCY std::thread::hardware_concurrency()
+#define OGRE_THREAD_CURRENT_ID std::this_thread::get_id()
 #define OGRE_THREAD_WORKER_INHERIT
 
-// will be defined by the respective thread provider
-#define OGRE_WQ_MUTEX(name)
-#define OGRE_WQ_LOCK_MUTEX(name)
-#define OGRE_WQ_LOCK_MUTEX_NAMED(mutexName, lockName)
+#define OGRE_WQ_MUTEX(name) mutable std::recursive_mutex name
+#define OGRE_WQ_LOCK_MUTEX(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__) (name)
+#define OGRE_WQ_LOCK_MUTEX_NAMED(mutexName, lockName) std::unique_lock<std::recursive_mutex> lockName(mutexName)
 
-#define OGRE_WQ_RW_MUTEX(name)
-#define OGRE_WQ_LOCK_RW_MUTEX_READ(name)
-#define OGRE_WQ_LOCK_RW_MUTEX_WRITE(name)
+// Read-write mutex
+#define OGRE_WQ_RW_MUTEX(name) mutable std::recursive_mutex name
+#define OGRE_WQ_LOCK_RW_MUTEX_READ(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__) (name)
+#define OGRE_WQ_LOCK_RW_MUTEX_WRITE(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__) (name)
 
-#define OGRE_WQ_THREAD_SYNCHRONISER(sync)
-#define OGRE_THREAD_NOTIFY_ONE(sync)
-#define OGRE_THREAD_NOTIFY_ALL(sync)
-#endif
+#define OGRE_WQ_THREAD_SYNCHRONISER(sync) std::condition_variable_any sync
+#define OGRE_THREAD_WAIT(sync, mutex, lock) sync.wait(lock)
+#define OGRE_THREAD_NOTIFY_ONE(sync) sync.notify_one()
+#define OGRE_THREAD_NOTIFY_ALL(sync) sync.notify_all()
+
 
 #define OGRE_AUTO_MUTEX
 #define OGRE_LOCK_AUTO_MUTEX
@@ -59,5 +63,6 @@ THE SOFTWARE
 
 #define OGRE_THREAD_SLEEP(ms)
 #define OGRE_THREAD_YIELD
+
 
 #endif

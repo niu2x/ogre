@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreArchive.h"
 #include "OgreIteratorWrapper.h"
 #include "OgreCommon.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 #include <ctime>
 #include "OgreHeaderPrefix.h"
 
@@ -299,7 +299,6 @@ namespace Ogre {
             /// General mutex for dealing with group content
                     OGRE_AUTO_MUTEX;
             /// Status-specific mutex, separate from content-changing mutex
-                    OGRE_MUTEX(statusMutex);
             /// Group name
             String name;
             /// Group status

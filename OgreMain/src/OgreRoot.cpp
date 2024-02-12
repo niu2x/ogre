@@ -152,7 +152,7 @@ namespace Ogre {
         defaultQ->setWorkerThreadCount(threadCount);
 
         // only allow workers to access rendersystem if threadsupport is 1
-        defaultQ->setWorkersCanAccessRenderSystem(OGRE_THREAD_SUPPORT == 1);
+        defaultQ->setWorkersCanAccessRenderSystem(false);
         mWorkQueue.reset(defaultQ);
 
         // ResourceBackgroundQueue

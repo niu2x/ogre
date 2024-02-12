@@ -76,17 +76,17 @@ if(NOT WIN32)
 endif()
 
 # Configure threading files
-file(GLOB THREAD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/include/Threading/*.h")
+file(GLOB THREAD_HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/include/theading/*.h")
 include_directories("include/Threading" "src/")
 
 if(XDOG_USE_STD_THREAD)
   list(APPEND THREAD_HEADER_FILES
-    include/Threading/OgreThreadDefinesSTD.h
-    include/Threading/OgreThreadHeadersSTD.h
+    include/theading/OgreThreadDefinesSTD.h
+    include/theading/OgreThreadHeadersSTD.h
   )
 else()
   list(APPEND THREAD_HEADER_FILES
-    include/Threading/OgreThreadDefinesNone.h
+    include/theading/OgreThreadDefinesNone.h
   )
 endif()
 
@@ -94,7 +94,7 @@ list(APPEND HEADER_FILES ${THREAD_HEADER_FILES})
 
 set(LIBRARIES)
 
-if (OGRE_CONFIG_THREADS)
+if (XDOG_USE_THREAD)
   list(APPEND LIBRARIES ${OGRE_THREAD_LIBRARIES})
 endif ()
 
@@ -180,7 +180,7 @@ if (APPLE)
       add_custom_command(TARGET OgreMain POST_BUILD
           COMMAND mkdir ARGS -p ${PROJECT_BINARY_DIR}/lib/${OGRE_OSX_BUILD_CONFIGURATION}/Ogre.framework/Headers/Threading
           COMMAND ditto
-          ${PROJECT_SOURCE_DIR}/OgreMain/include/Threading/*.h ${PROJECT_BINARY_DIR}/lib/${OGRE_OSX_BUILD_CONFIGURATION}/Ogre.framework/Headers/Threading
+          ${PROJECT_SOURCE_DIR}/OgreMain/include/theading/*.h ${PROJECT_BINARY_DIR}/lib/${OGRE_OSX_BUILD_CONFIGURATION}/Ogre.framework/Headers/Threading
           COMMAND cd ${PROJECT_BINARY_DIR}/lib/${OGRE_OSX_BUILD_CONFIGURATION}/Ogre.framework/Headers
           )
 

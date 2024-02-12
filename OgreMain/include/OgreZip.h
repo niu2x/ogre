@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreArchive.h"
 #include "OgreArchiveFactory.h"
 #include "OgreHeaderPrefix.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 
 struct AAssetManager;
 struct AAsset;

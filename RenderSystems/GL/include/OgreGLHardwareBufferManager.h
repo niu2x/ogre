@@ -44,7 +44,6 @@ namespace Ogre {
     protected:
         GLRenderSystem* mRenderSystem;
         char* mScratchBufferPool;
-        OGRE_MUTEX(mScratchMutex);
         size_t mMapBufferThreshold;
 
     public:

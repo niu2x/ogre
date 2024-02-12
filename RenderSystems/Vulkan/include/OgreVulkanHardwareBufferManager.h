@@ -37,7 +37,6 @@ namespace Ogre
     class _OgreVulkanExport VulkanHardwareBufferManager : public HardwareBufferManager
     {
         VulkanDevice *mDevice;;
-        OGRE_MUTEX(mIndexBuffersMutex);
         IndexBufferList mIndexBuffers;
     public:
         VulkanHardwareBufferManager( VulkanDevice *device );

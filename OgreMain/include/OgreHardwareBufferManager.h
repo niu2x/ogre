@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreSingleton.h"
 #include "OgreHardwareIndexBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -90,10 +90,6 @@ namespace Ogre {
         VertexBufferBindingList mVertexBufferBindings;
 
         // Mutexes
-        OGRE_MUTEX(mVertexBuffersMutex);
-        OGRE_MUTEX(mVertexDeclarationsMutex);
-        OGRE_MUTEX(mVertexBufferBindingsMutex);
-
         /// Internal method for destroys all vertex declarations.
         void destroyAllDeclarations(void);
         /// Internal method for destroys all vertex buffer bindings.
@@ -146,8 +142,6 @@ namespace Ogre {
         /// Frame delay for temporary buffers.
         static const size_t EXPIRED_DELAY_FRAME_THRESHOLD;
         // Mutexes
-        OGRE_MUTEX(mTempBuffersMutex);
-
         void _forceReleaseBufferCopies(HardwareVertexBuffer* sourceBuffer);
     public:
         HardwareBufferManagerBase();

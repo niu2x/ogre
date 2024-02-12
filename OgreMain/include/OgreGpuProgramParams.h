@@ -35,7 +35,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include "OgreSharedPtr.h"
 #include "OgreSerializer.h"
 #include "OgreAny.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -368,9 +368,6 @@ namespace Ogre {
     /// Container struct to allow params to safely & update shared list of logical buffer assignments
     struct _OgreExport GpuLogicalBufferStruct : public GpuParamsAlloc
     {
-        OGRE_MUTEX(mutex);
-
-        /// Map from logical index to physical buffer location
         GpuLogicalIndexUseMap map;
         /// Shortcut to know the buffer size needs
         size_t bufferSize;

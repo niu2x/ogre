@@ -23,42 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadDefines_H__
-#define __OgreThreadDefines_H__
+#ifndef __OgreThreadHeaders_H__
+#define __OgreThreadHeaders_H__
 
-#define OGRE_AUTO_MUTEX_NAME mutex
+#if !defined(NOMINMAX) && defined(_MSC_VER)
+#   define NOMINMAX // required to stop windows.h messing up std::min
+#endif
 
 #if XDOG_USE_STD_THREAD
-   #include "OgreThreadDefinesSTD.h"
-#else
-    #include "OgreThreadDefinesNone.h"
+   #include "OgreThreadHeadersSTD.h"
 #endif
 
-#if OGRE_THREAD_SUPPORT == 3
-    #include "OgreThreadDefinesNone.h"
-
-    // all empty definitions
-    #define OGRE_MUTEX(name)
-
-    #define OGRE_LOCK_MUTEX(name)
-    #define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName)
-
-    #define OGRE_RW_MUTEX(name)
-    #define OGRE_LOCK_RW_MUTEX_READ(name)
-    #define OGRE_LOCK_RW_MUTEX_WRITE(name)
-    #define OGRE_THREAD_SYNCHRONISER(sync)
-#else
-    // alias to WQ names
-    #define OGRE_MUTEX(name) OGRE_WQ_MUTEX(name)
-
-    #define OGRE_LOCK_MUTEX(name) OGRE_WQ_LOCK_MUTEX(name)
-    #define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName) OGRE_WQ_LOCK_MUTEX_NAMED(mutexName, lockName)
-
-    #define OGRE_RW_MUTEX(name) OGRE_WQ_RW_MUTEX(name)
-    #define OGRE_LOCK_RW_MUTEX_READ(name) OGRE_WQ_LOCK_RW_MUTEX_READ(name)
-    #define OGRE_LOCK_RW_MUTEX_WRITE(name) OGRE_WQ_LOCK_RW_MUTEX_WRITE(name)
-    #define OGRE_THREAD_SYNCHRONISER(sync) OGRE_WQ_THREAD_SYNCHRONISER(sync)
-#endif
+#include "OgreThreadDefines.h"
 
 #endif
+
 

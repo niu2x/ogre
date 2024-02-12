@@ -599,7 +599,6 @@ namespace Ogre {
         struct MovableObjectCollection
         {
                     MovableObjectMap map;
-                    OGRE_MUTEX(mutex);
         };
         /** Gets the movable object collection for the given type name.
 
@@ -612,7 +611,6 @@ namespace Ogre {
         */
         const MovableObjectCollection* getMovableObjectCollection(const String& typeName) const;
         /// Mutex over the collection of MovableObject types
-        OGRE_MUTEX(mMovableObjectCollectionMapMutex);
 
         /** Internal method for initialising the render queue.
 
@@ -731,7 +729,6 @@ namespace Ogre {
 
         /// Storage of animations, lookup by name
         AnimationList mAnimationsList;
-        OGRE_MUTEX(mAnimationsListMutex);
         AnimationStateSet mAnimationStates;
 
         typedef std::vector<RenderQueueListener*> RenderQueueListenerList;
@@ -1048,33 +1045,6 @@ namespace Ogre {
         */
         virtual ~SceneManager();
 
-
-        /** Mutex to protect the scene graph from simultaneous access from
-            multiple threads.
-
-            If you are updating the scene in a separate thread from the rendering
-            thread, then you should lock this mutex before making any changes to 
-            the scene graph - that means creating, modifying or deleting a
-            scene node, or attaching / detaching objects. It is <b>your</b> 
-            responsibility to take out this lock, the detail methods on the nodes
-            will not do it for you (for the reasons discussed below).
-        @par
-            Note that locking this mutex will prevent the scene being rendered until 
-            it is unlocked again. Therefore you should do this sparingly. Try
-            to create any objects you need separately and fully prepare them
-            before doing all your scene graph work in one go, thus keeping this
-            lock for the shortest time possible.
-        @note
-            A single global lock is used rather than a per-node lock since 
-            it keeps the number of locks required during rendering down to a 
-            minimum. Obtaining a lock, even if there is no contention, is not free
-            so for performance it is good to do it as little as possible. 
-            Since modifying the scene in a separate thread is a fairly
-            rare occurrence (relative to rendering), it is better to keep the 
-            locking required during rendering lower than to make update locks
-            more granular.
-        */
-        OGRE_MUTEX(sceneGraphMutex);
 
         /** Return the instance name of this SceneManager. */
         const String& getName(void) const { return mName; }

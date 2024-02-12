@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __Ogre_Page_H__
 
 #include "OgrePagingPrerequisites.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 #include "OgreWorkQueue.h"
 
 

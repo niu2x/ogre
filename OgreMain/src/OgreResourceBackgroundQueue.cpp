@@ -75,7 +75,7 @@ namespace Ogre {
     {
         auto task = std::make_shared<std::packaged_task<void()>>([name]()
         {
-#   if OGRE_THREAD_SUPPORT == 1
+#   if 0
             ResourceGroupManager::getSingleton().loadResourceGroup(name);
 #   else
             ResourceGroupManager::getSingleton().prepareResourceGroup(name);
@@ -104,7 +104,7 @@ namespace Ogre {
         auto task = std::make_shared<std::packaged_task<void()>>(
             [res]()
             {
-#if OGRE_THREAD_SUPPORT == 1
+#if 0
                 res->load(true);
                 Root::getSingleton().getWorkQueue()->addMainThreadTask([res]() { res->_fireLoadingComplete(); });
 #else

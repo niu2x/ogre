@@ -263,7 +263,7 @@ namespace Ogre
 		{
 			deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 		}
-		if(!OGRE_THREAD_SUPPORT)
+		if(!XDOG_USE_THREAD)
 		{
 			deviceFlags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
 		}

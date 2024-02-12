@@ -103,7 +103,6 @@ namespace Ogre {
 
     // Attributes.
     protected:      
-        OGRE_MUTEX(mResourcesMutex);
         ResourceContainer           mResources;
         D3D9ResourceCreationPolicy  mResourceCreationPolicy;
         long                        mDeviceAccessLockCount;     

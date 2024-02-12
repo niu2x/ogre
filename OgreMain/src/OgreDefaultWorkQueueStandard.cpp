@@ -57,7 +57,7 @@ namespace Ogre
             OGRE_THREAD_CURRENT_ID
             << ".";
 
-#if OGRE_THREAD_SUPPORT
+#if XDOG_USE_THREAD
         if (mWorkerRenderSystemAccess)
             Root::getSingleton().getRenderSystem()->preExtraThreadsStarted();
 
@@ -106,7 +106,7 @@ namespace Ogre
 
         mShuttingDown = true;
 
-#if OGRE_THREAD_SUPPORT
+#if XDOG_USE_THREAD
         // wake all threads (they should check shutting down as first thing after wait)
         OGRE_THREAD_NOTIFY_ALL(mRequestCondition);
 
@@ -131,7 +131,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void DefaultWorkQueue::waitForNextRequest()
     {
-#if OGRE_THREAD_SUPPORT
+#if XDOG_USE_THREAD
         // Lock; note that OGRE_THREAD_WAIT will free the lock
             OGRE_WQ_LOCK_MUTEX_NAMED(mRequestMutex, queueLock);
         if (mTasks.empty())
@@ -150,7 +150,7 @@ namespace Ogre
     void DefaultWorkQueue::_threadMain()
     {
         // default worker thread
-#if OGRE_THREAD_SUPPORT
+#if XDOG_USE_THREAD
         LogManager::getSingleton().stream() << 
             "DefaultWorkQueue('" << getName() << "')::WorkerFunc - thread " 
             << OGRE_THREAD_CURRENT_ID << " starting.";

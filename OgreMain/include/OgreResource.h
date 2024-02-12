@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreStringInterface.h"
 #include "OgreHeaderPrefix.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 
 namespace Ogre {
 
@@ -157,7 +157,6 @@ namespace Ogre {
 
         typedef std::set<Listener*> ListenerList;
         ListenerList mListenerList;
-        OGRE_MUTEX(mListenerListMutex);
     protected:
         /** Protected unnamed constructor to prevent default construction. 
         */

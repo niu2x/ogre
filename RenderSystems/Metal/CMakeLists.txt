@@ -35,7 +35,7 @@ endif()
 target_compile_options(RenderSystem_Metal PRIVATE "-fobjc-arc")
 set_target_properties(RenderSystem_Metal PROPERTIES LINK_FLAGS "-fobjc-arc")
 
-if (OGRE_CONFIG_THREADS)
+if (XDOG_USE_THREAD)
   target_link_libraries(RenderSystem_Metal ${OGRE_THREAD_LIBRARIES})
 endif ()
 

@@ -38,7 +38,6 @@ namespace Ogre {
     {
     protected:
         MetalDevice *mDevice;
-        OGRE_MUTEX(mIndexBuffersMutex);
         IndexBufferList mIndexBuffers;
     public:
         MetalHardwareBufferManager( MetalDevice *device);

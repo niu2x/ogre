@@ -116,7 +116,7 @@ namespace Ogre {
         if (!mAcceptRequests || mShuttingDown)
             return;
 
-#if OGRE_THREAD_SUPPORT
+#if XDOG_USE_THREAD
         mTasks.push_back(task);
         notifyWorkers();
 #else

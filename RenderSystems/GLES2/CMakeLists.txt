@@ -78,7 +78,7 @@ if (NOT OGRE_STATIC)
   )
 endif ()
 
-if (OGRE_CONFIG_THREADS)
+if (XDOG_USE_THREAD)
   target_link_libraries(RenderSystem_GLES2 ${OGRE_THREAD_LIBRARIES})
 endif ()
 

@@ -30,9 +30,9 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 
-#if OGRE_THREAD_SUPPORT == 1 || OGRE_THREAD_SUPPORT == 2
+#if 0
 #   define OGRE_LOCK_RECURSIVE_MUTEX(name)   name.lock();
 #   define OGRE_UNLOCK_RECURSIVE_MUTEX(name) name.unlock();
 #else
@@ -40,7 +40,7 @@ THE SOFTWARE.
 #   define OGRE_UNLOCK_RECURSIVE_MUTEX(name)
 #endif
 
-#if OGRE_THREAD_SUPPORT == 1
+#if 0
 #   define D3D9_DEVICE_ACCESS_LOCK              OGRE_LOCK_RECURSIVE_MUTEX(msDeviceAccessMutex);
 #   define D3D9_DEVICE_ACCESS_UNLOCK            OGRE_UNLOCK_RECURSIVE_MUTEX(msDeviceAccessMutex);
 #   define D3D9_DEVICE_ACCESS_CRITICAL_SECTION  OGRE_LOCK_MUTEX(msDeviceAccessMutex);

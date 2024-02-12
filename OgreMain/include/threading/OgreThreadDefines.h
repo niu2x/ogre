@@ -23,36 +23,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadHeadersBoost_H__
-#define __OgreThreadHeadersBoost_H__
+#ifndef __OgreThreadDefines_H__
+#define __OgreThreadDefines_H__
 
-#if OGRE_COMPILER == OGRE_COMPILER_CLANG || OGRE_COMPILER == OGRE_COMPILER_GNUC
-#   pragma GCC diagnostic push
-#if OGRE_COMPILER == OGRE_COMPILER_GNUC
-#   pragma GCC diagnostic ignored "-Wpragmas"
-#elif OGRE_COMPILER == OGRE_COMPILER_CLANG
-#   pragma GCC diagnostic ignored "-Wdocumentation"
-#   pragma GCC diagnostic ignored "-Wconstexpr-not-const"
-#endif
-#   pragma GCC diagnostic ignored "-Wshadow"
-#   pragma GCC diagnostic ignored "-Wpadded"
-#   pragma GCC diagnostic ignored "-Wweak-vtables"
-#   pragma GCC diagnostic ignored "-Wall"
-#   pragma GCC diagnostic ignored "-Wshorten-64-to-32"
-#   pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#   pragma GCC diagnostic ignored "-Wunused-variable"
-#   pragma GCC diagnostic ignored "-Wundef"
+#define OGRE_AUTO_MUTEX_NAME mutex
+
+#if XDOG_USE_STD_THREAD
+   #include "OgreThreadDefinesSTD.h"
+#else
+    #include "OgreThreadDefinesNone.h"
 #endif
 
-#include <boost/thread/tss.hpp>
-#include <boost/thread/recursive_mutex.hpp>
-#include <boost/thread/condition.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/thread/shared_mutex.hpp>
-#include <boost/thread/locks.hpp>
+// all empty definitions
+#define OGRE_LOCK_MUTEX(name)
+#define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName)
 
-#if OGRE_COMPILER == OGRE_COMPILER_CLANG || OGRE_COMPILER == OGRE_COMPILER_GNUC
-#   pragma GCC diagnostic pop
+#define OGRE_RW_MUTEX(name)
+#define OGRE_LOCK_RW_MUTEX_READ(name)
+#define OGRE_LOCK_RW_MUTEX_WRITE(name)
+#define OGRE_THREAD_SYNCHRONISER(sync)
+
+
 #endif
 
-#endif

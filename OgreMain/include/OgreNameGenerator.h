@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include <sstream>
 #include "OgreHeaderPrefix.h"
 
-#include "Threading/OgreThreadHeaders.h"
+#include "threading/OgreThreadHeaders.h"
 
 namespace Ogre {
     /** \addtogroup Core

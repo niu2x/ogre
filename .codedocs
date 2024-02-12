@@ -761,7 +761,7 @@ EXCLUDE_PATTERNS       = *UTF* \
                          */GLSupport/include/GLX/* \
                          */GLSupport/include/OSX/* \
                          */GLSupport/include/win32/* \
-                         */include/Threading/* \
+                         */include/threading/* \
                          */OgreMemoryAllocatorConfig.h \
                          *EAGL* \
                          */RenderSystems/GLES/*
