@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreCommon.h"
 #include "OgreSingleton.h"
 #include "OgreTextureUnitState.h"
-#include "OgreSharedPtr.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

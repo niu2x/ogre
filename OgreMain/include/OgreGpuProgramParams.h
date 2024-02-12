@@ -32,7 +32,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreSharedPtr.h"
+
 #include "OgreSerializer.h"
 #include "any.h"
 #include "threading/thread_header.h"

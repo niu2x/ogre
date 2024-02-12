@@ -30,7 +30,7 @@ THE SOFTWARE
 #include "OgreOverlayPrerequisites.h"
 #include "OgreResource.h"
 #include "OgreCommon.h"
-#include "OgreSharedPtr.h"
+
 #include "OgreColourValue.h"
 #include "OgreException.h"
 

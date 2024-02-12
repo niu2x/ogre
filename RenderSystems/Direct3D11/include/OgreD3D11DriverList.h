@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __D3D11DRIVERLIST_H__
 
 #include "OgreD3D11Prerequisites.h"
-#include "OgreSharedPtr.h"
+
 
 namespace Ogre 
 {

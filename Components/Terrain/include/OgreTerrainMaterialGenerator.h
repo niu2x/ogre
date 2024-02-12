@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreTerrainPrerequisites.h"
 #include "OgrePixelFormat.h"
-#include "OgreSharedPtr.h"
+
 
 namespace Ogre
 {

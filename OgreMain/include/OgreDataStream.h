@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __DataStream_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSharedPtr.h"
+
 #include <istream>
 #include "OgreHeaderPrefix.h"
 

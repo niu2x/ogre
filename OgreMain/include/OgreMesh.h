@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreAnimation.h"
 #include "OgreAnimationTrack.h"
 #include "OgreHeaderPrefix.h"
-#include "OgreSharedPtr.h"
+
 #include "OgreUserObjectBindings.h"
 #include "OgreVertexIndexData.h"
 

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreGLSupportPrerequisites.h"
 #include "OgreGLStateCacheManagerCommon.h"
-#include "OgreSharedPtr.h"
+
 
 namespace Ogre {
 

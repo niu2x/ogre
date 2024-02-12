@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "any.h"
-#include "OgreSharedPtr.h"
+
 #include "OgreCommon.h"
 #include "threading/thread_header.h"
 #include "OgreHeaderPrefix.h"

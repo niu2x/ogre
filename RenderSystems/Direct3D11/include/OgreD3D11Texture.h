@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreD3D11RenderTarget.h"
 #include "OgreTexture.h"
 #include "OgreRenderTexture.h"
-#include "OgreSharedPtr.h"
+
 
 namespace Ogre {
 	/** Specialisation of Texture for D3D11 */

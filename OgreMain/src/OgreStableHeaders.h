@@ -96,7 +96,7 @@ extern "C" {
 #include "OgreSceneNode.h"
 #include "OgreScriptCompiler.h"
 #include "OgreSerializer.h"
-#include "OgreSharedPtr.h"
+
 #include "OgreSimpleRenderable.h"
 #include "OgreSimpleSpline.h"
 #include "OgreSingleton.h"

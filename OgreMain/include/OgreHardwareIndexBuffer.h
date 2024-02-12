@@ -31,7 +31,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 #include "OgreHardwareBuffer.h"
-#include "OgreSharedPtr.h"
+
 
 namespace Ogre {
     class HardwareBufferManagerBase;

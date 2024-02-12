@@ -29,7 +29,7 @@ THE SOFTWARE.
 #ifndef __SCRIPTCOMPILER_H_
 #define __SCRIPTCOMPILER_H_
 
-#include "OgreSharedPtr.h"
+
 #include "OgreSingleton.h"
 #include "OgreScriptLoader.h"
 #include "OgreGpuProgram.h"
