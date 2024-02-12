@@ -344,7 +344,6 @@ namespace Volume {
         {
             while(mShared->chunksBeingProcessed)
             {
-                OGRE_THREAD_SLEEP(0);
                 Root::getSingleton().getWorkQueue()->processMainThreadTasks();
             }
         }

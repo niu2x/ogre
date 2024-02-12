@@ -47,7 +47,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     LogManager::~LogManager()
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         // Destroy all logs
         LogList::iterator i;
         for (i = mLogs.begin(); i != mLogs.end(); ++i)
@@ -59,7 +59,7 @@ namespace Ogre {
     Log* LogManager::createLog( const String& name, bool defaultLog, bool debuggerOutput, 
         bool suppressFileOutput)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         Log* newLog = OGRE_NEW Log(name, debuggerOutput, suppressFileOutput);
 
@@ -75,13 +75,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Log* LogManager::getDefaultLog()
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         return mDefaultLog;
     }
     //-----------------------------------------------------------------------
     Log* LogManager::setDefaultLog(Log* newLog)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         Log* oldLog = mDefaultLog;
         mDefaultLog = newLog;
         return oldLog;
@@ -89,7 +89,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Log* LogManager::getLog( const String& name)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         LogList::iterator i = mLogs.find(name);
         OgreAssert(i != mLogs.end(), "Log not found");
         return i->second;
@@ -123,7 +123,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void LogManager::logMessage( const String& message, LogMessageLevel lml, bool maskDebug)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         if (mDefaultLog)
         {
             mDefaultLog->logMessage(message, lml, maskDebug);
@@ -142,7 +142,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void LogManager::setLogDetail(LoggingLevel ll)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         if (mDefaultLog)
         {
             OGRE_IGNORE_DEPRECATED_BEGIN
@@ -153,7 +153,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void LogManager::setMinLogLevel(LogMessageLevel lml)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         if (mDefaultLog)
         {
             mDefaultLog->setMinLogLevel(lml);
@@ -162,7 +162,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     Log::Stream LogManager::stream(LogMessageLevel lml, bool maskDebug)
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         OgreAssert(mDefaultLog, "Default log not found");
         return mDefaultLog->stream(lml, maskDebug);
     }

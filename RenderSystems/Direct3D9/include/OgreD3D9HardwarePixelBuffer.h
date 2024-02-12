@@ -74,7 +74,6 @@ namespace Ogre {
         D3D9Texture* mOwnerTexture;
 
         // Device access mutex.
-        OGRE_STATIC_MUTEX(msDeviceAccessMutex);
 
         Image mStagingBuffer;
     protected:

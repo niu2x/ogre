@@ -96,7 +96,6 @@ namespace Ogre {
         // Scope lock for actual loading
         try
         {
-            OGRE_LOCK_AUTO_MUTEX;
             _loadImages({&img});
         }
         catch (...)

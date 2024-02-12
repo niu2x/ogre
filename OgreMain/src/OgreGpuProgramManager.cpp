@@ -152,7 +152,7 @@ namespace {
     {
         GpuProgramPtr prg;
         {
-            OGRE_LOCK_AUTO_MUTEX;
+            
             prg = getByName(name, groupName);
             if (!prg)
             {
@@ -170,7 +170,7 @@ namespace {
     {
         GpuProgramPtr prg;
         {
-                    OGRE_LOCK_AUTO_MUTEX;
+                    
             prg = getByName(name, groupName);
             if (!prg)
             {

@@ -200,8 +200,6 @@ namespace Ogre {
     class _OgreExport AnimationStateSet : public AnimationAlloc
     {
     public:
-        /// Mutex, public for external locking if needed
-            OGRE_AUTO_MUTEX;
         /// Create a blank animation state set
         AnimationStateSet();
         /// Create an animation set by copying the contents of another

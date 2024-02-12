@@ -29,7 +29,6 @@ THE SOFTWARE.
 #include "threading/OgreThreadHeaders.h"
 
 namespace Ogre {
-    OGRE_STATIC_MUTEX( msDictionaryMutex );
     /// Dictionary of parameters
     static ParamDictionaryMap msDictionary;
 

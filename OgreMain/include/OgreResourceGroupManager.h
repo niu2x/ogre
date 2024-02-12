@@ -235,7 +235,6 @@ namespace Ogre {
     class _OgreExport ResourceGroupManager : public Singleton<ResourceGroupManager>, public ResourceAlloc
     {
     public:
-        OGRE_AUTO_MUTEX; // public to allow external locking
         /// same as @ref RGN_DEFAULT
         static const String DEFAULT_RESOURCE_GROUP_NAME;
         /// same as @ref RGN_INTERNAL
@@ -297,7 +296,6 @@ namespace Ogre {
                 LOADED = 4
             };
             /// General mutex for dealing with group content
-                    OGRE_AUTO_MUTEX;
             /// Status-specific mutex, separate from content-changing mutex
             /// Group name
             String name;

@@ -56,7 +56,6 @@ namespace Ogre
 
         while(!mPagesInLoading.empty())
         {
-            OGRE_THREAD_SLEEP(50);
             Root::getSingleton().getWorkQueue()->processMainThreadTasks();
         }
 
@@ -286,8 +285,6 @@ namespace Ogre
         unsigned long currentTime = Root::getSingletonPtr()->getTimer()->getMilliseconds();
         if(currentTime < mNextLoadingTime)
         {
-            // Wait until the next page is to be loaded -> we are in background thread here
-            OGRE_THREAD_SLEEP(mNextLoadingTime - currentTime);
         }
 
         PageID pageID = mPagesInLoading.front();

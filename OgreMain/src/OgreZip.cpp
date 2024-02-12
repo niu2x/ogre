@@ -40,7 +40,6 @@ namespace {
         MemoryDataStreamPtr mBuffer;
         /// File list (since zziplib seems to only allow scanning of dir tree once)
         FileInfoList mFileList;
-        OGRE_AUTO_MUTEX;
     public:
         ZipArchive(const String& name, const String& archType, const uint8* externBuf = 0, size_t externBufSz = 0);
         ~ZipArchive();
@@ -97,7 +96,7 @@ namespace {
     //-----------------------------------------------------------------------
     void ZipArchive::load()
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         if (!mZipFile)
         {
             if(!mBuffer)
@@ -143,7 +142,7 @@ namespace {
     //-----------------------------------------------------------------------
     void ZipArchive::unload()
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         if (mZipFile)
         {
             zip_close(mZipFile);
@@ -157,7 +156,7 @@ namespace {
     DataStreamPtr ZipArchive::open(const String& filename, bool readOnly) const
     {
         // zip is not threadsafe
-        OGRE_LOCK_AUTO_MUTEX;
+        
         String lookUpFileName = filename;
 
         bool open = zip_entry_open(mZipFile, lookUpFileName.c_str(), OGRE_RESOURCEMANAGER_STRICT) == 0;
@@ -203,7 +202,7 @@ namespace {
     //-----------------------------------------------------------------------
     StringVectorPtr ZipArchive::list(bool recursive, bool dirs) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         auto ret = std::make_shared<StringVector>();
 
         for (auto& f : mFileList)
@@ -216,7 +215,7 @@ namespace {
     //-----------------------------------------------------------------------
     FileInfoListPtr ZipArchive::listFileInfo(bool recursive, bool dirs) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         auto ret = std::make_shared<FileInfoList>();
         for (auto& f : mFileList)
             if ((dirs == (f.compressedSize == size_t (-1))) &&
@@ -228,7 +227,7 @@ namespace {
     //-----------------------------------------------------------------------
     StringVectorPtr ZipArchive::find(const String& pattern, bool recursive, bool dirs) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         auto ret = std::make_shared<StringVector>();
         // If pattern contains a directory name, do a full match
         bool full_match = (pattern.find ('/') != String::npos) ||
@@ -248,7 +247,7 @@ namespace {
     FileInfoListPtr ZipArchive::findFileInfo(const String& pattern, 
         bool recursive, bool dirs) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         auto ret = std::make_shared<FileInfoList>();
         // If pattern contains a directory name, do a full match
         bool full_match = (pattern.find ('/') != String::npos) ||
@@ -267,7 +266,7 @@ namespace {
     //-----------------------------------------------------------------------
     bool ZipArchive::exists(const String& filename) const
     {       
-        OGRE_LOCK_AUTO_MUTEX;
+        
         String cleanName = filename;
 #if !OGRE_RESOURCEMANAGER_STRICT
         if(filename.rfind('/') != String::npos)

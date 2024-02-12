@@ -79,7 +79,7 @@ namespace Ogre
         {
             while( mLoadingState.load() == LOADSTATE_PREPARING )
             {
-                            OGRE_LOCK_AUTO_MUTEX;
+                            
             }
 
             LoadingState state = mLoadingState.load();
@@ -95,7 +95,7 @@ namespace Ogre
         try
         {
 
-                    OGRE_LOCK_AUTO_MUTEX;
+                    
 
             if (mIsManual)
             {
@@ -129,7 +129,7 @@ namespace Ogre
         {
             mLoadingState.store(LOADSTATE_UNLOADED);
 
-            OGRE_LOCK_AUTO_MUTEX;
+            
             unloadImpl();
 
             throw;
@@ -173,7 +173,7 @@ namespace Ogre
             {
                 while( mLoadingState.load() == LOADSTATE_PREPARING )
                 {
-                                    OGRE_LOCK_AUTO_MUTEX;
+                                    
                 }
                 old = mLoadingState.load();
             }
@@ -186,7 +186,7 @@ namespace Ogre
             {
                 while( mLoadingState.load() == LOADSTATE_LOADING )
                 {
-                                    OGRE_LOCK_AUTO_MUTEX;
+                                    
                 }
 
                 LoadingState state = mLoadingState.load();
@@ -209,7 +209,7 @@ namespace Ogre
         try
         {
 
-                    OGRE_LOCK_AUTO_MUTEX;
+                    
 
 
 
@@ -269,7 +269,7 @@ namespace Ogre
             // any prepared data since it might be invalid.
             mLoadingState.store(LOADSTATE_UNLOADED);
 
-            OGRE_LOCK_AUTO_MUTEX;
+            
             unloadImpl();
 
             // Re-throw
@@ -330,7 +330,7 @@ namespace Ogre
 
         // Scope lock for actual unload
         {
-                    OGRE_LOCK_AUTO_MUTEX;
+                    
             if (old==LOADSTATE_PREPARED) {
                 unprepareImpl();
             } else {
@@ -355,7 +355,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void Resource::reload(LoadingFlags flags)
     { 
-            OGRE_LOCK_AUTO_MUTEX;
+            
         if (mLoadingState.load() == LOADSTATE_LOADED)
         {
             unload();

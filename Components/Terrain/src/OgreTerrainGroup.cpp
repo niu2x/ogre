@@ -91,7 +91,6 @@ namespace Ogre
         // waiting for terrain preparing finished
         while (getNumTerrainPrepareRequests() > 0)
         {
-            OGRE_THREAD_SLEEP(50);
             Root::getSingleton().getWorkQueue()->processMainThreadTasks();
         }
 

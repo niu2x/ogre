@@ -47,7 +47,6 @@ namespace Ogre {
     protected:
         typedef typename std::list<T> ItemList;
         ItemList mItems;
-        OGRE_AUTO_MUTEX;
     public:
         Pool() {}
         virtual ~Pool() {}
@@ -57,7 +56,7 @@ namespace Ogre {
          */
         virtual std::pair<bool, T> removeItem()
         {
-            OGRE_LOCK_AUTO_MUTEX;
+            
             std::pair<bool, T> ret;
             if (mItems.empty())
             {
@@ -76,13 +75,12 @@ namespace Ogre {
          */
         virtual void addItem(const T& i)
         {
-            OGRE_LOCK_AUTO_MUTEX;
+            
             mItems.push_front(i);
         }
         /// Clear the pool
         virtual void clear()
         {
-            OGRE_LOCK_AUTO_MUTEX;
             mItems.clear();
         }
     };
@@ -101,7 +99,6 @@ namespace Ogre {
     class _OgreExport ResourceManager : public ScriptLoader, public ResourceAlloc
     {
     public:
-        OGRE_AUTO_MUTEX; // public to allow external locking
         ResourceManager();
         virtual ~ResourceManager();
 

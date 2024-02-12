@@ -48,21 +48,4 @@ THE SOFTWARE
 #define OGRE_THREAD_NOTIFY_ONE(sync) sync.notify_one()
 #define OGRE_THREAD_NOTIFY_ALL(sync) sync.notify_all()
 
-
-#define OGRE_AUTO_MUTEX
-#define OGRE_LOCK_AUTO_MUTEX
-#define OGRE_STATIC_MUTEX(name)
-#define OGRE_STATIC_MUTEX_INSTANCE(name)
-#define OGRE_AUTO_SHARED_MUTEX
-#define OGRE_LOCK_AUTO_SHARED_MUTEX
-#define OGRE_NEW_AUTO_SHARED_MUTEX
-#define OGRE_DELETE_AUTO_SHARED_MUTEX
-#define OGRE_COPY_AUTO_SHARED_MUTEX(from)
-#define OGRE_SET_AUTO_SHARED_MUTEX_NULL
-#define OGRE_MUTEX_CONDITIONAL(name) if(true)
-
-#define OGRE_THREAD_SLEEP(ms)
-#define OGRE_THREAD_YIELD
-
-
 #endif

@@ -1934,7 +1934,6 @@ namespace Ogre
         while (mDerivedDataUpdateInProgress || mGenerateMaterialInProgress || mPrepareInProgress)
         {
             // we need to wait for this to finish
-            OGRE_THREAD_SLEEP(50);
             Root::getSingleton().getWorkQueue()->processMainThreadTasks();
         }
 

@@ -393,8 +393,6 @@ namespace Ogre
     {
         while (mIncreaseLodLevelInProgress)
         {
-            // we need to wait for this to finish
-            OGRE_THREAD_SLEEP(50);
             Root::getSingleton().getWorkQueue()->processMainThreadTasks();
         }
     }

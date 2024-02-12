@@ -94,7 +94,7 @@ namespace Ogre {
         grp->inGlobalPool = inGlobalPool;
         grp->customStageCount = 0;
 
-        OGRE_LOCK_AUTO_MUTEX;
+        
         mResourceGroupMap.emplace(name, grp);
     }
     //-----------------------------------------------------------------------
@@ -122,7 +122,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::initialiseAllResourceGroups(void)
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
 
         // Intialise all declared resource groups
         for (auto& g : mResourceGroupMap)
@@ -151,7 +151,7 @@ namespace Ogre {
         LogManager::getSingleton().stream() << "Preparing resource group '" << name << "'";
         // load all created resources
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
          // lock group mutex 
         // Set current group
         mCurrentGroup = grp;
@@ -215,7 +215,7 @@ namespace Ogre {
         LogManager::getSingleton().stream() << "Loading resource group '" << name << "'";
         // load all created resources
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
          // lock group mutex 
         // Set current group
         mCurrentGroup = grp;
@@ -281,7 +281,7 @@ namespace Ogre {
     {
         LogManager::getSingleton().logMessage("Unloading resource group " + name);
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
         // Set current group
         mCurrentGroup = grp;
          // lock group mutex 
@@ -312,7 +312,7 @@ namespace Ogre {
         LogManager::getSingleton().logMessage(
             "Unloading unused resources in resource group " + name);
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
         // Set current group
         mCurrentGroup = grp;
 
@@ -347,7 +347,7 @@ namespace Ogre {
     {
             LogManager::getSingleton().logMessage("Clearing resource group " + name);
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
         // set current group
         mCurrentGroup = grp;
         dropGroupContents(grp);
@@ -362,7 +362,7 @@ namespace Ogre {
     {
         LogManager::getSingleton().logMessage("Destroying resource group " + name);
         ResourceGroup* grp = getResourceGroup(name, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
         // set current group
         mCurrentGroup = grp;
         unloadResourceGroup(name, false); // will throw an exception if name not valid
@@ -595,7 +595,7 @@ namespace Ogre {
         const String& groupName, bool overwrite, const String& locationPattern)
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
          // lock group mutex
         
         for (auto& li : grp->locationList)
@@ -628,7 +628,7 @@ namespace Ogre {
         const String& locationPattern)
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
-        OGRE_LOCK_AUTO_MUTEX;
+        
          // lock group mutex
         
         for (auto& li : grp->locationList)
@@ -677,14 +677,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::addResourceGroupListener(ResourceGroupListener* l)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         mResourceGroupListenerList.push_back(l);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::removeResourceGroupListener(ResourceGroupListener* l)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         for (ResourceGroupListenerList::iterator i = mResourceGroupListenerList.begin();
             i != mResourceGroupListenerList.end(); ++i)
@@ -700,7 +700,7 @@ namespace Ogre {
     void ResourceGroupManager::_registerResourceManager(
         const String& resourceType, ResourceManager* rm)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         LogManager::getSingleton().logMessage(
             "Registering ResourceManager for type " + resourceType);
@@ -710,7 +710,7 @@ namespace Ogre {
     void ResourceGroupManager::_unregisterResourceManager(
         const String& resourceType)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         LogManager::getSingleton().logMessage(
             "Unregistering ResourceManager for type " + resourceType);
@@ -724,14 +724,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_registerScriptLoader(ScriptLoader* su)
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
 
         mScriptLoaderOrderMap.emplace(su->getLoadingOrder(), su);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_unregisterScriptLoader(ScriptLoader* su)
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
 
         Real order = su->getLoadingOrder();
         ScriptLoaderOrderMap::iterator oi = mScriptLoaderOrderMap.find(order);
@@ -752,7 +752,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     ScriptLoader *ResourceGroupManager::_findScriptLoader(const String &pattern) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         for (auto& oi : mScriptLoaderOrderMap)
         {
             ScriptLoader* su = oi.second;
@@ -962,7 +962,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_notifyAllResourcesRemoved(ResourceManager* manager) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
 
         // Iterate over all groups
         for (const auto & grpi : mResourceGroupMap)
@@ -1007,7 +1007,7 @@ namespace Ogre {
     ResourceGroupManager::ResourceGroup* ResourceGroupManager::getResourceGroup(const String& name,
                                                                                 bool throwOnFailure) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         ResourceGroupMap::const_iterator i = mResourceGroupMap.find(name);
 
         if (i == mResourceGroupMap.end())
@@ -1023,7 +1023,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     ResourceManager* ResourceGroupManager::_getResourceManager(const String& resourceType) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         ResourceManagerMap::const_iterator i = mResourceManagerMap.find(resourceType);
         if (i == mResourceManagerMap.end())
@@ -1078,7 +1078,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceGroupScriptingStarted(const String& groupName, size_t scriptCount) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceGroupScriptingStarted(groupName, scriptCount);
@@ -1087,7 +1087,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireScriptStarted(const String& scriptName, bool &skipScript) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             bool temp = false;
@@ -1099,7 +1099,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireScriptEnded(const String& scriptName, bool skipped) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
             for (auto l : mResourceGroupListenerList)
             {
                 l->scriptParseEnded(scriptName, skipped);
@@ -1108,7 +1108,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceGroupScriptingEnded(const String& groupName) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceGroupScriptingEnded(groupName);
@@ -1117,7 +1117,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceGroupLoadStarted(const String& groupName, size_t resourceCount) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceGroupLoadStarted(groupName, resourceCount);
@@ -1126,7 +1126,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceLoadStarted(const ResourcePtr& resource) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceLoadStarted(resource);
@@ -1135,7 +1135,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceLoadEnded(void) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
             for (auto l : mResourceGroupListenerList)
             {
                 l->resourceLoadEnded();
@@ -1144,7 +1144,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_notifyCustomStageStarted(const String& desc) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         for (auto l : mResourceGroupListenerList)
         {
             l->customStageStarted(desc);
@@ -1153,7 +1153,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_notifyCustomStageEnded(void) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
             for (auto l : mResourceGroupListenerList)
             {
                 l->customStageEnded();
@@ -1162,7 +1162,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceGroupLoadEnded(const String& groupName) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceGroupLoadEnded(groupName);
@@ -1171,7 +1171,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceGroupPrepareStarted(const String& groupName, size_t resourceCount) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceGroupPrepareStarted(groupName, resourceCount);
@@ -1180,7 +1180,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourcePrepareStarted(const ResourcePtr& resource) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         for (auto l : mResourceGroupListenerList)
         {
             l->resourcePrepareStarted(resource);
@@ -1189,7 +1189,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourcePrepareEnded(void) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
             for (auto l : mResourceGroupListenerList)
             {
                 l->resourcePrepareEnded();
@@ -1198,7 +1198,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceGroupPrepareEnded(const String& groupName) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceGroupPrepareEnded(groupName);
@@ -1207,7 +1207,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceCreated(const ResourcePtr& resource) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceCreated(resource);
@@ -1216,7 +1216,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::fireResourceRemove(const ResourcePtr& resource) const
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
         for (auto l : mResourceGroupListenerList)
         {
             l->resourceRemove(resource);
@@ -1225,7 +1225,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::shutdownAll(void)
     {
-        OGRE_LOCK_AUTO_MUTEX;
+        
 
         ResourceManagerMap::iterator i, iend;
         iend = mResourceManagerMap.end();
@@ -1379,7 +1379,7 @@ namespace Ogre {
     ResourceGroupManager::resourceExistsInAnyGroupImpl(const String& filename) const
     {
         OgreAssert(!filename.empty(), "resourceName is empty string");
-            OGRE_LOCK_AUTO_MUTEX;
+            
 
             // Iterate over resource groups and find
         for (const auto & i : mResourceGroupMap)
@@ -1471,7 +1471,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     StringVector ResourceGroupManager::getResourceGroups(void) const
     {
-            OGRE_LOCK_AUTO_MUTEX;
+            
         StringVector vec;
         for (const auto & i : mResourceGroupMap)
         {

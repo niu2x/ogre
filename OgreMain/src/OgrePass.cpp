@@ -83,8 +83,6 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     Pass::PassSet Pass::msDirtyHashList;
     Pass::PassSet Pass::msPassGraveyard;
-    OGRE_STATIC_MUTEX_INSTANCE(Pass::msDirtyHashListMutex);
-    OGRE_STATIC_MUTEX_INSTANCE(Pass::msPassGraveyardMutex);
 
     Pass::HashFunc* Pass::msHashFunc = &sMinGpuProgramChangeHashFunc;
     //-----------------------------------------------------------------------------

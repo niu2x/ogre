@@ -67,7 +67,6 @@ namespace Ogre {
     class _OgreExport Resource : public StringInterface, public ResourceAlloc
     {
     public:
-        OGRE_AUTO_MUTEX; // public to allow external locking
         class Listener
         {
         public:
