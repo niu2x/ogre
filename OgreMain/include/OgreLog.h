@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 #include "OgreHeaderPrefix.h"
 
 #include <fstream>

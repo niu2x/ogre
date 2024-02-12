@@ -109,7 +109,7 @@ extern "C" {
 #include "OgreSubMesh.h"
 #include "OgreTechnique.h"
 #include "OgreTextureManager.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 #include "OgreUserObjectBindings.h"
 #include "OgreVector.h"
 #if OGRE_NO_ZIP_ARCHIVE == 0

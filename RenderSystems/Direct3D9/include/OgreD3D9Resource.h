@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __D3D9Resource_H__
 
 #include "OgreD3D9Prerequisites.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 
 namespace Ogre {
 

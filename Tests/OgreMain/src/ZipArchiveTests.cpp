@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "ZipArchiveTests.h"
-#include "threading//OgreThreadHeaders.h"
+#include "threading//thread_header.h"
 #include "OgreCommon.h"
 #include "OgreConfigFile.h"
 #include "OgreFileSystemLayer.h"

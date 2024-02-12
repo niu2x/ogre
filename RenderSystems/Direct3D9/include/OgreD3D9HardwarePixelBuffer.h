@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreD3D9Prerequisites.h"
 #include "OgreHardwarePixelBuffer.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 
 namespace Ogre {
 

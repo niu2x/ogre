@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreCommon.h"
 #include "OgreController.h"
 #include "OgreControllerManager.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

@@ -23,18 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadDefines_H__
-#define __OgreThreadDefines_H__
+#ifndef XDOG_THREADING_THREAD_HEADER_H
+#define XDOG_THREADING_THREAD_HEADER_H
 
-#define OGRE_AUTO_MUTEX_NAME mutex
+#if !defined(NOMINMAX) && defined(_MSC_VER)
+#   define NOMINMAX // required to stop windows.h messing up std::min
+#endif
 
 #if XDOG_USE_STD_THREAD
-   #include "OgreThreadDefinesSTD.h"
-#else
-    #include "OgreThreadDefinesNone.h"
+   #include "thread_header_std.h"
 #endif
 
-// all empty definitions
+#include "thread_define.h"
 
 #endif
+
 

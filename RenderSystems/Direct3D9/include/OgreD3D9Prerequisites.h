@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 
 #if 0
 #   define OGRE_LOCK_RECURSIVE_MUTEX(name)   name.lock();

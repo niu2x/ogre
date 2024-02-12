@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreAny.h"
 #include "OgreSharedPtr.h"
 #include "OgreCommon.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 #include "OgreHeaderPrefix.h"
 
 #include <deque>

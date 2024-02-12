@@ -81,8 +81,8 @@ include_directories("include/Threading" "src/")
 
 if(XDOG_USE_STD_THREAD)
   list(APPEND THREAD_HEADER_FILES
-    include/threading/OgreThreadDefinesSTD.h
-    include/threading/OgreThreadHeadersSTD.h
+    include/threading/thread_define_std.h
+    include/threading/thread_header_std.h
   )
 else()
   list(APPEND THREAD_HEADER_FILES

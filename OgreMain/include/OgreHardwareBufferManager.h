@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreSingleton.h"
 #include "OgreHardwareIndexBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

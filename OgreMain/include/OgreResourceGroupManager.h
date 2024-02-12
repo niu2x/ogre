@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreArchive.h"
 #include "OgreIteratorWrapper.h"
 #include "OgreCommon.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 #include <ctime>
 #include "OgreHeaderPrefix.h"
 

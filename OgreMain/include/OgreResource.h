@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreStringInterface.h"
 #include "OgreHeaderPrefix.h"
-#include "threading/OgreThreadHeaders.h"
+#include "threading/thread_header.h"
 
 namespace Ogre {
 
