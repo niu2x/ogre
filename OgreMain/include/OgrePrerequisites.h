@@ -311,7 +311,7 @@ namespace Ogre {
 /* Include all the standard header *after* all the configuration
 settings have been made.
 */
-#include "OgreStdHeaders.h"
+#include "std_header.h"
 #include "OgreMemoryAllocatorConfig.h"
 
 

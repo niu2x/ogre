@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreGLPrerequisites.h"
 #include "OgreGLStateCacheManagerCommon.h"
-#include "OgreStdHeaders.h"
+#include "std_header.h"
 
 namespace Ogre
 {
