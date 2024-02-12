@@ -59,7 +59,7 @@ namespace Ogre {
         if (!any.has_value())
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No prefab parameters in " + res->getName());
 
-        auto params = any_cast<MeshBuildParams>(any);
+        auto params = std::any_cast<MeshBuildParams>(any);
 
         switch(params.type)
         {

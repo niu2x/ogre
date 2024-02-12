@@ -524,7 +524,7 @@ bool TextureAtlasSamplerFactory::hasMaterialAtlasingAttributes(Ogre::Material* m
         isMaterialSpecific = anyAttrib.has_value();
         if ((isMaterialSpecific) && (attrib))
         {
-            *attrib = Ogre::any_cast<TextureAtlasAttib>(anyAttrib);
+            *attrib = std::any_cast<TextureAtlasAttib>(anyAttrib);
         }
     }
     if ((!isMaterialSpecific) && (attrib))

@@ -698,7 +698,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     WorkQueue::Response* TerrainGroup::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
     {
-        auto slot = any_cast<TerrainSlot*>(req->getData());
+        auto slot =std::any_cast<TerrainSlot*>(req->getData());
 
         TerrainSlotDefinition& def = slot->def;
         Terrain* t = slot->instance;
@@ -732,7 +732,7 @@ namespace Ogre
     void TerrainGroup::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
     {
         // No response data, just request
-        auto slot = any_cast<TerrainSlot*>(res->getRequest()->getData());
+        auto slot =std::any_cast<TerrainSlot*>(res->getRequest()->getData());
 
         TerrainPrepareRequestMap::iterator it = mTerrainPrepareRequests.find(slot);
 

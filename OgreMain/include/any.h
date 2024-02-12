@@ -38,14 +38,17 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include <typeinfo>
+#include <any>
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
+
+#if 0
 	// resolve circular dependency
     class Any;
     template<typename ValueType> ValueType
-    any_cast(const Any & operand);
+   std::any_cast(const Any & operand);
 
     /** \addtogroup Core
     *  @{
@@ -197,28 +200,28 @@ namespace Ogre
         placeholder * mContent;
 
         template<typename ValueType>
-        friend ValueType * any_cast(Any *);
+        friend ValueType *std::any_cast(Any *);
 
 
     public: 
-        /// @deprecated use Ogre::any_cast instead
+        /// @deprecated use std::any_cast instead
         template<typename ValueType>
         OGRE_DEPRECATED ValueType operator()() const
         {
-            return any_cast<ValueType>(*this);
+            returnstd::any_cast<ValueType>(*this);
         }
 
-        /// @deprecated use Ogre::any_cast instead
+        /// @deprecated use std::any_cast instead
         template <typename ValueType>
         OGRE_DEPRECATED ValueType get(void) const
         {
-            return any_cast<ValueType>(*this);
+            returnstd::any_cast<ValueType>(*this);
         }
 
     };
 
     template<typename ValueType>
-    ValueType * any_cast(Any * operand)
+    ValueType *std::any_cast(Any * operand)
     {
         return operand &&
 #if OGRE_COMPILER == OGRE_COMPILER_GNUC && OGRE_COMP_VER < 450
@@ -231,15 +234,15 @@ namespace Ogre
     }
 
     template<typename ValueType>
-    const ValueType * any_cast(const Any * operand)
+    const ValueType *std::any_cast(const Any * operand)
     {
-        return any_cast<ValueType>(const_cast<Any *>(operand));
+        returnstd::any_cast<ValueType>(const_cast<Any *>(operand));
     }
 
     template<typename ValueType>
-    ValueType any_cast(const Any & operand)
+    ValueTypestd::any_cast(const Any & operand)
     {
-        const ValueType * result = any_cast<ValueType>(&operand);
+        const ValueType * result =std::any_cast<ValueType>(&operand);
         if(!result)
         {
             throw std::bad_cast();
@@ -249,7 +252,9 @@ namespace Ogre
     /** @} */
     /** @} */
 
+#endif
 
+    using Any = std::any;
 }
 
 #include "OgreHeaderSuffix.h"

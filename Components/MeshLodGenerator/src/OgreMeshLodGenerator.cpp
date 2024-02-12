@@ -331,7 +331,7 @@ void MeshLodGenerator::clearPendingLodRequests()
 WorkQueue::Response* MeshLodGenerator::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
 {
     // Called on worker thread by WorkQueue.
-    LodWorkQueueRequest* request = any_cast<LodWorkQueueRequest*>(req->getData());
+    LodWorkQueueRequest* request = std::any_cast<LodWorkQueueRequest*>(req->getData());
     {
         OGRE_WQ_LOCK_MUTEX(mQueueMutex);
         mPendingLodRequests.remove(request);
@@ -355,7 +355,7 @@ WorkQueue::Response* MeshLodGenerator::handleRequest(const WorkQueue::Request* r
 
 void MeshLodGenerator::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
 {
-    LodWorkQueueRequest* request = any_cast<LodWorkQueueRequest*>(res->getData());
+    LodWorkQueueRequest* request = std::any_cast<LodWorkQueueRequest*>(res->getData());
 
     if(mInjectorListener){
         if(!mInjectorListener->shouldInject(request)) {

@@ -351,7 +351,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     DataStreamPtr FreeImageCodec::encode(const Any& input) const
     {
-        FIBITMAP* fiBitmap = encodeBitmap(any_cast<Image*>(input));
+        FIBITMAP* fiBitmap = encodeBitmap(std::any_cast<Image*>(input));
 
         // open memory chunk allocated by FreeImage
         FIMEMORY* mem = FreeImage_OpenMemory();
@@ -379,7 +379,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void FreeImageCodec::encodeToFile(const Any& input, const String& outFileName) const
     {
-        FIBITMAP* fiBitmap = encodeBitmap(any_cast<Image*>(input));
+        FIBITMAP* fiBitmap = encodeBitmap(std::any_cast<Image*>(input));
 
         FreeImage_Save((FREE_IMAGE_FORMAT)mFreeImageType, fiBitmap, outFileName.c_str());
         FreeImage_Unload(fiBitmap);
@@ -387,7 +387,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void FreeImageCodec::decode(const DataStreamPtr& input, const Any& output) const
     {
-        Image* image = any_cast<Image*>(output);
+        Image* image = std::any_cast<Image*>(output);
 
         // Buffer stream into memory (TODO: override IO functions instead?)
         MemoryDataStream memStream(input, true);

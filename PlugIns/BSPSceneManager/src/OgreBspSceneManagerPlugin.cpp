@@ -41,7 +41,7 @@ namespace {
         void decode(const DataStreamPtr& stream, const Any& output) const override
         {
             auto group = ResourceGroupManager::getSingleton().getWorldResourceGroupName();
-            auto rootNode = any_cast<SceneNode*>(output);
+            auto rootNode = std::any_cast<SceneNode*>(output);
             BspSceneManager* mgr = dynamic_cast<BspSceneManager*>(rootNode->getCreator());
 
             OgreAssert(mgr, "only loading into a BspSceneManager supported");

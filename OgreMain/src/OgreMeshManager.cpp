@@ -40,7 +40,7 @@ namespace Ogre
         String getType() const override { return "mesh"; }
         void decode(const DataStreamPtr& input, const Any& output) const override
         {
-            Mesh* dst = any_cast<Mesh*>(output);
+            Mesh* dst = std::any_cast<Mesh*>(output);
             MeshSerializer serializer;
             serializer.setListener(MeshManager::getSingleton().getListener());
             serializer.importMesh(input, dst);

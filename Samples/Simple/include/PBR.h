@@ -89,7 +89,7 @@ protected:
 
         using namespace RTShader;
         MaterialPtr mat = MaterialManager::getSingleton().getByName("DamagedHelmet_RTSS");
-        const auto& renderstate = any_cast<TargetRenderStatePtr>(
+        const auto& renderstate =std::any_cast<TargetRenderStatePtr>(
             mat->getTechnique(1)->getPass(0)->getUserObjectBindings().getUserAny(TargetRenderState::UserKey));
         renderstate->getSubRenderState(SRS_IMAGE_BASED_LIGHTING)->setParameter("luminance", checked ? "4" : "0");
     }

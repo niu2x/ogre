@@ -131,7 +131,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void ETCCodec::decode(const DataStreamPtr& stream, const Any& output) const
     {
-        Image* image = any_cast<Image*>(output);
+        Image* image = std::any_cast<Image*>(output);
 
         mType == "pkm" ? decodePKM(stream, image) : decodeKTX(stream, image);
     }

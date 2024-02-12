@@ -68,7 +68,7 @@ note: we can know the texture unit index by getting parent then finding it in th
 void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const AbstractNodePtr &node)
 {
     ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());    
-    TextureUnitState* texState = any_cast<TextureUnitState*>(obj->parent->context);
+    TextureUnitState* texState =std::any_cast<TextureUnitState*>(obj->parent->context);
     Pass* pass = texState->getParent();
     Technique* technique = pass->getParent();
     Material* material = technique->getParent();
@@ -136,7 +136,7 @@ void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const Ab
 void SGScriptTranslator::translatePass(ScriptCompiler* compiler, const AbstractNodePtr &node)
 {
     ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());    
-    Pass* pass = any_cast<Pass*>(obj->parent->context);
+    Pass* pass =std::any_cast<Pass*>(obj->parent->context);
     Technique* technique = pass->getParent();
     Material* material = technique->getParent();
     ShaderGenerator* shaderGenerator = ShaderGenerator::getSingletonPtr();

@@ -112,7 +112,7 @@ namespace Ogre {
                         "STBIImageCodec::encode" ) ;
         }
 
-        Image* image = any_cast<Image*>(input);
+        Image* image = std::any_cast<Image*>(input);
         PixelFormat format = image->getFormat();
         uchar* inputData = image->getData();
 
@@ -166,7 +166,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void STBIImageCodec::decode(const DataStreamPtr& input, const Any& output) const
     {
-        auto image = any_cast<Image*>(output);
+        auto image = std::any_cast<Image*>(output);
         String contents = input->getAsString();
 
         int width, height, components;

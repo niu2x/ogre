@@ -183,12 +183,12 @@ namespace RTShader {
     {
         if (name == "parameters")
         {
-            mParameters = any_cast<Vector3>(value);
+            mParameters = std::any_cast<Vector3>(value);
             return;
         }
         else if (name == "texture_names")
         {
-            const StringVector& textureNames = any_cast<StringVector>(value);
+            const StringVector& textureNames = std::any_cast<StringVector>(value);
             if (textureNames.size() == 3)
             {
                 mTextureNameFromX = textureNames[0];

@@ -184,12 +184,12 @@ void IntegratedPSSM3::setParameter(const String& name, const Any& value)
 {
     if(name == "split_points")
     {
-        setSplitPoints(any_cast<SplitPointList>(value));
+        setSplitPoints(std::any_cast<SplitPointList>(value));
         return;
     }
     else if (name == "debug")
     {
-        mDebug = any_cast<bool>(value);
+        mDebug = std::any_cast<bool>(value);
         return;
     }
 

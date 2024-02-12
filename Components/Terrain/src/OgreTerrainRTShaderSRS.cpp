@@ -25,7 +25,7 @@ String TerrainTransform::Type = "TerrainTransform";
 bool TerrainTransform::preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass)
 {
     auto terrainAny = srcPass->getUserObjectBindings().getUserAny("Terrain");
-    mTerrain = any_cast<const Terrain*>(terrainAny);
+    mTerrain =std::any_cast<const Terrain*>(terrainAny);
     mCompressed = mTerrain->_getUseVertexCompression();
     mAlign = mTerrain->getAlignment();
     return true;
@@ -120,7 +120,7 @@ bool TerrainSurface::setParameter(const String& name, const String& value)
 
 bool TerrainSurface::preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass)
 {
-    mTerrain = any_cast<const Terrain*>(srcPass->getUserObjectBindings().getUserAny("Terrain"));
+    mTerrain =std::any_cast<const Terrain*>(srcPass->getUserObjectBindings().getUserAny("Terrain"));
 
     SamplerPtr clampSampler = TextureManager::getSingleton().createSampler();
     clampSampler->setAddressingMode(TAM_CLAMP);

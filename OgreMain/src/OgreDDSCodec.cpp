@@ -195,7 +195,7 @@ namespace {
     //---------------------------------------------------------------------
     void DDSCodec::encodeToFile(const Any& input, const String& outFileName) const
     {
-        Image* image = any_cast<Image*>(input);
+        Image* image = std::any_cast<Image*>(input);
 
         bool isCubeMap = image->hasFlag(IF_CUBEMAP);
 
@@ -737,7 +737,7 @@ namespace {
     //---------------------------------------------------------------------
     void DDSCodec::decode(const DataStreamPtr& stream, const Any& output) const
     {
-        Image* image = any_cast<Image*>(output);
+        Image* image = std::any_cast<Image*>(output);
         // Read 4 character code
         uint32 fileType;
         stream->read(&fileType, sizeof(uint32));

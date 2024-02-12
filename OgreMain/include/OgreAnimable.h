@@ -38,8 +38,6 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-    class Any;
-
     /** \addtogroup Core
     *  @{
     */

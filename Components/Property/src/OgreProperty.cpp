@@ -192,52 +192,52 @@ namespace Ogre
                 switch(i->second.propType)
                 {
                 case PROP_SHORT:
-                    static_cast<Property<short>*>(j->second)->set(Ogre::any_cast<short>(i->second.val));
+                    static_cast<Property<short>*>(j->second)->set(std::any_cast<short>(i->second.val));
                     break;
                 case PROP_UNSIGNED_SHORT:
-                    static_cast<Property<short>*>(j->second)->set(Ogre::any_cast<unsigned short>(i->second.val));
+                    static_cast<Property<short>*>(j->second)->set(std::any_cast<unsigned short>(i->second.val));
                     break;
                 case PROP_INT:
-                    static_cast<Property<int>*>(j->second)->set(Ogre::any_cast<int>(i->second.val));
+                    static_cast<Property<int>*>(j->second)->set(std::any_cast<int>(i->second.val));
                     break;
                 case PROP_UNSIGNED_INT:
-                    static_cast<Property<int>*>(j->second)->set(Ogre::any_cast<unsigned int>(i->second.val));
+                    static_cast<Property<int>*>(j->second)->set(std::any_cast<unsigned int>(i->second.val));
                     break;
                 case PROP_LONG:
-                    static_cast<Property<long>*>(j->second)->set(Ogre::any_cast<long>(i->second.val));
+                    static_cast<Property<long>*>(j->second)->set(std::any_cast<long>(i->second.val));
                     break;
                 case PROP_UNSIGNED_LONG:
-                    static_cast<Property<long>*>(j->second)->set(Ogre::any_cast<unsigned long>(i->second.val));
+                    static_cast<Property<long>*>(j->second)->set(std::any_cast<unsigned long>(i->second.val));
                     break;
                 case PROP_REAL:
-                    static_cast<Property<Real>*>(j->second)->set(Ogre::any_cast<Real>(i->second.val));
+                    static_cast<Property<Real>*>(j->second)->set(std::any_cast<Real>(i->second.val));
                     break;
                 case PROP_STRING:
-                    static_cast<Property<String>*>(j->second)->set(Ogre::any_cast<String>(i->second.val));
+                    static_cast<Property<String>*>(j->second)->set(std::any_cast<String>(i->second.val));
                     break;
                 case PROP_VECTOR2:
-                    static_cast<Property<Ogre::Vector2>*>(j->second)->set(Ogre::any_cast<Ogre::Vector2>(i->second.val));
+                    static_cast<Property<Ogre::Vector2>*>(j->second)->set(std::any_cast<Ogre::Vector2>(i->second.val));
                     break;
                 case PROP_VECTOR3:
-                    static_cast<Property<Ogre::Vector3>*>(j->second)->set(Ogre::any_cast<Ogre::Vector3>(i->second.val));
+                    static_cast<Property<Ogre::Vector3>*>(j->second)->set(std::any_cast<Ogre::Vector3>(i->second.val));
                     break;
                 case PROP_VECTOR4:
-                    static_cast<Property<Ogre::Vector4>*>(j->second)->set(Ogre::any_cast<Ogre::Vector4>(i->second.val));
+                    static_cast<Property<Ogre::Vector4>*>(j->second)->set(std::any_cast<Ogre::Vector4>(i->second.val));
                     break;
                 case PROP_COLOUR:
-                    static_cast<Property<Ogre::ColourValue>*>(j->second)->set(Ogre::any_cast<Ogre::ColourValue>(i->second.val));
+                    static_cast<Property<Ogre::ColourValue>*>(j->second)->set(std::any_cast<Ogre::ColourValue>(i->second.val));
                     break;
                 case PROP_BOOL:
-                    static_cast<Property<bool>*>(j->second)->set(Ogre::any_cast<bool>(i->second.val));
+                    static_cast<Property<bool>*>(j->second)->set(std::any_cast<bool>(i->second.val));
                     break;
                 case PROP_QUATERNION:
-                    static_cast<Property<Ogre::Quaternion>*>(j->second)->set(Ogre::any_cast<Ogre::Quaternion>(i->second.val));
+                    static_cast<Property<Ogre::Quaternion>*>(j->second)->set(std::any_cast<Ogre::Quaternion>(i->second.val));
                     break;
                 case PROP_MATRIX3:
-                    static_cast<Property<Ogre::Matrix3>*>(j->second)->set(Ogre::any_cast<Ogre::Matrix3>(i->second.val));
+                    static_cast<Property<Ogre::Matrix3>*>(j->second)->set(std::any_cast<Ogre::Matrix3>(i->second.val));
                     break;
                 case PROP_MATRIX4:
-                    static_cast<Property<Ogre::Matrix4>*>(j->second)->set(Ogre::any_cast<Ogre::Matrix4>(i->second.val));
+                    static_cast<Property<Ogre::Matrix4>*>(j->second)->set(std::any_cast<Ogre::Matrix4>(i->second.val));
                     break;
                 case PROP_UNKNOWN:
                 default:

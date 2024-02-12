@@ -985,7 +985,7 @@ void ShaderGenerator::removeAllShaderBasedTechniques()
 
         
 
-        auto renderState = any_cast<TargetRenderStatePtr>(passUserData);
+        auto renderState = std::any_cast<TargetRenderStatePtr>(passUserData);
         renderState->updateGpuProgramsParams(rend, pass, source, pLightList);
     }
 }
@@ -1263,7 +1263,7 @@ void ShaderGenerator::_markNonFFP(const TextureUnitState* tu)
     std::set<uint16> nonFFP_TUS;
     auto any = pass->getUserObjectBindings().getUserAny("_RTSS_nonFFP_TUS");
     if(any.has_value())
-        nonFFP_TUS = any_cast<std::set<uint16>>(any);
+        nonFFP_TUS = std::any_cast<std::set<uint16>>(any);
     nonFFP_TUS.insert(texureIdx);
     pass->getUserObjectBindings().setUserAny("_RTSS_nonFFP_TUS", nonFFP_TUS);
 }

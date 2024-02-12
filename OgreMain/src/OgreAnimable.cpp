@@ -66,28 +66,28 @@ namespace Ogre {
         switch(mType)
         {
         case INT:
-            setAsBaseValue(any_cast<int>(val));
+            setAsBaseValue(std::any_cast<int>(val));
             break;
         case REAL:
-            setAsBaseValue(any_cast<Real>(val));
+            setAsBaseValue(std::any_cast<Real>(val));
             break;
         case VECTOR2:
-            setAsBaseValue(any_cast<Vector2>(val));
+            setAsBaseValue(std::any_cast<Vector2>(val));
             break;
         case VECTOR3:
-            setAsBaseValue(any_cast<Vector3>(val));
+            setAsBaseValue(std::any_cast<Vector3>(val));
             break;
         case VECTOR4:
-            setAsBaseValue(any_cast<Vector4>(val));
+            setAsBaseValue(std::any_cast<Vector4>(val));
             break;
         case QUATERNION:
-            setAsBaseValue(any_cast<Quaternion>(val));
+            setAsBaseValue(std::any_cast<Quaternion>(val));
             break;
         case COLOUR:
-            setAsBaseValue(any_cast<ColourValue>(val));
+            setAsBaseValue(std::any_cast<ColourValue>(val));
             break;
         case RADIAN:
-            setAsBaseValue(any_cast<Radian>(val));
+            setAsBaseValue(std::any_cast<Radian>(val));
             break;
         }
     }
@@ -97,28 +97,28 @@ namespace Ogre {
         switch(mType)
         {
         case INT:
-            setValue(any_cast<int>(val));
+            setValue(std::any_cast<int>(val));
             break;
         case REAL:
-            setValue(any_cast<Real>(val));
+            setValue(std::any_cast<Real>(val));
             break;
         case VECTOR2:
-            setValue(any_cast<Vector2>(val));
+            setValue(std::any_cast<Vector2>(val));
             break;
         case VECTOR3:
-            setValue(any_cast<Vector3>(val));
+            setValue(std::any_cast<Vector3>(val));
             break;
         case VECTOR4:
-            setValue(any_cast<Vector4>(val));
+            setValue(std::any_cast<Vector4>(val));
             break;
         case QUATERNION:
-            setValue(any_cast<Quaternion>(val));
+            setValue(std::any_cast<Quaternion>(val));
             break;
         case COLOUR:
-            setValue(any_cast<ColourValue>(val));
+            setValue(std::any_cast<ColourValue>(val));
             break;
         case RADIAN:
-            setValue(any_cast<Radian>(val));
+            setValue(std::any_cast<Radian>(val));
             break;
         }
     }
@@ -128,28 +128,28 @@ namespace Ogre {
         switch(mType)
         {
         case INT:
-            applyDeltaValue(any_cast<int>(val));
+            applyDeltaValue(std::any_cast<int>(val));
             break;
         case REAL:
-            applyDeltaValue(any_cast<Real>(val));
+            applyDeltaValue(std::any_cast<Real>(val));
             break;
         case VECTOR2:
-            applyDeltaValue(any_cast<Vector2>(val));
+            applyDeltaValue(std::any_cast<Vector2>(val));
             break;
         case VECTOR3:
-            applyDeltaValue(any_cast<Vector3>(val));
+            applyDeltaValue(std::any_cast<Vector3>(val));
             break;
         case VECTOR4:
-            applyDeltaValue(any_cast<Vector4>(val));
+            applyDeltaValue(std::any_cast<Vector4>(val));
             break;
         case QUATERNION:
-            applyDeltaValue(any_cast<Quaternion>(val));
+            applyDeltaValue(std::any_cast<Quaternion>(val));
             break;
         case COLOUR:
-            applyDeltaValue(any_cast<ColourValue>(val));
+            applyDeltaValue(std::any_cast<ColourValue>(val));
             break;
         case RADIAN:
-            applyDeltaValue(any_cast<Radian>(val));
+            applyDeltaValue(std::any_cast<Radian>(val));
             break;
         }
     }

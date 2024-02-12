@@ -59,7 +59,7 @@ EXRCodec::~EXRCodec()
 
 void EXRCodec::decode(const DataStreamPtr& input, const Any& output) const
 {
-    Image* image = any_cast<Image*>(output);
+    Image* image = std::any_cast<Image*>(output);
 
     try {
         // Make a mutable clone of input to be able to change file pointer

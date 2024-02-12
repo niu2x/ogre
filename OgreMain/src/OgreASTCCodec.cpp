@@ -190,7 +190,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void ASTCCodec::decode(const DataStreamPtr& stream, const Any& output) const
     {
-        Image* image = any_cast<Image*>(output);
+        Image* image = std::any_cast<Image*>(output);
         ASTCHeader header;
 
         // Read the ASTC header

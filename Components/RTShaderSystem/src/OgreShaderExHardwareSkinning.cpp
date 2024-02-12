@@ -172,7 +172,7 @@ bool HardwareSkinning::preAddToRenderState(const RenderState* renderState, Pass*
 
     if (hsAny.has_value())
     {
-        HardwareSkinning::SkinningData pData = any_cast<HardwareSkinning::SkinningData>(hsAny);
+        HardwareSkinning::SkinningData pData = std::any_cast<HardwareSkinning::SkinningData>(hsAny);
         isValid = pData.isValid;
         
         //If the skinning data is being passed through the material, we need to create an instance of the appropriate
@@ -500,7 +500,7 @@ static bool imprintSkeletonData(const MaterialPtr& pMaterial, bool isVaild,
         const Any& hsAny = binding.getUserAny(HS_DATA_BIND_NAME);
         if (hsAny.has_value())
         {
-            data = any_cast<HardwareSkinning::SkinningData>(hsAny);
+            data = std::any_cast<HardwareSkinning::SkinningData>(hsAny);
         }
 
         //check if we need to update the data

@@ -118,13 +118,13 @@ struct DotSceneCodec : public Codec
         DataStreamPtr _stream(stream);
         DotSceneLoader loader;
         loader.load(_stream, ResourceGroupManager::getSingleton().getWorldResourceGroupName(),
-                    any_cast<SceneNode*>(output));
+                   std::any_cast<SceneNode*>(output));
     }
 
     void encodeToFile(const Any& input, const String& outFileName) const override
     {
         DotSceneLoader loader;
-        loader.exportScene(any_cast<SceneNode*>(input), outFileName);
+        loader.exportScene(std::any_cast<SceneNode*>(input), outFileName);
     }
 };
 

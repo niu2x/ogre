@@ -415,7 +415,7 @@ namespace Ogre
     void TerrainMaterialGeneratorA::updateParams(const MaterialPtr& mat, const Terrain* terrain)
     {
         using namespace RTShader;
-        auto mainRenderState = any_cast<TargetRenderStatePtr>(
+        auto mainRenderState =std::any_cast<TargetRenderStatePtr>(
             mat->getTechnique(0)->getPass(0)->getUserObjectBindings().getUserAny(TargetRenderState::UserKey));
 
         for (auto srs : mainRenderState->getSubRenderStates())
@@ -433,7 +433,7 @@ namespace Ogre
         if(!isCompositeMapEnabled())
             return;
 
-        auto lod1RenderState = any_cast<TargetRenderStatePtr>(
+        auto lod1RenderState =std::any_cast<TargetRenderStatePtr>(
             mat->getTechnique(1)->getPass(0)->getUserObjectBindings().getUserAny(TargetRenderState::UserKey));
         if (auto transform = lod1RenderState->getSubRenderState("TerrainTransform"))
         {
@@ -444,7 +444,7 @@ namespace Ogre
     void TerrainMaterialGeneratorA::updateParamsForCompositeMap(const MaterialPtr& mat, const Terrain* terrain)
     {
         using namespace RTShader;
-        auto mainRenderState = any_cast<TargetRenderStatePtr>(
+        auto mainRenderState =std::any_cast<TargetRenderStatePtr>(
             mat->getTechnique(0)->getPass(0)->getUserObjectBindings().getUserAny(TargetRenderState::UserKey));
 
         if (auto surface = mainRenderState->getSubRenderState("TerrainSurface"))

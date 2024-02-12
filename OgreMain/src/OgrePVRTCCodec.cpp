@@ -140,7 +140,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void PVRTCCodec::decode(const DataStreamPtr& stream, const Any& output) const
     {
-        Image* image = any_cast<Image*>(output);
+        Image* image =std::any_cast<Image*>(output);
 
         // Assume its a pvr 2 header
         PVRTCTexHeaderV2 headerV2;

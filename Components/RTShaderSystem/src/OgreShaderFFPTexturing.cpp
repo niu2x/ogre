@@ -539,7 +539,7 @@ bool FFPTexturing::preAddToRenderState(const RenderState* renderState, Pass* src
     auto nonFFPany = srcPass->getUserObjectBindings().getUserAny("_RTSS_nonFFP_TUS");
     if(nonFFPany.has_value())
     {
-        nonFFP_TUS = any_cast<std::set<uint16>>(nonFFPany);
+        nonFFP_TUS = std::any_cast<std::set<uint16>>(nonFFPany);
     }
 
     // Build texture stage sub states.

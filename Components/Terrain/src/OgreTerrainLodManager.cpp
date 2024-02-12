@@ -88,7 +88,7 @@ namespace Ogre
 
     WorkQueue::Response* TerrainLodManager::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
     {
-        LoadLodRequest lreq = any_cast<LoadLodRequest>(req->getData());
+        LoadLodRequest lreq =std::any_cast<LoadLodRequest>(req->getData());
         // read data from file into temporary height & delta buffer
         try {
             if(lreq.currentPreparedLod>lreq.requestedLod)
@@ -116,7 +116,7 @@ namespace Ogre
     {
         const WorkQueue::Request* req = res->getRequest();
         // No response data, just request
-        LoadLodRequest lreq = any_cast<LoadLodRequest>(req->getData());
+        LoadLodRequest lreq =std::any_cast<LoadLodRequest>(req->getData());
 
         mIncreaseLodLevelInProgress = false;
 

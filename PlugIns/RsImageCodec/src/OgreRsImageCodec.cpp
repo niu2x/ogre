@@ -75,7 +75,7 @@ RsImageCodec::RsImageCodec(const String& type) : mType(type) {}
 //---------------------------------------------------------------------
 DataStreamPtr RsImageCodec::encode(const Any& input) const
 {
-    Image* image = any_cast<Image*>(input);
+    Image* image =std::any_cast<Image*>(input);
     PixelFormat format = image->getFormat();
     uchar* inputData = image->getData();
 
@@ -134,7 +134,7 @@ void RsImageCodec::encodeToFile(const Any& input, const String& outFileName) con
 //---------------------------------------------------------------------
 void RsImageCodec::decode(const DataStreamPtr& input, const Any& output) const
 {
-    auto image = any_cast<Image*>(output);
+    auto image =std::any_cast<Image*>(output);
     String contents = input->getAsString();
 
     uint width, height;

@@ -1352,7 +1352,7 @@ struct AssimpCodec : public Codec
     String getType() const override { return mType; }
     void decode(const DataStreamPtr& input, const Any& output) const override
     {
-        Mesh* dst = any_cast<Mesh*>(output);
+        Mesh* dst =std::any_cast<Mesh*>(output);
 
         AssimpLoader::Options opts;
         opts.params = AssimpLoader::LP_QUIET_MODE;

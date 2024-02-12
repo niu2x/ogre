@@ -239,21 +239,21 @@ namespace Ogre {
         {
         default:
         case AnimableValue::INT:
-            return Math::lerp(any_cast<int>(v0), any_cast<int>(v1), t);
+            return Math::lerp(std::any_cast<int>(v0), std::any_cast<int>(v1), t);
         case AnimableValue::REAL:
-            return Math::lerp(any_cast<Real>(v0), any_cast<Real>(v1), t);
+            return Math::lerp(std::any_cast<Real>(v0), std::any_cast<Real>(v1), t);
         case AnimableValue::VECTOR2:
-            return Math::lerp(any_cast<Vector2>(v0), any_cast<Vector2>(v1), t);
+            return Math::lerp(std::any_cast<Vector2>(v0), std::any_cast<Vector2>(v1), t);
         case AnimableValue::VECTOR3:
-            return Math::lerp(any_cast<Vector3>(v0), any_cast<Vector3>(v1), t);
+            return Math::lerp(std::any_cast<Vector3>(v0), std::any_cast<Vector3>(v1), t);
         case AnimableValue::VECTOR4:
-            return Math::lerp(any_cast<Vector4>(v0), any_cast<Vector4>(v1), t);
+            return Math::lerp(std::any_cast<Vector4>(v0), std::any_cast<Vector4>(v1), t);
         case AnimableValue::QUATERNION:
-            return Math::lerp(any_cast<Quaternion>(v0), any_cast<Quaternion>(v1), t);
+            return Math::lerp(std::any_cast<Quaternion>(v0), std::any_cast<Quaternion>(v1), t);
         case AnimableValue::COLOUR:
-            return Math::lerp(any_cast<ColourValue>(v0), any_cast<ColourValue>(v1), t);
+            return Math::lerp(std::any_cast<ColourValue>(v0), std::any_cast<ColourValue>(v1), t);
         case AnimableValue::RADIAN:
-            return Math::lerp(any_cast<Radian>(v0), any_cast<Radian>(v1), t);
+            return Math::lerp(std::any_cast<Radian>(v0), std::any_cast<Radian>(v1), t);
         }
     }
 
@@ -301,21 +301,21 @@ namespace Ogre {
         {
         default:
         case AnimableValue::INT:
-            return any_cast<int>(v) * s;
+            return std::any_cast<int>(v) * s;
         case AnimableValue::REAL:
-            return any_cast<Real>(v) * s;
+            return std::any_cast<Real>(v) * s;
         case AnimableValue::VECTOR2:
-            return any_cast<Vector2>(v) * s;
+            return std::any_cast<Vector2>(v) * s;
         case AnimableValue::VECTOR3:
-            return any_cast<Vector3>(v) * s;
+            return std::any_cast<Vector3>(v) * s;
         case AnimableValue::VECTOR4:
-            return any_cast<Vector4>(v) * s;
+            return std::any_cast<Vector4>(v) * s;
         case AnimableValue::QUATERNION:
-            return any_cast<Quaternion>(v) * s;
+            return std::any_cast<Quaternion>(v) * s;
         case AnimableValue::COLOUR:
-            return any_cast<ColourValue>(v) * s;
+            return std::any_cast<ColourValue>(v) * s;
         case AnimableValue::RADIAN:
-            return any_cast<Radian>(v) * s;
+            return std::any_cast<Radian>(v) * s;
         }
     }
     void NumericAnimationTrack::applyToAnimable(const AnimableValuePtr& anim, const TimeIndex& timeIndex,

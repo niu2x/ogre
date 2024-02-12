@@ -48,7 +48,7 @@ namespace Ogre
     void TerrainAutoUpdateLodByDistance::autoUpdateLod(Terrain *terrain, bool synchronous, const Any &data)
     {
         if( terrain )
-            autoUpdateLodByDistance(terrain, synchronous, any_cast<Real>(data));
+            autoUpdateLodByDistance(terrain, synchronous,std::any_cast<Real>(data));
     }
 
     void TerrainAutoUpdateLodByDistance::autoUpdateLodByDistance(Terrain *terrain, bool synchronous, const Real holdDistance)

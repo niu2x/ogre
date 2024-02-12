@@ -1191,7 +1191,7 @@ namespace Ogre{
         ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());
 
         // Create the technique from the material
-        Ogre::Material *material = Ogre::any_cast<Ogre::Material*>(obj->parent->context);
+        Ogre::Material *material = std::any_cast<Ogre::Material*>(obj->parent->context);
         mTechnique = material->createTechnique();
         obj->context = mTechnique;
 
@@ -1368,7 +1368,7 @@ namespace Ogre{
     {
         ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());
 
-        Technique *technique = any_cast<Technique*>(obj->parent->context);
+        Technique *technique = std::any_cast<Technique*>(obj->parent->context);
         mPass = technique->createPass();
         obj->context = mPass;
 
@@ -2291,7 +2291,7 @@ namespace Ogre{
     {
         auto program = getProgram(compiler, node);
         if(!program) return;
-        auto pass = any_cast<Pass*>(node->parent->context);
+        auto pass = std::any_cast<Pass*>(node->parent->context);
 
         pass->setGpuProgram(type, program);
         if(program->isSupported())
@@ -2305,7 +2305,7 @@ namespace Ogre{
     {
         auto program = getProgram(compiler, node);
         if(!program) return;
-        auto pass = any_cast<Pass*>(node->parent->context);
+        auto pass = std::any_cast<Pass*>(node->parent->context);
 
         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, node->file, node->line,
                            node->cls + ". Use shadow_caster_material instead");
@@ -2333,7 +2333,7 @@ namespace Ogre{
     {
         auto program = getProgram(compiler, node);
         if(!program) return;
-        auto pass = any_cast<Pass*>(node->parent->context);
+        auto pass = std::any_cast<Pass*>(node->parent->context);
 
         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, node->file, node->line,
                            node->cls + ". Use shadow_receiver_material instead");
@@ -2555,7 +2555,7 @@ namespace Ogre{
     {
         ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());
 
-        Pass *pass = any_cast<Pass*>(obj->parent->context);
+        Pass *pass = std::any_cast<Pass*>(obj->parent->context);
         mUnit = pass->createTextureUnitState();
         obj->context = mUnit;
 
@@ -3389,7 +3389,7 @@ namespace Ogre{
         }
 
         // Set up the technique, pass, and texunit levels
-        TextureUnitState *texunit = any_cast<TextureUnitState*>(obj->parent->context);
+        TextureUnitState *texunit = std::any_cast<TextureUnitState*>(obj->parent->context);
         Pass *pass = texunit->getParent();
         Technique *technique = pass->getParent();
         Material *material = technique->getParent();
@@ -4440,7 +4440,7 @@ namespace Ogre{
             return;
         }
 
-        ParticleSystem *system = any_cast<ParticleSystem*>(obj->parent->context);
+        ParticleSystem *system = std::any_cast<ParticleSystem*>(obj->parent->context);
 
         try
         {
@@ -4507,7 +4507,7 @@ namespace Ogre{
             return;
         }
 
-        ParticleSystem *system = any_cast<ParticleSystem*>(obj->parent->context);
+        ParticleSystem *system = std::any_cast<ParticleSystem*>(obj->parent->context);
         try
         {
             mAffector = system->addAffector(obj->values.front()->getString());
@@ -4617,7 +4617,7 @@ namespace Ogre{
     {
         ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());
 
-        Compositor *compositor = any_cast<Compositor*>(obj->parent->context);
+        Compositor *compositor = std::any_cast<Compositor*>(obj->parent->context);
         mTechnique = compositor->createTechnique();
         obj->context = mTechnique;
 
@@ -4877,7 +4877,7 @@ namespace Ogre{
     {
         ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());
 
-        CompositionTechnique *technique = any_cast<CompositionTechnique*>(obj->parent->context);
+        CompositionTechnique *technique = std::any_cast<CompositionTechnique*>(obj->parent->context);
         if(obj->id == ID_TARGET)
         {
             mTarget = technique->createTargetPass();
@@ -5002,7 +5002,7 @@ namespace Ogre{
                 return;
         }
 
-        CompositionTargetPass *target = any_cast<CompositionTargetPass*>(obj->parent->context);
+        CompositionTargetPass *target = std::any_cast<CompositionTargetPass*>(obj->parent->context);
         mPass = target->createPass(ptype);
         obj->context = mPass;
 

@@ -107,7 +107,7 @@ namespace OgreBites
 
         virtual void runSampleByIndex(int idx)
         {
-            runSample(Ogre::any_cast<Sample*>(mThumbs[idx]->getUserObjectBindings().getUserAny()));
+            runSample(std::any_cast<Sample*>(mThumbs[idx]->getUserObjectBindings().getUserAny()));
         }
 
         /*-----------------------------------------------------------------------------
@@ -250,7 +250,7 @@ namespace OgreBites
                     } else {
                         // use the sample pointer we stored inside the thumbnail
                         Ogre::Renderable* r = mThumbs[mSampleMenu->getSelectionIndex()];
-                        runSample(Ogre::any_cast<Sample*>(r->getUserObjectBindings().getUserAny()));
+                        runSample(std::any_cast<Sample*>(r->getUserObjectBindings().getUserAny()));
                     }
                 } else
                     runSample(0);
@@ -451,7 +451,7 @@ namespace OgreBites
                     mSampleSlider->setValue(menu->getSelectionIndex() + 1);
 
                 Ogre::Renderable* r = mThumbs[mSampleMenu->getSelectionIndex()];
-                Sample* s = Ogre::any_cast<Sample*>(r->getUserObjectBindings().getUserAny());
+                Sample* s = std::any_cast<Sample*>(r->getUserObjectBindings().getUserAny());
                 mTitleLabel->setCaption(menu->getSelectedItem());
                 mDescBox->setText("Category: " + s->getInfo()["Category"] + "\nDescription: " + s->getInfo()["Description"]);
 
@@ -557,7 +557,7 @@ namespace OgreBites
                 if (!mLoadedSamples.empty() && (mSamplePaused || mCurrentSample == 0))
                 {
                     Ogre::Renderable* r = mThumbs[mSampleMenu->getSelectionIndex()];
-                    Sample* newSample = Ogre::any_cast<Sample*>(r->getUserObjectBindings().getUserAny());
+                    Sample* newSample = std::any_cast<Sample*>(r->getUserObjectBindings().getUserAny());
                     runSample(newSample == mCurrentSample ? 0 : newSample);
                 }
             }

@@ -67,7 +67,7 @@ void GBuffer::setParameter(const String& name, const Any& value)
 {
     if(name == "target_buffers")
     {
-        auto buffers = any_cast<StringVector>(value);
+        auto buffers = std::any_cast<StringVector>(value);
         mOutBuffers.clear();
 
         for(const auto& buf : buffers)
