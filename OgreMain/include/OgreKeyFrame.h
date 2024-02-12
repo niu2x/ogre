@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreVector.h"
 #include "OgreQuaternion.h"
-#include "OgreAny.h"
+#include "any.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreHeaderPrefix.h"
 

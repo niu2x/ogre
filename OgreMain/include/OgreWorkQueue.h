@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __OgreWorkQueue_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreAny.h"
+#include "any.h"
 #include "OgreSharedPtr.h"
 #include "OgreCommon.h"
 #include "threading/thread_header.h"

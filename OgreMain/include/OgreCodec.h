@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreStringVector.h"
 #include "OgreException.h"
 #include "OgreHeaderPrefix.h"
-#include "OgreAny.h"
+#include "any.h"
 
 namespace Ogre {
     /** \addtogroup Core

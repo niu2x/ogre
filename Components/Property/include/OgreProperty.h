@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __OGRE_PROPERTY_H__
 
 #include "OgrePropertyPrerequisites.h"
-#include "OgreAny.h"
+#include "any.h"
 #include "OgreString.h"
 #include "OgreException.h"
 #include "OgreQuaternion.h"
