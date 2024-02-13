@@ -31,7 +31,7 @@
 #include "OgreGLSLShader.h"
 #include "OgreGLSLProgramManager.h"
 #include "OgreGL3PlusRenderSystem.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreLogManager.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreStringConverter.h"

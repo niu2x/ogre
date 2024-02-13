@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreTextureUnitState.h"
 #include "OgreGpuProgram.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

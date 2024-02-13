@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreQuake3ShaderManager.h"
 #include "OgreQuake3Shader.h"
 #include "OgreMath.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreStringConverter.h"
 #include "OgreLogManager.h"
 #include "OgreTechnique.h"

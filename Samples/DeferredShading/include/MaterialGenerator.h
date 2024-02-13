@@ -16,7 +16,7 @@ same license as the rest of the engine.
 #define H_WJ_MaterialGenerator
 
 #include "OgreMaterial.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 
 /** Caching, on-the-fly material generator. This is a class that automatically 
     generates and stores different permutations of a material, and its shaders. 

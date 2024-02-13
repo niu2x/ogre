@@ -46,7 +46,7 @@ THE SOFTWARE.
 #include "string_util.h"
 #include "OgreColourValue.h"
 #include "OgreLogManager.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreSingleton.h"
 #include "OgreVector.h"
 #include "OgreQuaternion.h"

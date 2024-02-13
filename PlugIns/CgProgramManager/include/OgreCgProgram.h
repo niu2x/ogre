@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreCgPrerequisites.h"
 #include "OgreHighLevelGpuProgram.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 
 namespace Ogre {
     /** \addtogroup Plugins

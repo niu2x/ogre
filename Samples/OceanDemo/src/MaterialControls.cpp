@@ -14,7 +14,7 @@ same license as the rest of the engine.
 
 #include "MaterialControls.h"
 #include "OgreLogManager.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreStringConverter.h"
 #include "OgreConfigFile.h"
 #include "OgreResourceGroupManager.h"

@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreQuake3ShaderManager.h"
 #include "OgreQuake3Shader.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreException.h"
 
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC

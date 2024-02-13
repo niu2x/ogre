@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreStringVector.h"
+#include "string_vector.h"
 
 
 namespace Ogre {

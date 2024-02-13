@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreStringConverter.h"
 #include "OgreHeaderPrefix.h"
 #include "OgreGpuProgram.h"

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreCommon.h"
 #include "OgreVector.h"
 #include "OgreColourValue.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreException.h"
 #include "OgreHeaderPrefix.h"
 

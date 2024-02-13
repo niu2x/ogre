@@ -105,7 +105,7 @@ extern "C" {
 #include "OgreStringConverter.h"
 #include "string_util.h"
 #include "OgreStringInterface.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreSubMesh.h"
 #include "OgreTechnique.h"
 #include "OgreTextureManager.h"

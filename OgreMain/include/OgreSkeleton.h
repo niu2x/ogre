@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreResource.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreAnimation.h"
 #include "OgreHeaderPrefix.h"
 

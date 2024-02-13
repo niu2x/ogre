@@ -29,7 +29,7 @@
 #define __FileSystemLayer_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre

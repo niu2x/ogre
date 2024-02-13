@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreOverlayPrerequisites.h"
 #include "OgreSingleton.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreScriptLoader.h"
 #include "OgreFrustum.h"
 #include "OgreScriptTranslator.h"

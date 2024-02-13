@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreIteratorWrapper.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreException.h"
 #include "OgreHeaderPrefix.h"
 #include "any.h"

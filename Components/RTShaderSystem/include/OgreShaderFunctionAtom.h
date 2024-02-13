@@ -28,7 +28,7 @@ THE SOFTWARE.
 #define _ShaderFunctionAtom_
 
 #include "OgreShaderPrerequisites.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreGpuProgramParams.h"
 #include "OgreShaderParameter.h"
 

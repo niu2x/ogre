@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __GLSLESCgProgram_H__
 
 #include "OgreGLSLESProgram.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 
 namespace Ogre {
     /** Specialisation of HighLevelGpuProgram to provide support for CG

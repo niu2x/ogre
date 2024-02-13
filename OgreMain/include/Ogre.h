@@ -118,7 +118,7 @@ THE SOFTWARE.
 #include "OgreStaticGeometry.h"
 #include "string_util.h"
 #include "OgreStringConverter.h"
-#include "OgreStringVector.h"
+#include "string_vector.h"
 #include "OgreSubEntity.h"
 #include "OgreSubMesh.h"
 #include "OgreTechnique.h"
