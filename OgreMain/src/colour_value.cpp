@@ -38,62 +38,62 @@ namespace Ogre {
 
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    ABGR ColourValue::getAsABGR(void) const
+    ABGR ColourValue::as_ABGR(void) const
 #else
-    RGBA ColourValue::getAsRGBA(void) const
+    RGBA ColourValue::as_RGBA(void) const
 #endif
     {
-        uint8 val8;
-        uint32 val32 = 0;
+        uint8_t val8;
+        uint32_t val32 = 0;
 
         // Convert to 32bit pattern
         // (RGBA = 8888)
 
         // Red
-        val8 = static_cast<uint8>(r * 255);
+        val8 = static_cast<uint8_t>(r * 255);
         val32 = val8 << 24;
 
         // Green
-        val8 = static_cast<uint8>(g * 255);
+        val8 = static_cast<uint8_t>(g * 255);
         val32 += val8 << 16;
 
         // Blue
-        val8 = static_cast<uint8>(b * 255);
+        val8 = static_cast<uint8_t>(b * 255);
         val32 += val8 << 8;
 
         // Alpha
-        val8 = static_cast<uint8>(a * 255);
+        val8 = static_cast<uint8_t>(a * 255);
         val32 += val8;
 
         return val32;
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    BGRA ColourValue::getAsBGRA(void) const
+    BGRA ColourValue::as_BGRA(void) const
 #else
-    ARGB ColourValue::getAsARGB(void) const
+    ARGB ColourValue::as_ARGB(void) const
 #endif
     {
-        uint8 val8;
-        uint32 val32 = 0;
+        uint8_t val8;
+        uint32_t val32 = 0;
 
         // Convert to 32bit pattern
         // (ARGB = 8888)
 
         // Alpha
-        val8 = static_cast<uint8>(a * 255);
+        val8 = static_cast<uint8_t>(a * 255);
         val32 = val8 << 24;
 
         // Red
-        val8 = static_cast<uint8>(r * 255);
+        val8 = static_cast<uint8_t>(r * 255);
         val32 += val8 << 16;
 
         // Green
-        val8 = static_cast<uint8>(g * 255);
+        val8 = static_cast<uint8_t>(g * 255);
         val32 += val8 << 8;
 
         // Blue
-        val8 = static_cast<uint8>(b * 255);
+        val8 = static_cast<uint8_t>(b * 255);
         val32 += val8;
 
 
@@ -101,31 +101,31 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    ARGB ColourValue::getAsARGB(void) const
+    ARGB ColourValue::as_ARGB(void) const
 #else
-    BGRA ColourValue::getAsBGRA(void) const
+    BGRA ColourValue::as_BGRA(void) const
 #endif
     {
-        uint8 val8;
-        uint32 val32 = 0;
+        uint8_t val8;
+        uint32_t val32 = 0;
 
         // Convert to 32bit pattern
         // (ARGB = 8888)
 
         // Blue
-        val8 = static_cast<uint8>(b * 255);
+        val8 = static_cast<uint8_t>(b * 255);
         val32 = val8 << 24;
 
         // Green
-        val8 = static_cast<uint8>(g * 255);
+        val8 = static_cast<uint8_t>(g * 255);
         val32 += val8 << 16;
 
         // Red
-        val8 = static_cast<uint8>(r * 255);
+        val8 = static_cast<uint8_t>(r * 255);
         val32 += val8 << 8;
 
         // Alpha
-        val8 = static_cast<uint8>(a * 255);
+        val8 = static_cast<uint8_t>(a * 255);
         val32 += val8;
 
 
@@ -133,31 +133,31 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    RGBA ColourValue::getAsRGBA(void) const
+    RGBA ColourValue::as_RGBA(void) const
 #else
-    ABGR ColourValue::getAsABGR(void) const
+    ABGR ColourValue::as_ABGR(void) const
 #endif
     {
-        uint8 val8;
-        uint32 val32 = 0;
+        uint8_t val8;
+        uint32_t val32 = 0;
 
         // Convert to 32bit pattern
         // (ABRG = 8888)
 
         // Alpha
-        val8 = static_cast<uint8>(a * 255);
+        val8 = static_cast<uint8_t>(a * 255);
         val32 = val8 << 24;
 
         // Blue
-        val8 = static_cast<uint8>(b * 255);
+        val8 = static_cast<uint8_t>(b * 255);
         val32 += val8 << 16;
 
         // Green
-        val8 = static_cast<uint8>(g * 255);
+        val8 = static_cast<uint8_t>(g * 255);
         val32 += val8 << 8;
 
         // Red
-        val8 = static_cast<uint8>(r * 255);
+        val8 = static_cast<uint8_t>(r * 255);
         val32 += val8;
 
 
@@ -165,9 +165,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::setAsABGR(ABGR val32)
+    void ColourValue::set_as_ABGR(ABGR val32)
 #else
-    void ColourValue::setAsRGBA(RGBA val32)
+    void ColourValue::set_as_RGBA(RGBA val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -187,9 +187,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::setAsBGRA(BGRA val32)
+    void ColourValue::set_as_BGRA(BGRA val32)
 #else
-    void ColourValue::setAsARGB(ARGB val32)
+    void ColourValue::set_as_ARGB(ARGB val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -209,9 +209,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::setAsARGB(ARGB val32)
+    void ColourValue::set_as_ARGB(ARGB val32)
 #else
-    void ColourValue::setAsBGRA(BGRA val32)
+    void ColourValue::set_as_BGRA(BGRA val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -231,9 +231,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::setAsRGBA(RGBA val32)
+    void ColourValue::set_as_RGBA(RGBA val32)
 #else
-    void ColourValue::setAsABGR(ABGR val32)
+    void ColourValue::set_as_ABGR(ABGR val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -252,7 +252,7 @@ namespace Ogre {
         r = float(val32 & 0xFF) / 255.0f;
     }
     //---------------------------------------------------------------------
-    void ColourValue::setHSB(float hue, float saturation, float brightness)
+    void ColourValue::set_as_HSB(float hue, float saturation, float brightness)
     {
         // wrap hue
         hue = std::fmod(hue, 1.0f);
@@ -331,41 +331,41 @@ namespace Ogre {
 
     }
     //---------------------------------------------------------------------
-    void ColourValue::getHSB(float& hue, float& saturation, float& brightness) const
+    void ColourValue::as_HSB(float* hue, float* saturation, float* brightness) const
     {
 
         float vMin = std::min(r, std::min(g, b));
         float vMax = std::max(r, std::max(g, b));
         float delta = vMax - vMin;
 
-        brightness = vMax;
+        *brightness = vMax;
 
         if (Math::RealEqual(delta, 0.0f, 1e-6f))
         {
             // grey
-            hue = 0;
-            saturation = 0;
+            *hue = 0;
+            *saturation = 0;
         }
         else                                    
         {
             // a colour
-            saturation = delta / vMax;
+            *saturation = delta / vMax;
 
             float deltaR = (((vMax - r) / 6.0f) + (delta / 2.0f)) / delta;
             float deltaG = (((vMax - g) / 6.0f) + (delta / 2.0f)) / delta;
             float deltaB = (((vMax - b) / 6.0f) + (delta / 2.0f)) / delta;
 
             if (Math::RealEqual(r, vMax))
-                hue = deltaB - deltaG;
+                *hue = deltaB - deltaG;
             else if (Math::RealEqual(g, vMax))
-                hue = 0.3333333f + deltaR - deltaB;
+                *hue = 0.3333333f + deltaR - deltaB;
             else if (Math::RealEqual(b, vMax)) 
-                hue = 0.6666667f + deltaG - deltaR;
+                *hue = 0.6666667f + deltaG - deltaR;
 
-            if (hue < 0.0f)
-                hue += 1.0f;
-            if (hue > 1.0f)
-                hue -= 1.0f;
+            if (*hue < 0.0f)
+                *hue += 1.0f;
+            if (*hue > 1.0f)
+                *hue -= 1.0f;
         }
 
         

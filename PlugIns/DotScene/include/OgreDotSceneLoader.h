@@ -3,7 +3,7 @@
 
 // Includes
 #include <OgreDotScenePluginExports.h>
-#include <OgreColourValue.h>
+#include <colour_value.h>
 #include <OgreQuaternion.h>
 #include <OgreResourceGroupManager.h>
 #include <string_util.h>

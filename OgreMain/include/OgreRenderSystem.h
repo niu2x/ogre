@@ -721,7 +721,7 @@ namespace Ogre
         /// @deprecated use ColourValue::getAsBYTE()
         OGRE_DEPRECATED static void convertColourValue(const ColourValue& colour, uint32* pDest)
         {
-            *pDest = colour.getAsBYTE();
+            *pDest = colour.as_BYTE();
         }
         /// @deprecated assume VET_UBYTE4_NORM
         OGRE_DEPRECATED static VertexElementType getColourVertexElementType(void) { return VET_UBYTE4_NORM; }

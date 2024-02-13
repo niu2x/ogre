@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreVector.h"
 #include "OgreQuaternion.h"
 #include "OgreMatrix4.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 
 
 using namespace Ogre;

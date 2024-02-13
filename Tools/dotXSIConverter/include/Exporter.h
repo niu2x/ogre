@@ -6,7 +6,7 @@
 #include "SemanticLayer.h"
 #include "OgrePrerequisites.h"
 #include "OgreVector.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreMesh.h"
 
 using namespace Ogre;

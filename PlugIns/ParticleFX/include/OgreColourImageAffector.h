@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
 #include "OgreStringInterface.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreImage.h"
 
 namespace Ogre {

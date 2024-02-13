@@ -76,11 +76,11 @@ namespace Ogre {
 
             if (particle_time <= mTimeAdj[0])
             {
-                p->mColour = mColourAdj[0].getAsBYTE();
+                p->mColour = mColourAdj[0].as_BYTE();
             } else
             if (particle_time >= mTimeAdj[MAX_STAGES - 1])
             {
-                p->mColour = mColourAdj[MAX_STAGES-1].getAsBYTE();
+                p->mColour = mColourAdj[MAX_STAGES-1].as_BYTE();
             } else
             {
                 for (int i=0;i<MAX_STAGES-1;i++)
@@ -90,7 +90,7 @@ namespace Ogre {
                         particle_time -= mTimeAdj[i];
                         particle_time /= (mTimeAdj[i+1]-mTimeAdj[i]);
 
-                        p->mColour = Math::lerp(mColourAdj[i], mColourAdj[i+1], particle_time).getAsBYTE();
+                        p->mColour = Math::lerp(mColourAdj[i], mColourAdj[i+1], particle_time).as_BYTE();
                         break;
                     }
                 }
@@ -112,7 +112,7 @@ namespace Ogre {
 	//-----------------------------------------------------------------------
 	void ColourInterpolatorAffector::_initParticle(Particle* pParticle)
 	{
-		pParticle->mColour = mColourAdj[0].getAsBYTE();
+		pParticle->mColour = mColourAdj[0].as_BYTE();
 	}
 
     //-----------------------------------------------------------------------

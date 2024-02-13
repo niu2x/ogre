@@ -35,7 +35,7 @@ Torus Knot Software Ltd.
 
 #include "OgrePlane.h"
 #include "OgreQuaternion.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreCommon.h"
 #include "OgreSceneQuery.h"
 #include "OgreAutoParamDataSource.h"

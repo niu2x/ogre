@@ -294,7 +294,7 @@ ManualObject::ManualObject(const String& name)
                 memcpy(pFloat, mTempVertex.texCoord[elem.getIndex()].ptr(), sizeof(float)*dims);
                 break;
             case VES_COLOUR:
-                *pRGBA = mTempVertex.colour.getAsBYTE();
+                *pRGBA = mTempVertex.colour.as_BYTE();
                 break;
             default:
                 OgreAssert(false, "invalid semantic");

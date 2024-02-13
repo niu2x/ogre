@@ -501,7 +501,7 @@ namespace Ogre {
 
                     if (mUseVertexColour)
                     {
-                        RGBA col = elem.colour.getAsBYTE();
+                        RGBA col = elem.colour.as_BYTE();
                         memcpy(pFloat++, &col, sizeof(RGBA));
                     }
 
@@ -526,7 +526,7 @@ namespace Ogre {
 
                     if (mUseVertexColour)
                     {
-                        RGBA col = elem.colour.getAsBYTE();
+                        RGBA col = elem.colour.as_BYTE();
                         memcpy(pFloat++, &col, sizeof(RGBA));
                     }
 

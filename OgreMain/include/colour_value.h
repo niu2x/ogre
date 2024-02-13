@@ -38,10 +38,10 @@ namespace Ogre {
     *  @{
     */
 
-    typedef uint32 RGBA;
-    typedef uint32 ARGB;
-    typedef uint32 ABGR;
-    typedef uint32 BGRA;
+    using RGBA = uint32_t;
+    using ARGB = uint32_t;
+    using ABGR = uint32_t;
+    using BGRA = uint32_t;
 
     /** Class representing colour.
 
@@ -54,7 +54,7 @@ namespace Ogre {
             transparency. In this case, 0.0 is completely transparent and 1.0 is
             fully opaque.
     */
-    class _OgreExport ColourValue
+    class ColourValue
     {
     public:
         static const ColourValue ZERO;
@@ -70,7 +70,7 @@ namespace Ogre {
                     float alpha = 1.0f ) : r(red), g(green), b(blue), a(alpha)
         { }
 
-        explicit ColourValue(const uchar* byte) : r(byte[0]), g(byte[1]), b(byte[2]), a(byte[3])
+        explicit ColourValue(const uint8_t* byte) : r(byte[0]), g(byte[1]), b(byte[2]), a(byte[3])
         {
             *this /= 255;
         }
@@ -81,44 +81,42 @@ namespace Ogre {
         }
         bool operator!=(const ColourValue& rhs) const { return !(*this == rhs); }
 
-        float r,g,b,a;
-
         /// @name conversions from/ to native-endian packed formats
         /// @{
 
         /// value packed as #PF_R8G8B8A8
-        RGBA getAsRGBA(void) const;
+        RGBA as_RGBA(void) const;
 
         /// value packed as #PF_A8R8G8B8
-        ARGB getAsARGB(void) const;
+        ARGB as_ARGB(void) const;
 
         /// value packed as #PF_B8G8R8A8
-        BGRA getAsBGRA(void) const;
+        BGRA as_BGRA(void) const;
 
         /// value packed as #PF_A8B8G8R8
-        ABGR getAsABGR(void) const;
+        ABGR as_ABGR(void) const;
 
         /// value packed as #PF_BYTE_RGBA
-        RGBA getAsBYTE() const
+        RGBA as_BYTE() const
         {
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-            return getAsRGBA();
+            return as_RGBA();
 #else
-            return getAsABGR();
+            return as_ABGR();
 #endif
         }
 
         /// Set value from #PF_R8G8B8A8
-        void setAsRGBA(RGBA val);
+        void set_as_RGBA(RGBA val);
 
         /// Set value from #PF_A8R8G8B8
-        void setAsARGB(ARGB val);
+        void set_as_ARGB(ARGB val);
 
         /// Set value from #PF_B8G8R8A8
-        void setAsBGRA(BGRA val);
+        void set_as_BGRA(BGRA val);
 
         /// Set value from #PF_A8B8G8R8
-        void setAsABGR(ABGR val);
+        void set_as_ABGR(ABGR val);
         /// @}
 
         /** Clamps colour value to the range [0, 1].
@@ -148,7 +146,7 @@ namespace Ogre {
 
         /** As saturate, except that this colour value is unaffected and
             the saturated colour value is returned as a copy. */
-        ColourValue saturateCopy(void) const
+        ColourValue saturate_copy(void) const
         {
             ColourValue ret = *this;
             ret.saturate();
@@ -156,7 +154,7 @@ namespace Ogre {
         }
 
         /// Array accessor operator
-        float operator [] ( const size_t i ) const
+        float operator [] ( size_t i ) const
         {
             assert( i < 4 );
 
@@ -164,7 +162,7 @@ namespace Ogre {
         }
 
         /// Array accessor operator
-        float& operator [] ( const size_t i )
+        float& operator [] ( size_t i )
         {
             assert( i < 4 );
 
@@ -184,73 +182,73 @@ namespace Ogre {
 
         
         // arithmetic operations
-        ColourValue operator + ( const ColourValue& rkVector ) const
+        ColourValue operator + ( const ColourValue& other ) const
         {
-            ColourValue kSum;
+            ColourValue sum;
 
-            kSum.r = r + rkVector.r;
-            kSum.g = g + rkVector.g;
-            kSum.b = b + rkVector.b;
-            kSum.a = a + rkVector.a;
+            sum.r = r + other.r;
+            sum.g = g + other.g;
+            sum.b = b + other.b;
+            sum.a = a + other.a;
 
-            return kSum;
+            return sum;
         }
 
-        ColourValue operator - ( const ColourValue& rkVector ) const
+        ColourValue operator - ( const ColourValue& other ) const
         {
-            ColourValue kDiff;
+            ColourValue diff;
 
-            kDiff.r = r - rkVector.r;
-            kDiff.g = g - rkVector.g;
-            kDiff.b = b - rkVector.b;
-            kDiff.a = a - rkVector.a;
+            diff.r = r - other.r;
+            diff.g = g - other.g;
+            diff.b = b - other.b;
+            diff.a = a - other.a;
 
-            return kDiff;
+            return diff;
         }
 
-        ColourValue operator * (const float fScalar ) const
+        ColourValue operator * (float scalar ) const
         {
-            ColourValue kProd;
+            ColourValue prod;
 
-            kProd.r = fScalar*r;
-            kProd.g = fScalar*g;
-            kProd.b = fScalar*b;
-            kProd.a = fScalar*a;
+            prod.r = scalar*r;
+            prod.g = scalar*g;
+            prod.b = scalar*b;
+            prod.a = scalar*a;
 
-            return kProd;
+            return prod;
         }
 
         ColourValue operator * ( const ColourValue& rhs) const
         {
-            ColourValue kProd;
+            ColourValue prod;
 
-            kProd.r = rhs.r * r;
-            kProd.g = rhs.g * g;
-            kProd.b = rhs.b * b;
-            kProd.a = rhs.a * a;
+            prod.r = rhs.r * r;
+            prod.g = rhs.g * g;
+            prod.b = rhs.b * b;
+            prod.a = rhs.a * a;
 
-            return kProd;
+            return prod;
         }
 
         ColourValue operator / ( const ColourValue& rhs) const
         {
-            ColourValue kProd;
+            ColourValue prod;
 
-            kProd.r = r / rhs.r;
-            kProd.g = g / rhs.g;
-            kProd.b = b / rhs.b;
-            kProd.a = a / rhs.a;
+            prod.r = r / rhs.r;
+            prod.g = g / rhs.g;
+            prod.b = b / rhs.b;
+            prod.a = a / rhs.a;
 
-            return kProd;
+            return prod;
         }
 
-        ColourValue operator / (const float fScalar ) const
+        ColourValue operator / (float scalar ) const
         {
-            assert( fScalar != 0.0 );
+            assert( scalar != 0.0 );
 
             ColourValue kDiv;
 
-            float fInv = 1.0f / fScalar;
+            float fInv = 1.0f / scalar;
             kDiv.r = r * fInv;
             kDiv.g = g * fInv;
             kDiv.b = b * fInv;
@@ -259,53 +257,53 @@ namespace Ogre {
             return kDiv;
         }
 
-        friend ColourValue operator * (const float fScalar, const ColourValue& rkVector )
+        friend ColourValue operator * (float scalar, const ColourValue& other )
         {
-            ColourValue kProd;
+            ColourValue prod;
 
-            kProd.r = fScalar * rkVector.r;
-            kProd.g = fScalar * rkVector.g;
-            kProd.b = fScalar * rkVector.b;
-            kProd.a = fScalar * rkVector.a;
+            prod.r = scalar * other.r;
+            prod.g = scalar * other.g;
+            prod.b = scalar * other.b;
+            prod.a = scalar * other.a;
 
-            return kProd;
+            return prod;
         }
 
         // arithmetic updates
-        ColourValue& operator += ( const ColourValue& rkVector )
+        ColourValue& operator += ( const ColourValue& other )
         {
-            r += rkVector.r;
-            g += rkVector.g;
-            b += rkVector.b;
-            a += rkVector.a;
+            r += other.r;
+            g += other.g;
+            b += other.b;
+            a += other.a;
 
             return *this;
         }
 
-        ColourValue& operator -= ( const ColourValue& rkVector )
+        ColourValue& operator -= ( const ColourValue& other )
         {
-            r -= rkVector.r;
-            g -= rkVector.g;
-            b -= rkVector.b;
-            a -= rkVector.a;
+            r -= other.r;
+            g -= other.g;
+            b -= other.b;
+            a -= other.a;
 
             return *this;
         }
 
-        ColourValue& operator *= (const float fScalar )
+        ColourValue& operator *= (float scalar )
         {
-            r *= fScalar;
-            g *= fScalar;
-            b *= fScalar;
-            a *= fScalar;
+            r *= scalar;
+            g *= scalar;
+            b *= scalar;
+            a *= scalar;
             return *this;
         }
 
-        ColourValue& operator /= (const float fScalar )
+        ColourValue& operator /= (float scalar )
         {
-            assert( fScalar != 0.0 );
+            assert( scalar != 0.0 );
 
-            float fInv = 1.0f / fScalar;
+            float fInv = 1.0f / scalar;
 
             r *= fInv;
             g *= fInv;
@@ -320,20 +318,14 @@ namespace Ogre {
         @param saturation Saturation level, [0,1]
         @param brightness Brightness level, [0,1]
         */
-        void setHSB(float hue, float saturation, float brightness);
+        void set_as_HSB(float hue, float saturation, float brightness);
 
         /** Convert the current colour to Hue, Saturation and Brightness values. 
         @param hue Output hue value, scaled to the [0,1] range as opposed to the 0-360
         @param saturation Output saturation level, [0,1]
         @param brightness Output brightness level, [0,1]
         */
-        void getHSB(float& hue, float& saturation, float& brightness) const;
-
-        /// @deprecated
-        OGRE_DEPRECATED void getHSB(float* hue, float* saturation, float* brightness) const
-        {
-            getHSB(*hue, *saturation, *brightness);
-        }
+        void as_HSB(float* hue, float* saturation, float* brightness) const;
 
         /** Function for writing to a stream.
         */
@@ -343,6 +335,8 @@ namespace Ogre {
             o << "ColourValue(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";
             return o;
         }
+
+        float r,g,b,a;
 
     };
     /** @} */

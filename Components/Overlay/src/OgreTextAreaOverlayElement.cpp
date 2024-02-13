@@ -603,8 +603,8 @@ namespace Ogre {
     void TextAreaOverlayElement::updateColours(void)
     {
         // Convert to system-specific
-        RGBA topColour = mColourTop.getAsBYTE();
-        RGBA bottomColour = mColourBottom.getAsBYTE();
+        RGBA topColour = mColourTop.as_BYTE();
+        RGBA bottomColour = mColourBottom.as_BYTE();
 
         HardwareVertexBufferSharedPtr vbuf = 
             mRenderOp.vertexData->vertexBufferBinding->getBuffer(COLOUR_BINDING);

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreHardwareBuffer.h"
 
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -222,10 +222,10 @@ namespace Ogre {
         /// @deprecated do not use
         OGRE_DEPRECATED static void convertColourValue(VertexElementType srcType, VertexElementType dstType, uint32* ptr);
 
-        /// @deprecated use ColourValue::getAsABGR()
+        /// @deprecated use ColourValue::as_ABGR()
         OGRE_DEPRECATED static uint32 convertColourValue(const ColourValue& src, VertexElementType)
         {
-            return src.getAsABGR();
+            return src.as_ABGR();
         }
 
         /// @deprecated use VET_UBYTE4_NORM

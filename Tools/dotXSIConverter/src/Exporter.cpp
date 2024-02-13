@@ -18,7 +18,7 @@
 #include "OgreMeshSerializer.h"
 #include "OgreSkeletonSerializer.h"
 #include "OgrePrerequisites.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 
 using namespace Ogre;
 

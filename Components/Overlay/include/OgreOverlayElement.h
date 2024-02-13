@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreOverlayPrerequisites.h"
 #include "OgreRenderable.h"
 #include "OgreStringInterface.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 
 namespace Ogre {
     class Overlay;

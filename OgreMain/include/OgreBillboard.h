@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreCommon.h"
 #include "OgreHeaderPrefix.h"
 #include "OgreMath.h"
@@ -143,7 +143,7 @@ namespace Ogre {
                 base colour of the material allowing more varied billboards. The default colour is white.
                 The tinting is effected using vertex colours.
         */
-        void setColour(const ColourValue& colour) { mColour = colour.getAsBYTE(); }
+        void setColour(const ColourValue& colour) { mColour = colour.as_BYTE(); }
 
         /** Gets the colour of this billboard.
         */

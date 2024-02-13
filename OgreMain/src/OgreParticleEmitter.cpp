@@ -369,11 +369,11 @@ namespace Ogre
         {
             // Randomise
             ColourValue t(Math::UnitRandom(), Math::UnitRandom(), Math::UnitRandom(), Math::UnitRandom());
-            destColour = (mColourRangeStart + t * (mColourRangeEnd - mColourRangeStart)).getAsBYTE();
+            destColour = (mColourRangeStart + t * (mColourRangeEnd - mColourRangeStart)).as_BYTE();
         }
         else
         {
-            destColour = mColourRangeStart.getAsBYTE();
+            destColour = mColourRangeStart.as_BYTE();
         }
     }
     //-----------------------------------------------------------------------

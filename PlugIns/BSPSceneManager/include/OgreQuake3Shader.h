@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreBspPrerequisites.h"
 #include "OgreQuake3Types.h"
 #include "OgreCommon.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreBlendMode.h"
 #include "OgreTextureUnitState.h"
 

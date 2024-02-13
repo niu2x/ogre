@@ -527,7 +527,7 @@ namespace Ogre {
                         dataNode = vertexNode.append_child("colour_diffuse");
                         {
                             ColourValue cv;
-                            elem.getType() == VET_COLOUR_ABGR ? cv.setAsABGR(*pColour) : cv.setAsARGB(*pColour);
+                            elem.getType() == VET_COLOUR_ABGR ? cv.set_as_ABGR(*pColour) : cv.set_as_ARGB(*pColour);
                             dataNode.append_attribute("value") = StringConverter::toString(cv).c_str();
                         }
                         break;
@@ -536,7 +536,7 @@ namespace Ogre {
                         dataNode = vertexNode.append_child("colour_specular");
                         {
                             ColourValue cv;
-                            elem.getType() == VET_COLOUR_ABGR ? cv.setAsABGR(*pColour) : cv.setAsARGB(*pColour);
+                            elem.getType() == VET_COLOUR_ABGR ? cv.set_as_ABGR(*pColour) : cv.set_as_ARGB(*pColour);
                             dataNode.append_attribute("value") = StringConverter::toString(cv).c_str();
                         }
                         break;
@@ -593,7 +593,7 @@ namespace Ogre {
                             elem.baseVertexPointerToElement(pVert, &pColour);
                             {
                                 ColourValue cv;
-                                elem.getType() == VET_COLOUR_ARGB ? cv.setAsARGB(*pColour) : cv.setAsABGR(*pColour);
+                                elem.getType() == VET_COLOUR_ARGB ? cv.set_as_ARGB(*pColour) : cv.set_as_ABGR(*pColour);
                                 dataNode.append_attribute("u") = StringConverter::toString(cv).c_str();
                             }
                             break;
@@ -1071,7 +1071,7 @@ namespace Ogre {
                         elem.baseVertexPointerToElement(pVert, &pCol);
                         {
                             auto cv = StringConverter::parseColourValue(xmlElem.attribute("value").value());
-                            *pCol++ = cv.getAsABGR();
+                            *pCol++ = cv.as_ABGR();
                         }
                         break;
                     case VES_SPECULAR:
@@ -1084,7 +1084,7 @@ namespace Ogre {
                         elem.baseVertexPointerToElement(pVert, &pCol);
                         {
                             auto cv = StringConverter::parseColourValue(xmlElem.attribute("value").value());
-                            *pCol++ = cv.getAsABGR();
+                            *pCol++ = cv.as_ABGR();
                         }
                         break;
                     case VES_TEXTURE_COORDINATES:
@@ -1207,7 +1207,7 @@ namespace Ogre {
                             {
                                 elem.baseVertexPointerToElement(pVert, &pCol);
                                 ColourValue cv = StringConverter::parseColourValue(xmlElem.attribute("u").value());
-                                *pCol++ = cv.getAsABGR();
+                                *pCol++ = cv.as_ABGR();
                             }
                             break;
                         default:

@@ -404,7 +404,7 @@ void copyToSubMesh(SubMesh *sub, const TriVec &triangles, const VertVec &vertice
         if (color) {
             col3 c = color->color[v.colour];
             ColourValue cv(c.r, c.g, c.b);
-            colors[i] = cv.getAsABGR();
+            colors[i] = cv.as_ABGR();
         }
     }
 

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreVector.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreMesh.h"
 #include "OgreProgressiveMesh.h"
 #include "OgreXSIHelper.h"
