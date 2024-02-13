@@ -40,7 +40,7 @@ THE SOFTWARE.
 #include "OgreCodec.h"
 #include "OgreImageCodec.h"
 #include "OgreStringConverter.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 
 #include "OgreGLFBORenderTexture.h"
 #include "OgreGLStateCacheManager.h"

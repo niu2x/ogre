@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include <gtest/gtest.h>
 
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreStringConverter.h"
 
 using namespace Ogre;
@@ -35,41 +35,41 @@ using namespace Ogre;
 //--------------------------------------------------------------------------
 TEST(BitwiseTests,FixedPointConversion)
 {
-    EXPECT_EQ(Bitwise::fixedToFixed(0x0,  1,8), (unsigned int)0x00);
-    EXPECT_EQ(Bitwise::fixedToFixed(0x1,  1,8), (unsigned int)0xFF);
-    EXPECT_EQ(Bitwise::fixedToFixed(0x2,  2,8), (unsigned int)0xAA);     // 10101010
-    EXPECT_EQ(Bitwise::fixedToFixed(0x1,  2,8), (unsigned int)0x55);     // 01010101
-    EXPECT_EQ(Bitwise::fixedToFixed(0x2,  2,9), (unsigned int)0x155);    // 1 01010101
-    EXPECT_EQ(Bitwise::fixedToFixed(0x1,  2,9), (unsigned int)0x0AA);    // 0 10101010
-    EXPECT_EQ(Bitwise::fixedToFixed(0xFE, 8,3), (unsigned int)0x7);      // 111
-    EXPECT_EQ(Bitwise::fixedToFixed(0xFE, 8,9), (unsigned int)0x1FD);    // 111111101
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0x0,  1,8), (unsigned int)0x00);
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0x1,  1,8), (unsigned int)0xFF);
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0x2,  2,8), (unsigned int)0xAA);     // 10101010
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0x1,  2,8), (unsigned int)0x55);     // 01010101
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0x2,  2,9), (unsigned int)0x155);    // 1 01010101
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0x1,  2,9), (unsigned int)0x0AA);    // 0 10101010
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0xFE, 8,3), (unsigned int)0x7);      // 111
+    EXPECT_EQ(Bitwise::fixed_to_fixed(0xFE, 8,9), (unsigned int)0x1FD);    // 111111101
 
-    EXPECT_EQ(Bitwise::fixedToFloat(0xFF, 8), 1.0f);
-    EXPECT_EQ(Bitwise::fixedToFloat(0x00, 8), 0.0f);
+    EXPECT_EQ(Bitwise::fixed_to_float(0xFF, 8), 1.0f);
+    EXPECT_EQ(Bitwise::fixed_to_float(0x00, 8), 0.0f);
 
-    EXPECT_EQ(Bitwise::floatToFixed(1.0f, 8), (unsigned int)0xFF);
-    EXPECT_EQ(Bitwise::floatToFixed(0.0f, 8), (unsigned int)0x00);
+    EXPECT_EQ(Bitwise::float_to_fixed(1.0f, 8), (unsigned int)0xFF);
+    EXPECT_EQ(Bitwise::float_to_fixed(0.0f, 8), (unsigned int)0x00);
 
     // Test clamping
-    EXPECT_EQ(Bitwise::floatToFixed(-1.0f,8), (unsigned int)0x00);
-    EXPECT_EQ(Bitwise::floatToFixed(2.0f, 8), (unsigned int)0xFF);
+    EXPECT_EQ(Bitwise::float_to_fixed(-1.0f,8), (unsigned int)0x00);
+    EXPECT_EQ(Bitwise::float_to_fixed(2.0f, 8), (unsigned int)0xFF);
 
     // Test circular conversion
     bool failed = false;
     for(unsigned int x = 0; x < 0x0010; x++)
-        if(Bitwise::floatToFixed(Bitwise::fixedToFloat(x, 4), 4) != x)
+        if(Bitwise::float_to_fixed(Bitwise::fixed_to_float(x, 4), 4) != x)
             failed = true;
     EXPECT_TRUE(!failed) << "circular floatToFixed/fixedToFloat for 4 bit failed";
 
     failed = false;
     for(unsigned int x = 0; x < 0x0100; x++)
-        if(Bitwise::floatToFixed(Bitwise::fixedToFloat(x, 8), 8) != x)
+        if(Bitwise::float_to_fixed(Bitwise::fixed_to_float(x, 8), 8) != x)
             failed = true;
     EXPECT_TRUE(!failed) << "circular floatToFixed/fixedToFloat for 8 bit failed";
 
     failed = false;
     for(unsigned int x = 0; x < 0xFFE; x++) // originally loop ran till 0x1000, but precision issues sometimes prevent that
-        if(Bitwise::floatToFixed(Bitwise::fixedToFloat(x, 12), 12) != x)
+        if(Bitwise::float_to_fixed(Bitwise::fixed_to_float(x, 12), 12) != x)
             failed = true;
     EXPECT_TRUE(!failed) << "circular floatToFixed/fixedToFloat for 12 bit failed";
 }
@@ -90,13 +90,13 @@ TEST(BitwiseTests,IntReadWrite)
 #endif
     EXPECT_TRUE(Bitwise::intRead(&testje4, 3) == 0x123456);
 
-    Bitwise::intWrite(&testje, 4, 0x87654321);
+    Bitwise::int_write(&testje, 4, 0x87654321);
     EXPECT_TRUE(testje == 0x87654321);
 
-    Bitwise::intWrite(&testje2, 2, 0x4321);
+    Bitwise::int_write(&testje2, 2, 0x4321);
     EXPECT_TRUE(testje2 == 0x4321);
 
-    Bitwise::intWrite(&testje3, 1, 0x12);
+    Bitwise::int_write(&testje3, 1, 0x12);
     EXPECT_TRUE(testje3 == 0x12);
 }
 //--------------------------------------------------------------------------
@@ -104,8 +104,8 @@ TEST(BitwiseTests,Half)
 {
     for(float f : {1.f, -1.f, float(INFINITY), 65504.f})
     {
-        uint16 g = Bitwise::floatToHalf(f);
-        float h = Bitwise::halfToFloat(g);
+        uint16 g = Bitwise::float_to_half(f);
+        float h = Bitwise::half_to_float(g);
         EXPECT_EQ(f, h);
     }
 }

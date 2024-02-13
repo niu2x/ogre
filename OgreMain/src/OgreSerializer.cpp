@@ -359,7 +359,7 @@ namespace Ogre {
     {
         if(mFlipEndian)
         {
-			Bitwise::bswapChunks(pData, size, count);
+			Bitwise::bswap_chunks(pData, size, count);
         }
     }
     
@@ -367,7 +367,7 @@ namespace Ogre {
     {
         if(mFlipEndian)
         {
-	        Bitwise::bswapChunks(pData, size, count);
+	        Bitwise::bswap_chunks(pData, size, count);
         }
     }
 

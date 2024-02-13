@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreException.h"
 #include "OgreLogManager.h"
 #include "OgreStringConverter.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"

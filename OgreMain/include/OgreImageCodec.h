@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreCodec.h"
 #include "OgrePixelFormat.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 
 namespace Ogre {
 
@@ -48,7 +48,7 @@ namespace Ogre {
         static void flipEndian(void* pData, size_t size, size_t count)
         {
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-            Bitwise::bswapChunks(pData, size, count);
+            Bitwise::bswap_chunks(pData, size, count);
 #endif
         }
         static void flipEndian(void* pData, size_t size)

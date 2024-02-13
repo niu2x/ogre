@@ -4,7 +4,7 @@
 #include "OgreSceneManager.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreRenderable.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgrePixelFormat.h"
 #include "OgreRoot.h"
 #include "OgreViewport.h"

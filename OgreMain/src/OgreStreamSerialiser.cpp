@@ -474,7 +474,7 @@ namespace Ogre
             void* pToWrite = OGRE_MALLOC(totSize, MEMCATEGORY_GENERAL);
             memcpy(pToWrite, buf, totSize);
 
-			Bitwise::bswapChunks(pToWrite, size, count);
+			Bitwise::bswap_chunks(pToWrite, size, count);
             mStream->write(pToWrite, totSize);
 
             OGRE_FREE(pToWrite, MEMCATEGORY_GENERAL);
@@ -621,7 +621,7 @@ namespace Ogre
         mStream->read(buf, totSize);
 
         if (mFlipEndian)
-			Bitwise::bswapChunks(buf, size, count);
+			Bitwise::bswap_chunks(buf, size, count);
 
     }
     //---------------------------------------------------------------------

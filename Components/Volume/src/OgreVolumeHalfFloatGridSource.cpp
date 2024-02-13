@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "deflate.h"
 #include "OgreStreamSerialiser.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreMemoryAllocatorConfig.h"
 #include "OgreLogManager.h"
 #include "OgreTimer.h"
@@ -41,7 +41,7 @@ namespace Volume {
         x = x >= mWidth ? mWidth - 1 : x;
         y = y >= mHeight ? mHeight - 1 : y;
         z = z >= mDepth ? mDepth - 1 : z;
-        return Bitwise::halfToFloat(mData[(mDepth - z - 1) * mDepthTimesHeight + x * mHeight + y]);
+        return Bitwise::half_to_float(mData[(mDepth - z - 1) * mDepthTimesHeight + x * mHeight + y]);
     }
 
     //-----------------------------------------------------------------------
@@ -55,7 +55,7 @@ namespace Volume {
             value = mMaxClampedAbsoluteDensity;
         }
         
-        mData[(mDepth - z - 1) * mDepthTimesHeight + x * mHeight + y] = Bitwise::floatToHalf(value);
+        mData[(mDepth - z - 1) * mDepthTimesHeight + x * mHeight + y] = Bitwise::float_to_half(value);
     }
 
     //-----------------------------------------------------------------------

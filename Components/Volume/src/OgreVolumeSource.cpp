@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "deflate.h"
 #include "OgreStreamSerialiser.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 
 namespace Ogre {
 namespace Volume {
@@ -110,7 +110,7 @@ namespace Volume {
                     pos.y = y * voxelWidth + from.y;
                     pos.z = z * voxelWidth + from.z;
                     realVal = Math::Clamp<Real>(getValue(pos), -maxClampedAbsoluteDensity, maxClampedAbsoluteDensity);
-                    buffer[bufferI] = Bitwise::floatToHalf(realVal);
+                    buffer[bufferI] = Bitwise::float_to_half(realVal);
                     bufferI++;
                     if (bufferI == SERIALIZATION_CHUNK_SIZE)
                     {

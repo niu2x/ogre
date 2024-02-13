@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGLPixelFormat.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 
 #ifndef GL_HALF_FLOAT
 #define GL_HALF_FLOAT                     0x140B
@@ -162,7 +162,7 @@ namespace Ogre  {
         if(caps->hasCapability(RSC_NON_POWER_OF_2_TEXTURES))
             return value;
         else
-            return Bitwise::firstPO2From(value);
+            return Bitwise::first_po2_from(value);
     }   
 
     

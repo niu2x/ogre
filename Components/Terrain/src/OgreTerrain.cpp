@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreSceneManager.h"
 #include "OgreSceneNode.h"
 #include "OgreException.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreViewport.h"
 #include "OgreLogManager.h"
 #include "OgreHardwarePixelBuffer.h"
@@ -756,8 +756,8 @@ namespace Ogre
         copyGlobalOptions();
 
         // validate
-        if (!(Bitwise::isPO2(importData.terrainSize - 1) && Bitwise::isPO2(importData.minBatchSize - 1)
-            && Bitwise::isPO2(importData.maxBatchSize - 1)))
+        if (!(Bitwise::is_po2(importData.terrainSize - 1) && Bitwise::is_po2(importData.minBatchSize - 1)
+            && Bitwise::is_po2(importData.maxBatchSize - 1)))
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
                 "terrainSize, minBatchSize and maxBatchSize must all be 2^n + 1", 

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGLES2PixelFormat.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreLogManager.h"
 
 namespace Ogre {

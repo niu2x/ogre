@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreException.h"
 #include "OgreD3D9RenderSystem.h"
 #include "OgreRenderSystem.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreImageCodec.h"
 #include "OgreStringConverter.h"
 #include "OgreRoot.h"

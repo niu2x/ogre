@@ -35,7 +35,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include "OgreGL3PlusStateCacheManager.h"
 #include "OgreGLUtil.h"
 #include "OgreRoot.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreTextureManager.h"
 
 namespace Ogre {

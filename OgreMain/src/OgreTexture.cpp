@@ -315,7 +315,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     uint32 Texture::getMaxMipmaps() const {
         // see ARB_texture_non_power_of_two
-        return Bitwise::mostSignificantBitSet(std::max(mWidth, std::max(mHeight, mDepth)));
+        return Bitwise::most_significant_bit_set(std::max(mWidth, std::max(mHeight, mDepth)));
     }
     void Texture::createInternalResources(void)
     {
@@ -417,8 +417,8 @@ namespace Ogre {
             return;
 
         // Scale to nearest power of 2
-        uint32 w = Bitwise::firstPO2From(img.getWidth());
-        uint32 h = Bitwise::firstPO2From(img.getHeight());
+        uint32 w = Bitwise::first_po2_from(img.getWidth());
+        uint32 h = Bitwise::first_po2_from(img.getHeight());
         if((img.getWidth() != w) || (img.getHeight() != h))
             img.resize(w, h);
     }

@@ -67,7 +67,7 @@ namespace Ogre {
         }
         /** Returns value with reversed bytes order.
         */
-        static OGRE_FORCE_INLINE uint32 bswap32(uint32 arg)
+        static OGRE_FORCE_INLINE uint32_t bswap32(uint32_t arg)
         {
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC && OGRE_COMP_VER >= 1310
             return _byteswap_ulong(arg);
@@ -88,7 +88,7 @@ namespace Ogre {
 #else
             union { 
                 uint64 sv;
-                uint32 ul[2];
+                uint32_t ul[2];
             } tmp, result;
             tmp.sv = arg;
             result.ul[0] = bswap32(tmp.ul[1]);
@@ -99,7 +99,7 @@ namespace Ogre {
 
         /** Reverses byte order of buffer. Use bswap16/32/64 instead if possible.
         */
-        static inline void bswapBuffer(void * pData, size_t size)
+        static inline void bswap_buffer(void * pData, size_t size)
         {
             char swapByte;
             for(char *p0 = (char*)pData, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1)
@@ -111,12 +111,12 @@ namespace Ogre {
         }
         /** Reverses byte order of chunks in buffer, where 'size' is size of one chunk.
         */
-        static inline void bswapChunks(void * pData, size_t size, size_t count)
+        static inline void bswap_chunks(void * p_data, size_t size, size_t count)
         {
             for(size_t c = 0; c < count; ++c)
             {
                 char swapByte;
-                for(char *p0 = (char*)pData + c * size, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1)
+                for(char *p0 = (char*)p_data + c * size, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1)
                 {
                     swapByte = *p0;
                     *p0 = *p1;
@@ -127,12 +127,12 @@ namespace Ogre {
 
         /** Returns the most significant bit set in a value.
         */
-        static OGRE_FORCE_INLINE unsigned int mostSignificantBitSet(unsigned int value)
+        static OGRE_FORCE_INLINE uint32_t most_significant_bit_set(uint32_t value)
         {
             //                                     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
             static const unsigned char msb[16] = { 0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4 };
 
-            unsigned int result = 0;
+            uint32_t result = 0;
             if(value & 0xFFFF0000) { result += 16;value >>= 16; }
             if(value & 0x0000FF00) { result += 8; value >>= 8; }
             if(value & 0x000000F0) { result += 4; value >>= 4; }
@@ -143,7 +143,7 @@ namespace Ogre {
             @note 0 and 1 are powers of two, so 
                 firstPO2From(0)==0 and firstPO2From(1)==1.
         */
-        static OGRE_FORCE_INLINE uint32 firstPO2From(uint32 n)
+        static OGRE_FORCE_INLINE uint32_t first_po2_from(uint32_t n)
         {
             --n;            
             n |= n >> 16;
@@ -158,7 +158,7 @@ namespace Ogre {
             @note 0 and 1 are treat as power of two.
         */
         template<typename T>
-        static OGRE_FORCE_INLINE bool isPO2(T n)
+        static OGRE_FORCE_INLINE bool is_po2(T n)
         {
             return (n & (n-1)) == 0;
         }
@@ -166,12 +166,12 @@ namespace Ogre {
             remove right-hand zeros.
         */
         template<typename T>
-        static OGRE_FORCE_INLINE unsigned int getBitShift(T mask)
+        static OGRE_FORCE_INLINE uint32_t bit_shift(T mask)
         {
             if (mask == 0)
                 return 0;
 
-            unsigned int result = 0;
+            uint32_t result = 0;
             while ((mask & 1) == 0) {
                 ++result;
                 mask >>= 1;
@@ -185,20 +185,20 @@ namespace Ogre {
                 This routine is useful for colour conversion.
         */
         template<typename SrcT, typename DestT>
-        static inline DestT convertBitPattern(SrcT srcValue, SrcT srcBitMask, DestT destBitMask)
+        static inline DestT convert_bit_pattern(SrcT srcValue, SrcT srcBitMask, DestT destBitMask)
         {
             // Mask off irrelevant source value bits (if any)
             srcValue = srcValue & srcBitMask;
 
             // Shift source down to bottom of DWORD
-            const unsigned int srcBitShift = getBitShift(srcBitMask);
+            uint32_t srcBitShift = bit_shift(srcBitMask);
             srcValue >>= srcBitShift;
 
             // Get max value possible in source from srcMask
             const SrcT srcMax = srcBitMask >> srcBitShift;
 
             // Get max available in dest
-            const unsigned int destBitShift = getBitShift(destBitMask);
+            uint32_t destBitShift = bit_shift(destBitMask);
             const DestT destMax = destBitMask >> destBitShift;
 
             // Scale source value into destination, and shift back
@@ -210,7 +210,7 @@ namespace Ogre {
          * Convert N bit colour channel value to P bits. It fills P bits with the
          * bit pattern repeated. (this is /((1<<n)-1) in fixed point)
          */
-        static inline unsigned int fixedToFixed(uint32 value, unsigned int n, unsigned int p) 
+        static inline uint32_t fixed_to_fixed(uint32_t value, uint32_t n, uint32_t p) 
         {
             if(n > p) 
             {
@@ -223,7 +223,7 @@ namespace Ogre {
                 // Use old fashioned division, probably better than a loop
                 if(value == 0)
                         value = 0;
-                else if(value == (static_cast<unsigned int>(1)<<n)-1)
+                else if(value == (static_cast<uint32_t>(1)<<n)-1)
                         value = (1<<p)-1;
                 else    value = value*(1<<p)/((1<<n)-1);
             }
@@ -234,17 +234,17 @@ namespace Ogre {
          * Convert floating point colour channel value between 0.0 and 1.0 (otherwise clamped) 
          * to integer of a certain number of bits. Works for any value of bits between 0 and 31.
          */
-        static inline unsigned int floatToFixed(const float value, const unsigned int bits)
+        static inline uint32_t float_to_fixed(float value, uint32_t bits)
         {
             if(value <= 0.0f) return 0;
             else if (value >= 1.0f) return (1<<bits)-1;
-            else return (unsigned int)(value * float(1<<bits));
+            else return (uint32_t)(value * float(1<<bits));
         }
 
         /**
          * Fixed point to float
          */
-        static inline float fixedToFloat(unsigned value, unsigned int bits)
+        static inline float fixed_to_float(uint32_t value, uint32_t bits)
         {
             return (float)value/(float)((1<<bits)-1);
         }
@@ -252,52 +252,52 @@ namespace Ogre {
         /**
          * Write a n*8 bits integer value to memory in native endian.
          */
-        static inline void intWrite(void *dest, const int n, const unsigned int value)
+        static inline void int_write(void *dest, int n, uint32_t value)
         {
             switch(n) {
                 case 1:
-                    ((uint8*)dest)[0] = (uint8)value;
+                    ((uint8_t*)dest)[0] = (uint8_t)value;
                     break;
                 case 2:
-                    ((uint16*)dest)[0] = (uint16)value;
+                    ((uint16_t*)dest)[0] = (uint16_t)value;
                     break;
                 case 3:
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG      
-                    ((uint8*)dest)[0] = (uint8)((value >> 16) & 0xFF);
-                    ((uint8*)dest)[1] = (uint8)((value >> 8) & 0xFF);
-                    ((uint8*)dest)[2] = (uint8)(value & 0xFF);
+                    ((uint8_t*)dest)[0] = (uint8_t)((value >> 16) & 0xFF);
+                    ((uint8_t*)dest)[1] = (uint8_t)((value >> 8) & 0xFF);
+                    ((uint8_t*)dest)[2] = (uint8_t)(value & 0xFF);
 #else
-                    ((uint8*)dest)[2] = (uint8)((value >> 16) & 0xFF);
-                    ((uint8*)dest)[1] = (uint8)((value >> 8) & 0xFF);
-                    ((uint8*)dest)[0] = (uint8)(value & 0xFF);
+                    ((uint8_t*)dest)[2] = (uint8_t)((value >> 16) & 0xFF);
+                    ((uint8_t*)dest)[1] = (uint8_t)((value >> 8) & 0xFF);
+                    ((uint8_t*)dest)[0] = (uint8_t)(value & 0xFF);
 #endif
                     break;
                 case 4:
-                    ((uint32*)dest)[0] = (uint32)value;                
+                    ((uint32_t*)dest)[0] = (uint32_t)value;                
                     break;                
             }        
         }
         /**
          * Read a n*8 bits integer value to memory in native endian.
          */
-        static inline unsigned int intRead(const void *src, int n) {
+        static inline uint32_t int_read(const void *src, int n) {
             switch(n) {
                 case 1:
-                    return ((const uint8*)src)[0];
+                    return ((const uint8_t*)src)[0];
                 case 2:
-                    return ((const uint16*)src)[0];
+                    return ((const uint16_t*)src)[0];
                 case 3:
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG      
-                    return ((uint32)((const uint8*)src)[0]<<16)|
-                            ((uint32)((const uint8*)src)[1]<<8)|
-                            ((uint32)((const uint8*)src)[2]);
+                    return ((uint32_t)((const uint8_t*)src)[0]<<16)|
+                            ((uint32_t)((const uint8_t*)src)[1]<<8)|
+                            ((uint32_t)((const uint8_t*)src)[2]);
 #else
-                    return ((uint32)((const uint8*)src)[0])|
-                            ((uint32)((const uint8*)src)[1]<<8)|
-                            ((uint32)((const uint8*)src)[2]<<16);
+                    return ((uint32_t)((const uint8_t*)src)[0])|
+                            ((uint32_t)((const uint8_t*)src)[1]<<8)|
+                            ((uint32_t)((const uint8_t*)src)[2]<<16);
 #endif
                 case 4:
-                    return ((const uint32*)src)[0];
+                    return ((const uint32_t*)src)[0];
             } 
             return 0; // ?
         }
@@ -305,15 +305,15 @@ namespace Ogre {
         /** Convert a float32 to a float16 (NV_half_float)
             Courtesy of OpenEXR
         */
-        static inline uint16 floatToHalf(float i)
+        static inline uint16_t float_to_half(float i)
         {
-            union { float f; uint32 i; } v;
+            union { float f; uint32_t i; } v;
             v.f = i;
-            return floatToHalfI(v.i);
+            return float_to_half_i(v.i);
         }
-        /** Converts float in uint32 format to a a half in uint16 format
+        /** Converts float in uint32_t format to a a half in uint16 format
         */
-        static inline uint16 floatToHalfI(uint32 i)
+        static inline uint16_t float_to_half_i(uint32_t i)
         {
             int s =  (i >> 16) & 0x00008000;
             int e = ((i >> 23) & 0x000000ff) - (127 - 15);
@@ -327,28 +327,28 @@ namespace Ogre {
                 }
                 m = (m | 0x00800000) >> (1 - e);
         
-                return static_cast<uint16>(s | (m >> 13));
+                return static_cast<uint16_t>(s | (m >> 13));
             }
             else if (e == 0xff - (127 - 15))
             {
                 if (m == 0) // Inf
                 {
-                    return static_cast<uint16>(s | 0x7c00);
+                    return static_cast<uint16_t>(s | 0x7c00);
                 } 
                 else    // NAN
                 {
                     m >>= 13;
-                    return static_cast<uint16>(s | 0x7c00 | m | (m == 0));
+                    return static_cast<uint16_t>(s | 0x7c00 | m | (m == 0));
                 }
             }
             else
             {
                 if (e > 30) // Overflow
                 {
-                    return static_cast<uint16>(s | 0x7c00);
+                    return static_cast<uint16_t>(s | 0x7c00);
                 }
         
-                return static_cast<uint16>(s | (e << 10) | (m >> 13));
+                return static_cast<uint16_t>(s | (e << 10) | (m >> 13));
             }
         }
         
@@ -356,16 +356,16 @@ namespace Ogre {
          * Convert a float16 (NV_half_float) to a float32
          * Courtesy of OpenEXR
          */
-        static inline float halfToFloat(uint16 y)
+        static inline float half_to_float(uint16_t y)
         {
-            union { float f; uint32 i; } v;
-            v.i = halfToFloatI(y);
+            union { float f; uint32_t i; } v;
+            v.i = half_to_float_i(y);
             return v.f;
         }
-        /** Converts a half in uint16 format to a float
-            in uint32 format
+        /** Converts a half in uint16_t format to a float
+            in uint32_t format
          */
-        static inline uint32 halfToFloatI(uint16 y)
+        static inline uint32_t half_to_float_i(uint16_t y)
         {
             int s = (y >> 15) & 0x00000001;
             int e = (y >> 10) & 0x0000001f;

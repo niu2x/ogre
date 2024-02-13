@@ -32,7 +32,7 @@ THE SOFTWARE
 #include "OgreStringConverter.h"
 #include "OgreTextureUnitState.h"
 #include "OgreTechnique.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreOverlayManager.h"
 
 #include "utf8.h"
@@ -415,7 +415,7 @@ namespace Ogre
 
         uint32 tex_side = static_cast<uint32>(Math::Sqrt((Real)rawSize));
         // Now round up to nearest power of two
-        uint32 roundUpSize = Bitwise::firstPO2From(tex_side);
+        uint32 roundUpSize = Bitwise::first_po2_from(tex_side);
 
         // Would we benefit from using a non-square texture (2X width)
         uint32 finalWidth, finalHeight;

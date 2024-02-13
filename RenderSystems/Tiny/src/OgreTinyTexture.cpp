@@ -7,7 +7,7 @@
 #include "OgreTinyRenderSystem.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreTinyHardwarePixelBuffer.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreTextureManager.h"
 
 namespace Ogre {

@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreVulkanUtils.h"
 #include "OgreVulkanHardwareBuffer.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreRoot.h"
 #include "OgreVulkanTextureGpuWindow.h"
 

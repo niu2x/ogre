@@ -40,7 +40,7 @@ THE SOFTWARE.
 #include "OgreGLSLESProgramManager.h"
 #include "OgreGLSLESLinkProgram.h"
 #include "OgreGLSLESProgramPipeline.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreGLNativeSupport.h"
 #include "OgreGLES2HardwareBuffer.h"
 #include "OgreGLES2Texture.h"

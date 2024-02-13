@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreTextureManager.h"
 #include "OgreStringConverter.h"
 #include "OgreMetalDepthBuffer.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 
 #import "Metal/MTLBlitCommandEncoder.h"
 

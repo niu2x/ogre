@@ -1535,7 +1535,7 @@ namespace Ogre {
                     default:
                         assert(false); // Should never happen
                 };
-				Bitwise::bswapChunks(pElem, typeSize,
+				Bitwise::bswap_chunks(pElem, typeSize,
                     VertexElement::getTypeCount(e.getType()));
             }
 

@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreGLES2HardwarePixelBuffer.h"
 #include "OgreGLES2StateCacheManager.h"
 #include "OgreRoot.h"
-#include "OgreBitwise.h"
+#include "bitwise.h"
 #include "OgreTextureManager.h"
 #include "OgreLogManager.h"
 
@@ -83,9 +83,9 @@ namespace Ogre {
         if( !nonPowerOfTwoSupported )
         {
             // Convert to nearest power-of-two size if required
-            mWidth = Bitwise::firstPO2From(mWidth);
-            mHeight = Bitwise::firstPO2From(mHeight);
-            mDepth = Bitwise::firstPO2From(mDepth);
+            mWidth = Bitwise::first_po2_from(mWidth);
+            mHeight = Bitwise::first_po2_from(mHeight);
+            mDepth = Bitwise::first_po2_from(mDepth);
         }
 
         // set HardwareBuffer::Usage for TU_RENDERTARGET if nothing else specified
@@ -283,11 +283,11 @@ namespace Ogre {
 
             if (width > 1)
             {
-                width = Bitwise::firstPO2From(width / 2);
+                width = Bitwise::first_po2_from(width / 2);
             }
             if (height > 1)
             {
-                height = Bitwise::firstPO2From(height / 2);
+                height = Bitwise::first_po2_from(height / 2);
             }
         }
     }
