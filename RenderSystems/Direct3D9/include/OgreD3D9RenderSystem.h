@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __D3D9RENDERSYSTEM_H__
 
 #include "OgreD3D9Prerequisites.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreStringConverter.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"

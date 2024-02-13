@@ -289,7 +289,7 @@ namespace Ogre {
         if (!caseSensitive)
         {
             // We are stored upper-case format names.
-            StringUtil::toUpperCase(tmp);
+            StringUtil::upper_case(&tmp);
         }
 
         for (int i = 0; i < PF_COUNT; ++i)

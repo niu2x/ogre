@@ -198,7 +198,7 @@ int main(int numargs, char** args)
         DefaultTextureManager texMgr;
 
         String basename, ext, path;
-        StringUtil::splitFullFilename(opts.source, basename, ext, path);
+        StringUtil::split_full_filename(opts.source, &basename, &ext, &path);
 
         MeshPtr mesh = MeshManager::getSingleton().createManual(basename + "." + ext, RGN_DEFAULT);
         SkeletonPtr skeleton;

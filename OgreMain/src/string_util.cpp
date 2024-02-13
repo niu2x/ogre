@@ -35,8 +35,6 @@ THE SOFTWARE.
 #endif
 
 namespace Ogre {
-    const String& StringUtil::BLANK = BLANKSTRING;
-
     //-----------------------------------------------------------------------
     void StringUtil::trim(String& str, bool left, bool right)
     {
@@ -199,30 +197,30 @@ namespace Ogre {
         return ret;
     }
     //-----------------------------------------------------------------------
-    void StringUtil::toLowerCase(String& str)
+    void StringUtil::lower_case(String* str)
     {
         std::transform(
-            str.begin(),
-            str.end(),
-            str.begin(),
+            str->begin(),
+            str->end(),
+            str->begin(),
             tolower);
     }
 
     //-----------------------------------------------------------------------
-    void StringUtil::toUpperCase(String& str) 
+    void StringUtil::upper_case(String* str) 
     {
         std::transform(
-            str.begin(),
-            str.end(),
-            str.begin(),
+            str->begin(),
+            str->end(),
+            str->begin(),
             toupper);
     }
     //-----------------------------------------------------------------------
-    void StringUtil::toTitleCase(String& str) 
+    void StringUtil::title_case(String* str) 
     {
-        String::iterator it = str.begin();
+        String::iterator it = str->begin();
         *it = toupper(*it);
-        for (; it != str.end() - 1; it++)
+        for (; it != str->end() - 1; it++)
         {
             if (*it == ' ') 
             {
@@ -231,12 +229,12 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    bool StringUtil::startsWith(const String& str, const String& pattern, bool lowerCase)
+    bool StringUtil::starts_with(const String& str, const String& pattern, bool ignore_case)
     {
         if (pattern.empty())
             return false;
 
-        if (lowerCase)
+        if (ignore_case)
         {
             return strnicmp(str.c_str(), pattern.c_str(), pattern.size()) == 0;
         }
@@ -244,14 +242,14 @@ namespace Ogre {
         return strncmp(str.c_str(), pattern.c_str(), pattern.size()) == 0;
     }
     //-----------------------------------------------------------------------
-    bool StringUtil::endsWith(const String& str, const String& pattern, bool lowerCase)
+    bool StringUtil::ends_with(const String& str, const String& pattern, bool ignore_case)
     {
         if (pattern.empty())
             return false;
 
         size_t offset = str.size() - pattern.size();
 
-        if (lowerCase)
+        if (ignore_case)
         {
             return strnicmp(str.c_str() + offset, pattern.c_str(), pattern.size()) == 0;
         }
@@ -259,7 +257,7 @@ namespace Ogre {
         return strncmp(str.c_str() + offset, pattern.c_str(), pattern.size()) == 0;
     }
     //-----------------------------------------------------------------------
-    String StringUtil::standardisePath(const String& init)
+    String StringUtil::standardise_path(const String& init)
     {
         String path = init;
 
@@ -270,7 +268,7 @@ namespace Ogre {
         return path;
     }
     //-----------------------------------------------------------------------
-    String StringUtil::normalizeFilePath(const String& init, bool makeLowerCase)
+    String StringUtil::normalize_path(const String& init, bool makeLowerCase)
     {
         const char* bufferSrc = init.c_str();
         int pathLen = (int)init.size();
@@ -355,10 +353,10 @@ namespace Ogre {
         return normalized;      
     }
     //-----------------------------------------------------------------------
-    void StringUtil::splitFilename(const String& qualifiedName, 
-        String& outBasename, String& outPath)
+    void StringUtil::split_filename(const String& qualified_name, 
+        String* out_basename, String* out_path)
     {
-        String path = qualifiedName;
+        String path = qualified_name;
         // Replace \ with / first
         std::replace( path.begin(), path.end(), '\\', '/' );
         // split based on final /
@@ -366,39 +364,39 @@ namespace Ogre {
 
         if (i == String::npos)
         {
-            outPath.clear();
-            outBasename = qualifiedName;
+            out_path->clear();
+            *out_basename = qualified_name;
         }
         else
         {
-            outBasename = path.substr(i+1, path.size() - i - 1);
-            outPath = path.substr(0, i+1);
+            *out_basename = path.substr(i+1, path.size() - i - 1);
+            *out_path = path.substr(0, i+1);
         }
 
     }
     //-----------------------------------------------------------------------
-    void StringUtil::splitBaseFilename(const Ogre::String& fullName, 
-        Ogre::String& outBasename, Ogre::String& outExtention)
+    void StringUtil::split_base_filename(const String& full_name, 
+        String* basename, String* extension)
     {
-        size_t i = fullName.find_last_of('.');
-        if (i == Ogre::String::npos)
+        size_t i = full_name.find_last_of('.');
+        if (i == String::npos)
         {
-            outExtention.clear();
-            outBasename = fullName;
+            extension->clear();
+            *basename = full_name;
         }
         else
         {
-            outExtention = fullName.substr(i+1);
-            outBasename = fullName.substr(0, i);
+            *extension = full_name.substr(i+1);
+            *basename = full_name.substr(0, i);
         }
     }
     // ----------------------------------------------------------------------------------------------------------------------------------------------
-    void StringUtil::splitFullFilename( const Ogre::String& qualifiedName, 
-        Ogre::String& outBasename, Ogre::String& outExtention, Ogre::String& outPath )
+    void StringUtil::split_full_filename( const String& filename, 
+        String* basename, String* extension, String* path )
     {
-        Ogre::String fullName;
-        splitFilename( qualifiedName, fullName, outPath );
-        splitBaseFilename( fullName, outBasename, outExtention );
+        Ogre::String full_name;
+        split_filename( filename, &full_name, path );
+        split_base_filename( full_name, basename, extension );
     }
     //-----------------------------------------------------------------------
     bool StringUtil::match(const String& str, const String& pattern, bool caseSensitive)
@@ -407,8 +405,8 @@ namespace Ogre {
         String tmpPattern = pattern;
         if (!caseSensitive)
         {
-            StringUtil::toLowerCase(tmpStr);
-            StringUtil::toLowerCase(tmpPattern);
+            StringUtil::lower_case(&tmpStr);
+            StringUtil::lower_case(&tmpPattern);
         }
 
         String::const_iterator strIt = tmpStr.begin();
@@ -470,16 +468,16 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    const String StringUtil::replaceAll(const String& source, const String& replaceWhat, const String& replaceWithWhat)
+    const String StringUtil::replace_all(const String& source, const String& replace_what, const String& replace_with_what)
     {
         String result = source;
         String::size_type pos = 0;
         while(1)
         {
-            pos = result.find(replaceWhat,pos);
+            pos = result.find(replace_what,pos);
             if (pos == String::npos) break;
-            result.replace(pos,replaceWhat.size(),replaceWithWhat);
-            pos += replaceWithWhat.size();
+            result.replace(pos, replace_what.size(), replace_with_what);
+            pos += replace_with_what.size();
         }
         return result;
     }

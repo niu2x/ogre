@@ -1155,7 +1155,7 @@ void ShaderGenerator::setShaderCachePath( const String& cachePath )
 
     // Standardise the cache path in case of none empty string.
     if (stdCachePath.empty() == false)
-        stdCachePath = StringUtil::standardisePath(stdCachePath);
+        stdCachePath = StringUtil::standardise_path(stdCachePath);
 
     if (mShaderCachePath != stdCachePath)
     {

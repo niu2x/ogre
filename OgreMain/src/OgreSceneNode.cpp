@@ -367,7 +367,7 @@ namespace Ogre {
     void SceneNode::loadChildren(const String& filename)
     {
         String baseName, strExt;
-        StringUtil::splitBaseFilename(filename, baseName, strExt);
+        StringUtil::split_base_filename(filename, &baseName, &strExt);
         auto codec = Codec::getCodec(strExt);
         if (!codec)
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "No codec found to load " + filename);
@@ -379,7 +379,7 @@ namespace Ogre {
     void SceneNode::saveChildren(const String& filename)
     {
         String baseName, strExt;
-        StringUtil::splitBaseFilename(filename, baseName, strExt);
+        StringUtil::split_base_filename(filename, &baseName, &strExt);
         auto codec = Codec::getCodec(strExt);
         codec->encodeToFile(this, filename);
     }

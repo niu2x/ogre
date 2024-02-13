@@ -296,14 +296,14 @@ ScriptTranslator* OverlayTranslatorManager::getTranslator(const AbstractNodePtr&
 //! [font_get_translator]
 
     // legacy compatibility: assume this is a font if we are in a .fontdef file
-    if (obj->id == 0 && StringUtil::endsWith(node->file, ".fontdef"))
+    if (obj->id == 0 && StringUtil::ends_with(node->file, ".fontdef"))
         return &mFontTranslator;
 
     if (obj->id == ID_CONTAINER || obj->id == ID_TEMPLATE || obj->id == ID_ELEMENT || obj->id == ID_OVERLAY_ELEMENT)
         return &mElementTranslator;
 
     // legacy compatibility: assume this is an overlay if we are in a .overlay file
-    if(obj->id == ID_OVERLAY || (obj->id == 0 && StringUtil::endsWith(node->file, ".overlay")))
+    if(obj->id == ID_OVERLAY || (obj->id == 0 && StringUtil::ends_with(node->file, ".overlay")))
         return &mOverlayTranslator;
 
     return NULL;

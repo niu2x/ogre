@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include <exception>
 #include "OgreHeaderPrefix.h"
 

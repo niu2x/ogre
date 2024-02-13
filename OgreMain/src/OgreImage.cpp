@@ -264,7 +264,7 @@ namespace Ogre {
         OgreAssert(mBuffer, "No image data loaded");
 
         String base, ext;
-        StringUtil::splitBaseFilename(filename, base, ext);
+        StringUtil::split_base_filename(filename, &base, &ext);
 
         // getCodec throws when no codec is found
         Codec::getCodec(ext)->encodeToFile(this, filename);

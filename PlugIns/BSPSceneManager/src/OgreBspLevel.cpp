@@ -941,7 +941,7 @@ namespace Ogre {
             StringUtil::trim(line);
             if (line.length() > 0)
             {
-                StringUtil::toLowerCase(line);
+                StringUtil::lower_case(&line);
                 // Remove quotes
                 while( ( pos = line.find('\"',0) ) != String::npos )
                 {

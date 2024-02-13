@@ -514,11 +514,11 @@ namespace {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
             // case insensitive on windows
             String lowerCaseName = mName;
-            StringUtil::toLowerCase(lowerCaseName);
-            ret = Ogre::StringUtil::startsWith(full_path, lowerCaseName, true);
+            StringUtil::lower_case(&lowerCaseName);
+            ret = Ogre::StringUtil::starts_with(full_path, lowerCaseName, true);
 #else
             // case sensitive
-            ret = Ogre::StringUtil::startsWith(full_path, mName, false);
+            ret = Ogre::StringUtil::starts_with(full_path, mName, false);
 #endif
         }
 

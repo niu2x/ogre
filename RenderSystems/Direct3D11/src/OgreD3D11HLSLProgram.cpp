@@ -1093,7 +1093,7 @@ namespace Ogre {
             paramName.erase(paramName.begin());
 
         // Also trim the '[0]' suffix if it exists, we will add our own indexing later
-        if (StringUtil::endsWith(paramName, "[0]", false))
+        if (StringUtil::ends_with(paramName, "[0]", false))
         {
             paramName.erase(paramName.size() - 3);
         }

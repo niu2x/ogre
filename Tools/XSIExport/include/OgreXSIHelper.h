@@ -43,7 +43,7 @@ THE SOFTWARE.
 
 #include <stdlib.h>
 #include "OgrePrerequisites.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreColourValue.h"
 #include "OgreLogManager.h"
 #include "OgreStringVector.h"

@@ -94,7 +94,7 @@ public:
             else
                 mCamera->setPolygonMode(PM_WIREFRAME);
         }
-        else if (StringUtil::startsWith(box->getName(), "Light", false))
+        else if (StringUtil::starts_with(box->getName(), "Light", false))
         {
             // get the light pivot that corresponds to this checkbox
             SceneNode* pivot = box->getName() == "Light1" ? mLightPivot1 : mLightPivot2;

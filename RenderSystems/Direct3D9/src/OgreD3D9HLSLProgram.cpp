@@ -340,7 +340,7 @@ namespace Ogre {
             paramName.erase(paramName.begin());
 
         // Also trim the '[0]' suffix if it exists, we will add our own indexing later
-        if (StringUtil::endsWith(paramName, "[0]", false))
+        if (StringUtil::ends_with(paramName, "[0]", false))
         {
             paramName.erase(paramName.size() - 3);
         }
@@ -655,17 +655,17 @@ namespace Ogre {
     }
     void D3D9HLSLProgram::CmdOptimisation::doSet(void *target, const String& val)
     {
-        if (StringUtil::startsWith(val, "default", true))
+        if (StringUtil::starts_with(val, "default", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_DEFAULT);
-        else if (StringUtil::startsWith(val, "none", true))
+        else if (StringUtil::starts_with(val, "none", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_NONE);
-        else if (StringUtil::startsWith(val, "0", true))
+        else if (StringUtil::starts_with(val, "0", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_0);
-        else if (StringUtil::startsWith(val, "1", true))
+        else if (StringUtil::starts_with(val, "1", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_1);
-        else if (StringUtil::startsWith(val, "2", true))
+        else if (StringUtil::starts_with(val, "2", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_2);
-        else if (StringUtil::startsWith(val, "3", true))
+        else if (StringUtil::starts_with(val, "3", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_3);
     }
 

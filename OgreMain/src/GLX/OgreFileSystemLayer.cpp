@@ -82,7 +82,7 @@ namespace Ogre
         // With Ubuntu snaps absolute paths are relative to the snap package.
         char* env_SNAP = getenv("SNAP");
         if (env_SNAP && !path.empty() && path[0] == '/' && // only adjust absolute dirs
-            !StringUtil::startsWith(path, "/snap")) // not a snap path already
+            !StringUtil::starts_with(path, "/snap")) // not a snap path already
             path = env_SNAP + path;
 
         return path;
@@ -125,9 +125,9 @@ namespace Ogre
 
             String dirname = StringUtil::format("OGRE-%d.%d/", OGRE_VERSION_MAJOR, OGRE_VERSION_MINOR);
             // search inside ../share/OGRE-X.Y
-            mConfigPaths.push_back(StringUtil::normalizeFilePath(base + "/../share/"+dirname, false));
+            mConfigPaths.push_back(StringUtil::normalize_path(base + "/../share/"+dirname, false));
             // then look relative to PIP structure
-            mConfigPaths.push_back(StringUtil::normalizeFilePath(base+"/../../../../share/"+dirname));
+            mConfigPaths.push_back(StringUtil::normalize_path(base+"/../../../../share/"+dirname));
         }
 
         // then try system wide /etc

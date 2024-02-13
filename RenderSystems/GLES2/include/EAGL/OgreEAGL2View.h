@@ -29,7 +29,7 @@ THE SOFTWARE.
 #ifndef __EAGL2View_H__
 #define __EAGL2View_H__
 
-#include "OgreString.h"
+#include "string_util.h"
 
 #ifdef __OBJC__
 

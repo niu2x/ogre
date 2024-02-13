@@ -288,7 +288,7 @@ void Sample_Compositor::setupControls(void)
 
 void Sample_Compositor::checkBoxToggled(OgreBites::CheckBox * box)
 {
-    if (Ogre::StringUtil::startsWith(box->getName(), "Compositor_", false))
+    if (Ogre::StringUtil::starts_with(box->getName(), "Compositor_", false))
     {
         String compositorName = box->getCaption();
 
@@ -297,7 +297,7 @@ void Sample_Compositor::checkBoxToggled(OgreBites::CheckBox * box)
         if (!box->isChecked())
         {
             //Remove the items from the debug menu and remove debug texture if from disabled compositor
-            bool debuggingRemovedTex = StringUtil::startsWith(activeTex, compositorName, false);
+            bool debuggingRemovedTex = StringUtil::starts_with(activeTex, compositorName, false);
             if (debuggingRemovedTex)
             {
                 mDebugTextureTUS->setContentType(TextureUnitState::CONTENT_NAMED);
@@ -305,7 +305,7 @@ void Sample_Compositor::checkBoxToggled(OgreBites::CheckBox * box)
             }
             for (unsigned int i = 1; i < mDebugTextureSelectMenu->getNumItems(); i++)
             {
-                if (StringUtil::startsWith(mDebugTextureSelectMenu->getItems()[i], compositorName, false))
+                if (StringUtil::starts_with(mDebugTextureSelectMenu->getItems()[i], compositorName, false))
                 {
                     mDebugTextureSelectMenu->removeItem(i);
                     i--;

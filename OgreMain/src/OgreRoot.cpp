@@ -280,7 +280,7 @@ namespace Ogre {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
         // Check the Documents directory within the application sandbox
         Ogre::String outBaseName, extension, configFileName;
-        Ogre::StringUtil::splitFilename(mConfigFileName, outBaseName, extension);
+        Ogre::StringUtil::split_filename(mConfigFileName, &outBaseName, &extension);
         configFileName = iOSDocumentsDirectory() + "/" + outBaseName;
 		std::ofstream of(configFileName.c_str());
         if (of.is_open())
@@ -328,7 +328,7 @@ namespace Ogre {
         // If it doesn't exist or is invalid then use mConfigFileName
 
         Ogre::String outBaseName, extension, configFileName;
-        Ogre::StringUtil::splitFilename(mConfigFileName, outBaseName, extension);
+        Ogre::StringUtil::split_filename(mConfigFileName, &outBaseName, &extension);
         configFileName = iOSDocumentsDirectory() + "/" + outBaseName;
 
         std::ifstream fp;
@@ -865,7 +865,7 @@ namespace Ogre {
         {
             // resolve relative path with regards to configfile
             String baseDir, filename;
-            StringUtil::splitFilename(pluginsfile, filename, baseDir);
+            StringUtil::split_filename(pluginsfile, &filename, &baseDir);
             pluginDir = baseDir + pluginDir;
         }
 
@@ -945,7 +945,7 @@ namespace Ogre {
     {
         // Does this file include path specifiers?
         String path, basename;
-        StringUtil::splitFilename(filename, basename, path);
+        StringUtil::split_filename(filename, &basename, &path);
 
         // no path elements, try the resource system first
         DataStreamPtr stream;

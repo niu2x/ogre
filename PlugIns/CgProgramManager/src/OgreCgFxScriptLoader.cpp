@@ -2294,7 +2294,7 @@ namespace Ogre {
         if (cgAnnotation && cgGetAnnotationType(cgAnnotation) == CG_STRING)
         {
             String textureType = cgGetStringAnnotationValue(cgAnnotation);
-            StringUtil::toLowerCase(textureType);
+            StringUtil::lower_case(&textureType);
             if ("1d" == textureType)
             {
                 return TEX_TYPE_1D;
@@ -2928,12 +2928,12 @@ namespace Ogre {
             {
                 CGparameter cgParameterToFind = cgGetFirstEffectParameter(cgEffect);
                 String ogreParamNameLower = ogreParamName;
-                Ogre::StringUtil::toLowerCase(ogreParamNameLower);
+                Ogre::StringUtil::lower_case(&ogreParamNameLower);
 
                 while (cgParameterToFind)
                 {
                     String cgParamNameLower = cgGetParameterName(cgParameterToFind);
-                    Ogre::StringUtil::toLowerCase(cgParamNameLower);
+                    Ogre::StringUtil::lower_case(&cgParamNameLower);
 
                     if (cgParamNameLower == ogreParamNameLower)
                     {
@@ -3000,7 +3000,7 @@ namespace Ogre {
     CgFxScriptLoader::FXSemanticID CgFxScriptLoader::cgSemanticStringToType( const char * cgParamSemantic )
     {
         String sem = cgParamSemantic;
-        Ogre::StringUtil::toLowerCase(sem);
+        Ogre::StringUtil::lower_case(&sem);
 
         if ("none"                                  == sem) return FXS_NONE;
         if ("unknown"                               == sem) return FXS_UNKNOWN;
@@ -3600,7 +3600,7 @@ namespace Ogre {
             {
                 String uiNameValueAsString(uiNameValue);
                 String theWordLight = "Light";
-                if (StringUtil::startsWith(uiNameValueAsString, theWordLight, false))
+                if (StringUtil::starts_with(uiNameValueAsString, theWordLight, false))
                 {
                     size_t firstSpacePos = uiNameValueAsString.find(' ');
                     if (firstSpacePos > 0)

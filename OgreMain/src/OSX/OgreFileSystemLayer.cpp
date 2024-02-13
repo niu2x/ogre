@@ -58,7 +58,7 @@ namespace Ogre
                 base.erase(pos);
 
             // look relative to the dylib according to PIP structure
-            mConfigPaths.push_back(StringUtil::normalizeFilePath(base+"/../../../../bin/"));
+            mConfigPaths.push_back(StringUtil::normalize_path(base+"/../../../../bin/"));
         }
     }
     //---------------------------------------------------------------------

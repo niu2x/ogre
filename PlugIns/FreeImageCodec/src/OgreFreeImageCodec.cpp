@@ -565,7 +565,7 @@ namespace Ogre {
         if (fif != FIF_UNKNOWN)
         {
             String ext(FreeImage_GetFormatFromFIF(fif));
-            StringUtil::toLowerCase(ext);
+            StringUtil::lower_case(&ext);
             return ext;
         }
         else

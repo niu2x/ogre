@@ -435,7 +435,7 @@ namespace Ogre {
                         (renderCaps->getNonPOW2TexturesLimited() && mNumMipmaps == 0);
 
         String baseName, ext;
-        StringUtil::splitBaseFilename(mName, baseName, ext);
+        StringUtil::split_base_filename(mName, &baseName, &ext);
 
         LoadedImages loadedImages;
 
@@ -480,7 +480,7 @@ namespace Ogre {
         // read sub-images
         for(const String& name : mLayerNames)
         {
-            StringUtil::splitBaseFilename(name, baseName, ext);
+            StringUtil::split_base_filename(name,& baseName, &ext);
             readImage(loadedImages, name, ext, haveNPOT);
         }
 

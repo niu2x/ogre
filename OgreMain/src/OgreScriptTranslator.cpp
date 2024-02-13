@@ -3911,7 +3911,7 @@ namespace Ogre{
                                 index = StringConverter::parseInt(atom0->value);
 
                             // Look up the auto constant
-                            StringUtil::toLowerCase(atom1->value);
+                            StringUtil::lower_case(&atom1->value);
                             const GpuProgramParameters::AutoConstantDefinition *def =
                                 GpuProgramParameters::getAutoConstantDefinition(atom1->value);
                             if(def)

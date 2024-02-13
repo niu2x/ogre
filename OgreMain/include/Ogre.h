@@ -116,7 +116,7 @@ THE SOFTWARE.
 #include "OgreSkeletonManager.h"
 #include "OgreSkeletonSerializer.h"
 #include "OgreStaticGeometry.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreStringConverter.h"
 #include "OgreStringVector.h"
 #include "OgreSubEntity.h"

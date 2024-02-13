@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include <CoreFoundation/CoreFoundation.h>
 #include <Foundation/Foundation.h>
 
-#include "OgreString.h"
+#include "string_util.h"
 #include "macUtils.h"
 
 namespace Ogre {

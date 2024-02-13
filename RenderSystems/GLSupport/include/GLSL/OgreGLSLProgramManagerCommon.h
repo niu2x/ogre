@@ -29,7 +29,7 @@
 #define __GLSLProgramManagerCommon_H__
 
 #include "OgreGLSupportPrerequisites.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreGpuProgramParams.h"
 #include "OgreGLSLProgramCommon.h"
 

@@ -214,13 +214,13 @@ namespace Ogre
 
         // OGRE_HLSL, OGRE_GLSL etc.
         String tmp = getLanguage();
-        StringUtil::toUpperCase(tmp);
+        StringUtil::upper_case(&tmp);
         auto ver = renderSystem ? renderSystem->getNativeShadingLanguageVersion() : 0;
         defines += StringUtil::format("OGRE_%s=%d", tmp.c_str(), ver);
 
         // OGRE_VERTEX_SHADER, OGRE_FRAGMENT_SHADER
         tmp = GpuProgram::getProgramTypeName(getType());
-        StringUtil::toUpperCase(tmp);
+        StringUtil::upper_case(&tmp);
         defines += ",OGRE_"+tmp+"_SHADER";
 
         if(renderSystem && renderSystem->isReverseDepthBufferEnabled())

@@ -1335,7 +1335,7 @@ namespace Ogre {
 #if !OGRE_RESOURCEMANAGER_STRICT
         // try case insensitive
         String lcResourceName = resourceName;
-        StringUtil::toLowerCase(lcResourceName);
+        StringUtil::lower_case(&lcResourceName);
         rit = grp->resourceIndexCaseInsensitive.find(lcResourceName);
         if (rit != grp->resourceIndexCaseInsensitive.end())
         {
@@ -1512,7 +1512,7 @@ namespace Ogre {
         if (!arch->isCaseSensitive())
         {
             String lcase = filename;
-            StringUtil::toLowerCase(lcase);
+            StringUtil::lower_case(&lcase);
             this->resourceIndexCaseInsensitive.emplace(lcase, arch);
         }
 #endif
@@ -1529,7 +1529,7 @@ namespace Ogre {
         if (!arch->isCaseSensitive())
         {
             String lcase = filename;
-            StringUtil::toLowerCase(lcase);
+            StringUtil::lower_case(&lcase);
             i = this->resourceIndexCaseInsensitive.find(lcase);
             if (i != this->resourceIndexCaseInsensitive.end() && i->second == arch)
                 this->resourceIndexCaseInsensitive.erase(i);

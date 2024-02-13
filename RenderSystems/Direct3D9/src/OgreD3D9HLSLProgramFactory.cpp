@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreD3D9HLSLProgramFactory.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreD3D9HLSLProgram.h"
 
 namespace Ogre {

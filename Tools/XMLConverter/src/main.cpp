@@ -215,7 +215,7 @@ XmlOptions parseArgs(int numArgs, char **args)
     opts.source = source;
     std::vector<String> srcparts = StringUtil::split(opts.source, ".");
     String& ext = srcparts.back();
-    StringUtil::toLowerCase(ext);
+    StringUtil::lower_case(&ext);
     opts.sourceExt = ext;
 
     if (!dest)
@@ -239,7 +239,7 @@ XmlOptions parseArgs(int numArgs, char **args)
     }
     std::vector<String> dstparts = StringUtil::split(opts.dest, ".");
     ext = dstparts.back();
-    StringUtil::toLowerCase(ext);
+    StringUtil::lower_case(&ext);
     opts.destExt = ext;
 
     if (!opts.quietMode) 
@@ -297,7 +297,7 @@ void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
         exit (1);
     }
     pugi::xml_node root = doc.document_element();
-    if (StringUtil::startsWith("mesh", root.name()))
+    if (StringUtil::starts_with("mesh", root.name()))
     {
         MeshPtr newMesh = MeshManager::getSingleton().createManual("conversion", 
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -324,7 +324,7 @@ void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
         // Clean up the conversion mesh
         MeshManager::getSingleton().remove("conversion", RGN_DEFAULT);
     }
-    else if (StringUtil::startsWith("skeleton", root.name()))
+    else if (StringUtil::starts_with("skeleton", root.name()))
     {
         SkeletonPtr newSkel = SkeletonManager::getSingleton().create("conversion", RGN_DEFAULT);
 

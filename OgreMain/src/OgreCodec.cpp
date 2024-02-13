@@ -67,7 +67,7 @@ namespace Ogre {
     Codec* Codec::getCodec(const String& extension)
     {
         String lwrcase = extension;
-        StringUtil::toLowerCase(lwrcase);
+        StringUtil::lower_case(&lwrcase);
         CodecList::const_iterator i = msMapCodecs.find(lwrcase);
         if (i == msMapCodecs.end())
         {

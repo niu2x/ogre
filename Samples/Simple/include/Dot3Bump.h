@@ -61,7 +61,7 @@ public:
 
     void checkBoxToggled(CheckBox* box) override
     {
-        if (StringUtil::startsWith(box->getName(), "Light", false))
+        if (StringUtil::starts_with(box->getName(), "Light", false))
         {
             // get the light pivot that corresponds to this checkbox
             SceneNode* pivot = box->getName() == "Light1" ? mLightPivot1 : mLightPivot2;

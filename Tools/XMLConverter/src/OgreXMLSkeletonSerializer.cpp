@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreAnimationTrack.h"
 #include "OgreKeyFrame.h"
 #include "OgreBone.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreLogManager.h"
 #include "OgreStringConverter.h"
 #include "Ogre.h"

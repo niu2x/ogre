@@ -355,7 +355,7 @@ namespace Ogre {
     void TextureUnitState::setAnimatedTextureName( const String& name, size_t numFrames, Real duration)
     {
         String baseName, ext;
-        StringUtil::splitBaseFilename(name, baseName, ext);
+        StringUtil::split_base_filename(name, &baseName, &ext);
 
         std::vector<String> names(numFrames);
         for (uint32 i = 0; i < names.size(); ++i)

@@ -15,7 +15,7 @@ same license as the rest of the engine.
 #ifndef __MaterialControls_H__
 #define __MaterialControls_H__
 
-#include "OgreString.h"
+#include "string_util.h"
 
 enum ShaderValType
 {

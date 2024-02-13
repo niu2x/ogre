@@ -127,7 +127,7 @@ namespace Ogre
         {
             DeformerEntry* deformer = i->second;
             String name = XSItoOgre(deformer->obj.GetName());
-            StringUtil::toLowerCase(name);
+            StringUtil::lower_case(&name);
             mLowerCaseDeformerMap[name] = deformer;
         }
     }
@@ -201,7 +201,7 @@ namespace Ogre
         if (i == deformers.end())
         {
             String lcaseName = name;
-            StringUtil::toLowerCase(lcaseName);
+            StringUtil::lower_case(&lcaseName);
             i = mLowerCaseDeformerMap.find(lcaseName);
             if (i == mLowerCaseDeformerMap.end())
             {

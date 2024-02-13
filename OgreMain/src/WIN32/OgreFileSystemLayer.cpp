@@ -132,7 +132,7 @@ namespace Ogre
             mConfigPaths.push_back(appPath + '\\');
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         // look relative to the DLL according to PIP structure
-        mConfigPaths.push_back(StringUtil::normalizeFilePath(getModulePath(true)+"/../../../bin/"));
+        mConfigPaths.push_back(StringUtil::normalize_path(getModulePath(true)+"/../../../bin/"));
 #endif
     }
     //---------------------------------------------------------------------

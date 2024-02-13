@@ -56,18 +56,18 @@ TEST_F(StringTests,SplitBaseFilename)
 {
     String base, ext;
 
-    StringUtil::splitBaseFilename("basename.ext", base, ext);
+    StringUtil::split_base_filename("basename.ext", &base, &ext);
     EXPECT_EQ("basename", base);
     EXPECT_EQ("ext", ext);
 
-    StringUtil::splitBaseFilename("basename.", base, ext);
+    StringUtil::split_base_filename("basename.", &base, &ext);
     EXPECT_EQ("basename", base);
     EXPECT_EQ("", ext);
 }
 TEST_F(StringTests,SplitFileNameNoPath)
 {
     String basename, path;
-    StringUtil::splitFilename(testFileNoPath, basename, path);
+    StringUtil::split_filename(testFileNoPath, &basename, &path);
 
     EXPECT_EQ(testFileNoPath, basename);
     EXPECT_TRUE(path.empty());
@@ -78,12 +78,12 @@ TEST_F(StringTests,SplitFileNameRelativePath)
     String basename, path;
 
     // Unix
-    StringUtil::splitFilename(testFileRelativePathUnix, basename, path);
+    StringUtil::split_filename(testFileRelativePathUnix, &basename, &path);
     EXPECT_EQ(String("testfile.txt"), basename);
     EXPECT_EQ(String("this/is/relative/"), path);
 
     // Windows
-    StringUtil::splitFilename(testFileRelativePathWindows, basename, path);
+    StringUtil::split_filename(testFileRelativePathWindows, &basename, &path);
     EXPECT_EQ(String("testfile.txt"), basename);
     EXPECT_EQ(String("this/is/relative/"), path);
 }
@@ -93,12 +93,12 @@ TEST_F(StringTests,SplitFileNameAbsolutePath)
     String basename, path;
 
     // Unix
-    StringUtil::splitFilename(testFileAbsolutePathUnix, basename, path);
+    StringUtil::split_filename(testFileAbsolutePathUnix, &basename, &path);
     EXPECT_EQ(String("testfile.txt"), basename);
     EXPECT_EQ(String("/this/is/absolute/"), path);
 
     // Windows
-    StringUtil::splitFilename(testFileAbsolutePathWindows, basename, path);
+    StringUtil::split_filename(testFileAbsolutePathWindows, &basename, &path);
     EXPECT_EQ(String("testfile.txt"), basename);
     EXPECT_EQ(String("c:/this/is/absolute/"), path);
 }
@@ -110,7 +110,7 @@ TEST_F(StringTests,MatchCaseSensitive)
 
     // Test negative
     String upperCase = testFileNoPath;
-    StringUtil::toUpperCase(upperCase);
+    StringUtil::upper_case(&upperCase);
     EXPECT_TRUE(!StringUtil::match(testFileNoPath, upperCase, true));
 }
 //--------------------------------------------------------------------------
@@ -121,7 +121,7 @@ TEST_F(StringTests,MatchCaseInSensitive)
 
     // Test positive
     String upperCase = testFileNoPath;
-    StringUtil::toUpperCase(upperCase);
+    StringUtil::upper_case(&upperCase);
     EXPECT_TRUE(StringUtil::match(testFileNoPath, upperCase, false));
 }
 //--------------------------------------------------------------------------
@@ -273,18 +273,18 @@ TEST_F(StringTests,EndsWith)
 {
     String s = "Hello World!";
 
-    EXPECT_TRUE(StringUtil::endsWith(s, "world!"));
-    EXPECT_FALSE(StringUtil::endsWith(s, "hello"));
-    EXPECT_FALSE(StringUtil::endsWith(s, "world!", false));
-    EXPECT_FALSE(StringUtil::endsWith(s, "", false));
+    EXPECT_TRUE(StringUtil::ends_with(s, "world!"));
+    EXPECT_FALSE(StringUtil::ends_with(s, "hello"));
+    EXPECT_FALSE(StringUtil::ends_with(s, "world!", false));
+    EXPECT_FALSE(StringUtil::ends_with(s, "", false));
 }
 
 TEST_F(StringTests,StartsWith)
 {
     String s = "Hello World!";
 
-    EXPECT_TRUE(StringUtil::startsWith(s, "hello"));
-    EXPECT_FALSE(StringUtil::startsWith(s, "world"));
-    EXPECT_FALSE(StringUtil::startsWith(s, "hello", false));
-    EXPECT_FALSE(StringUtil::startsWith(s, "", false));
+    EXPECT_TRUE(StringUtil::starts_with(s, "hello"));
+    EXPECT_FALSE(StringUtil::starts_with(s, "world"));
+    EXPECT_FALSE(StringUtil::starts_with(s, "hello", false));
+    EXPECT_FALSE(StringUtil::starts_with(s, "", false));
 }

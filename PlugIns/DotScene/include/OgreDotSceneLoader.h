@@ -6,7 +6,7 @@
 #include <OgreColourValue.h>
 #include <OgreQuaternion.h>
 #include <OgreResourceGroupManager.h>
-#include <OgreString.h>
+#include <string_util.h>
 #include <OgrePlugin.h>
 #include <OgreCodec.h>
 

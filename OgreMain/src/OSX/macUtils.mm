@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #import "macUtils.h"
 
-#import "OgreString.h"
+#import "string_util.h"
 #import <Foundation/Foundation.h>
 #import <dlfcn.h>
 

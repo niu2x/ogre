@@ -46,12 +46,9 @@ namespace Ogre {
      */
 
     /** Utility class for manipulating Strings.  */
-    class _OgreExport StringUtil
+    class  StringUtil
     {
     public:
-        OGRE_DEPRECATED static const String& BLANK; //!< @deprecated use Ogre::BLANKSTRING instead
-        OGRE_DEPRECATED typedef StringStream StrStreamType; //!< @deprecated use Ogre::StringStream instead
-
         /** Removes any whitespace characters, be it standard space or
             TABs and so on.
 
@@ -91,15 +88,15 @@ namespace Ogre {
 
         /** Lower-cases all the characters in the string.
          */
-        static void toLowerCase( String& str );
+        static void lower_case( String* str );
 
         /** Upper-cases all the characters in the string.
          */
-        static void toUpperCase( String& str );
+        static void upper_case( String* str );
 
         /** Upper-cases the first letter of each word.
          */
-        static void toTitleCase( String& str );
+        static void title_case( String* str );
 
 
         /** Returns whether the string begins with the pattern passed in.
@@ -108,7 +105,7 @@ namespace Ogre {
             @param lowerCase If true, the start of the string will be lower cased before
             comparison, pattern should also be in lower case.
         */
-        static bool startsWith(const String& str, const String& pattern, bool lowerCase = true);
+        static bool starts_with(const String& str, const String& pattern, bool ignore_case = true);
 
         /** Returns whether the string ends with the pattern passed in.
             @param str
@@ -116,11 +113,11 @@ namespace Ogre {
             @param lowerCase If true, the end of the string will be lower cased before
             comparison, pattern should also be in lower case.
         */
-        static bool endsWith(const String& str, const String& pattern, bool lowerCase = true);
+        static bool ends_with(const String& str, const String& pattern, bool ignore_case = true);
 
         /** Method for standardising paths - use forward slashes only, end with slash.
          */
-        static String standardisePath( const String &init);
+        static String standardise_path( const String &init);
         /** Returns a normalized version of a file path
             This method can be used to make file path strings which point to the same directory
             but have different texts to be normalized to the same text. The function:
@@ -132,7 +129,7 @@ namespace Ogre {
             @param init The file path to normalize.
             @param makeLowerCase If true, transforms all characters in the string to lowercase.
         */
-        static String normalizeFilePath(const String& init, bool makeLowerCase = false);
+        static String normalize_path(const String& init, bool makeLowerCase = false);
 
 
         /** Method for splitting a fully qualified filename into the base name
@@ -140,23 +137,23 @@ namespace Ogre {
 
             Path is standardised as in standardisePath
         */
-        static void splitFilename(const String& qualifiedName,
-                                  String& outBasename, String& outPath);
+        static void split_filename(const String& qualifiedName,
+                                  String* outBasename, String* outPath);
 
         /** Method for splitting a fully qualified filename into the base name,
             extension and path.
 
             Path is standardised as in standardisePath
         */
-        static void splitFullFilename(const Ogre::String& qualifiedName,
-                                      Ogre::String& outBasename, Ogre::String& outExtention,
-                                      Ogre::String& outPath);
+        static void split_full_filename(const String& qualifiedName,
+                                      String* outBasename, String* outExtention,
+                                      String* outPath);
 
         /** Method for splitting a filename into the base name
             and extension.
         */
-        static void splitBaseFilename(const Ogre::String& fullName,
-                                      Ogre::String& outBasename, Ogre::String& outExtention);
+        static void split_base_filename(const String& fullName,
+                                      String* outBasename, String* outExtention);
 
 
         /** Simple pattern-matching routine allowing a wildcard pattern.
@@ -173,7 +170,7 @@ namespace Ogre {
             @param replaceWithWhat Sub-string to replace with (the new sub-string)
             @return An updated string with the sub-string replaced
         */
-        static const String replaceAll(const String& source, const String& replaceWhat, const String& replaceWithWhat);
+        static const String replace_all(const String& source, const String& replaceWhat, const String& replaceWithWhat);
 
         /** create a string from a printf expression
          *
@@ -182,7 +179,7 @@ namespace Ogre {
         static String format(const char* fmt, ...) OGRE_FORMAT_PRINTF(1, 2);
     };
 
-    typedef ::std::hash< String > _StringHash;
+    using _StringHash = ::std::hash< String > ;
     /** @} */
     /** @} */
 

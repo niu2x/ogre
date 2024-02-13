@@ -162,7 +162,7 @@ public:
     
     void testCapabilities(const RenderSystemCapabilities* caps) override
     {
-		if (StringUtil::startsWith(caps->getRenderSystemName(), "OpenGL ES"))
+		if (StringUtil::starts_with(caps->getRenderSystemName(), "OpenGL ES"))
         {
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "This demo currently only supports OpenGL and DirectX9. Sorry!",
                 "Sample_SSAO:testCapabilities");

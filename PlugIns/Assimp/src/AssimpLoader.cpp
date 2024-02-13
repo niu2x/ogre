@@ -104,7 +104,7 @@ struct OgreIOSystem : public Assimp::IOSystem
 
     bool Exists(const char* pFile) const override
     {
-        String file = StringUtil::normalizeFilePath(pFile, false);
+        String file = StringUtil::normalize_path(pFile, false);
         if (file == source->name())
             return true;
         return ResourceGroupManager::getSingleton().resourceExists(_group, file);
@@ -113,7 +113,7 @@ struct OgreIOSystem : public Assimp::IOSystem
 
     Assimp::IOStream* Open(const char* pFile, const char* pMode) override
     {
-        String file = StringUtil::normalizeFilePath(pFile, false);
+        String file = StringUtil::normalize_path(pFile, false);
         DataStreamPtr res;
         if (file == source->name())
         {
@@ -385,7 +385,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
     mNodeDerivedTransformByName.clear();
 
     String basename, extension;
-    StringUtil::splitBaseFilename(mesh->getName(), basename, extension);
+    StringUtil::split_base_filename(mesh->getName(), &basename, &extension);
 
     grabNodeNamesFromNode(scene, scene->mRootNode);
     grabBoneNamesFromNode(scene, scene->mRootNode);
@@ -892,7 +892,7 @@ static bool getTextureName(const aiMaterial* mat, aiTextureType type, const aiSc
             return true;
         }
 
-        StringUtil::splitFilename(String(path.data), basename, outPath);
+        StringUtil::split_filename(String(path.data), &basename, &outPath);
         return true;
     }
     return false;

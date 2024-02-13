@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __ParticleAffector_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreStringInterface.h"
 #include "OgreHeaderPrefix.h"
 

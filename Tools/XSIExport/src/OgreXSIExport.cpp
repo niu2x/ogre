@@ -58,7 +58,7 @@ THE SOFTWARE.
 #include "OgreException.h"
 #include "OgreXSIHelper.h"
 #include "OgreProgressiveMesh.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreLogManager.h"
 #include "OgreMeshManager.h"
 #include "OgreSkeletonManager.h"
@@ -355,7 +355,7 @@ XSI::CStatus OgreMeshExportCommand_Execute( XSI::CRef& in_context )
             }
 
             // fix any omission of '.skeleton'
-            if (!Ogre::StringUtil::endsWith(skeletonFileName, ".skeleton"))
+            if (!Ogre::StringUtil::ends_with(skeletonFileName, ".skeleton"))
             {
                 skeletonFileName += ".skeleton";
             }
@@ -406,7 +406,7 @@ XSI::CStatus OgreMeshExportCommand_Execute( XSI::CRef& in_context )
         {
             Ogre::String materialFileName = XSItoOgre(XSI::CString(args[14]));
             // fix any omission of '.material'
-            if (!Ogre::StringUtil::endsWith(materialFileName, ".material"))
+            if (!Ogre::StringUtil::ends_with(materialFileName, ".material"))
             {
                 materialFileName += ".material";
             }
@@ -511,7 +511,7 @@ XSI::CStatus OnOgreMeshExportMenu( XSI::CRef& in_ref )
                     "OGRE Exporter");
             }
             // fix any omission of '.mesh'
-            if (!Ogre::StringUtil::endsWith(meshFileName, ".mesh"))
+            if (!Ogre::StringUtil::ends_with(meshFileName, ".mesh"))
             {
                 meshFileName += ".mesh";
             }
@@ -639,7 +639,7 @@ XSI::CStatus OnOgreMeshExportMenu( XSI::CRef& in_ref )
                 }
 
                 // fix any omission of '.skeleton'
-                if (!Ogre::StringUtil::endsWith(skeletonFileName, ".skeleton"))
+                if (!Ogre::StringUtil::ends_with(skeletonFileName, ".skeleton"))
                 {
                     skeletonFileName += ".skeleton";
                 }
@@ -691,7 +691,7 @@ XSI::CStatus OnOgreMeshExportMenu( XSI::CRef& in_ref )
                 param = prop.GetParameters().GetItem( L"targetMaterialFileName" );
                 Ogre::String materialFileName = XSItoOgre(XSI::CString(param.GetValue()));
                 // fix any omission of '.material'
-                if (!Ogre::StringUtil::endsWith(materialFileName, ".material"))
+                if (!Ogre::StringUtil::ends_with(materialFileName, ".material"))
                 {
                     materialFileName += ".material";
                 }
@@ -1310,7 +1310,7 @@ CStatus OgreMeshExportOptions_PPGEvent( const CRef& io_Ctx )
             if (hasSkel)
             {
                 Ogre::String skelName = meshName;
-                if (Ogre::StringUtil::endsWith(skelName, ".mesh"))
+                if (Ogre::StringUtil::ends_with(skelName, ".mesh"))
                 {
                     skelName = skelName.substr(0, skelName.size() - 5) + ".skeleton";
                 }
@@ -1319,7 +1319,7 @@ CStatus OgreMeshExportOptions_PPGEvent( const CRef& io_Ctx )
             }
             // default material script name 
             Ogre::String matName = meshName;
-            if (Ogre::StringUtil::endsWith(matName, ".mesh"))
+            if (Ogre::StringUtil::ends_with(matName, ".mesh"))
             {
                 matName = matName.substr(0, matName.size() - 5) + ".material";
             }

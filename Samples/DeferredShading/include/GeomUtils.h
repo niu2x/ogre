@@ -15,7 +15,7 @@ same license as the rest of the engine.
 #ifndef _GEOMUTILS_H
 #define _GEOMUTILS_H
 
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreVertexIndexData.h"
 
 class GeomUtils

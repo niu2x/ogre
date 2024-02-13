@@ -31,7 +31,7 @@ ApplicationContextBase::ApplicationContextBase(const Ogre::String& appName)
 
     if (char* val = getenv("OGRE_CONFIG_DIR"))
     {
-        Ogre::String configDir = Ogre::StringUtil::standardisePath(val);
+        Ogre::String configDir = Ogre::StringUtil::standardise_path(val);
         mFSLayer->setConfigPaths({ configDir });
     }
 
@@ -458,7 +458,7 @@ void ApplicationContextBase::locateResources()
             {
                 // resolve relative path with regards to configfile
                 Ogre::String baseDir, filename;
-                Ogre::StringUtil::splitFilename(resourcesPath, filename, baseDir);
+                Ogre::StringUtil::split_filename(resourcesPath, &filename, &baseDir);
                 arch = baseDir + arch;
             }
 

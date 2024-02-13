@@ -36,7 +36,7 @@ namespace Ogre
         for (int i = 1; i < numargs; ++i)
         {
             String tmp(argv[i]);
-            if (StringUtil::startsWith(tmp, "-"))
+            if (StringUtil::starts_with(tmp, "-"))
             {
                 UnaryOptionList::iterator ui = unaryOptList.find(argv[i]);
                 if(ui != unaryOptList.end())

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreVulkanPrerequisites.h"
 
-#include "OgreString.h"
+#include "string_util.h"
 
 namespace Ogre
 {

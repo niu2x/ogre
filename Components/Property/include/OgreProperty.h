@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePropertyPrerequisites.h"
 #include "any.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreException.h"
 #include "OgreQuaternion.h"
 #include "OgreMatrix4.h"

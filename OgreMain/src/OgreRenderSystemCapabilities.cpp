@@ -269,7 +269,7 @@ namespace Ogre {
         initVendorStrings();
         GPUVendor ret = GPU_UNKNOWN;
         String cmpString = vendorString;
-        StringUtil::toLowerCase(cmpString);
+        StringUtil::lower_case(&cmpString);
         for (int i = 0; i < GPU_VENDOR_COUNT; ++i)
         {
             // case insensitive (lower case)

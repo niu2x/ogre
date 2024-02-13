@@ -265,8 +265,8 @@ namespace Ogre {
     {
         // Get alternative JPG to TGA and vice versa
         String ext, base;
-        StringUtil::splitBaseFilename(texName, base, ext);
-        if (StringUtil::endsWith(ext, "jpg"))
+        StringUtil::split_base_filename(texName, &base, &ext);
+        if (StringUtil::ends_with(ext, "jpg"))
         {
             return base + ".tga";
         }

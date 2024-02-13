@@ -231,7 +231,7 @@ namespace Ogre {
         }
 
         String baseName, strExt;
-        StringUtil::splitBaseFilename(mName, baseName, strExt);
+        StringUtil::split_base_filename(mName, &baseName, &strExt);
         auto codec = Codec::getCodec(strExt);
         if (!codec)
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "No codec found to load " + mName);

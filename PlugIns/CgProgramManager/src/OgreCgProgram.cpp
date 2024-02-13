@@ -71,11 +71,11 @@ namespace Ogre {
 			{
 				mSelectedProfile = *i;
 				String selectedProfileForFind = mSelectedProfile;
-				if(StringUtil::startsWith(mSelectedProfile,"vs_4_0_", true))
+				if(StringUtil::starts_with(mSelectedProfile,"vs_4_0_", true))
 				{
 					selectedProfileForFind = "vs_4_0";
 				}
-				if(StringUtil::startsWith(mSelectedProfile,"ps_4_0_", true))
+				if(StringUtil::starts_with(mSelectedProfile,"ps_4_0_", true))
 				{
 					selectedProfileForFind = "ps_4_0";
 				}
@@ -973,7 +973,7 @@ namespace Ogre {
 					}
 
 					// Trim the '[0]' suffix if it exists, we will add our own indexing later
-					if (StringUtil::endsWith(paramName, "[0]", false))
+					if (StringUtil::ends_with(paramName, "[0]", false))
 					{
 						paramName.erase(paramName.size() - 3);
 					}

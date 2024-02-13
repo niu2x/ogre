@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreD3D9Mappings.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreStringConverter.h"
 #include "OgreLogManager.h"
 #include "OgreException.h"

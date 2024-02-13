@@ -103,7 +103,7 @@ extern "C" {
 #include "OgreSkeleton.h"
 #include "OgreSphere.h"
 #include "OgreStringConverter.h"
-#include "OgreString.h"
+#include "string_util.h"
 #include "OgreStringInterface.h"
 #include "OgreStringVector.h"
 #include "OgreSubMesh.h"

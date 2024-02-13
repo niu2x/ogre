@@ -114,7 +114,7 @@ namespace {
 
                 info.filename = zip_entry_name(mZipFile);
                 // Get basename / path
-                StringUtil::splitFilename(info.filename, info.basename, info.path);
+                StringUtil::split_filename(info.filename, &info.basename, &info.path);
 
                 // Get sizes
                 info.uncompressedSize = zip_entry_size(mZipFile);
@@ -123,7 +123,7 @@ namespace {
                 if (zip_entry_isdir(mZipFile))
                 {
                     info.filename = info.filename.substr(0, info.filename.length() - 1);
-                    StringUtil::splitFilename(info.filename, info.basename, info.path);
+                    StringUtil::split_filename(info.filename, &info.basename, &info.path);
                     // Set compressed size to -1 for folders; anyway nobody will check
                     // the compressed size of a folder, and if he does, its useless anyway
                     info.compressedSize = size_t(-1);
@@ -164,7 +164,7 @@ namespace {
         if (!open) // Try if we find the file
         {
             String basename, path;
-            StringUtil::splitFilename(lookUpFileName, basename, path);
+            StringUtil::split_filename(lookUpFileName, &basename, &path);
             const FileInfoListPtr fileNfo = findFileInfo(basename, true);
             if (fileNfo->size() == 1) // If there are more files with the same do not open anyone
             {

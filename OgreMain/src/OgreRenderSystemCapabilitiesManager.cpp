@@ -69,7 +69,7 @@ namespace Ogre {
 
         // resolve relative path with regards to configfile
         String baseDir, unused;
-        StringUtil::splitFilename(customConfig, unused, baseDir);
+        StringUtil::split_filename(customConfig, &unused, &baseDir);
 
         // Capabilities Database setting must be in the same format as
         // resources.cfg in Ogre examples.

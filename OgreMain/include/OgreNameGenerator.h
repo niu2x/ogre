@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef __NameGenerator_H__
 #define __NameGenerator_H__
 
-#include "OgreString.h"
+#include "string_util.h"
 #include <sstream>
 #include "OgreHeaderPrefix.h"
 

@@ -37,7 +37,7 @@ static String fileId(const String& path) {
 #if !OGRE_RESOURCEMANAGER_STRICT
     String file;
     String base;
-    StringUtil::splitFilename(path, file, base);
+    StringUtil::split_filename(path, &file, &base);
     return file;
 #endif
     return path;
