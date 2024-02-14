@@ -6,7 +6,7 @@
 #include "OgreTinyRenderSystem.h"
 
 #include "OgreRenderSystem.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreTinyTextureManager.h"
 #include "OgreHardwareBuffer.h"

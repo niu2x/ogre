@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreStreamSerialiser.h"
 #include "bitwise.h"
 #include "OgreMemoryAllocatorConfig.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTimer.h"
 
 namespace Ogre {

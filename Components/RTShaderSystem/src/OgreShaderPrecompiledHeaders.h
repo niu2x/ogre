@@ -41,7 +41,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreException.h"
 #include "OgreStringConverter.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreSceneManager.h"
 #include "OgreMesh.h"
 #include "OgreSubMesh.h"

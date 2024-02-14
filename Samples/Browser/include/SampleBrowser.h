@@ -902,7 +902,7 @@ namespace OgreBites
                 }
                 catch (Ogre::Exception& e)   // plugin couldn't be loaded
                 {
-                    Ogre::LogManager::getSingleton().logError(e.what());
+                    Ogre::LogManager::getSingleton().log_error(e.what());
                     unloadedSamplePlugins.push_back(sampleDir + *i);
                     continue;
                 }

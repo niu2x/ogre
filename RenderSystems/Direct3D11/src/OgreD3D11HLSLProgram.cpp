@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreRenderSystem.h"
 #include "OgreD3D11Device.h"
 #include "OgreRoot.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreD3D11Mappings.h"
 #include "OgreGpuProgramManager.h"
@@ -913,7 +913,7 @@ namespace Ogre {
                     if(cb_name == "$Globals" || cb_name == "$Params" || cb_name == "OgreUniforms")
                     {
                         if(mDefaultBuffer)
-                            LogManager::getSingleton().logError(mName+" - default cbuffer already exists. Ignoring "+cb_name);
+                            LogManager::getSingleton().log_error(mName+" - default cbuffer already exists. Ignoring "+cb_name);
                         else
                         {
                             mDefaultBuffer = HardwareBufferManager::getSingleton().createUniformBuffer(mD3d11ShaderBufferDescs[b].Size);

@@ -17,7 +17,7 @@ same license as the rest of the engine.
 #include "OgreTexture.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreTextureManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include <sstream>
 
 #include "VolumeRenderable.h"

@@ -34,7 +34,7 @@
 #include "OgreLodInputProvider.h"
 #include "OgreLodData.h"
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRenderOperation.h"
 #include "OgreHeaderPrefix.h"
 

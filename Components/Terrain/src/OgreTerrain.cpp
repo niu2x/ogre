@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "OgreException.h"
 #include "bitwise.h"
 #include "OgreViewport.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreTextureManager.h"
 #include "OgreRoot.h"
@@ -358,7 +358,7 @@ namespace Ogre
         {
             if (mLayerBlendMapSize != mLayerBlendMapSizeActual)
             {
-                LogManager::getSingleton().logWarning(
+                LogManager::getSingleton().log_warning(
                     "blend maps were requested at a size larger than was supported "
                     "on this hardware, which means the quality has been degraded");
             }

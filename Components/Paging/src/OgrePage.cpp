@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreStreamSerialiser.h"
 #include "OgrePageContentCollectionFactory.h"
 #include "OgrePageContentCollection.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreFileSystemLayer.h"
 #include <iomanip>
 

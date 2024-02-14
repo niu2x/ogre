@@ -332,7 +332,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(pass->getFirstRenderQueue() < finalState.currentQueueGroupID)
             {
                 /// XXX We could support repeating the last queue, with some effort
-                LogManager::getSingleton().logError(StringUtil::format(
+                LogManager::getSingleton().log_error(StringUtil::format(
                     "Compositor '%s': cannot use first_render_queue %d after last_render_queue %d",
                     mCompositor->getName().c_str(), pass->getFirstRenderQueue(), finalState.currentQueueGroupID - 1));
             }
@@ -376,7 +376,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(!srcmat)
             {
                 /// No material -- warn user
-                LogManager::getSingleton().logWarning("in compilation of Compositor "
+                LogManager::getSingleton().log_warning("in compilation of Compositor "
                     +mCompositor->getName()+": No material defined for composition pass");
                 break;
             }
@@ -384,7 +384,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(srcmat->getSupportedTechniques().empty())
             {
                 /// No supported techniques -- warn user
-                LogManager::getSingleton().logWarning("in compilation of Compositor "
+                LogManager::getSingleton().log_warning("in compilation of Compositor "
                     +mCompositor->getName()+": material "+srcmat->getName()+" has no supported techniques");
                 break;
             }
@@ -400,7 +400,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
 
                 if (isCompute && !targetpass->hasGpuProgram(GPT_COMPUTE_PROGRAM))
                 {
-                    LogManager::getSingleton().logError(
+                    LogManager::getSingleton().log_error(
                         "in compilation of Compositor " + mCompositor->getName() + ": material " +
                         srcmat->getName() + " has no compute program");
                     continue;
@@ -419,7 +419,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
                         else
                         {
                             /// Texture unit not there
-                            LogManager::getSingleton().logWarning("in compilation of Compositor "
+                            LogManager::getSingleton().log_warning("in compilation of Compositor "
                                 +mCompositor->getName()+": material "+srcmat->getName()+" texture unit "
                                 +StringConverter::toString(x)+" out of bounds");
                         }

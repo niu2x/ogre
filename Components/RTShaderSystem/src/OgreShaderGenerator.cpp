@@ -156,7 +156,7 @@ ShaderGenerator::ShaderGenerator() :
     else
     {
         mShaderLanguage = "null"; // falling back to HLSL, for unit tests mainly
-        LogManager::getSingleton().logWarning("ShaderGenerator: No supported language found. Falling back to 'null'");
+        LogManager::getSingleton().log_warning("ShaderGenerator: No supported language found. Falling back to 'null'");
     }
 
     setShaderProfiles(GPT_VERTEX_PROGRAM, "vs_3_0 vs_2_a vs_2_0 vs_1_1");

@@ -31,7 +31,7 @@
 #include "OgreBitesPrerequisites.h"
 #include "OgreBuildSettings.h"
 #include "OgreComponents.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgrePlugin.h"
 #include "OgreFileSystemLayer.h"
 #include "OgreFrameListener.h"

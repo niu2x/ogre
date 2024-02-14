@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreException.h"
 #include "OgreImage.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRoot.h"
 #include "OgreConfigPaths.h"
 #include "OgreFileSystemLayer.h"
@@ -352,7 +352,7 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
         PixelUtil::bulkPixelConversion(src, dst);
     } catch(Exception &e) {
         // Could not find image; never mind
-        LogManager::getSingleton().logWarning("Can not load backdrop for config dialog: " + e.getDescription());
+        LogManager::getSingleton().log_warning("Can not load backdrop for config dialog: " + e.getDescription());
         return 0;
     }
 

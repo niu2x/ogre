@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 #include "OgreStaticPluginLoader.h"
 #include "OgrePaging.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 using namespace Ogre;
 

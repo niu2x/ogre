@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreD3D11DepthBuffer.h"
 #include "OgreD3D11Texture.h"
 #include "OgreViewport.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreHardwarePixelBuffer.h"
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 #include "OgreD3D11StereoDriverBridge.h"
@@ -897,7 +897,7 @@ namespace Ogre
             // frame rates no matter what buffering modes are used (odd - perhaps a
             // timer issue in D3D11 since GL doesn't suffer from this) 
             // low is < 200fps in this context
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 "D3D11: disabling VSync in windowed mode can cause timing issues at lower "
                 "frame rates, turn VSync on if you observe this problem.");
         }

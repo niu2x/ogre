@@ -196,14 +196,14 @@ namespace Ogre
 
         if(volkInitialize() != VK_SUCCESS)
         {
-            LogManager::getSingleton().logWarning("Vulkan unavailable - loader not found");
+            LogManager::getSingleton().log_warning("Vulkan unavailable - loader not found");
             return;
         }
 
         try {
             initializeVkInstance();
         } catch(const std::exception& e) {
-            LogManager::getSingleton().logWarning(e.what());
+            LogManager::getSingleton().log_warning(e.what());
             return;
         }
         enumerateDevices();
@@ -220,7 +220,7 @@ namespace Ogre
 
         if( numDevices == 0u )
         {
-            LogManager::getSingleton().logError( "[Vulkan] No Vulkan devices found." );
+            LogManager::getSingleton().log_error( "[Vulkan] No Vulkan devices found." );
             return;
         }
 
@@ -703,7 +703,7 @@ namespace Ogre
 
         if (debugEnabled && !mHasValidationLayers)
         {
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 "Debug Layer requested, but VK_LAYER_KHRONOS_validation layer not present");
         }
 

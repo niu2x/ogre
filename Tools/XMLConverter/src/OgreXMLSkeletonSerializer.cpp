@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreKeyFrame.h"
 #include "OgreBone.h"
 #include "string_util.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "Ogre.h"
 

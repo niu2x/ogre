@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGpuProgramManager.h"
 #include "OgreStringConverter.h"
 #include "OgreD3D9GpuProgram.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------

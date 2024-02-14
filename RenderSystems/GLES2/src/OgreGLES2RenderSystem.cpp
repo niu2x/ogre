@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "OgreGLVertexArrayObject.h"
 #include "OgreRoot.h"
 #include "OgreViewport.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #if !OGRE_NO_GLES2_CG_SUPPORT
 #include "OgreGLSLESCgProgramFactory.h"
 #endif

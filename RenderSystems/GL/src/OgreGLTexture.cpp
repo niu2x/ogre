@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include "OgreTextureManager.h"
 #include "OgreImage.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreCamera.h"
 #include "OgreException.h"
 #include "OgreRoot.h"

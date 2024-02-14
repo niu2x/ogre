@@ -210,9 +210,9 @@ namespace Ogre
             ss << ": " << msg;
         
         if(code == ScriptCompiler::CE_DEPRECATEDSYMBOL)
-            LogManager::getSingleton().logWarning(ss.str());
+            LogManager::getSingleton().log_warning(ss.str());
         else
-            LogManager::getSingleton().logError(ss.str());
+            LogManager::getSingleton().log_error(ss.str());
     }
 
     bool ScriptCompilerListener::handleEvent(ScriptCompiler *compiler, ScriptCompilerEvent *evt, void *retval)

@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "SemanticLayer.h"
 #include "OgreException.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreMeshManager.h"
 #include "OgreSkeletonManager.h"
 #include "OgreAnimation.h"

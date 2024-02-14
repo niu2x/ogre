@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreShaderProgram.h"
 #include "OgreShaderParameter.h"
 #include "OgreShaderProgramSet.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTechnique.h"
 
 #define SGX_LIB_TEXTURE_ATLAS "SGXLib_TextureAtlas"
@@ -294,7 +294,7 @@ bool TextureAtlasSampler::preAddToRenderState(const RenderState* renderState, Pa
         {
             if (table->size() > TAS_MAX_SAFE_ATLASED_TEXTURES)
             {
-                LogManager::getSingleton().logWarning(
+                LogManager::getSingleton().log_warning(
                     "Compiling atlas texture has to many internally defined textures. Shader may fail to compile.");
             }
             if (i >= TAS_MAX_TEXTURES)

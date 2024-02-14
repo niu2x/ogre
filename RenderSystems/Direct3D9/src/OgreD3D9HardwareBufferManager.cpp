@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreD3D9HardwareBufferManager.h"
 #include "OgreD3D9HardwareBuffer.h"
 #include "OgreD3D9VertexDeclaration.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreException.h"
 

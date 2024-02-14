@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreHighLevelGpuProgramManager.h"
 #include "OgreCgFxScriptLoader.h"
 #include "OgreCgProgramFactory.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre 
 {

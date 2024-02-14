@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreGLFBORenderTexture.h"
 #include "OgreGLPixelFormat.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreRoot.h"
 #include "OgreGLHardwarePixelBuffer.h"
@@ -139,7 +139,7 @@ static const uchar depthBits[] =
     {
         if(!mRenderBufferMap.empty())
         {
-            LogManager::getSingleton().logWarning("GLFBOManager destructor called, but not all renderbuffers were released.");
+            LogManager::getSingleton().log_warning("GLFBOManager destructor called, but not all renderbuffers were released.");
         }
         
         glDeleteFramebuffersEXT(1, &mTempFBO);      

@@ -54,12 +54,12 @@ THE SOFTWARE.
 #include "OgreXSIMeshExporter.h"
 #include "OgreXSISkeletonExporter.h"
 #include "OgreXSIMaterialExporter.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreException.h"
 #include "OgreXSIHelper.h"
 #include "OgreProgressiveMesh.h"
 #include "string_util.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreMeshManager.h"
 #include "OgreSkeletonManager.h"
 #include "OgreDefaultHardwareBufferManager.h"
@@ -230,7 +230,7 @@ XSI::CStatus OgreMeshExportCommand_Execute( XSI::CRef& in_context )
     }
 
     Ogre::LogManager logMgr;
-    logMgr.createLog("OgreXSIExporter.log", true);
+    logMgr.create_log("OgreXSIExporter.log", true);
     CString msg(L"OGRE Exporter Version ");
     msg += OGRE_XSI_EXPORTER_VERSION;
     LogOgreAndXSI(msg);
@@ -466,7 +466,7 @@ extern "C"
 XSI::CStatus OnOgreMeshExportMenu( XSI::CRef& in_ref )
 {   
     Ogre::LogManager logMgr;
-    logMgr.createLog("OgreXSIExporter.log", true);
+    logMgr.create_log("OgreXSIExporter.log", true);
     CString msg(L"OGRE Exporter Version ");
     msg += OGRE_XSI_EXPORTER_VERSION;
     LogOgreAndXSI(msg);

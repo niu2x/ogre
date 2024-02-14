@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreXMLMeshSerializer.h"
 #include "OgreSubMesh.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreSkeleton.h"
 #include "OgreStringConverter.h"
 #include "OgreHardwareBufferManager.h"
@@ -659,7 +659,7 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().logError(
+                LogManager::getSingleton().log_error(
                     "empty material name encountered. This violates the specs and can lead to crashes.");
             }
 
@@ -1513,7 +1513,7 @@ namespace Ogre {
         {
             val = manualNode.attribute("fromdepthsquared").as_string(NULL);
             if (val)
-                LogManager::getSingleton().logWarning("'fromdepthsquared' attribute has been renamed to 'value'.");
+                LogManager::getSingleton().log_warning("'fromdepthsquared' attribute has been renamed to 'value'.");
             // user values are non-squared
             usage.userValue = Math::Sqrt(StringConverter::parseReal(val));
         }
@@ -1546,7 +1546,7 @@ namespace Ogre {
         {
             val = genNode.attribute("fromdepthsquared").value();
             if (val)
-                LogManager::getSingleton().logWarning("'fromdepthsquared' attribute has been renamed to 'value'.");
+                LogManager::getSingleton().log_warning("'fromdepthsquared' attribute has been renamed to 'value'.");
             // user values are non-squared
             usage.userValue = Math::Sqrt(StringConverter::parseReal(val));
         }

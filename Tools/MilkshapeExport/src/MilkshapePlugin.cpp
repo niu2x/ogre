@@ -64,7 +64,7 @@ int MilkshapePlugin::Execute (msModel* pModel)
         return -1;
 
     Ogre::LogManager logMgr;
-    logMgr.createLog("msOgreExporter.log", true);
+    logMgr.create_log("msOgreExporter.log", true);
     logMgr.log_message("OGRE Milkshape Exporter Log");
     logMgr.log_message("---------------------------");
     Ogre::ResourceGroupManager resGrpMgr;

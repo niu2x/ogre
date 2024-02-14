@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreMetalProgram.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreMetalDevice.h"
 #include "OgreMetalMappings.h"
 #include "OgreGpuProgramManager.h"
@@ -148,7 +148,7 @@ namespace Ogre {
             if( error )
                 errorDesc = [error localizedDescription].UTF8String;
 
-            LogManager::getSingleton().logError(
+            LogManager::getSingleton().log_error(
                         "Metal Compiler in " + mName + ":\n" + errorDesc );
         }
         else
@@ -160,7 +160,7 @@ namespace Ogre {
                 String errorDesc;
                 if( error )
                     errorDesc = [error localizedDescription].UTF8String;
-                LogManager::getSingleton().logWarning(
+                LogManager::getSingleton().log_warning(
                             "Metal SL Compiler in " + mName + ":\n" + errorDesc );
             }
         }
@@ -171,7 +171,7 @@ namespace Ogre {
         if( !mFunction )
         {
             mCompiled = false;
-            LogManager::getSingleton().logError(
+            LogManager::getSingleton().log_error(
                         "retriving entry point '" + mEntryPoint + "' in shader " + mName );
         }
 

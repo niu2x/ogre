@@ -387,14 +387,14 @@ namespace {
         }
         catch (const InvalidStateException& e)
         {
-            LogManager::getSingleton().logWarning("Could not load Microcode Cache: " +
+            LogManager::getSingleton().log_warning("Could not load Microcode Cache: " +
                                                   e.getDescription());
             return;
         }
 
         if(chunk->id != CACHE_CHUNK_ID || chunk->version != 2)
         {
-            LogManager::getSingleton().logWarning("Invalid Microcode Cache");
+            LogManager::getSingleton().log_warning("Invalid Microcode Cache");
             return;
         }
         // write the size of the array

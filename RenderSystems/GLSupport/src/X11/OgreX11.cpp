@@ -1,7 +1,7 @@
 #include <OgreX11.h>
 #include <X11/extensions/Xrandr.h>
 
-#include <OgreLogManager.h>
+#include <log_manager.h>
 
 namespace {
     int safeXErrorHandler (Display *display, XErrorEvent *event)
@@ -62,7 +62,7 @@ Window createXWindow(Display* display, Window parent, XVisualInfo* visualInfo, i
 
     if (fullScreen && wmFullScreen == None)
     {
-        LogManager::getSingleton().logWarning("createXWindow: Your WM has no fullscreen support");
+        LogManager::getSingleton().log_warning("createXWindow: Your WM has no fullscreen support");
 
         // A second best approach for outdated window managers
         attr.backing_store = NotUseful;

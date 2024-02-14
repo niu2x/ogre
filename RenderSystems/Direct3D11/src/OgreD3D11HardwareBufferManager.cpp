@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreD3D11HardwareBuffer.h"
 #include "OgreD3D11VertexDeclaration.h"
 #include "OgreD3D11RenderToVertexBuffer.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreD3D11Device.h"
 

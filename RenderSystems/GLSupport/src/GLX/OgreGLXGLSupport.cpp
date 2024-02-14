@@ -27,7 +27,7 @@
 */
 
 #include "OgreException.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
@@ -563,7 +563,7 @@ namespace Ogre
 
         if (ctxErrorOccurred || !glxContext)
         {
-            LogManager::getSingleton().logError("Failed to create an OpenGL context - " + ctxErrorMessage);
+            LogManager::getSingleton().log_error("Failed to create an OpenGL context - " + ctxErrorMessage);
         }
 
         return glxContext;

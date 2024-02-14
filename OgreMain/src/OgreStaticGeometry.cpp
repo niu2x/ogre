@@ -275,7 +275,7 @@ namespace Ogre {
         // Validate
         if (msh->hasManualLodLevel())
         {
-            LogManager::getSingleton().logWarning("(StaticGeometry): Manual LOD is not supported. "
+            LogManager::getSingleton().log_warning("(StaticGeometry): Manual LOD is not supported. "
                                                   "Using only highest LOD level for mesh " +
                                                   msh->getName());
         }
@@ -493,7 +493,7 @@ namespace Ogre {
         if(node->getCreator()->getRootSceneNode()->_getFullTransform() != Affine3::IDENTITY)
         {
             // otherwise it is applied twice
-            LogManager::getSingleton().logError("StaticGeometry - Root SceneNode transform must be IDENTITY");
+            LogManager::getSingleton().log_error("StaticGeometry - Root SceneNode transform must be IDENTITY");
         }
 
         for (auto mobj : node->getAttachedObjects())

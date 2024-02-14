@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreGLES2FBORenderTexture.h"
 #include "OgreGLES2PixelFormat.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreGLES2HardwarePixelBuffer.h"
 #include "OgreGLES2FBOMultiRenderTarget.h"
 #include "OgreRoot.h"
@@ -167,7 +167,7 @@ namespace Ogre {
     {
         if(!mRenderBufferMap.empty())
         {
-            LogManager::getSingleton().logWarning("GLES2FBOManager destructor called, but not all renderbuffers were released.");
+            LogManager::getSingleton().log_warning("GLES2FBOManager destructor called, but not all renderbuffers were released.");
         }
         
         OGRE_CHECK_GL_ERROR(glDeleteFramebuffers(1, &mTempFBO));

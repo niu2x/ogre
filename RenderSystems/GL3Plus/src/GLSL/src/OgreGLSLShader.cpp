@@ -27,7 +27,7 @@
 */
 #include "OgreGpuProgram.h"
 #include "OgreHighLevelGpuProgramManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRoot.h"
 #include "OgreStringConverter.h"
 #include "OgreGpuProgramManager.h"
@@ -530,7 +530,7 @@ namespace Ogre {
                     std::vector<int> val(use.currentSize);
                     OGRE_CHECK_GL_ERROR(glGetUniformiv(mGLProgramHandle, def.logicalIndex, val.data()));
                     if (val != std::vector<int>(use.currentSize))
-                        LogManager::getSingleton().logWarning("Default value of uniform '" + name +
+                        LogManager::getSingleton().log_warning("Default value of uniform '" + name +
                                                               "' is ignored in " + getResourceLogName());
                 }
             }
@@ -544,7 +544,7 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().logError("Could not parse type of GLSL Uniform: '" + name +
+                LogManager::getSingleton().log_error("Could not parse type of GLSL Uniform: '" + name +
                                                     "' in file " + getResourceLogName());
             }
             mConstantDefs->map.emplace(name, def);
@@ -576,7 +576,7 @@ namespace Ogre {
                 extractUniforms(blockIdx);
                 int binding = int(mType);
                 if (binding > 1)
-                    LogManager::getSingleton().logWarning(
+                    LogManager::getSingleton().log_warning(
                         getResourceLogName() +
                         " - using a UBO in this shader type will alias with shared_params");
 

@@ -27,7 +27,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 */
 #include "OgreGLVertexArrayObject.h"
 #include "OgreRoot.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreGLSLProgramCommon.h"
 #include "OgreGLRenderSystemCommon.h"
 

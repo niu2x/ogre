@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include "OgreRoot.h"
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 extern "C" {
 int gleswInit(void);

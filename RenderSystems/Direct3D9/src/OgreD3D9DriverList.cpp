@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreD3D9DriverList.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreException.h"
 #include "OgreD3D9RenderSystem.h"
 

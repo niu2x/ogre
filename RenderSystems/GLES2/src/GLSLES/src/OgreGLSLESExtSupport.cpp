@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreGLSLESExtSupport.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRoot.h"
 #include "OgreGLUtil.h"
 #include "OgreGLES2RenderSystem.h"

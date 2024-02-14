@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreGLRenderSystem.h"
 #include "OgreGLPixelFormat.h"
 #include "OgreException.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "bitwise.h"
 #include "OgreGLFBORenderTexture.h"

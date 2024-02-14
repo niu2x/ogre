@@ -78,7 +78,7 @@ bool ImageBasedLighting::createCpuSubPrograms(ProgramSet* programSet)
 
     if (!pixel)
     {
-        LogManager::getSingleton().logError("image_based_lighting must be used with the metal_roughness SRS");
+        LogManager::getSingleton().log_error("image_based_lighting must be used with the metal_roughness SRS");
         return true;
     }
 

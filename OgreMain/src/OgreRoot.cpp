@@ -127,15 +127,15 @@ namespace Ogre {
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
             // suppress writing log to Emscripten virtual FS, improves performance
-            mLogManager->createLog(logFileName, true, true, true);
+            mLogManager->create_log(logFileName, true, true, true);
 #else
-            mLogManager->createLog(logFileName, true, true);
+            mLogManager->create_log(logFileName, true, true);
 #endif
         }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
         mAndroidLogger.reset(new AndroidLogListener());
-        mLogManager->getDefaultLog()->addListener(mAndroidLogger.get());
+        mLogManager->get_default_log()->addListener(mAndroidLogger.get());
 #endif
 
         mDynLibManager = std::make_unique<DynLibManager>();
@@ -266,7 +266,7 @@ namespace Ogre {
         StringInterface::cleanupDictionary();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-        mLogManager->getDefaultLog()->removeListener(mAndroidLogger.get());
+        mLogManager->get_default_log()->removeListener(mAndroidLogger.get());
 #endif
     }
 
@@ -407,7 +407,7 @@ namespace Ogre {
                 }
                 catch(const InvalidParametersException& e)
                 {
-                    LogManager::getSingleton().logError(e.getDescription());
+                    LogManager::getSingleton().log_error(e.getDescription());
                     optionError = true;
                     continue;
                 }
@@ -526,7 +526,7 @@ namespace Ogre {
         if (!mControllerManager)
             mControllerManager = std::make_unique<ControllerManager>();
 
-        PlatformInformation::log(LogManager::getSingleton().getDefaultLog());
+        PlatformInformation::log(LogManager::getSingleton().default_log());
         mActiveRenderer->_initialise();
 
         // Initialise timer
@@ -853,7 +853,7 @@ namespace Ogre {
         }
         catch (Exception& e)
         {
-            LogManager::getSingleton().logError(e.getDescription()+" - skipping automatic plugin loading");
+            LogManager::getSingleton().log_error(e.getDescription()+" - skipping automatic plugin loading");
             return;
         }
 
@@ -1131,7 +1131,7 @@ namespace Ogre {
     void Root::oneTimePostWindowInit(void)
     {
         // log RenderSystem caps
-        mActiveRenderer->getCapabilities()->log(LogManager::getSingleton().getDefaultLog());
+        mActiveRenderer->getCapabilities()->log(LogManager::getSingleton().default_log());
 
         // Background loader
         mWorkQueue->startup();

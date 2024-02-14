@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "bitwise.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
     struct GLPixelFormatDescription {

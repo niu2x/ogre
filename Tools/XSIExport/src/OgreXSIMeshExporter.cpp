@@ -51,7 +51,7 @@ THE SOFTWARE.
 
 #include "OgreException.h"
 #include "OgreXSIHelper.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreMeshManager.h"
 #include "OgreMesh.h"
 #include "OgreSubMesh.h"

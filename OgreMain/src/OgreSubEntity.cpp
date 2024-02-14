@@ -78,7 +78,7 @@ namespace Ogre {
         
         if (!mMaterialPtr)
         {
-            LogManager::getSingleton().logError("Can't assign nullptr material "
+            LogManager::getSingleton().log_error("Can't assign nullptr material "
                 "to SubEntity of '" + mParentEntity->getName() + "'. Falling back to default");
             
             mMaterialPtr = MaterialManager::getSingleton().getDefaultMaterial();

@@ -72,7 +72,7 @@ THE SOFTWARE.
 #include "OgreInstanceManager.h"
 #include "OgreKeyFrame.h"
 #include "OgreLight.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreManualObject.h"
 #include "OgreMaterial.h"
 #include "OgreMaterialManager.h"

@@ -294,7 +294,7 @@ namespace Ogre
             vkAcquireNextImageKHR(mDevice->mDevice, mSwapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &imageIdx);
         if (res != VK_ERROR_OUT_OF_DATE_KHR && res != VK_SUBOPTIMAL_KHR && res != VK_SUCCESS)
         {
-            LogManager::getSingleton().logError("vkAcquireNextImageKHR failed with" + vkResultToString(res));
+            LogManager::getSingleton().log_error("vkAcquireNextImageKHR failed with" + vkResultToString(res));
             return;
         }
 

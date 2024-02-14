@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreD3D9RenderWindow.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreViewport.h"
 #include "OgreException.h"
 #include "OgreD3D9RenderSystem.h"
@@ -575,7 +575,7 @@ namespace Ogre
             // low is < 200fps in this context
             if (!mIsFullScreen)
             {
-                LogManager::getSingleton().logWarning(
+                LogManager::getSingleton().log_warning(
                     "D3D9: disabling VSync in windowed mode can cause timing issues at lower "
                     "frame rates, turn VSync on if you observe this problem.");
             }

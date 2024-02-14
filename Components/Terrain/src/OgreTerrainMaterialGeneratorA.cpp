@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreTextureUnitState.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreShadowCameraSetupPSSM.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreHighLevelGpuProgram.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
@@ -66,7 +66,7 @@ namespace Ogre
 
         if (!ShaderGenerator::getSingletonPtr())
         {
-            LogManager::getSingleton().logError(
+            LogManager::getSingleton().log_error(
                 "TerrainMaterialGeneratorA - Shader generation not possible: RTSS is not initialized.");
             return;
         }
@@ -261,7 +261,7 @@ namespace Ogre
         {
             setLayerNormalMappingEnabled(false);
             setLayerParallaxMappingEnabled(false);
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 "TerrainMaterialGeneratorA: Normal mapping disabled due to lack of texture units");
         }
 
@@ -306,7 +306,7 @@ namespace Ogre
         }
         catch(const std::exception& e)
         {
-            LogManager::getSingleton().logError(e.what());
+            LogManager::getSingleton().log_error(e.what());
             return nullptr;
         }
 
@@ -343,7 +343,7 @@ namespace Ogre
             }
             catch(const Exception& e)
             {
-                LogManager::getSingleton().logError(e.what());
+                LogManager::getSingleton().log_error(e.what());
                 return nullptr;
             }
 
@@ -394,7 +394,7 @@ namespace Ogre
         }
         catch(const std::exception& e)
         {
-            LogManager::getSingleton().logError(e.what());
+            LogManager::getSingleton().log_error(e.what());
             return nullptr;
         }
 

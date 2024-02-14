@@ -181,7 +181,7 @@ void SceneManager::SkyBoxRenderer::setSkyBox(
 
         if (!valid)
         {
-            LogManager::getSingleton().logWarning("skybox material " + materialName +
+            LogManager::getSingleton().log_warning("skybox material " + materialName +
                                                   " is not supported, defaulting");
             m = MaterialManager::getSingleton().getDefaultSettings();
         }

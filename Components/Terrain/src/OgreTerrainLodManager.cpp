@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreTerrainQuadTreeNode.h"
 #include "OgreTerrainLodManager.h"
 #include "OgreStreamSerialiser.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTerrain.h"
 
 namespace Ogre

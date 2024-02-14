@@ -514,7 +514,7 @@ namespace Ogre {
         }
         if (delim.size() > 1)
         {
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 "FileStreamDataStream::read_line - using only first delimiter");
         }
         // Deal with both Unix & Windows LFs

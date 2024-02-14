@@ -127,7 +127,7 @@ void Compositor::compile()
     }
 
     if (mSupportedTechniques.empty())
-        LogManager::getSingleton().logError("Compositor '" + getName() + "' has no supported techniques");
+        LogManager::getSingleton().log_error("Compositor '" + getName() + "' has no supported techniques");
 
     mCompilationRequired = false;
 }
@@ -182,7 +182,7 @@ void Compositor::createGlobalTextures()
             OgreAssert(def->width && def->height, "Global compositor texture definition must have absolute size");
             if (def->pooled) 
             {
-                LogManager::getSingleton().logWarning("Pooling global compositor textures has no effect");
+                LogManager::getSingleton().log_warning("Pooling global compositor textures has no effect");
             }
             globalTextureNames.insert(def->name);
 

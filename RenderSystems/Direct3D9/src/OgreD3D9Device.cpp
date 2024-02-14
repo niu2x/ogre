@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreD3D9ResourceManager.h"
 #include "OgreD3D9RenderWindow.h"
 #include "OgreRoot.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreHardwareBufferManager.h"
 
 namespace Ogre
@@ -1152,7 +1152,7 @@ namespace Ogre
             }
             else
             {
-                LogManager::getSingleton().logWarning("D3D9: Depth buffer could not be acquired.");
+                LogManager::getSingleton().log_warning("D3D9: Depth buffer could not be acquired.");
             }
         }
 

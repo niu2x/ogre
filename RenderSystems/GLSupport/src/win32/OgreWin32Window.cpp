@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreWin32Window.h"
 #include "OgreRoot.h"
 #include "OgreViewport.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRenderSystem.h"
 #include "OgreImageCodec.h"
 #include "OgreStringConverter.h"
@@ -513,12 +513,12 @@ namespace Ogre {
             displayDeviceMode.dmFields |= DM_DISPLAYFREQUENCY;
             if (ChangeDisplaySettingsEx(mDeviceName, &displayDeviceMode, NULL, CDS_FULLSCREEN | CDS_TEST, NULL) != DISP_CHANGE_SUCCESSFUL)
             {
-                LogManager::getSingleton().logWarning("ChangeDisplaySettings with user display frequency failed");
+                LogManager::getSingleton().log_warning("ChangeDisplaySettings with user display frequency failed");
                 displayDeviceMode.dmFields ^= DM_DISPLAYFREQUENCY;
             }
         }
         if (ChangeDisplaySettingsEx(mDeviceName, &displayDeviceMode, NULL, CDS_FULLSCREEN, NULL) != DISP_CHANGE_SUCCESSFUL)
-            LogManager::getSingleton().logError("ChangeDisplaySettings failed");
+            LogManager::getSingleton().log_error("ChangeDisplaySettings failed");
     }
 
     void Win32Window::setFullscreen(bool fullScreen, unsigned int width, unsigned int height)

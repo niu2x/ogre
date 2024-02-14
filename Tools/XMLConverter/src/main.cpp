@@ -202,13 +202,13 @@ XmlOptions parseArgs(int numArgs, char **args)
     if (numArgs > startIndex+1)
         dest = args[startIndex+1];
     if (numArgs > startIndex+2) {
-        LogManager::getSingleton().logError("Too many command-line arguments supplied");
+        LogManager::getSingleton().log_error("Too many command-line arguments supplied");
         exit(1);
     }
 
     if (!source)
     {
-        LogManager::getSingleton().logError("Missing source file");
+        LogManager::getSingleton().log_error("Missing source file");
         exit(1);
     }
     // Work out what kind of conversion this is
@@ -266,7 +266,7 @@ void meshToXML(const XmlOptions& opts, MeshSerializer& meshSerializer)
 
     if (!stream)
     {
-        LogManager::getSingleton().logError("Unable to load file " + opts.source);
+        LogManager::getSingleton().log_error("Unable to load file " + opts.source);
         exit(1);
     }
 
@@ -293,7 +293,7 @@ void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
     // Some double-parsing here but never mind
     if (!doc.load_file(opts.source.c_str()))
     {
-        LogManager::getSingleton().logError("Unable to load file " + opts.source);
+        LogManager::getSingleton().log_error("Unable to load file " + opts.source);
         exit (1);
     }
     pugi::xml_node root = doc.document_element();
@@ -347,7 +347,7 @@ void skeletonToXML(const XmlOptions& opts)
     auto stream = Root::openFileStream(opts.source);
     if (!stream)
     {
-        LogManager::getSingleton().logError("Unable to load file " + opts.source);
+        LogManager::getSingleton().log_error("Unable to load file " + opts.source);
         exit(1);
     }
 
@@ -369,7 +369,7 @@ struct MeshResourceCreator : public MeshSerializerListener
     {
         if (name->empty())
         {
-            LogManager::getSingleton().logWarning("one of the SubMeshes is using an empty material name. "
+            LogManager::getSingleton().log_warning("one of the SubMeshes is using an empty material name. "
                                                   "See https://ogrecave.github.io/ogre/api/latest/_mesh-_tools.html#autotoc_md32");
             // here, we explicitly want to allow fixing that
             return;
@@ -383,7 +383,7 @@ struct MeshResourceCreator : public MeshSerializerListener
     {
         if (name->empty())
         {
-            LogManager::getSingleton().logWarning("the mesh is using an empty skeleton name.");
+            LogManager::getSingleton().log_warning("the mesh is using an empty skeleton name.");
             // here, we explicitly want to allow fixing that
             return;
         }
@@ -408,18 +408,18 @@ int main(int numargs, char** args)
 
     LogManager logMgr;
     // this log catches output from the parseArgs call and routes it to stdout only
-    logMgr.createLog("Temporary log", true, true, true);
+    logMgr.create_log("Temporary log", true, true, true);
     XmlOptions opts = parseArgs(numargs, args);
 
     try 
     {
-        logMgr.setDefaultLog(NULL); // swallow startup messages
+        logMgr.set_default_log(NULL); // swallow startup messages
         Root root("", "", "");
         // get rid of the temporary log as we use the new log now
-        logMgr.destroyLog("Temporary log");
+        logMgr.destroy_log("Temporary log");
 
         // use the log specified by the cmdline params
-        logMgr.setDefaultLog(logMgr.createLog(opts.logFile, false, !opts.quietMode));
+        logMgr.set_default_log(logMgr.create_log(opts.logFile, false, !opts.quietMode));
 
         MaterialManager::getSingleton().initialise();
 
@@ -442,15 +442,15 @@ int main(int numargs, char** args)
         }
         else
         {
-            logMgr.logError("Unknown input type: " + opts.sourceExt);
+            logMgr.log_error("Unknown input type: " + opts.sourceExt);
             retCode = 1;
         }
 
-        logMgr.setDefaultLog(NULL); // swallow shutdown messages
+        logMgr.set_default_log(NULL); // swallow shutdown messages
     }
     catch(Exception& e)
     {
-        LogManager::getSingleton().logError(e.getDescription());
+        LogManager::getSingleton().log_error(e.getDescription());
         retCode = 1;
     }
 

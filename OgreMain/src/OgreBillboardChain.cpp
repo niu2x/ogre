@@ -130,7 +130,7 @@ namespace Ogre {
 
             if (!mUseTexCoords && !mUseVertexColour)
             {
-                LogManager::getSingleton().logError(
+                LogManager::getSingleton().log_error(
                     "BillboardChain '" + mName + "' is using neither "
                     "texture coordinates nor vertex colours; it will not be "
                     "visible on some rendering APIs so you should change this "

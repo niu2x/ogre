@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #import "OgreOSXCocoaWindow.h"
 #import "OgreRoot.h"
-#import "OgreLogManager.h"
+#import "log_manager.h"
 #import "OgreStringConverter.h"
 
 #import "OgreGLRenderSystemCommon.h"

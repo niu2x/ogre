@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreGLCopyingRenderTexture.h"
 #include "OgreGLPixelFormat.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreRoot.h"
 #include "OgreGLHardwarePixelBuffer.h"

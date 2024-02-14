@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreRoot.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreImage.h"
 #include "OgreException.h"
 #include "OgreEXRCodecExports.h"

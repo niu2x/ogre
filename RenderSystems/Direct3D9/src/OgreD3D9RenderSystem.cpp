@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreD3D9RenderWindow.h"
 #include "OgreD3D9TextureManager.h"
 #include "OgreD3D9Texture.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreMath.h"
 #include "OgreViewport.h"
 #include "OgreD3D9HardwareBufferManager.h"
@@ -997,7 +997,7 @@ namespace Ogre
 
             // see https://technet.microsoft.com/en-us/evalcenter/jj841213(v=vs.90)
             if (!has_level_9_1)
-                LogManager::getSingleton().logError(
+                LogManager::getSingleton().log_error(
                     "D3D9 feature level 9.1 required, but at least one Capability is not supported");
         }
 

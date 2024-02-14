@@ -87,7 +87,7 @@ namespace Ogre
 
             if (deleg->getType() != getType())
             {
-                LogManager::getSingleton().logError("unified program '" + getName() +
+                LogManager::getSingleton().log_error("unified program '" + getName() +
                                                     "' delegating to program with different type '" + dn + "'");
                 continue;
             }

@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #import "OgreException.h"
-#import "OgreLogManager.h"
+#import "log_manager.h"
 #import "OgreStringConverter.h"
 #import "OgreRoot.h"
 

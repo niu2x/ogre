@@ -61,16 +61,16 @@ namespace Ogre
             you've created one yourself and won't create one of its own, thus
             using all your logging preferences from the first instance.
     */
-    class _OgreExport LogManager : public Singleton<LogManager>, public LogAlloc
+    class _OgreExport LogManager : public Singleton<LogManager>
     {
     private:
-        typedef std::map<String, Log*> LogList;
+        using LogList = std::map<String, Log*>;
 
         /// A list of all the logs the manager can access
-        LogList mLogs;
+        LogList logs_;
 
         /// The default log to which output is done
-        Log* mDefaultLog;
+        Log* default_log_;
 
     public:
 
@@ -93,48 +93,48 @@ namespace Ogre
                 log and no file output will be written. If you do this you should
                 register a LogListener so log output is not lost.
         */
-        Log* createLog( const String& name, bool defaultLog = false, bool debuggerOutput = true, 
-            bool suppressFileOutput = false);
+        Log* create_log( const String& name, bool default_log = false, bool debugger_output = true, 
+            bool suppress_file_output = false);
 
         /** Retrieves a log managed by this class.
         */
-        Log* getLog( const String& name);
+        Log* log( const String& name);
 
         /** Returns a pointer to the default log.
         */
-        Log* getDefaultLog();
+        Log* default_log();
 
         /** Closes and removes a named log. */
-        void destroyLog(const String& name);
+        void destroy_log(const String& name);
         /** Closes and removes a log. */
-        void destroyLog(Log* log);
+        void destroy_log(Log* log);
 
         /** Sets the passed in log as the default log.
         @return The previous default log.
         */
-        Log* setDefaultLog(Log* newLog);
+        Log* set_default_log(Log* newLog);
 
         /** Log a message to the default log.
         */
         void log_message( const String& message, LogMsgLevel lml = LogMsgLevel::NORMAL, 
-            bool maskDebug = false);
+            bool mask_debug = false);
 
         /// @overload
-        void logError(const String& message, bool maskDebug = false );
+        void log_error(const String& message, bool mask_debug = false );
         /// @overload
-        void logWarning(const String& message, bool maskDebug = false );
+        void log_warning(const String& message, bool mask_debug = false );
 
         /** Log a message to the default log (signature for backward compatibility).
         */
         void log_message( LogMsgLevel lml, const String& message,  
-            bool maskDebug = false) { log_message(message, lml, maskDebug); }
+            bool mask_debug = false) { log_message(message, lml, mask_debug); }
 
         /** Get a stream on the default log. */
         Log::Stream stream(LogMsgLevel lml = LogMsgLevel::NORMAL, 
-            bool maskDebug = false);
+            bool mask_debug = false);
 
         /// sets the minimal #LogMsgLevel for the default log
-        void setMinLogLevel(LogMsgLevel lml);
+        void set_min_log_level(LogMsgLevel lml);
         /// @copydoc Singleton::getSingleton()
         static LogManager& getSingleton(void);
         /// @copydoc Singleton::getSingleton()

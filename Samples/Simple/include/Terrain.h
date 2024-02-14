@@ -710,7 +710,7 @@ protected:
         mSceneMgr->setFog(Ogre::FOG_LINEAR, fadeColour, 0, 2000, 10000);
         //! [linear_fog]
 
-        LogManager::getSingleton().setMinLogLevel(LogMsgLevel::TRIVIAL);
+        LogManager::getSingleton().set_min_log_level(LogMsgLevel::TRIVIAL);
 
         //! [light]
         Ogre::Light* l = mSceneMgr->createLight();

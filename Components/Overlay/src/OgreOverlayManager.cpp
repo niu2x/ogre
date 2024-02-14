@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreOverlayManager.h"
 #include "OgreOverlayContainer.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreException.h"
 #include "OgreViewport.h"
 #include "OgreOverlay.h"
@@ -197,7 +197,7 @@ namespace Ogre {
         // skip scripts that were already loaded as we lack proper re-loading support
         if(!stream->name().empty() && !mLoadedScripts.emplace(stream->name()).second)
         {
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 StringUtil::format("Skipping loading '%s' as it is already loaded", stream->name().c_str()));
             return;
         }

@@ -65,7 +65,7 @@ extern "C" {
 #include "OgreHardwareBufferManager.h"
 #include "OgreLight.h"
 #include "log.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreManualObject.h"
 #include "OgreMaterialManager.h"
 #include "OgreMaterialSerializer.h"

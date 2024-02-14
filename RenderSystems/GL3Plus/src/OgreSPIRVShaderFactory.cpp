@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreSPIRVShaderFactory.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreGLSLExtSupport.h"
 
 

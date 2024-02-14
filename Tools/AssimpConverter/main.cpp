@@ -126,14 +126,14 @@ AssOptions parseArgs(int numArgs, char** args)
         dest = args[startIndex + 1];
     if (numArgs > startIndex + 2)
     {
-        LogManager::getSingleton().logError("Too many command-line arguments supplied");
+        LogManager::getSingleton().log_error("Too many command-line arguments supplied");
         help();
         exit(1);
     }
 
     if (!source)
     {
-        LogManager::getSingleton().logError("Missing source file");
+        LogManager::getSingleton().log_error("Missing source file");
         help();
         exit(1);
     }
@@ -175,18 +175,18 @@ int main(int numargs, char** args)
 
     LogManager logMgr;
     // this log catches output from the parseArgs call and routes it to stdout only
-    logMgr.createLog("Temporary log", true, true, true);
+    logMgr.create_log("Temporary log", true, true, true);
     AssOptions opts = parseArgs(numargs, args);
 
     try
     {
-        logMgr.setDefaultLog(NULL); // swallow startup messages
+        logMgr.set_default_log(NULL); // swallow startup messages
         Root root("", "", "");
         // get rid of the temporary log as we use the new log now
-        logMgr.destroyLog("Temporary log");
+        logMgr.destroy_log("Temporary log");
 
         // use the log specified by the cmdline params
-        logMgr.setDefaultLog(logMgr.createLog(opts.logFile, false, true));
+        logMgr.set_default_log(logMgr.create_log(opts.logFile, false, true));
 
         MaterialManager::getSingleton().initialise();
 
@@ -240,11 +240,11 @@ int main(int numargs, char** args)
         if (!exportNames.empty())
             ms.exportQueued(path + basename + ".material");
 
-        logMgr.setDefaultLog(NULL); // swallow shutdown messages
+        logMgr.set_default_log(NULL); // swallow shutdown messages
     }
     catch (Exception& e)
     {
-        LogManager::getSingleton().logError(e.getDescription());
+        LogManager::getSingleton().log_error(e.getDescription());
         retCode = 1;
     }
 

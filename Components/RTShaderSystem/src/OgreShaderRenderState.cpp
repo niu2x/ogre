@@ -184,7 +184,7 @@ void TargetRenderState::acquirePrograms(Pass* pass)
 
     if (hasError)
     {
-        LogManager::getSingleton().logError(
+        LogManager::getSingleton().log_error(
             StringUtil::format("RTSS: failed to create GpuPrograms for Pass %d of '%s'", pass->getIndex(), matName));
     }
 

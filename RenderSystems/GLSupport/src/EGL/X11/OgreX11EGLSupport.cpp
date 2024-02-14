@@ -28,7 +28,7 @@ THE SOFTWARE.
 */
 
 #include "OgreException.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreRoot.h"
 
@@ -118,7 +118,7 @@ namespace Ogre {
 
             if (mNativeDisplay == EGL_DEFAULT_DISPLAY)
             {
-                LogManager::getSingleton().logWarning("Couldn't open X display");
+                LogManager::getSingleton().log_warning("Couldn't open X display");
                 return mNativeDisplay;
             }
         }

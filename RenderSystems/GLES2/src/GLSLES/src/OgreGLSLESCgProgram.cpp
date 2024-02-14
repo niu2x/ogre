@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreResourceGroupManager.h"
 #include "OgreStringConverter.h"
 #include "OgreGpuProgramManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "hlsl2glsl.h"  // use the code from here: http://code.google.com/p/hlsl2glslfork/
 
 namespace Ogre {

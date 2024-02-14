@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
 #include "OgreStringConverter.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include <cctype>
 
 namespace Ogre {
@@ -634,7 +634,7 @@ namespace Ogre {
 					if (glsl)
 					{
 					    if(it->second.arraySize > 1)
-					        LogManager::getSingleton().logWarning("Incomplete Cg-GLSL mapping - '"+oldName+"' is an mat array");
+					        LogManager::getSingleton().log_warning("Incomplete Cg-GLSL mapping - '"+oldName+"' is an mat array");
 					    else if (it->second.constType == GCT_MATRIX_2X2)
 							beg = findAndMark("uniform vec2 "+newName+"[2]", "uniform mat2 "+oldName, beg);
 						else if (it->second.constType == GCT_MATRIX_3X3)

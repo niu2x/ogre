@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreVulkanProgram.h"
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreProfiler.h"
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanMappings.h"

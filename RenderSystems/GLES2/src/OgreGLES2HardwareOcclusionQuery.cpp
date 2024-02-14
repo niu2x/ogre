@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreGLES2HardwareOcclusionQuery.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreException.h"
 #include "OgreRoot.h"
 #include "OgreGLES2RenderSystem.h"

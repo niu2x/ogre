@@ -28,7 +28,7 @@ THE SOFTWARE
 #include "OgreMaterialManager.h"
 #include "OgreTextureManager.h"
 #include "OgreTexture.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreTextureUnitState.h"
 #include "OgreTechnique.h"
@@ -448,7 +448,7 @@ namespace Ogre
                 if (ftResult)
                 {
                     // problem loading this glyph, continue
-                    LogManager::getSingleton().logError(
+                    LogManager::getSingleton().log_error(
                         StringUtil::format("Charcode %u is not in font %s", cp, mSource.c_str()));
                     continue;
                 }
@@ -467,7 +467,7 @@ namespace Ogre
                 int idx = stbtt_FindGlyphIndex(&font, cp);
                 if (!idx)
                 {
-                    LogManager::getSingleton().logWarning(
+                    LogManager::getSingleton().log_warning(
                         StringUtil::format("Charcode %u is not in font %s", cp, mSource.c_str()));
                     continue;
                 }

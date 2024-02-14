@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgrePixelFormat.h"
 
 #include "OgreVulkanExports.h"

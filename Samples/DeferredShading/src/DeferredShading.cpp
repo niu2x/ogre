@@ -30,7 +30,7 @@ same license as the rest of the engine.
 #include "OgreCompositorChain.h"
 #include "OgreCompositorInstance.h"
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 #include "DeferredLightCP.h"
 #include "SSAOLogic.h"

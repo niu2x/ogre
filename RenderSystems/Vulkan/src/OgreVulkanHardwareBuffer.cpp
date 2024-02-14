@@ -113,7 +113,7 @@ namespace Ogre
 
         if ((options == HBL_READ_ONLY || options == HBL_NORMAL) && mUsage == HBU_GPU_ONLY)
         {
-            LogManager::getSingleton().logWarning("HardwareBuffer - UNIMPLEMENTED implicit GPU to HOST copy (slow)");
+            LogManager::getSingleton().log_warning("HardwareBuffer - UNIMPLEMENTED implicit GPU to HOST copy (slow)");
         }
 
         if (mMappedPtr) // persistent mapping

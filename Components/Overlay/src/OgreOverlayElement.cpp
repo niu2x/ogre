@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreResourceGroupManager.h"
 #include "OgreOverlayElementCommands.h"
 #include "OgreTechnique.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
 
@@ -314,7 +314,7 @@ namespace Ogre {
         auto dstPass = mMaterial->getTechnique(0)->getPass(0); // assume this is representative
         if (dstPass->getLightingEnabled() || dstPass->getDepthCheckEnabled())
         {
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 "force-disabling 'lighting' and 'depth_check' of Material " + mat->getName() +
                 " for use with OverlayElement " + getName());
         }

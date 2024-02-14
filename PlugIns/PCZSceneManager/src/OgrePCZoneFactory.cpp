@@ -36,7 +36,7 @@ Code Style Update    :
 
 #include "OgrePCZoneFactory.h"
 #include "OgreDefaultZone.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre 
 {

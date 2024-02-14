@@ -505,7 +505,7 @@ namespace OgreMayaExporter
         Ogre::DefaultHardwareBufferManager hardwareBufMgr;
 
         // Create a log
-        logMgr.createLog("ogreMayaExporter.log", true);
+        logMgr.create_log("ogreMayaExporter.log", true);
 
         // Write mesh binary
         if (m_params.exportMesh)

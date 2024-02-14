@@ -150,7 +150,7 @@ struct FireworkParticle
     {
         // This will only work if the vertex buffer usage is dynamic
         // (see R2VB implementation).
-        LogManager::getSingleton().getDefaultLog()->stream() <<
+        LogManager::getSingleton().default_log()->stream() <<
             "Particle system for frame " <<     Root::getSingleton().getNextFrameNumber();
         RenderOperation renderOp;
         mParticleSystem->getRenderToVertexBuffer()->getRenderOperation(renderOp);
@@ -165,7 +165,7 @@ struct FireworkParticle
         for (size_t i = 0; i < renderOp.vertexData->vertexCount; i++)
         {
             FireworkParticle& p = particles[i];
-            LogManager::getSingleton().getDefaultLog()->stream() <<
+            LogManager::getSingleton().default_log()->stream() <<
                 "FireworkParticle " << i + 1 << " : " <<
                 "Position : " << p.pos[0] << " " << p.pos[1] << " " << p.pos[2] << " , " <<
                 "Timer : " << p.timer << " , " <<

@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreStaticPluginLoader.h"
 #include "OgreConfigFile.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreSTBICodec.h"
 #include "OgreStreamSerialiser.h"
 #include "OgreDefaultHardwareBufferManager.h"

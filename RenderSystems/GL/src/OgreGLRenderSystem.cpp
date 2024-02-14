@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreGLRenderSystem.h"
 #include "OgreGLNativeSupport.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreFrustum.h"
 #include "OgreGLTextureManager.h"
@@ -901,7 +901,7 @@ namespace Ogre {
                 {
                     // Use PBuffers
                     mRTTManager = new GLPBRTTManager(mGLSupport, primary);
-                    LogManager::getSingleton().logWarning("GL: Using PBuffers for rendering to textures");
+                    LogManager::getSingleton().log_warning("GL: Using PBuffers for rendering to textures");
 
                     //TODO: Depth buffer sharing in pbuffer is left unsupported
                 }
@@ -910,8 +910,8 @@ namespace Ogre {
             {
                 // No pbuffer support either -- fallback to simplest copying from framebuffer
                 mRTTManager = new GLCopyingRTTManager();
-                LogManager::getSingleton().logWarning("GL: Using framebuffer copy for rendering to textures (worst)");
-                LogManager::getSingleton().logWarning("GL: RenderTexture size is restricted to size of framebuffer. If you are on Linux, consider using GLX instead of SDL.");
+                LogManager::getSingleton().log_warning("GL: Using framebuffer copy for rendering to textures (worst)");
+                LogManager::getSingleton().log_warning("GL: RenderTexture size is restricted to size of framebuffer. If you are on Linux, consider using GLX instead of SDL.");
 
                 //Copy method uses the main depth buffer but no other depth buffer
                 caps->setCapability(RSC_RTT_MAIN_DEPTHBUFFER_ATTACHABLE);

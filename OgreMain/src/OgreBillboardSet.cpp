@@ -557,7 +557,7 @@ namespace Ogre {
         if (mPointRendering && mBillboardType != BBT_POINT)
         {
 
-            LogManager::getSingleton().logWarning("BillboardSet " +
+            LogManager::getSingleton().log_warning("BillboardSet " +
                 mName + " has point rendering enabled but is using a type "
                 "other than BBT_POINT, this may not give you the results you "
                 "expect.");

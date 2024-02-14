@@ -41,7 +41,7 @@ email                : ericc@xenopi.com
 #include "OgrePCZoneFactory.h"
 #include "OgreAntiPortal.h"
 #include "OgrePortal.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRoot.h"
 
 namespace Ogre

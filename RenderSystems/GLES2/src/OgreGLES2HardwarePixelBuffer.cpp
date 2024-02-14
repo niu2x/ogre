@@ -44,7 +44,7 @@ THE SOFTWARE.
 #include "OgreGLNativeSupport.h"
 #include "OgreGLES2HardwareBuffer.h"
 #include "OgreGLES2Texture.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
     void GLES2TextureBuffer::_blitFromMemory(const PixelBox &src, const Box &dst)

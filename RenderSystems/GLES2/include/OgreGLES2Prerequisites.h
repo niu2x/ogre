@@ -92,7 +92,7 @@ namespace Ogre {
 #define ENABLE_GL_CHECK 0
 
 #if ENABLE_GL_CHECK
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #define OGRE_CHECK_GL_ERROR(glFunc) \
 { \
     glFunc; \
@@ -110,7 +110,7 @@ namespace Ogre {
         } \
         String funcname = #glFunc; \
         funcname = funcname.substr(0, funcname.find('(')); \
-        LogManager::getSingleton().logError(StringUtil::format("%s failed with %s in %s at %s(%d)",          \
+        LogManager::getSingleton().log_error(StringUtil::format("%s failed with %s in %s at %s(%d)",          \
                                                                 funcname.c_str(), errorString, __FUNCTION__, \
                                                                 __FILE__, __LINE__));                        \
     } \

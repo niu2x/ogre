@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreD3D11Device.h"
 #include "OgreD3D11Driver.h"
 #include "OgreException.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre 
 {

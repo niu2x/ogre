@@ -27,7 +27,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 */
 
 #include "OgreGL3PlusHardwareOcclusionQuery.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
 

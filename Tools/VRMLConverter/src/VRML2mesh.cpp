@@ -105,7 +105,7 @@ try
         outname = path + gBaseName + ".mesh";
 
     LogManager log;
-    log.createLog(path + "VRML2mesh.log");
+    log.create_log(path + "VRML2mesh.log");
 
     Math math;
     ResourceGroupManager resGrpMgr;
@@ -254,11 +254,11 @@ try
     log.log_message(message);
 
     if (!tcs && !norm && !color)
-        log.logWarning("OGRE will refuse to render SubMeshes that have neither\n"
+        log.log_warning("OGRE will refuse to render SubMeshes that have neither\n"
             "\ttexture coordinates, normals or vertex colours.");
 
     if (!norm) {
-        log.logWarning("No normals found.\n"
+        log.log_warning("No normals found.\n"
             "\tVRML dictates that normals should be generated, but this program\n"
             "\tdoes not do so. If you want the resulting mesh to contain normals,\n"
             "\tmake sure they are exported.");

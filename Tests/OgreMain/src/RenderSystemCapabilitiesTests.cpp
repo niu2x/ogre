@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreStringConverter.h"
 #include "OgreRenderSystemCapabilitiesSerializer.h"
 #include "OgreArchiveManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreConfigFile.h"
 #include "OgreFileSystemLayer.h"
 

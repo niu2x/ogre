@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "OgreMath.h"
 #include "string_vector.h"
 #include "OgreStringConverter.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTechnique.h"
 #include "OgrePass.h"
 #include "OgreTextureUnitState.h"
@@ -482,7 +482,7 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().logError("Unknown Face Type");
+                LogManager::getSingleton().log_error("Unknown Face Type");
             }
 
             // progress reporting

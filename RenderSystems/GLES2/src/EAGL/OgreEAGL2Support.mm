@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 
 #include "OgreRenderSystem.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreEAGLES2Context.h"
 
 #include "OgreEAGL2Support.h"

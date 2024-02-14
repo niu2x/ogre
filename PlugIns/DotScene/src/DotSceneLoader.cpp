@@ -144,7 +144,7 @@ void DotSceneLoader::load(DataStreamPtr& stream, const String& groupName, SceneN
     auto result = XMLDoc.load_buffer(stream->as_string().c_str(), stream->size());
     if (!result)
     {
-        LogManager::getSingleton().logError("DotSceneLoader - " + String(result.description()));
+        LogManager::getSingleton().log_error("DotSceneLoader - " + String(result.description()));
         return;
     }
 
@@ -154,7 +154,7 @@ void DotSceneLoader::load(DataStreamPtr& stream, const String& groupName, SceneN
     // Validate the File
     if (!XMLRoot.attribute("formatVersion"))
     {
-        LogManager::getSingleton().logError("DotSceneLoader - Invalid .scene File. Missing <scene formatVersion='x.y' >");
+        LogManager::getSingleton().log_error("DotSceneLoader - Invalid .scene File. Missing <scene formatVersion='x.y' >");
         return;
     }
 
@@ -563,7 +563,7 @@ void DotSceneLoader::processLookTarget(pugi::xml_node& XMLNode, SceneNode* pPare
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().logError("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
     }
 }
 
@@ -592,7 +592,7 @@ void DotSceneLoader::processTrackTarget(pugi::xml_node& XMLNode, SceneNode* pPar
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().logError("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
     }
 }
 
@@ -657,7 +657,7 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().logError("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
         return;
     }
 
@@ -686,7 +686,7 @@ void DotSceneLoader::processParticleSystem(pugi::xml_node& XMLNode, SceneNode* p
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().logError("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
     }
 }
 
@@ -904,7 +904,7 @@ void DotSceneLoader::processNodeAnimation(pugi::xml_node& XMLNode, SceneNode* pP
     else if (interpolationMode == "spline")
         anim->setInterpolationMode(Animation::IM_SPLINE);
     else
-        LogManager::getSingleton().logError("DotSceneLoader - Invalid interpolationMode: " + interpolationMode);
+        LogManager::getSingleton().log_error("DotSceneLoader - Invalid interpolationMode: " + interpolationMode);
 
     String rotationInterpolationMode = getAttrib(XMLNode, "rotationInterpolationMode");
 
@@ -913,7 +913,7 @@ void DotSceneLoader::processNodeAnimation(pugi::xml_node& XMLNode, SceneNode* pP
     else if (rotationInterpolationMode == "spherical")
         anim->setRotationInterpolationMode(Animation::RIM_SPHERICAL);
     else
-        LogManager::getSingleton().logError("DotSceneLoader - Invalid rotationInterpolationMode: " + rotationInterpolationMode);
+        LogManager::getSingleton().log_error("DotSceneLoader - Invalid rotationInterpolationMode: " + rotationInterpolationMode);
 
     // create a track to animate the camera's node
     NodeAnimationTrack* track = anim->createNodeTrack(0, pParent);
@@ -1094,7 +1094,7 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
             continue;
         }
 
-        LogManager::getSingleton().logWarning("DotSceneLoader - unsupported MovableType " +
+        LogManager::getSingleton().log_warning("DotSceneLoader - unsupported MovableType " +
                                             mo->getMovableType());
     }
 

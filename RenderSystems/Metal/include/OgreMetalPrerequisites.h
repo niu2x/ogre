@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _OgreMetalPrerequisites_H_
 
 #include "OgrePrerequisites.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreRenderOperation.h"

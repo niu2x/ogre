@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgrePass.h"
 #include "OgreTextureUnitState.h"
 #include "OgreMath.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTextureManager.h"
 #include "OgreRoot.h"
 #include "OgreMaterialManager.h"

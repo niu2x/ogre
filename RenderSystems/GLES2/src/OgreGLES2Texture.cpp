@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "bitwise.h"
 #include "OgreTextureManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
     GLES2Texture::GLES2Texture(ResourceManager* creator, const String& name,

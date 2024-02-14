@@ -42,117 +42,108 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     LogManager::LogManager()
     {
-        mDefaultLog = NULL;
+        default_log_ = NULL;
     }
     //-----------------------------------------------------------------------
     LogManager::~LogManager()
     {
-        
-        // Destroy all logs
-        LogList::iterator i;
-        for (i = mLogs.begin(); i != mLogs.end(); ++i)
-        {
-            OGRE_DELETE i->second;
+        for(auto &x: logs_) {
+            OGRE_DELETE x.second;
         }
     }
     //-----------------------------------------------------------------------
-    Log* LogManager::createLog( const String& name, bool defaultLog, bool debuggerOutput, 
-        bool suppressFileOutput)
+    Log* LogManager::create_log( const String& name, bool default_log, bool debugger_output, 
+        bool suppress_file_output)
     {
-        
+        Log* new_log = OGRE_NEW Log(name, debugger_output, suppress_file_output);
 
-        Log* newLog = OGRE_NEW Log(name, debuggerOutput, suppressFileOutput);
-
-        if( !mDefaultLog || defaultLog )
+        if( !default_log_ || default_log )
         {
-            mDefaultLog = newLog;
+            default_log_ = new_log;
         }
 
-        mLogs.emplace(name, newLog);
+        logs_.emplace(name, new_log);
 
-        return newLog;
+        return new_log;
     }
     //-----------------------------------------------------------------------
-    Log* LogManager::getDefaultLog()
+    Log* LogManager::default_log()
     {
         
-        return mDefaultLog;
+        return default_log_;
     }
     //-----------------------------------------------------------------------
-    Log* LogManager::setDefaultLog(Log* newLog)
+    Log* LogManager::set_default_log(Log* new_log)
     {
-        
-        Log* oldLog = mDefaultLog;
-        mDefaultLog = newLog;
-        return oldLog;
+        Log* old_log = default_log_;
+        default_log_ = new_log;
+        return old_log;
     }
     //-----------------------------------------------------------------------
-    Log* LogManager::getLog( const String& name)
+    Log* LogManager::log( const String& name)
     {
-        
-        LogList::iterator i = mLogs.find(name);
-        OgreAssert(i != mLogs.end(), "Log not found");
+        LogList::iterator i = logs_.find(name);
+        OgreAssert(i != logs_.end(), "Log not found");
         return i->second;
     }
     //-----------------------------------------------------------------------
-    void LogManager::destroyLog(const String& name)
+    void LogManager::destroy_log(const String& name)
     {
-        LogList::iterator i = mLogs.find(name);
-        if (i != mLogs.end())
+        LogList::iterator i = logs_.find(name);
+        if (i != logs_.end())
         {
-            if (mDefaultLog == i->second)
+            if (default_log_ == i->second)
             {
-                mDefaultLog = 0;
+                default_log_ = nullptr;
             }
             OGRE_DELETE i->second;
-            mLogs.erase(i);
+            logs_.erase(i);
         }
 
         // Set another default log if this one removed
-        if (!mDefaultLog && !mLogs.empty())
+        if (!default_log_ && !logs_.empty())
         {
-            mDefaultLog = mLogs.begin()->second;
+            default_log_ = logs_.begin()->second;
         }
     }
     //-----------------------------------------------------------------------
-    void LogManager::destroyLog(Log* log)
+    void LogManager::destroy_log(Log* log)
     {
         OgreAssert(log, "Cannot destroy a null log");
-        destroyLog(log->name());
+        destroy_log(log->name());
     }
     //-----------------------------------------------------------------------
     void LogManager::log_message( const String& message, LogMsgLevel lml, bool maskDebug)
     {
         
-        if (mDefaultLog)
+        if (default_log_)
         {
-            mDefaultLog->log_message(message, lml, maskDebug);
+            default_log_->log_message(message, lml, maskDebug);
         }
     }
 
-    void LogManager::logError(const String& message, bool maskDebug )
+    void LogManager::log_error(const String& message, bool maskDebug )
     {
         stream(LogMsgLevel::CRITICAL, maskDebug) << "Error: " << message;
     }
 
-    void LogManager::logWarning(const String& message, bool maskDebug )
+    void LogManager::log_warning(const String& message, bool maskDebug )
     {
         stream(LogMsgLevel::WARNING, maskDebug) << "Warning: " << message;
     }
     //-----------------------------------------------------------------------
-    void LogManager::setMinLogLevel(LogMsgLevel lml)
+    void LogManager::set_min_log_level(LogMsgLevel lml)
     {
         
-        if (mDefaultLog)
+        if (default_log_)
         {
-            mDefaultLog->set_min_log_level(lml);
+            default_log_->set_min_log_level(lml);
         }
     }
     //---------------------------------------------------------------------
     Log::Stream LogManager::stream(LogMsgLevel lml, bool maskDebug)
     {
-            
-        OgreAssert(mDefaultLog, "Default log not found");
-        return mDefaultLog->stream(lml, maskDebug);
+        OgreAssert(default_log_, "Default log not found");
+        return default_log_->stream(lml, maskDebug);
     }
 }

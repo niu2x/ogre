@@ -374,7 +374,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
     // If the import failed, report it
     if (!scene)
     {
-        LogManager::getSingleton().logError("Assimp failed - " + String(importer.GetErrorString()));
+        LogManager::getSingleton().log_error("Assimp failed - " + String(importer.GetErrorString()));
         return false;
     }
 
@@ -429,7 +429,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
             }
             catch (Exception& e)
             {
-                LogManager::getSingleton().logError("Could not load embedded image - " + e.getDescription());
+                LogManager::getSingleton().log_error("Could not load embedded image - " + e.getDescription());
                 continue;
             }
         }

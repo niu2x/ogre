@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreGLES2Prerequisites.h"
 #include "OgreGpuProgram.h"
 #include "OgreHighLevelGpuProgramManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRoot.h"
 #include "OgreStringConverter.h"
 #include "OgreGLUtil.h"

@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreMeshManager.h"
 #include "OgreMesh.h"
 #include "OgreSubMesh.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 #include "OgreMeshLodGenerator.h"
 #include "OgreLodWorkQueueInjectorListener.h"

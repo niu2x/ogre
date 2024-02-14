@@ -90,7 +90,7 @@ namespace Ogre
         VkResult result = vkAllocateDescriptorSets( mDevice->mDevice, &allocInfo, &handle );
         if( result != VK_SUCCESS )
         {
-            LogManager::getSingleton().logError("vkAllocateDescriptorSets failed! Out of Memory?");
+            LogManager::getSingleton().log_error("vkAllocateDescriptorSets failed! Out of Memory?");
             return VK_NULL_HANDLE;
         }
 

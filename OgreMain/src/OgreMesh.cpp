@@ -501,7 +501,7 @@ namespace Ogre {
                     // Log this error
                     String msg = "Unable to load skeleton '";
                     msg += skelName + "' for Mesh '" + mName + "'. This Mesh will not be animated.";
-                    LogManager::getSingleton().logError(msg);
+                    LogManager::getSingleton().log_error(msg);
 
                 }
 
@@ -666,7 +666,7 @@ namespace Ogre {
         if (maxBones > OGRE_MAX_BLEND_WEIGHTS)
         {
             // Warn that we've reduced bone assignments
-            LogManager::getSingleton().logWarning("the mesh '" + mName + "' "
+            LogManager::getSingleton().log_warning("the mesh '" + mName + "' "
                 "includes vertices with more than " +
                 StringConverter::toString(OGRE_MAX_BLEND_WEIGHTS) + " bone assignments. "
                 "The lowest weighted assignments beyond this limit have been removed, so "
@@ -681,7 +681,7 @@ namespace Ogre {
         if (existsNonSkinnedVertices)
         {
             // Warn that we've non-skinned vertices
-            LogManager::getSingleton().logWarning("the mesh '" + mName + "' "
+            LogManager::getSingleton().log_warning("the mesh '" + mName + "' "
                 "includes vertices without bone assignments. Those vertices will "
                 "transform to wrong position when skeletal animation enabled. "
                 "To eliminate this, assign at least one bone assignment per vertex "
@@ -1648,12 +1648,12 @@ namespace Ogre {
 
                 #if OGRE_DEBUG_MODE
                     // Override default log
-                    Log* log = LogManager::getSingleton().createLog(
+                    Log* log = LogManager::getSingleton().create_log(
                         mName + "_lod" + StringConverter::toString(lodIndex) +
                         "_prepshadow.log", false, false);
                     usage.edgeData->log(log);
                     // clean up log & close file handle
-                    LogManager::getSingleton().destroyLog(log);
+                    LogManager::getSingleton().destroy_log(log);
                 #endif
                 }
                 else
@@ -1700,12 +1700,12 @@ namespace Ogre {
 
 #if OGRE_DEBUG_MODE
         // Override default log
-        Log* log = LogManager::getSingleton().createLog(
+        Log* log = LogManager::getSingleton().create_log(
             mName + "_lod0"+
             "_prepshadow.log", false, false);
         mMeshLodUsageList[0].edgeData->log(log);
         // clean up log & close file handle
-        LogManager::getSingleton().destroyLog(log);
+        LogManager::getSingleton().destroy_log(log);
 #endif
 #endif
         mEdgeListsBuilt = true;

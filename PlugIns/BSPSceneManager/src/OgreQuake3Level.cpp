@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreQuake3Level.h"
 
 #include <memory>
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTextureManager.h"
 
 namespace Ogre {

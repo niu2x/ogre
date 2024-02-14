@@ -578,7 +578,7 @@ namespace Ogre
                     mCopyDataList.push_back(e);
                 }
                 else
-                    LogManager::getSingleton().logWarning("cannot copy shared parameter '" + pName +
+                    LogManager::getSingleton().log_warning("cannot copy shared parameter '" + pName +
                                                           "' - type or variability mismatch");
             }
         }

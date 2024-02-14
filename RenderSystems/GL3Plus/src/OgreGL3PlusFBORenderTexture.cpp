@@ -29,7 +29,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 
 #include "OgreGL3PlusFBORenderTexture.h"
 #include "OgreGL3PlusPixelFormat.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreGL3PlusHardwarePixelBuffer.h"
 #include "OgreGL3PlusFBOMultiRenderTarget.h"
 #include "OgreGL3PlusRenderSystem.h"
@@ -140,7 +140,7 @@ namespace Ogre {
     {
         if(!mRenderBufferMap.empty())
         {
-            LogManager::getSingleton().logWarning("GL3PlusFBOManager destructor called, but not all renderbuffers were released.");
+            LogManager::getSingleton().log_warning("GL3PlusFBOManager destructor called, but not all renderbuffers were released.");
         }
     }
 

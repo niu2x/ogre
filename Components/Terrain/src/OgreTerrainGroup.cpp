@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreWorkQueue.h"
 #include "OgreStreamSerialiser.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreTerrainAutoUpdateLod.h"
 #include "OgreTerrainMaterialGeneratorA.h"
 #include <cmath>

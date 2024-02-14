@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#import "OgreLogManager.h"
+#import "log_manager.h"
 #import "OgreRoot.h"
 #import "OgreRenderSystem.h"
 #import "OgreConfigOptionMap.h"

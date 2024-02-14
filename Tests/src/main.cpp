@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 int main(int argc, char *argv[])
 {

@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePagedWorld.h"
 #include "OgrePageManager.h"
 #include "OgrePage.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreRoot.h"
 
 namespace Ogre

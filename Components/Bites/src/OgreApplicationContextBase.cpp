@@ -201,7 +201,7 @@ bool ApplicationContextBase::oneTimeConfig()
 {
     if(mRoot->getAvailableRenderers().empty())
     {
-        Ogre::LogManager::getSingleton().logError("No RenderSystems available");
+        Ogre::LogManager::getSingleton().log_error("No RenderSystems available");
         return false;
     }
 
@@ -260,7 +260,7 @@ void ApplicationContextBase::enableShaderCache() const
     std::ifstream inFile(path.c_str(), std::ios::binary);
     if (!inFile.is_open())
     {
-        Ogre::LogManager::getSingleton().logWarning("Could not open '"+path+"'");
+        Ogre::LogManager::getSingleton().log_warning("Could not open '"+path+"'");
         return;
     }
     Ogre::LogManager::getSingleton().log_message("Loading shader cache from '"+path+"'");
@@ -467,7 +467,7 @@ void ApplicationContextBase::locateResources()
 #if OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN
             if((type == "Zip" || type == "FileSystem") && !Ogre::FileSystemLayer::fileExists(arch))
             {
-                Ogre::LogManager::getSingleton().logWarning("resource location '"+arch+"' does not exist - skipping");
+                Ogre::LogManager::getSingleton().log_warning("resource location '"+arch+"' does not exist - skipping");
                 continue;
             }
 #endif
@@ -528,7 +528,7 @@ void ApplicationContextBase::shutdown()
             gpuMgr.saveMicrocodeCache(ostream);
         }
         else
-            Ogre::LogManager::getSingleton().logWarning("Cannot open shader cache for writing "+path);
+            Ogre::LogManager::getSingleton().log_warning("Cannot open shader cache for writing "+path);
     }
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM

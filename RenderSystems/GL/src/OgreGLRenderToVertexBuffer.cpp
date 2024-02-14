@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreGLRenderSystem.h"
 #include "OgreGLSLLinkProgramManager.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 namespace Ogre {
 //-----------------------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace Ogre {
             String fullErrorMessage = "GL Error : " + msg + " in " + sectionName;
             if (logError)
             {
-                LogManager::getSingleton().getDefaultLog()->log_message(fullErrorMessage, LogMsgLevel::CRITICAL);
+                LogManager::getSingleton().default_log()->log_message(fullErrorMessage, LogMsgLevel::CRITICAL);
             }
             if (throwException)
             {

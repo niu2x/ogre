@@ -85,7 +85,7 @@ namespace Ogre {
         rmt_Settings()->reuse_open_port = true;
         if(auto error = rmt_CreateGlobalInstance(&rmt))
         {
-            LogManager::getSingleton().logError("Could not launch Remotery - RMT_ERROR " + std::to_string(error));
+            LogManager::getSingleton().log_error("Could not launch Remotery - RMT_ERROR " + std::to_string(error));
             return;
         }
         rmt_SetCurrentThreadName("Ogre Main");

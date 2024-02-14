@@ -188,7 +188,7 @@ UpgradeOptions parseOpts(UnaryOptionList& unOpts, BinaryOptionList& binOpts)
         } else if (bi->second == "1.0") {
             opts.targetVersion = MESH_VERSION_1_0;
         } else {
-            LogManager::getSingleton().logError("Unrecognised target mesh version '" + bi->second + "'");
+            LogManager::getSingleton().log_error("Unrecognised target mesh version '" + bi->second + "'");
         }
     }
 
@@ -435,7 +435,7 @@ int main(int numargs, char** args)
 
     LogManager logMgr;
     // this log catches output from the parseArgs call and routes it to stdout only
-    logMgr.createLog("Temporary log", true, true, true);
+    logMgr.create_log("Temporary log", true, true, true);
 
     try
     {
@@ -465,14 +465,14 @@ int main(int numargs, char** args)
         int startIdx = findCommandLineOpts(numargs, args, unOptList, binOptList);
         auto opts = parseOpts(unOptList, binOptList);
 
-        logMgr.setDefaultLog(NULL); // swallow startup messages
+        logMgr.set_default_log(NULL); // swallow startup messages
         DefaultHardwareBufferManager bufferManager; // needed because we don't have a rendersystem
         Root root("", "", "");
         // get rid of the temporary log as we use the new log now
-        logMgr.destroyLog("Temporary log");
+        logMgr.destroy_log("Temporary log");
 
         // use the log specified by the cmdline params
-        logMgr.setDefaultLog(logMgr.createLog(opts.logFile, true, true));
+        logMgr.set_default_log(logMgr.create_log(opts.logFile, true, true));
 
         String source(args[startIdx]);
 
@@ -559,11 +559,11 @@ int main(int numargs, char** args)
 
         meshSerializer.exportMesh(mesh, dest, opts.targetVersion, opts.endian);
 
-        logMgr.setDefaultLog(NULL); // swallow shutdown messages
+        logMgr.set_default_log(NULL); // swallow shutdown messages
     }
     catch (Exception& e)
     {
-        LogManager::getSingleton().logError(e.getDescription());
+        LogManager::getSingleton().log_error(e.getDescription());
         retCode = 1;
     }
 

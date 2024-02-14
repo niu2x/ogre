@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreD3D9Mappings.h"
 #include "string_util.h"
 #include "OgreStringConverter.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreException.h"
 
 #define D3DFMT_INTZ ( (D3DFORMAT)MAKEFOURCC('I', 'N', 'T', 'Z') )

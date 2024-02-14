@@ -30,7 +30,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 
 #include "OgreGLUtil.h"
 #include "OgreRenderSystem.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreGL3PlusTextureManager.h"
 #include "OgreGL3PlusHardwareBuffer.h"
@@ -565,7 +565,7 @@ namespace Ogre {
                 if(mIsReverseDepthBufferEnabled && !hasMinGLVersion(4, 5) && !checkExtension("GL_ARB_clip_control"))
                 {
                     mIsReverseDepthBufferEnabled = false;
-                    LogManager::getSingleton().logWarning("Reversed Z-Buffer was requested, but it is not supported. Disabling.");
+                    LogManager::getSingleton().log_warning("Reversed Z-Buffer was requested, but it is not supported. Disabling.");
                 }
             }
 
@@ -993,7 +993,7 @@ namespace Ogre {
 
         if (!mProgramManager->getActiveProgram())
         {
-            LogManager::getSingleton().logError("Failed to create shader program.");
+            LogManager::getSingleton().log_error("Failed to create shader program.");
         }
 
         GLVertexArrayObject* vao =
@@ -1607,7 +1607,7 @@ namespace Ogre {
         }
         catch (InvalidParametersException& e)
         {
-            LogManager::getSingleton().logError("binding shared parameters failed: " + e.getDescription());
+            LogManager::getSingleton().log_error("binding shared parameters failed: " + e.getDescription());
             return;
         }
         catch (Exception&)

@@ -1247,7 +1247,7 @@ void SceneManager::ShadowRenderer::setShadowTechnique(ShadowTechnique technique)
         // Otherwise forget it
         if (!mDestRenderSystem->getCapabilities()->hasCapability(RSC_HWSTENCIL))
         {
-            LogManager::getSingleton().logWarning(
+            LogManager::getSingleton().log_warning(
                 "Stencil shadows were requested, but this device does not "
                 "have a hardware stencil. Shadows disabled.");
             mShadowTechnique = SHADOWTYPE_NONE;

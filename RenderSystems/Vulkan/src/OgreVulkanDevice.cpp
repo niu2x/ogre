@@ -124,7 +124,7 @@ namespace Ogre
 
         if( deviceIdx >= numDevices )
         {
-            LogManager::getSingleton().logWarning( "[Vulkan] Requested device index " + deviceIdsStr +
+            LogManager::getSingleton().log_warning( "[Vulkan] Requested device index " + deviceIdsStr +
                                                    " but there's only " +
                                                    StringConverter::toString( numDevices ) + "devices" );
             deviceIdx = 0u;

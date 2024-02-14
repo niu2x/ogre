@@ -131,7 +131,7 @@ protected:
 
         if (mUseOcclusionQuery == false)
         {
-            LogManager::getSingleton().logError("Sample_Lighting - failed to create hardware occlusion query");
+            LogManager::getSingleton().log_error("Sample_Lighting - failed to create hardware occlusion query");
         }
         
         // Create the materials to be used by the objects used fo the occlusion query

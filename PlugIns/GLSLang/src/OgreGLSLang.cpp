@@ -6,7 +6,7 @@
 #include "OgreGLSLangProgramManager.h"
 #include "OgreRoot.h"
 
-#include "OgreLogManager.h"
+#include "log_manager.h"
 
 #include <glslang/Public/ShaderLang.h>
 #include <glslang/SPIRV/GlslangToSpv.h>
@@ -347,7 +347,7 @@ void GLSLangProgram::prepareImpl()
     // minimal version is 430 for explicit uniform location, but we use latest to get all features
     if (!shader.parse(&DefaultTBuiltInResource, 460, false, EShMsgSpvRules))
     {
-        LogManager::getSingleton().logError("GLSLang compilation failed for " + mName + ":\n" +
+        LogManager::getSingleton().log_error("GLSLang compilation failed for " + mName + ":\n" +
                                             shader.getInfoLog());
         mCompileError = true;
         return;
@@ -358,7 +358,7 @@ void GLSLangProgram::prepareImpl()
 
     if (!program.link(EShMsgSpvRules))
     {
-        LogManager::getSingleton().logError("GLSLang linking failed for " + mName + ":\n" +
+        LogManager::getSingleton().log_error("GLSLang linking failed for " + mName + ":\n" +
                                             program.getInfoLog());
         mCompileError = true;
         return;

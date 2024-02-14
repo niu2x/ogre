@@ -984,7 +984,7 @@ namespace Ogre {
             }
 
             if (seenTexAlias)
-                LogManager::getSingleton().logError("texture aliases for SubMeshes are unsupported - " +
+                LogManager::getSingleton().log_error("texture aliases for SubMeshes are unsupported - " +
                                                       stream->name());
 
             if (!stream->eof())

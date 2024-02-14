@@ -27,7 +27,7 @@
 */
 
 #include "OgreGLSLProgramManagerCommon.h"
-#include "OgreLogManager.h"
+#include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreGLSLProgramCommon.h"
 
@@ -316,7 +316,7 @@ namespace Ogre {
                 // warn if there is a default value, that we would overwrite
                 if (line.find('=') != String::npos)
                 {
-                    LogManager::getSingleton().logWarning("Default value of uniform '" + paramName +
+                    LogManager::getSingleton().log_warning("Default value of uniform '" + paramName +
                                                           "' is ignored in " + filename);
                     break;
                 }
