@@ -251,7 +251,7 @@ String ProgramManager::generateHash(const String& programString, const String& d
     //Different programs must have unique hash values.
     uint32_t hash[4];
     uint32_t seed = FastHash(defines.c_str(), defines.size());
-    MurmurHash3_128(programString.c_str(), programString.size(), seed, hash);
+    murmur_hash3_128(programString.c_str(), programString.size(), seed, hash);
 
     //Generate the string
     return StringUtil::format("%08x%08x%08x%08x", hash[0], hash[1], hash[2], hash[3]);

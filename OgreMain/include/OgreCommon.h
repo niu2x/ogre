@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreVector.h"
 #include "OgreHeaderPrefix.h"
-#include "OgreMurmurHash3.h"
+#include "murmur_hash3.h"
 
 namespace Ogre {
 
@@ -45,7 +45,7 @@ namespace Ogre {
     /// Fast general hashing algorithm
     inline uint32 FastHash (const char * data, size_t len, uint32 hashSoFar = 0) {
         uint32 ret;
-        MurmurHash3_x86_32(data, len, hashSoFar, &ret);
+        murmur_hash3_x86_32(data, len, hashSoFar, &ret);
         return ret;
     }
     /// Combine hashes with same style as boost::hash_combine

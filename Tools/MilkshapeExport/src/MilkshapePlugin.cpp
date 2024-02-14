@@ -90,7 +90,7 @@ int MilkshapePlugin::Execute (msModel* pModel)
 }
 //---------------------------------------------------------------------
 MilkshapePlugin *plugin;
-#if OGRE_ARCHITECTURE_64 == OGRE_ARCH_TYPE
+#if OGRE_ARCHITECTURE_64 == XDOG_ARCH_TYPE
 INT_PTR MilkshapePlugin::DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 #else
 BOOL MilkshapePlugin::DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)

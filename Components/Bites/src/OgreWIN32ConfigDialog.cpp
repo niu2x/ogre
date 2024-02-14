@@ -52,7 +52,7 @@ namespace OgreBites
         HINSTANCE mHInstance; // HInstance of application, for dialog
 
         /** Callback to process window events */
-#if OGRE_ARCHITECTURE_64 == OGRE_ARCH_TYPE
+#if OGRE_ARCHITECTURE_64 == XDOG_ARCH_TYPE
         static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 #else
         static BOOL CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
@@ -84,7 +84,7 @@ namespace OgreBites
         delete mImpl;
     }
 
-#if OGRE_ARCHITECTURE_64 == OGRE_ARCH_TYPE
+#if OGRE_ARCHITECTURE_64 == XDOG_ARCH_TYPE
     INT_PTR ConfigDialog::PrivateData::DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 #else
     BOOL ConfigDialog::PrivateData::DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)

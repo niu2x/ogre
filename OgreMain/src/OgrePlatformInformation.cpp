@@ -118,7 +118,7 @@ namespace Ogre {
         }
     #endif
 #elif (OGRE_COMPILER == OGRE_COMPILER_GNUC || OGRE_COMPILER == OGRE_COMPILER_CLANG) && OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN
-        #if OGRE_ARCH_TYPE == OGRE_ARCHITECTURE_64
+        #if XDOG_ARCH_TYPE == OGRE_ARCHITECTURE_64
            return true;
        #else
         unsigned oldFlags, newFlags;
@@ -158,7 +158,7 @@ namespace Ogre {
         result._edx = CPUInfo[3];
         return result._eax;
 #elif (OGRE_COMPILER == OGRE_COMPILER_GNUC || OGRE_COMPILER == OGRE_COMPILER_CLANG) && OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN
-        #if OGRE_ARCH_TYPE == OGRE_ARCHITECTURE_64
+        #if XDOG_ARCH_TYPE == OGRE_ARCHITECTURE_64
         __asm__
         (
             "cpuid": "=a" (result._eax), "=b" (result._ebx), "=c" (result._ecx), "=d" (result._edx) : "a" (query)
@@ -189,7 +189,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     // Detect whether or not os support Streaming SIMD Extension.
 #if OGRE_COMPILER == OGRE_COMPILER_GNUC || OGRE_COMPILER == OGRE_COMPILER_CLANG
-    #if OGRE_ARCH_TYPE == OGRE_ARCHITECTURE_32 && OGRE_CPU == OGRE_CPU_X86
+    #if XDOG_ARCH_TYPE == OGRE_ARCHITECTURE_32 && OGRE_CPU == OGRE_CPU_X86
     static jmp_buf sIllegalJmpBuf;
     static void _illegalHandler(int x)
     {
@@ -232,7 +232,7 @@ namespace Ogre {
         }
     #endif
 #elif (OGRE_COMPILER == OGRE_COMPILER_GNUC || OGRE_COMPILER == OGRE_COMPILER_CLANG) && OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN
-        #if OGRE_ARCH_TYPE == OGRE_ARCHITECTURE_64 
+        #if XDOG_ARCH_TYPE == OGRE_ARCHITECTURE_64 
             return true;
         #else
         // Does gcc have __try/__except similar mechanism?

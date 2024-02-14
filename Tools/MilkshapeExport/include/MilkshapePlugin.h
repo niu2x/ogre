@@ -59,7 +59,7 @@ public:
     int             Execute (msModel* pModel);
 
     /** Callback to process window events */
-#if OGRE_ARCHITECTURE_64 == OGRE_ARCH_TYPE
+#if OGRE_ARCHITECTURE_64 == XDOG_ARCH_TYPE
     static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 #else
     static BOOL CALLBACK DlgProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);

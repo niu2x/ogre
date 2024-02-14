@@ -175,9 +175,9 @@ THE SOFTWARE.
 
 /* Find the arch type */
 #if defined(__LP64__) || defined(_WIN64)
-#   define OGRE_ARCH_TYPE OGRE_ARCHITECTURE_64
+#   define XDOG_ARCH_TYPE OGRE_ARCHITECTURE_64
 #else
-#   define OGRE_ARCH_TYPE OGRE_ARCHITECTURE_32
+#   define XDOG_ARCH_TYPE OGRE_ARCHITECTURE_32
 #endif
 
 /* Find how to declare aligned variable. */
