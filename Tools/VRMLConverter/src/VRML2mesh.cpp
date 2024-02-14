@@ -120,7 +120,7 @@ try
     MeshPtr mesh = meshMgr.create("conversionTarget", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     try {
-        log.logMessage("Reading " + inname);
+        log.log_message("Reading " + inname);
 
         // read VRML file
         std::ifstream infile(inname.c_str());
@@ -128,7 +128,7 @@ try
             throw "failed to open input file";
 
         vrmllib::file vfile(infile);
-        log.logMessage("Finished parsing VRML file");
+        log.log_message("Finished parsing VRML file");
 
         // populate name map
         for (auto & def : vfile.defs)
@@ -140,7 +140,7 @@ try
         if (mesh->getNumSubMeshes() == 0)
             throw "No SubMeshes were generated, aborting.";
 
-        log.logMessage("Exporting Mesh");
+        log.log_message("Exporting Mesh");
         meshSer.exportMesh(mesh.get(), outname);
 
         ResourceManager::ResourceMapIterator it = materialMgr.getResourceIterator();
@@ -150,18 +150,18 @@ try
 
         matSer.exportQueued(path + gBaseName + ".material");
 
-        log.logMessage("Done.");
+        log.log_message("Done.");
     }
     catch (const char *e) {
-        log.logMessage(LML_NORMAL, "Error: %s", e);
+        log.log_message(LogMsgLevel::NORMAL, "Error: %s", e);
         return 1;
     }
     catch (Exception &e) {
-        log.logMessage("Exception: " + e.getFullDescription());
+        log.log_message("Exception: " + e.getFullDescription());
         return 1;
     }
     catch (std::exception &e) {
-        log.logMessage(LML_NORMAL, e.what());
+        log.log_message(LogMsgLevel::NORMAL, e.what());
         return 1;
     }
 
@@ -218,7 +218,7 @@ void parseShape(Mesh *mesh, const Shape *sh, Matrix4 mat)
 try
 {
     LogManager &log = LogManager::getSingleton();
-    log.logMessage("Found a Shape...");
+    log.log_message("Found a Shape...");
 
     IndexedFaceSet *ifs = dynamic_cast<IndexedFaceSet *>(sh->geometry);
     if (!ifs)
@@ -232,10 +232,10 @@ try
 
     SubMesh *sub;
     if (const String *name = findNameRecursive(sh)) {
-        log.logMessage("Creating SubMesh: " + *name);
+        log.log_message("Creating SubMesh: " + *name);
         sub = mesh->createSubMesh(*name);
     } else {
-        log.logMessage("Creating unnamed SubMesh");
+        log.log_message("Creating unnamed SubMesh");
         sub = mesh->createSubMesh();
     }
 
@@ -251,7 +251,7 @@ try
         message += ", normals";
     if (color)
         message += ", colours";
-    log.logMessage(message);
+    log.log_message(message);
 
     if (!tcs && !norm && !color)
         log.logWarning("OGRE will refuse to render SubMeshes that have neither\n"
@@ -269,7 +269,7 @@ try
 
     Ogre::MaterialPtr material = matMap[app];
     if (material && app) {
-        log.logMessage("Using material " + material->getName());
+        log.log_message("Using material " + material->getName());
         sub->setMaterialName(material->getName());
     } else {
         String matName;
@@ -287,9 +287,9 @@ try
             std::stringstream ss;
             ss << gBaseName << '/' << matNum++;
             matName = ss.str();
-            log.logMessage("No material name found, using " + matName);
+            log.log_message("No material name found, using " + matName);
         }
-        log.logMessage("Reading material " + matName);
+        log.log_message("Reading material " + matName);
 
         material = parseMaterial(app, matName);
 
@@ -307,15 +307,15 @@ try
         bbox.merge(vec(i));
     }
     mesh->_setBounds(bbox);
-    log.logMessage("Processing geometry...");
+    log.log_message("Processing geometry...");
     triangulateAndExpand(triangles, vertices, faces, sh);
 
     copyToSubMesh(sub, triangles, vertices, sh, mat);
 
-    log.logMessage("Done with this SubMesh.");
+    log.log_message("Done with this SubMesh.");
 }
 catch (const char *e) {
-    LogManager::getSingleton().logMessage(e);
+    LogManager::getSingleton().log_message(e);
 }
 }
 
@@ -560,11 +560,11 @@ Ogre::MaterialPtr parseMaterial(const Appearance *app, const String &name)
         String texName = texture->url.front();
         size_t pos = texName.find_last_of("/\\");
         if (pos != texName.npos) {
-            LogManager::getSingleton().logMessage("Stripping path from texture " + texName);
+            LogManager::getSingleton().log_message("Stripping path from texture " + texName);
             texName.erase(0, pos+1);
         }
 
-        LogManager::getSingleton().logMessage("Adding texture layer for " + texName);
+        LogManager::getSingleton().log_message("Adding texture layer for " + texName);
 
         Ogre::TextureUnitState *l = p->createTextureUnitState(texName);
         l->setTextureAddressingMode(texture->repeatS ?

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #ifndef __AndroidLogListener_H__
 #define __AndroidLogListener_H__
 
-#include "OgreLog.h"
+#include "log.h"
 
 namespace Ogre
 {
@@ -37,7 +37,7 @@ namespace Ogre
     class AndroidLogListener : public LogListener, public LogAlloc
     {
     public:
-        void messageLogged(const String& message, LogMessageLevel lml, bool maskDebug, const String &logName, bool& skipThisMessage ) override;
+        bool msg_logged(const String& message, LogMsgLevel lml, bool maskDebug, const String &logName ) override;
     };
 }
 

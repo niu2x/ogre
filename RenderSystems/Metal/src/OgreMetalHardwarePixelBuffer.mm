@@ -251,7 +251,7 @@ namespace Ogre {
             << " format=" << PixelUtil::getFormatName(mFormat)
             << " MTLformat=" << format
             << " rowPitch=" << mRowPitch;
-        LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 #endif
 
         // Set up a pixel box
@@ -410,7 +410,7 @@ namespace Ogre {
         << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
         << " format: " << PixelUtil::getFormatName(mFormat)
         << " data format: " << PixelUtil::getFormatName(data.format);
-        LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 #endif
     }
 

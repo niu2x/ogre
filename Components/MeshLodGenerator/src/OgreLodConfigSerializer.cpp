@@ -172,7 +172,7 @@ namespace Ogre
 
     void LodConfigSerializer::exportLodConfig(Ogre::LodConfig& config, Ogre::DataStreamPtr stream, Endian endianMode /*= ENDIAN_NATIVE*/ )
     {
-        Ogre::LogManager::getSingleton().logMessage("MeshSerializer writing mesh data to stream " + stream->name() + "...");
+        Ogre::LogManager::getSingleton().log_message("MeshSerializer writing mesh data to stream " + stream->name() + "...");
 
         // Decide on endian mode
         determineEndianness(endianMode);
@@ -186,14 +186,14 @@ namespace Ogre
         }
 
         writeFileHeader();
-        LogManager::getSingleton().logMessage("File header written.");
+        LogManager::getSingleton().log_message("File header written.");
 
 
-        LogManager::getSingleton().logMessage("Writing Lod Config...");
+        LogManager::getSingleton().log_message("Writing Lod Config...");
         pushInnerChunk(mStream);
         writeLodConfig();
         popInnerChunk(mStream);
-        LogManager::getSingleton().logMessage("LodConfigSerializer export successful.");
+        LogManager::getSingleton().log_message("LodConfigSerializer export successful.");
     }
 
     void LodConfigSerializer::writeLodConfig()

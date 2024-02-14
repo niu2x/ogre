@@ -92,7 +92,7 @@ namespace Ogre
     {
         String name = factory->getFactoryTypeName();
         mPCZoneFactories[name] = factory;
-        LogManager::getSingleton().logMessage("PCZone Factory Type '" + name + "' registered");
+        LogManager::getSingleton().log_message("PCZone Factory Type '" + name + "' registered");
     }
     void PCZoneFactoryManager::unregisterPCZoneFactory(PCZoneFactory* factory)
     {
@@ -105,7 +105,7 @@ namespace Ogre
             if (zi != mPCZoneFactories.end())
             {
                 mPCZoneFactories.erase( mPCZoneFactories.find( name ) );
-                LogManager::getSingleton().logMessage("PCZone Factory Type '" + name + "' unregistered");
+                LogManager::getSingleton().log_message("PCZone Factory Type '" + name + "' unregistered");
             }
         }
     }

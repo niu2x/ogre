@@ -357,7 +357,7 @@ namespace Ogre {
                             //                            l << "Trying " << PixelUtil::getFormatName((PixelFormat)x)
                             //                                  << " D" << depthBits[depth]
                             //                                  << "S" << stencilBits[stencil];
-                            //                            LogManager::getSingleton().logMessage(l.str());
+                            //                            LogManager::getSingleton().log_message(l.str());
 
                             if (hasInternalFormatQuery) {
                                 OGRE_CHECK_GL_ERROR(
@@ -399,7 +399,7 @@ namespace Ogre {
                         }
                     }
                 }
-                LogManager::getSingleton().logMessage(str.str());
+                LogManager::getSingleton().log_message(str.str());
             }
 
             if (!hasInternalFormatQuery) {
@@ -422,7 +422,7 @@ namespace Ogre {
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
-        LogManager::getSingleton().logMessage("[GL] : Valid FBO targets " + fmtstring);
+        LogManager::getSingleton().log_message("[GL] : Valid FBO targets " + fmtstring);
     }
 
     void GL3PlusFBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)

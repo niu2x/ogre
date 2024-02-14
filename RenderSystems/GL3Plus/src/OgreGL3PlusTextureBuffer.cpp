@@ -69,7 +69,7 @@ namespace Ogre {
         //            << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
         //            << " format: " << PixelUtil::getFormatName(mFormat)
         //            << "(internal 0x" << std::hex << value << ")";
-        //        LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+        //        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 
         // Set up a pixel box
         mBuffer = PixelBox(mWidth, mHeight, mDepth, mFormat);
@@ -131,7 +131,7 @@ namespace Ogre {
         // << " face: " << mFace << " level: " << mLevel
         // << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
         // << " format: " << PixelUtil::getFormatName(mFormat);
-        // LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+        // LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 
         void* pdata = NULL;
 #else
@@ -282,7 +282,7 @@ namespace Ogre {
         //        << " face: " << mFace << " level: " << mLevel
         //        << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
         //        << " format: " << PixelUtil::getFormatName(mFormat);
-        //        LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+        //        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 
         mRenderSystem->_getStateCacheManager()->bindGLTexture(mTarget, mTextureID);
 

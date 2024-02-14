@@ -41,7 +41,7 @@ namespace Ogre {
 
         logMessage = msg + "\n" + logMessage;
 
-        LogManager::getSingleton().logMessage(LML_CRITICAL, logMessage);
+        LogManager::getSingleton().log_message(LogMsgLevel::CRITICAL, logMessage);
 
         return logMessage;
     }

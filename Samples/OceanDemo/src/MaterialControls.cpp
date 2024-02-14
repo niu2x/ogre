@@ -37,8 +37,8 @@ void MaterialControls::addControl(const Ogre::String& params)
     // if there are not five elements then log error and move on
     if (vecparams.size() != 6)
     {
-        Ogre::LogManager::getSingleton().logMessage(
-            "Incorrect number of parameters passed in params string for MaterialControls::addControl()", Ogre::LML_CRITICAL);
+        Ogre::LogManager::getSingleton().log_message(
+            "Incorrect number of parameters passed in params string for MaterialControls::addControl()", Ogre::LogMsgLevel::CRITICAL);
 
         return;
     }
@@ -110,7 +110,7 @@ void loadMaterialControlsFile(MaterialControlsContainer& controlsContainer, cons
             }
         }
 
-        Ogre::LogManager::getSingleton().logMessage( "Material Controls setup" );
+        Ogre::LogManager::getSingleton().log_message( "Material Controls setup" );
     }
     catch (Ogre::Exception& e)
     {

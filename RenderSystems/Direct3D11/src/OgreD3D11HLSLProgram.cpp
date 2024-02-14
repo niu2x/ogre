@@ -353,7 +353,7 @@ namespace Ogre {
             if(warnings && LogManager::getSingletonPtr())
             {
                 String message = "Warnings while compiling D3D11 high-level shader " + mName + ":\n" + warnings;
-                LogManager::getSingleton().logMessage(message, LML_NORMAL);
+                LogManager::getSingleton().log_message(message, LogMsgLevel::NORMAL);
             }
 #endif
             mMicroCode.resize(pMicroCode->GetBufferSize());
@@ -1323,7 +1323,7 @@ namespace Ogre {
 
         if(mSyntaxCode == "hlsl")
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Invalid target for D3D11 shader '" + mName + "' - '" + target + "'");
             return;
         }
@@ -1411,7 +1411,7 @@ namespace Ogre {
         else
         {
             assert(false);
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D11 vertex shader '" + mName + "' was not loaded.");
         }
     }
@@ -1438,7 +1438,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D11 Pixel shader '" + mName + "' was not loaded.");
         }
     }
@@ -1526,7 +1526,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D11 Geometry shader '" + mName + "' was not loaded.");
         }
     }
@@ -1552,7 +1552,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D11 Hull shader '" + mName + "' was not loaded.");
         }
     }
@@ -1578,7 +1578,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D11 Domain shader '" + mName + "' was not loaded.");
         }
     }
@@ -1604,7 +1604,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D11 Compute shader '" + mName + "' was not loaded.");
         }
     }

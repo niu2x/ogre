@@ -529,14 +529,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Profiler::logResults() 
     {
-        LogManager::getSingleton().logMessage("----------------------Profiler Results----------------------");
+        LogManager::getSingleton().log_message("----------------------Profiler Results----------------------");
 
         for(auto& it : mRoot.children)
         {
             it.second->logResults();
         }
 
-        LogManager::getSingleton().logMessage("------------------------------------------------------------");
+        LogManager::getSingleton().log_message("------------------------------------------------------------");
     }
     //-----------------------------------------------------------------------
     void ProfileInstance::logResults() 
@@ -548,7 +548,7 @@ namespace Ogre {
             indent = indent + "\t";
         }
 
-        LogManager::getSingleton().logMessage(indent + "Name " + name + 
+        LogManager::getSingleton().log_message(indent + "Name " + name + 
                         " | Min " + StringConverter::toString(history.minTimePercent) + 
                         " | Max " + StringConverter::toString(history.maxTimePercent) + 
                         " | Avg "+ StringConverter::toString(history.totalTimePercent / history.totalCalls));   

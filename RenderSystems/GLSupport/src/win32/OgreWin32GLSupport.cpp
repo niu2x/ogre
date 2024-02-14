@@ -186,12 +186,12 @@ namespace Ogre {
 
     void Win32GLSupport::start()
     {
-        LogManager::getSingleton().logMessage("*** Starting Win32GL Subsystem ***");
+        LogManager::getSingleton().log_message("*** Starting Win32GL Subsystem ***");
     }
 
     void Win32GLSupport::stop()
     {
-        LogManager::getSingleton().logMessage("*** Stopping Win32GL Subsystem ***");
+        LogManager::getSingleton().log_message("*** Stopping Win32GL Subsystem ***");
         mInitialWindow = 0; // Since there is no removeWindow, although there should be...
     }
 

@@ -72,11 +72,11 @@ namespace Ogre {
     {
         FreeImage_Initialise(false);
 
-        LogManager::getSingleton().logMessage(
-            LML_NORMAL,
+        LogManager::getSingleton().log_message(
+            LogMsgLevel::NORMAL,
             "FreeImage version: " + String(FreeImage_GetVersion()));
-        LogManager::getSingleton().logMessage(
-            LML_NORMAL,
+        LogManager::getSingleton().log_message(
+            LogMsgLevel::NORMAL,
             FreeImage_GetCopyrightMessage());
 
         // Register codecs
@@ -114,8 +114,8 @@ namespace Ogre {
                 }
             }
         }
-        LogManager::getSingleton().logMessage(
-            LML_NORMAL,
+        LogManager::getSingleton().log_message(
+            LogMsgLevel::NORMAL,
             strExt.str());
 
         // Set error handler

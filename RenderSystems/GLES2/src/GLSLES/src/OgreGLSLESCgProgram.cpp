@@ -206,7 +206,7 @@ namespace Ogre {
         if (!isSyntaxSupported()) 
         {
             mSource = "";
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "File:" + mFilename + 
                 " has unsupported syntax for hlsl2glsl.");
             return;
@@ -228,7 +228,7 @@ namespace Ogre {
             break;
         default:
             mSource = "";
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "File:" + mFilename + 
                 " has unsupported program type.");
             return;
@@ -255,7 +255,7 @@ namespace Ogre {
         {
             const char*  parserErrors = Hlsl2Glsl_GetInfoLog(parser);
 
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "File:" + mFilename + 
                 " failed to convert from Cg to glsl with the following errors:\n" + parserErrors);
 

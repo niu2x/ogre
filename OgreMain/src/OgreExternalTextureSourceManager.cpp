@@ -97,14 +97,14 @@ namespace Ogre
     //****************************************************************************************
     void ExternalTextureSourceManager::setExternalTextureSource( const String& sTexturePlugInType, ExternalTextureSource* pTextureSystem )
     {
-        LogManager::getSingleton().logMessage( "Registering Texture Controller: Type = "
+        LogManager::getSingleton().log_message( "Registering Texture Controller: Type = "
                         + sTexturePlugInType + " Name = " + pTextureSystem->getPluginStringName());
 
         for(auto& t : mTextureSystems)
         {
             if( t.first == sTexturePlugInType )
             {
-                LogManager::getSingleton().logMessage( "Shutting Down Texture Controller: "
+                LogManager::getSingleton().log_message( "Shutting Down Texture Controller: "
                         + t.second->getPluginStringName()
                         + " To be replaced by: "
                         + pTextureSystem->getPluginStringName());

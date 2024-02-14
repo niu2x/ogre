@@ -246,7 +246,7 @@ namespace Ogre {
         {
             str << "HardwareBufferManager: No unused temporary vertex buffers found.";
         }
-        LogManager::getSingleton().logMessage(str.str(), LML_TRIVIAL);
+        LogManager::getSingleton().log_message(str.str(), LogMsgLevel::TRIVIAL);
     }
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::_releaseBufferCopies(bool forceFreeUnused)

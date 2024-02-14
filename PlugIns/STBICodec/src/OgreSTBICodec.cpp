@@ -74,7 +74,7 @@ namespace Ogre {
         stbi_convert_iphone_png_to_rgb(1);
         stbi_set_unpremultiply_on_load(1);
 
-        LogManager::getSingleton().logMessage("stb_image - v2.28 - public domain image loader");
+        LogManager::getSingleton().log_message("stb_image - v2.28 - public domain image loader");
         
         // Register codecs
         String exts = "jpeg,jpg,png,bmp,psd,tga,gif,pic,ppm,pgm,hdr";
@@ -86,7 +86,7 @@ namespace Ogre {
             Codec::registerCodec(codec);
         }
 
-        LogManager::getSingleton().logMessage("Supported formats: " + exts);
+        LogManager::getSingleton().log_message("Supported formats: " + exts);
     }
     //---------------------------------------------------------------------
     void STBIImageCodec::shutdown(void)

@@ -77,7 +77,7 @@ namespace Ogre {
         // add to metadata
         mMetaDataList.push_back(fact->getTypeName());
         // Log
-        LogManager::getSingleton().logMessage("SceneManagerFactory for type '" + fact->getTypeName() + "' registered.");
+        LogManager::getSingleton().log_message("SceneManagerFactory for type '" + fact->getTypeName() + "' registered.");
     }
     //-----------------------------------------------------------------------
     void SceneManagerEnumerator::removeFactory(SceneManagerFactory* fact)

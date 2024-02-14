@@ -124,8 +124,8 @@ GLTextureBuffer::GLTextureBuffer(GLRenderSystem* renderSystem, GLTexture* parent
         << "width=" << mWidth << " height="<< mHeight << " depth=" << mDepth
         << "format=" << PixelUtil::getFormatName(mFormat) << "(internal 0x"
         << std::hex << value << ")";
-    LogManager::getSingleton().logMessage( 
-                LML_NORMAL, str.str());
+    LogManager::getSingleton().log_message( 
+                LogMsgLevel::NORMAL, str.str());
     */
     // Set up pixel box
     mBuffer = PixelBox(mWidth, mHeight, mDepth, mFormat);

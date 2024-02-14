@@ -64,7 +64,7 @@ extern "C" {
 #include "OgreFrustum.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreLight.h"
-#include "OgreLog.h"
+#include "log.h"
 #include "OgreLogManager.h"
 #include "OgreManualObject.h"
 #include "OgreMaterialManager.h"
@@ -135,7 +135,7 @@ extern "C" {
 namespace Ogre
 {
 void logMaterialNotFound(const String& name, const String& groupName, const String& destType, const String& destName,
-                         LogMessageLevel lml = LML_CRITICAL);
+                         LogMsgLevel lml = LogMsgLevel::CRITICAL);
 }
 
 #endif 

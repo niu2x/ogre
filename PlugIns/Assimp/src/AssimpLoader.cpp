@@ -57,14 +57,14 @@ namespace
 {
 struct OgreLogStream : public Assimp::LogStream
 {
-    LogMessageLevel _lml;
-    OgreLogStream(LogMessageLevel lml) : _lml(lml) {}
+    LogMsgLevel _lml;
+    OgreLogStream(LogMsgLevel lml) : _lml(lml) {}
 
     void write(const char* message) override
     {
         String msg(message);
         StringUtil::trim(msg);
-        LogManager::getSingleton().logMessage("Assimp: " + msg, _lml);
+        LogManager::getSingleton().log_message("Assimp: " + msg, _lml);
     }
 };
 
@@ -334,8 +334,8 @@ int AssimpLoader::msBoneCount = 0;
 AssimpLoader::AssimpLoader()
 {
     Assimp::DefaultLogger::create("");
-    Assimp::DefaultLogger::get()->attachStream(new OgreLogStream(LML_NORMAL), ~Assimp::DefaultLogger::Err);
-    Assimp::DefaultLogger::get()->attachStream(new OgreLogStream(LML_CRITICAL), Assimp::DefaultLogger::Err);
+    Assimp::DefaultLogger::get()->attachStream(new OgreLogStream(LogMsgLevel::NORMAL), ~Assimp::DefaultLogger::Err);
+    Assimp::DefaultLogger::get()->attachStream(new OgreLogStream(LogMsgLevel::CRITICAL), Assimp::DefaultLogger::Err);
 }
 
 AssimpLoader::~AssimpLoader() {}
@@ -450,7 +450,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
 
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage("Root bone: " + mSkeleton->getRootBones()[0]->getName());
+            LogManager::getSingleton().log_message("Root bone: " + mSkeleton->getRootBones()[0]->getName());
         }
 
         skeletonPtr = mSkeleton;
@@ -512,12 +512,12 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
 
     if (!mQuietMode)
     {
-        LogManager::getSingleton().logMessage("Animation name = '" + animName + "'");
-        LogManager::getSingleton().logMessage("duration = " +
+        LogManager::getSingleton().log_message("Animation name = '" + animName + "'");
+        LogManager::getSingleton().log_message("duration = " +
                                               StringConverter::toString(Real(anim->mDuration)));
-        LogManager::getSingleton().logMessage("tick/sec = " +
+        LogManager::getSingleton().log_message("tick/sec = " +
                                               StringConverter::toString(Real(anim->mTicksPerSecond)));
-        LogManager::getSingleton().logMessage("channels = " +
+        LogManager::getSingleton().log_message("channels = " +
                                               StringConverter::toString(anim->mNumChannels));
     }
     Animation* animation;
@@ -575,7 +575,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
 
     if (!mQuietMode)
     {
-        LogManager::getSingleton().logMessage("Cut Time " + StringConverter::toString(cutTime));
+        LogManager::getSingleton().log_message("Cut Time " + StringConverter::toString(cutTime));
     }
 
     for (int i = 0; i < (int)anim->mNumChannels; i++)
@@ -585,13 +585,13 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
         aiNodeAnim* node_anim = anim->mChannels[i];
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage("Channel " + StringConverter::toString(i));
-            LogManager::getSingleton().logMessage("affecting node: " + String(node_anim->mNodeName.data));
-            // LogManager::getSingleton().logMessage("position keys: " +
+            LogManager::getSingleton().log_message("Channel " + StringConverter::toString(i));
+            LogManager::getSingleton().log_message("affecting node: " + String(node_anim->mNodeName.data));
+            // LogManager::getSingleton().log_message("position keys: " +
             // StringConverter::toString(node_anim->mNumPositionKeys));
-            // LogManager::getSingleton().logMessage("rotation keys: " +
+            // LogManager::getSingleton().log_message("rotation keys: " +
             // StringConverter::toString(node_anim->mNumRotationKeys));
-            // LogManager::getSingleton().logMessage("scaling keys: " +
+            // LogManager::getSingleton().log_message("scaling keys: " +
             // StringConverter::toString(node_anim->mNumScalingKeys));
         }
 
@@ -707,7 +707,7 @@ void AssimpLoader::grabNodeNamesFromNode(const aiScene* mScene, const aiNode* pN
     mBoneNodesByName[pNode->mName.data] = pNode;
     if (!mQuietMode)
     {
-        LogManager::getSingleton().logMessage("Node " + String(pNode->mName.data) + " found.");
+        LogManager::getSingleton().log_message("Node " + String(pNode->mName.data) + " found.");
     }
 
     // Traverse all child nodes of the current node instance
@@ -753,7 +753,7 @@ void AssimpLoader::createBonesFromNode(const aiScene* mScene, const aiNode* pNod
 
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage(StringConverter::toString(msBoneCount) +
+            LogManager::getSingleton().log_message(StringConverter::toString(msBoneCount) +
                                                   ") Creating bone '" + String(pNode->mName.data) + "'");
         }
         msBoneCount++;
@@ -834,7 +834,7 @@ void AssimpLoader::grabBoneNamesFromNode(const aiScene* mScene, const aiNode* pN
 
                         if (!mQuietMode)
                         {
-                            LogManager::getSingleton().logMessage(
+                            LogManager::getSingleton().log_message(
                                 StringConverter::toString(i) +
                                 ") REAL BONE with name : " + String(pAIBone->mName.data));
                         }
@@ -912,7 +912,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
     {
         if (verbose)
         {
-            LogManager::getSingleton().logMessage("Using aiGetMaterialString : Name " +
+            LogManager::getSingleton().log_message("Using aiGetMaterialString : Name " +
                                                   String(szPath.data));
         }
     }
@@ -936,7 +936,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
 
     if (verbose)
     {
-        LogManager::getSingleton().logMessage("Creating " + matName);
+        LogManager::getSingleton().log_message("Creating " + matName);
     }
 
     // ambient
@@ -998,7 +998,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
     {
         if (verbose)
         {
-            LogManager::getSingleton().logMessage("Found texture " + basename + " for channel " +
+            LogManager::getSingleton().log_message("Found texture " + basename + " for channel " +
                                                   StringConverter::toString(uvindex));
         }
         omat->getTechnique(0)->getPass(0)->createTextureUnitState(basename);
@@ -1008,7 +1008,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
     {
         if (verbose)
         {
-            LogManager::getSingleton().logMessage("Found emissive map: " + basename);
+            LogManager::getSingleton().log_message("Found emissive map: " + basename);
         }
         auto tus = omat->getTechnique(0)->getPass(0)->createTextureUnitState(basename);
         tus->setColourOperation(LBO_ADD);
@@ -1025,7 +1025,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
     {
         if (verbose)
         {
-            LogManager::getSingleton().logMessage("Found normal map: " + basename);
+            LogManager::getSingleton().log_message("Found normal map: " + basename);
         }
 
         auto tus = omat->getTechnique(0)->getPass(0)->createTextureUnitState(basename);
@@ -1046,7 +1046,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
     {
         if (verbose)
         {
-            LogManager::getSingleton().logMessage("Found metal roughness map: " + basename);
+            LogManager::getSingleton().log_message("Found metal roughness map: " + basename);
         }
 
         shaderGen->createShaderBasedTechnique(omat->getTechnique(0), MSN_SHADERGEN);
@@ -1073,7 +1073,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
     {
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage("Skipping Mesh " + String(mesh->mName.data) +
+            LogManager::getSingleton().log_message("Skipping Mesh " + String(mesh->mName.data) +
                                                   "with no bone weights");
         }
         return false;
@@ -1117,13 +1117,13 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
     if (!mQuietMode)
     {
-        LogManager::getSingleton().logMessage(StringUtil::format("%d vertices", mesh->mNumVertices));
+        LogManager::getSingleton().log_message(StringUtil::format("%d vertices", mesh->mNumVertices));
     }
     if (norm)
     {
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage(StringUtil::format("%d normals", mesh->mNumVertices));
+            LogManager::getSingleton().log_message(StringUtil::format("%d normals", mesh->mNumVertices));
         }
         offset += declaration->addElement(source, offset, VET_FLOAT3, VES_NORMAL).getSize();
     }
@@ -1132,7 +1132,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
     {
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage(StringUtil::format("%d uvs", mesh->mNumVertices));
+            LogManager::getSingleton().log_message(StringUtil::format("%d uvs", mesh->mNumVertices));
         }
         offset += declaration->addElement(source, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES).getSize();
     }
@@ -1141,7 +1141,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
     {
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage(StringUtil::format("%d tangents", mesh->mNumVertices));
+            LogManager::getSingleton().log_message(StringUtil::format("%d tangents", mesh->mNumVertices));
         }
         offset += declaration->addElement(source, offset, VET_FLOAT3, VES_TANGENT).getSize();
     }
@@ -1151,7 +1151,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
         matptr->getTechnique(0)->getPass(0)->setVertexColourTracking(TVC_DIFFUSE);
         if (!mQuietMode)
         {
-            LogManager::getSingleton().logMessage(StringUtil::format("%d colours", mesh->mNumVertices));
+            LogManager::getSingleton().log_message(StringUtil::format("%d colours", mesh->mNumVertices));
         }
         offset += declaration->addElement(source, offset, VET_UBYTE4_NORM, VES_DIFFUSE).getSize();
     }
@@ -1257,7 +1257,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
     if (!mQuietMode)
     {
-        LogManager::getSingleton().logMessage(StringConverter::toString(mesh->mNumFaces) + " faces");
+        LogManager::getSingleton().log_message(StringConverter::toString(mesh->mNumFaces) + " faces");
     }
 
     aiFace* faces = mesh->mFaces;
@@ -1318,7 +1318,7 @@ void AssimpLoader::loadDataFromNode(const aiScene* mScene, const aiNode* pNode, 
             aiMesh* pAIMesh = mScene->mMeshes[pNode->mMeshes[idx]];
             if (!mQuietMode)
             {
-                LogManager::getSingleton().logMessage("SubMesh " + StringConverter::toString(idx) +
+                LogManager::getSingleton().log_message("SubMesh " + StringConverter::toString(idx) +
                                                       " for mesh '" + String(pNode->mName.data) + "'");
             }
 
@@ -1365,7 +1365,7 @@ struct AssimpCodec : public Codec
     {
         String version = StringUtil::format("Assimp - %d.%d.%d - Open-Asset-Importer", aiGetVersionMajor(),
                                             aiGetVersionMinor(), aiGetVersionRevision());
-        LogManager::getSingleton().logMessage(version);
+        LogManager::getSingleton().log_message(version);
 
         String extensions;
         Assimp::Importer tmp;

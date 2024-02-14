@@ -404,7 +404,7 @@ namespace Ogre {
         // Add / replace
         mFactories[elemFactory->getTypeName()] = elemFactory;
 
-        LogManager::getSingleton().logMessage("OverlayElementFactory for type " + elemFactory->getTypeName()
+        LogManager::getSingleton().log_message("OverlayElementFactory for type " + elemFactory->getTypeName()
             + " registered.");
     }
 }

@@ -203,13 +203,13 @@ void DeferredShadingSystem::logCurrentMode(void)
 {
     if (mActive==false)
     {
-        LogManager::getSingleton().logMessage("No Compositor Enabled!");
+        LogManager::getSingleton().log_message("No Compositor Enabled!");
         return;
     }
 
     CompositorInstance* ci = mInstance[mCurrentMode];
     assert(ci->getEnabled()==true);
 
-    LogManager::getSingleton().logMessage("Current Mode: ");
-    LogManager::getSingleton().logMessage(ci->getCompositor()->getName());
+    LogManager::getSingleton().log_message("Current Mode: ");
+    LogManager::getSingleton().log_message(ci->getCompositor()->getName());
 }

@@ -6,9 +6,9 @@
 
 namespace Ogre
 {
-    void AndroidLogListener::messageLogged(const String& message, LogMessageLevel lml, bool maskDebug, const String &logName, bool& skipThisMessage )
+    bool AndroidLogListener::messageLogged(const String& message, LogMsgLevel lml, bool maskDebug, const String &logName, bool& skipThisMessage )
     {
-        if(lml < Ogre::LML_CRITICAL)
+        if(lml < Ogre::LogMsgLevel::CRITICAL)
         {
             LOGI("%s", message.c_str());
         }
@@ -16,5 +16,6 @@ namespace Ogre
         {
             LOGE("%s", message.c_str());
         }
+        return false;
     }
 }

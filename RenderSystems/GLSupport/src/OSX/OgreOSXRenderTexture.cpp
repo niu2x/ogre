@@ -45,7 +45,7 @@ namespace Ogre
 {
     OSXPBuffer::OSXPBuffer( PixelComponentType format, uint32 width, uint32 height ) : GLPBuffer( format, width, height ), mContext( NULL )
     {
-        LogManager::getSingleton().logMessage( "OSXPBuffer::OSXPBuffer()" );
+        LogManager::getSingleton().log_message( "OSXPBuffer::OSXPBuffer()" );
         createPBuffer();
         // Create context
         //mContext = OGRE_NEW OSXCarbonContext(mAGLContext);
@@ -53,20 +53,20 @@ namespace Ogre
     
     OSXPBuffer::~OSXPBuffer()
     {
-        LogManager::getSingleton().logMessage( "OSXPBuffer::~OSXPBuffer()" );
+        LogManager::getSingleton().log_message( "OSXPBuffer::~OSXPBuffer()" );
         OGRE_DELETE mContext;
         destroyPBuffer();
     }
 
     GLContext* OSXPBuffer::getContext() const
     {
-        LogManager::getSingleton().logMessage( "OSXPBuffer::getContext()" );
+        LogManager::getSingleton().log_message( "OSXPBuffer::getContext()" );
         return mContext;
     }
     
     void OSXPBuffer::createPBuffer()
     {
-        LogManager::getSingleton().logMessage( "OSXPBuffer::createPBuffer()" );
+        LogManager::getSingleton().log_message( "OSXPBuffer::createPBuffer()" );
         
         GLint attrib[] = { AGL_NO_RECOVERY, GL_TRUE, AGL_ACCELERATED, GL_TRUE, AGL_RGBA, AGL_NONE };
         AGLPixelFormat pixelFormat = aglChoosePixelFormat(NULL, 0, attrib);
@@ -82,7 +82,7 @@ namespace Ogre
     
     void OSXPBuffer::destroyPBuffer()
     {
-        LogManager::getSingleton().logMessage( "OSXPBuffer::destroyPBuffer()" );
+        LogManager::getSingleton().log_message( "OSXPBuffer::destroyPBuffer()" );
         aglDestroyPBuffer( mPBuffer );
     }
 }

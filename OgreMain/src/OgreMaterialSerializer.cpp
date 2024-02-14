@@ -62,7 +62,7 @@ namespace Ogre
         if (mBuffer.empty())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Queue is empty !", "MaterialSerializer::exportQueued");
 
-        LogManager::getSingleton().logMessage("MaterialSerializer : writing material(s) to material script : " + fileName, LML_NORMAL);
+        LogManager::getSingleton().log_message("MaterialSerializer : writing material(s) to material script : " + fileName, LogMsgLevel::NORMAL);
         FILE *fp;
         fp = fopen(fileName.c_str(), "w");
         if (!fp)
@@ -92,7 +92,7 @@ namespace Ogre
             fclose(locFp);
         }
 
-        LogManager::getSingleton().logMessage("MaterialSerializer : done.", LML_NORMAL);
+        LogManager::getSingleton().log_message("MaterialSerializer : done.", LogMsgLevel::NORMAL);
         clearQueue();
     }
     //-----------------------------------------------------------------------
@@ -131,7 +131,7 @@ namespace Ogre
             outMaterialName = pMat->getName();
         }
 
-        LogManager::getSingleton().logMessage("MaterialSerializer : writing material " + outMaterialName + " to queue.", LML_NORMAL);
+        LogManager::getSingleton().log_message("MaterialSerializer : writing material " + outMaterialName + " to queue.", LogMsgLevel::NORMAL);
 
         bool skipWriting = false;
 
@@ -782,7 +782,7 @@ namespace Ogre
         // Fire post section write event.
         firePassEvent(MSE_POST_WRITE, skipWriting, pPass);
         
-        LogManager::getSingleton().logMessage("MaterialSerializer : done.", LML_NORMAL);
+        LogManager::getSingleton().log_message("MaterialSerializer : done.", LogMsgLevel::NORMAL);
     }
     //-----------------------------------------------------------------------
     String MaterialSerializer::convertFiltering(FilterOptions fo)
@@ -828,7 +828,7 @@ namespace Ogre
         if (skipWriting)        
             return;
     
-        LogManager::getSingleton().logMessage("MaterialSerializer : parsing texture layer.", LML_NORMAL);
+        LogManager::getSingleton().log_message("MaterialSerializer : parsing texture layer.", LogMsgLevel::NORMAL);
         mBuffer += "\n";
         writeAttribute(3, "texture_unit");
         // only write out name if its not equal to the default name

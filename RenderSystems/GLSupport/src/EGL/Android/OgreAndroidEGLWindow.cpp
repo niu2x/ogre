@@ -316,7 +316,7 @@ namespace Ogre {
                 }
                 catch (Exception& e)
                 {
-                    LogManager::getSingleton().logMessage("AndroidEGLWindow::_createInternalResources: setting CSAA failed");
+                    LogManager::getSingleton().log_message("AndroidEGLWindow::_createInternalResources: setting CSAA failed");
                 }
             }
 
@@ -345,7 +345,7 @@ namespace Ogre {
                 }
                 catch (Exception& e)
                 {
-                    LogManager::getSingleton().logMessage("AndroidEGLWindow::_createInternalResources: setting MSAA failed");
+                    LogManager::getSingleton().log_message("AndroidEGLWindow::_createInternalResources: setting MSAA failed");
                 }
             }
 

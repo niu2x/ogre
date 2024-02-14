@@ -177,7 +177,7 @@ namespace Ogre {
 
         // Log a message that the shader compiled successfully.
         if( mCompiled && checkErrors )
-            LogManager::getSingleton().logMessage( "Shader " + mName + " compiled successfully." );
+            LogManager::getSingleton().log_message( "Shader " + mName + " compiled successfully." );
 
         mCompileError = !mCompiled;
 
@@ -420,7 +420,7 @@ namespace Ogre {
     {
         if( mType == GPT_FRAGMENT_PROGRAM && mShaderReflectionPairHint.empty() )
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                         "WARNING: Pixel Shader '" + mName + "' without shader_reflection_pair_hint. "
                         "If this is intentional, use build_parameters_from_reflection false to hide "
                         "this warning.");

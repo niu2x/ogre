@@ -75,7 +75,7 @@ namespace Ogre
         ,mStereoDriver (NULL)
 #endif
     {
-        LogManager::getSingleton().logMessage( "D3D9 : " + getName() + " created." );
+        LogManager::getSingleton().log_message( "D3D9 : " + getName() + " created." );
 
         // update singleton access pointer.
         msD3D9RenderSystem = this;
@@ -286,7 +286,7 @@ namespace Ogre
         mStereoDriver = NULL;
 #endif
 
-        LogManager::getSingleton().logMessage( "D3D9 : " + getName() + " destroyed." );
+        LogManager::getSingleton().log_message( "D3D9 : " + getName() + " destroyed." );
 
         msD3D9RenderSystem = NULL;
     }
@@ -686,7 +686,7 @@ namespace Ogre
     {
         // call superclass method
         RenderSystem::_initialise();
-        LogManager::getSingleton().logMessage( "D3D9 : Subsystem Initialising" );
+        LogManager::getSingleton().log_message( "D3D9 : Subsystem Initialising" );
 
         // Init using current settings
         mActiveD3DDriver = NULL;
@@ -725,9 +725,9 @@ namespace Ogre
         // Create & register HLSL factory       
         mHLSLProgramFactory = OGRE_NEW D3D9HLSLProgramFactory();
         
-        LogManager::getSingleton().logMessage("***************************************");
-        LogManager::getSingleton().logMessage("*** D3D9 : Subsystem Initialised OK ***");
-        LogManager::getSingleton().logMessage("***************************************");
+        LogManager::getSingleton().log_message("***************************************");
+        LogManager::getSingleton().log_message("*** D3D9 : Subsystem Initialised OK ***");
+        LogManager::getSingleton().log_message("***************************************");
     }
     //---------------------------------------------------------------------
     void D3D9RenderSystem::shutdown()
@@ -747,7 +747,7 @@ namespace Ogre
         }               
         mActiveD3DDriver = NULL;    
                         
-        LogManager::getSingleton().logMessage("D3D9 : Shutting down cleanly.");
+        LogManager::getSingleton().log_message("D3D9 : Shutting down cleanly.");
         
         if (mTextureManager != NULL)
         {
@@ -3644,7 +3644,7 @@ namespace Ogre
         StringStream ss;
 
         ss << "D3D9 Device 0x[" << device->getD3D9Device() << "] entered lost state";
-        LogManager::getSingleton().logMessage(ss.str());
+        LogManager::getSingleton().log_message(ss.str());
 
         fireDeviceEvent(device, "DeviceLost");
 
@@ -3674,10 +3674,10 @@ namespace Ogre
         for (size_t i = 0; i < OGRE_MAX_TEXTURE_LAYERS; ++i)
             _setTexture(i, false, TexturePtr());
 
-        LogManager::getSingleton().logMessage("!!! Direct3D Device successfully restored.");
+        LogManager::getSingleton().log_message("!!! Direct3D Device successfully restored.");
 
         ss << "D3D9 device: 0x[" << device->getD3D9Device() << "] was reset";
-        LogManager::getSingleton().logMessage(ss.str());
+        LogManager::getSingleton().log_message(ss.str());
 
         fireDeviceEvent(device, "DeviceRestored");
 

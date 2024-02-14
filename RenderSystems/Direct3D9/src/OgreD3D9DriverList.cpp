@@ -46,7 +46,7 @@ namespace Ogre
     {
         IDirect3D9* lpD3D9 = D3D9RenderSystem::getDirect3D9();
 
-        LogManager::getSingleton().logMessage( "D3D9: Driver Detection Starts" );
+        LogManager::getSingleton().log_message( "D3D9: Driver Detection Starts" );
         for( UINT iAdapter=0; iAdapter < lpD3D9->GetAdapterCount(); ++iAdapter )
         {
             D3DADAPTER_IDENTIFIER9 adapterIdentifier;
@@ -60,7 +60,7 @@ namespace Ogre
             mDriverList.push_back( D3D9Driver( iAdapter, d3dcaps9, adapterIdentifier, d3ddm ) );
         }
 
-        LogManager::getSingleton().logMessage( "D3D9: Driver Detection Ends" );
+        LogManager::getSingleton().log_message( "D3D9: Driver Detection Ends" );
 
         return TRUE;
     }

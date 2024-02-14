@@ -131,7 +131,7 @@ namespace Ogre
             deviceIdsStr = "0";
         }
 
-        LogManager::getSingleton().logMessage( "[Vulkan] Selecting device #" + deviceIdsStr );
+        LogManager::getSingleton().log_message( "[Vulkan] Selecting device #" + deviceIdsStr );
 
         FastArray<VkPhysicalDevice> pd(numDevices);
         OGRE_VK_CHECK(vkEnumeratePhysicalDevices(mInstance, &numDevices, pd.data()));

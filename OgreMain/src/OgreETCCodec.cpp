@@ -103,7 +103,7 @@ namespace Ogre {
             Codec::registerCodec(msKTXInstance);
         }
 
-        LogManager::getSingleton().logMessage(LML_NORMAL,
+        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL,
                                               "ETC codec registering");
     }
     //---------------------------------------------------------------------

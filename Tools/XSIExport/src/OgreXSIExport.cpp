@@ -142,7 +142,7 @@ CStatus XSILoadPlugin( XSI::PluginRegistrar& registrar )
 
 #ifdef _DEBUG
     Application app;
-    app.LogMessage( registrar.GetName() + L" has been loaded.");
+    app.log_message( registrar.GetName() + L" has been loaded.");
 #endif
 
     return XSI::CStatus::OK;    
@@ -156,7 +156,7 @@ XSI::CStatus XSIUnloadPlugin( const XSI::PluginRegistrar& registrar )
 {
 #ifdef _DEBUG
     Application app;
-    app.LogMessage(registrar.GetName() + L" has been unloaded.");
+    app.log_message(registrar.GetName() + L" has been unloaded.");
 #endif
 
     return XSI::CStatus::OK;
@@ -172,7 +172,7 @@ XSI::CStatus OgreMeshExportCommand_Init( const XSI::CRef& context )
     Command cmd(ctx.GetSource());
 
     Application app;
-    app.LogMessage( L"Defining: " + cmd.GetName() );
+    app.log_message( L"Defining: " + cmd.GetName() );
 
     ArgumentArray args = cmd.GetArguments();
 
@@ -218,7 +218,7 @@ XSI::CStatus OgreMeshExportCommand_Execute( XSI::CRef& in_context )
 #ifdef _DEBUG
     for (long i=0; i<args.GetCount(); i++)
     {
-        app.LogMessage( L"Arg" + CValue(i).GetAsText() + L": " + 
+        app.log_message( L"Arg" + CValue(i).GetAsText() + L": " + 
             args[i].GetAsText() );          
     }
 #endif
@@ -428,8 +428,8 @@ XSI::CStatus OgreMeshExportCommand_Execute( XSI::CRef& in_context )
     {
         // Will already have been logged to the Ogre log manager
         // Tell XSI
-        app.LogMessage(OgretoXSI(e.getDescription()), XSI::siFatalMsg);
-        app.LogMessage(OgretoXSI(e.getFullDescription()), XSI::siInfoMsg);
+        app.log_message(OgretoXSI(e.getDescription()), XSI::siFatalMsg);
+        app.log_message(OgretoXSI(e.getFullDescription()), XSI::siInfoMsg);
     }
 
     return st;  
@@ -716,8 +716,8 @@ XSI::CStatus OnOgreMeshExportMenu( XSI::CRef& in_ref )
     {
         // Will already have been logged to the Ogre log manager
         // Tell XSI
-        app.LogMessage(OgretoXSI(e.getDescription()), XSI::siFatalMsg);
-        app.LogMessage(OgretoXSI(e.getFullDescription()), XSI::siInfoMsg);
+        app.log_message(OgretoXSI(e.getDescription()), XSI::siFatalMsg);
+        app.log_message(OgretoXSI(e.getFullDescription()), XSI::siInfoMsg);
     }
 
     //DeleteObj( L"OgreMeshExportOptions" );

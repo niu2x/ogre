@@ -177,7 +177,7 @@ void Sample_Compositor::registerCompositors(void)
             Ogre::CompositorManager::getSingleton().setCompositorEnabled(vp, compositorName, false);
         } catch (Ogre::Exception& e) {
             /// Warn user
-            LogManager::getSingleton().logMessage(e.getDescription(), LML_CRITICAL);
+            LogManager::getSingleton().log_message(e.getDescription(), LogMsgLevel::CRITICAL);
         }
     }
 

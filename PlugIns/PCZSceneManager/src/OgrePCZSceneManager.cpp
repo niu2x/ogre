@@ -1031,7 +1031,7 @@ namespace Ogre
                             if (portal2)
                             {
                                 // found a match!
-                                Ogre::LogManager::getSingletonPtr()->logMessage("Connecting portal "+portal->getName()+" to portal "+portal2->getName());
+                                Ogre::LogManager::getSingletonPtr()->log_message("Connecting portal "+portal->getName()+" to portal "+portal2->getName());
                                 foundMatch = true;
                                 portal->setTargetZone(zone2);
                                 portal->setTargetPortal(portal2);

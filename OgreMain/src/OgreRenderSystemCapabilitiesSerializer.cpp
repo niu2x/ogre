@@ -202,7 +202,7 @@ namespace Ogre
                             // RSCManager is responsible for deleting mCurrentCapabilities
                             RenderSystemCapabilitiesManager::getSingleton()._addRenderSystemCapabilities(rscName, mCurrentCapabilities);
 
-                            LogManager::getSingleton().logMessage("Created RenderSystemCapabilities" + rscName);
+                            LogManager::getSingleton().log_message("Created RenderSystemCapabilities" + rscName);
 
                             // do next action
                             parseAction = FIND_OPEN_BRACE;
@@ -458,13 +458,13 @@ namespace Ogre
         // log the line with error in it if the current line is available
         if (mCurrentLine != 0 && mCurrentStream)
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Error in .rendercaps " + mCurrentStream->name() + ":" + StringConverter::toString(mCurrentLineNumber) +
                 " : " + error);
         }
         else if (mCurrentStream)
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Error in .rendercaps " + mCurrentStream->name() +
                 " : " + error);
         }

@@ -670,54 +670,54 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void PlatformInformation::log(Log* pLog)
     {
-        pLog->logMessage("CPU Identifier & Features");
-        pLog->logMessage("-------------------------");
-        pLog->logMessage(
+        pLog->log_message("CPU Identifier & Features");
+        pLog->log_message("-------------------------");
+        pLog->log_message(
             " *   CPU ID: " + getCpuIdentifier());
 #if OGRE_CPU == OGRE_CPU_X86
         if(_isSupportCpuid())
         {
-            pLog->logMessage(
+            pLog->log_message(
                 " *          SSE: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_SSE), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *         SSE2: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_SSE2), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *         SSE3: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_SSE3), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *        SSE41: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_SSE41), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *        SSE42: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_SSE42), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *          MMX: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_MMX), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *       MMXEXT: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_MMXEXT), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *        3DNOW: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_3DNOW), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *     3DNOWEXT: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_3DNOWEXT), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *         CMOV: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_CMOV), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *          TSC: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_TSC), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *INVARIANT TSC: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_INVARIANT_TSC), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *          FPU: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_FPU), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *          PRO: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_PRO), true));
-            pLog->logMessage(
+            pLog->log_message(
                 " *           HT: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_HTT), true));
         }
 #elif OGRE_CPU == OGRE_CPU_ARM || OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-        pLog->logMessage(
+        pLog->log_message(
                 " *          VFP: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_VFP), true));
-        pLog->logMessage(
+        pLog->log_message(
                 " *         NEON: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_NEON), true));
 #elif OGRE_CPU == OGRE_CPU_MIPS
-        pLog->logMessage(
+        pLog->log_message(
                 " *          MSA: " + StringConverter::toString(hasCpuFeature(CPU_FEATURE_MSA), true));
 #endif
-        pLog->logMessage("-------------------------");
+        pLog->log_message("-------------------------");
 
     }
 

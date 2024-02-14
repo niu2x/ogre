@@ -122,7 +122,7 @@ namespace Ogre {
 #else
         task(); // no threading, just run it
 #endif
-        LogManager::getSingleton().stream(LML_TRIVIAL)
+        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
             << "DefaultWorkQueueBase('" << mName << "') - QUEUED(thread:" << OGRE_THREAD_CURRENT_ID << ")";
     }
     //---------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace Ogre {
             OGRE_WQ_LOCK_MUTEX(mRequestMutex);
             if (mTasks.empty())
                 return;
-            LogManager::getSingleton().stream(LML_TRIVIAL)
+            LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
                 << "DefaultWorkQueueBase('" << mName << "') - PROCESS_TASK(thread:" << OGRE_THREAD_CURRENT_ID
                 << ")";
             task = std::move(mTasks.front());
@@ -178,7 +178,7 @@ namespace Ogre {
             std::function<void()> task;
             {
                 OGRE_WQ_LOCK_MUTEX(mResponseMutex);
-                LogManager::getSingleton().stream(LML_TRIVIAL)
+                LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
                     << "DefaultWorkQueueBase('" << mName << "') - PROCESS_MAIN_TASK";
                 task = std::move(mMainThreadTasks.front());
                 mMainThreadTasks.pop_front();

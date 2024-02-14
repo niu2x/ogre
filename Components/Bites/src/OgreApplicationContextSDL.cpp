@@ -36,7 +36,7 @@ NativeWindowPair ApplicationContextSDL::createWindow(const Ogre::String& name, O
 
     if(!SDL_WasInit(SDL_INIT_VIDEO)) {
         if(SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt") > 0)
-            Ogre::LogManager::getSingleton().logMessage("[SDL] gamecontrollerdb.txt loaded");
+            Ogre::LogManager::getSingleton().log_message("[SDL] gamecontrollerdb.txt loaded");
 
         SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
     }
@@ -160,7 +160,7 @@ void ApplicationContextSDL::pollEvents()
             if(!SDL_IsGameController(event.cdevice.which))
             {
                 SDL_JoystickOpen(event.cdevice.which);
-                Ogre::LogManager::getSingleton().logMessage("Opened Joystick");
+                Ogre::LogManager::getSingleton().log_message("Opened Joystick");
             }
             break;
         case SDL_CONTROLLERDEVICEADDED:

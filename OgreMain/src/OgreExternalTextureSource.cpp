@@ -204,7 +204,7 @@ namespace Ogre
         }
         else
         {
-            LogManager::getSingleton().logMessage("Texture controller had problems extracting technique, pass, and state level... Default to 0, 0, 0", LML_CRITICAL);
+            LogManager::getSingleton().log_message("Texture controller had problems extracting technique, pass, and state level... Default to 0, 0, 0", LogMsgLevel::CRITICAL);
             t = p = s = 0;
         }
 

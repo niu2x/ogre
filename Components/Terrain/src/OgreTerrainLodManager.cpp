@@ -155,7 +155,7 @@ namespace Ogre
         }
         else
         {
-            LogManager::getSingleton().stream(LML_CRITICAL) << "Failed to prepare and load terrain LOD: " << res->getMessages();
+            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) << "Failed to prepare and load terrain LOD: " << res->getMessages();
         }
     }
     void TerrainLodManager::buildLodInfoTable()

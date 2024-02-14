@@ -110,7 +110,7 @@ namespace Ogre {
 
         // Initialise GL3W
         if (gleswInit())
-            LogManager::getSingleton().logMessage("Failed to initialize GL3W");
+            LogManager::getSingleton().log_message("Failed to initialize GL3W");
     }
 #endif
 

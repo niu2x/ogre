@@ -127,8 +127,8 @@ void ATI_FS_GLGpuProgram::loadFromSource(void)
         char buff[50];
         sprintf(buff,"error on line %d in pixel shader source\n", PS1_4Assembler.mCurrentLine);
 
-        LogManager::getSingleton().logMessage("Warning: atifs compiler reported the following errors:");
-        LogManager::getSingleton().logMessage(buff + mName);
+        LogManager::getSingleton().log_message("Warning: atifs compiler reported the following errors:");
+        LogManager::getSingleton().log_message(buff + mName);
 
         OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, 
             "Cannot Compile ATI fragment shader : " + mName + "\n\n" + buff , mName);// + 

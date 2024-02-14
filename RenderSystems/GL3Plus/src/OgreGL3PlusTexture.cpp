@@ -157,7 +157,7 @@ namespace Ogre {
                 // << " Internal Format: 0x" << std::hex << format
                 // << " Origin Format: 0x" << std::hex << GL3PlusPixelUtil::getGLOriginFormat(mFormat)
                 // << " Data type: 0x" << std::hex << datatype;
-                // LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+                // LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 
                 switch(mTextureType)
                 {
@@ -249,7 +249,7 @@ namespace Ogre {
                     //                    << " Internal Format: 0x" << std::hex << format
                     //                    << " Origin Format: 0x" << std::hex << GL3PlusPixelUtil::getGLOriginFormat(mFormat)
                     //                    << " Data type: 0x" << std::hex << datatype;
-                    //                    LogManager::getSingleton().logMessage(LML_NORMAL, str.str());
+                    //                    LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
 
                     // Normal formats
                     switch(mTextureType)

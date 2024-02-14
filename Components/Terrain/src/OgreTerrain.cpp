@@ -1010,7 +1010,7 @@ namespace Ogre
         */
 
         LogManager& logMgr = LogManager::getSingleton();
-        logMgr.stream(LML_TRIVIAL) << "Terrain::distributeVertexData processing source "
+        logMgr.stream(LogMsgLevel::TRIVIAL) << "Terrain::distributeVertexData processing source "
             "terrain size of " << mSize;
 
         uint16 depth = mTreeDepth;
@@ -1023,7 +1023,7 @@ namespace Ogre
             uint splits = 1 << depth;
             if (splits == targetSplits)
             {
-                logMgr.stream(LML_TRIVIAL) << "  Assigning vertex data, resolution="
+                logMgr.stream(LogMsgLevel::TRIVIAL) << "  Assigning vertex data, resolution="
                     << bakedresolution << " startDepth=" << depth << " endDepth=" << prevdepth
                     << " splits=" << splits;
                 // vertex data goes at this level, at bakedresolution
@@ -1048,12 +1048,12 @@ namespace Ogre
         if (prevdepth > 0)
         {
             mQuadTree->assignVertexData(0, 1, bakedresolution, bakedresolution);
-            logMgr.stream(LML_TRIVIAL) << "  Assigning vertex data, resolution: "
+            logMgr.stream(LogMsgLevel::TRIVIAL) << "  Assigning vertex data, resolution: "
                 << bakedresolution << " startDepth=0 endDepth=1 splits=1";
 
         }
 
-        logMgr.stream(LML_TRIVIAL) << "Terrain::distributeVertexData finished";
+        logMgr.stream(LogMsgLevel::TRIVIAL) << "Terrain::distributeVertexData finished";
 
     }
     //---------------------------------------------------------------------
@@ -2928,7 +2928,7 @@ namespace Ogre
                 ->getCapabilities()->hasCapability(RSC_NON_POWER_OF_2_TEXTURES))
             {
                 mNormalMapRequired = false;
-                LogManager::getSingleton().stream(LML_CRITICAL) <<
+                LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) <<
                     "Terrain: Ignoring request for normal map generation since "
                     "non-power-of-two texture support is required.";
             }

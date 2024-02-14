@@ -134,7 +134,7 @@ namespace Ogre
 		, surfaceContentLostToken()
 #endif
     {
-        LogManager::getSingleton().logMessage( "D3D11: " + getName() + " created." );
+        LogManager::getSingleton().log_message( "D3D11: " + getName() + " created." );
 
         mRenderSystemWasInited = false;
         mSwitchingFullscreenCounter = 0;
@@ -167,14 +167,14 @@ namespace Ogre
 			ref new Windows::Foundation::TypedEventHandler<Windows::Graphics::Display::DisplayInformation^, Platform::Object^>(
 				[this](Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ arg)
 		{
-			LogManager::getSingleton().logMessage("D3D11: DisplayContentsInvalidated.");
+			LogManager::getSingleton().log_message("D3D11: DisplayContentsInvalidated.");
 			validateDevice(true);
 		}));
 #else // Win 8.0
 		surfaceContentLostToken = (Windows::Graphics::Display::DisplayProperties::DisplayContentsInvalidated +=
 			ref new Windows::Graphics::Display::DisplayPropertiesEventHandler([this](Platform::Object ^sender)
 		{
-			LogManager::getSingleton().logMessage("D3D11: DisplayContentsInvalidated.");
+			LogManager::getSingleton().log_message("D3D11: DisplayContentsInvalidated.");
 			validateDevice(true);
 		}));
 #endif
@@ -210,7 +210,7 @@ namespace Ogre
         OGRE_DELETE stereoBridge;
 #endif
 
-        LogManager::getSingleton().logMessage( "D3D11: " + getName() + " destroyed." );
+        LogManager::getSingleton().log_message( "D3D11: " + getName() + " destroyed." );
     }
     //---------------------------------------------------------------------
     const String& D3D11RenderSystem::getName() const
@@ -306,7 +306,7 @@ namespace Ogre
 		{
 			StringStream error;
 			error << "Failed to create Direct3D11 device with debug layer (" << hr << ")\nRetrying without debug layer.";
-			Ogre::LogManager::getSingleton().logMessage(error.str());
+			Ogre::LogManager::getSingleton().log_message(error.str());
 
 			// create device - second attempt, without debug layer
 			deviceFlags &= ~D3D11_CREATE_DEVICE_DEBUG;
@@ -631,10 +631,10 @@ namespace Ogre
         // call superclass method
         RenderSystem::_initialise();
 
-        LogManager::getSingleton().logMessage( "D3D11: Subsystem Initialising" );
+        LogManager::getSingleton().log_message( "D3D11: Subsystem Initialising" );
 
 		if(IsWorkingUnderNsight())
-			LogManager::getSingleton().logMessage( "D3D11: Nvidia Nsight found");
+			LogManager::getSingleton().log_message( "D3D11: Nvidia Nsight found");
 
         // Init using current settings
         ConfigOptionMap::iterator opt = mOptions.find( "Rendering Device" );
@@ -662,9 +662,9 @@ namespace Ogre
         // create the device for the selected adapter
         createDevice();
 
-        LogManager::getSingleton().logMessage("***************************************");
-        LogManager::getSingleton().logMessage("*** D3D11: Subsystem Initialized OK ***");
-        LogManager::getSingleton().logMessage("***************************************");
+        LogManager::getSingleton().log_message("***************************************");
+        LogManager::getSingleton().log_message("*** D3D11: Subsystem Initialized OK ***");
+        LogManager::getSingleton().log_message("***************************************");
 
         this->fireDeviceEvent(&mDevice, "DeviceCreated");
     }
@@ -680,7 +680,7 @@ namespace Ogre
         SAFE_DELETE( mDriverList );
         mActiveD3DDriver = D3D11Driver();
         mDevice.ReleaseAll();
-        LogManager::getSingleton().logMessage("D3D11: Shutting down cleanly.");
+        LogManager::getSingleton().log_message("D3D11: Shutting down cleanly.");
         SAFE_DELETE( mTextureManager );
         SAFE_DELETE( mHardwareBufferManager );
     }
@@ -1289,7 +1289,7 @@ namespace Ogre
         if(D3D11Driver* nvPerfHudDriver = (mDriverType == D3D_DRIVER_TYPE_HARDWARE && mUseNVPerfHUD) ? getDirect3DDrivers()->item("NVIDIA PerfHUD") : NULL)
         {
             d3dDriver = nvPerfHudDriver;
-            LogManager::getSingleton().logMessage("D3D11: Actually \"NVIDIA PerfHUD\" is used");
+            LogManager::getSingleton().log_message("D3D11: Actually \"NVIDIA PerfHUD\" is used");
         }
 
         ID3D11DeviceN * device = createD3D11Device(d3dDriver, mDriverType, mMinRequestedFeatureLevel, mMaxRequestedFeatureLevel, &mFeatureLevel);
@@ -1307,7 +1307,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void D3D11RenderSystem::handleDeviceLost()
     {
-        LogManager::getSingleton().logMessage("D3D11: Device was lost, recreating.");
+        LogManager::getSingleton().log_message("D3D11: Device was lost, recreating.");
 
         // release device depended resources
         fireDeviceEvent(&mDevice, "DeviceLost");
@@ -1341,7 +1341,7 @@ namespace Ogre
 
         fireDeviceEvent(&mDevice, "DeviceRestored");
 
-        LogManager::getSingleton().logMessage("D3D11: Device was restored.");
+        LogManager::getSingleton().log_message("D3D11: Device was restored.");
     }
     //---------------------------------------------------------------------
     void D3D11RenderSystem::validateDevice(bool forceDeviceElection)
@@ -1379,7 +1379,7 @@ namespace Ogre
         catch(const D3D11RenderingAPIException& e)
         {
             if(e.getHResult() == DXGI_ERROR_DEVICE_REMOVED || e.getHResult() == DXGI_ERROR_DEVICE_RESET)
-                LogManager::getSingleton().logMessage("D3D11: Device was lost while rendering.");
+                LogManager::getSingleton().log_message("D3D11: Device was lost while rendering.");
             else
                 throw;
         }
@@ -1394,7 +1394,7 @@ namespace Ogre
         catch(const D3D11RenderingAPIException& e)
         {
             if(e.getHResult() == DXGI_ERROR_DEVICE_REMOVED || e.getHResult() == DXGI_ERROR_DEVICE_RESET)
-                LogManager::getSingleton().logMessage("D3D11: Device was lost while rendering.");
+                LogManager::getSingleton().log_message("D3D11: Device was lost while rendering.");
             else
                 throw;
         }

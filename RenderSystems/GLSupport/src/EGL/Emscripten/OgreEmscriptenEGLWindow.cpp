@@ -85,7 +85,7 @@ namespace Ogre {
         }
         
         
-        LogManager::getSingleton().logMessage("EmscriptenEGLWindow::resize "+mCanvasSelector+" w:" + Ogre::StringConverter::toString(mWidth) + " h:" + Ogre::StringConverter::toString(mHeight));
+        LogManager::getSingleton().log_message("EmscriptenEGLWindow::resize "+mCanvasSelector+" w:" + Ogre::StringConverter::toString(mWidth) + " h:" + Ogre::StringConverter::toString(mHeight));
         
         // Notify viewports of resize
         ViewportList::iterator it = mViewportList.begin();
@@ -307,7 +307,7 @@ namespace Ogre {
             }
             catch (Exception& e)
             {
-                LogManager::getSingleton().logMessage("EmscriptenEGLWindow::_createInternalResources: setting CSAA failed");
+                LogManager::getSingleton().log_message("EmscriptenEGLWindow::_createInternalResources: setting CSAA failed");
             }
         }
 
@@ -337,7 +337,7 @@ namespace Ogre {
             }
             catch (Exception& e)
             {
-                LogManager::getSingleton().logMessage("EmscriptenEGLWindow::_createInternalResources: setting MSAA failed");
+                LogManager::getSingleton().log_message("EmscriptenEGLWindow::_createInternalResources: setting MSAA failed");
             }
         }
         

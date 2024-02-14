@@ -175,7 +175,7 @@ namespace Ogre
         catch (const Exception& e)
         {
             // will already have been logged
-            LogManager::getSingleton().stream(LML_CRITICAL)
+            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
                 << "Program '" << mName << "' is not supported: " << e.getDescription();
 
             mCompileError = true;
@@ -199,7 +199,7 @@ namespace Ogre
         catch (const Exception& e)
         {
             // will already have been logged
-            LogManager::getSingleton().stream(LML_CRITICAL)
+            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
                 << "Program '" << mName << "' is not supported: " << e.getDescription();
 
             mCompileError = true;

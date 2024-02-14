@@ -65,8 +65,8 @@ int MilkshapePlugin::Execute (msModel* pModel)
 
     Ogre::LogManager logMgr;
     logMgr.createLog("msOgreExporter.log", true);
-    logMgr.logMessage("OGRE Milkshape Exporter Log");
-    logMgr.logMessage("---------------------------");
+    logMgr.log_message("OGRE Milkshape Exporter Log");
+    logMgr.log_message("---------------------------");
     Ogre::ResourceGroupManager resGrpMgr;
 
     //
@@ -326,10 +326,10 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     if (!::GetSaveFileName (&ofn))
         return /*0*/;
 
-    logMgr.logMessage("Creating Mesh object...");
+    logMgr.log_message("Creating Mesh object...");
     Ogre::MeshPtr ogreMesh = Ogre::MeshManager::getSingleton().create("export", 
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    logMgr.logMessage("Mesh object created.");
+    logMgr.log_message("Mesh object created.");
 
     bool foundBoneAssignment = false;
 
@@ -345,29 +345,29 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     {
         msMesh *pMesh = msModel_GetMeshAt (pModel, i);
 
-        logMgr.logMessage("Creating SubMesh object...");
+        logMgr.log_message("Creating SubMesh object...");
         Ogre::SubMesh* ogreSubMesh = ogreMesh->createSubMesh();
-        logMgr.logMessage("SubMesh object created.");
+        logMgr.log_message("SubMesh object created.");
         // Set material
-        logMgr.logMessage("Getting SubMesh Material...");
+        logMgr.log_message("Getting SubMesh Material...");
         int matIdx = msMesh_GetMaterialIndex(pMesh);
 
         if (matIdx == -1)
         {
             // No material, use blank
             ogreSubMesh->setMaterialName("BaseWhite");
-            logMgr.logMessage("No Material, using default 'BaseWhite'.");
+            logMgr.log_message("No Material, using default 'BaseWhite'.");
         }
         else
         {
 
             msMaterial *pMat = msModel_GetMaterialAt(pModel, matIdx);
             ogreSubMesh->setMaterialName(pMat->szName);
-            logMgr.logMessage("SubMesh Material Done.");
+            logMgr.log_message("SubMesh Material Done.");
         }
 
 
-        logMgr.logMessage("Setting up geometry...");
+        logMgr.log_message("Setting up geometry...");
         // Set up mesh geometry
         ogreSubMesh->vertexData = new Ogre::VertexData();
         ogreSubMesh->vertexData->vertexCount = msMesh_GetVertexCount (pMesh);
@@ -400,10 +400,10 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
         float* pPos = static_cast<float*>(
             pbuf->lock(Ogre::HardwareBuffer::HBL_DISCARD));
 
-        logMgr.logMessage("Doing positions and texture coords...");
+        logMgr.log_message("Doing positions and texture coords...");
         for (j = 0; j < ogreSubMesh->vertexData->vertexCount; ++j)
         {
-            logMgr.logMessage("Doing vertex " + Ogre::StringConverter::toString(j));
+            logMgr.log_message("Doing vertex " + Ogre::StringConverter::toString(j));
             msVertex *pVertex = msMesh_GetVertexAt (pMesh, (int)j);
             msVertexEx *pVertexEx=msMesh_GetVertexExAt(pMesh, (int)j);
             msVec3 Vertex;
@@ -488,7 +488,7 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
 
         float* pTex = static_cast<float*>(
             tbuf->lock(Ogre::HardwareBuffer::HBL_DISCARD));
-        logMgr.logMessage("Doing uvs, normals and indexes (v2)...");
+        logMgr.log_message("Doing uvs, normals and indexes (v2)...");
 
         // Aargh, Milkshape uses stupid separate normal indexes for the same vertex like 3DS
         // Normals aren't described per vertex but per triangle vertex index
@@ -546,7 +546,7 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
         ogreSubMesh->vertexData->reorganiseBuffers(newDecl, bufferUsages);
 
 
-        logMgr.logMessage("Geometry done.");
+        logMgr.log_message("Geometry done.");
     } // SubMesh
 
     // Set bounds
@@ -573,9 +573,9 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     }
 
     // Export
-    logMgr.logMessage("Creating MeshSerializer..");
+    logMgr.log_message("Creating MeshSerializer..");
     Ogre::MeshSerializer serializer;
-    logMgr.logMessage("MeshSerializer created.");
+    logMgr.log_message("MeshSerializer created.");
 
     // Generate LODs if required
     if (generateLods)
@@ -607,9 +607,9 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     // Export
     Ogre::String msg;
     msg  = "Exporting mesh data to file '" + Ogre::String(szFile) + "'";
-    logMgr.logMessage(msg);
+    logMgr.log_message(msg);
     serializer.exportMesh(ogreMesh.get(), szFile);
-    logMgr.logMessage("Export successful");
+    logMgr.log_message("Export successful");
 
     Ogre::MeshManager::getSingleton().remove(ogreMesh->getHandle());
     if (pSkel)
@@ -659,17 +659,17 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
     skelName = skelName.substr(lastSlash+1);
 
     // Set up
-    logMgr.logMessage("Trying to create Skeleton object");
+    logMgr.log_message("Trying to create Skeleton object");
     Ogre::SkeletonPtr ogreskel = Ogre::SkeletonManager::getSingleton().create(skelName, 
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    logMgr.logMessage("Skeleton object created");
+    logMgr.log_message("Skeleton object created");
 
     // Complete the details
 
     // Do the bones
     int numBones = msModel_GetBoneCount(pModel);
     msg = "Number of bones: " + Ogre::StringConverter::toString(numBones);
-    logMgr.logMessage(msg);
+    logMgr.log_message(msg);
 
     int i;
     // Create all the bones in turn
@@ -707,7 +707,7 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
 
     }
     // Now we've created all the bones, link them up
-    logMgr.logMessage("Establishing bone hierarchy..");
+    logMgr.log_message("Establishing bone hierarchy..");
     for (i = 0; i < numBones; ++i)
     {
         msBone* bone = msModel_GetBoneAt(pModel, i);
@@ -717,7 +717,7 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
             // Root bone
             msg = "Root bone detected: Name='" + Ogre::String(bone->szName) + "' Index=" 
                 + Ogre::StringConverter::toString(i);
-            logMgr.logMessage(msg);
+            logMgr.log_message(msg);
         }
         else
         {
@@ -728,14 +728,14 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
             {
                 msg = "Error: could not locate child bone '" +
                     Ogre::String(bone->szName) + "'";
-                logMgr.logMessage(msg);
+                logMgr.log_message(msg);
                 continue;
             }
             if (ogreparent == 0)
             {
                 msg = "Error: could not locate parent bone '"
                     + Ogre::String(bone->szParentName) + "'";
-                logMgr.logMessage(msg);
+                logMgr.log_message(msg);
                 continue;
             }
             // Make child
@@ -744,7 +744,7 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
 
 
     }
-    logMgr.logMessage("Bone hierarchy established.");
+    logMgr.log_message("Bone hierarchy established.");
 
     // Create the Animation(s)
     doExportAnimations(pModel, ogreskel);
@@ -754,13 +754,13 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
     // Create skeleton serializer & export
     Ogre::SkeletonSerializer serializer;
     msg = "Exporting skeleton to " + Ogre::String(szFile);
-    logMgr.logMessage(msg);
+    logMgr.log_message(msg);
     serializer.exportSkeleton(ogreskel.get(), szFile);
-    logMgr.logMessage("Skeleton exported");
+    logMgr.log_message("Skeleton exported");
 
 
     msg = "Linking mesh to skeleton file '" + skelName + "'";
-    Ogre::LogManager::getSingleton().logMessage(msg);
+    Ogre::LogManager::getSingleton().log_message(msg);
 
     mesh->_notifySkeleton(ogreskel);
 
@@ -802,12 +802,12 @@ bool MilkshapePlugin::locateSkeleton(Ogre::MeshPtr& mesh)
     skelName = skelName.substr(lastSlash+1);
 
     Ogre::String msg = "Linking mesh to skeleton file '" + skelName + "'";
-    Ogre::LogManager::getSingleton().logMessage(msg);
+    Ogre::LogManager::getSingleton().log_message(msg);
 
     // Create a dummy skeleton for Mesh to link to (saves it trying to load it)
     Ogre::SkeletonPtr pSkel = Ogre::SkeletonManager::getSingleton().create(skelName, 
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    Ogre::LogManager::getSingleton().logMessage("Dummy Skeleton object created for link.");
+    Ogre::LogManager::getSingleton().log_message("Dummy Skeleton object created for link.");
 
     mesh->_notifySkeleton(pSkel);
 
@@ -832,7 +832,7 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
 
     int numMaterials = msModel_GetMaterialCount(pModel);
     msg = "Number of materials: " + Ogre::StringConverter::toString(numMaterials);
-    logMgr.logMessage(msg);
+    logMgr.log_message(msg);
 
     OPENFILENAME ofn;
     memset (&ofn, 0, sizeof (OPENFILENAME));
@@ -863,7 +863,7 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
     matName = matName.substr(lastSlash+1);
 
     // Set up
-    logMgr.logMessage("Trying to create Material object");
+    logMgr.log_message("Trying to create Material object");
 
     Ogre::MaterialSerializer matSer;
 
@@ -872,10 +872,10 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
         msMaterial *mat = msModel_GetMaterialAt(pModel, i);
 
         msg = "Creating material " + Ogre::String(mat->szName);
-        logMgr.logMessage(msg);
+        logMgr.log_message(msg);
         Ogre::MaterialPtr ogremat = matMgrSgl.create(mat->szName, 
             Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        logMgr.logMessage("Created.");
+        logMgr.log_message("Created.");
 
         ogremat->setAmbient(msVec4ToColourValue(mat->Ambient));
         ogremat->setDiffuse(msVec4ToColourValue(mat->Diffuse));
@@ -893,7 +893,7 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
     }
 
     msg = "Exporting materials to " + matName;
-    logMgr.logMessage(msg);
+    logMgr.log_message(msg);
     matSer.exportQueued(matName);
 }
 
@@ -917,7 +917,7 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
 
     int numFrames = msModel_GetTotalFrames(pModel);
     msg = "Number of frames: " + Ogre::StringConverter::toString(numFrames);
-    logMgr.logMessage(msg);
+    logMgr.log_message(msg);
 
     if (splitAnimations)
     {
@@ -1044,7 +1044,7 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
 
         Ogre::Animation *ogreanim =
             ogreskel->createAnimation(currSplit.name, realTime);
-        logMgr.logMessage("Animation object created.");
+        logMgr.log_message("Animation object created.");
 
         int i;
         // Create all the animation tracks
@@ -1056,10 +1056,10 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
 
             // Create animation tracks
             msg = "Creating AnimationTrack for bone " + Ogre::StringConverter::toString(i);
-            logMgr.logMessage(msg);
+            logMgr.log_message(msg);
 
             Ogre::NodeAnimationTrack *ogretrack = ogreanim->createNodeTrack(i, ogrebone);
-            logMgr.logMessage("Animation track created.");
+            logMgr.log_message("Animation track created.");
 
             // OGRE uses keyframes which are both position and rotation
             // Milkshape separates them, but never seems to use the ability to
@@ -1068,7 +1068,7 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
             int numKeys = msBone_GetRotationKeyCount(bone);
 
             msg = "Number of keyframes: " + Ogre::StringConverter::toString(numKeys);
-            logMgr.logMessage(msg);
+            logMgr.log_message(msg);
 
             int currKeyIdx;
             msPositionKey* currPosKey;
@@ -1084,13 +1084,13 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
 
                     msg = "Creating KeyFrame #" + Ogre::StringConverter::toString(currKeyIdx)
                         + " for bone #" + Ogre::StringConverter::toString(i);
-                    logMgr.logMessage(msg);
+                    logMgr.log_message(msg);
                     // Create keyframe
                     // Adjust for start time, and for the fact that frames are numbered from 1
                     frameTime = currRotKey->fTime - currSplit.start;
                     realTime = frameTime / fps;
                     Ogre::TransformKeyFrame *ogrekey = ogretrack->createNodeKeyFrame(realTime);
-                    logMgr.logMessage("KeyFrame created");
+                    logMgr.log_message("KeyFrame created");
 
                     Ogre::Vector3 kfPos;
                     // Imported milkshape animations may not have positions 

@@ -314,7 +314,7 @@ namespace Ogre {
 
 		if (mSelectedCgProfile == CG_PROFILE_UNKNOWN)
 		{
-			LogManager::getSingleton().logMessage(
+			LogManager::getSingleton().log_message(
 				"Attempted to load Cg program '" + mName + "', but no supported "
 				"profile was found. ");
 			return;
@@ -327,7 +327,7 @@ namespace Ogre {
 			mSelectedCgProfile, mEntryPoint.c_str(), const_cast<const char**>(mCgArguments));
 
 		// Test
-		//LogManager::getSingleton().logMessage(cgGetProgramString(mCgProgram, CG_COMPILED_PROGRAM));
+		//LogManager::getSingleton().log_message(cgGetProgramString(mCgProgram, CG_COMPILED_PROGRAM));
 
 		// Check for errors
 		checkForCgError("CgProgram::compileMicrocode",
@@ -985,7 +985,7 @@ namespace Ogre {
 
 					if (def.constType == GCT_UNKNOWN)
 					{
-						LogManager::getSingleton().logMessage(
+						LogManager::getSingleton().log_message(
 							"Problem parsing the following Cg Uniform: '"
 							+ paramName + "' in file " + mName);
 						// next uniform

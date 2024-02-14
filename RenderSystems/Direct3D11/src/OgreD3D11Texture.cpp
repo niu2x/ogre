@@ -474,9 +474,9 @@ namespace Ogre
         if (mWidth != mSrcWidth ||
             mHeight != mSrcHeight)
         {
-            LogManager::getSingleton().logMessage("D3D11: ***** Dimensions altered by the render system");
-            LogManager::getSingleton().logMessage("D3D11: ***** Source image dimensions : " + StringConverter::toString(mSrcWidth) + "x" + StringConverter::toString(mSrcHeight));
-            LogManager::getSingleton().logMessage("D3D11: ***** Texture dimensions : " + StringConverter::toString(mWidth) + "x" + StringConverter::toString(mHeight));
+            LogManager::getSingleton().log_message("D3D11: ***** Dimensions altered by the render system");
+            LogManager::getSingleton().log_message("D3D11: ***** Source image dimensions : " + StringConverter::toString(mSrcWidth) + "x" + StringConverter::toString(mSrcHeight));
+            LogManager::getSingleton().log_message("D3D11: ***** Texture dimensions : " + StringConverter::toString(mWidth) + "x" + StringConverter::toString(mHeight));
         }
 
         // Create list of subsurfaces for getBuffer()

@@ -263,7 +263,7 @@ void ApplicationContextBase::enableShaderCache() const
         Ogre::LogManager::getSingleton().logWarning("Could not open '"+path+"'");
         return;
     }
-    Ogre::LogManager::getSingleton().logMessage("Loading shader cache from '"+path+"'");
+    Ogre::LogManager::getSingleton().log_message("Loading shader cache from '"+path+"'");
     Ogre::DataStreamPtr istream(new Ogre::FileStreamDataStream(path, &inFile, false));
     Ogre::GpuProgramManager::getSingleton().loadMicrocodeCache(istream);
 }
@@ -433,7 +433,7 @@ void ApplicationContextBase::locateResources()
 
     if (Ogre::FileSystemLayer::fileExists(resourcesPath) || OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN)
     {
-        Ogre::LogManager::getSingleton().logMessage("Parsing '"+resourcesPath+"'");
+        Ogre::LogManager::getSingleton().log_message("Parsing '"+resourcesPath+"'");
         cf.load(resourcesPath);
     }
     else
@@ -523,7 +523,7 @@ void ApplicationContextBase::shutdown()
 
         if (outFile.is_open())
         {
-            Ogre::LogManager::getSingleton().logMessage("Writing shader cache to "+path);
+            Ogre::LogManager::getSingleton().log_message("Writing shader cache to "+path);
             Ogre::DataStreamPtr ostream(new Ogre::FileStreamDataStream(path, &outFile, false));
             gpuMgr.saveMicrocodeCache(ostream);
         }

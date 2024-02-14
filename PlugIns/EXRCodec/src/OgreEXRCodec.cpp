@@ -50,11 +50,11 @@ namespace Ogre {
 
 EXRCodec::EXRCodec() 
 {
-    LogManager::getSingleton().logMessage("EXRCodec initialised");
+    LogManager::getSingleton().log_message("EXRCodec initialised");
 }
 EXRCodec::~EXRCodec() 
 {
-    LogManager::getSingleton().logMessage("EXRCodec deinitialised");
+    LogManager::getSingleton().log_message("EXRCodec deinitialised");
 }
 
 void EXRCodec::decode(const DataStreamPtr& input, const Any& output) const

@@ -1615,7 +1615,7 @@ namespace Ogre
         if(FAILED(hr) && mFSAAType.Count > 1)
         {
             // Second chance - try without FSAA, keep mFSAAType synchronized.
-            LogManager::getSingleton().logMessage("Unable to Create MSAA Back Buffer, retry without MSAA support");
+            LogManager::getSingleton().log_message("Unable to Create MSAA Back Buffer, retry without MSAA support");
             desc.SampleDesc.Count = mFSAAType.Count = 1;
             desc.SampleDesc.Quality = mFSAAType.Quality = 0;
             hr = mDevice->CreateTexture2D(&desc, NULL, mpBackBuffer.ReleaseAndGetAddressOf());

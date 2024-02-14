@@ -1427,7 +1427,7 @@ namespace Ogre {
             }
         }
         // Problem!
-        mXsiApp.LogMessage(L"!! Couldn't find a matching sample point!");
+        mXsiApp.log_message(L"!! Couldn't find a matching sample point!");
         return 0;
     }
     //-----------------------------------------------------------------------

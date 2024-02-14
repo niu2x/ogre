@@ -54,7 +54,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void XMLSkeletonSerializer::importSkeleton(const String& filename, Skeleton* pSkeleton)
     {   
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: reading XML data from " + filename + "...");
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: reading XML data from " + filename + "...");
 
         pugi::xml_document mXMLDoc;
         mXMLDoc.load_file(filename.c_str());
@@ -102,7 +102,7 @@ namespace Ogre {
                 }
             }
         }
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: Finished. Running SkeletonSerializer..." );
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: Finished. Running SkeletonSerializer..." );
     }
     
 
@@ -110,7 +110,7 @@ namespace Ogre {
     // sets names
     void XMLSkeletonSerializer::readBones(Skeleton* skel, pugi::xml_node& mBonesNode)
     {
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: Reading Bones name...");
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: Reading Bones name...");
         
         Quaternion quat ;
 
@@ -131,7 +131,7 @@ namespace Ogre {
     // set positions and orientations.
     void XMLSkeletonSerializer::readBones2(Skeleton* skel, pugi::xml_node& mBonesNode)
     {
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: Reading Bones data...");
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: Reading Bones data...");
         
         Bone* btmp ;
         Quaternion quat ;
@@ -198,7 +198,7 @@ namespace Ogre {
                 scale = Vector3::UNIT_SCALE;
             }
 
-            /*LogManager::getSingleton().logMessage("bone " + name + " : position("
+            /*LogManager::getSingleton().log_message("bone " + name + " : position("
                 + StringConverter::toString(pos.x) + "," + StringConverter::toString(pos.y) + "," + StringConverter::toString(pos.z) + ")"
                 + " - angle: " + StringConverter::toString(angle) +" - axe: "
                 + StringConverter::toString(axis.x) + "," + StringConverter::toString(axis.y) + "," + StringConverter::toString(axis.z) );
@@ -216,7 +216,7 @@ namespace Ogre {
     //-------------------------------------------------------------------
     void XMLSkeletonSerializer::createHierarchy(Skeleton* skel, pugi::xml_node& mHierNode) {
         
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: Reading Hierarchy data...");
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: Reading Hierarchy data...");
         
         Bone* bone ;
         Bone* parent ;
@@ -230,7 +230,7 @@ namespace Ogre {
             bone = skel->getBone(boneName);
             parent = skel->getBone(parentName);
             parent ->addChild(bone) ;
-            //LogManager::getSingleton().logMessage("XMLSkeletonSerialiser: lien: " + parent->getName() + "->" + bone->getName().c_str();
+            //LogManager::getSingleton().log_message("XMLSkeletonSerialiser: lien: " + parent->getName() + "->" + bone->getName().c_str();
             
         }
     }
@@ -239,7 +239,7 @@ namespace Ogre {
         
         Animation * anim ;
         NodeAnimationTrack * track ;
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: Reading Animations data...");
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: Reading Animations data...");
 
         for (pugi::xml_node& animElem : mAnimNode.children("animation"))
         {
@@ -249,7 +249,7 @@ namespace Ogre {
             anim->setInterpolationMode(Animation::IM_LINEAR) ;
 
             
-            //LogManager::getSingleton().logMessage("Animation: nom: " + name + " et longueur: "
+            //LogManager::getSingleton().log_message("Animation: nom: " + name + " et longueur: "
             //  + StringConverter::toString(length) );
             pugi::xml_node baseInfoNode = animElem.child("baseinfo");
             if (baseInfoNode)
@@ -270,7 +270,7 @@ namespace Ogre {
                 Bone * bone = skel->getBone(boneName);
                 unsigned short handle = bone->getHandle();
 
-                //LogManager::getSingleton().logMessage("Track sur le bone: " + boneName );
+                //LogManager::getSingleton().log_message("Track sur le bone: " + boneName );
 
                 track = anim->createNodeTrack(handle, bone);
                 readKeyFrames(track, trackElem.child("keyframes"));
@@ -363,7 +363,7 @@ namespace Ogre {
 
             
             /*
-            LogManager::getSingleton().logMessage("Keyframe: translation("
+            LogManager::getSingleton().log_message("Keyframe: translation("
                 + StringConverter::toString(trans.x) + "," + StringConverter::toString(trans.y) + "," + StringConverter::toString(trans.z) + ")"
                 + " - angle: " + StringConverter::toString(angle) +" - axe: "
                 + StringConverter::toString(axis.x) + "," + StringConverter::toString(axis.y) + "," + StringConverter::toString(axis.z) );
@@ -378,24 +378,24 @@ namespace Ogre {
         const String& filename)
     {
         
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer writing "
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer writing "
             " skeleton data to " + filename + "...");
 
         pugi::xml_document mXMLDoc;
         pugi::xml_node rootNode = mXMLDoc.append_child("skeleton");
 
-        LogManager::getSingleton().logMessage("Populating DOM...");
+        LogManager::getSingleton().log_message("Populating DOM...");
 
 
         // Write main skeleton data
-        LogManager::getSingleton().logMessage("Exporting bones..");
+        LogManager::getSingleton().log_message("Exporting bones..");
         writeSkeleton(pSkeleton, rootNode);
-        LogManager::getSingleton().logMessage("Bones exported.");
+        LogManager::getSingleton().log_message("Bones exported.");
         
         // Write all animations
         unsigned short numAnims = pSkeleton->getNumAnimations();
         String msg = "Exporting animations, count=" + StringConverter::toString(numAnims);
-        LogManager::getSingleton().logMessage(msg);
+        LogManager::getSingleton().log_message(msg);
 
         pugi::xml_node animsNode = rootNode.append_child("animations");
 
@@ -403,16 +403,16 @@ namespace Ogre {
         {
             Animation* pAnim = pSkeleton->getAnimation(i);
             msg = "Exporting animation: " + pAnim->getName();
-            LogManager::getSingleton().logMessage(msg);
+            LogManager::getSingleton().log_message(msg);
             writeAnimation(animsNode, pAnim);
-            LogManager::getSingleton().logMessage("Animation exported.");
+            LogManager::getSingleton().log_message("Animation exported.");
 
         }
 
         // Write links
         if (!pSkeleton->getLinkedSkeletonAnimationSources().empty())
         {
-            LogManager::getSingleton().logMessage("Exporting animation links.");
+            LogManager::getSingleton().log_message("Exporting animation links.");
             pugi::xml_node linksNode = rootNode.append_child("animationlinks");
             for(const auto& link : pSkeleton->getLinkedSkeletonAnimationSources())
             {
@@ -420,16 +420,16 @@ namespace Ogre {
             }
         }
 
-        LogManager::getSingleton().logMessage("DOM populated, writing XML file..");
+        LogManager::getSingleton().log_message("DOM populated, writing XML file..");
 
         // Write out to a file
         if(! mXMLDoc.save_file(filename.c_str()) )
         {
-            LogManager::getSingleton().logMessage("XMLSkeletonSerializer failed writing the XML file.", LML_CRITICAL);
+            LogManager::getSingleton().log_message("XMLSkeletonSerializer failed writing the XML file.", LogMsgLevel::CRITICAL);
         }
         else
         {
-            LogManager::getSingleton().logMessage("XMLSkeletonSerializer export successful.");
+            LogManager::getSingleton().log_message("XMLSkeletonSerializer export successful.");
         }
     }
     //---------------------------------------------------------------------
@@ -442,11 +442,11 @@ namespace Ogre {
         pugi::xml_node bonesElem = rootNode.append_child("bones");
 
         unsigned short numBones = pSkel->getNumBones();
-        LogManager::getSingleton().logMessage("There are " + StringConverter::toString(numBones) + " bones.");
+        LogManager::getSingleton().log_message("There are " + StringConverter::toString(numBones) + " bones.");
         unsigned short i;
         for (i = 0; i < numBones; ++i)
         {
-            LogManager::getSingleton().logMessage("   Exporting Bone number " + StringConverter::toString(i));
+            LogManager::getSingleton().log_message("   Exporting Bone number " + StringConverter::toString(i));
             Bone* pBone = pSkel->getBone(i);
             writeBone(bonesElem, pBone);
         }
@@ -624,7 +624,7 @@ namespace Ogre {
     void XMLSkeletonSerializer::readSkeletonAnimationLinks(Skeleton* skel, 
         pugi::xml_node& linksNode)
     {
-        LogManager::getSingleton().logMessage("XMLSkeletonSerializer: Reading Animations links...");
+        LogManager::getSingleton().log_message("XMLSkeletonSerializer: Reading Animations links...");
 
         for (pugi::xml_node& linkElem : linksNode.children("animationlink"))
         {

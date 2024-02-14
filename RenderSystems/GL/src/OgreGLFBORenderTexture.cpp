@@ -345,7 +345,7 @@ static const uchar depthBits[] =
                             //l << "Trying " << PixelUtil::getFormatName((PixelFormat)x) 
                             //  << " D" << depthBits[depth] 
                             //  << "S" << stencilBits[stencil];
-                            //LogManager::getSingleton().logMessage(l.str());
+                            //LogManager::getSingleton().log_message(l.str());
 
                             if (_tryFormat(depthFormats[depth], stencilFormats[stencil]))
                             {
@@ -399,7 +399,7 @@ static const uchar depthBits[] =
                     }
                 }
 
-                LogManager::getSingleton().logMessage(str.str());
+                LogManager::getSingleton().log_message(str.str());
 
             }
             // Delete texture and framebuffer
@@ -428,7 +428,7 @@ static const uchar depthBits[] =
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
-        LogManager::getSingleton().logMessage("[GL] : Valid FBO targets " + fmtstring);
+        LogManager::getSingleton().log_message("[GL] : Valid FBO targets " + fmtstring);
     }
     void GLFBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)
     {

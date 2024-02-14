@@ -320,7 +320,7 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
     /* Find out number of bytes per pixel */
     switch(depth) {
     default:
-        LogManager::getSingleton().logMessage("GLX backdrop: Unsupported bit depth");
+        LogManager::getSingleton().log_message("GLX backdrop: Unsupported bit depth");
         /* Unsupported bit depth */
         return 0;
     case 15:

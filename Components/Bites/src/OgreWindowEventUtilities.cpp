@@ -121,13 +121,13 @@ LRESULT CALLBACK WindowEventUtilities::_WndProc(HWND hWnd, UINT uMsg, WPARAM wPa
             return 0;
         break;
     case WM_ENTERSIZEMOVE:
-        //log->logMessage("WM_ENTERSIZEMOVE");
+        //log->log_message("WM_ENTERSIZEMOVE");
         break;
     case WM_EXITSIZEMOVE:
-        //log->logMessage("WM_EXITSIZEMOVE");
+        //log->log_message("WM_EXITSIZEMOVE");
         break;
     case WM_MOVE:
-        //log->logMessage("WM_MOVE");
+        //log->log_message("WM_MOVE");
         win->windowMovedOrResized();
         for(index = start; index != end; ++index)
             (index->second)->windowMoved(win);
@@ -138,7 +138,7 @@ LRESULT CALLBACK WindowEventUtilities::_WndProc(HWND hWnd, UINT uMsg, WPARAM wPa
             (index->second)->windowResized(win);
         break;
     case WM_SIZE:
-        //log->logMessage("WM_SIZE");
+        //log->log_message("WM_SIZE");
         {
             UINT width = LOWORD(lParam);
             UINT height = HIWORD(lParam);
@@ -154,7 +154,7 @@ LRESULT CALLBACK WindowEventUtilities::_WndProc(HWND hWnd, UINT uMsg, WPARAM wPa
         break;
     case WM_CLOSE:
     {
-        //log->logMessage("WM_CLOSE");
+        //log->log_message("WM_CLOSE");
         bool close = true;
         for(index = start; index != end; ++index)
         {

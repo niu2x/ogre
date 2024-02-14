@@ -81,7 +81,7 @@ namespace Ogre {
         
         String name = factory->getName();
         mEmitterFactories[name] = factory;
-        LogManager::getSingleton().logMessage("Particle Emitter Type '" + name + "' registered");
+        LogManager::getSingleton().log_message("Particle Emitter Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addAffectorFactory(ParticleAffectorFactory* factory)
@@ -89,14 +89,14 @@ namespace Ogre {
         
         String name = factory->getName();
         mAffectorFactories[name] = factory;
-        LogManager::getSingleton().logMessage("Particle Affector Type '" + name + "' registered");
+        LogManager::getSingleton().log_message("Particle Affector Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addRendererFactory(ParticleSystemRendererFactory* factory)
     {
         String name = factory->getType();
         mRendererFactories[name] = factory;
-        LogManager::getSingleton().logMessage("Particle Renderer Type '" + name + "' registered");
+        LogManager::getSingleton().log_message("Particle Renderer Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addTemplate(const String& name, ParticleSystem* sysTemplate)
@@ -166,7 +166,7 @@ namespace Ogre {
         if (mSystemTemplates.find(name) != mSystemTemplates.end())
         {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WINRT
-            LogManager::getSingleton().logMessage("ParticleSystem template with name '" + name + "' already exists.");
+            LogManager::getSingleton().log_message("ParticleSystem template with name '" + name + "' already exists.");
             return NULL;
 #else
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 

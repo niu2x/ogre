@@ -106,7 +106,7 @@ namespace Ogre
                 else
                 {
                     // Warn that this resource is not reloadable
-                    LogManager::getSingleton().stream(LML_TRIVIAL) 
+                    LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL) 
                         << "Note: " << mCreator->getResourceType()
                         << " instance '" << mName << "' was defined as manually "
                         << "loaded, but no manual loader was provided. This Resource "
@@ -228,7 +228,7 @@ namespace Ogre
                 else
                 {
                     // Warn that this resource is not reloadable
-                    LogManager::getSingleton().stream(LML_TRIVIAL) 
+                    LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL) 
                         << "Note: " << mCreator->getResourceType()
                         << " instance '" << mName << "' was defined as manually "
                         << "loaded, but no manual loader was provided. This Resource "

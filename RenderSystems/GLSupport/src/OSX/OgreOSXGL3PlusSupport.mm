@@ -153,7 +153,7 @@ RenderWindow* OSXGLSupport::newWindow( const String &name, unsigned int width, u
     params["contextProfile"] = StringConverter::toString(int(mContextProfile));
 
 	// Create the window, if Cocoa return a Cocoa window
-    LogManager::getSingleton().logMessage("Creating a Cocoa Compatible Render System");
+    LogManager::getSingleton().log_message("Creating a Cocoa Compatible Render System");
     CocoaWindow *window = OGRE_NEW CocoaWindow();
     window->create(name, width, height, fullScreen, &params);
 
@@ -162,7 +162,7 @@ RenderWindow* OSXGLSupport::newWindow( const String &name, unsigned int width, u
 
 void OSXGLSupport::start()
 {
-	LogManager::getSingleton().logMessage(
+	LogManager::getSingleton().log_message(
 			"********************************************\n"
 			"***  Starting Mac OS X OpenGL Subsystem  ***\n"
 			"********************************************");
@@ -170,7 +170,7 @@ void OSXGLSupport::start()
 
 void OSXGLSupport::stop()
 {
-	LogManager::getSingleton().logMessage(
+	LogManager::getSingleton().log_message(
 			"********************************************\n"
 			"***  Stopping Mac OS X OpenGL Subsystem  ***\n"
 			"********************************************");

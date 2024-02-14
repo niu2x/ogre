@@ -179,14 +179,14 @@ protected:
         if (CompositorManager::getSingleton().addCompositor(mViewport, "SSAO/GBuffer"))
             CompositorManager::getSingleton().setCompositorEnabled(mViewport, "SSAO/GBuffer", true);
         else
-            LogManager::getSingleton().logMessage("Sample_SSAO: Failed to add GBuffer compositor\n");
+            LogManager::getSingleton().log_message("Sample_SSAO: Failed to add GBuffer compositor\n");
         
         for (unsigned int i = 0; i < mCompositorNames.size(); i++)
         {
             if (CompositorManager::getSingleton().addCompositor(mViewport, mCompositorNames[i]))
                 CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCompositorNames[i], false);
             else
-                LogManager::getSingleton().logMessage("Sample_SSAO: Failed to add compositor: " + mCompositorNames[i] + "\n");
+                LogManager::getSingleton().log_message("Sample_SSAO: Failed to add compositor: " + mCompositorNames[i] + "\n");
         }
         
         for (unsigned int i = 0; i < mPostNames.size(); i++)
@@ -195,7 +195,7 @@ protected:
             if (CompositorManager::getSingleton().addCompositor(mViewport, mPostNames[i]))
                 CompositorManager::getSingleton().setCompositorEnabled(mViewport, mPostNames[i], false);
             else
-                LogManager::getSingleton().logMessage("Sample_SSAO: Failed to add " + mPostNames[i] + " compositor\n");
+                LogManager::getSingleton().log_message("Sample_SSAO: Failed to add " + mPostNames[i] + " compositor\n");
         }
         
         CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentCompositor, true);

@@ -370,7 +370,7 @@ namespace Ogre
                         splitVertex = true;
                         splitBecauseOfParity = true;
 
-                        LogManager::getSingleton().stream(LML_TRIVIAL)
+                        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
                             << "TSC parity split - Vpar: " << vertex->parity 
                             << " Fpar: " << faceParity
                             << " faceTsU: " << faceTsU

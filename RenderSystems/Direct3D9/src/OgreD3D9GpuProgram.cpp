@@ -303,7 +303,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "Unsupported D3D9 shader '" + mName + "' was not loaded.");
 
             mMapDeviceToShader[d3d9Device] = NULL;

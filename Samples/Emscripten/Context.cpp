@@ -67,7 +67,7 @@ void Context::_mainLoop(void* target)
             size_t length = emscripten_get_callstack(EM_LOG_C_STACK | EM_LOG_DEMANGLE | EM_LOG_NO_PATHS | EM_LOG_FUNC_PARAMS,0,0) + 50;
             std::vector<char> buffer(length);
             emscripten_get_callstack(EM_LOG_C_STACK | EM_LOG_DEMANGLE | EM_LOG_NO_PATHS | EM_LOG_FUNC_PARAMS, buffer.data(), length);
-            Ogre::LogManager::getSingleton().logMessage(buffer.data());
+            Ogre::LogManager::getSingleton().log_message(buffer.data());
 
             emscripten_pause_main_loop();
 	    }
@@ -117,7 +117,7 @@ void Context::destroyMaterials( const Ogre::String& resourceGroupID )
     }
     catch( ... )
     {
-        Ogre::LogManager::getSingleton().logMessage("An Error occurred trying to destroy Materials in " + resourceGroupID);
+        Ogre::LogManager::getSingleton().log_message("An Error occurred trying to destroy Materials in " + resourceGroupID);
     }
 
 }
@@ -150,7 +150,7 @@ void Context::destroyTextures( const Ogre::String& resourceGroupID )
     }
     catch( ... )
     {
-        Ogre::LogManager::getSingleton().logMessage("An Error occurred trying to destroy Textures in " + resourceGroupID);
+        Ogre::LogManager::getSingleton().log_message("An Error occurred trying to destroy Textures in " + resourceGroupID);
     }
 
 }
@@ -210,7 +210,7 @@ void Context::passAssetAsArrayBuffer(unsigned char* arr, int length) {
         }
 
     } catch (Ogre::Exception& ex) {
-        Ogre::LogManager::getSingleton().logMessage(ex.what());
+        Ogre::LogManager::getSingleton().log_message(ex.what());
 
     }
 

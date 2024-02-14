@@ -170,7 +170,7 @@ ManualObject::ManualObject(const String& name)
       }
       else
       {
-          LogManager::getSingleton().logMessage("Can't assign null material", LML_CRITICAL);
+          LogManager::getSingleton().log_message("Can't assign null material", LogMsgLevel::CRITICAL);
           const MaterialPtr defaultMat = MaterialManager::getSingleton().getDefaultMaterial();
           mCurrentSection = OGRE_NEW ManualObjectSection(this, defaultMat, opType);
       }

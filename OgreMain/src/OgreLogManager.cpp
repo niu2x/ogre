@@ -118,49 +118,38 @@ namespace Ogre {
     void LogManager::destroyLog(Log* log)
     {
         OgreAssert(log, "Cannot destroy a null log");
-        destroyLog(log->getName());
+        destroyLog(log->name());
     }
     //-----------------------------------------------------------------------
-    void LogManager::logMessage( const String& message, LogMessageLevel lml, bool maskDebug)
+    void LogManager::log_message( const String& message, LogMsgLevel lml, bool maskDebug)
     {
         
         if (mDefaultLog)
         {
-            mDefaultLog->logMessage(message, lml, maskDebug);
+            mDefaultLog->log_message(message, lml, maskDebug);
         }
     }
 
     void LogManager::logError(const String& message, bool maskDebug )
     {
-        stream(LML_CRITICAL, maskDebug) << "Error: " << message;
+        stream(LogMsgLevel::CRITICAL, maskDebug) << "Error: " << message;
     }
 
     void LogManager::logWarning(const String& message, bool maskDebug )
     {
-        stream(LML_WARNING, maskDebug) << "Warning: " << message;
+        stream(LogMsgLevel::WARNING, maskDebug) << "Warning: " << message;
     }
     //-----------------------------------------------------------------------
-    void LogManager::setLogDetail(LoggingLevel ll)
+    void LogManager::setMinLogLevel(LogMsgLevel lml)
     {
         
         if (mDefaultLog)
         {
-            OGRE_IGNORE_DEPRECATED_BEGIN
-            mDefaultLog->setLogDetail(ll);
-            OGRE_IGNORE_DEPRECATED_END
-        }
-    }
-    //-----------------------------------------------------------------------
-    void LogManager::setMinLogLevel(LogMessageLevel lml)
-    {
-        
-        if (mDefaultLog)
-        {
-            mDefaultLog->setMinLogLevel(lml);
+            mDefaultLog->set_min_log_level(lml);
         }
     }
     //---------------------------------------------------------------------
-    Log::Stream LogManager::stream(LogMessageLevel lml, bool maskDebug)
+    Log::Stream LogManager::stream(LogMsgLevel lml, bool maskDebug)
     {
             
         OgreAssert(mDefaultLog, "Default log not found");

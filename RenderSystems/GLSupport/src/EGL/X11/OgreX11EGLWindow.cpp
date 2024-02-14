@@ -149,7 +149,7 @@ namespace Ogre {
         if (mIsFullScreen != fullscreen && mGLSupport->mAtomFullScreen == None)
         {
             // Without WM support it is best to give up.
-            LogManager::getSingleton().logMessage("EGLWindow::switchFullScreen: Your WM has no fullscreen support");
+            LogManager::getSingleton().log_message("EGLWindow::switchFullScreen: Your WM has no fullscreen support");
             return;
         }
         EGLWindow::setFullscreen(fullscreen, width, height);

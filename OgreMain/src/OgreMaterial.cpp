@@ -412,7 +412,7 @@ namespace Ogre {
                 if (!t->getName().empty())
                     str << "(" << t->getName() << ")";
                 str << " is not supported. " << compileMessages;
-                LogManager::getSingleton().logMessage(str.str(), LML_TRIVIAL);
+                LogManager::getSingleton().log_message(str.str(), LogMsgLevel::TRIVIAL);
                 mUnsupportedReasons += compileMessages;
             }
             ++techNo;
@@ -423,7 +423,7 @@ namespace Ogre {
         // Did we find any?
         if (mSupportedTechniques.empty())
         {
-            LogManager::getSingleton().stream(LML_WARNING)
+            LogManager::getSingleton().stream(LogMsgLevel::WARNING)
                 << "Warning: material " << mName << " has no supportable "
                 << "Techniques and will be blank. Explanation: \n" << mUnsupportedReasons;
         }

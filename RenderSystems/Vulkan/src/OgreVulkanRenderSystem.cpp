@@ -87,7 +87,7 @@ namespace Ogre
         else if (msgFlags & VK_DEBUG_REPORT_DEBUG_BIT_EXT)
             messageType = "DEBUG";
 
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             StringUtil::format("%s: [%s] Code %d : %s", messageType, pLayerPrefix, msgCode, pMsg));
 
         /*
@@ -227,7 +227,7 @@ namespace Ogre
         FastArray<VkPhysicalDevice> pd(numDevices);
         OGRE_VK_CHECK(vkEnumeratePhysicalDevices(instance, &numDevices, pd.data()));
 
-        LogManager::getSingleton().logMessage( "[Vulkan] Found devices:" );
+        LogManager::getSingleton().log_message( "[Vulkan] Found devices:" );
 
         mDevices.reserve( numDevices );
         for( uint32 i = 0u; i < numDevices; ++i )
@@ -397,14 +397,14 @@ namespace Ogre
             mVkInstance, "vkDestroyDebugReportCallbackEXT" );
         if( !CreateDebugReportCallback )
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "[Vulkan] GetProcAddr: Unable to find vkCreateDebugReportCallbackEXT. "
                 "Debug reporting won't be available" );
             return;
         }
         if( !DestroyDebugReportCallback )
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "[Vulkan] GetProcAddr: Unable to find vkDestroyDebugReportCallbackEXT. "
                 "Debug reporting won't be available" );
             return;
@@ -414,7 +414,7 @@ namespace Ogre
         //    );
         // if( !DebugReportMessage )
         //{
-        //    LogManager::getSingleton().logMessage(
+        //    LogManager::getSingleton().log_message(
         //        "[Vulkan] GetProcAddr: Unable to find DebugReportMessage. "
         //        "Debug reporting won't be available" );
         //}
@@ -447,11 +447,11 @@ namespace Ogre
 
         VkPhysicalDeviceProperties &properties = mActiveDevice->mDeviceProperties;
 
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             StringUtil::format("[Vulkan] API Version: %d.%d.%d", VK_VERSION_MAJOR(properties.apiVersion),
                                VK_VERSION_MINOR(properties.apiVersion), VK_VERSION_PATCH(properties.apiVersion)));
-        LogManager::getSingleton().logMessage(StringUtil::format("[Vulkan] Vendor ID: %#x", properties.vendorID));
-        LogManager::getSingleton().logMessage(StringUtil::format("[Vulkan] Device ID: %#x", properties.deviceID));
+        LogManager::getSingleton().log_message(StringUtil::format("[Vulkan] Vendor ID: %#x", properties.vendorID));
+        LogManager::getSingleton().log_message(StringUtil::format("[Vulkan] Device ID: %#x", properties.deviceID));
 
         rsc->setDeviceName( properties.deviceName );
 
@@ -653,7 +653,7 @@ namespace Ogre
         if( mVkInstance )
             return;
 
-        LogManager::getSingleton().logMessage( "[Vulkan] Initializing VkInstance" );
+        LogManager::getSingleton().log_message( "[Vulkan] Initializing VkInstance" );
 
         uint32 numExtensions = 0u;
         OGRE_VK_CHECK(vkEnumerateInstanceExtensionProperties(0, &numExtensions, 0));
@@ -669,7 +669,7 @@ namespace Ogre
         for( size_t i = 0u; i < numExtensions; ++i )
         {
             const String extensionName = availableExtensions[i].extensionName;
-            LogManager::getSingleton().logMessage( "Found instance extension: " + extensionName );
+            LogManager::getSingleton().log_message( "Found instance extension: " + extensionName );
 
             if (extensionName == VulkanWindow::getRequiredExtensionName())
             {
@@ -693,7 +693,7 @@ namespace Ogre
         for( size_t i = 0u; i < numInstanceLayers; ++i )
         {
             const String layerName = instanceLayerProps[i].layerName;
-            LogManager::getSingleton().logMessage( "Found instance layer: " + layerName );
+            LogManager::getSingleton().log_message( "Found instance layer: " + layerName );
             if( debugEnabled && layerName == "VK_LAYER_KHRONOS_validation" )
             {
                 mHasValidationLayers = true;
@@ -750,7 +750,7 @@ namespace Ogre
                 for( size_t i = 0u; i < numExtensions; ++i )
                 {
                     const String extensionName = availableExtensions[i].extensionName;
-                    LogManager::getSingleton().logMessage( "Found device extension: " + extensionName );
+                    LogManager::getSingleton().log_message( "Found device extension: " + extensionName );
 
                     if( extensionName == VK_KHR_MAINTENANCE2_EXTENSION_NAME )
                     {
@@ -764,7 +764,7 @@ namespace Ogre
 
             if( !bCanRestrictImageViewUsage )
             {
-                LogManager::getSingleton().logMessage(
+                LogManager::getSingleton().log_message(
                     "WARNING: " VK_KHR_MAINTENANCE2_EXTENSION_NAME
                     " not present. We may have to force the driver to do UAV + SRGB operations "
                     "the GPU should support, but it's not guaranteed to work" );
@@ -804,7 +804,7 @@ namespace Ogre
             if( !workaroundsStr.empty() )
             {
                 workaroundsStr = "Workarounds applied:" + workaroundsStr;
-                LogManager::getSingleton().logMessage( workaroundsStr );
+                LogManager::getSingleton().log_message( workaroundsStr );
             }
 
             mInitialized = true;

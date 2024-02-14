@@ -51,7 +51,7 @@ namespace Ogre {
 		, mColourBuffer(CBT_BACK)
     {           
 #if OGRE_PLATFORM != OGRE_PLATFORM_ANDROID
-        LogManager::getSingleton().stream(LML_TRIVIAL)
+        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
             << "Creating viewport on target '" << target->getName() << "'"
             << ", rendering from camera '" << (cam != 0 ? cam->getName() : "NULL") << "'"
             << ", relative dimensions " << mRelRect
@@ -114,7 +114,7 @@ namespace Ogre {
                 mCamera->setAspectRatio((float)mActRect.width() / (float)mActRect.height());
         }
 
-        LogManager::getSingleton().stream(LML_TRIVIAL)
+        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
             << "Viewport for camera '" << (mCamera ? mCamera->getName() : "NULL") << "'"
             << ", actual dimensions " << mActRect;
 

@@ -322,7 +322,7 @@ namespace Ogre {
             mProps[PF_DEPTH16].valid = true;
             mProps[PF_DEPTH16].modes.push_back(mode);
         }
-        LogManager::getSingleton().logMessage("[GLES2] : detectFBOFormats is disabled on this platform (due performance reasons)");
+        LogManager::getSingleton().log_message("[GLES2] : detectFBOFormats is disabled on this platform (due performance reasons)");
 #else
         // Try all formats, and report which ones work as target
         GLuint fb = 0, tid = 0;
@@ -378,7 +378,7 @@ namespace Ogre {
 //                            l << "Trying " << PixelUtil::getFormatName((PixelFormat)x) 
 //                              << " D" << depthBits[depth] 
 //                              << "S" << stencilBits[stencil];
-//                            LogManager::getSingleton().logMessage(l.str());
+//                            LogManager::getSingleton().log_message(l.str());
 
                             if (_tryFormat(depthFormats[depth], stencilFormats[stencil]))
                             {
@@ -423,7 +423,7 @@ namespace Ogre {
                         }
                     }
                 }
-                LogManager::getSingleton().logMessage(str.str());
+                LogManager::getSingleton().log_message(str.str());
             }
 
             // Delete texture and framebuffer
@@ -446,7 +446,7 @@ namespace Ogre {
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
-        LogManager::getSingleton().logMessage("[GLES2] : Valid FBO targets " + fmtstring);
+        LogManager::getSingleton().log_message("[GLES2] : Valid FBO targets " + fmtstring);
 
     }
 

@@ -74,7 +74,7 @@ namespace Ogre {
             String fullErrorMessage = "GL Error : " + msg + " in " + sectionName;
             if (logError)
             {
-                LogManager::getSingleton().getDefaultLog()->logMessage(fullErrorMessage, LML_CRITICAL);
+                LogManager::getSingleton().getDefaultLog()->log_message(fullErrorMessage, LogMsgLevel::CRITICAL);
             }
             if (throwException)
             {

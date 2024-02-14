@@ -150,7 +150,7 @@ namespace Ogre
     //-------------------------------------------------------------------------------------------------//
     void GLXGLSupport::start() 
     {
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             "******************************\n"
             "*** Starting GLX Subsystem ***\n"
             "******************************");
@@ -160,7 +160,7 @@ namespace Ogre
     //-------------------------------------------------------------------------------------------------//
     void GLXGLSupport::stop()
     {
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             "******************************\n"
             "*** Stopping GLX Subsystem ***\n"
             "******************************");
@@ -642,7 +642,7 @@ namespace Ogre
 
                 mCurrentMode = {newMode->first.first, newMode->first.second, newMode->second};
 
-                LogManager::getSingleton().logMessage("Entered video mode " + mCurrentMode.getDescription() + " @ " + StringConverter::toString(mCurrentMode.refreshRate) + "Hz");
+                LogManager::getSingleton().log_message("Entered video mode " + mCurrentMode.getDescription() + " @ " + StringConverter::toString(mCurrentMode.refreshRate) + "Hz");
             }
         }
     }

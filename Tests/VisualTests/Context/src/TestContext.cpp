@@ -307,7 +307,7 @@ void TestContext::runSample(OgreBites::Sample* sampleToRun)
     Ogre::ControllerManager::getSingleton().setFrameDelay(mTimestep);
 
     if(sampleToRun)
-        LogManager::getSingleton().logMessage("----- Running Visual Test " + sampleToRun->getInfo()["Title"] + " -----");
+        LogManager::getSingleton().log_message("----- Running Visual Test " + sampleToRun->getInfo()["Title"] + " -----");
     SampleContext::runSample(sampleToRun);
 }
 //-----------------------------------------------------------------------

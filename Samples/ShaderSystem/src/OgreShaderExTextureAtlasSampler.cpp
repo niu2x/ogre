@@ -448,7 +448,7 @@ bool TextureAtlasSamplerFactory::addTexutreAtlasDefinition( const DataStreamPtr&
 
         if (maxTextureCount > TAS_MAX_SAFE_ATLASED_TEXTURES)
         {
-            LogManager::getSingleton().logMessage(LML_CRITICAL, 
+            LogManager::getSingleton().log_message(LogMsgLevel::CRITICAL, 
                 ("Warning : " + stream->name() +
                 " atlas texture has to many internally defined textures. Shader may fail to compile."));
         }

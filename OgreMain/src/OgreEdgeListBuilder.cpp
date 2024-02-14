@@ -40,13 +40,13 @@ namespace Ogre {
         EdgeList::iterator ei, eiend;
         TriangleList::iterator ti, tiend;
         tiend = triangles.end();
-        l->logMessage("Edge Data");
-        l->logMessage("---------");
+        l->log_message("Edge Data");
+        l->log_message("---------");
         size_t num = 0;
         for (ti = triangles.begin(); ti != tiend; ++ti, ++num)
         {
             Triangle& t = *ti;
-            l->logMessage("Triangle " + StringConverter::toString(num) + " = {" +
+            l->log_message("Triangle " + StringConverter::toString(num) + " = {" +
                 "indexSet=" + StringConverter::toString(t.indexSet) + ", " + 
                 "vertexSet=" + StringConverter::toString(t.vertexSet) + ", " + 
                 "v0=" + StringConverter::toString(t.vertIndex[0]) + ", " + 
@@ -58,11 +58,11 @@ namespace Ogre {
         {
             num = 0;
             eiend = i->edges.end();
-            l->logMessage("Edge Group vertexSet=" + StringConverter::toString(i->vertexSet));
+            l->log_message("Edge Group vertexSet=" + StringConverter::toString(i->vertexSet));
             for (ei = i->edges.begin(); ei != eiend; ++ei, ++num)
             {
                 Edge& e = *ei;
-                l->logMessage(
+                l->log_message(
                     "Edge " + StringConverter::toString(num) + " = {\n" + 
                     "  tri0=" + StringConverter::toString(e.triIndex[0]) + ", \n" + 
                     "  tri1=" + StringConverter::toString(e.triIndex[1]) + ", \n" + 
@@ -441,18 +441,18 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void EdgeListBuilder::log(Log* l)
     {
-        l->logMessage("EdgeListBuilder Log");
-        l->logMessage("-------------------");
-        l->logMessage("Number of vertex sets: " + StringConverter::toString(mVertexDataList.size()));
-        l->logMessage("Number of index sets: " + StringConverter::toString(mGeometryList.size()));
+        l->log_message("EdgeListBuilder Log");
+        l->log_message("-------------------");
+        l->log_message("Number of vertex sets: " + StringConverter::toString(mVertexDataList.size()));
+        l->log_message("Number of index sets: " + StringConverter::toString(mGeometryList.size()));
         
         size_t i, j, k;
         // Log original vertex data
         for(i = 0; i < mVertexDataList.size(); ++i)
         {
             const VertexData* vData = mVertexDataList[i];
-            l->logMessage(".");
-            l->logMessage("Original vertex set " + 
+            l->log_message(".");
+            l->log_message("Original vertex set " + 
                 StringConverter::toString(i) + " - vertex count " + 
                 StringConverter::toString(vData->vertexCount));
             const VertexElement* posElem = vData->vertexDeclaration->findElementBySemantic(VES_POSITION);
@@ -465,7 +465,7 @@ namespace Ogre {
             for (j = 0; j < vData->vertexCount; ++j)
             {
                 posElem->baseVertexPointerToElement(pBaseVertex, &pFloat);
-                l->logMessage("Vertex " + StringConverter::toString(j) + 
+                l->log_message("Vertex " + StringConverter::toString(j) + 
                     ": (" + StringConverter::toString(pFloat[0]) + 
                     ", " + StringConverter::toString(pFloat[1]) + 
                     ", " + StringConverter::toString(pFloat[2]) + ")");
@@ -477,8 +477,8 @@ namespace Ogre {
         for(i = 0; i < mGeometryList.size(); i++)
         {
             const IndexData* iData = mGeometryList[i].indexData;
-            l->logMessage(".");
-            l->logMessage("Original triangle set " + 
+            l->log_message(".");
+            l->log_message("Original triangle set " + 
                 StringConverter::toString(mGeometryList[i].indexSet) + " - index count " + 
                 StringConverter::toString(iData->indexCount) + " - " + 
             "vertex set " + StringConverter::toString(mGeometryList[i].vertexSet) + " - " + 
@@ -499,7 +499,7 @@ namespace Ogre {
                         unsigned int n1 = *p32Idx++;
                         unsigned int n2 = *p32Idx++;
                         unsigned int n3 = *p32Idx++;
-                        l->logMessage("Triangle " + StringConverter::toString(j) +
+                        l->log_message("Triangle " + StringConverter::toString(j) +
                             ": (" + StringConverter::toString(n1) + 
                             ", " + StringConverter::toString(n2) + 
                             ", " + StringConverter::toString(n3) + ")");
@@ -507,7 +507,7 @@ namespace Ogre {
                     }
                     else
                     {
-                        l->logMessage("Triangle " + StringConverter::toString(j) + 
+                        l->log_message("Triangle " + StringConverter::toString(j) + 
                             ": (" + StringConverter::toString(*p32Idx++) + ")");
                         j++;
                     }
@@ -520,7 +520,7 @@ namespace Ogre {
                         unsigned short n1 = *p16Idx++;
                         unsigned short n2 = *p16Idx++;
                         unsigned short n3 = *p16Idx++;
-                        l->logMessage("Index " + StringConverter::toString(j) +
+                        l->log_message("Index " + StringConverter::toString(j) +
                             ": (" + StringConverter::toString(n1) + 
                             ", " + StringConverter::toString(n2) + 
                             ", " + StringConverter::toString(n3) + ")");
@@ -528,7 +528,7 @@ namespace Ogre {
                     }
                     else
                     {
-                        l->logMessage("Triangle " + StringConverter::toString(j) + 
+                        l->log_message("Triangle " + StringConverter::toString(j) + 
                             ": (" + StringConverter::toString(*p16Idx++) + ")");
                         j++;
                     }
@@ -536,13 +536,13 @@ namespace Ogre {
             }
 
             // Log common vertex list
-            l->logMessage(".");
-            l->logMessage("Common vertex list - vertex count " + 
+            l->log_message(".");
+            l->log_message("Common vertex list - vertex count " + 
                 StringConverter::toString(mVertices.size()));
             for (k = 0; k < mVertices.size(); ++k)
             {
                 CommonVertex& c = mVertices[k];
-                l->logMessage("Common vertex " + StringConverter::toString(k) + 
+                l->log_message("Common vertex " + StringConverter::toString(k) + 
                     ": (vertexSet=" + StringConverter::toString(c.vertexSet) + 
                     ", originalIndex=" + StringConverter::toString(c.originalIndex) + 
                     ", position=" + StringConverter::toString(c.position));

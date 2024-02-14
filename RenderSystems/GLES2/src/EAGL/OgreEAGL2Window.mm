@@ -231,7 +231,7 @@ namespace Ogre {
         if ((option = miscParams->find("externalSharegroup")) != miscParams->end())
         {
             group = (__bridge EAGLSharegroup *)(void*)StringConverter::parseSizeT(option->second);
-            LogManager::getSingleton().logMessage("iOS: Using an external EAGLSharegroup");
+            LogManager::getSingleton().log_message("iOS: Using an external EAGLSharegroup");
         }
         else
         {
@@ -273,7 +273,7 @@ namespace Ogre {
         ss  << "iOS: Window created " << widthPt << " x " << heightPt
             << " with backing store size " << mContext->mBackingWidth << " x " << mContext->mBackingHeight
             << " using content scaling factor " << std::fixed << std::setprecision(1) << getViewPointToPixelScale();
-        LogManager::getSingleton().logMessage(ss.str());
+        LogManager::getSingleton().log_message(ss.str());
         
         SAFE_ARC_AUTORELEASE_POOL_END()
     }
@@ -334,14 +334,14 @@ namespace Ogre {
             {
                 mWindow = (__bridge UIWindow *)(void*)StringConverter::parseSizeT(opt->second);
                 mIsExternal = true;
-                LogManager::getSingleton().logMessage("iOS: Using an external window handle");
+                LogManager::getSingleton().log_message("iOS: Using an external window handle");
             }
         
             if ((opt = miscParams->find("externalViewHandle")) != end)
             {
                 mView = (__bridge EAGL2View *)(void*)StringConverter::parseSizeT(opt->second);
                 mUsingExternalView = true;
-                LogManager::getSingleton().logMessage("iOS: Using an external view handle");
+                LogManager::getSingleton().log_message("iOS: Using an external view handle");
             }
         
             if ((opt = miscParams->find("externalViewControllerHandle")) != end)
@@ -350,7 +350,7 @@ namespace Ogre {
                 if(mViewController.view != nil)
                     mView = (EAGL2View *)mViewController.view;
                 mUsingExternalViewController = true;
-                LogManager::getSingleton().logMessage("iOS: Using an external view controller handle");
+                LogManager::getSingleton().log_message("iOS: Using an external view controller handle");
             }
 		}
         

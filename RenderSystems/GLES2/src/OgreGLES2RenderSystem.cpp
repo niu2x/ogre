@@ -162,7 +162,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().logMessage(getName() + " created.");
+        LogManager::getSingleton().log_message(getName() + " created.");
 
         mRenderAttribsBound.reserve(100);
         mRenderInstanceAttribsBound.reserve(100);
@@ -577,7 +577,7 @@ namespace Ogre {
 
             // Get the shader language version
             const char* shadingLangVersion = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-            LogManager::getSingleton().logMessage("Shading language version: " + String(shadingLangVersion));
+            LogManager::getSingleton().log_message("Shading language version: " + String(shadingLangVersion));
             StringVector tokens = StringUtil::split(shadingLangVersion, ". ");
             size_t i = 0;
 
@@ -1454,9 +1454,9 @@ namespace Ogre {
             GLES2PixelUtil::useSizedFormats();
         }
 
-        LogManager::getSingleton().logMessage("**************************************");
-        LogManager::getSingleton().logMessage("*** OpenGL ES 2.x Renderer Started ***");
-        LogManager::getSingleton().logMessage("**************************************");
+        LogManager::getSingleton().log_message("**************************************");
+        LogManager::getSingleton().log_message("*** OpenGL ES 2.x Renderer Started ***");
+        LogManager::getSingleton().log_message("**************************************");
     }
 
     void GLES2RenderSystem::_setRenderTarget(RenderTarget *target)
@@ -1638,9 +1638,9 @@ namespace Ogre {
 
     void GLES2RenderSystem::resetRenderer(RenderWindow* win)
     {
-        LogManager::getSingleton().logMessage("********************************************");
-        LogManager::getSingleton().logMessage("*** OpenGL ES 2.x Reset Renderer Started ***");
-        LogManager::getSingleton().logMessage("********************************************");
+        LogManager::getSingleton().log_message("********************************************");
+        LogManager::getSingleton().log_message("*** OpenGL ES 2.x Reset Renderer Started ***");
+        LogManager::getSingleton().log_message("********************************************");
                 
         initialiseContext(win);
         
@@ -1785,19 +1785,19 @@ namespace Ogre {
         glGetIntegerv(GL_MINOR_VERSION, &mVersion.minor);
 #endif
 
-        LogManager::getSingleton().logMessage("GL_VERSION = " + mDriverVersion.toString());
+        LogManager::getSingleton().log_message("GL_VERSION = " + mDriverVersion.toString());
 
 
         // Get vendor
         const GLubyte* pcVendor = glGetString(GL_VENDOR);
         tmpStr = (const char*)pcVendor;
-        LogManager::getSingleton().logMessage("GL_VENDOR = " + tmpStr);
+        LogManager::getSingleton().log_message("GL_VENDOR = " + tmpStr);
         mVendor = RenderSystemCapabilities::vendorFromString(tmpStr.substr(0, tmpStr.find(' ')));
 
         // Get renderer
         const GLubyte* pcRenderer = glGetString(GL_RENDERER);
         tmpStr = (const char*)pcRenderer;
-        LogManager::getSingleton().logMessage("GL_RENDERER = " + tmpStr);
+        LogManager::getSingleton().log_message("GL_RENDERER = " + tmpStr);
 
         // Set extension list
         StringStream ext;

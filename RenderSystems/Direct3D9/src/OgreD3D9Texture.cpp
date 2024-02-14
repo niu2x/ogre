@@ -848,9 +848,9 @@ namespace Ogre
         if (mWidth != mSrcWidth ||
             mHeight != mSrcHeight)
         {
-            LogManager::getSingleton().logMessage("D3D9 : ***** Dimensions altered by the render system");
-            LogManager::getSingleton().logMessage("D3D9 : ***** Source image dimensions : " + StringConverter::toString(mSrcWidth) + "x" + StringConverter::toString(mSrcHeight));
-            LogManager::getSingleton().logMessage("D3D9 : ***** Texture dimensions : " + StringConverter::toString(mWidth) + "x" + StringConverter::toString(mHeight));
+            LogManager::getSingleton().log_message("D3D9 : ***** Dimensions altered by the render system");
+            LogManager::getSingleton().log_message("D3D9 : ***** Source image dimensions : " + StringConverter::toString(mSrcWidth) + "x" + StringConverter::toString(mSrcHeight));
+            LogManager::getSingleton().log_message("D3D9 : ***** Texture dimensions : " + StringConverter::toString(mWidth) + "x" + StringConverter::toString(mHeight));
         }
         
         // Create list of subsurfaces for getBuffer()
@@ -871,27 +871,27 @@ namespace Ogre
         {
         case TEX_TYPE_1D:
             if (mUsage & TU_RENDERTARGET)
-                LogManager::getSingleton().logMessage("D3D9 : Creating 1D RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Creating 1D RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             else
-                LogManager::getSingleton().logMessage("D3D9 : Loading 1D Texture, image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Loading 1D Texture, image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             break;
         case TEX_TYPE_2D:
             if (mUsage & TU_RENDERTARGET)
-                LogManager::getSingleton().logMessage("D3D9 : Creating 2D RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Creating 2D RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             else
-                LogManager::getSingleton().logMessage("D3D9 : Loading 2D Texture, image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Loading 2D Texture, image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             break;
         case TEX_TYPE_3D:
             if (mUsage & TU_RENDERTARGET)
-                LogManager::getSingleton().logMessage("D3D9 : Creating 3D RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Creating 3D RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             else
-                LogManager::getSingleton().logMessage("D3D9 : Loading 3D Texture, image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Loading 3D Texture, image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             break;
         case TEX_TYPE_CUBE_MAP:
             if (mUsage & TU_RENDERTARGET)
-                LogManager::getSingleton().logMessage("D3D9 : Creating Cube map RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Creating Cube map RenderTarget, name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             else
-                LogManager::getSingleton().logMessage("D3D9 : Loading Cube Texture, base image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
+                LogManager::getSingleton().log_message("D3D9 : Loading Cube Texture, base image name : '" + getName() + "' with " + StringConverter::toString(mNumMipmaps) + " mip map levels");
             break;
         default:
             unloadImpl();
@@ -1222,7 +1222,7 @@ namespace Ogre
             catch (...)
             {
                 mLoadingState.store(LOADSTATE_UNLOADED);
-                LogManager::getSingleton().stream(LML_WARNING)
+                LogManager::getSingleton().stream(LogMsgLevel::WARNING)
                     << "Warning: Failed to restore texture " << getName() << " on DeviceCreate.";
             }
         }
@@ -1240,7 +1240,7 @@ namespace Ogre
             StringStream ss;
 
             ss << "D3D9 device: 0x[" << d3d9Device << "] destroy. Releasing D3D9 texture: " << mName;
-            LogManager::getSingleton().logMessage(ss.str());
+            LogManager::getSingleton().log_message(ss.str());
 
             TextureResources* textureResource = it->second;
 
@@ -1261,7 +1261,7 @@ namespace Ogre
             
             mMapDeviceToTextureResources.erase(it);
 
-            LogManager::getSingleton().logMessage("Released D3D9 texture: " + mName);   
+            LogManager::getSingleton().log_message("Released D3D9 texture: " + mName);   
         }   
     }
 
@@ -1279,7 +1279,7 @@ namespace Ogre
                 StringStream ss;
 
                 ss << "D3D9 device: 0x[" << d3d9Device << "] lost. Releasing D3D9 texture: " << mName;
-                LogManager::getSingleton().logMessage(ss.str());
+                LogManager::getSingleton().log_message(ss.str());
 
                 TextureResources* textureResource = it->second;             
 
@@ -1288,7 +1288,7 @@ namespace Ogre
                 // after device reset.
                 freeTextureResources(d3d9Device, textureResource);
                 
-                LogManager::getSingleton().logMessage("Released D3D9 texture: " + mName);   
+                LogManager::getSingleton().log_message("Released D3D9 texture: " + mName);   
             }                   
         }       
     }

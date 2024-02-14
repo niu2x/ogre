@@ -1711,7 +1711,7 @@ void ShaderGenerator::SGScheme::synchronizeWithLightSettings()
         // Case new light appeared -> invalidate. But dont invalidate the other way as shader compilation is costly.
         if ((currLightCount - sceneLightCount) < 0)
         {
-            LogManager::getSingleton().stream(LML_TRIVIAL)
+            LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
                 << "RTSS: invalidating scheme " << mName << " - lights changed " << currLightCount
                 << " -> " << sceneLightCount;
             curRenderState->setLightCount(sceneLightCount);
@@ -1720,7 +1720,7 @@ void ShaderGenerator::SGScheme::synchronizeWithLightSettings()
 
         if(!curRenderState->haveAreaLights() && haveAreaLights)
         {
-            LogManager::getSingleton().stream(LML_TRIVIAL)
+            LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
                 << "RTSS: invalidating scheme " << mName << " - enabling area lights";
             curRenderState->setHaveAreaLights(true);
             invalidate();
@@ -1735,7 +1735,7 @@ void ShaderGenerator::SGScheme::synchronizeWithFogSettings()
 
     if (sceneManager != NULL && sceneManager->getFogMode() != mFogMode)
     {
-        LogManager::getSingleton().stream(LML_TRIVIAL)
+        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
             << "RTSS: invalidating scheme " << mName << " - fog settings changed";
         mFogMode = sceneManager->getFogMode();
         invalidate();

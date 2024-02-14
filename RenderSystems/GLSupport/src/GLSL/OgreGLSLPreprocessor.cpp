@@ -242,7 +242,7 @@ namespace Ogre {
             msg = StringUtil::format("line %d: %s: `%.*s'\n", iLine, iError, int(iToken->Length), iToken->String);
         else
             msg = StringUtil::format("line %d: %s\n", iLine, iError);
-        LogManager::getSingleton().logMessage(msg, LML_CRITICAL);
+        LogManager::getSingleton().log_message(msg, LogMsgLevel::CRITICAL);
     }
 
     CPreprocessor::CPreprocessor (const Token &iToken, int iLine)

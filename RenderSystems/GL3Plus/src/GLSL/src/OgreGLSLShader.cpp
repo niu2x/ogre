@@ -454,7 +454,7 @@ namespace Ogre {
 
         // probably we have warnings
         if (!compileInfo.empty())
-            LogManager::getSingleton().stream(LML_WARNING) << getResourceLogName() << " " << compileInfo;
+            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << getResourceLogName() << " " << compileInfo;
     }
 
     void GLSLShader::unloadHighLevelImpl(void)

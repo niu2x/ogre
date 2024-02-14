@@ -229,8 +229,8 @@ namespace Ogre {
         if (!pluginFileName.empty())
             loadPlugins(pluginFileName);
 
-        LogManager::getSingleton().logMessage("*-*-* OGRE Initialising");
-        LogManager::getSingleton().logMessage("*-*-* Version " + mVersion);
+        LogManager::getSingleton().log_message("*-*-* OGRE Initialising");
+        LogManager::getSingleton().log_message("*-*-* Version " + mVersion);
 
         // Can't create managers until initialised
         mControllerManager = 0;
@@ -839,7 +839,7 @@ namespace Ogre {
 
         mIsInitialised = false;
 
-        LogManager::getSingleton().logMessage("*-*-* OGRE Shutdown");
+        LogManager::getSingleton().log_message("*-*-* OGRE Shutdown");
     }
     //-----------------------------------------------------------------------
     void Root::loadPlugins( const String& pluginsfile )
@@ -872,7 +872,7 @@ namespace Ogre {
         if(char* val = getenv("OGRE_PLUGIN_DIR"))
         {
             pluginDir = val;
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "setting PluginFolder from OGRE_PLUGIN_DIR environment variable");
         }
 
@@ -1040,7 +1040,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Root::installPlugin(Plugin* plugin)
     {
-        LogManager::getSingleton().logMessage("Installing plugin: " + plugin->getName());
+        LogManager::getSingleton().log_message("Installing plugin: " + plugin->getName());
 
         mPlugins.push_back(plugin);
         plugin->install();
@@ -1051,12 +1051,12 @@ namespace Ogre {
             plugin->initialise();
         }
 
-        LogManager::getSingleton().logMessage("Plugin successfully installed");
+        LogManager::getSingleton().log_message("Plugin successfully installed");
     }
     //---------------------------------------------------------------------
     void Root::uninstallPlugin(Plugin* plugin)
     {
-        LogManager::getSingleton().logMessage("Uninstalling plugin: " + plugin->getName());
+        LogManager::getSingleton().log_message("Uninstalling plugin: " + plugin->getName());
         PluginInstanceList::iterator i =
             std::find(mPlugins.begin(), mPlugins.end(), plugin);
         if (i != mPlugins.end())
@@ -1066,7 +1066,7 @@ namespace Ogre {
             plugin->uninstall();
             mPlugins.erase(i);
         }
-        LogManager::getSingleton().logMessage("Plugin successfully uninstalled");
+        LogManager::getSingleton().log_message("Plugin successfully uninstalled");
 
     }
     //-----------------------------------------------------------------------
@@ -1218,7 +1218,7 @@ namespace Ogre {
         // Save
         mMovableObjectFactoryMap[fact->getType()] = fact;
 
-        LogManager::getSingleton().logMessage("MovableObjectFactory for type '" +
+        LogManager::getSingleton().log_message("MovableObjectFactory for type '" +
             fact->getType() + "' registered.");
 
     }

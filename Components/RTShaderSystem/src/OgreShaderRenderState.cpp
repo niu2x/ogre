@@ -172,7 +172,7 @@ void TargetRenderState::acquirePrograms(Pass* pass)
         hasError = hasError || prog->hasCompileError();
         if (logProgramNames)
         {
-            LogManager::getSingleton().logMessage(StringUtil::format(
+            LogManager::getSingleton().log_message(StringUtil::format(
                 "RTSS: using %s for Pass %d of '%s'", prog->getName().c_str(), pass->getIndex(), matName));
         }
 

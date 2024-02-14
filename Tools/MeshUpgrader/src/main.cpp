@@ -273,8 +273,8 @@ void recalcBounds(Mesh* mesh)
 void printLodConfig(const LodConfig& lodConfig)
 {
     auto logMgr = LogManager::getSingletonPtr();
-    logMgr->logMessage("LOD config summary:");
-    logMgr->logMessage(" - lodConfig.strategy=" + lodConfig.strategy->getName());
+    logMgr->log_message("LOD config summary:");
+    logMgr->log_message(" - lodConfig.strategy=" + lodConfig.strategy->getName());
     String reductionMethod("Unknown");
     if (lodConfig.levels[0].reductionMethod == LodLevel::VRM_PROPORTIONAL) {
         reductionMethod = "VRM_PROPORTIONAL";
@@ -289,13 +289,13 @@ void printLodConfig(const LodConfig& lodConfig)
     }
     for (unsigned short i = 0; i < lodConfig.levels.size(); i++) {
         const LodLevel& lodLevel = lodConfig.levels[i];
-        logMgr->logMessage(" - lodConfig.levels[" + StringConverter::toString(i) + "].distance=" +
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].distance=" +
                            StringConverter::toString(lodLevel.distance) + distQuantity);
-        logMgr->logMessage(" - lodConfig.levels[" + StringConverter::toString(i) + "].reductionMethod=" +
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].reductionMethod=" +
                            (lodLevel.manualMeshName.empty() ? reductionMethod : "N/A"));
-        logMgr->logMessage(" - lodConfig.levels[" + StringConverter::toString(i) + "].reductionValue=" +
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].reductionValue=" +
                            (lodLevel.manualMeshName.empty() ? StringConverter::toString(lodLevel.reductionValue) : "N/A"));
-        logMgr->logMessage(" - lodConfig.levels[" + StringConverter::toString(i) + "].manualMeshName=" +
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].manualMeshName=" +
                            (lodLevel.manualMeshName.empty() ? "N/A" : lodLevel.manualMeshName));
     }
 }
@@ -343,9 +343,9 @@ void buildLod(UpgradeOptions& opts, MeshPtr& mesh)
     }
     printLodConfig(lodConfig);
 
-    LogManager::getSingleton().logMessage("Generating LOD levels...");
+    LogManager::getSingleton().log_message("Generating LOD levels...");
     gen.generateLodLevels(lodConfig);
-    LogManager::getSingleton().logMessage("Generating LOD levels... success");
+    LogManager::getSingleton().log_message("Generating LOD levels... success");
 }
 
 void checkColour(VertexData* vdata, bool& hasColour, bool& hasAmbiguousColour,
@@ -525,9 +525,9 @@ int main(int numargs, char** args)
 
         // Make sure we generate edge lists, provided they are not deliberately disabled
         if (opts.generateEdgeLists) {
-            logMgr.logMessage("Generating edge lists...");
+            logMgr.log_message("Generating edge lists...");
             mesh->buildEdgeList();
-            logMgr.logMessage("Generating edge lists... success");
+            logMgr.log_message("Generating edge lists... success");
         } else {
             mesh->freeEdgeList();
         }
@@ -540,10 +540,10 @@ int main(int numargs, char** args)
                 opts.generateTangents = false;
             }
             if (opts.generateTangents) {
-                logMgr.logMessage("Generating tangent vectors...");
+                logMgr.log_message("Generating tangent vectors...");
                 mesh->buildTangentVectors(srcTex, opts.tangentSplitMirrored, opts.tangentSplitRotated,
                                           opts.tangentUseParity);
-                logMgr.logMessage("Generating tangent vectors... success");
+                logMgr.log_message("Generating tangent vectors... success");
             }
         }
 

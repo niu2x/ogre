@@ -287,8 +287,8 @@ namespace Ogre {
                 // this part once for each name mentioned
                 if (def.constType == GCT_UNKNOWN)
                 {
-                    LogManager::getSingleton().logMessage("Problem parsing the following GLSL Uniform: '"
-                                                          + line + "' in file " + filename, LML_CRITICAL);
+                    LogManager::getSingleton().log_message("Problem parsing the following GLSL Uniform: '"
+                                                          + line + "' in file " + filename, LogMsgLevel::CRITICAL);
                     // next uniform
                     break;
                 }
@@ -308,7 +308,7 @@ namespace Ogre {
                 }
                 else
                 {
-                    LogManager::getSingleton().logMessage("Could not parse type of GLSL Uniform: '"
+                    LogManager::getSingleton().log_message("Could not parse type of GLSL Uniform: '"
                                                           + line + "' in file " + filename);
                 }
                 defs.map.emplace(paramName, def);
@@ -455,7 +455,7 @@ namespace Ogre {
                     }
                     else
                     {
-                        LogManager::getSingleton().logMessage("Missing opening brace in GLSL Uniform Block in file "
+                        LogManager::getSingleton().log_message("Missing opening brace in GLSL Uniform Block in file "
                                                               + filename);
                         break;
                     }

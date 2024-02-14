@@ -309,7 +309,7 @@ namespace Ogre
             msg = msg + "Unacceptable node type: " + StringConverter::toString(node->type);
         }
 
-        LogManager::getSingleton().logMessage(msg);
+        LogManager::getSingleton().log_message(msg);
 
         if(node->type == ANT_OBJECT)
         {
@@ -357,7 +357,7 @@ namespace Ogre
 #endif
             if(i->type == ANT_OBJECT && static_cast<ObjectAbstractNode*>(i.get())->abstract)
                 continue;
-            //LogManager::getSingleton().logMessage(static_cast<ObjectAbstractNode*>((*i).get())->name);
+            //LogManager::getSingleton().log_message(static_cast<ObjectAbstractNode*>((*i).get())->name);
             ScriptTranslator *translator = ScriptCompilerManager::getSingleton().getTranslator(i);
             if(translator)
                 translator->translate(this, i);

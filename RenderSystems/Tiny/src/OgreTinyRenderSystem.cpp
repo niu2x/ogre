@@ -27,7 +27,7 @@ namespace Ogre {
     TinyRenderSystem::TinyRenderSystem()
         : mHardwareBufferManager(0)
     {
-        LogManager::getSingleton().logMessage(getName() + " created.");
+        LogManager::getSingleton().log_message(getName() + " created.");
 
         initConfigOptions();
 
@@ -166,9 +166,9 @@ namespace Ogre {
 
         if (!mGLInitialised)
         {
-            LogManager::getSingleton().logMessage("**************************************");
-            LogManager::getSingleton().logMessage("***     Tiny Renderer Started      ***");
-            LogManager::getSingleton().logMessage("**************************************");
+            LogManager::getSingleton().log_message("**************************************");
+            LogManager::getSingleton().log_message("***     Tiny Renderer Started      ***");
+            LogManager::getSingleton().log_message("**************************************");
 
             // Initialise GL after the first window has been created
             // TODO: fire this from emulation options, and don't duplicate Real and Current capabilities

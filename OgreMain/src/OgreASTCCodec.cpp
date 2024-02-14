@@ -169,7 +169,7 @@ namespace Ogre {
 			Codec::registerCodec(msInstance);
 		}
 
-        LogManager::getSingleton().logMessage(LML_NORMAL,
+        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL,
                                               "ASTC codec registering");
 	}
 	//---------------------------------------------------------------------

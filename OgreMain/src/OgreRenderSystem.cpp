@@ -330,7 +330,7 @@ namespace Ogre {
                 ss << p.first << "=" << p.second << " ";
             }
         }
-        LogManager::getSingleton().logMessage(ss.str());
+        LogManager::getSingleton().log_message(ss.str());
 
         return NULL;
     }

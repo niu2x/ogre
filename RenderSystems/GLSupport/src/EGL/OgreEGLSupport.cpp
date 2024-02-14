@@ -367,7 +367,7 @@ namespace Ogre {
 
     void EGLSupport::start()
     {
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             "******************************\n"
             "*** Starting EGL Subsystem ***\n"
             "******************************");

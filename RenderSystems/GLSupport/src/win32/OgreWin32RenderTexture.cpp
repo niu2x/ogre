@@ -100,7 +100,7 @@ namespace Ogre {
                 break;
             default: break;
         };
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             " Win32PBuffer::Creating PBuffer of format bits="+
             StringConverter::toString(bits)+
             " float="+StringConverter::toString(isFloat)

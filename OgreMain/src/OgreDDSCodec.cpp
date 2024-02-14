@@ -167,8 +167,8 @@ namespace {
         if (!msInstance)
         {
 
-            LogManager::getSingleton().logMessage(
-                LML_NORMAL,
+            LogManager::getSingleton().log_message(
+                LogMsgLevel::NORMAL,
                 "DDS codec registering");
 
             msInstance = OGRE_NEW DDSCodec();

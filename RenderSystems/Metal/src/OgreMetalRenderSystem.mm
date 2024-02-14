@@ -267,7 +267,7 @@ namespace Ogre
         {
             if( [mActiveDevice->mDevice supportsFeatureSet:featureSets[i].featureSet] )
             {
-                LogManager::getSingleton().logMessage( "Supports: " + String(featureSets[i].name) );
+                LogManager::getSingleton().log_message( "Supports: " + String(featureSets[i].name) );
                 driverVersion.major = featureSets[i].major;
                 driverVersion.minor = featureSets[i].minor;
             }

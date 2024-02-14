@@ -76,7 +76,7 @@ static void APIENTRY GLDebugCallback(GLenum source,
 {
     const char *debSource = "", *debType = "", *debSev = "";
 
-    auto lml = Ogre::LML_NORMAL;
+    auto lml = Ogre::LogMsgLevel::NORMAL;
 
     if (source == GL_DEBUG_SOURCE_API)
         debSource = "OpenGL";
@@ -107,12 +107,12 @@ static void APIENTRY GLDebugCallback(GLenum source,
     if (severity == GL_DEBUG_SEVERITY_HIGH)
     {
         debSev = "high";
-        lml = Ogre::LML_CRITICAL;
+        lml = Ogre::LogMsgLevel::CRITICAL;
     }
     else if (severity == GL_DEBUG_SEVERITY_MEDIUM)
     {
         debSev = "medium";
-        lml = Ogre::LML_WARNING;
+        lml = Ogre::LogMsgLevel::WARNING;
     }
     else if (severity == GL_DEBUG_SEVERITY_LOW)
         debSev = "low";
@@ -141,7 +141,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().logMessage(getName() + " created.");
+        LogManager::getSingleton().log_message(getName() + " created.");
 
         // Get our GLSupport
         mGLSupport = getGLSupport();
@@ -1455,9 +1455,9 @@ namespace Ogre {
 
         mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GL3PlusStateCacheManager>();
 
-        LogManager::getSingleton().logMessage("**************************************");
-        LogManager::getSingleton().logMessage("***   OpenGL 3+ Renderer Started   ***");
-        LogManager::getSingleton().logMessage("**************************************");
+        LogManager::getSingleton().log_message("**************************************");
+        LogManager::getSingleton().log_message("***   OpenGL 3+ Renderer Started   ***");
+        LogManager::getSingleton().log_message("**************************************");
     }
 
     void GL3PlusRenderSystem::_setRenderTarget(RenderTarget *target)
@@ -1776,18 +1776,18 @@ namespace Ogre {
         glGetIntegerv(GL_MAJOR_VERSION, &mDriverVersion.major);
         glGetIntegerv(GL_MINOR_VERSION, &mDriverVersion.minor);
 
-        LogManager::getSingleton().logMessage("GL_VERSION = " + mDriverVersion.toString());
+        LogManager::getSingleton().log_message("GL_VERSION = " + mDriverVersion.toString());
 
         // Get vendor
         const GLubyte* pcVendor = glGetString(GL_VENDOR);
         String tmpStr = (const char*)pcVendor;
-        LogManager::getSingleton().logMessage("GL_VENDOR = " + tmpStr);
+        LogManager::getSingleton().log_message("GL_VENDOR = " + tmpStr);
         mVendor = RenderSystemCapabilities::vendorFromString(tmpStr.substr(0, tmpStr.find(' ')));
 
         // Get renderer
         const GLubyte* pcRenderer = glGetString(GL_RENDERER);
         tmpStr = (const char*)pcRenderer;
-        LogManager::getSingleton().logMessage("GL_RENDERER = " + tmpStr);
+        LogManager::getSingleton().log_message("GL_RENDERER = " + tmpStr);
 
         // Set extension list
         Log::Stream log = LogManager::getSingleton().stream();

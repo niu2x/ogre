@@ -203,7 +203,7 @@ namespace Ogre {
     {
         // Load from specified 'name'
         if (getCreator()->getVerbose())
-            LogManager::getSingleton().logMessage("Mesh: Loading "+mName+".");
+            LogManager::getSingleton().log_message("Mesh: Loading "+mName+".");
 
         mFreshFromDisk =
             ResourceGroupManager::getSingleton().openResource(

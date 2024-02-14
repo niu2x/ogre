@@ -777,7 +777,7 @@ namespace Ogre
         else
         {
             // oh dear
-            LogManager::getSingleton().stream(LML_CRITICAL) <<
+            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) <<
                 "We failed to prepare the terrain at (" << slot->x << ", " <<
                 slot->y <<") with the error '" << res->getMessages() << "'";
             freeTerrainSlotInstance(slot);

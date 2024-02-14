@@ -55,7 +55,7 @@ namespace Ogre
                 }
 
                 // Invalid option
-                LogManager::getSingleton().logMessage("Invalid option " + tmp, LML_CRITICAL);
+                LogManager::getSingleton().log_message("Invalid option " + tmp, LogMsgLevel::CRITICAL);
 
             }
         }
@@ -63,9 +63,9 @@ namespace Ogre
     }
 
     void logMaterialNotFound(const String& name, const String& groupName, const String& destType,
-                             const String& destName, LogMessageLevel lml)
+                             const String& destName, LogMsgLevel lml)
     {
-        LogManager::getSingleton().logMessage(
+        LogManager::getSingleton().log_message(
             StringUtil::format("Can't assign material to %s '%s'. Material '%s' not found in group '%s'. Have you "
                                "forgotten to define it in a .material script?",
                                destType.c_str(), destName.c_str(), name.c_str(), groupName.c_str()),

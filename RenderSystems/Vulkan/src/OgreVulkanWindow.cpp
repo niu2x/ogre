@@ -563,13 +563,13 @@ namespace Ogre
 
         if( result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR && result != VK_ERROR_OUT_OF_DATE_KHR )
         {
-            LogManager::getSingleton().logMessage(
+            LogManager::getSingleton().log_message(
                 "[VulkanWindow::swapBuffers] vkQueuePresentKHR: error presenting VkResult = " +
                 vkResultToString( result ) );
         }
 
         if( result == VK_SUBOPTIMAL_KHR || result == VK_ERROR_OUT_OF_DATE_KHR )
-            LogManager::getSingleton().logMessage("[VulkanWindow::swapBuffers] swapchain suboptimal or out fo date");
+            LogManager::getSingleton().log_message("[VulkanWindow::swapBuffers] swapchain suboptimal or out fo date");
 
         mSwapchainStatus = SwapchainReleased;
     }

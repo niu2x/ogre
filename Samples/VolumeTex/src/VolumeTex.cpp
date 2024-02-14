@@ -130,13 +130,13 @@ void Sample_VolumeTex::generate()
     HardwarePixelBufferSharedPtr buffer = ptex->getBuffer(0, 0);
     Ogre::StringStream d;
     d << "HardwarePixelBuffer " << buffer->getWidth() << " " << buffer->getHeight() << " " << buffer->getDepth();
-    LogManager::getSingleton().logMessage(d.str());
+    LogManager::getSingleton().log_message(d.str());
 
     buffer->lock(HardwareBuffer::HBL_NORMAL);
     const PixelBox &pb = buffer->getCurrentLock();
     d.str("");
     d << "PixelBox " << pb.getWidth() << " " << pb.getHeight() << " " << pb.getDepth() << " " << pb.rowPitch << " " << pb.slicePitch << " " << pb.data << " " << PixelUtil::getFormatName(pb.format);
-    LogManager::getSingleton().logMessage(d.str());
+    LogManager::getSingleton().log_message(d.str());
 
     Ogre::uint32 *pbptr = reinterpret_cast<Ogre::uint32*>(pb.data);
     for(size_t z=pb.front; z<pb.back; z++)

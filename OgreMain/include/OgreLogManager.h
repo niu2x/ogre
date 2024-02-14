@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreLog.h"
+#include "log.h"
 #include "OgreSingleton.h"
 #include "OgreHeaderPrefix.h"
 
@@ -116,7 +116,7 @@ namespace Ogre
 
         /** Log a message to the default log.
         */
-        void logMessage( const String& message, LogMessageLevel lml = LML_NORMAL, 
+        void log_message( const String& message, LogMsgLevel lml = LogMsgLevel::NORMAL, 
             bool maskDebug = false);
 
         /// @overload
@@ -126,17 +126,15 @@ namespace Ogre
 
         /** Log a message to the default log (signature for backward compatibility).
         */
-        void logMessage( LogMessageLevel lml, const String& message,  
-            bool maskDebug = false) { logMessage(message, lml, maskDebug); }
+        void log_message( LogMsgLevel lml, const String& message,  
+            bool maskDebug = false) { log_message(message, lml, maskDebug); }
 
         /** Get a stream on the default log. */
-        Log::Stream stream(LogMessageLevel lml = LML_NORMAL, 
+        Log::Stream stream(LogMsgLevel lml = LogMsgLevel::NORMAL, 
             bool maskDebug = false);
 
-        /// @deprecated use setMinLogLevel()
-        OGRE_DEPRECATED void setLogDetail(LoggingLevel ll);
-        /// sets the minimal #LogMessageLevel for the default log
-        void setMinLogLevel(LogMessageLevel lml);
+        /// sets the minimal #LogMsgLevel for the default log
+        void setMinLogLevel(LogMsgLevel lml);
         /// @copydoc Singleton::getSingleton()
         static LogManager& getSingleton(void);
         /// @copydoc Singleton::getSingleton()

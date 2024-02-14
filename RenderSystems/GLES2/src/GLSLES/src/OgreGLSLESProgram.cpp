@@ -97,7 +97,7 @@ namespace Ogre {
         catch(Exception& e)
         {
             // we already compiled this once, this should not happen
-            LogManager::getSingleton().stream(LML_WARNING) << e.what();
+            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << e.what();
         }
     }
 #endif
@@ -214,7 +214,7 @@ namespace Ogre {
 
         // probably we have warnings
         if (!compileInfo.empty())
-            LogManager::getSingleton().stream(LML_WARNING) << getResourceLogName() << " " << compileInfo;
+            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << getResourceLogName() << " " << compileInfo;
     }
 
 #if !OGRE_NO_GLES2_GLSL_OPTIMISER   
@@ -242,7 +242,7 @@ namespace Ogre {
     {
         if (isSupported())
         {
-//            LogManager::getSingleton().logMessage("Deleting shader " + StringConverter::toString(mGLShaderHandle) +
+//            LogManager::getSingleton().log_message("Deleting shader " + StringConverter::toString(mGLShaderHandle) +
 //                                                  " and program " + StringConverter::toString(mGLProgramHandle));
             OGRE_CHECK_GL_ERROR(glDeleteShader(mGLShaderHandle));
 
@@ -285,14 +285,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void GLSLESProgram::attachToProgramObject( const GLuint programObject )
     {
-//        LogManager::getSingleton().logMessage("Attaching shader " + StringConverter::toString(mGLShaderHandle) +
+//        LogManager::getSingleton().log_message("Attaching shader " + StringConverter::toString(mGLShaderHandle) +
 //                                              " to program " + StringConverter::toString(programObject));
         OGRE_CHECK_GL_ERROR(glAttachShader(programObject, mGLShaderHandle));
     }
     //-----------------------------------------------------------------------
     void GLSLESProgram::detachFromProgramObject( const GLuint programObject )
     {
-//        LogManager::getSingleton().logMessage("Detaching shader " + StringConverter::toString(mGLShaderHandle) +
+//        LogManager::getSingleton().log_message("Detaching shader " + StringConverter::toString(mGLShaderHandle) +
 //                                              " to program " + StringConverter::toString(programObject));
         OGRE_CHECK_GL_ERROR(glDetachShader(programObject, mGLShaderHandle));
     }

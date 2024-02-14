@@ -138,16 +138,16 @@ inline Ogre::RGBA XSItoOgre(const XSI::CVertexColor& xsiColour)
 inline void LogOgreAndXSI(const Ogre::String& msg)
 {
     static XSI::Application app;
-    Ogre::LogManager::getSingleton().logMessage(msg);
-    app.LogMessage(OgretoXSI(msg));
+    Ogre::LogManager::getSingleton().log_message(msg);
+    app.log_message(OgretoXSI(msg));
 
 }
 
 inline void LogOgreAndXSI(const XSI::CString& msg)
 {
     static XSI::Application app;
-    Ogre::LogManager::getSingleton().logMessage(XSItoOgre(msg));
-    app.LogMessage(msg);
+    Ogre::LogManager::getSingleton().log_message(XSItoOgre(msg));
+    app.log_message(msg);
 
 }
 
