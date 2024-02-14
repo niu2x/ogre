@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreGpuProgramParams.h"
 #include "OgreMatrix4.h"
 #include "OgreMaterial.h"
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgreVector.h"
 #include "OgreException.h"
 #include "OgreUserObjectBindings.h"

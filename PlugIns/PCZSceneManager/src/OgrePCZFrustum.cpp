@@ -93,8 +93,8 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            Plane::Side side = mOriginPlane.getSide(centre, halfSize);
-            if (side == Plane::NEGATIVE_SIDE)
+            Plane::Side side = mOriginPlane.which_side(centre, halfSize);
+            if (side == PlaneSide::NEGATIVE_SIDE)
             {
                 return false;
             }
@@ -106,8 +106,8 @@ namespace Ogre
         while ( pit != mActiveCullingPlanes.end() )
         {
             PCPlane * plane = *pit;
-            Plane::Side xside = plane->getSide(centre, halfSize);
-            if (xside == Plane::NEGATIVE_SIDE)
+            Plane::Side xside = plane->which_side(centre, halfSize);
+            if (xside == PlaneSide::NEGATIVE_SIDE)
             {
                 return false;
             }
@@ -121,10 +121,10 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            Plane::Side side = mOriginPlane.getSide(bound.getCenter());
-            if (side == Plane::NEGATIVE_SIDE)
+            Plane::Side side = mOriginPlane.which_side(bound.getCenter());
+            if (side == PlaneSide::NEGATIVE_SIDE)
             {
-                Real dist = mOriginPlane.getDistance(bound.getCenter());
+                Real dist = mOriginPlane.distance_to(bound.getCenter());
                 if (dist > bound.getRadius())
                 {
                     return false;
@@ -138,10 +138,10 @@ namespace Ogre
         while ( pit != mActiveCullingPlanes.end() )
         {
             PCPlane * plane = *pit;
-            Plane::Side xside = plane->getSide(bound.getCenter());
-            if (xside == Plane::NEGATIVE_SIDE)
+            Plane::Side xside = plane->which_side(bound.getCenter());
+            if (xside == PlaneSide::NEGATIVE_SIDE)
             {
-                Real dist = plane->getDistance(bound.getCenter());
+                Real dist = plane->distance_to(bound.getCenter());
                 if (dist > bound.getRadius())
                 {
                     return false;
@@ -214,8 +214,8 @@ namespace Ogre
             // we have to check each corner of the portal
             for (int corner = 0; corner < 4; corner++)
             {
-                Plane::Side side = mOriginPlane.getSide(portal->getDerivedCorner(corner));
-                if (side != Plane::NEGATIVE_SIDE)
+                Plane::Side side = mOriginPlane.which_side(portal->getDerivedCorner(corner));
+                if (side != PlaneSide::NEGATIVE_SIDE)
                 {
                     visible_flag = true;
                     break;
@@ -241,8 +241,8 @@ namespace Ogre
             // we have to check each corner of the portal
             for (int corner = 0; corner < 4; corner++)
             {
-                Plane::Side side =plane->getSide(portal->getDerivedCorner(corner));
-                if (side != Plane::NEGATIVE_SIDE)
+                Plane::Side side =plane->which_side(portal->getDerivedCorner(corner));
+                if (side != PlaneSide::NEGATIVE_SIDE)
                 {
                     visible_flag = true;
                     break;
@@ -280,8 +280,8 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            Plane::Side side = mOriginPlane.getSide(centre, halfSize);
-            if (side != Plane::POSITIVE_SIDE) return false;
+            Plane::Side side = mOriginPlane.which_side(centre, halfSize);
+            if (side != PlaneSide::POSITIVE_SIDE) return false;
         }
 
         // For each extra active culling plane,
@@ -291,8 +291,8 @@ namespace Ogre
         while ( pit != mActiveCullingPlanes.end() )
         {
             PCPlane * plane = *pit;
-            Plane::Side xside = plane->getSide(centre, halfSize);
-            if (xside != Plane::POSITIVE_SIDE)
+            Plane::Side xside = plane->which_side(centre, halfSize);
+            if (xside != PlaneSide::POSITIVE_SIDE)
             {
                 return false;
             }
@@ -307,8 +307,8 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            if (mOriginPlane.getDistance(bound.getCenter()) <= bound.getRadius() ||
-                mOriginPlane.getSide(bound.getCenter()) != Plane::POSITIVE_SIDE)
+            if (mOriginPlane.distance_to(bound.getCenter()) <= bound.getRadius() ||
+                mOriginPlane.which_side(bound.getCenter()) != PlaneSide::POSITIVE_SIDE)
             {
                 return false;
             }
@@ -322,8 +322,8 @@ namespace Ogre
         {
             PCPlane* plane = *pit;
 
-            if (plane->getDistance(bound.getCenter()) <= bound.getRadius() ||
-                plane->getSide(bound.getCenter()) != Plane::POSITIVE_SIDE)
+            if (plane->distance_to(bound.getCenter()) <= bound.getRadius() ||
+                plane->which_side(bound.getCenter()) != PlaneSide::POSITIVE_SIDE)
             {
                 return false;
             }
@@ -388,8 +388,8 @@ namespace Ogre
             // we have to check each corner of the portal
             for (int corner = 0; corner < 4; corner++)
             {
-                Plane::Side side = mOriginPlane.getSide(portal->getDerivedCorner(corner));
-                if (side == Plane::NEGATIVE_SIDE) return false;
+                Plane::Side side = mOriginPlane.which_side(portal->getDerivedCorner(corner));
+                if (side == PlaneSide::NEGATIVE_SIDE) return false;
             }
         }
 
@@ -402,8 +402,8 @@ namespace Ogre
             // we have to check each corner of the portal
             for (int corner = 0; corner < 4; corner++)
             {
-                Plane::Side side =plane->getSide(portal->getDerivedCorner(corner));
-                if (side == Plane::NEGATIVE_SIDE) return false;
+                Plane::Side side =plane->which_side(portal->getDerivedCorner(corner));
+                if (side == PlaneSide::NEGATIVE_SIDE) return false;
             }
             pit++;
         }
@@ -432,13 +432,13 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            Plane::Side side = mOriginPlane.getSide(centre, halfSize);
-            if (side == Plane::NEGATIVE_SIDE)
+            Plane::Side side = mOriginPlane.which_side(centre, halfSize);
+            if (side == PlaneSide::NEGATIVE_SIDE)
             {
                 return NONE;
             }
             // We can't return now as the box could be later on the negative side of another plane.
-            if(side == Plane::BOTH_SIDE) 
+            if(side == PlaneSide::BOTH_SIDE) 
             {
                 all_inside = false;
             }
@@ -450,13 +450,13 @@ namespace Ogre
         while ( pit != mActiveCullingPlanes.end() )
         {
             PCPlane * plane = *pit;
-            Plane::Side xside = plane->getSide(centre, halfSize);
-            if(xside == Plane::NEGATIVE_SIDE) 
+            Plane::Side xside = plane->which_side(centre, halfSize);
+            if(xside == PlaneSide::NEGATIVE_SIDE) 
             {
                 return NONE;
             }
             // We can't return now as the box could be later on the negative side of a plane.
-            if(xside == Plane::BOTH_SIDE) 
+            if(xside == PlaneSide::BOTH_SIDE) 
             {
                 all_inside = false;
                 break;
@@ -526,10 +526,10 @@ namespace Ogre
             while ( pit != mActiveCullingPlanes.end() )
             {
                 PCPlane * plane = *pit;
-                pt0_side = plane->getSide(portal->getDerivedCorner(i));
-                pt1_side = plane->getSide(portal->getDerivedCorner(j));
-                if (pt0_side == Plane::NEGATIVE_SIDE &&
-                    pt1_side == Plane::NEGATIVE_SIDE)
+                pt0_side = plane->which_side(portal->getDerivedCorner(i));
+                pt1_side = plane->which_side(portal->getDerivedCorner(j));
+                if (pt0_side == PlaneSide::NEGATIVE_SIDE &&
+                    pt1_side == PlaneSide::NEGATIVE_SIDE)
                 {
                     // the portal edge was actually completely culled by one of  culling planes
                     visible = false;

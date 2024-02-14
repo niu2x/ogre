@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "OgreRenderSystemCapabilities.h"
 #include "OgreConfigOptionMap.h"
 #include "OgreGpuProgram.h"
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreHeaderPrefix.h"
 

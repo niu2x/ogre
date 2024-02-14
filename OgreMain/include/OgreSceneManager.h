@@ -33,7 +33,7 @@ Torus Knot Software Ltd.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgreQuaternion.h"
 #include "colour_value.h"
 #include "OgreCommon.h"

@@ -137,7 +137,7 @@ void LodOutsideMarker::initHull()
         v = mVertexListOrig.begin();
         vEnd = mVertexListOrig.end();
         for (; v != vEnd; v++) {
-            Real dist = std::abs(plane.getDistance(v->position));
+            Real dist = std::abs(plane.distance_to(v->position));
             if (dist > maxdist) {
                 maxdist = dist;
                 vertex[3] = &*v;
@@ -207,7 +207,7 @@ LodOutsideMarker::CHVertex* LodOutsideMarker::getFurthestVertex(CHTriangle* tri)
         if (getOutsideData(&*v)->isInsideHull) {
             continue;
         }
-        Real dist = plane.getDistance(v->position);
+        Real dist = plane.distance_to(v->position);
         if (dist > furthestDistance) {
             furthestDistance = dist;
             furthestVertex = &*v;

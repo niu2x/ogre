@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreAxisAlignedBox.h"
 #include "OgreSphere.h"
 #include "OgreMath.h"
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -54,7 +54,7 @@ namespace Ogre {
         PlaneList planes;
         Plane::Side outside;
 
-        PlaneBoundedVolume() :outside(Plane::NEGATIVE_SIDE) {}
+        PlaneBoundedVolume() :outside(PlaneSide::NEGATIVE_SIDE) {}
         /** Constructor, determines which side is deemed to be 'outside' */
         PlaneBoundedVolume(Plane::Side theOutside) 
             : outside(theOutside) {}
@@ -78,7 +78,7 @@ namespace Ogre {
             {
                 const Plane& plane = *i;
 
-                Plane::Side side = plane.getSide(centre, halfSize);
+                Plane::Side side = plane.which_side(centre, halfSize);
                 if (side == outside)
                 {
                     // Found a splitting plane therefore return not intersecting
@@ -102,9 +102,9 @@ namespace Ogre {
                 const Plane& plane = *i;
 
                 // Test which side of the plane the sphere is
-                Real d = plane.getDistance(sphere.getCenter());
+                Real d = plane.distance_to(sphere.getCenter());
                 // Negate d if planes point inwards
-                if (outside == Plane::NEGATIVE_SIDE) d = -d;
+                if (outside == PlaneSide::NEGATIVE_SIDE) d = -d;
 
                 if ( (d - sphere.getRadius()) > 0)
                     return false;
@@ -120,7 +120,7 @@ namespace Ogre {
         */
         inline std::pair<bool, Real> intersects(const Ray& ray)
         {
-            return Math::intersects(ray, planes, outside == Plane::POSITIVE_SIDE);
+            return Math::intersects(ray, planes, outside == PlaneSide::POSITIVE_SIDE);
         }
 
     };

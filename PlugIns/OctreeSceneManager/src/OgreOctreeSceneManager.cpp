@@ -145,10 +145,10 @@ static Intersection intersect( const PlaneBoundedVolume &one, const AxisAlignedB
     {
         const Plane& plane = *i;
 
-        Plane::Side side = plane.getSide(centre, halfSize);
+        Plane::Side side = plane.which_side(centre, halfSize);
         if(side == one.outside)
                 return OUTSIDE;
-        if(side == Plane::BOTH_SIDE)
+        if(side == PlaneSide::BOTH_SIDE)
                 all_inside = false; 
     }
 

@@ -285,7 +285,7 @@ namespace Ogre {
                 ManualCullingMode cullMode = pMat->getTechnique(0)->getPass(0)->getManualCullingMode();
                 if (cullMode != MANUAL_CULL_NONE)
                 {
-                    Real dist = faceGroup->plane.getDistance(cam->getDerivedPosition());
+                    Real dist = faceGroup->plane.distance_to(cam->getDerivedPosition());
                     if ( (dist < 0 && cullMode == MANUAL_CULL_BACK) ||
                         (dist > 0 && cullMode == MANUAL_CULL_FRONT) )
                         continue; // skip
@@ -571,7 +571,7 @@ namespace Ogre {
 
                         for (planeit = (*bi)->planes.begin(); planeit != planeitend; ++planeit)
                         {
-                            Real dist = planeit->getDistance(pos);
+                            Real dist = planeit->distance_to(pos);
                             if (dist > radius)
                             {
                                 // Definitely excluded
@@ -657,7 +657,7 @@ namespace Ogre {
                 + tracingRay.getDirection() * result.second;
             Ray splitRay(splitPoint, tracingRay.getDirection());
 
-            if (node->getSide(tracingRay.getOrigin()) == Plane::NEGATIVE_SIDE)
+            if (node->getSide(tracingRay.getOrigin()) == PlaneSide::NEGATIVE_SIDE)
             {
                 // Intersects from -ve side, so do back then front
                 res = processNode(

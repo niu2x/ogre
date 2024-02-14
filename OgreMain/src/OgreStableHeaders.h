@@ -79,7 +79,7 @@ extern "C" {
 #include "OgreNode.h"
 #include "OgreParticleSystemManager.h"
 #include "OgrePass.h"
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgrePlatformInformation.h"
 #include "OgreProfiler.h"
 #include "OgreQuaternion.h"

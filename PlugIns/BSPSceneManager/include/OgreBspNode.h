@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _BspNode_H__
 
 #include "OgreBspPrerequisites.h"
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgreAxisAlignedBox.h"
 #include "OgreSceneQuery.h"
 

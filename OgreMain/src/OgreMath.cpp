@@ -307,11 +307,11 @@ namespace Ogre
         // derive side
         // NB we don't pass directly since that would require Plane::Side in 
         // interface, which results in recursive includes since Math is so fundamental
-        Plane::Side outside = normalIsOutside ? Plane::POSITIVE_SIDE : Plane::NEGATIVE_SIDE;
+        Plane::Side outside = normalIsOutside ? PlaneSide::POSITIVE_SIDE : PlaneSide::NEGATIVE_SIDE;
         for (auto& plane : planes)
         {
             // is origin outside?
-            if (plane.getSide(ray.getOrigin()) == outside)
+            if (plane.which_side(ray.getOrigin()) == outside)
             {
                 allInside = false;
                 // Test single plane

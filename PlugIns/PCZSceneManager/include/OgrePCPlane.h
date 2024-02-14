@@ -29,7 +29,7 @@ THE SOFTWARE.
 #ifndef PC_PLANE_H
 #define PC_PLANE_H
 
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgrePCZPrerequisites.h"
 
 namespace Ogre

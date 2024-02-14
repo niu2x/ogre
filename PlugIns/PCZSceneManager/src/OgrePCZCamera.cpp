@@ -110,10 +110,10 @@ namespace Ogre
                 continue;
 
             // This updates frustum planes and deals with cull frustum
-            Plane::Side side = getFrustumPlane(plane).getSide(centre, halfSize);
-            if(side == Plane::NEGATIVE_SIDE) return NONE;
+            Plane::Side side = getFrustumPlane(plane).which_side(centre, halfSize);
+            if(side == PlaneSide::NEGATIVE_SIDE) return NONE;
             // We can't return now as the box could be later on the negative side of a plane.
-            if(side == Plane::BOTH_SIDE) 
+            if(side == PlaneSide::BOTH_SIDE) 
                     all_inside = false;
         }
         
@@ -194,8 +194,8 @@ namespace Ogre
                 // we have to check each corner of the portal
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    Plane::Side side = getCullingFrustum()->getFrustumPlane(plane).getSide(portal->getDerivedCorner(corner));
-                    if (side != Plane::NEGATIVE_SIDE)
+                    Plane::Side side = getCullingFrustum()->getFrustumPlane(plane).which_side(portal->getDerivedCorner(corner));
+                    if (side != PlaneSide::NEGATIVE_SIDE)
                     {
                         visible_flag = true;
                         break;
@@ -235,8 +235,8 @@ namespace Ogre
                 // we have to check each corner of the portal
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    Plane::Side side = mFrustumPlanes[plane].getSide(portal->getDerivedCorner(corner));
-                    if (side != Plane::NEGATIVE_SIDE)
+                    Plane::Side side = mFrustumPlanes[plane].which_side(portal->getDerivedCorner(corner));
+                    if (side != PlaneSide::NEGATIVE_SIDE)
                     {
                         visible_flag = true;
                         break;

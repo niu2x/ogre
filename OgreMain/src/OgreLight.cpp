@@ -309,7 +309,7 @@ namespace Ogre {
         // First check if the light is close to the near plane, since
         // in this case we have to build a degenerate clip volume
         mNearClipVolume.planes.clear();
-        mNearClipVolume.outside = Plane::NEGATIVE_SIDE;
+        mNearClipVolume.outside = PlaneSide::NEGATIVE_SIDE;
 
         Real n = cam->getNearClipDistance();
         // Homogenous position

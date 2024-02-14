@@ -43,7 +43,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreRay.h"
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreMaterialManager.h"
 #include "OgreTimer.h"

@@ -934,14 +934,14 @@ namespace Ogre
             // check if polygons lie inside or outside (or on the plane)
             // for each vertex check where it is situated in regard to the plane
             // three possibilities appear:
-            Plane::Side clipSide = keepNegative ? Plane::POSITIVE_SIDE : Plane::NEGATIVE_SIDE;
+            Plane::Side clipSide = keepNegative ? PlaneSide::POSITIVE_SIDE : PlaneSide::NEGATIVE_SIDE;
             // - side is clipSide: vertex will be clipped
             // - side is !clipSide: vertex will be untouched
             // - side is NOSIDE:   vertex will be untouched
             Plane::Side *side = OGRE_ALLOC_T(Plane::Side, vertexCount, MEMCATEGORY_SCENE_CONTROL);
             for ( size_t iVertex = 0; iVertex < vertexCount; ++iVertex )
             {
-                side[ iVertex ] = pl.getSide( p.getVertex( iVertex ) );
+                side[ iVertex ] = pl.which_side( p.getVertex( iVertex ) );
             }
 
             // now we check the side combinations for the current and the next vertex

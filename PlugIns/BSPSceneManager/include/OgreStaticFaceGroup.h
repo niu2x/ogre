@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgrePlane.h"
+#include "plane.h"
 #include "OgrePatchSurface.h"
 
 namespace Ogre {

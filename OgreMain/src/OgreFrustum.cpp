@@ -214,8 +214,8 @@ namespace Ogre {
             if (plane == FRUSTUM_PLANE_FAR && mFarDist == 0)
                 continue;
 
-            Plane::Side side = mFrustumPlanes[plane].getSide(centre, halfSize);
-            if (side == Plane::NEGATIVE_SIDE)
+            Plane::Side side = mFrustumPlanes[plane].which_side(centre, halfSize);
+            if (side == PlaneSide::NEGATIVE_SIDE)
             {
                 // ALL corners on negative side therefore out of view
                 if (culledBy)
@@ -242,7 +242,7 @@ namespace Ogre {
             if (plane == FRUSTUM_PLANE_FAR && mFarDist == 0)
                 continue;
 
-            if (mFrustumPlanes[plane].getSide(vert) == Plane::NEGATIVE_SIDE)
+            if (mFrustumPlanes[plane].which_side(vert) == PlaneSide::NEGATIVE_SIDE)
             {
                 // ALL corners on negative side therefore out of view
                 if (culledBy)
@@ -270,7 +270,7 @@ namespace Ogre {
 
             // If the distance from sphere center to plane is negative, and 'more negative' 
             // than the radius of the sphere, sphere is outside frustum
-            if (mFrustumPlanes[plane].getDistance(sphere.getCenter()) < -sphere.getRadius())
+            if (mFrustumPlanes[plane].distance_to(sphere.getCenter()) < -sphere.getRadius())
             {
                 // ALL corners on negative side therefore out of view
                 if (culledBy)

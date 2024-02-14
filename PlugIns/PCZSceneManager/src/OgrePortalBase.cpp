@@ -520,7 +520,7 @@ bool PortalBase::intersects(const PlaneBoundedVolume& pbv)
                     bool allOutside = true;
                     for (int i=0;i<4;i++)
                     {
-                        if (plane.getSide(mDerivedCorners[i]) != pbv.outside)
+                        if (plane.which_side(mDerivedCorners[i]) != pbv.outside)
                         {
                             allOutside = false;
                         }
@@ -657,8 +657,8 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
                 // a crossing occurs if the "side" of the final position of the node compared
                 // to the final position of the portal is negative AND the initial position
                 // of the node compared to the initial position of the portal is non-negative
-                if (mDerivedPlane.getSide(pczsn->_getDerivedPosition()) == Plane::NEGATIVE_SIDE &&
-                    mPrevDerivedPlane.getSide(pczsn->getPrevPosition()) != Plane::NEGATIVE_SIDE)
+                if (mDerivedPlane.which_side(pczsn->_getDerivedPosition()) == PlaneSide::NEGATIVE_SIDE &&
+                    mPrevDerivedPlane.which_side(pczsn->getPrevPosition()) != PlaneSide::NEGATIVE_SIDE)
                 {
                     // safety check - make sure the node has at least one dimension which is
                     // small enough to fit through the portal! (avoid the "elephant fitting 
@@ -677,11 +677,11 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
             // the portal.  We check for this by checking the bounding box of the node vs.
             // the sphere of the portal
             if (mDerivedSphere.intersects(pczsn->_getWorldAABB()) &&
-                mDerivedPlane.getSide(pczsn->_getWorldAABB()) == Plane::BOTH_SIDE )
+                mDerivedPlane.which_side(pczsn->_getWorldAABB()) == PlaneSide::BOTH_SIDE )
             {
                 // intersection but no crossing
                 // note this means that the node is CURRENTLY touching the portal.
-                if (mDerivedPlane.getSide(pczsn->_getDerivedPosition()) != Plane::NEGATIVE_SIDE)
+                if (mDerivedPlane.which_side(pczsn->_getDerivedPosition()) != PlaneSide::NEGATIVE_SIDE)
                 {
                     // the node is on the positive (front) or exactly on the CP of the portal
                     return PortalBase::INTERSECT_NO_CROSS;
@@ -800,8 +800,8 @@ bool PortalBase::crossedPortal(const PortalBase* otherPortal)
                 // of this portal compared to the initial position of the other portal is non-negative
                 // NOTE: This function assumes that this portal is the smaller portal potentially crossing
                 //       over the otherPortal which is larger.
-                if (otherPortal->getDerivedPlane().getSide(mDerivedCP) == Plane::NEGATIVE_SIDE &&
-                    otherPortal->getPrevDerivedPlane().getSide(mPrevDerivedCP) != Plane::NEGATIVE_SIDE)
+                if (otherPortal->getDerivedPlane().which_side(mDerivedCP) == PlaneSide::NEGATIVE_SIDE &&
+                    otherPortal->getPrevDerivedPlane().which_side(mPrevDerivedCP) != PlaneSide::NEGATIVE_SIDE)
                 {
                     // crossing occurred!
                     return true;

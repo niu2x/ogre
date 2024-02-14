@@ -131,7 +131,7 @@ namespace Ogre {
                 "This method is not valid on a leaf node.",
                 "BspNode::getSide");
 
-        return mSplitPlane.getSide(point);
+        return mSplitPlane.which_side(point);
 
     }
     //-----------------------------------------------------------------------
@@ -144,7 +144,7 @@ namespace Ogre {
                 "BspNode::getNextNode");
 
         Plane::Side sd = getSide(point);
-        if (sd == Plane::NEGATIVE_SIDE)
+        if (sd == PlaneSide::NEGATIVE_SIDE)
         {
             //LogManager::getSingleton().log_message("back");
             return getBack();
@@ -176,7 +176,7 @@ namespace Ogre {
                 "This method is not valid on a leaf node.",
                 "BspNode::getSide");
 
-        return mSplitPlane.getDistance(pos);
+        return mSplitPlane.distance_to(pos);
 
     }
     //-----------------------------------------------------------------------
