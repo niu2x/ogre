@@ -450,7 +450,7 @@ int main(int numargs, char** args)
     }
     catch(Exception& e)
     {
-        LogManager::getSingleton().log_error(e.getDescription());
+        LogManager::getSingleton().log_error(e.description());
         retCode = 1;
     }
 

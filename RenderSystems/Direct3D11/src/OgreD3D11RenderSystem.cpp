@@ -50,7 +50,7 @@ THE SOFTWARE.
 #include "OgreD3D11DepthBuffer.h"
 #include "OgreD3D11HardwarePixelBuffer.h"
 #include "OgreD3D11RenderTarget.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreRoot.h"
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
@@ -466,7 +466,7 @@ namespace Ogre
                 for( unsigned k=0; k < driver->getVideoModeList()->count(); k++ )
                 {
                     videoMode = driver->getVideoModeList()->item( k );
-                    optVideoMode->possibleValues.push_back( videoMode->getDescription() );
+                    optVideoMode->possibleValues.push_back( videoMode->description() );
                 }
 
                 // Reset video mode to default if previous doesn't avail in new possible values

@@ -157,7 +157,7 @@ try
         return 1;
     }
     catch (Exception &e) {
-        log.log_message("Exception: " + e.getFullDescription());
+        log.log_message("Exception: " + e.full_description());
         return 1;
     }
     catch (std::exception &e) {
@@ -167,7 +167,7 @@ try
 
 }
 catch (Exception &e) {
-    std::cerr << "Exception: " << e.getFullDescription() << std::endl;
+    std::cerr << "Exception: " << e.full_description() << std::endl;
     return 1;
 }
 catch (const char *e) {

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreParticleSystem.h"
 #include "OgreStringConverter.h"
 #include "OgreParticle.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreResourceGroupManager.h"
 
 namespace Ogre {

@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreImage.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
@@ -352,7 +352,7 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
         PixelUtil::bulkPixelConversion(src, dst);
     } catch(Exception &e) {
         // Could not find image; never mind
-        LogManager::getSingleton().log_warning("Can not load backdrop for config dialog: " + e.getDescription());
+        LogManager::getSingleton().log_warning("Can not load backdrop for config dialog: " + e.description());
         return 0;
     }
 

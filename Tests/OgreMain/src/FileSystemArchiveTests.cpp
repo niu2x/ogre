@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "FileSystemArchiveTests.h"
 #include "OgreFileSystem.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreCommon.h"
 #include "OgreConfigFile.h"
 #include "OgreFileSystemLayer.h"

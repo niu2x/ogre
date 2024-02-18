@@ -3,7 +3,7 @@
 #include <string>
 #include "stdafx.h"
 #include "SemanticLayer.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreMeshManager.h"
 #include "OgreSkeletonManager.h"

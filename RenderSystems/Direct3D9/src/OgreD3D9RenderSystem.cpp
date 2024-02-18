@@ -463,7 +463,7 @@ namespace Ogre
                 for( unsigned k=0; k < driver->getVideoModeList()->count(); k++ )
                 {
                     videoMode = driver->getVideoModeList()->item( k );
-                    optVideoMode->possibleValues.push_back( videoMode->getDescription() );
+                    optVideoMode->possibleValues.push_back( videoMode->description() );
                 }
 
                 // Reset video mode to default if previous doesn't avail in new possible values

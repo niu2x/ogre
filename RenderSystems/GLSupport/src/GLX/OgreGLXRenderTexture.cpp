@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
 #include "OgreStringConverter.h"

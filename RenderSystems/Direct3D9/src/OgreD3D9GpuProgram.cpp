@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9GpuProgram.h"
 #include "matrix4.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreD3D9Mappings.h"
 #include "OgreResourceGroupManager.h"

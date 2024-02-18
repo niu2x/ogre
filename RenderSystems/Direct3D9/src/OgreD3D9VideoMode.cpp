@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 namespace Ogre 
 {
-    String D3D9VideoMode::getDescription() const
+    String D3D9VideoMode::description() const
     {
         unsigned int colourDepth = 16;
         if( mDisplayMode.Format == D3DFMT_X8R8G8B8 ||

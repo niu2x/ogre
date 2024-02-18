@@ -56,7 +56,7 @@ namespace Ogre
         unsigned int getRefreshRate() const { return mDisplayMode.RefreshRate; }
         D3DDISPLAYMODE getDisplayMode() const { return mDisplayMode; }
         void increaseRefreshRate(unsigned int rr) { mDisplayMode.RefreshRate = rr; } 
-        String getDescription() const;
+        String description() const;
     };
 }
 #endif

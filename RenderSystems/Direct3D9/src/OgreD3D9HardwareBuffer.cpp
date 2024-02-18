@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9HardwareBuffer.h"
 #include "OgreD3D9Mappings.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreD3D9HardwareBufferManager.h"
 #include "OgreD3D9RenderSystem.h"
 #include "OgreRoot.h"

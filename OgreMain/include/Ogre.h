@@ -53,7 +53,7 @@ THE SOFTWARE.
 #include "OgreControllerManager.h"
 #include "data_stream.h"
 #include "OgreEntity.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreFrameListener.h"
 #include "OgreFrustum.h"
 #include "OgreGpuProgram.h"

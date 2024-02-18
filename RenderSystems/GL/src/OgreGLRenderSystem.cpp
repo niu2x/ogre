@@ -40,7 +40,7 @@ THE SOFTWARE.
 #include "OgreGLGpuNvparseProgram.h"
 #include "ATI_FS_GLGpuProgram.h"
 #include "OgreGLGpuProgramManager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreGLSLExtSupport.h"
 #include "OgreGLHardwareOcclusionQuery.h"
 #include "OgreGLDepthBufferCommon.h"

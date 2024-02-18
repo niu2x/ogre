@@ -28,7 +28,7 @@ THE SOFTWARE.
 // Original author: Tels <http://bloodgate.com>, released as public domain
 #include "OgreRingEmitter.h"
 #include "OgreParticle.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 
 

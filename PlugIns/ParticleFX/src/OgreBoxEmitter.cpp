@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreBoxEmitter.h"
 #include "OgreParticle.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 
 

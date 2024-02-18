@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgrePixelFormat.h"
 #include "OgreSceneManager.h"
 #include "OgreSceneNode.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "bitwise.h"
 #include "OgreViewport.h"
 #include "log_manager.h"

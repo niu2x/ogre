@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreD3D11RenderWindow.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreD3D11RenderSystem.h"
 #include "OgreD3D11Driver.h"
 #include "OgreRoot.h"

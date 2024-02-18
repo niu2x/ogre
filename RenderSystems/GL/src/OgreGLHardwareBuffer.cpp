@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreGLHardwareBufferManager.h"
 #include "OgreGLHardwareBuffer.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreGLStateCacheManager.h"
 #include "OgreRoot.h"

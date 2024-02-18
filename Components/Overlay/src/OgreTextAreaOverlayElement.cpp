@@ -30,7 +30,7 @@ THE SOFTWARE
 #include "OgreOverlayManager.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 #include "OgreFont.h"
 #include "OgreFontManager.h"

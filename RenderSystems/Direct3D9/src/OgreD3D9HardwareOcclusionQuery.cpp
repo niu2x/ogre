@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9HardwareOcclusionQuery.h"
 #include "OgreRenderSystemCapabilities.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreD3D9RenderSystem.h"
 
 namespace Ogre {

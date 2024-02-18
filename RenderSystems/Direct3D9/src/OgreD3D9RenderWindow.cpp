@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreD3D9RenderWindow.h"
 #include "log_manager.h"
 #include "OgreViewport.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreD3D9RenderSystem.h"
 #include "OgreRenderSystem.h"
 #include "bitwise.h"

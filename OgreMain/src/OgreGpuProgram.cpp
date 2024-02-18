@@ -176,7 +176,7 @@ namespace Ogre
         {
             // will already have been logged
             LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
-                << "Program '" << mName << "' is not supported: " << e.getDescription();
+                << "Program '" << mName << "' is not supported: " << e.description();
 
             mCompileError = true;
         }
@@ -200,7 +200,7 @@ namespace Ogre
         {
             // will already have been logged
             LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
-                << "Program '" << mName << "' is not supported: " << e.getDescription();
+                << "Program '" << mName << "' is not supported: " << e.description();
 
             mCompileError = true;
         }
@@ -330,7 +330,7 @@ namespace Ogre
             {
                 LogManager::getSingleton().stream() <<
                     "Unable to load manual named constants for GpuProgram " << mName <<
-                    ": " << e.getDescription();
+                    ": " << e.description();
             }
             mLoadedManualNamedConstants = true;
         }

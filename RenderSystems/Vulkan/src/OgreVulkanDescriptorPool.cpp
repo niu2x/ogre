@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanUtils.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre
 {

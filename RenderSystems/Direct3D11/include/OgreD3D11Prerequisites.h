@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreComPtr.h"       // too much resource leaks were caused without it by throwing constructors
 
-#include "OgreException.h"
+#include "exception.h"
 
 #ifdef OGRE_EXCEPT_EX
 #undef OGRE_EXCEPT_EX

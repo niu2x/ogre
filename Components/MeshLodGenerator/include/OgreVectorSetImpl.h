@@ -31,7 +31,7 @@
 
 #include "OgreVectorSet.h"
 
-#include "OgreException.h" // for OgreAssert
+#include "exception.h" // for OgreAssert
 
 namespace Ogre
 {

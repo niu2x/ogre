@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreOverlayElement.h"
 #include "OgreOverlay.h"
 #include "OgreOverlayManager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreMaterialManager.h"
 #include "OgreOverlayContainer.h"
 #include "OgreResourceGroupManager.h"

@@ -94,7 +94,7 @@ namespace Ogre
             if(lreq.currentPreparedLod>lreq.requestedLod)
                 readLodData(lreq.currentPreparedLod-1, lreq.requestedLod);
         } catch (Exception& e) {
-            return OGRE_NEW WorkQueue::Response(req, false, Any(), e.getFullDescription());
+            return OGRE_NEW WorkQueue::Response(req, false, Any(), e.full_description());
         }
 
         int lastTreeStart = -1;

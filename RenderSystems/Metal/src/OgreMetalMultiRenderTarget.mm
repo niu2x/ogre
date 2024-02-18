@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreMetalMultiRenderTarget.h"
 #include "OgreMetalRenderTexture.h"
 
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre
 {

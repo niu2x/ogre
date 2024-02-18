@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreOverlayManager.h"
 #include "OgreOverlayContainer.h"
 #include "log_manager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreViewport.h"
 #include "OgreOverlay.h"
 #include "OgreResourceGroupManager.h"

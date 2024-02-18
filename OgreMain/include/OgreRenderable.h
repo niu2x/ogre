@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "OgreMaterial.h"
 #include "plane.h"
 #include "vector.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreUserObjectBindings.h"
 #include "OgreHeaderPrefix.h"
 

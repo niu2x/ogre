@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9TextureManager.h"
 #include "OgreD3D9Texture.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreD3D9Mappings.h"

@@ -429,7 +429,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
             }
             catch (Exception& e)
             {
-                LogManager::getSingleton().log_error("Could not load embedded image - " + e.getDescription());
+                LogManager::getSingleton().log_error("Could not load embedded image - " + e.description());
                 continue;
             }
         }

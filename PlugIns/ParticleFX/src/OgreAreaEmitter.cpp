@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreAreaEmitter.h"
 #include "OgreParticle.h"
 #include "OgreQuaternion.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 
 

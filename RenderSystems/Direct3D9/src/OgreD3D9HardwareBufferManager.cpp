@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreD3D9VertexDeclaration.h"
 #include "log_manager.h"
 #include "OgreStringConverter.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------

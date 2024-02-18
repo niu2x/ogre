@@ -407,7 +407,7 @@ namespace Ogre {
                 }
                 catch(const InvalidParametersException& e)
                 {
-                    LogManager::getSingleton().log_error(e.getDescription());
+                    LogManager::getSingleton().log_error(e.description());
                     optionError = true;
                     continue;
                 }
@@ -853,7 +853,7 @@ namespace Ogre {
         }
         catch (Exception& e)
         {
-            LogManager::getSingleton().log_error(e.getDescription()+" - skipping automatic plugin loading");
+            LogManager::getSingleton().log_error(e.description()+" - skipping automatic plugin loading");
             return;
         }
 

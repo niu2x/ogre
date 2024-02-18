@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "string_util.h"
 #include "OgreStringConverter.h"
 #include "log_manager.h"
-#include "OgreException.h"
+#include "exception.h"
 
 #define D3DFMT_INTZ ( (D3DFORMAT)MAKEFOURCC('I', 'N', 'T', 'Z') )
 

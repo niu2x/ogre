@@ -26,7 +26,7 @@
   -----------------------------------------------------------------------------
 */
 
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreRoot.h"
@@ -642,7 +642,7 @@ namespace Ogre
 
                 mCurrentMode = {newMode->first.first, newMode->first.second, newMode->second};
 
-                LogManager::getSingleton().log_message("Entered video mode " + mCurrentMode.getDescription() + " @ " + StringConverter::toString(mCurrentMode.refreshRate) + "Hz");
+                LogManager::getSingleton().log_message("Entered video mode " + mCurrentMode.description() + " @ " + StringConverter::toString(mCurrentMode.refreshRate) + "Hz");
             }
         }
     }

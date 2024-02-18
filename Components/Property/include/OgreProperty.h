@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePropertyPrerequisites.h"
 #include "any.h"
 #include "string_util.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreQuaternion.h"
 #include "matrix4.h"
 
@@ -146,7 +146,7 @@ namespace Ogre
         const String& getName() const { return mName; }
 
         /// Get the description of the property
-        const String& getDescription() const { return mDesc; }
+        const String& description() const { return mDesc; }
 
         /// Get the type of the property
         PropertyType getType() const { return mType; }
@@ -197,7 +197,7 @@ namespace Ogre
         const String& getName() const { return mDef->getName(); }
 
         /// Get the description of the property
-        const String& getDescription() const { return mDef->getDescription(); }
+        const String& description() const { return mDef->description(); }
 
         /// Get the type of the property
         PropertyType getType() const { return mDef->getType(); }

@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef __CgPrerequisites_H__
 #define __CgPrerequisites_H__
 
-#include "OgreException.h"
+#include "exception.h"
 #include <Cg/cg.h>
 
 

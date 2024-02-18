@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreBspLevel.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreMaterial.h"
 #include "OgreMaterialManager.h"
 #include "OgreMovableObject.h"

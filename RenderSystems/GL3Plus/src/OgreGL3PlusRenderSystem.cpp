@@ -36,7 +36,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include "OgreGL3PlusHardwareBuffer.h"
 #include "OgreGLSLShader.h"
 #include "OgreGpuProgramManager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreGLSLExtSupport.h"
 #include "OgreGL3PlusHardwareOcclusionQuery.h"
 #include "OgreGLDepthBufferCommon.h"
@@ -1607,7 +1607,7 @@ namespace Ogre {
         }
         catch (InvalidParametersException& e)
         {
-            LogManager::getSingleton().log_error("binding shared parameters failed: " + e.getDescription());
+            LogManager::getSingleton().log_error("binding shared parameters failed: " + e.description());
             return;
         }
         catch (Exception&)

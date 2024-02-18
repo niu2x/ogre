@@ -49,7 +49,7 @@ THE SOFTWARE.
 #include <xsi_fcurve.h>
 #include <xsi_fcurvekey.h>
 
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreXSIHelper.h"
 #include "log_manager.h"
 #include "OgreMeshManager.h"

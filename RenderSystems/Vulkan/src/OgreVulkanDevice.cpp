@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreVulkanRenderSystem.h"
 #include "OgreVulkanWindow.h"
 
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 
 #include "OgreVulkanUtils.h"

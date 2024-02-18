@@ -42,7 +42,7 @@ namespace Ogre {
         c.erase(p, c.end());
     }
 
-    String VideoMode::getDescription() const
+    String VideoMode::description() const
     {
         return StringUtil::format("%4d x %4d", width, height);
     }
@@ -63,7 +63,7 @@ namespace Ogre {
         optVideoMode.immutable = false;
         for (const auto& mode : mGLSupport->getVideoModes())
         {
-            optVideoMode.possibleValues.push_back(mode.getDescription());
+            optVideoMode.possibleValues.push_back(mode.description());
         }
         removeDuplicates(optVideoMode.possibleValues); // also sorts
 
@@ -103,7 +103,7 @@ namespace Ogre {
         {
             for (const auto& mode : mGLSupport->getVideoModes())
             {
-                if (mode.getDescription() == optVideoMode->second.currentValue)
+                if (mode.description() == optVideoMode->second.currentValue)
                 {
                     optColourDepth->second.possibleValues.push_back(
                         StringConverter::toString((unsigned int)mode.bpp));
@@ -126,7 +126,7 @@ namespace Ogre {
         {
             for (const auto& mode : mGLSupport->getVideoModes())
             {
-                if (mode.getDescription() == optVideoMode->second.currentValue)
+                if (mode.description() == optVideoMode->second.currentValue)
                 {
                     String frequency = StringConverter::toString(mode.refreshRate) + " Hz";
                     optDisplayFrequency->second.possibleValues.push_back(frequency);

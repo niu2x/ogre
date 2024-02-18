@@ -39,7 +39,7 @@ THE SOFTWARE.
 
 // Added by Steve Streeting for Ogre
 #include "OgrePrerequisites.h"
-#include "OgreException.h"
+#include "exception.h"
 
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC
 #   pragma warning (push)

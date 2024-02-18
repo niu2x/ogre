@@ -32,7 +32,7 @@ THE SOFTWARE
 #include "OgreCommon.h"
 
 #include "colour_value.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre
 {

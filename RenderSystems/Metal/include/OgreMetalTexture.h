@@ -33,7 +33,7 @@ Copyright (c) 2000-2016 Torus Knot Software Ltd
 #include "OgreTexture.h"
 #include "OgreRenderTexture.h"
 #include "OgreImage.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreHardwarePixelBuffer.h"
 
 #import <Metal/MTLTexture.h>

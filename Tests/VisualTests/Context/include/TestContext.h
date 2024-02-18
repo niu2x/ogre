@@ -209,7 +209,7 @@ class TestContext : public OgreBites::SampleContext
         tc->go();
     } catch( Exception& e ) {
         std::cerr << "An exception has occurred: " <<
-            e.getFullDescription().c_str() << std::endl;
+            e.full_description().c_str() << std::endl;
     }
 
     [pool release];

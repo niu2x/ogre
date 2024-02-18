@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include <gtest/gtest.h>
 #include "OgreStreamSerialiser.h"
 #include "OgreFileSystem.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "vector.h"
 
 

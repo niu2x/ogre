@@ -27,7 +27,7 @@ THE SOFTWARE.
 --------------------------------------------------------------------------*/
 
 #include "OgreRoot.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreViewport.h"

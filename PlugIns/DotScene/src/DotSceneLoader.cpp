@@ -563,7 +563,7 @@ void DotSceneLoader::processLookTarget(pugi::xml_node& XMLNode, SceneNode* pPare
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
     }
 }
 
@@ -592,7 +592,7 @@ void DotSceneLoader::processTrackTarget(pugi::xml_node& XMLNode, SceneNode* pPar
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
     }
 }
 
@@ -657,7 +657,7 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
         return;
     }
 
@@ -686,7 +686,7 @@ void DotSceneLoader::processParticleSystem(pugi::xml_node& XMLNode, SceneNode* p
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.getDescription());
+        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
     }
 }
 

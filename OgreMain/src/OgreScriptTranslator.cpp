@@ -3719,7 +3719,7 @@ namespace Ogre{
         }
         catch (Exception& e)
         {
-            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, e.getDescription());
+            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, e.description());
         }
     }
 
@@ -3745,7 +3745,7 @@ namespace Ogre{
                         catch(Exception& e)
                         {
                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                               e.getDescription());
+                                               e.description());
                         }
                     }
                     break;
@@ -3798,7 +3798,7 @@ namespace Ogre{
                                     catch (Exception& e)
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                           e.getDescription());
+                                                           e.description());
                                     }
                                 }
                                 else
@@ -3854,7 +3854,7 @@ namespace Ogre{
                                         catch (Exception& e)
                                         {
                                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                               e.getDescription());
+                                                               e.description());
                                         }
                                     }
                                     else
@@ -3936,7 +3936,7 @@ namespace Ogre{
                                     catch(Exception& e)
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                           e.getDescription());
+                                                           e.description());
                                     }
                                     break;
                                 case GpuProgramParameters::ACDT_INT:
@@ -3952,7 +3952,7 @@ namespace Ogre{
                                         catch(Exception& e)
                                         {
                                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                               e.getDescription());
+                                                               e.description());
                                         }
                                     }
                                     else
@@ -3977,7 +3977,7 @@ namespace Ogre{
                                                 catch (Exception& e)
                                                 {
                                                     compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                                       e.getDescription());
+                                                                       e.description());
                                                 }
                                             }
                                             else
@@ -4019,7 +4019,7 @@ namespace Ogre{
                                                 catch (Exception& e)
                                                 {
                                                     compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                                       e.getDescription());
+                                                                       e.description());
                                                 }
                                             }
                                             else
@@ -4048,7 +4048,7 @@ namespace Ogre{
                                         catch (Exception& e)
                                         {
                                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                               e.getDescription());
+                                                               e.description());
                                         }
                                     }
                                     else
@@ -4068,7 +4068,7 @@ namespace Ogre{
                                                 catch(Exception& e)
                                                 {
                                                     compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                                       e.getDescription());
+                                                                       e.description());
                                                 }
                                             }
                                             else
@@ -4233,7 +4233,7 @@ namespace Ogre{
             catch(Exception& e)
             {
                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                   e.getDescription());
+                                   e.description());
                 continue;
             }
 
@@ -4448,7 +4448,7 @@ namespace Ogre{
         }
         catch(Exception &e)
         {
-            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line, e.getDescription());
+            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line, e.description());
             return;
         }
 
@@ -4514,7 +4514,7 @@ namespace Ogre{
         }
         catch(Exception &e)
         {
-            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line, e.getDescription());
+            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, obj->file, obj->line, e.description());
             return;
         }
 

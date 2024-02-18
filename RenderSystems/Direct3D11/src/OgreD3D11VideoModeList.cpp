@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreD3D11VideoModeList.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreD3D11Driver.h"
 #include "OgreD3D11VideoMode.h"
 
@@ -146,7 +146,7 @@ namespace Ogre
 
         for (;it != mModeList.end(); ++it)
         {
-            if (it->getDescription() == name)
+            if (it->description() == name)
                 return &(*it);
         }
 

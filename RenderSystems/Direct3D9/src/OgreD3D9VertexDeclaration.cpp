@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9VertexDeclaration.h"
 #include "OgreD3D9Mappings.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreRoot.h"
 #include "OgreD3D9RenderSystem.h"
 

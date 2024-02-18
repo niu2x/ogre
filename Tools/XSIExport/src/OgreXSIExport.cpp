@@ -55,7 +55,7 @@ THE SOFTWARE.
 #include "OgreXSISkeletonExporter.h"
 #include "OgreXSIMaterialExporter.h"
 #include "log_manager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreXSIHelper.h"
 #include "OgreProgressiveMesh.h"
 #include "string_util.h"
@@ -428,8 +428,8 @@ XSI::CStatus OgreMeshExportCommand_Execute( XSI::CRef& in_context )
     {
         // Will already have been logged to the Ogre log manager
         // Tell XSI
-        app.log_message(OgretoXSI(e.getDescription()), XSI::siFatalMsg);
-        app.log_message(OgretoXSI(e.getFullDescription()), XSI::siInfoMsg);
+        app.log_message(OgretoXSI(e.description()), XSI::siFatalMsg);
+        app.log_message(OgretoXSI(e.full_description()), XSI::siInfoMsg);
     }
 
     return st;  
@@ -716,8 +716,8 @@ XSI::CStatus OnOgreMeshExportMenu( XSI::CRef& in_ref )
     {
         // Will already have been logged to the Ogre log manager
         // Tell XSI
-        app.log_message(OgretoXSI(e.getDescription()), XSI::siFatalMsg);
-        app.log_message(OgretoXSI(e.getFullDescription()), XSI::siInfoMsg);
+        app.log_message(OgretoXSI(e.description()), XSI::siFatalMsg);
+        app.log_message(OgretoXSI(e.full_description()), XSI::siInfoMsg);
     }
 
     //DeleteObj( L"OgreMeshExportOptions" );

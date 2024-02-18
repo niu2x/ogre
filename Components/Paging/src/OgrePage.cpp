@@ -214,7 +214,7 @@ namespace Ogre
         {
             // oops
             response = OGRE_NEW WorkQueue::Response(req, false, res,
-                e.getFullDescription());
+                e.full_description());
         }
 
         return response;

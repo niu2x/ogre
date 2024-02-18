@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define _WIN32_WINNT 0x0502
 #endif
 #include "OgreWin32Context.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreGLRenderSystemCommon.h"
 #include "OgreRoot.h"
 #include "OgreWin32GLSupport.h"

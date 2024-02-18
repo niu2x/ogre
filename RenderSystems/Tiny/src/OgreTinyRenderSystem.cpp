@@ -11,7 +11,7 @@
 #include "OgreTinyTextureManager.h"
 #include "OgreHardwareBuffer.h"
 #include "OgreGpuProgramManager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreTinyDepthBuffer.h"
 #include "OgreTinyHardwarePixelBuffer.h"
 #include "OgreDefaultHardwareBufferManager.h"

@@ -27,7 +27,7 @@
 */
 
 #include "OgreGLWindow.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreGLRenderSystemCommon.h"
 #include "OgreRoot.h"
 

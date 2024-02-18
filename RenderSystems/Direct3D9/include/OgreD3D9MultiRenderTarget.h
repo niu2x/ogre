@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreTexture.h"
 #include "OgreRenderTexture.h"
 #include "OgreImage.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreD3D9HardwarePixelBuffer.h"
 
 namespace Ogre {

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "log_manager.h"
 #include "OgreRenderSystem.h"
 #include "OgreImageCodec.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 #include "OgreWin32RenderTexture.h"
 #include "OgreWin32GLSupport.h"

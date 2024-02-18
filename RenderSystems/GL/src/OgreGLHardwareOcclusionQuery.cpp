@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreGLHardwareOcclusionQuery.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre {
 

@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "OgreHighLevelGpuProgram.h"
 #include "OgreHighLevelGpuProgramManager.h"
 #include "OgreRoot.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 #include "log_manager.h"
 #include "OgreSceneManager.h"

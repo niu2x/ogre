@@ -1020,7 +1020,7 @@ namespace Ogre {
         catch (Exception& e)
         {
             String msg = "preparing texture '" + tex->getName() +
-                         "'. Texture layer will be blank: " + e.getDescription();
+                         "'. Texture layer will be blank: " + e.description();
             LogManager::getSingleton().log_error(msg);
             mTextureLoadFailed = true;
         }
@@ -1043,7 +1043,7 @@ namespace Ogre {
         catch (Exception& e)
         {
             String msg = "loading texture '" + tex->getName() +
-                         "'. Texture layer will be blank: " + e.getDescription();
+                         "'. Texture layer will be blank: " + e.description();
             LogManager::getSingleton().log_error(msg);
             mTextureLoadFailed = true;
         }

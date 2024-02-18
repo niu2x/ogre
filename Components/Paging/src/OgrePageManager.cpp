@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgrePageContentCollectionFactory.h"
 #include "OgrePagedWorldSection.h"
 #include "OgrePageContentFactory.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgrePagedWorldSection.h"
 #include "OgrePagedWorld.h"
 #include "OgreGrid2DPageStrategy.h"

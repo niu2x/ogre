@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreGLSupportPrerequisites.h"
 #include "OgreConfigOptionMap.h"
 #include "OgrePixelFormat.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreGLRenderSystemCommon.h"
 
 namespace Ogre
@@ -45,7 +45,7 @@ namespace Ogre
         int16 refreshRate;
         uint8  bpp;
 
-        String getDescription() const;
+        String description() const;
     };
     typedef std::vector<VideoMode>    VideoModes;
 

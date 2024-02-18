@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "vector.h"
 #include "OgreRoot.h"
 
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre
 {

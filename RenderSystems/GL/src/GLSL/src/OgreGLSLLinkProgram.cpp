@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreStringConverter.h"
 #include "OgreGLSLProgram.h"
 #include "OgreGLSLLinkProgramManager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreGLSLProgramCommon.h"
 

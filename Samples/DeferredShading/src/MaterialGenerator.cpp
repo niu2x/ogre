@@ -15,7 +15,7 @@ same license as the rest of the engine.
 #include "MaterialGenerator.h"
 
 #include "OgreStringConverter.h"
-#include "OgreException.h"
+#include "exception.h"
 
 #include "OgrePass.h"
 #include "OgreTechnique.h"

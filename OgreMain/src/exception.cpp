@@ -40,32 +40,32 @@ namespace Ogre {
 
     Exception::Exception(int num, const String& desc, const String& src, 
         const char* typ, const char* fil, long lin) :
-        line( lin ),
-        typeName(typ),
-        description( desc ),
-        source( src ),
-        file( fil )
+        line_( lin ),
+        type_name_(typ),
+        description_( desc ),
+        source_( src ),
+        file_( fil )
     {
         StringStream ss;
 
-        ss << typeName << ": "
-           << description
-           << " in " << source;
+        ss << type_name_ << ": "
+           << description_
+           << " in " << source_;
 
-        if( line > 0 )
+        if( line_ > 0 )
         {
-            ss << " at " << file << " (line " << line << ")";
+            ss << " at " << file_ << " (line " << line_ << ")";
         }
 
-        fullDesc = ss.str();
+        full_desc_ = ss.str();
     }
 
     Exception::Exception(const Exception& rhs)
-        : line( rhs.line ), 
-        typeName( rhs.typeName ), 
-        description( rhs.description ), 
-        source( rhs.source ), 
-        file( rhs.file )
+        : line_( rhs.line_ ), 
+        type_name_( rhs.type_name_ ), 
+        description_( rhs.description_ ), 
+        source_( rhs.source_ ), 
+        file_( rhs.file_ )
     {
     }
 }

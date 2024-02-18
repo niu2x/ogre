@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "OgreTinyWindow.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreStringConverter.h"
 
 #include "OgreComponents.h"

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre {
 

@@ -9,7 +9,7 @@
 #include "OgreSubMesh.h"
 #include "OgreMeshSerializer.h"
 #include "OgreRoot.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreArchive.h"
 #include "OgreArchiveManager.h"
 #include "OgreFileSystem.h"

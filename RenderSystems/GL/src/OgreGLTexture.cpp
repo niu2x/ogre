@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreImage.h"
 #include "log_manager.h"
 #include "OgreCamera.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreRoot.h"
 #include "OgreCodec.h"
 #include "OgreImageCodec.h"

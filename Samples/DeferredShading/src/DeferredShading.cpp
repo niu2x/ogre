@@ -16,7 +16,7 @@ same license as the rest of the engine.
 
 #include "OgreConfigFile.h"
 #include "OgreStringConverter.h"
-#include "OgreException.h"
+#include "exception.h"
 
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"

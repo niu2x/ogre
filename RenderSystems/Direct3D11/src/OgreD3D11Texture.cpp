@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreD3D11DepthBuffer.h"
 #include "OgreRoot.h"
 #include "log_manager.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre 
 {

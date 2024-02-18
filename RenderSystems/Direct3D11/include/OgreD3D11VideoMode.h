@@ -54,7 +54,7 @@ namespace Ogre
         DXGI_OUTPUT_DESC getDisplayMode() const;
         DXGI_MODE_DESC getModeDesc() const;
         void increaseRefreshRate(DXGI_RATIONAL rr); 
-        String getDescription() const;
+        String description() const;
     };
 }
 #endif

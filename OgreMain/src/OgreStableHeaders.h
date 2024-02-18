@@ -59,7 +59,7 @@ extern "C" {
 #include "OgreCommon.h"
 #include "data_stream.h"
 #include "OgreDefaultWorkQueue.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreFileSystem.h"
 #include "OgreFrustum.h"
 #include "OgreHardwareBufferManager.h"

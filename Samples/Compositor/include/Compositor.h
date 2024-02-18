@@ -17,7 +17,7 @@ Also see acknowledgements in Readme.html
 
 #include "OgreConfigFile.h"
 #include "OgreStringConverter.h"
-#include "OgreException.h"
+#include "exception.h"
 
 #include "SdkSample.h"
 #include "SamplePlugin.h"
@@ -177,7 +177,7 @@ void Sample_Compositor::registerCompositors(void)
             Ogre::CompositorManager::getSingleton().setCompositorEnabled(vp, compositorName, false);
         } catch (Ogre::Exception& e) {
             /// Warn user
-            LogManager::getSingleton().log_message(e.getDescription(), LogMsgLevel::CRITICAL);
+            LogManager::getSingleton().log_message(e.description(), LogMsgLevel::CRITICAL);
         }
     }
 

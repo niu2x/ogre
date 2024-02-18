@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreOverlayContainer.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreOverlayManager.h"
 #include "OgreOverlay.h"
 #include "OgreIteratorWrapper.h"

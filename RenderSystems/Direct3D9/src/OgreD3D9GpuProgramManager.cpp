@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9GpuProgramManager.h"
 #include "OgreD3D9GpuProgram.h"
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------------

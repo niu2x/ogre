@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreVulkanWindow.h"
 #include "vector.h"
 
-#include "OgreException.h"
+#include "exception.h"
 
 namespace Ogre
 {

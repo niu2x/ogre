@@ -91,15 +91,8 @@ namespace Ogre {
             object unless it wishes to unify its error handling using the
             same object.
     */
-    class _OgreExport Exception : public std::exception
+    class Exception : public std::exception
     {
-    protected:
-        long line;
-        const char* typeName;
-        String description;
-        String source;
-        const char* file;
-        String fullDesc; // storage for char* returned by what()
     public:
         /** Static definitions of error codes.
             @todo
@@ -133,7 +126,7 @@ namespace Ogre {
         Exception(const Exception& rhs);
 
         /// Needed for compatibility with std::exception
-        ~Exception() throw() {}
+        ~Exception() noexcept {}
 
         /** Returns a string with the full description of this error.
 
@@ -145,27 +138,35 @@ namespace Ogre {
                 the place in which OGRE found the problem, and a text
                 description from the 3D rendering library, if available.
         */
-        const String& getFullDescription(void) const { return fullDesc; }
+        const String& full_description(void) const { return full_desc_; }
 
         /** Gets the source function.
         */
-        const String &getSource() const { return source; }
+        const String &source() const { return source_; }
 
         /** Gets source file name.
         */
-        const char* getFile() const { return file; }
+        const char* file() const { return file_; }
 
         /** Gets line number.
         */
-        long getLine() const { return line; }
+        long line() const { return line_; }
 
         /** Returns a string with only the 'description' field of this exception. Use 
             getFullDescriptionto get a full description of the error including line number,
             error number and what function threw the exception.
         */
-        const String &getDescription(void) const { return description; }
+        const String &description(void) const { return description_; }
 
-        const char* what() const throw() override { return fullDesc.c_str(); }
+        const char* what() const noexcept override { return full_desc_.c_str(); }
+
+    private:
+        long line_;
+        const char* type_name_;
+        String description_;
+        String source_;
+        const char* file_;
+        String full_desc_; // storage for char* returned by what()
         
     };
 

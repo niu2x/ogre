@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreSkeleton.h"
 #include "OgreStringConverter.h"
 #include "OgreHardwareBufferManager.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreAnimation.h"
 #include "OgreAnimationTrack.h"
 #include "OgreKeyFrame.h"

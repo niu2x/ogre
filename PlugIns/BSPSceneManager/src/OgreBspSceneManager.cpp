@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreBspSceneManager.h"
 #include "OgreBspNode.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreRenderSystem.h"
 #include "OgreCamera.h"
 #include "OgreMaterial.h"

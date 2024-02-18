@@ -22,7 +22,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "LightMaterialGenerator.h"
 
 #include "OgreStringConverter.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreMaterialManager.h"
 
 #include "OgrePass.h"

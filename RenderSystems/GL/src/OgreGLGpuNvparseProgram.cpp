@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 
 #include "OgreGLGpuNvparseProgram.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"

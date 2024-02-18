@@ -106,7 +106,7 @@ namespace OgreBites
         sb.go();
     } catch( Ogre::Exception& e ) {
         std::cerr << "An exception has occurred: " <<
-        e.getFullDescription().c_str() << std::endl;
+        e.full_description().c_str() << std::endl;
     }
 
     [pool release];

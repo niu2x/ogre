@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "vector.h"
 #include "colour_value.h"
 #include "string_vector.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

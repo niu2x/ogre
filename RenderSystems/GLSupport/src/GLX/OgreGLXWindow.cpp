@@ -30,7 +30,7 @@
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreImageCodec.h"
-#include "OgreException.h"
+#include "exception.h"
 #include "log_manager.h"
 #include "OgreStringConverter.h"
 #include "OgreViewport.h"
