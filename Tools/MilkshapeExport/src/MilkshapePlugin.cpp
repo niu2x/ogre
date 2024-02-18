@@ -689,9 +689,9 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
         // Might we have Gimbal lock here? What order are these 3 angles supposed to be applied?
         // Grr, we'll try our best anyway...
         Ogre::Quaternion qx, qy, qz, qfinal;
-        qx.FromAngleAxis(Ogre::Radian(msBoneRot[0]), Ogre::Vector3::unit_x);
-        qy.FromAngleAxis(Ogre::Radian(msBoneRot[1]), Ogre::Vector3::unit_y);
-        qz.FromAngleAxis(Ogre::Radian(msBoneRot[2]), Ogre::Vector3::unit_z);
+        qx.from_angle_axis(Ogre::Radian(msBoneRot[0]), Ogre::Vector3::unit_x);
+        qy.from_angle_axis(Ogre::Radian(msBoneRot[1]), Ogre::Vector3::unit_y);
+        qz.from_angle_axis(Ogre::Radian(msBoneRot[2]), Ogre::Vector3::unit_z);
 
         // Assume rotate by x then y then z
         qfinal = qz * qy * qx;
@@ -1111,9 +1111,9 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
                     kfPos = ogrebone->getOrientation() * kfPos;
 
                     ogrekey->setTranslate(kfPos);
-                    qx.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[0]), Ogre::Vector3::unit_x);
-                    qy.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[1]), Ogre::Vector3::unit_y);
-                    qz.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[2]), Ogre::Vector3::unit_z);
+                    qx.from_angle_axis(Ogre::Radian(currRotKey->Rotation[0]), Ogre::Vector3::unit_x);
+                    qy.from_angle_axis(Ogre::Radian(currRotKey->Rotation[1]), Ogre::Vector3::unit_y);
+                    qz.from_angle_axis(Ogre::Radian(currRotKey->Rotation[2]), Ogre::Vector3::unit_z);
                     kfQ = qz * qy * qx;
                     ogrekey->setRotation(kfQ);
 

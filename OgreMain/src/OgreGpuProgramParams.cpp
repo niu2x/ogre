@@ -1928,7 +1928,7 @@ namespace Ogre
                         //The first component represents the coordinate that is being sheared,
                         //while the second component represents the coordinate which performs the shearing.
                         Vector3 vecU;
-                        m3.QDUDecomposition( matQ, scale, vecU );
+                        m3.QDU_decomposition( &matQ, &scale, &vecU );
 
                         scaleM[0][0] = scale.x;
                         scaleM[1][1] = scale.y;
@@ -2027,7 +2027,7 @@ namespace Ogre
                     // of the world scaling to deal with scaled objects
                     m3 = source->getWorldMatrix().linear();
                     _writeRawConstant(ac.physicalIndex, source->getShadowExtrusionDistance() /
-                                      Math::Sqrt(std::max(std::max(m3.GetColumn(0).squared_length(), m3.GetColumn(1).squared_length()), m3.GetColumn(2).squared_length())));
+                                      Math::Sqrt(std::max(std::max(m3.column(0).squared_length(), m3.column(1).squared_length()), m3.column(2).squared_length())));
                     break;
                 case ACT_SHADOW_SCENE_DEPTH_RANGE:
                     _writeRawConstant(ac.physicalIndex, source->getShadowSceneDepthRange(ac.data));

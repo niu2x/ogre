@@ -563,7 +563,7 @@ ManualObject::ManualObject(const String& name)
         Affine3 world2Obj = mParentNode->_getFullTransform().inverse();
         lightPos = world2Obj * lightPos;
         Matrix3 world2Obj3x3 = world2Obj.linear();
-        extrusionDistance *= Math::Sqrt(std::min(std::min(world2Obj3x3.GetColumn(0).squared_length(), world2Obj3x3.GetColumn(1).squared_length()), world2Obj3x3.GetColumn(2).squared_length()));
+        extrusionDistance *= Math::Sqrt(std::min(std::min(world2Obj3x3.column(0).squared_length(), world2Obj3x3.column(1).squared_length()), world2Obj3x3.column(2).squared_length()));
 
         // Init shadow renderable list if required (only allow indexed)
         bool init = mShadowRenderables.empty() && mAnyIndexed;

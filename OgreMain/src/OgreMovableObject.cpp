@@ -381,7 +381,7 @@ namespace Ogre {
             // Take into account that extrusion would be done in object-space,
             // and non-uniformly scaled objects would cast non-uniformly scaled shadows.
             Matrix3 m3 = _getParentNodeFullTransform().linear();
-            Real c0 = m3.GetColumn(0).squared_length(), c1 = m3.GetColumn(1).squared_length(), c2 = m3.GetColumn(2).squared_length();
+            Real c0 = m3.column(0).squared_length(), c1 = m3.column(1).squared_length(), c2 = m3.column(2).squared_length();
             Real minScale = Math::Sqrt(std::min(std::min(c0, c1), c2));
             Real maxScale = Math::Sqrt(std::max(std::max(c0, c1), c2));
             if(minScale > 0.0)

@@ -266,7 +266,7 @@ namespace Ogre
         // - position is the origin
         // - the view direction is the calculated viewDir
         // - the up vector is the y-axis
-        LProj = Matrix4(Math::lookRotation(-viewDir, Vector3::unit_y).transpose()) * LProj;
+        LProj = Matrix4(Math::look_rotation(-viewDir, Vector3::unit_y).transpose()) * LProj;
 
         // calculate LiSPSM projection
         LProj = calculateLiSPSM(LProj * LView, mPointListBodyB, mPointListBodyLVS, *sm, *cam, *light) * LProj;

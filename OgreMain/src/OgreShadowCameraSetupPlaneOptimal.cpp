@@ -400,7 +400,7 @@ namespace Ogre
             up = Vector3(0,1,0);
 
         Affine3 rotation = Affine3::IDENTITY;
-        rotation = Math::lookRotation(zRow, up);
+        rotation = Math::look_rotation(zRow, up);
         Matrix4 customProj = tempMatrix * rotation;
         Affine3 customView(rotation.transpose() * invTranslation);
         // note: now customProj * (0,0,0,1)^t = (0, 0, k, 0)^t for k some constant

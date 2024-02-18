@@ -70,7 +70,7 @@ extern "C" {
 #include "OgreMaterialManager.h"
 #include "OgreMaterialSerializer.h"
 #include "OgreMath.h"
-#include "OgreMatrix3.h"
+#include "matrix3.h"
 #include "OgreMatrix4.h"
 #include "OgreMesh.h"
 #include "OgreMeshManager.h"

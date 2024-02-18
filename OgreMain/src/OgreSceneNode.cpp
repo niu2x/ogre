@@ -502,7 +502,7 @@ namespace Ogre {
                 yawAxis = getParent()->_getDerivedOrientation() * yawAxis;
             }
 
-            Quaternion unitZToTarget = Math::lookRotation(targetDir, yawAxis);
+            Quaternion unitZToTarget = Math::look_rotation(targetDir, yawAxis);
 
             if (localDirectionVector == Vector3::negative_unit_z)
             {

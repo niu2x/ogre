@@ -296,9 +296,9 @@ namespace Ogre {
         /** Parses a Matrix3 out of a String.
 
             Format is "00 01 02 10 11 12 20 21 22" where '01' means row 0 column 1 etc.
-            Failure to parse returns Matrix3::IDENTITY.
+            Failure to parse returns Matrix3::identity.
         */
-        static Matrix3 parseMatrix3(const String& val, const Matrix3& defaultValue = Matrix3::IDENTITY)
+        static Matrix3 parseMatrix3(const String& val, const Matrix3& defaultValue = Matrix3::identity)
         {
             Matrix3 ret;
             return parse(val, ret) ? ret : defaultValue;

@@ -73,12 +73,12 @@ Quaternion parseQuaternion(const pugi::xml_node& XMLNode)
         axis.z = StringConverter::parseReal(XMLNode.attribute("axisZ").value());
         Real angle = StringConverter::parseReal(XMLNode.attribute("angle").value());
 
-        orientation.FromAngleAxis(Radian(angle), axis);
+        orientation.from_angle_axis(Radian(angle), axis);
     }
     else if (XMLNode.attribute("angleX"))
     {
         Matrix3 rot;
-        rot.FromEulerAnglesXYZ(StringConverter::parseAngle(XMLNode.attribute("angleX").value()),
+        rot.from_euler_angles_xyz(StringConverter::parseAngle(XMLNode.attribute("angleX").value()),
                                StringConverter::parseAngle(XMLNode.attribute("angleY").value()),
                                StringConverter::parseAngle(XMLNode.attribute("angleZ").value()));
         orientation.FromRotationMatrix(rot);

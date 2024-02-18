@@ -710,11 +710,11 @@ namespace Ogre {
             if (param.IsValid() && (bool)param.GetValue())
             {
                 Quaternion qx, qy, qz, qfinal;
-                qx.FromAngleAxis(Degree(shader.GetParameter(L"rotx").GetValue()),
+                qx.from_angle_axis(Degree(shader.GetParameter(L"rotx").GetValue()),
                     Vector3::unit_x);
-                qy.FromAngleAxis(Degree(shader.GetParameter(L"roty").GetValue()), 
+                qy.from_angle_axis(Degree(shader.GetParameter(L"roty").GetValue()), 
                     Vector3::unit_y);
-                qz.FromAngleAxis(Degree(shader.GetParameter(L"rotz").GetValue()), 
+                qz.from_angle_axis(Degree(shader.GetParameter(L"rotz").GetValue()), 
                     Vector3::unit_z);
                 qfinal = qx * qy * qz;
 
@@ -725,7 +725,7 @@ namespace Ogre {
 
                 Matrix3 rot3x3, scale3x3;
                 qfinal.ToRotationMatrix(rot3x3);
-                scale3x3 = Matrix3::ZERO;
+                scale3x3 = Matrix3::zero;
                 scale3x3[0][0] = shader.GetParameter(L"sclx").GetValue();
                 scale3x3[1][1] = shader.GetParameter(L"scly").GetValue();
                 scale3x3[2][2] = shader.GetParameter(L"sclz").GetValue();

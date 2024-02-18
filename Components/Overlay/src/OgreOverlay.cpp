@@ -310,8 +310,8 @@ namespace Ogre {
         Radian orientationRotation = Radian(0);
 
         Matrix3 rot3x3, scale3x3;
-        rot3x3.FromEulerAnglesXYZ(Radian(0), Radian(0), mRotate + orientationRotation);
-        scale3x3 = Matrix3::ZERO;
+        rot3x3.from_euler_angles_xyz(Radian(0), Radian(0), mRotate + orientationRotation);
+        scale3x3 = Matrix3::zero;
         scale3x3[0][0] = mScaleX;
         scale3x3[1][1] = mScaleY;
         scale3x3[2][2] = 1.0f;

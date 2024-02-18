@@ -68,7 +68,7 @@ TEST(DualQuaternionTests,Matrix)
     Vector3 translation(10, 4, 0);
     Vector3 scale = Vector3::unit_scale;
     Quaternion rotation;
-    rotation.FromAngleAxis(Radian(Math::PI), Vector3::unit_z);
+    rotation.from_angle_axis(Radian(Math::PI), Vector3::unit_z);
     transform.makeTransform(translation, scale, rotation);
 
     DualQuaternion dQuat;

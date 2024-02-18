@@ -80,17 +80,17 @@ namespace Ogre {
         /// Construct a quaternion from an angle/axis
         inline Quaternion(const Radian& rfAngle, const Vector3& rkAxis)
         {
-            this->FromAngleAxis(rfAngle, rkAxis);
+            this->from_angle_axis(rfAngle, rkAxis);
         }
         /// Construct a quaternion from 3 orthonormal local axes
         inline Quaternion(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
         {
-            this->FromAxes(xaxis, yaxis, zaxis);
+            this->from_axes(xaxis, yaxis, zaxis);
         }
         /// Construct a quaternion from 3 orthonormal local axes
         inline Quaternion(const Vector3* akAxis)
         {
-            this->FromAxes(akAxis);
+            this->from_axes(akAxis);
         }
         /// Construct a quaternion from 4 manual w/x/y/z values
         inline Quaternion(Real* valptr)
@@ -141,7 +141,7 @@ namespace Ogre {
         /** Setups the quaternion using the supplied vector, and "roll" around
             that vector by the specified radians.
         */
-        void FromAngleAxis (const Radian& rfAngle, const Vector3& rkAxis);
+        void from_angle_axis(const Radian& rfAngle, const Vector3& rkAxis);
         void ToAngleAxis (Radian& rfAngle, Vector3& rkAxis) const;
         inline void ToAngleAxis (Degree& dAngle, Vector3& rkAxis) const {
             Radian rAngle;
@@ -151,8 +151,8 @@ namespace Ogre {
         /** Constructs the quaternion using 3 axes, the axes are assumed to be orthonormal
             @see FromAxes
         */
-        void FromAxes (const Vector3* akAxis);
-        void FromAxes (const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
+        void from_axes(const Vector3* akAxis);
+        void from_axes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
         /** Gets the 3 orthonormal axes defining the quaternion. @see FromAxes */
         void ToAxes (Vector3* akAxis) const;
         void ToAxes (Vector3& xAxis, Vector3& yAxis, Vector3& zAxis) const;

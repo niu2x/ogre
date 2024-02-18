@@ -196,7 +196,7 @@ void parseNode(Mesh *mesh, const vrmllib::node *n, Matrix4 m)
         scale[2][2] = tr->scale.z;
 
         Matrix3 rot3;
-        rot3.FromAngleAxis(vec(tr->rotation.vector), Radian(tr->rotation.radians));
+        rot3.from_angle_axis(vec(tr->rotation.vector), Radian(tr->rotation.radians));
         Matrix4 rot = Matrix4::IDENTITY;
         rot = rot3;
 
@@ -593,7 +593,7 @@ Matrix4 scaleMat(vrmllib::vec3 v, bool inverse)
 Matrix4 rotMat(vrmllib::rot r, bool inverse)
 {
     Matrix3 rot3;
-    rot3.FromAngleAxis(vec(r.vector), Radian(inverse ? -r.radians : r.radians));
+    rot3.from_angle_axis(vec(r.vector), Radian(inverse ? -r.radians : r.radians));
     Matrix4 rot = Matrix4::IDENTITY;
     rot = rot3;
     return rot;

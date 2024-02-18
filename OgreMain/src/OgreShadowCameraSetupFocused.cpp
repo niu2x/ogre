@@ -306,7 +306,7 @@ namespace Ogre
         // - position is the origin
         // - the view direction is the calculated viewDir
         // - the up vector is the y-axis
-        LProj = Matrix4(Math::lookRotation(-viewDir, Vector3::unit_y).transpose()) * LProj;
+        LProj = Matrix4(Math::look_rotation(-viewDir, Vector3::unit_y).transpose()) * LProj;
 
         // map bodyB to unit cube
         LProj = transformToUnitCube(LProj * LView, mPointListBodyB) * LProj;

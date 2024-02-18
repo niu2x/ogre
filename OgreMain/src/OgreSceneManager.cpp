@@ -1771,7 +1771,7 @@ void SceneManager::renderSingleObject(Renderable* rend, const Pass* pass,
     {
         CullingMode cullMode = mPassCullingMode;
 
-        if (mAutoParamDataSource->getWorldMatrix().linear().hasNegativeScale())
+        if (mAutoParamDataSource->getWorldMatrix().linear().has_negative_scale())
         {
             switch(mPassCullingMode)
             {
@@ -2761,7 +2761,7 @@ void SceneManager::buildLightClip(const Light* l, PlaneList& planes)
                 up = Vector3::unit_z;
             }
             // Derive rotation from axes (negate dir since -Z)
-            Matrix3 q = Math::lookRotation(-dir, up);
+            Matrix3 q = Math::look_rotation(-dir, up);
 
             // derive pyramid corner vectors in world orientation
             Vector3 tl, tr, bl, br;

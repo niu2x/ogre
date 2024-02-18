@@ -751,7 +751,7 @@ namespace Ogre {
                     // Use camera up
                     up = Vector3::unit_z;
                 }
-                dummyNode.setOrientation(Math::lookRotation(dir, up));
+                dummyNode.setOrientation(Math::look_rotation(dir, up));
 
                 // The view matrix here already includes camera-relative changes if necessary
                 // since they are built into the frustum position

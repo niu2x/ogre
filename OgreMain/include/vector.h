@@ -786,11 +786,11 @@ namespace Ogre
 
         // Rotate up vector by random amount around this
         Quaternion q;
-        q.FromAngleAxis( Radian(Math::UnitRandom() * Math::TWO_PI), (const Vector3&)*this );
+        q.from_angle_axis( Radian(Math::UnitRandom() * Math::TWO_PI), (const Vector3&)*this );
         newUp = q * newUp;
 
         // Finally rotate this by given angle around randomised up
-        q.FromAngleAxis( angle, newUp );
+        q.from_angle_axis( angle, newUp );
         return q * (const Vector3&)(*this);
     }
 

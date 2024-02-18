@@ -55,11 +55,11 @@ void ThingRenderable::initialise()
     {
         ax = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
         ay = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
-        things.push_back(Math::lookRotation(ax.normalised_copy(), ay));
+        things.push_back(Math::look_rotation(ax.normalised_copy(), ay));
         
         ax = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
         ay = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
-        orbits.push_back(Math::lookRotation(ax.normalised_copy(), ay));
+        orbits.push_back(Math::look_rotation(ax.normalised_copy(), ay));
     }
     
     // Create buffers

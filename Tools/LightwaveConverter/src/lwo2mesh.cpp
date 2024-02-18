@@ -259,9 +259,9 @@ Skeleton *Lwo2MeshWriter::doExportSkeleton(const String &skelName, int l)
         // Grr, we'll try our best anyway...
         Quaternion qx, qy, qz, qfinal;
 /*
-        qx.FromAngleAxis(msBoneRot[0], Vector3::unit_x);
-        qy.FromAngleAxis(msBoneRot[1], Vector3::unit_y);
-        qz.FromAngleAxis(msBoneRot[2], Vector3::unit_z);
+        qx.from_angle_axis(msBoneRot[0], Vector3::unit_x);
+        qy.from_angle_axis(msBoneRot[1], Vector3::unit_y);
+        qz.from_angle_axis(msBoneRot[2], Vector3::unit_z);
 */
         // Assume rotate by x then y then z
         qfinal = qz * qy * qx;

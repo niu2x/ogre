@@ -175,7 +175,7 @@ namespace Ogre {
 
         if( mYawFixed )
         {
-            targetWorldOrientation = Math::lookRotation(zAdjustVec, mYawFixedAxis);
+            targetWorldOrientation = Math::look_rotation(zAdjustVec, mYawFixedAxis);
         }
         else
         {
@@ -189,7 +189,7 @@ namespace Ogre {
             {
                 // Oops, a 180 degree turn (infinite possible rotation axes)
                 // Default to yaw i.e. use current UP
-                rotQuat.FromAngleAxis(Radian(Math::PI), axes[1]);
+                rotQuat.from_angle_axis(Radian(Math::PI), axes[1]);
             }
             else
             {
@@ -307,7 +307,7 @@ namespace Ogre {
     void Camera::rotate(const Vector3& axis, const Radian& angle)
     {
         Quaternion q;
-        q.FromAngleAxis(angle,axis);
+        q.from_angle_axis(angle,axis);
         OGRE_IGNORE_DEPRECATED_BEGIN
         rotate(q);
         OGRE_IGNORE_DEPRECATED_END

@@ -31,7 +31,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include "OgreMatrix3.h"
+#include "matrix3.h"
 #include "vector.h"
 
 namespace Ogre

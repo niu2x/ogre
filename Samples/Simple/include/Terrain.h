@@ -769,7 +769,7 @@ protected:
         Vector3 entPos(mTerrainPos.x + 2043, 0, mTerrainPos.z + 1715);
         Quaternion rot;
         entPos.y = mTerrainGroup->getHeightAtWorldPosition(entPos) + 65.5 + mTerrainPos.y;
-        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
+        rot.from_angle_axis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
         SceneNode* sn = mSceneMgr->getRootSceneNode()->createChildSceneNode(entPos, rot);
         sn->setScale(Vector3(0.12, 0.12, 0.12));
         sn->attachObject(e);
@@ -778,7 +778,7 @@ protected:
         e = mSceneMgr->createEntity("tudorhouse.mesh");
         entPos = Vector3(mTerrainPos.x + 1850, 0, mTerrainPos.z + 1478);
         entPos.y = mTerrainGroup->getHeightAtWorldPosition(entPos) + 65.5 + mTerrainPos.y;
-        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
+        rot.from_angle_axis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
         sn = mSceneMgr->getRootSceneNode()->createChildSceneNode(entPos, rot);
         sn->setScale(Vector3(0.12, 0.12, 0.12));
         sn->attachObject(e);
@@ -787,7 +787,7 @@ protected:
         e = mSceneMgr->createEntity("tudorhouse.mesh");
         entPos = Vector3(mTerrainPos.x + 1970, 0, mTerrainPos.z + 2180);
         entPos.y = mTerrainGroup->getHeightAtWorldPosition(entPos) + 65.5 + mTerrainPos.y;
-        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
+        rot.from_angle_axis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
         sn = mSceneMgr->getRootSceneNode()->createChildSceneNode(entPos, rot);
         sn->setScale(Vector3(0.12, 0.12, 0.12));
         sn->attachObject(e);

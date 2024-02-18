@@ -278,24 +278,24 @@ void ShaderExInstancedViewports::setMonitorsCount( const Vector2 monitorCount )
 
             Ogre::Quaternion q;
             Ogre::Radian angle = Ogre::Degree(90 / ( monitorCount.x *  monitorCount.y) * (x + y * monitorCount.x) );
-            q.FromAngleAxis(angle,Ogre::Vector3::unit_y);
+            q.from_angle_axis(angle,Ogre::Vector3::unit_y);
             q.normalise();
             Ogre::Matrix3 rotMat;
             q.ToRotationMatrix(rotMat);
 
-            *buf = rotMat.GetColumn(0).x; buf++;
-            *buf = rotMat.GetColumn(0).y; buf++;
-            *buf = rotMat.GetColumn(0).z; buf++;
+            *buf = rotMat.column(0).x; buf++;
+            *buf = rotMat.column(0).y; buf++;
+            *buf = rotMat.column(0).z; buf++;
             *buf = x * -20; buf++;
 
-            *buf = rotMat.GetColumn(1).x; buf++;
-            *buf = rotMat.GetColumn(1).y; buf++;
-            *buf = rotMat.GetColumn(1).z; buf++;
+            *buf = rotMat.column(1).x; buf++;
+            *buf = rotMat.column(1).y; buf++;
+            *buf = rotMat.column(1).z; buf++;
             *buf = 0; buf++;
 
-            *buf = rotMat.GetColumn(2).x; buf++;
-            *buf = rotMat.GetColumn(2).y; buf++;
-            *buf = rotMat.GetColumn(2).z; buf++;
+            *buf = rotMat.column(2).x; buf++;
+            *buf = rotMat.column(2).y; buf++;
+            *buf = rotMat.column(2).z; buf++;
             *buf =  y * 20; buf++;
 
             *buf = 0; buf++;

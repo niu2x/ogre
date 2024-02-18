@@ -114,7 +114,7 @@ void StableCSMShadowCameraSetup::getShadowCameraForCascade (const SceneManager *
         // Use camera up
         up = Vector3::unit_z;
     }
-    rot = Math::lookRotation(dir, up);
+    rot = Math::look_rotation(dir, up);
 
     // Find minimum enclosing sphere for view frustum
     // We do this in local space so that we don't have slight precision variation between frames

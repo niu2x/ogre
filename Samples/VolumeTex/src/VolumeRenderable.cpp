@@ -54,7 +54,7 @@ void VolumeRenderable::_notifyCurrentCamera( Camera* cam )
 
     // Fake orientation toward camera
     Vector3 zVec = getParentNode()->_getDerivedPosition() - cam->getDerivedPosition();
-    mFakeOrientation = Math::lookRotation(zVec.normalised_copy(), cam->getDerivedOrientation().yAxis());
+    mFakeOrientation = Math::look_rotation(zVec.normalised_copy(), cam->getDerivedOrientation().yAxis());
 
     Matrix3 tempMat;
     getParentNode()->_getDerivedOrientation().UnitInverse().ToRotationMatrix(tempMat);
@@ -80,7 +80,7 @@ void VolumeRenderable::getWorldTransforms( Matrix4* xform ) const
     
     const Vector3 &position = getParentNode()->_getDerivedPosition();
     const Vector3 &scale = getParentNode()->_getDerivedScale();
-    Matrix3 scale3x3(Matrix3::ZERO);
+    Matrix3 scale3x3(Matrix3::zero);
     scale3x3[0][0] = scale.x;
     scale3x3[1][1] = scale.y;
     scale3x3[2][2] = scale.z;

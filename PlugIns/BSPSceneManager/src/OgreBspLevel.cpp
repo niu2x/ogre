@@ -971,7 +971,7 @@ namespace Ogre {
                         // Save player start
                         ViewPoint vp;
                         vp.position = origin;
-                        vp.orientation.FromAngleAxis(angle, Vector3::unit_z);
+                        vp.orientation.from_angle_axis(angle, Vector3::unit_z);
                         mPlayerStarts.push_back(vp);
                     }
                     isPlayerStart = false;

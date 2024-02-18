@@ -207,7 +207,7 @@ namespace Ogre {
             btmp = skel->getBone(name) ;
 
             btmp -> setPosition(pos);
-            quat.FromAngleAxis(angle,axis);
+            quat.from_angle_axis(angle,axis);
             btmp -> setOrientation(quat) ;
             btmp -> setScale(scale);
 
@@ -321,7 +321,7 @@ namespace Ogre {
                 axis.y = StringConverter::parseReal(axisElem.attribute("y").value());
                 axis.z = StringConverter::parseReal(axisElem.attribute("z").value());
 
-                q.FromAngleAxis(angle,axis);
+                q.from_angle_axis(angle,axis);
                 kf->setRotation(q) ;
 
             }

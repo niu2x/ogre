@@ -565,7 +565,7 @@ namespace OgreMayaExporter
             pBone->setPosition(j->posx,j->posy,j->posz);
             // Set bone orientation (relative to it's parent)
             Ogre::Quaternion orient;
-            orient.FromAngleAxis(Ogre::Radian(j->angle),Ogre::Vector3(j->axisx,j->axisy,j->axisz));
+            orient.from_angle_axis(Ogre::Radian(j->angle),Ogre::Vector3(j->axisx,j->axisy,j->axisz));
             pBone->setOrientation(orient);
             // Set bone scale (relative to it's parent)
             pBone->setScale(j->scalex,j->scaley,j->scalez);
@@ -620,7 +620,7 @@ namespace OgreMayaExporter
                     pKeyframe->setTranslate(Ogre::Vector3(keyframe->tx,keyframe->ty,keyframe->tz));
                     // Set rotation
                     Ogre::Quaternion rot;
-                    rot.FromAngleAxis(Ogre::Radian(keyframe->angle),
+                    rot.from_angle_axis(Ogre::Radian(keyframe->angle),
                         Ogre::Vector3(keyframe->axis_x,keyframe->axis_y,keyframe->axis_z));
                     pKeyframe->setRotation(rot);
                     // Set scale

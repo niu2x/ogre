@@ -567,7 +567,7 @@ void Sample_NewInstancing::moveUnits( float timeSinceLast )
 //------------------------------------------------------------------------------
 Quaternion Sample_NewInstancing::lookAt( const Vector3 &normDir )
 {
-    return Math::lookRotation(normDir.normalised_copy(), Vector3::unit_y);
+    return Math::look_rotation(normDir.normalised_copy(), Vector3::unit_y);
 }
 
 //------------------------------------------------------------------------------

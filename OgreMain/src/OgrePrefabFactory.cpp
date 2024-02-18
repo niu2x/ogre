@@ -519,7 +519,7 @@ namespace Ogre {
         }
         xAxis.normalise();
 
-        rot3.FromAxes(xAxis, yAxis, zAxis);
+        rot3.from_axes(xAxis, yAxis, zAxis);
         rot = rot3;
 
         // Set up standard transform from origin
@@ -645,7 +645,7 @@ namespace Ogre {
         }
         xAxis.normalise();
 
-        rot3.FromAxes(xAxis, yAxis, zAxis);
+        rot3.from_axes(xAxis, yAxis, zAxis);
         rot = rot3;
 
         // Set up standard transform from origin
@@ -789,7 +789,7 @@ namespace Ogre {
         }
         xAxis.normalise();
 
-        rot3.FromAxes(xAxis, yAxis, zAxis);
+        rot3.from_axes(xAxis, yAxis, zAxis);
         rot = rot3;
 
         // Set up standard transform from origin

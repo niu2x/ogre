@@ -169,13 +169,13 @@ TEST(VectorTests, Matrix3SVD)
 //--------------------------------------------------------------------------
 TEST(VectorTests, Matrix3QDU)
 {
-    Matrix3 linear = Matrix3::IDENTITY * -2; // some scaling and reflection
+    Matrix3 linear = Matrix3::identity * -2; // some scaling and reflection
     Matrix3 rot;
     Vector3 scale, shear;
 
-    linear.QDUDecomposition(rot, scale, shear);
+    linear.QDU_decomposition(rot, scale, shear);
 
-    Matrix3 ref_rot = Matrix3::IDENTITY;
+    Matrix3 ref_rot = Matrix3::identity;
     for(int i = 0; i < 3; i++)
         for(int j = 0; j < 3; j++)
             EXPECT_FLOAT_EQ(ref_rot[i][j], rot[i][j]);

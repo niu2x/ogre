@@ -31,10 +31,10 @@ THE SOFTWARE.
 
 namespace Ogre
 {
-    const Real Matrix3::EPSILON = 1e-06;
-    const Matrix3 Matrix3::ZERO(0,0,0,0,0,0,0,0,0);
-    const Matrix3 Matrix3::IDENTITY(1,0,0,0,1,0,0,0,1);
-    const unsigned int Matrix3::msSvdMaxIterations = 64;
+    const Real Matrix3::epsilon = 1e-06;
+    const Matrix3 Matrix3::zero(0,0,0,0,0,0,0,0,0);
+    const Matrix3 Matrix3::identity(1,0,0,0,1,0,0,0,1);
+    const unsigned int Matrix3::ms_svd_max_iterations_ = 64;
 
     //-----------------------------------------------------------------------
     bool Matrix3::operator== (const Matrix3& rkMatrix) const
@@ -43,7 +43,7 @@ namespace Ogre
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
             {
-                if ( m[iRow][iCol] != rkMatrix.m[iRow][iCol] )
+                if ( m_[iRow][iCol] != rkMatrix.m_[iRow][iCol] )
                     return false;
             }
         }
@@ -58,8 +58,8 @@ namespace Ogre
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
             {
-                kSum.m[iRow][iCol] = m[iRow][iCol] +
-                    rkMatrix.m[iRow][iCol];
+                kSum.m_[iRow][iCol] = m_[iRow][iCol] +
+                    rkMatrix.m_[iRow][iCol];
             }
         }
         return kSum;
@@ -72,8 +72,8 @@ namespace Ogre
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
             {
-                kDiff.m[iRow][iCol] = m[iRow][iCol] -
-                    rkMatrix.m[iRow][iCol];
+                kDiff.m_[iRow][iCol] = m_[iRow][iCol] -
+                    rkMatrix.m_[iRow][iCol];
             }
         }
         return kDiff;
@@ -86,10 +86,10 @@ namespace Ogre
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
             {
-                kProd.m[iRow][iCol] =
-                    m[iRow][0]*rkMatrix.m[0][iCol] +
-                    m[iRow][1]*rkMatrix.m[1][iCol] +
-                    m[iRow][2]*rkMatrix.m[2][iCol];
+                kProd.m_[iRow][iCol] =
+                    m_[iRow][0]*rkMatrix.m_[0][iCol] +
+                    m_[iRow][1]*rkMatrix.m_[1][iCol] +
+                    m_[iRow][2]*rkMatrix.m_[2][iCol];
             }
         }
         return kProd;
@@ -101,9 +101,9 @@ namespace Ogre
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             kProd[iRow] =
-                rkPoint[0]*rkMatrix.m[0][iRow] +
-                rkPoint[1]*rkMatrix.m[1][iRow] +
-                rkPoint[2]*rkMatrix.m[2][iRow];
+                rkPoint[0]*rkMatrix.m_[0][iRow] +
+                rkPoint[1]*rkMatrix.m_[1][iRow] +
+                rkPoint[2]*rkMatrix.m_[2][iRow];
         }
         return kProd;
     }
@@ -114,7 +114,7 @@ namespace Ogre
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
-                kNeg[iRow][iCol] = -m[iRow][iCol];
+                kNeg[iRow][iCol] = -m_[iRow][iCol];
         }
         return kNeg;
     }
@@ -125,7 +125,7 @@ namespace Ogre
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
-                kProd[iRow][iCol] = fScalar*m[iRow][iCol];
+                kProd[iRow][iCol] = fScalar*m_[iRow][iCol];
         }
         return kProd;
     }
@@ -136,74 +136,79 @@ namespace Ogre
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
-                kProd[iRow][iCol] = fScalar*rkMatrix.m[iRow][iCol];
+                kProd[iRow][iCol] = fScalar*rkMatrix.m_[iRow][iCol];
         }
         return kProd;
     }
     //-----------------------------------------------------------------------
-    Matrix3 Matrix3::Transpose () const
+    Matrix3 Matrix3::transpose () const
     {
-        Matrix3 kTranspose;
-        for (size_t iRow = 0; iRow < 3; iRow++)
+        Matrix3 ret;
+        for (size_t row = 0; row < 3; row++)
         {
-            for (size_t iCol = 0; iCol < 3; iCol++)
-                kTranspose[iRow][iCol] = m[iCol][iRow];
+            for (size_t col = 0; col < 3; col++)
+                ret[row][col] = m_[col][row];
         }
-        return kTranspose;
+        return ret;
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::Inverse (Matrix3& rkInverse, Real fTolerance) const
+    bool Matrix3::inverse (Matrix3* output, Real tolerance) const
     {
         // Invert a 3x3 using cofactors.  This is about 8 times faster than
         // the Numerical Recipes code which uses Gaussian elimination.
+        auto& rk_inverse = *output;
 
-        rkInverse[0][0] = m[1][1]*m[2][2] -
-            m[1][2]*m[2][1];
-        rkInverse[0][1] = m[0][2]*m[2][1] -
-            m[0][1]*m[2][2];
-        rkInverse[0][2] = m[0][1]*m[1][2] -
-            m[0][2]*m[1][1];
-        rkInverse[1][0] = m[1][2]*m[2][0] -
-            m[1][0]*m[2][2];
-        rkInverse[1][1] = m[0][0]*m[2][2] -
-            m[0][2]*m[2][0];
-        rkInverse[1][2] = m[0][2]*m[1][0] -
-            m[0][0]*m[1][2];
-        rkInverse[2][0] = m[1][0]*m[2][1] -
-            m[1][1]*m[2][0];
-        rkInverse[2][1] = m[0][1]*m[2][0] -
-            m[0][0]*m[2][1];
-        rkInverse[2][2] = m[0][0]*m[1][1] -
-            m[0][1]*m[1][0];
+        rk_inverse[0][0] = m_[1][1]*m_[2][2] -
+            m_[1][2]*m_[2][1];
+        rk_inverse[0][1] = m_[0][2]*m_[2][1] -
+            m_[0][1]*m_[2][2];
+        rk_inverse[0][2] = m_[0][1]*m_[1][2] -
+            m_[0][2]*m_[1][1];
+        rk_inverse[1][0] = m_[1][2]*m_[2][0] -
+            m_[1][0]*m_[2][2];
+        rk_inverse[1][1] = m_[0][0]*m_[2][2] -
+            m_[0][2]*m_[2][0];
+        rk_inverse[1][2] = m_[0][2]*m_[1][0] -
+            m_[0][0]*m_[1][2];
+        rk_inverse[2][0] = m_[1][0]*m_[2][1] -
+            m_[1][1]*m_[2][0];
+        rk_inverse[2][1] = m_[0][1]*m_[2][0] -
+            m_[0][0]*m_[2][1];
+        rk_inverse[2][2] = m_[0][0]*m_[1][1] -
+            m_[0][1]*m_[1][0];
 
-        Real fDet =
-            m[0][0]*rkInverse[0][0] +
-            m[0][1]*rkInverse[1][0]+
-            m[0][2]*rkInverse[2][0];
+        Real det =
+            m_[0][0]*rk_inverse[0][0] +
+            m_[0][1]*rk_inverse[1][0]+
+            m_[0][2]*rk_inverse[2][0];
 
-        if ( Math::Abs(fDet) <= fTolerance )
+        if ( Math::Abs(det) <= tolerance )
             return false;
 
-        Real fInvDet = 1.0f/fDet;
+        Real inv_det = 1.0f/det;
         for (size_t iRow = 0; iRow < 3; iRow++)
         {
             for (size_t iCol = 0; iCol < 3; iCol++)
-                rkInverse[iRow][iCol] *= fInvDet;
+                rk_inverse[iRow][iCol] *= inv_det;
         }
 
         return true;
     }
     //-----------------------------------------------------------------------
-    Matrix3 Matrix3::Inverse (Real fTolerance) const
+    Matrix3 Matrix3::inverse (Real tolerance) const
     {
-        Matrix3 kInverse = Matrix3::ZERO;
-        Inverse(kInverse,fTolerance);
-        return kInverse;
+        Matrix3 ret = Matrix3::zero;
+        inverse(&ret, tolerance);
+        return ret;
     }
     //-----------------------------------------------------------------------
-    void Matrix3::Bidiagonalize (Matrix3& kA, Matrix3& kL,
-        Matrix3& kR)
+    void Matrix3::bidiagonalize (Matrix3* p_kA, Matrix3* p_kL,
+        Matrix3* p_kR)
     {
+        auto &kA = *p_kA;
+        auto &kL = *p_kL;
+        auto &kR = *p_kR;
+
         Real afV[3], afW[3];
         Real fLength, fSign, fT1, fInvT1, fT2;
         bool bIdentity;
@@ -241,7 +246,7 @@ namespace Ogre
         }
         else
         {
-            kL = Matrix3::IDENTITY;
+            kL = Matrix3::identity;
             bIdentity = true;
         }
 
@@ -272,7 +277,7 @@ namespace Ogre
         }
         else
         {
-            kR = Matrix3::IDENTITY;
+            kR = Matrix3::identity;
         }
 
         // map second column to (*,*,0)
@@ -316,9 +321,13 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::GolubKahanStep (Matrix3& kA, Matrix3& kL,
-        Matrix3& kR)
+    void Matrix3::golub_kahan_step (Matrix3* p_kA, Matrix3* p_kL,
+        Matrix3* p_kR)
     {
+        auto &kA = *p_kA;
+        auto &kL = *p_kL;
+        auto &kR = *p_kR;
+
         Real fT11 = kA[0][1]*kA[0][1]+kA[1][1]*kA[1][1];
         Real fT22 = kA[1][2]*kA[1][2]+kA[2][2]*kA[2][2];
         Real fT12 = kA[1][1]*kA[1][2];
@@ -421,15 +430,19 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::SingularValueDecomposition (Matrix3& kL, Vector3& kS,
-        Matrix3& kR) const
+    void Matrix3::singular_value_decomposition (Matrix3* p_kL, Vector3* p_kS,
+        Matrix3* p_kR) const
     {
+        auto &kL = *p_kL;
+        auto &kS = *p_kS;
+        auto &kR = *p_kR;
+
         // temas: currently unused
         //const int iMax = 16;
         size_t iRow, iCol;
 
         Matrix3 kA = *this;
-        Bidiagonalize(kA,kL,kR);
+        bidiagonalize(&kA,&kL,&kR);
 
         // Compute 'threshold = multiplier*epsilon*|kA|' as the threshold for
         // diagonal entries effectively zero; that is, |d| <= |threshold|
@@ -442,7 +455,7 @@ namespace Ogre
 
         for (unsigned int i = 0; ; i++)
         {
-            if(i == msSvdMaxIterations)
+            if(i == ms_svd_max_iterations_)
             {
                 // ensure that we exit loop via branch that update kS
                 if(Math::Abs(kA[0][1]) <= Math::Abs(kA[1][2]))
@@ -543,7 +556,7 @@ namespace Ogre
                 }
                 else
                 {
-                    GolubKahanStep(kA,kL,kR);
+                    golub_kahan_step(&kA, &kL, &kR);
                 }
             }
         }
@@ -560,7 +573,7 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::SingularValueComposition (const Matrix3& kL,
+    void Matrix3::singular_value_composition (const Matrix3& kL,
         const Vector3& kS, const Matrix3& kR)
     {
         size_t iRow, iCol;
@@ -578,16 +591,20 @@ namespace Ogre
         {
             for (iCol = 0; iCol < 3; iCol++)
             {
-                m[iRow][iCol] = 0.0;
+                m_[iRow][iCol] = 0.0;
                 for (int iMid = 0; iMid < 3; iMid++)
-                    m[iRow][iCol] += kL[iRow][iMid]*kTmp[iMid][iCol];
+                    m_[iRow][iCol] += kL[iRow][iMid]*kTmp[iMid][iCol];
             }
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::QDUDecomposition (Matrix3& kQ,
-        Vector3& kD, Vector3& kU) const
+    void Matrix3::QDU_decomposition (Matrix3* p_kQ,
+        Vector3* p_kD, Vector3* p_kU) const
     {
+        auto &kQ = *p_kQ;
+        auto &kD = *p_kD;
+        auto &kU = *p_kU;
+
         // Factor M = QR = QDU where Q is orthogonal, D is diagonal,
         // and U is upper triangular with ones on its diagonal.  Algorithm uses
         // Gram-Schmidt orthogonalization (the QR algorithm).
@@ -628,12 +645,12 @@ namespace Ogre
 
         // build "right" matrix R
         Matrix3 kR;
-        kR[0][0] = kQ.GetColumn(0).dot_product(GetColumn(0));
-        kR[0][1] = kQ.GetColumn(0).dot_product(GetColumn(1));
-        kR[0][2] = kQ.GetColumn(0).dot_product(GetColumn(2));
-        kR[1][1] = kQ.GetColumn(1).dot_product(GetColumn(1));
-        kR[1][2] = kQ.GetColumn(1).dot_product(GetColumn(2));
-        kR[2][2] = kQ.GetColumn(2).dot_product(GetColumn(2));
+        kR[0][0] = kQ.column(0).dot_product(column(0));
+        kR[0][1] = kQ.column(0).dot_product(column(1));
+        kR[0][2] = kQ.column(0).dot_product(column(2));
+        kR[1][1] = kQ.column(1).dot_product(column(1));
+        kR[1][2] = kQ.column(1).dot_product(column(2));
+        kR[2][2] = kQ.column(2).dot_product(column(2));
 
         // the scaling component
         kD[0] = kR[0][0];
@@ -647,7 +664,7 @@ namespace Ogre
         kU[2] = kR[1][2]/kD[1];
     }
     //-----------------------------------------------------------------------
-    Real Matrix3::MaxCubicRoot (Real afCoeff[3])
+    Real Matrix3::max_cubic_root (Real afCoeff[3])
     {
         // Spectral norm is for A^T*A, so characteristic polynomial
         // P(x) = c[0]+c[1]*x+c[2]*x^2+x^3 has three positive real roots.
@@ -691,7 +708,7 @@ namespace Ogre
         return fX;
     }
     //-----------------------------------------------------------------------
-    Real Matrix3::SpectralNorm () const
+    Real Matrix3::spectral_norm () const
     {
         Matrix3 kP;
         size_t iRow, iCol;
@@ -704,7 +721,7 @@ namespace Ogre
                 for (int iMid = 0; iMid < 3; iMid++)
                 {
                     kP[iRow][iCol] +=
-                        m[iMid][iRow]*m[iMid][iCol];
+                        m_[iMid][iRow]*m_[iMid][iCol];
                 }
                 if ( kP[iRow][iCol] > fPmax )
                     fPmax = kP[iRow][iCol];
@@ -727,13 +744,17 @@ namespace Ogre
             kP[1][1]*kP[2][2]-kP[1][2]*kP[2][1];
         afCoeff[2] = -(kP[0][0]+kP[1][1]+kP[2][2]);
 
-        Real fRoot = MaxCubicRoot(afCoeff);
+        Real fRoot = max_cubic_root(afCoeff);
         Real fNorm = Math::Sqrt(fPmax*fRoot);
         return fNorm;
     }
     //-----------------------------------------------------------------------
-    void Matrix3::ToAngleAxis (Vector3& rkAxis, Radian& rfRadians) const
+    void Matrix3::to_angle_axis (Vector3* p_rkAxis, Radian* p_rfRadians) const
     {
+
+        auto &rkAxis = *p_rkAxis;
+        auto &rfRadians = *p_rfRadians;
+
         // Let (x,y,z) be the unit-length axis and let A be an angle of rotation.
         // The rotation matrix is R = I + sin(A)*P + (1-cos(A))*P^2 where
         // I is the identity and
@@ -756,7 +777,7 @@ namespace Ogre
         // z^2-1.  We can solve these for axis (x,y,z).  Because the angle is pi,
         // it does not matter which sign you choose on the square roots.
 
-        Real fTrace = m[0][0] + m[1][1] + m[2][2];
+        Real fTrace = m_[0][0] + m_[1][1] + m_[2][2];
         Real fCos = 0.5f*(fTrace-1.0f);
         rfRadians = Math::ACos(fCos);  // in [0,PI]
 
@@ -764,57 +785,57 @@ namespace Ogre
         {
             if ( rfRadians < Radian(Math::PI) )
             {
-                rkAxis.x = m[2][1]-m[1][2];
-                rkAxis.y = m[0][2]-m[2][0];
-                rkAxis.z = m[1][0]-m[0][1];
+                rkAxis.x = m_[2][1]-m_[1][2];
+                rkAxis.y = m_[0][2]-m_[2][0];
+                rkAxis.z = m_[1][0]-m_[0][1];
                 rkAxis.normalise();
             }
             else
             {
                 // angle is PI
                 float fHalfInverse;
-                if ( m[0][0] >= m[1][1] )
+                if ( m_[0][0] >= m_[1][1] )
                 {
                     // r00 >= r11
-                    if ( m[0][0] >= m[2][2] )
+                    if ( m_[0][0] >= m_[2][2] )
                     {
                         // r00 is maximum diagonal term
-                        rkAxis.x = 0.5f*Math::Sqrt(m[0][0] -
-                            m[1][1] - m[2][2] + 1.0f);
+                        rkAxis.x = 0.5f*Math::Sqrt(m_[0][0] -
+                            m_[1][1] - m_[2][2] + 1.0f);
                         fHalfInverse = 0.5f/rkAxis.x;
-                        rkAxis.y = fHalfInverse*m[0][1];
-                        rkAxis.z = fHalfInverse*m[0][2];
+                        rkAxis.y = fHalfInverse*m_[0][1];
+                        rkAxis.z = fHalfInverse*m_[0][2];
                     }
                     else
                     {
                         // r22 is maximum diagonal term
-                        rkAxis.z = 0.5f*Math::Sqrt(m[2][2] -
-                            m[0][0] - m[1][1] + 1.0f);
+                        rkAxis.z = 0.5f*Math::Sqrt(m_[2][2] -
+                            m_[0][0] - m_[1][1] + 1.0f);
                         fHalfInverse = 0.5f/rkAxis.z;
-                        rkAxis.x = fHalfInverse*m[0][2];
-                        rkAxis.y = fHalfInverse*m[1][2];
+                        rkAxis.x = fHalfInverse*m_[0][2];
+                        rkAxis.y = fHalfInverse*m_[1][2];
                     }
                 }
                 else
                 {
                     // r11 > r00
-                    if ( m[1][1] >= m[2][2] )
+                    if ( m_[1][1] >= m_[2][2] )
                     {
                         // r11 is maximum diagonal term
-                        rkAxis.y = 0.5f*Math::Sqrt(m[1][1] -
-                            m[0][0] - m[2][2] + 1.0f);
+                        rkAxis.y = 0.5f*Math::Sqrt(m_[1][1] -
+                            m_[0][0] - m_[2][2] + 1.0f);
                         fHalfInverse  = 0.5f/rkAxis.y;
-                        rkAxis.x = fHalfInverse*m[0][1];
-                        rkAxis.z = fHalfInverse*m[1][2];
+                        rkAxis.x = fHalfInverse*m_[0][1];
+                        rkAxis.z = fHalfInverse*m_[1][2];
                     }
                     else
                     {
                         // r22 is maximum diagonal term
-                        rkAxis.z = 0.5f*Math::Sqrt(m[2][2] -
-                            m[0][0] - m[1][1] + 1.0f);
+                        rkAxis.z = 0.5f*Math::Sqrt(m_[2][2] -
+                            m_[0][0] - m_[1][1] + 1.0f);
                         fHalfInverse = 0.5f/rkAxis.z;
-                        rkAxis.x = fHalfInverse*m[0][2];
-                        rkAxis.y = fHalfInverse*m[1][2];
+                        rkAxis.x = fHalfInverse*m_[0][2];
+                        rkAxis.y = fHalfInverse*m_[1][2];
                     }
                 }
             }
@@ -829,7 +850,7 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromAngleAxis (const Vector3& rkAxis, const Radian& fRadians)
+    void Matrix3::from_angle_axis (const Vector3& rkAxis, const Radian& fRadians)
     {
         Real fCos = Math::Cos(fRadians);
         Real fSin = Math::Sin(fRadians);
@@ -844,37 +865,40 @@ namespace Ogre
         Real fYSin = rkAxis.y*fSin;
         Real fZSin = rkAxis.z*fSin;
 
-        m[0][0] = fX2*fOneMinusCos+fCos;
-        m[0][1] = fXYM-fZSin;
-        m[0][2] = fXZM+fYSin;
-        m[1][0] = fXYM+fZSin;
-        m[1][1] = fY2*fOneMinusCos+fCos;
-        m[1][2] = fYZM-fXSin;
-        m[2][0] = fXZM-fYSin;
-        m[2][1] = fYZM+fXSin;
-        m[2][2] = fZ2*fOneMinusCos+fCos;
+        m_[0][0] = fX2*fOneMinusCos+fCos;
+        m_[0][1] = fXYM-fZSin;
+        m_[0][2] = fXZM+fYSin;
+        m_[1][0] = fXYM+fZSin;
+        m_[1][1] = fY2*fOneMinusCos+fCos;
+        m_[1][2] = fYZM-fXSin;
+        m_[2][0] = fXZM-fYSin;
+        m_[2][1] = fYZM+fXSin;
+        m_[2][2] = fZ2*fOneMinusCos+fCos;
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::ToEulerAnglesXYZ (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const
+    bool Matrix3::to_euler_angles_xyz (Radian* p_rfYAngle, Radian* p_rfPAngle,
+        Radian* p_rfRAngle) const
     {
         // rot =  cy*cz          -cy*sz           sy
         //        cz*sx*sy+cx*sz  cx*cz-sx*sy*sz -cy*sx
         //       -cx*cz*sy+sx*sz  cz*sx+cx*sy*sz  cx*cy
+        auto &rfYAngle = *p_rfYAngle;
+        auto &rfPAngle = *p_rfPAngle;
+        auto &rfRAngle = *p_rfRAngle;
 
-        rfPAngle = Radian(Math::ASin(m[0][2]));
+        rfPAngle = Radian(Math::ASin(m_[0][2]));
         if ( rfPAngle < Radian(Math::HALF_PI) )
         {
             if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
-                rfYAngle = Math::ATan2(-m[1][2],m[2][2]);
-                rfRAngle = Math::ATan2(-m[0][1],m[0][0]);
+                rfYAngle = Math::ATan2(-m_[1][2],m_[2][2]);
+                rfRAngle = Math::ATan2(-m_[0][1],m_[0][0]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = Math::ATan2(m[1][0],m[1][1]);
+                Radian fRmY = Math::ATan2(m_[1][0],m_[1][1]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -883,33 +907,37 @@ namespace Ogre
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = Math::ATan2(m[1][0],m[1][1]);
+            Radian fRpY = Math::ATan2(m_[1][0],m_[1][1]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
         }
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::ToEulerAnglesXZY (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const
+    bool Matrix3::to_euler_angles_xzy (Radian* p_rfYAngle, Radian* p_rfPAngle,
+        Radian* p_rfRAngle) const
     {
         // rot =  cy*cz          -sz              cz*sy
         //        sx*sy+cx*cy*sz  cx*cz          -cy*sx+cx*sy*sz
         //       -cx*sy+cy*sx*sz  cz*sx           cx*cy+sx*sy*sz
 
-        rfPAngle = Math::ASin(-m[0][1]);
+        auto &rfYAngle = *p_rfYAngle;
+        auto &rfPAngle = *p_rfPAngle;
+        auto &rfRAngle = *p_rfRAngle;
+
+        rfPAngle = Math::ASin(-m_[0][1]);
         if ( rfPAngle < Radian(Math::HALF_PI) )
         {
             if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
-                rfYAngle = Math::ATan2(m[2][1],m[1][1]);
-                rfRAngle = Math::ATan2(m[0][2],m[0][0]);
+                rfYAngle = Math::ATan2(m_[2][1],m_[1][1]);
+                rfRAngle = Math::ATan2(m_[0][2],m_[0][0]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = Math::ATan2(-m[2][0],m[2][2]);
+                Radian fRmY = Math::ATan2(-m_[2][0],m_[2][2]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -918,33 +946,38 @@ namespace Ogre
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = Math::ATan2(-m[2][0],m[2][2]);
+            Radian fRpY = Math::ATan2(-m_[2][0],m_[2][2]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
         }
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::ToEulerAnglesYXZ (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const
+    bool Matrix3::to_euler_angles_yxz (Radian* p_rfYAngle, Radian* p_rfPAngle,
+        Radian* p_rfRAngle) const
     {
         // rot =  cy*cz+sx*sy*sz  cz*sx*sy-cy*sz  cx*sy
         //        cx*sz           cx*cz          -sx
         //       -cz*sy+cy*sx*sz  cy*cz*sx+sy*sz  cx*cy
 
-        rfPAngle = Math::ASin(-m[1][2]);
+        auto &rfYAngle = *p_rfYAngle;
+        auto &rfPAngle = *p_rfPAngle;
+        auto &rfRAngle = *p_rfRAngle;
+
+
+        rfPAngle = Math::ASin(-m_[1][2]);
         if ( rfPAngle < Radian(Math::HALF_PI) )
         {
             if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
-                rfYAngle = Math::ATan2(m[0][2],m[2][2]);
-                rfRAngle = Math::ATan2(m[1][0],m[1][1]);
+                rfYAngle = Math::ATan2(m_[0][2],m_[2][2]);
+                rfRAngle = Math::ATan2(m_[1][0],m_[1][1]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = Math::ATan2(-m[0][1],m[0][0]);
+                Radian fRmY = Math::ATan2(-m_[0][1],m_[0][0]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -953,33 +986,39 @@ namespace Ogre
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = Math::ATan2(-m[0][1],m[0][0]);
+            Radian fRpY = Math::ATan2(-m_[0][1],m_[0][0]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
         }
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::ToEulerAnglesYZX (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const
+    bool Matrix3::to_euler_angles_yzx (Radian* p_rfYAngle, Radian* p_rfPAngle,
+        Radian* p_rfRAngle) const
     {
         // rot =  cy*cz           sx*sy-cx*cy*sz  cx*sy+cy*sx*sz
         //        sz              cx*cz          -cz*sx
         //       -cz*sy           cy*sx+cx*sy*sz  cx*cy-sx*sy*sz
 
-        rfPAngle = Math::ASin(m[1][0]);
+
+        auto &rfYAngle = *p_rfYAngle;
+        auto &rfPAngle = *p_rfPAngle;
+        auto &rfRAngle = *p_rfRAngle;
+
+
+        rfPAngle = Math::ASin(m_[1][0]);
         if ( rfPAngle < Radian(Math::HALF_PI) )
         {
             if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
-                rfYAngle = Math::ATan2(-m[2][0],m[0][0]);
-                rfRAngle = Math::ATan2(-m[1][2],m[1][1]);
+                rfYAngle = Math::ATan2(-m_[2][0],m_[0][0]);
+                rfRAngle = Math::ATan2(-m_[1][2],m_[1][1]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = Math::ATan2(m[2][1],m[2][2]);
+                Radian fRmY = Math::ATan2(m_[2][1],m_[2][2]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -988,33 +1027,38 @@ namespace Ogre
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = Math::ATan2(m[2][1],m[2][2]);
+            Radian fRpY = Math::ATan2(m_[2][1],m_[2][2]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
         }
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::ToEulerAnglesZXY (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const
+    bool Matrix3::to_euler_angles_zxy (Radian* p_rfYAngle, Radian* p_rfPAngle,
+        Radian* p_rfRAngle) const
     {
         // rot =  cy*cz-sx*sy*sz -cx*sz           cz*sy+cy*sx*sz
         //        cz*sx*sy+cy*sz  cx*cz          -cy*cz*sx+sy*sz
         //       -cx*sy           sx              cx*cy
 
-        rfPAngle = Math::ASin(m[2][1]);
+
+        auto &rfYAngle = *p_rfYAngle;
+        auto &rfPAngle = *p_rfPAngle;
+        auto &rfRAngle = *p_rfRAngle;
+
+        rfPAngle = Math::ASin(m_[2][1]);
         if ( rfPAngle < Radian(Math::HALF_PI) )
         {
             if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
-                rfYAngle = Math::ATan2(-m[0][1],m[1][1]);
-                rfRAngle = Math::ATan2(-m[2][0],m[2][2]);
+                rfYAngle = Math::ATan2(-m_[0][1],m_[1][1]);
+                rfRAngle = Math::ATan2(-m_[2][0],m_[2][2]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = Math::ATan2(m[0][2],m[0][0]);
+                Radian fRmY = Math::ATan2(m_[0][2],m_[0][0]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1023,33 +1067,37 @@ namespace Ogre
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = Math::ATan2(m[0][2],m[0][0]);
+            Radian fRpY = Math::ATan2(m_[0][2],m_[0][0]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
         }
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::ToEulerAnglesZYX (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const
+    bool Matrix3::to_euler_angles_zyx (Radian* p_rfYAngle, Radian* p_rfPAngle,
+        Radian* p_rfRAngle) const
     {
         // rot =  cy*cz           cz*sx*sy-cx*sz  cx*cz*sy+sx*sz
         //        cy*sz           cx*cz+sx*sy*sz -cz*sx+cx*sy*sz
         //       -sy              cy*sx           cx*cy
+        //       
+        auto &rfYAngle = *p_rfYAngle;
+        auto &rfPAngle = *p_rfPAngle;
+        auto &rfRAngle = *p_rfRAngle;
 
-        rfPAngle = Math::ASin(-m[2][0]);
+        rfPAngle = Math::ASin(-m_[2][0]);
         if ( rfPAngle < Radian(Math::HALF_PI) )
         {
             if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
-                rfYAngle = Math::ATan2(m[1][0],m[0][0]);
-                rfRAngle = Math::ATan2(m[2][1],m[2][2]);
+                rfYAngle = Math::ATan2(m_[1][0],m_[0][0]);
+                rfRAngle = Math::ATan2(m_[2][1],m_[2][2]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = Math::ATan2(-m[0][1],m[0][2]);
+                Radian fRmY = Math::ATan2(-m_[0][1],m_[0][2]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1058,14 +1106,14 @@ namespace Ogre
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = Math::ATan2(-m[0][1],m[0][2]);
+            Radian fRpY = Math::ATan2(-m_[0][1],m_[0][2]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromEulerAnglesXYZ (const Radian& fYAngle, const Radian& fPAngle,
+    void Matrix3::from_euler_angles_xyz (const Radian& fYAngle, const Radian& fPAngle,
         const Radian& fRAngle)
     {
         Real fCos, fSin;
@@ -1085,7 +1133,7 @@ namespace Ogre
         *this = kXMat*(kYMat*kZMat);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromEulerAnglesXZY (const Radian& fYAngle, const Radian& fPAngle,
+    void Matrix3::from_euler_angles_xzy (const Radian& fYAngle, const Radian& fPAngle,
         const Radian& fRAngle)
     {
         Real fCos, fSin;
@@ -1105,7 +1153,7 @@ namespace Ogre
         *this = kXMat*(kZMat*kYMat);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromEulerAnglesYXZ (const Radian& fYAngle, const Radian& fPAngle,
+    void Matrix3::from_euler_angles_yxz (const Radian& fYAngle, const Radian& fPAngle,
         const Radian& fRAngle)
     {
         Real fCos, fSin;
@@ -1125,7 +1173,7 @@ namespace Ogre
         *this = kYMat*(kXMat*kZMat);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromEulerAnglesYZX (const Radian& fYAngle, const Radian& fPAngle,
+    void Matrix3::from_euler_angles_yzx (const Radian& fYAngle, const Radian& fPAngle,
         const Radian& fRAngle)
     {
         Real fCos, fSin;
@@ -1145,7 +1193,7 @@ namespace Ogre
         *this = kYMat*(kZMat*kXMat);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromEulerAnglesZXY (const Radian& fYAngle, const Radian& fPAngle,
+    void Matrix3::from_euler_angles_zxy (const Radian& fYAngle, const Radian& fPAngle,
         const Radian& fRAngle)
     {
         Real fCos, fSin;
@@ -1165,7 +1213,7 @@ namespace Ogre
         *this = kZMat*(kXMat*kYMat);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::FromEulerAnglesZYX (const Radian& fYAngle, const Radian& fPAngle,
+    void Matrix3::from_euler_angles_zyx (const Radian& fYAngle, const Radian& fPAngle,
         const Radian& fRAngle)
     {
         Real fCos, fSin;
@@ -1185,7 +1233,7 @@ namespace Ogre
         *this = kZMat*(kYMat*kXMat);
     }
     //-----------------------------------------------------------------------
-    void Matrix3::Tridiagonal (Real afDiag[3], Real afSubDiag[3])
+    void Matrix3::tridiagonal (Real afDiag[3], Real afSubDiag[3])
     {
         // Householder reduction T = Q^t M Q
         //   Input:
@@ -1195,16 +1243,16 @@ namespace Ogre
         //     diag, diagonal entries of T
         //     subd, subdiagonal entries of T (T is symmetric)
 
-        Real fA = m[0][0];
-        Real fB = m[0][1];
-        Real fC = m[0][2];
-        Real fD = m[1][1];
-        Real fE = m[1][2];
-        Real fF = m[2][2];
+        Real fA = m_[0][0];
+        Real fB = m_[0][1];
+        Real fC = m_[0][2];
+        Real fD = m_[1][1];
+        Real fE = m_[1][2];
+        Real fF = m_[2][2];
 
         afDiag[0] = fA;
         afSubDiag[2] = 0.0;
-        if ( Math::Abs(fC) >= EPSILON )
+        if ( Math::Abs(fC) >= epsilon )
         {
             Real fLength = Math::Sqrt(fB*fB+fC*fC);
             Real fInvLength = 1.0f/fLength;
@@ -1215,15 +1263,15 @@ namespace Ogre
             afDiag[2] = fF-fC*fQ;
             afSubDiag[0] = fLength;
             afSubDiag[1] = fE-fB*fQ;
-            m[0][0] = 1.0;
-            m[0][1] = 0.0;
-            m[0][2] = 0.0;
-            m[1][0] = 0.0;
-            m[1][1] = fB;
-            m[1][2] = fC;
-            m[2][0] = 0.0;
-            m[2][1] = fC;
-            m[2][2] = -fB;
+            m_[0][0] = 1.0;
+            m_[0][1] = 0.0;
+            m_[0][2] = 0.0;
+            m_[1][0] = 0.0;
+            m_[1][1] = fB;
+            m_[1][2] = fC;
+            m_[2][0] = 0.0;
+            m_[2][1] = fC;
+            m_[2][2] = -fB;
         }
         else
         {
@@ -1231,19 +1279,19 @@ namespace Ogre
             afDiag[2] = fF;
             afSubDiag[0] = fB;
             afSubDiag[1] = fE;
-            m[0][0] = 1.0;
-            m[0][1] = 0.0;
-            m[0][2] = 0.0;
-            m[1][0] = 0.0;
-            m[1][1] = 1.0;
-            m[1][2] = 0.0;
-            m[2][0] = 0.0;
-            m[2][1] = 0.0;
-            m[2][2] = 1.0;
+            m_[0][0] = 1.0;
+            m_[0][1] = 0.0;
+            m_[0][2] = 0.0;
+            m_[1][0] = 0.0;
+            m_[1][1] = 1.0;
+            m_[1][2] = 0.0;
+            m_[2][0] = 0.0;
+            m_[2][1] = 0.0;
+            m_[2][2] = 1.0;
         }
     }
     //-----------------------------------------------------------------------
-    bool Matrix3::QLAlgorithm (Real afDiag[3], Real afSubDiag[3])
+    bool Matrix3::QL_algorithm (Real afDiag[3], Real afSubDiag[3])
     {
         // QL iteration with implicit shifting to reduce matrix from tridiagonal
         // to diagonal
@@ -1302,10 +1350,10 @@ namespace Ogre
 
                     for (int iRow = 0; iRow < 3; iRow++)
                     {
-                        fTmp3 = m[iRow][i2+1];
-                        m[iRow][i2+1] = fSin*m[iRow][i2] +
+                        fTmp3 = m_[iRow][i2+1];
+                        m_[iRow][i2+1] = fSin*m_[iRow][i2] +
                             fCos*fTmp3;
-                        m[iRow][i2] = fCos*m[iRow][i2] -
+                        m_[iRow][i2] = fCos*m_[iRow][i2] -
                             fSin*fTmp3;
                     }
                 }
@@ -1324,13 +1372,13 @@ namespace Ogre
         return true;
     }
     //-----------------------------------------------------------------------
-    void Matrix3::EigenSolveSymmetric (Real afEigenvalue[3],
+    void Matrix3::eigen_solve_symmetric (Real afEigenvalue[3],
         Vector3 akEigenvector[3]) const
     {
         Matrix3 kMatrix = *this;
         Real afSubDiag[3];
-        kMatrix.Tridiagonal(afEigenvalue,afSubDiag);
-        kMatrix.QLAlgorithm(afEigenvalue,afSubDiag);
+        kMatrix.tridiagonal(afEigenvalue,afSubDiag);
+        kMatrix.QL_algorithm(afEigenvalue,afSubDiag);
 
         for (size_t i = 0; i < 3; i++)
         {
@@ -1350,7 +1398,7 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void Matrix3::TensorProduct (const Vector3& rkU, const Vector3& rkV,
+    void Matrix3::tensor_product (const Vector3& rkU, const Vector3& rkV,
         Matrix3& rkProduct)
     {
         for (size_t iRow = 0; iRow < 3; iRow++)

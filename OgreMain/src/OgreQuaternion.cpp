@@ -107,7 +107,7 @@ namespace Ogre {
         kRot[2][2] = 1.0f-(fTxx+fTyy);
     }
     //-----------------------------------------------------------------------
-    void Quaternion::FromAngleAxis (const Radian& rfAngle,
+    void Quaternion::from_angle_axis(const Radian& rfAngle,
         const Vector3& rkAxis)
     {
         // assert:  axis[] is unit length
@@ -147,7 +147,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void Quaternion::FromAxes (const Vector3* akAxis)
+    void Quaternion::from_axes(const Vector3* akAxis)
     {
         Matrix3 kRot;
 
@@ -161,10 +161,10 @@ namespace Ogre {
         FromRotationMatrix(kRot);
     }
     //-----------------------------------------------------------------------
-    void Quaternion::FromAxes (const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
+    void Quaternion::from_axes(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
     {
         Matrix3 kRot;
-        kRot.FromAxes(xaxis, yaxis, zaxis);
+        kRot.from_axes(xaxis, yaxis, zaxis);
         FromRotationMatrix(kRot);
     }
     //-----------------------------------------------------------------------

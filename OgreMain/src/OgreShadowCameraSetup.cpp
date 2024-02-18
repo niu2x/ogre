@@ -106,7 +106,7 @@ namespace Ogre
                 // Use camera up
                 up = Vector3::unit_z;
              }
-             Matrix3 rot = Math::lookRotation(dir, up);
+             Matrix3 rot = Math::look_rotation(dir, up);
 
              //convert world space camera position into light space
              Vector3 lightSpacePos = rot.transpose() * pos;
@@ -162,7 +162,7 @@ namespace Ogre
                 // Use camera up
                 up = Vector3::unit_z;
             }
-            texCam->getParentNode()->setOrientation(Math::lookRotation(dir, up));
+            texCam->getParentNode()->setOrientation(Math::look_rotation(dir, up));
             // keep position set by ShadowRenderer::prepareShadowTextures
         }
     }

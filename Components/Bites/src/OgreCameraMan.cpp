@@ -98,12 +98,12 @@ void CameraMan::frameRendered(const Ogre::FrameEvent &evt)
         // build our acceleration vector based on keyboard input composite
         Ogre::Vector3 accel = Ogre::Vector3::zero;
         Ogre::Matrix3 axes = mCamera->getLocalAxes();
-        if (mGoingForward) accel -= axes.GetColumn(2);
-        if (mGoingBack) accel += axes.GetColumn(2);
-        if (mGoingRight) accel += axes.GetColumn(0);
-        if (mGoingLeft) accel -= axes.GetColumn(0);
-        if (mGoingUp) accel += axes.GetColumn(1);
-        if (mGoingDown) accel -= axes.GetColumn(1);
+        if (mGoingForward) accel -= axes.column(2);
+        if (mGoingBack) accel += axes.column(2);
+        if (mGoingRight) accel += axes.column(0);
+        if (mGoingLeft) accel -= axes.column(0);
+        if (mGoingUp) accel += axes.column(1);
+        if (mGoingDown) accel -= axes.column(1);
 
         // if accelerating, try to reach top speed in a certain time
         Ogre::Real topSpeed = mFastMove ? mTopSpeed * 20 : mTopSpeed;
