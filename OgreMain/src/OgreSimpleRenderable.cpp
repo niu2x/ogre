@@ -42,7 +42,7 @@ namespace Ogre {
 
     SimpleRenderable::SimpleRenderable(const String& name)
     : MovableObject(name)
-    , mTransform(Affine3::IDENTITY)
+    , mTransform(Affine3::identity)
     , mMaterial(MaterialManager::getSingleton().getDefaultMaterial())
     , mCamera(NULL)
     {

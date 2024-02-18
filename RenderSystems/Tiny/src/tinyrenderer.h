@@ -13,7 +13,7 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 #include <OgreVector.h>
-#include <OgreMatrix4.h>
+#include <matrix4.h>
 
 namespace Ogre {
 typedef Vector<2, float> vec2;

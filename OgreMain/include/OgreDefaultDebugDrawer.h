@@ -32,7 +32,7 @@ public:
     /// if static, the drawer contents are preserved across frames. They are cleared otherwise.
     void setStatic(bool enable) { mStatic = enable; }
 
-    void drawBone(const Node* node, const Affine3 & transform = Affine3::IDENTITY) override;
+    void drawBone(const Node* node, const Affine3 & transform = Affine3::identity) override;
     void drawSceneNode(const SceneNode* node) override;
     void drawFrustum(const Frustum* frust) override;
     /// Allows the rendering of a wireframe bounding box.

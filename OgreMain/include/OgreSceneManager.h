@@ -3282,7 +3282,7 @@ namespace Ogre {
     public:
         virtual ~DebugDrawer() {}
         virtual void drawSceneNode(const SceneNode* node) = 0;
-        virtual void drawBone(const Node* node, const Affine3 & transform = Affine3::IDENTITY) = 0;
+        virtual void drawBone(const Node* node, const Affine3 & transform = Affine3::identity) = 0;
         virtual void drawFrustum(const Frustum* frust) = 0;
     };
 

@@ -105,7 +105,7 @@ namespace Ogre {
         // derived bone space.
         Vector3 locTranslate = _getDerivedPosition() + locRotate * (locScale * mBindDerivedInversePosition);
 
-        m.makeTransform(locTranslate, locScale, locRotate);
+        m.make_transform(locTranslate, locScale, locRotate);
     }
     //---------------------------------------------------------------------
     unsigned short Bone::getHandle(void) const

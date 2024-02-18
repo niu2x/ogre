@@ -318,7 +318,7 @@ void OctreeSceneManager::init( AxisAlignedBox &box, int depth )
 
     Vector3 v( 1.5, 1.5, 1.5 );
 
-    mScaleFactor.setScale( v );
+    mScaleFactor.set_scale( v );
 
 
 

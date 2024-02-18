@@ -232,8 +232,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     AxisAlignedBox Terrain::getWorldAABB() const
     {
-        Affine3 m = Affine3::IDENTITY;
-        m.setTrans(getPosition());
+        Affine3 m = Affine3::identity;
+        m.set_trans(getPosition());
 
         AxisAlignedBox ret = getAABB();
         ret.transform(m);
@@ -1472,7 +1472,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     Affine3 Terrain::getPointTransform() const
     {
-        auto outXform = Affine3::ZERO;
+        auto outXform = Affine3::zero;
         switch(mAlign)
         {
             case ALIGN_X_Z:

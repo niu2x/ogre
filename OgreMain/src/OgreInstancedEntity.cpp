@@ -165,7 +165,7 @@ namespace Ogre
             if( !mSkeletonInstance )
             {
                 *xform = mBatchOwner->useBoneWorldMatrices() ? 
-                        _getParentNodeFullTransform() : Matrix4::IDENTITY;
+                        _getParentNodeFullTransform() : Matrix4::identity;
             }
             else
             {
@@ -185,7 +185,7 @@ namespace Ogre
             if( mSkeletonInstance )
                 retVal = mBatchOwner->_getIndexToBoneMap()->size();
 
-            std::fill_n( xform, retVal, Matrix4::ZERO );
+            std::fill_n( xform, retVal, Matrix4::zero );
         }
 
         return retVal;
@@ -200,7 +200,7 @@ namespace Ogre
             if( !mSkeletonInstance )
             {
                 const Affine3& mat = mBatchOwner->useBoneWorldMatrices() ?
-                    _getParentNodeFullTransform() : Affine3::IDENTITY;
+                    _getParentNodeFullTransform() : Affine3::identity;
 
                 *xform = Matrix3x4f(mat[0]);
                 retVal = 12;
@@ -225,7 +225,7 @@ namespace Ogre
             else
                 retVal = 12;
             
-            std::fill_n( xform, retVal/12, Matrix3x4f(Affine3::ZERO[0]) );
+            std::fill_n( xform, retVal/12, Matrix3x4f(Affine3::zero[0]) );
         }
 
         return retVal;
@@ -266,7 +266,7 @@ namespace Ogre
                 mBoneWorldMatrices  = static_cast<Affine3*>(OGRE_MALLOC_SIMD( sizeof(Affine3) *
                                                                     mSkeletonInstance->getNumBones(),
                                                                     MEMCATEGORY_ANIMATION));
-                std::fill(mBoneWorldMatrices, mBoneWorldMatrices + mSkeletonInstance->getNumBones(), Affine3::IDENTITY);
+                std::fill(mBoneWorldMatrices, mBoneWorldMatrices + mSkeletonInstance->getNumBones(), Affine3::identity);
             }
 
             mAnimationState = OGRE_NEW AnimationStateSet();
@@ -485,11 +485,11 @@ namespace Ogre
                     Vector3 derivedScale = parentScale * mScale;
                     mDerivedLocalPosition = parentOrientation * (parentScale * mPosition) + parentPosition;
 
-                    mFullLocalTransform.makeTransform(mDerivedLocalPosition, derivedScale, derivedOrientation);
+                    mFullLocalTransform.make_transform(mDerivedLocalPosition, derivedScale, derivedOrientation);
                 }
                 else
                 {
-                    mFullLocalTransform.makeTransform(mPosition,mScale,mOrientation);
+                    mFullLocalTransform.make_transform(mPosition,mScale,mOrientation);
                 }
             } else {
                 if (mParentNode) {

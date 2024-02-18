@@ -601,7 +601,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
         {
             Bone* bone = mSkeleton->getBone(boneName);
             Affine3 defBonePoseInv;
-            defBonePoseInv.makeInverseTransform(bone->getPosition(), bone->getScale(),
+            defBonePoseInv.make_inverse_transform(bone->getPosition(), bone->getScale(),
                                                 bone->getOrientation());
 
             NodeAnimationTrack* track = animation->createNodeTrack(bone->getHandle(), bone);
@@ -664,10 +664,10 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
                     Vector3 transCopy = trans;
 
                     Affine3 fullTransform;
-                    fullTransform.makeTransform(trans, scale, rot);
+                    fullTransform.make_transform(trans, scale, rot);
 
                     Affine3 poseTokey = defBonePoseInv * fullTransform;
-                    poseTokey.decomposition(trans, scale, rot);
+                    poseTokey.decomposition(&trans, &scale, &rot);
 
                     keyframe = track->createNodeKeyFrame(Real(it->first));
 

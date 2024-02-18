@@ -316,9 +316,9 @@ namespace Ogre {
         scale3x3[1][1] = mScaleY;
         scale3x3[2][2] = 1.0f;
 
-        mTransform = Matrix4::IDENTITY;
+        mTransform = Matrix4::identity;
         mTransform = rot3x3 * scale3x3;
-        mTransform.setTrans(Vector3(mScrollX, mScrollY, 0));
+        mTransform.set_trans(Vector3(mScrollX, mScrollY, 0));
 
         mTransformOutOfDate = false;
     }

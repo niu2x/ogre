@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreShaderPrerequisites.h"
 #include "vector.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 #include "OgreGpuProgramParams.h"
 
 namespace Ogre {

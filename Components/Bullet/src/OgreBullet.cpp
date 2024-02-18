@@ -121,9 +121,9 @@ static void onTick(btDynamicsWorld* world, btScalar timeStep)
 class VertexIndexToShape
 {
 public:
-    VertexIndexToShape(const Affine3& transform = Affine3::IDENTITY);
-    VertexIndexToShape(Renderable* rend, const Affine3& transform = Affine3::IDENTITY);
-    VertexIndexToShape(const Entity* entity, const Affine3& transform = Affine3::IDENTITY);
+    VertexIndexToShape(const Affine3& transform = Affine3::identity);
+    VertexIndexToShape(Renderable* rend, const Affine3& transform = Affine3::identity);
+    VertexIndexToShape(const Entity* entity, const Affine3& transform = Affine3::identity);
     ~VertexIndexToShape();
 
     Real getRadius();
@@ -132,8 +132,8 @@ public:
     btBvhTriangleMeshShape* createTrimesh();
     btConvexHullShape* createConvex();
 
-    void addEntity(const Entity* entity, const Affine3& transform = Affine3::IDENTITY);
-    void addMesh(const MeshPtr& mesh, const Affine3& transform = Affine3::IDENTITY);
+    void addEntity(const Entity* entity, const Affine3& transform = Affine3::identity);
+    void addMesh(const MeshPtr& mesh, const Affine3& transform = Affine3::identity);
 
     const Vector3* getVertices() { return mVertexBuffer; }
     unsigned int getVertexCount() { return mVertexCount; };

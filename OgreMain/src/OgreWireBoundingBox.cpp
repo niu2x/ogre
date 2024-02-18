@@ -93,7 +93,7 @@ namespace Ogre {
     void WireBoundingBox::getWorldTransforms( Matrix4* xform ) const
     {
         // return identity matrix to prevent parent transforms
-        *xform = Matrix4::IDENTITY;
+        *xform = Matrix4::identity;
     }
     //-----------------------------------------------------------------------
     void WireBoundingBox::setupBoundingBoxVertices(const AxisAlignedBox& aab) {

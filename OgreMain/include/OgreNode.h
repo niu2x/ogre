@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 #include "OgreUserObjectBindings.h"
 #include "OgreHeaderPrefix.h"
 

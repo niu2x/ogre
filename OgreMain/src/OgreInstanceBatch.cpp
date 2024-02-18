@@ -213,7 +213,7 @@ namespace Ogre
 
         for( size_t i=0; i<count; i++ )
         {
-            mat3x4[i].setTrans(mat3x4[i].getTrans() - Vector<3, float>(cameraRelativePosition));
+            mat3x4[i].set_trans(mat3x4[i].trans_part() - Vector<3, float>(cameraRelativePosition));
         }
     }
     //-----------------------------------------------------------------------

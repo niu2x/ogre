@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include <gtest/gtest.h>
 #include "OgreDualQuaternion.h"
 #include "vector.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 
 
 using namespace Ogre;
@@ -69,7 +69,7 @@ TEST(DualQuaternionTests,Matrix)
     Vector3 scale = Vector3::unit_scale;
     Quaternion rotation;
     rotation.from_angle_axis(Radian(Math::PI), Vector3::unit_z);
-    transform.makeTransform(translation, scale, rotation);
+    transform.make_transform(translation, scale, rotation);
 
     DualQuaternion dQuat;
     dQuat.fromTransformationMatrix(transform);

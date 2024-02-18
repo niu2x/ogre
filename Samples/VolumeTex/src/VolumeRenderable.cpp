@@ -59,9 +59,9 @@ void VolumeRenderable::_notifyCurrentCamera( Camera* cam )
     Matrix3 tempMat;
     getParentNode()->_getDerivedOrientation().UnitInverse().ToRotationMatrix(tempMat);
     
-    Matrix4 rotMat = Matrix4::IDENTITY;
+    Matrix4 rotMat = Matrix4::identity;
     rotMat = tempMat * mFakeOrientation;
-    rotMat.setTrans(Vector3(0.5f, 0.5f, 0.5f));
+    rotMat.set_trans(Vector3(0.5f, 0.5f, 0.5f));
 
     Technique* tech = mMaterial->getBestTechnique();
 
@@ -76,7 +76,7 @@ void VolumeRenderable::_notifyCurrentCamera( Camera* cam )
 
 void VolumeRenderable::getWorldTransforms( Matrix4* xform ) const
 {
-    Matrix4 destMatrix(Matrix4::IDENTITY); // this initialisation is needed
+    Matrix4 destMatrix(Matrix4::identity); // this initialisation is needed
     
     const Vector3 &position = getParentNode()->_getDerivedPosition();
     const Vector3 &scale = getParentNode()->_getDerivedScale();
@@ -86,7 +86,7 @@ void VolumeRenderable::getWorldTransforms( Matrix4* xform ) const
     scale3x3[2][2] = scale.z;
 
     destMatrix = mFakeOrientation * scale3x3;
-    destMatrix.setTrans(position);
+    destMatrix.set_trans(position);
         
     *xform = destMatrix;
 }

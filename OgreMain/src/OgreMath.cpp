@@ -707,7 +707,7 @@ namespace Ogre
         Vector3 trans = -rotT * position;
 
         // Make final matrix
-        Affine3 viewMatrix = Affine3::IDENTITY;
+        Affine3 viewMatrix = Affine3::identity;
         viewMatrix = rotT; // fills upper 3x3
         viewMatrix[0][3] = trans.x;
         viewMatrix[1][3] = trans.y;
@@ -753,7 +753,7 @@ namespace Ogre
             qn = -2 * (zFar * zNear) * inv_d;
         }
 
-        Matrix4 ret = Matrix4::ZERO;
+        Matrix4 ret = Matrix4::zero;
         ret[0][0] = A;
         ret[0][2] = C;
         ret[1][1] = B;

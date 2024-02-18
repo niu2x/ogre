@@ -30,29 +30,29 @@ THE SOFTWARE.
 namespace Ogre
 {
 
-    const Matrix4 Matrix4::ZERO(
+    const Matrix4 Matrix4::zero(
         0, 0, 0, 0,
         0, 0, 0, 0,
         0, 0, 0, 0,
         0, 0, 0, 0 );
     
-    const Affine3 Affine3::ZERO(
+    const Affine3 Affine3::zero(
         0, 0, 0, 0,
         0, 0, 0, 0,
         0, 0, 0, 0);
 
-    const Affine3 Affine3::IDENTITY(
+    const Affine3 Affine3::identity(
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0);
 
-    const Matrix4 Matrix4::IDENTITY(
+    const Matrix4 Matrix4::identity(
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1 );
 
-    const Matrix4 Matrix4::CLIPSPACE2DTOIMAGESPACE(
+    const Matrix4 Matrix4::clip_space_2_dto_image_space(
         0.5,    0,  0, 0.5, 
           0, -0.5,  0, 0.5, 
           0,    0,  1,   0,
@@ -202,7 +202,7 @@ namespace Ogre
             r20, r21, r22, r23);
     }
     //-----------------------------------------------------------------------
-    void TransformBaseReal::makeTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation)
+    void TransformBaseReal::make_transform(const Vector3& position, const Vector3& scale, const Quaternion& orientation)
     {
         // Ordering:
         //    1. Scale
@@ -221,7 +221,7 @@ namespace Ogre
         m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
     //-----------------------------------------------------------------------
-    void TransformBaseReal::makeInverseTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation)
+    void TransformBaseReal::make_inverse_transform(const Vector3& position, const Vector3& scale, const Quaternion& orientation)
     {
         // Invert the parameters
         Vector3 invTranslate = -position;
@@ -246,14 +246,14 @@ namespace Ogre
         m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
     }
     //-----------------------------------------------------------------------
-    void Affine3::decomposition(Vector3& position, Vector3& scale, Quaternion& orientation) const
+    void Affine3::decomposition(Vector3* position, Vector3* scale, Quaternion* orientation) const
     {
         Matrix3 matQ;
         Vector3 vecU;
-        linear().QDU_decomposition( &matQ, &scale, &vecU );
+        linear().QDU_decomposition( &matQ, scale, &vecU );
 
-        orientation = Quaternion( matQ );
-        position = Vector3( m[0][3], m[1][3], m[2][3] );
+        *orientation = Quaternion( matQ );
+        *position = Vector3( m[0][3], m[1][3], m[2][3] );
     }
 
 }

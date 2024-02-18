@@ -271,7 +271,7 @@ namespace Ogre {
             return mParentNode->_getFullTransform();
         }
         // fallback
-        return Affine3::IDENTITY;
+        return Affine3::identity;
     }
 
     Real MovableObject::getBoundingRadiusScaled() const

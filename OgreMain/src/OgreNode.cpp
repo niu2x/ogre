@@ -114,7 +114,7 @@ namespace Ogre {
         {
 #if OGRE_NODE_INHERIT_TRANSFORM
             Affine3 tr;
-            tr.makeTransform(mPosition, mScale, mOrientation);
+            tr.make_transform(mPosition, mScale, mOrientation);
 
             if(mParent == NULL)
             {
@@ -127,7 +127,7 @@ namespace Ogre {
             else if(!mInheritOrientation && !mInheritScale) // only position is inherited
             {
                 mCachedTransform = tr;
-                mCachedTransform.setTrans(tr.getTrans() + mParent->_getFullTransform().getTrans());
+                mCachedTransform.set_trans(tr.trans_part() + mParent->_getFullTransform().trans_part());
             }
             else // shear is inherited together with orientation, controlled by mInheritOrientation
             {
@@ -138,11 +138,11 @@ namespace Ogre {
                     parentTr.transformDirection(Vector3::unit_z).length());
 
                 assert(mInheritOrientation ^ mInheritScale);
-                mCachedTransform = (mInheritOrientation ? Affine3::getScale(1.0f / parentScale)  * parentTr : Affine3::getScale(parentScale)) * tr;
+                mCachedTransform = (mInheritOrientation ? Affine3::scale(1.0f / parentScale)  * parentTr : Affine3::scale(parentScale)) * tr;
             }
 #else
             // Use derived values
-            mCachedTransform.makeTransform(
+            mCachedTransform.make_transform(
                 _getDerivedPosition(),
                 _getDerivedScale(),
                 _getDerivedOrientation());

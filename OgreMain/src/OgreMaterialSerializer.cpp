@@ -1042,7 +1042,7 @@ namespace Ogre
             // free transform
             if (!individualTransformElems &&
                 (mDefaults ||
-                pTex->getTextureTransform() != Matrix4::IDENTITY))
+                pTex->getTextureTransform() != Matrix4::identity))
             {
                 writeAttribute(4, "transform");
                 const Matrix4& xform = pTex->getTextureTransform();

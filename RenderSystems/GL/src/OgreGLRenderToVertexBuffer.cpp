@@ -149,9 +149,9 @@ namespace Ogre {
 
         GLRenderSystem* targetRenderSystem = static_cast<GLRenderSystem*>(Root::getSingleton().getRenderSystem());
         //Draw the object
-        targetRenderSystem->setWorldMatrix(Matrix4::IDENTITY);
-        targetRenderSystem->setViewMatrix(Matrix4::IDENTITY);
-        targetRenderSystem->setProjectionMatrix(Matrix4::IDENTITY);
+        targetRenderSystem->setWorldMatrix(Matrix4::identity);
+        targetRenderSystem->setViewMatrix(Matrix4::identity);
+        targetRenderSystem->setProjectionMatrix(Matrix4::identity);
         targetRenderSystem->_render(renderOp);
         
         //Finish the query

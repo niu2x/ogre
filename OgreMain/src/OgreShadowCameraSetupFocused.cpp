@@ -238,9 +238,9 @@ namespace Ogre
             2 / (vMax.y - vMin.y),
             2 / (vMax.z - vMin.z));
 
-        Matrix4 mOut(Matrix4::IDENTITY);
-        mOut.setTrans(trans);
-        mOut.setScale(scale);
+        Matrix4 mOut(Matrix4::identity);
+        mOut.set_trans(trans);
+        mOut.set_scale(scale);
 
         return mOut;
     }

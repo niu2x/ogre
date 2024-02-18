@@ -70,7 +70,7 @@ const MaterialPtr& AmbientLight::getMaterial(void) const
 
 void AmbientLight::getWorldTransforms(Ogre::Matrix4* xform) const
 {
-    *xform = Matrix4::IDENTITY;
+    *xform = Matrix4::identity;
 }
 void AmbientLight::updateFromCamera(Ogre::Camera* camera)
 {

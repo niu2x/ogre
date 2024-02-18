@@ -127,7 +127,7 @@ namespace Ogre {
         , mUScale(1)
         , mVScale(1)
         , mRotate(0)
-        , mTexModMatrix(Matrix4::IDENTITY)
+        , mTexModMatrix(Matrix4::identity)
         , mContentType(CONTENT_NAMED)
         , mTextureLoadFailed(false)
         , mRecalcTexMatrix(false)
@@ -752,7 +752,7 @@ namespace Ogre {
         // Assumption: 2D texture coords
         // that would make this Affine2(Matrix3), but we lack such a class
         // Matrix3 is horribly unoptimized ATM
-        Affine3 xform = Affine3::IDENTITY;
+        Affine3 xform = Affine3::identity;
 
         if (mUScale != 1 || mVScale != 1)
         {
@@ -766,12 +766,12 @@ namespace Ogre {
 
         if (mUMod || mVMod)
         {
-            xform = Affine3::getTrans(mUMod, mVMod, 0) * xform;
+            xform = Affine3::translate(mUMod, mVMod, 0) * xform;
         }
 
         if (mRotate != Radian(0))
         {
-            Affine3 rot = Affine3::IDENTITY;
+            Affine3 rot = Affine3::identity;
             Radian theta ( mRotate );
             Real cosTheta = Math::Cos(theta);
             Real sinTheta = Math::Sin(theta);

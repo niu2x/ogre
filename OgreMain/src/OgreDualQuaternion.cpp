@@ -103,7 +103,7 @@ namespace Ogre {
         Vector3 scale;
         Quaternion rot;
 
-        kTrans.decomposition(pos, scale, rot);
+        kTrans.decomposition(&pos, &scale, &rot);
         fromRotationTranslation(rot, pos);
     }
 
@@ -115,6 +115,6 @@ namespace Ogre {
         toRotationTranslation(rot, pos);
 
         Vector3 scale = Vector3::unit_scale;
-        kTrans.makeTransform(pos, scale, rot);
+        kTrans.make_transform(pos, scale, rot);
     }
 }

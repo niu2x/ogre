@@ -285,7 +285,7 @@ namespace Ogre {
                 size_t worldMatrixCount = MeshManager::getBonesUseObjectSpace() ? 1 : mWorldMatrixCount;
                 for (size_t i = 0; i < worldMatrixCount; ++i)
                 {
-                    mWorldMatrix[i].setTrans(mWorldMatrix[i].getTrans() - mCameraRelativePosition);
+                    mWorldMatrix[i].set_trans(mWorldMatrix[i].trans_part() - mCameraRelativePosition);
                 }
             }
             mWorldMatrixDirty = false;
@@ -312,13 +312,13 @@ namespace Ogre {
         if (mViewMatrixDirty)
         {
             if (mCurrentRenderable && mCurrentRenderable->getUseIdentityView())
-                mViewMatrix = Affine3::IDENTITY;
+                mViewMatrix = Affine3::identity;
             else
             {
                 mViewMatrix = mCurrentCamera->getViewMatrix(true);
                 if (mCameraRelativeRendering)
                 {
-                    mViewMatrix.setTrans(Vector3::zero);
+                    mViewMatrix.set_trans(Vector3::zero);
                 }
 
             }
@@ -347,7 +347,7 @@ namespace Ogre {
             {
                 // Use identity projection matrix, still need to take RS depth into account.
                 RenderSystem* rs = Root::getSingleton().getRenderSystem();
-                rs->_convertProjectionMatrix(Matrix4::IDENTITY, mProjectionMatrix, true);
+                rs->_convertProjectionMatrix(Matrix4::identity, mProjectionMatrix, true);
             }
             else
             {
@@ -684,14 +684,14 @@ namespace Ogre {
                     mCurrentTextureProjector[index]->calcViewMatrixRelative(
                         mCurrentCamera->getDerivedPosition(), viewMatrix);
                     mTextureViewProjMatrix[index] = 
-                        Matrix4::CLIPSPACE2DTOIMAGESPACE *
+                        Matrix4::clip_space_2_dto_image_space *
                         mCurrentTextureProjector[index]->getProjectionMatrixWithRSDepth() * 
                         viewMatrix;
                 }
                 else
                 {
                     mTextureViewProjMatrix[index] = 
-                        Matrix4::CLIPSPACE2DTOIMAGESPACE *
+                        Matrix4::clip_space_2_dto_image_space *
                         mCurrentTextureProjector[index]->getProjectionMatrixWithRSDepth() * 
                         mCurrentTextureProjector[index]->getViewMatrix();
                 }
@@ -700,7 +700,7 @@ namespace Ogre {
             return mTextureViewProjMatrix[index];
         }
         else
-            return Matrix4::IDENTITY;
+            return Matrix4::identity;
     }
     //-----------------------------------------------------------------------------
     const Matrix4& AutoParamDataSource::getTextureWorldViewProjMatrix(size_t index) const
@@ -716,7 +716,7 @@ namespace Ogre {
             return mTextureWorldViewProjMatrix[index];
         }
         else
-            return Matrix4::IDENTITY;
+            return Matrix4::identity;
     }
     //-----------------------------------------------------------------------------
     const Matrix4& AutoParamDataSource::getSpotlightViewProjMatrix(size_t index) const
@@ -756,7 +756,7 @@ namespace Ogre {
                 // The view matrix here already includes camera-relative changes if necessary
                 // since they are built into the frustum position
                 mSpotlightViewProjMatrix[index] = 
-                    Matrix4::CLIPSPACE2DTOIMAGESPACE *
+                    Matrix4::clip_space_2_dto_image_space *
                     frust.getProjectionMatrixWithRSDepth() * 
                     frust.getViewMatrix();
 
@@ -765,7 +765,7 @@ namespace Ogre {
             return mSpotlightViewProjMatrix[index];
         }
         else
-            return Matrix4::IDENTITY;
+            return Matrix4::identity;
     }
     //-----------------------------------------------------------------------------
     const Matrix4& AutoParamDataSource::getSpotlightWorldViewProjMatrix(size_t index) const
@@ -785,7 +785,7 @@ namespace Ogre {
             return mSpotlightWorldViewProjMatrix[index];
         }
         else
-            return Matrix4::IDENTITY;
+            return Matrix4::identity;
     }
 //-----------------------------------------------------------------------------
   const Matrix4& AutoParamDataSource::getTextureTransformMatrix(size_t index) const
@@ -801,7 +801,7 @@ namespace Ogre {
     else
     {
       // no such texture unit, return unity
-      return Matrix4::IDENTITY;
+      return Matrix4::identity;
     }
   }
     //-----------------------------------------------------------------------------

@@ -306,7 +306,7 @@ namespace Ogre
     {
         if (MeshManager::getBonesUseObjectSpace())
         {
-            *xform = Affine3::IDENTITY;
+            *xform = Affine3::identity;
             xform++;
         }
 

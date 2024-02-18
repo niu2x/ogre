@@ -74,7 +74,7 @@ namespace Ogre
         // in case n_opt is null, uniform shadow mapping will be done
         if (n_opt <= 0.0)
         {
-            return Matrix4::IDENTITY;
+            return Matrix4::identity;
         }
 
         // calculate the projection center C which is n units behind the near plane of P
@@ -82,8 +82,8 @@ namespace Ogre
         const Vector3 C(C_start_ls + n_opt * Vector3::unit_z);
 
         // set up a transformation matrix to transform the light space to its new origin
-        Matrix4 lightSpaceTranslation(Matrix4::IDENTITY);
-        lightSpaceTranslation.setTrans(-C);
+        Matrix4 lightSpaceTranslation(Matrix4::identity);
+        lightSpaceTranslation.set_trans(-C);
 
         // range from bMin to bMax; d = |B_z_far - B_z_near|
         Real d = Math::Abs(bodyBAAB_ls.getMaximum().z - bodyBAAB_ls.getMinimum().z);

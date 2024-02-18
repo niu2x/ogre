@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreBone.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 
 namespace Ogre  {
 

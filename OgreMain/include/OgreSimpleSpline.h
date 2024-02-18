@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __SimpleSpline_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

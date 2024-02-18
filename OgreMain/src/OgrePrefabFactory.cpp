@@ -504,7 +504,7 @@ namespace Ogre {
         // Default orientation of plane is normal along +z, distance 0
         Affine3 xlate, xform, rot;
         Matrix3 rot3;
-        xlate = rot = Affine3::IDENTITY;
+        xlate = rot = Affine3::identity;
         // Determine axes
         Vector3 zAxis, yAxis, xAxis;
         zAxis = params.plane.normal;
@@ -523,7 +523,7 @@ namespace Ogre {
         rot = rot3;
 
         // Set up standard transform from origin
-        xlate.setTrans(params.plane.normal * -params.plane.d);
+        xlate.set_trans(params.plane.normal * -params.plane.d);
 
         // concatenate
         xform = xlate * rot;
@@ -630,7 +630,7 @@ namespace Ogre {
         // Default orientation of plane is normal along +z, distance 0
         Affine3 xlate, xform, rot;
         Matrix3 rot3;
-        xlate = rot = Affine3::IDENTITY;
+        xlate = rot = Affine3::identity;
         // Determine axes
         Vector3 zAxis, yAxis, xAxis;
         zAxis = params.plane.normal;
@@ -649,7 +649,7 @@ namespace Ogre {
         rot = rot3;
 
         // Set up standard transform from origin
-        xlate.setTrans(params.plane.normal * -params.plane.d);
+        xlate.set_trans(params.plane.normal * -params.plane.d);
 
         // concatenate
         xform = xlate * rot;
@@ -774,7 +774,7 @@ namespace Ogre {
         // Default orientation of plane is normal along +z, distance 0
         Affine3 xlate, xform, rot;
         Matrix3 rot3;
-        xlate = rot = Affine3::IDENTITY;
+        xlate = rot = Affine3::identity;
         // Determine axes
         Vector3 zAxis, yAxis, xAxis;
         zAxis = params.plane.normal;
@@ -793,7 +793,7 @@ namespace Ogre {
         rot = rot3;
 
         // Set up standard transform from origin
-        xlate.setTrans(params.plane.normal * -params.plane.d);
+        xlate.set_trans(params.plane.normal * -params.plane.d);
 
         // concatenate
         xform = xlate * rot;

@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "string_util.h"
 #include "OgreException.h"
 #include "OgreQuaternion.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 
 #include <functional>
 #include <sstream>

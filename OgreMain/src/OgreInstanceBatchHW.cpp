@@ -206,7 +206,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void InstanceBatchHW::getWorldTransforms( Matrix4* xform ) const
     {
-        *xform = Matrix4::IDENTITY;
+        *xform = Matrix4::identity;
     }
     //-----------------------------------------------------------------------
     void InstanceBatchHW::_updateRenderQueue( RenderQueue* queue )

@@ -418,7 +418,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void BaseInstanceBatchVTF::getWorldTransforms( Matrix4* xform ) const
     {
-        *xform = Matrix4::IDENTITY;
+        *xform = Matrix4::identity;
     }
     //-----------------------------------------------------------------------
     void BaseInstanceBatchVTF::_updateRenderQueue(RenderQueue* queue)

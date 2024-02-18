@@ -491,7 +491,7 @@ bool FFPTexturing::needsTextureMatrix(TextureUnitState* textureUnitState)
     const Ogre::Matrix4 matTexture = textureUnitState->getTextureTransform();
 
     // Resolve texture matrix parameter.
-    if (matTexture != Matrix4::IDENTITY)
+    if (matTexture != Matrix4::identity)
         return true;
 
     return false;

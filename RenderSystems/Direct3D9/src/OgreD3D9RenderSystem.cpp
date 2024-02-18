@@ -1830,7 +1830,7 @@ namespace Ogre
             if (mDeviceManager->getActiveDevice()->getD3D9DeviceCaps().VertexProcessingCaps & D3DVTXPCAPS_TEXGEN_SPHEREMAP)
             {
                 /** Invert the texture for the spheremap */
-                Matrix4 ogreMatEnvMap = Matrix4::IDENTITY;
+                Matrix4 ogreMatEnvMap = Matrix4::identity;
                 // set env_map values
                 ogreMatEnvMap[1][1] = -1.0f;
                 // concatenate with the xForm
@@ -1844,7 +1844,7 @@ namespace Ogre
                 (it looks nasty on flat areas because the camera space normals are the same)
                 but it's the best approximation we have in the absence of a proper spheremap */
                 // concatenate with the xForm
-                newMat = newMat.concatenate(Matrix4::CLIPSPACE2DTOIMAGESPACE);
+                newMat = newMat.concatenate(Matrix4::clip_space_2_dto_image_space);
             }
         }
 
@@ -1894,7 +1894,7 @@ namespace Ogre
                 newMat = mTexStageDesc[stage].frustum->getViewMatrix() * newMat;
             }
             newMat = mTexStageDesc[stage].frustum->getProjectionMatrix() * newMat;
-            newMat = Matrix4::CLIPSPACE2DTOIMAGESPACE * newMat;
+            newMat = Matrix4::clip_space_2_dto_image_space * newMat;
             newMat = xForm * newMat;
         }
 
@@ -1909,7 +1909,7 @@ namespace Ogre
         }
 
         // set the matrix if it's not the identity
-        if (newMat != Matrix4::IDENTITY)
+        if (newMat != Matrix4::identity)
         {
             // convert our matrix to D3D format
             D3DMATRIX d3dMat = D3D9Mappings::makeD3DXMatrix(newMat);

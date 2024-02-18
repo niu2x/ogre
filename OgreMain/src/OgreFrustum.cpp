@@ -436,7 +436,7 @@ namespace Ogre {
                 // q = - 2 / (far - near)
                 // qn = - (far + near) / (far - near)
 
-                mProjMatrix = Matrix4::ZERO;
+                mProjMatrix = Matrix4::zero;
                 mProjMatrix[0][0] = A;
                 mProjMatrix[0][3] = C;
                 mProjMatrix[1][1] = B;
@@ -585,8 +585,8 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Frustum::calcViewMatrixRelative(const Vector3& relPos, Matrix4& matToUpdate) const
     {
-        Affine3 matTrans = Affine3::IDENTITY;
-        matTrans.setTrans(relPos);
+        Affine3 matTrans = Affine3::identity;
+        matTrans.set_trans(relPos);
         matToUpdate = getViewMatrix() * matTrans;
 
     }

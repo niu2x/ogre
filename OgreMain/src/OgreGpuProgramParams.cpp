@@ -1912,7 +1912,7 @@ namespace Ogre
                     numMatrices = source->getBoneMatrixCount();
                     index = ac.physicalIndex;
 
-                    scaleM = Matrix4::IDENTITY;
+                    scaleM = Matrix4::identity;
 
                     for (m = 0; m < numMatrices; ++m)
                     {

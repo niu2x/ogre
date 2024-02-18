@@ -38,7 +38,7 @@ public:
         // get the fragment shader parameters
         auto params = pass->getFragmentProgramParameters();
         // set the projection matrix we need
-        params->setNamedConstant("ptMat", Matrix4::CLIPSPACE2DTOIMAGESPACE * cam->getProjectionMatrixWithRSDepth());
+        params->setNamedConstant("ptMat", Matrix4::clip_space_2_dto_image_space * cam->getProjectionMatrixWithRSDepth());
     }
 private:
     Ogre::CompositorInstance* mInstance;

@@ -175,8 +175,8 @@ namespace Ogre {
         mGLSupport = getGLSupport(GLNativeSupport::CONTEXT_COMPATIBILITY);
         glsupport = mGLSupport;
 
-        mWorldMatrix = Matrix4::IDENTITY;
-        mViewMatrix = Matrix4::IDENTITY;
+        mWorldMatrix = Matrix4::identity;
+        mViewMatrix = Matrix4::identity;
 
         initConfigOptions();
 
@@ -1554,7 +1554,7 @@ namespace Ogre {
             mUseAutoTextureMatrix = true;
 
             // Set scale and translation matrix for projective textures
-            projectionBias = Matrix4::CLIPSPACE2DTOIMAGESPACE;
+            projectionBias = Matrix4::clip_space_2_dto_image_space;
 
             projectionBias = projectionBias * frustum->getProjectionMatrix();
             if(mTexProjRelative)

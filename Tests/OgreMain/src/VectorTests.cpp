@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include <gtest/gtest.h>
 #include "vector.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 
 using namespace Ogre;
 
@@ -217,14 +217,14 @@ TEST(VectorTests, TypeCasts)
     Affine3 affine(arr);
     Matrix4 matrix(arr);
 
-    EXPECT_EQ(affine, Affine3::ZERO);
-    EXPECT_EQ(matrix, Matrix4::ZERO);
+    EXPECT_EQ(affine, Affine3::zero);
+    EXPECT_EQ(matrix, Matrix4::zero);
 
     typedef TransformBase<4, int> Matrix4i; // something that is neither float nor double
     Matrix4i imat;
 
     Vector3i vec(1, 2, 3);
-    imat.setTrans(vec);
+    imat.set_trans(vec);
 
-    EXPECT_EQ(imat.getTrans(), vec);
+    EXPECT_EQ(imat.trans_part(), vec);
 }

@@ -1113,7 +1113,7 @@ namespace Ogre {
                 This requires an index in the ’extra_params’ field, and relates to the ’nth’ texture
                unit of the pass in question.
                 NB if the given index exceeds the number of texture units available for this pass,
-               then the parameter will be set to Matrix4::IDENTITY.
+               then the parameter will be set to Matrix4::identity.
             */
             ACT_TEXTURE_MATRIX,
 

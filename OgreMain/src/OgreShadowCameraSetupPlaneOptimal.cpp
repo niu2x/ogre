@@ -60,7 +60,7 @@ namespace Ogre
         bool incrPrecision = false; // use to control numerical solving
 
         if(fpoint.size() < 4 || constraint.size() < 4) {
-            return Matrix4::IDENTITY;
+            return Matrix4::identity;
         }
 
         // allocate memory
@@ -329,7 +329,7 @@ namespace Ogre
                                  0.0, 0.0, 0.0, 5.0,
                                  0.0, 0.0, 0.0, 5.0,
                                  0.0, 0.0, 0.0, 1.0);
-                texCam->setCustomViewMatrix(true, Affine3::IDENTITY);
+                texCam->setCustomViewMatrix(true, Affine3::identity);
                 texCam->setCustomProjectionMatrix(true, crazyMat);  
                 return;
             }
@@ -376,7 +376,7 @@ namespace Ogre
             // TODO: factor into view and projection pieces.
             // Note: In fact, it's unnecessary to factor into view and projection pieces,
             // but if we do, we will more according with academic requirement :)
-            texCam->setCustomViewMatrix(true, Affine3::IDENTITY);
+            texCam->setCustomViewMatrix(true, Affine3::identity);
             texCam->setCustomProjectionMatrix(true, customMatrix);
             return;
         }
@@ -399,7 +399,7 @@ namespace Ogre
         else
             up = Vector3(0,1,0);
 
-        Affine3 rotation = Affine3::IDENTITY;
+        Affine3 rotation = Affine3::identity;
         rotation = Math::look_rotation(zRow, up);
         Matrix4 customProj = tempMatrix * rotation;
         Affine3 customView(rotation.transpose() * invTranslation);

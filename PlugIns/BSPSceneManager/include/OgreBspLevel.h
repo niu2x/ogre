@@ -116,7 +116,7 @@ namespace Ogre {
 
         void getWorldTransforms(Matrix4* xform) const override
         {
-            *xform = Matrix4::IDENTITY;
+            *xform = Matrix4::identity;
         }
 
         Real getSquaredViewDepth(const Camera *cam) const override

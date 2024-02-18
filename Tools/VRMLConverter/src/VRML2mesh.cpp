@@ -41,7 +41,7 @@ typedef std::map<vertex, int> VertMap;
 
 // traverse the scene graph looking for Shapes
 void parseFile(Mesh *, const vrmllib::file &);
-void parseNode(Mesh *, const vrmllib::node *, Matrix4 = Matrix4::IDENTITY);
+void parseNode(Mesh *, const vrmllib::node *, Matrix4 = Matrix4::identity);
 
 // generate a SubMesh from a Shape
 void parseShape(Mesh *, const Shape *, Matrix4);
@@ -188,16 +188,16 @@ void parseNode(Mesh *mesh, const vrmllib::node *n, Matrix4 m)
         // TODO: handle center, scaleOrientation
 
         Matrix4 trans;
-        trans.makeTrans(vec(tr->translation));
+        trans.make_trans(vec(tr->translation));
 
-        Matrix4 scale = Matrix4::IDENTITY;
+        Matrix4 scale = Matrix4::identity;
         scale[0][0] = tr->scale.x;
         scale[1][1] = tr->scale.y;
         scale[2][2] = tr->scale.z;
 
         Matrix3 rot3;
         rot3.from_angle_axis(vec(tr->rotation.vector), Radian(tr->rotation.radians));
-        Matrix4 rot = Matrix4::IDENTITY;
+        Matrix4 rot = Matrix4::identity;
         rot = rot3;
 
         m = m * transMat(tr->translation) * transMat(tr->center)
@@ -577,24 +577,24 @@ Ogre::MaterialPtr parseMaterial(const Appearance *app, const String &name)
 Matrix4 transMat(vrmllib::vec3 v, bool inverse)
 {
     if (inverse)
-        return Affine3::getTrans(-v.x, -v.y, -v.z);
+        return Affine3::translate(-v.x, -v.y, -v.z);
     else
-        return Affine3::getTrans(v.x, v.y, v.z);
+        return Affine3::translate(v.x, v.y, v.z);
 }
 
 Matrix4 scaleMat(vrmllib::vec3 v, bool inverse)
 {
     if (inverse)
-        return Affine3::getScale(1/v.x, 1/v.y, 1/v.z);
+        return Affine3::scale(1/v.x, 1/v.y, 1/v.z);
     else
-        return Affine3::getScale(v.x, v.y, v.z);
+        return Affine3::scale(v.x, v.y, v.z);
 }
 
 Matrix4 rotMat(vrmllib::rot r, bool inverse)
 {
     Matrix3 rot3;
     rot3.from_angle_axis(vec(r.vector), Radian(inverse ? -r.radians : r.radians));
-    Matrix4 rot = Matrix4::IDENTITY;
+    Matrix4 rot = Matrix4::identity;
     rot = rot3;
     return rot;
 }

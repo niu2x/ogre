@@ -705,7 +705,7 @@ namespace Ogre {
 
             // transform
             bool usexform = false;
-            Matrix4 xform = Matrix4::IDENTITY;
+            Matrix4 xform = Matrix4::identity;
             param = shader.GetParameter(L"Transform");
             if (param.IsValid() && (bool)param.GetValue())
             {
@@ -731,7 +731,7 @@ namespace Ogre {
                 scale3x3[2][2] = shader.GetParameter(L"sclz").GetValue();
 
                 xform = rot3x3 * scale3x3;
-                xform.setTrans(trans);
+                xform.set_trans(trans);
                 usexform = true;
 
             }

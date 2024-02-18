@@ -118,7 +118,7 @@ namespace Ogre {
         Bone::updateFromParentImpl();
 
         // Save transform for local skeleton
-        mFullLocalTransform.makeTransform(
+        mFullLocalTransform.make_transform(
             mDerivedPosition,
             mDerivedScale,
             mDerivedOrientation);

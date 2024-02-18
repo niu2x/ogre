@@ -215,12 +215,12 @@ void DLight::getWorldTransforms(Matrix4* xform) const
     if (mParentLight->getType() == Light::LT_SPOTLIGHT)
     {
         Quaternion quat = Vector3::unit_y.rotation_to(mParentLight->getDerivedDirection());
-        xform->makeTransform(mParentLight->getDerivedPosition(),
+        xform->make_transform(mParentLight->getDerivedPosition(),
             Vector3::unit_scale, quat);
     }
     else
     {
-        xform->makeTransform(mParentLight->getDerivedPosition(),
+        xform->make_transform(mParentLight->getDerivedPosition(),
             Vector3::unit_scale, Quaternion::IDENTITY);
     }
     

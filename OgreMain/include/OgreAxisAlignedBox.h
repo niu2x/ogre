@@ -33,7 +33,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 
 namespace Ogre {
     /** \addtogroup Core

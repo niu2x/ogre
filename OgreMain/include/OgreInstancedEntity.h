@@ -259,7 +259,7 @@ namespace Ogre
         const Affine3& _getParentNodeFullTransform(void) const override {
             assert((!mNeedTransformUpdate || !mUseLocalTransform) && "Transform data should be updated at this point");
             return mUseLocalTransform ? mFullLocalTransform :
-                mParentNode ? mParentNode->_getFullTransform() : Affine3::IDENTITY;
+                mParentNode ? mParentNode->_getFullTransform() : Affine3::identity;
         }
 
         /** Returns the derived position of the instanced entity including local transform */

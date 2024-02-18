@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreStringConverter.h"
 #include "vector.h"
 #include "OgreQuaternion.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 #include "colour_value.h"
 
 

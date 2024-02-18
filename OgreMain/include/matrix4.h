@@ -110,7 +110,7 @@ namespace Ogre
         }
 
         /// Sets the translation transformation part of the matrix.
-        void setTrans( const Vector<3, T>& v )
+        void set_trans( const Vector<3, T>& v )
         {
             assert(rows > 2);
             m[0][3] = v[0];
@@ -118,13 +118,13 @@ namespace Ogre
             m[2][3] = v[2];
         }
         /// Extracts the translation transformation part of the matrix.
-        Vector<3, T> getTrans() const
+        Vector<3, T> trans_part() const
         {
             assert(rows > 2);
             return Vector<3, T>(m[0][3], m[1][3], m[2][3]);
         }
         /// Sets the scale part of the matrix.
-        void setScale( const Vector<3, T>& v )
+        void set_scale( const Vector<3, T>& v )
         {
             assert(rows > 2);
             m[0][0] = v[0];
@@ -162,12 +162,12 @@ namespace Ogre
         explicit TransformBaseReal(const U* ptr) : TransformBase(ptr) {}
         /** Builds a translation matrix
         */
-        void makeTrans( const Vector3& v )
+        void make_trans( const Vector3& v )
         {
-            makeTrans(v.x, v.y, v.z);
+            make_trans(v.x, v.y, v.z);
         }
 
-        void makeTrans( Real tx, Real ty, Real tz )
+        void make_trans( Real tx, Real ty, Real tz )
         {
             m[0][0] = 1.0; m[0][1] = 0.0; m[0][2] = 0.0; m[0][3] = tx;
             m[1][0] = 0.0; m[1][1] = 1.0; m[1][2] = 0.0; m[1][3] = ty;
@@ -177,7 +177,7 @@ namespace Ogre
 
         /** Assignment from 3x3 matrix.
         */
-        void set3x3Matrix(const Matrix3& mat3)
+        void set_3x3_matrix(const Matrix3& mat3)
         {
             m[0][0] = mat3[0][0]; m[0][1] = mat3[0][1]; m[0][2] = mat3[0][2];
             m[1][0] = mat3[1][0]; m[1][1] = mat3[1][1]; m[1][2] = mat3[1][2];
@@ -193,8 +193,8 @@ namespace Ogre
                            m[2][0], m[2][1], m[2][2]);
         }
 
-        OGRE_DEPRECATED void extract3x3Matrix(Matrix3& m3x3) const { m3x3 = linear(); }
-        OGRE_DEPRECATED Quaternion extractQuaternion() const { return Quaternion(linear()); }
+        // OGRE_DEPRECATED void extract3x3Matrix(Matrix3& m3x3) const { m3x3 = linear(); }
+        // OGRE_DEPRECATED Quaternion extractQuaternion() const { return Quaternion(linear()); }
 
         Real determinant() const;
 
@@ -206,14 +206,14 @@ namespace Ogre
             of orientation axes, scale does not affect size of translation, rotation and scaling are always
             centered on the origin.
         */
-        void makeTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation);
+        void make_transform(const Vector3& position, const Vector3& scale, const Quaternion& orientation);
 
         /** Building an inverse Affine3 from orientation / scale / position.
 
-            As makeTransform except it build the inverse given the same data as makeTransform, so
+            As make_transform except it build the inverse given the same data as make_transform, so
             performing -translation, -rotate, 1/scale in that order.
         */
-        void makeInverseTransform(const Vector3& position, const Vector3& scale, const Quaternion& orientation);
+        void make_inverse_transform(const Vector3& position, const Vector3& scale, const Quaternion& orientation);
     };
 
     /// Transform specialization for projective - encapsulating a 4x4 Matrix
@@ -247,7 +247,7 @@ namespace Ogre
 
         explicit Matrix4(const Matrix3& m3x3)
         {
-          operator=(IDENTITY);
+          operator=(identity);
           operator=(m3x3);
         }
 
@@ -258,16 +258,16 @@ namespace Ogre
         {
           Matrix3 m3x3;
           rot.ToRotationMatrix(m3x3);
-          *this = IDENTITY;
+          *this = identity;
           *this = m3x3;
         }
         
         Matrix4& operator=(const Matrix3& mat3) {
-            set3x3Matrix(mat3);
+            set_3x3_matrix(mat3);
             return *this;
         }
 
-        OGRE_DEPRECATED Matrix4 concatenate(const Matrix4& m2) const { return *this * m2; }
+        // OGRE_DEPRECATED Matrix4 concatenate(const Matrix4& m2) const { return *this * m2; }
 
         /** Tests 2 matrices for equality.
         */
@@ -295,11 +295,11 @@ namespace Ogre
             return false;
         }
 
-        static const Matrix4 ZERO;
-        static const Matrix4 IDENTITY;
+        static const Matrix4 zero;
+        static const Matrix4 identity;
         /** Useful little matrix which takes 2D clipspace {-1, 1} to {0,1}
             and inverts the Y. */
-        static const Matrix4 CLIPSPACE2DTOIMAGESPACE;
+        static const Matrix4 clip_space_2_dto_image_space;
 
         inline Matrix4 operator*(Real scalar) const
         {
@@ -321,10 +321,10 @@ namespace Ogre
         /// Do <b>NOT</b> initialize the matrix for efficiency.
         Affine3() {}
 
-        /// @copydoc TransformBaseReal::makeTransform
+        /// @copydoc TransformBaseReal::make_transform
         Affine3(const Vector3& position, const Quaternion& orientation, const Vector3& scale = Vector3::unit_scale)
         {
-            makeTransform(position, scale, orientation);
+            make_transform(position, scale, orientation);
         }
 
         template<typename U>
@@ -363,7 +363,7 @@ namespace Ogre
         }
 
         Affine3& operator=(const Matrix3& mat3) {
-            set3x3Matrix(mat3);
+            set_3x3_matrix(mat3);
             return *this;
         }
 
@@ -385,23 +385,23 @@ namespace Ogre
 
         /** Decompose to orientation / scale / position.
         */
-        void decomposition(Vector3& position, Vector3& scale, Quaternion& orientation) const;
+        void decomposition(Vector3* position, Vector3* scale, Quaternion* orientation) const;
 
         /// every Affine3 transform is also a _const_ Matrix4
         operator const Matrix4&() const { return reinterpret_cast<const Matrix4&>(*this); }
 
-        using TransformBaseReal::getTrans;
+        using TransformBaseReal::trans_part;
 
         /** Gets a translation matrix.
         */
-        static Affine3 getTrans( const Vector3& v )
+        static Affine3 translate( const Vector3& v )
         {
-            return getTrans(v.x, v.y, v.z);
+            return translate(v.x, v.y, v.z);
         }
 
         /** Gets a translation matrix - variation for not using a vector.
         */
-        static Affine3 getTrans( Real t_x, Real t_y, Real t_z )
+        static Affine3 translate( Real t_x, Real t_y, Real t_z )
         {
             return Affine3(1, 0, 0, t_x,
                            0, 1, 0, t_y,
@@ -410,14 +410,14 @@ namespace Ogre
 
         /** Gets a scale matrix.
         */
-        static Affine3 getScale( const Vector3& v )
+        static Affine3 scale( const Vector3& v )
         {
-            return getScale(v.x, v.y, v.z);
+            return scale(v.x, v.y, v.z);
         }
 
         /** Gets a scale matrix - variation for not using a vector.
         */
-        static Affine3 getScale( Real s_x, Real s_y, Real s_z )
+        static Affine3 scale( Real s_x, Real s_y, Real s_z )
         {
             return Affine3(s_x, 0, 0, 0,
                            0, s_y, 0, 0,
@@ -425,8 +425,8 @@ namespace Ogre
         }
 
 
-        static const Affine3 ZERO;
-        static const Affine3 IDENTITY;
+        static const Affine3 zero;
+        static const Affine3 identity;
     };
 
     inline Matrix4 TransformBaseReal::transpose() const

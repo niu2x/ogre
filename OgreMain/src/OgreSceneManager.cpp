@@ -1650,7 +1650,7 @@ void SceneManager::renderInstancedObject(const RenderableList& rends, const Pass
 {
     mAutoParamDataSource->setCurrentRenderable(rends.front());
     // override: this is passed through the instance buffer
-    mAutoParamDataSource->setWorldMatrices(&Affine3::IDENTITY, 1);
+    mAutoParamDataSource->setWorldMatrices(&Affine3::identity, 1);
 
     // Shader only path -> no normalise normals
 
@@ -1721,7 +1721,7 @@ void SceneManager::renderInstancedObject(const RenderableList& rends, const Pass
         {
             auto worldT = static_cast<SubEntity*>(r)->getParent()->_getParentNodeFullTransform();
             if(mCameraRelativeRendering)
-                worldT.setTrans(worldT.getTrans() - camPos);
+                worldT.set_trans(worldT.trans_part() - camPos);
             *instanceData++ = Matrix3x4f(worldT[0]);
         }
     }

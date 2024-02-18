@@ -1408,8 +1408,8 @@ namespace Ogre
         if (mTerrain->_getUseVertexCompression())
         {
             // vertex data is generated in terrain space
-            *xform = Matrix4::IDENTITY;
-            xform->setTrans(mTerrain->getPosition());
+            *xform = Matrix4::identity;
+            xform->set_trans(mTerrain->getPosition());
 
         }
         else

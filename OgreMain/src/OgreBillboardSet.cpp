@@ -511,7 +511,7 @@ namespace Ogre {
     {
         if (mWorldSpace)
         {
-            *xform = Matrix4::IDENTITY;
+            *xform = Matrix4::identity;
         }
         else
         {

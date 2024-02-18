@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "string_vector.h"
 #include "colour_value.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 #include "vector.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
@@ -306,9 +306,9 @@ namespace Ogre {
         /** Parses a Matrix4 out of a String.
 
             Format is "00 01 02 03 10 11 12 13 20 21 22 23 30 31 32 33" where 
-            '01' means row 0 column 1 etc. Failure to parse returns Matrix4::IDENTITY.
+            '01' means row 0 column 1 etc. Failure to parse returns Matrix4::identity.
         */
-        static Matrix4 parseMatrix4(const String& val, const Matrix4& defaultValue = Matrix4::IDENTITY)
+        static Matrix4 parseMatrix4(const String& val, const Matrix4& defaultValue = Matrix4::identity)
         {
             Matrix4 ret;
             return parse(val, ret) ? ret : defaultValue;

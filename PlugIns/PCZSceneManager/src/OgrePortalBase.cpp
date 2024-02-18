@@ -45,7 +45,7 @@ PortalBase::PortalBase(const String& name, const PORTAL_TYPE type)
     mLocalsUpToDate(false),
     mDerivedUpToDate(false),
     // set prevWorldTransform to a zero'd out matrix
-    mPrevWorldTransform(Affine3::ZERO),
+    mPrevWorldTransform(Affine3::zero),
     // default to enabled
     mEnabled(true),
     mWasMoved(true)
@@ -293,7 +293,7 @@ void PortalBase::updateDerivedValues(void) const
             }
             break;
         }
-        if (mPrevWorldTransform != Affine3::ZERO)
+        if (mPrevWorldTransform != Affine3::zero)
         {
             // save previous calc'd plane
             mPrevDerivedPlane = mDerivedPlane;
@@ -316,13 +316,13 @@ void PortalBase::updateDerivedValues(void) const
             // this is first time, so there is no previous, so prev = current.
             mPrevDerivedPlane = mDerivedPlane;
             mPrevDerivedCP = mDerivedCP;
-            mPrevWorldTransform = Affine3::IDENTITY;
+            mPrevWorldTransform = Affine3::identity;
             mPrevWorldTransform = transform;
         }
     }
     else // no associated node, so just use the local values as derived values
     {
-        if (mPrevWorldTransform != Affine3::ZERO)
+        if (mPrevWorldTransform != Affine3::zero)
         {
             // save off the current DerivedCP
             mPrevDerivedCP = mDerivedCP;
@@ -364,7 +364,7 @@ void PortalBase::updateDerivedValues(void) const
             // this is first time, so there is no previous, so prev = current.
             mPrevDerivedPlane = mDerivedPlane;
             // flag as initialized
-            mPrevWorldTransform = Affine3::IDENTITY;
+            mPrevWorldTransform = Affine3::identity;
         }
     }
 

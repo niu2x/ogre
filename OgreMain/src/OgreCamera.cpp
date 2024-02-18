@@ -72,7 +72,7 @@ namespace Ogre {
         invalidateView();
 
         // Init matrices
-        mViewMatrix = Affine3::ZERO;
+        mViewMatrix = Affine3::zero;
 
         mParentNode = 0;
 

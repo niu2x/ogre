@@ -67,7 +67,7 @@ namespace Ogre {
         mMinMaterialLodIndex(99),
         mMaxMaterialLodIndex(0),        // Backwards, remember low value = high detail
         mSkeletonInstance(0),
-        mLastParentXform(Affine3::ZERO),
+        mLastParentXform(Affine3::zero),
         mMeshStateCount(0),
         mFullBoundingBox()
     {
@@ -900,7 +900,7 @@ namespace Ogre {
                 {
                     mBoneWorldMatrices =
                         static_cast<Affine3*>(OGRE_MALLOC_SIMD(sizeof(Affine3) * mNumBoneMatrices, MEMCATEGORY_ANIMATION));
-                    std::fill(mBoneWorldMatrices, mBoneWorldMatrices + mNumBoneMatrices, Affine3::IDENTITY);
+                    std::fill(mBoneWorldMatrices, mBoneWorldMatrices + mNumBoneMatrices, Affine3::identity);
                 }
 
                 OptimisedUtil::getImplementation()->concatenateAffineMatrices(

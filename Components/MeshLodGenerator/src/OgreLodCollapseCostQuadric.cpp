@@ -102,7 +102,7 @@ namespace Ogre
     void LodCollapseCostQuadric::computeVertexQuadric( LodData* data, size_t vertexID )
     {
         Matrix4& quadric = mVertexQuadricList[vertexID];
-        quadric = Matrix4::ZERO;
+        quadric = Matrix4::zero;
         LodData::Vertex& vertex = data->mVertexList[vertexID];
         LodData::VTriangles::iterator tri, triEnd;
         tri = vertex.triangles.begin();

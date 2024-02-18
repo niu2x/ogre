@@ -260,7 +260,7 @@ namespace Ogre {
                 vpRect.bottom = target->getHeight() - vpRect.bottom;
             }
 
-            mVP.makeTransform({vpRect.left + vpRect.width() / 2.f, vpRect.top + vpRect.height() / 2.f, 0.5},
+            mVP.make_transform({vpRect.left + vpRect.width() / 2.f, vpRect.top + vpRect.height() / 2.f, 0.5},
                               {vpRect.width() / 2.f, vpRect.height() / 2.f, 0.5}, Ogre::Quaternion::IDENTITY);
 
             vp->_clearUpdatedFlag();

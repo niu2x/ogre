@@ -79,7 +79,7 @@ THE SOFTWARE.
 #include "OgreMaterialSerializer.h"
 #include "OgreMath.h"
 #include "matrix3.h"
-#include "OgreMatrix4.h"
+#include "matrix4.h"
 #include "OgreMesh.h"
 #include "OgreMeshManager.h"
 #include "OgreMovablePlane.h"

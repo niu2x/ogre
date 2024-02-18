@@ -335,7 +335,7 @@ namespace Ogre
         @param viewMatrix The custom view matrix to use
         @see Frustum::setCustomProjectionMatrix
         */
-        void setCustomViewMatrix(bool enable, const Affine3& viewMatrix = Affine3::IDENTITY);
+        void setCustomViewMatrix(bool enable, const Affine3& viewMatrix = Affine3::identity);
 
         /// Returns whether a custom view matrix is in use
         bool isCustomViewMatrixEnabled(void) const { return mCustomViewMatrix; }
@@ -362,7 +362,7 @@ namespace Ogre
         @see Frustum::setCustomViewMatrix
         */
         void setCustomProjectionMatrix(bool enable,
-                                       const Matrix4& projectionMatrix = Matrix4::IDENTITY);
+                                       const Matrix4& projectionMatrix = Matrix4::identity);
         /// Returns whether a custom projection matrix is in use
         bool isCustomProjectionMatrixEnabled(void) const { return mCustomProjMatrix; }
 
