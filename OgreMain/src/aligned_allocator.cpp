@@ -59,11 +59,11 @@ namespace Ogre {
     {
         assert(0 < alignment && alignment <= 128 && Bitwise::is_po2(alignment));
 
-        unsigned char* p = new unsigned char[size + alignment];
+        uint8_t* p = new uint8_t[size + alignment];
         size_t offset = alignment - (size_t(p) & (alignment-1));
 
-        unsigned char* result = p + offset;
-        result[-1] = (unsigned char)offset;
+        uint8_t* result = p + offset;
+        result[-1] = (uint8_t)offset;
 
         return result;
     }
