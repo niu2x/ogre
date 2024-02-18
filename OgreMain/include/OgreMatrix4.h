@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreMatrix3.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 namespace Ogre
 {
@@ -322,7 +322,7 @@ namespace Ogre
         Affine3() {}
 
         /// @copydoc TransformBaseReal::makeTransform
-        Affine3(const Vector3& position, const Quaternion& orientation, const Vector3& scale = Vector3::UNIT_SCALE)
+        Affine3(const Vector3& position, const Quaternion& orientation, const Vector3& scale = Vector3::unit_scale)
         {
             makeTransform(position, scale, orientation);
         }

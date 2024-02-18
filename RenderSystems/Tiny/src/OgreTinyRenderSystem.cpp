@@ -68,7 +68,7 @@ namespace Ogre {
                     break;
                 case GpuProgramParameters::ACT_LIGHT_POSITION:
                     // ptr[3] ? LIGHT_POINT : LIGHT_DIRECTIONAL;
-                    mDefaultShader.uniform_lightDir = ptr[3] ? Vector3(ptr).normalisedCopy() : -Vector3(ptr);
+                    mDefaultShader.uniform_lightDir = ptr[3] ? Vector3(ptr).normalised_copy() : -Vector3(ptr);
                     break;
                 case GpuProgramParameters::ACT_INVERSE_TRANSPOSE_WORLDVIEW_MATRIX:
                     mDefaultShader.uniform_MVIT = Matrix4(ptr);
@@ -330,7 +330,7 @@ namespace Ogre {
         if(uniform_doLighting)
         {
             vec3 n = var_normal[0]*bar.x + var_normal[1]*bar.y + var_normal[2]*bar.z;
-            float diffuse = std::max(0.f, n.dotProduct(uniform_lightDir));
+            float diffuse = std::max(0.f, n.dot_product(uniform_lightDir));
             gl_FragColor *= diffuse;
             gl_FragColor += uniform_ambientCol;
         }

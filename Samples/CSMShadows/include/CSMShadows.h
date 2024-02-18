@@ -97,11 +97,11 @@ private:
 
         // Floor plane (use POSM plane def)
         Plane* plane = new MovablePlane("*mPlane");
-        plane->normal = Vector3::UNIT_Y;
+        plane->normal = Vector3::unit_y;
         plane->d = 107 * scale;
         MeshManager::getSingleton().createPlane(
             "MyPlane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *plane, 6000, 6000, 50, 50, true,
-            1, 25.0f / scale, 25.0f / scale, Vector3::UNIT_Z);
+            1, 25.0f / scale, 25.0f / scale, Vector3::unit_z);
         Entity* pPlaneEnt = mSceneMgr->createEntity("plane", "MyPlane");
         pPlaneEnt->setMaterialName("CSMShadows/Rockwall");
         pPlaneEnt->setCastShadows(false);
@@ -118,7 +118,7 @@ private:
 
         auto node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         node->attachObject(light);
-        node->setDirection(direction.normalisedCopy());
+        node->setDirection(direction.normalised_copy());
     }
 
     void setupShadows()

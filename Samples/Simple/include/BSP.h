@@ -77,7 +77,7 @@ class _OgreSampleClassExport Sample_BSP : public SdkSample
         mCamera->setFarClipDistance(4000);
 
         // Quake uses the Z axis as the up axis, so make necessary adjustments
-        mCameraNode->setFixedYawAxis(true, Vector3::UNIT_Z);
+        mCameraNode->setFixedYawAxis(true, Vector3::unit_z);
         mCameraNode->pitch(Degree(90));
 
         // specific for this map

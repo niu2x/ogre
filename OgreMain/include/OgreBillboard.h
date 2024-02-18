@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreCommon.h"
 #include "OgreHeaderPrefix.h"
 #include "OgreMath.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 namespace Ogre {
     /** \addtogroup Core

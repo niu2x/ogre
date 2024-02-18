@@ -857,12 +857,12 @@ namespace Ogre {
                     min.x = min.y = min.z = Math::POS_INFINITY;
                     max.x = max.y = max.z = Math::NEG_INFINITY;
                 }
-                Vector3 halfScale = Vector3::UNIT_SCALE * 0.5;
+                Vector3 halfScale = Vector3::unit_scale * 0.5;
                 for (auto p : mActiveParticles)
                 {
                     Vector3 padding = halfScale * std::max(p->mWidth, p->mHeight);
-                    min.makeFloor(p->mPosition - padding);
-                    max.makeCeil(p->mPosition + padding);
+                    min.make_floor(p->mPosition - padding);
+                    max.make_ceil(p->mPosition + padding);
                 }
                 mWorldAABB.setExtents(min, max);
             }
@@ -1212,7 +1212,7 @@ namespace Ogre {
     }
     float ParticleSystem::SortByDirectionFunctor::operator()(Particle* p) const
     {
-        return sortDir.dotProduct(p->mPosition);
+        return sortDir.dot_product(p->mPosition);
     }
     ParticleSystem::SortByDistanceFunctor::SortByDistanceFunctor(const Vector3& pos)
         : sortPos(pos)
@@ -1221,7 +1221,7 @@ namespace Ogre {
     float ParticleSystem::SortByDistanceFunctor::operator()(Particle* p) const
     {
         // Sort descending by squared distance
-        return - (sortPos - p->mPosition).squaredLength();
+        return - (sortPos - p->mPosition).squared_length();
     }
     //-----------------------------------------------------------------------
     uint32 ParticleSystem::getTypeFlags(void) const

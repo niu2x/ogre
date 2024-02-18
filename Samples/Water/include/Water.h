@@ -169,8 +169,8 @@ protected:
         billboardSet->setMaterialName(CIRCLES_MATERIAL);
         billboardSet->setDefaultDimensions(CIRCLE_SIZE, CIRCLE_SIZE);
         billboardSet->setBillboardType(BBT_PERPENDICULAR_COMMON);
-        billboardSet->setCommonDirection(Vector3::UNIT_Y);
-        billboardSet->setCommonUpVector(Vector3::UNIT_Z);
+        billboardSet->setCommonDirection(Vector3::unit_y);
+        billboardSet->setCommonUpVector(Vector3::unit_z);
 
         billboardSet->setTextureStacksAndSlices(4, 4);
 
@@ -323,7 +323,7 @@ protected:
         // sine track? :)
         static double sines[4] = {0,100,200,300};
         static const double adds[4] = {0.3,-1.6,1.1,0.5};
-        static Vector3 oldPos = Vector3::UNIT_Z;
+        static Vector3 oldPos = Vector3::unit_z;
         for(int i=0;i<4;i++) {
             sines[i]+=adds[i]*timeSinceLastFrame;
         }
@@ -335,7 +335,7 @@ protected:
         headNode->scale(3,3,3);
         Vector3 newPos = Vector3(step*tx, headDepth, step*ty);
         Vector3 diffPos = newPos - oldPos ;
-        Quaternion headRotation = Vector3::UNIT_Z.getRotationTo(diffPos);
+        Quaternion headRotation = Vector3::unit_z.rotation_to(diffPos);
         oldPos = newPos ;
         headNode->translate(newPos);
         headNode->rotate(headRotation);

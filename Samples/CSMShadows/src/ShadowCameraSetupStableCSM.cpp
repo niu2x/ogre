@@ -107,12 +107,12 @@ void StableCSMShadowCameraSetup::getShadowCameraForCascade (const SceneManager *
 
     //get light orientation
 
-    Vector3 up = Vector3::UNIT_Y;
+    Vector3 up = Vector3::unit_y;
     // Check it's not coincident with dir
-    if (Math::Abs(up.dotProduct(dir)) >= 1.0f)
+    if (Math::Abs(up.dot_product(dir)) >= 1.0f)
     {
         // Use camera up
-        up = Vector3::UNIT_Z;
+        up = Vector3::unit_z;
     }
     rot = Math::lookRotation(dir, up);
 
@@ -131,7 +131,7 @@ void StableCSMShadowCameraSetup::getShadowCameraForCascade (const SceneManager *
     bottomRightNear.x = horizontal * bottomRightNear.z;
     bottomRightNear.y = vertical * bottomRightNear.z;
 
-    float dist = (topLeftFar.squaredLength() - bottomRightNear.squaredLength()) / (2 * (topLeftFar.z - bottomRightNear.z));
+    float dist = (topLeftFar.squared_length() - bottomRightNear.squared_length()) / (2 * (topLeftFar.z - bottomRightNear.z));
 
     if (dist > farSplit)
     {

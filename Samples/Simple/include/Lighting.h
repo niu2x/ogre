@@ -190,7 +190,7 @@ protected:
 
         // Attach a flare with the same colour to the light node
         bbs = mSceneMgr->createBillboardSet(1);
-        mLight1BBFlare = bbs->createBillboard(Vector3::ZERO, mTrail->getInitialColour(0));
+        mLight1BBFlare = bbs->createBillboard(Vector3::zero, mTrail->getInitialColour(0));
         bbs->setMaterialName("Examples/Flare");
         bbs->setRenderQueueGroup(cPriorityLights);
         node->attachObject(bbs);
@@ -200,7 +200,7 @@ protected:
             // Attach a billboard which will be used to get a relative area occupied by the light
             mLight1BBQueryArea = mSceneMgr->createBillboardSet(1);
             mLight1BBQueryArea->setDefaultDimensions(10,10);
-            mLight1BBQueryArea->createBillboard(Vector3::ZERO);
+            mLight1BBQueryArea->createBillboard(Vector3::zero);
             mLight1BBQueryArea->setMaterialName("QueryArea");
             mLight1BBQueryArea->setRenderQueueGroup(cPriorityQuery);
             node->attachObject(mLight1BBQueryArea);
@@ -208,7 +208,7 @@ protected:
             // Attach a billboard which will be used to get the visible area occupied by the light
             mLight1BBQueryVisible = mSceneMgr->createBillboardSet(1);
             mLight1BBQueryVisible->setDefaultDimensions(10,10);
-            mLight1BBQueryVisible->createBillboard(Vector3::ZERO);
+            mLight1BBQueryVisible->createBillboard(Vector3::zero);
             mLight1BBQueryVisible->setMaterialName("QueryVisible");
             mLight1BBQueryVisible->setRenderQueueGroup(cPriorityQuery);
             node->attachObject(mLight1BBQueryVisible);
@@ -249,7 +249,7 @@ protected:
 
         // Attach a flare with the same colour to the light node
         bbs = mSceneMgr->createBillboardSet(1);
-        mLight2BBFlare = bbs->createBillboard(Vector3::ZERO, mTrail->getInitialColour(1));
+        mLight2BBFlare = bbs->createBillboard(Vector3::zero, mTrail->getInitialColour(1));
         bbs->setMaterialName("Examples/Flare");
         bbs->setRenderQueueGroup(cPriorityLights);
         node->attachObject(bbs);
@@ -259,7 +259,7 @@ protected:
             // Attach a billboard which will be used to get a relative area occupied by the light
             mLight2BBQueryArea = mSceneMgr->createBillboardSet(1);
             mLight2BBQueryArea->setDefaultDimensions(10,10);
-            mLight2BBQueryArea->createBillboard(Vector3::ZERO);
+            mLight2BBQueryArea->createBillboard(Vector3::zero);
             mLight2BBQueryArea->setMaterialName("QueryArea");
             mLight2BBQueryArea->setRenderQueueGroup(cPriorityQuery);
             node->attachObject(mLight2BBQueryArea);
@@ -267,7 +267,7 @@ protected:
             // Attach a billboard which will be used to get the visible area occupied by the light
             mLight2BBQueryVisible = mSceneMgr->createBillboardSet(1);
             mLight2BBQueryVisible->setDefaultDimensions(10,10);
-            mLight2BBQueryVisible->createBillboard(Vector3::ZERO);
+            mLight2BBQueryVisible->createBillboard(Vector3::zero);
             mLight2BBQueryVisible->setMaterialName("QueryVisible");
             mLight2BBQueryVisible->setRenderQueueGroup(cPriorityQuery);
             node->attachObject(mLight2BBQueryVisible);

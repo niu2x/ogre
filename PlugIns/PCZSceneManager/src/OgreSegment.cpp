@@ -79,17 +79,17 @@ void Segment::setEndPoint(const Vector3& newEnd)
 //----------------------------------------------------------------------------
 Real Segment::distance(const Segment& otherSegment) const
 {
-    Real fSqrDist = squaredDistance(otherSegment);
+    Real fSqrDist = squared_distance(otherSegment);
     return Ogre::Math::Sqrt(fSqrDist);
 }
 //----------------------------------------------------------------------------
-Real Segment::squaredDistance(const Segment& otherSegment) const
+Real Segment::squared_distance(const Segment& otherSegment) const
 {
     Vector3 kDiff = mOrigin - otherSegment.mOrigin;
-    Real fA01 = -mDirection.dotProduct(otherSegment.mDirection);
-    Real fB0 = kDiff.dotProduct(mDirection);
-    Real fB1 = -kDiff.dotProduct(otherSegment.mDirection);
-    Real fC = kDiff.squaredLength();
+    Real fA01 = -mDirection.dot_product(otherSegment.mDirection);
+    Real fB0 = kDiff.dot_product(mDirection);
+    Real fB1 = -kDiff.dot_product(otherSegment.mDirection);
+    Real fC = kDiff.squared_length();
     Real fDet = Math::Abs((Real)1.0 - fA01*fA01);
     Real fS0, fS1, fSqrDist, fExtDet0, fExtDet1, fTmpS0, fTmpS1;
 

@@ -34,7 +34,7 @@ Vector3 &lwPolygon::calculateNormal()
     Point3 *p2 = vertices[ 1 ]->point;
     Point3 *pn = vertices[vertices.size() - 1]->point;
         
-    normal = (*p2 - *p1).crossProduct(*pn - *p1);
+    normal = (*p2 - *p1).cross_product(*pn - *p1);
     normal.normalise();
 
     return normal;
@@ -73,20 +73,20 @@ vpolygons lwPolygon::triangulate()
         bool positive = false;
         bool negative = false;
         
-        Vector3 n1 = normal.crossProduct((vm1 - vp2).normalise());
-        if (n1.dotProduct(vp1 - vp2) > epsilon)
+        Vector3 n1 = normal.cross_product((vm1 - vp2).normalise());
+        if (n1.dot_product(vp1 - vp2) > epsilon)
         {
             positive = true;
             
-            Vector3 n2 = normal.crossProduct((vp1 - vm1).normalise());
-            Vector3 n3 = normal.crossProduct((vp2 - vp1).normalise());
+            Vector3 n2 = normal.cross_product((vp1 - vm1).normalise());
+            Vector3 n3 = normal.cross_product((vp2 - vp1).normalise());
             
             for (long a = 0; a < vertexCount; a++)
             {
                 if ((a != p1) && (a != p2) && (a != m1) && active.bitSet(a))
                 {
                     const Point3 v = *vertices[a]->point;
-                    if (n1.dotProduct((v - vp2).normalise()) > -epsilon && n2.dotProduct((v - vm1).normalise()) > -epsilon && n3.dotProduct((v - vp1).normalise()) > -epsilon)
+                    if (n1.dot_product((v - vp2).normalise()) > -epsilon && n2.dot_product((v - vm1).normalise()) > -epsilon && n3.dot_product((v - vp1).normalise()) > -epsilon)
                     {
                         positive = false;
                         break;
@@ -95,20 +95,20 @@ vpolygons lwPolygon::triangulate()
             }
         }
         
-        n1 = normal.crossProduct((vm2 - vp1).normalise());
-        if (n1.dotProduct(vm1 - vp1) > epsilon)
+        n1 = normal.cross_product((vm2 - vp1).normalise());
+        if (n1.dot_product(vm1 - vp1) > epsilon)
         {
             negative = true;
             
-            Vector3 n2 = normal.crossProduct((vm1 - vm2).normalise());
-            Vector3 n3 = normal.crossProduct((vp1 - vm1).normalise());
+            Vector3 n2 = normal.cross_product((vm1 - vm2).normalise());
+            Vector3 n3 = normal.cross_product((vp1 - vm1).normalise());
             
             for (long a = 0; a < vertexCount; a++)
             {
                 if ((a != m1) && (a != m2) && (a != p1) && active.bitSet(a))
                 {
                     const Point3 v = *vertices[a]->point;
-                    if (n1.dotProduct((v - vp1).normalise()) > -epsilon && n2.dotProduct((v - vm2).normalise()) > -epsilon && n3.dotProduct((v - vm1).normalise()) > -epsilon)
+                    if (n1.dot_product((v - vp1).normalise()) > -epsilon && n2.dot_product((v - vm2).normalise()) > -epsilon && n3.dot_product((v - vm1).normalise()) > -epsilon)
                     {
                         negative = false;
                         break;
@@ -119,8 +119,8 @@ vpolygons lwPolygon::triangulate()
         
         if ((positive) && (negative))
         {
-            float pd = (vp2 - vm1).normalise().dotProduct((vm2 - vm1).normalise());
-            float md = (vm2 - vp1).normalise().dotProduct((vp2 - vp1).normalise());
+            float pd = (vp2 - vm1).normalise().dot_product((vm2 - vm1).normalise());
+            float md = (vm2 - vp1).normalise().dot_product((vp2 - vp1).normalise());
             
             if (fabs(pd - md) < epsilon)
             {

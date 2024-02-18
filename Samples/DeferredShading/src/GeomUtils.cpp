@@ -108,7 +108,7 @@ void GeomUtils::createSphere(VertexData*& vertexData, IndexData*& indexData
 
             if (bNormals)
             {
-                Vector3 vNormal = Vector3(x0, y0, z0).normalisedCopy();
+                Vector3 vNormal = Vector3(x0, y0, z0).normalised_copy();
                 *pVertex++ = vNormal.x;
                 *pVertex++ = vNormal.y;
                 *pVertex++ = vNormal.z;

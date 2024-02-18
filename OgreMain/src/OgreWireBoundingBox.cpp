@@ -101,7 +101,7 @@ namespace Ogre {
         Vector3 vmax = aab.getMaximum();
         Vector3 vmin = aab.getMinimum();
 
-        Real sqLen = std::max(vmax.squaredLength(), vmin.squaredLength());
+        Real sqLen = std::max(vmax.squared_length(), vmin.squared_length());
         mRadius = Math::Sqrt(sqLen);
         
 
@@ -211,7 +211,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Real WireBoundingBox::getSquaredViewDepth(const Camera* cam) const
     {
-        return (cam->getDerivedPosition() - mBox.getCenter()).squaredLength();
+        return (cam->getDerivedPosition() - mBox.getCenter()).squared_length();
     }
 
 

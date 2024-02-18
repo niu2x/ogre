@@ -168,7 +168,7 @@ protected:
         Vector3 pos(1500,1750,1300);
         auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode(pos);
         ln->attachObject(mSunLight);
-        ln->setDirection(-pos.normalisedCopy());
+        ln->setDirection(-pos.normalised_copy());
         mSunLight->setSpotlightRange(Degree(30), Degree(50));
         mSunLight->setDiffuseColour(0.35, 0.35, 0.38);
         mSunLight->setSpecularColour(0.9, 0.9, 1);
@@ -277,11 +277,11 @@ protected:
 
         // Floor plane (use POSM plane def)
         mPlane = new MovablePlane("*mPlane");
-        mPlane->normal = Vector3::UNIT_Y;
+        mPlane->normal = Vector3::unit_y;
         mPlane->d = 107;
         MeshManager::getSingleton().createPlane("Myplane",
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *mPlane,
-            1500,1500,50,50,true,1,5,5,Vector3::UNIT_Z);
+            1500,1500,50,50,true,1,5,5,Vector3::unit_z);
         pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
         pPlaneEnt->setMaterialName(BASIC_ROCKWALL_MATERIAL);
         pPlaneEnt->setCastShadows(false);

@@ -628,12 +628,12 @@ namespace Ogre
 
         // build "right" matrix R
         Matrix3 kR;
-        kR[0][0] = kQ.GetColumn(0).dotProduct(GetColumn(0));
-        kR[0][1] = kQ.GetColumn(0).dotProduct(GetColumn(1));
-        kR[0][2] = kQ.GetColumn(0).dotProduct(GetColumn(2));
-        kR[1][1] = kQ.GetColumn(1).dotProduct(GetColumn(1));
-        kR[1][2] = kQ.GetColumn(1).dotProduct(GetColumn(2));
-        kR[2][2] = kQ.GetColumn(2).dotProduct(GetColumn(2));
+        kR[0][0] = kQ.GetColumn(0).dot_product(GetColumn(0));
+        kR[0][1] = kQ.GetColumn(0).dot_product(GetColumn(1));
+        kR[0][2] = kQ.GetColumn(0).dot_product(GetColumn(2));
+        kR[1][1] = kQ.GetColumn(1).dot_product(GetColumn(1));
+        kR[1][2] = kQ.GetColumn(1).dot_product(GetColumn(2));
+        kR[2][2] = kQ.GetColumn(2).dot_product(GetColumn(2));
 
         // the scaling component
         kD[0] = kR[0][0];
@@ -1340,8 +1340,8 @@ namespace Ogre
         }
 
         // make eigenvectors form a right--handed system
-        Vector3 kCross = akEigenvector[1].crossProduct(akEigenvector[2]);
-        Real fDet = akEigenvector[0].dotProduct(kCross);
+        Vector3 kCross = akEigenvector[1].cross_product(akEigenvector[2]);
+        Real fDet = akEigenvector[0].dot_product(kCross);
         if ( fDet < 0.0 )
         {
             akEigenvector[2][0] = - akEigenvector[2][0];

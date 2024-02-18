@@ -187,7 +187,7 @@ public:
             Vector3 camPos = mCameraNode->getPosition();
             Ray ray;
             ray.setOrigin(Vector3(camPos.x, mTerrainPos.y + 10000, camPos.z));
-            ray.setDirection(Vector3::NEGATIVE_UNIT_Y);
+            ray.setDirection(Vector3::negative_unit_y);
 
             TerrainGroup::RayResult rayResult = mTerrainGroup->rayIntersects(ray);
             Real distanceAboveTerrain = 50;
@@ -719,7 +719,7 @@ protected:
         l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
 
         Ogre::SceneNode* ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-        ln->setDirection(Vector3(0.55, -0.3, 0.75).normalisedCopy());
+        ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
         ln->attachObject(l);
         //! [light]
         mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
@@ -769,7 +769,7 @@ protected:
         Vector3 entPos(mTerrainPos.x + 2043, 0, mTerrainPos.z + 1715);
         Quaternion rot;
         entPos.y = mTerrainGroup->getHeightAtWorldPosition(entPos) + 65.5 + mTerrainPos.y;
-        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::UNIT_Y);
+        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
         SceneNode* sn = mSceneMgr->getRootSceneNode()->createChildSceneNode(entPos, rot);
         sn->setScale(Vector3(0.12, 0.12, 0.12));
         sn->attachObject(e);
@@ -778,7 +778,7 @@ protected:
         e = mSceneMgr->createEntity("tudorhouse.mesh");
         entPos = Vector3(mTerrainPos.x + 1850, 0, mTerrainPos.z + 1478);
         entPos.y = mTerrainGroup->getHeightAtWorldPosition(entPos) + 65.5 + mTerrainPos.y;
-        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::UNIT_Y);
+        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
         sn = mSceneMgr->getRootSceneNode()->createChildSceneNode(entPos, rot);
         sn->setScale(Vector3(0.12, 0.12, 0.12));
         sn->attachObject(e);
@@ -787,7 +787,7 @@ protected:
         e = mSceneMgr->createEntity("tudorhouse.mesh");
         entPos = Vector3(mTerrainPos.x + 1970, 0, mTerrainPos.z + 2180);
         entPos.y = mTerrainGroup->getHeightAtWorldPosition(entPos) + 65.5 + mTerrainPos.y;
-        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::UNIT_Y);
+        rot.FromAngleAxis(Degree(Math::RangeRandom(-180, 180)), Vector3::unit_y);
         sn = mSceneMgr->getRootSceneNode()->createChildSceneNode(entPos, rot);
         sn->setScale(Vector3(0.12, 0.12, 0.12));
         sn->attachObject(e);

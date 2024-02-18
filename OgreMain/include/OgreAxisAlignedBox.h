@@ -366,8 +366,8 @@ namespace Ogre {
             {
                 Vector3 min = mMinimum;
                 Vector3 max = mMaximum;
-                max.makeCeil(rhs.mMaximum);
-                min.makeFloor(rhs.mMinimum);
+                max.make_ceil(rhs.mMaximum);
+                min.make_floor(rhs.mMinimum);
 
                 setExtents(min, max);
             }
@@ -385,8 +385,8 @@ namespace Ogre {
                 return;
 
             case EXTENT_FINITE:
-                mMaximum.makeCeil(point);
-                mMinimum.makeFloor(point);
+                mMaximum.make_ceil(point);
+                mMinimum.make_floor(point);
                 return;
 
             case EXTENT_INFINITE: // if infinite, makes no difference
@@ -573,8 +573,8 @@ namespace Ogre {
             Vector3 intMin = mMinimum;
             Vector3 intMax = mMaximum;
 
-            intMin.makeCeil(b2.getMinimum());
-            intMax.makeFloor(b2.getMaximum());
+            intMin.make_ceil(b2.getMinimum());
+            intMax.make_floor(b2.getMaximum());
 
             // Check intersection isn't null
             if (intMin.x < intMax.x &&
@@ -670,7 +670,7 @@ namespace Ogre {
             switch (mExtent)
             {
             case EXTENT_NULL:
-                return Vector3::ZERO;
+                return Vector3::zero;
 
             case EXTENT_FINITE:
                 return mMaximum - mMinimum;
@@ -683,7 +683,7 @@ namespace Ogre {
 
             default: // shut up compiler
                 assert( false && "Never reached" );
-                return Vector3::ZERO;
+                return Vector3::zero;
             }
         }
         /// Gets the half-size of the box
@@ -692,7 +692,7 @@ namespace Ogre {
             switch (mExtent)
             {
             case EXTENT_NULL:
-                return Vector3::ZERO;
+                return Vector3::zero;
 
             case EXTENT_FINITE:
                 return (mMaximum - mMinimum) * 0.5;
@@ -705,7 +705,7 @@ namespace Ogre {
 
             default: // shut up compiler
                 assert( false && "Never reached" );
-                return Vector3::ZERO;
+                return Vector3::zero;
             }
         }
 
@@ -725,7 +725,7 @@ namespace Ogre {
         
         /** Returns the squared minimum distance between a given point and any part of the box.
          *  This is faster than distance since avoiding a squareroot, so use if you can. */
-        Real squaredDistance(const Vector3& v) const
+        Real squared_distance(const Vector3& v) const
         {
 
             if (this->contains(v))
@@ -749,14 +749,14 @@ namespace Ogre {
                 else if (v.z > mMaximum.z)
                     maxDist.z = v.z - mMaximum.z;
 
-                return maxDist.squaredLength();
+                return maxDist.squared_length();
             }
         }
         
         /** Returns the minimum distance between a given point and any part of the box. */
         Real distance (const Vector3& v) const
         {
-            return Ogre::Math::Sqrt(squaredDistance(v));
+            return Ogre::Math::Sqrt(squared_distance(v));
         }
 
         /** Tests whether another box contained by this box.

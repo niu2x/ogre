@@ -31,7 +31,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include "OgreVector.h"
+#include "vector.h"
 #include "plane.h"
 
 namespace Ogre {
@@ -56,7 +56,7 @@ namespace Ogre {
         Vector3 mCenter;
     public:
         /** Standard constructor - creates a unit sphere around the origin.*/
-        Sphere() : mRadius(1.0), mCenter(Vector3::ZERO) {}
+        Sphere() : mRadius(1.0), mCenter(Vector3::zero) {}
         /** Constructor allowing arbitrary spheres. 
             @param center The center point of the sphere.
             @param radius The radius of the sphere.
@@ -79,7 +79,7 @@ namespace Ogre {
         /** Returns whether or not this sphere intersects another sphere. */
         bool intersects(const Sphere& s) const
         {
-            return (s.mCenter - mCenter).squaredLength() <=
+            return (s.mCenter - mCenter).squared_length() <=
                 Math::Sqr(s.mRadius + mRadius);
         }
         /** Returns whether or not this sphere intersects a box. */
@@ -95,13 +95,13 @@ namespace Ogre {
         /** Returns whether or not this sphere intersects a point. */
         bool intersects(const Vector3& v) const
         {
-            return ((v - mCenter).squaredLength() <= Math::Sqr(mRadius));
+            return ((v - mCenter).squared_length() <= Math::Sqr(mRadius));
         }
         /** Merges another Sphere into the current sphere */
         void merge(const Sphere& oth)
         {
             Vector3 diff = oth.getCenter() - mCenter;
-            Real lengthSq = diff.squaredLength();
+            Real lengthSq = diff.squared_length();
             Real radiusDiff = oth.getRadius() - mRadius;
             
             // Early-out

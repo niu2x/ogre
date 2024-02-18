@@ -29,21 +29,21 @@ THE SOFTWARE.
 
 namespace Ogre
 {
-const Vector2 VectorBase<2, Real>::ZERO( 0 );
-const Vector2 VectorBase<2, Real>::UNIT_X( 1, 0);
-const Vector2 VectorBase<2, Real>::UNIT_Y( 0, 1);
-const Vector2 VectorBase<2, Real>::NEGATIVE_UNIT_X( -1,  0);
-const Vector2 VectorBase<2, Real>::NEGATIVE_UNIT_Y(  0, -1);
-const Vector2 VectorBase<2, Real>::UNIT_SCALE( 1 );
+const Vector2 VectorBase<2, Real>::zero( 0 );
+const Vector2 VectorBase<2, Real>::unit_x( 1, 0);
+const Vector2 VectorBase<2, Real>::unit_y( 0, 1);
+const Vector2 VectorBase<2, Real>::negative_unit_x( -1,  0);
+const Vector2 VectorBase<2, Real>::negative_unit_y(  0, -1);
+const Vector2 VectorBase<2, Real>::unit_scale( 1 );
 
-const Vector3 VectorBase<3, Real>::ZERO( 0 );
-const Vector3 VectorBase<3, Real>::UNIT_X( 1, 0, 0 );
-const Vector3 VectorBase<3, Real>::UNIT_Y( 0, 1, 0 );
-const Vector3 VectorBase<3, Real>::UNIT_Z( 0, 0, 1 );
-const Vector3 VectorBase<3, Real>::NEGATIVE_UNIT_X( -1,  0,  0 );
-const Vector3 VectorBase<3, Real>::NEGATIVE_UNIT_Y(  0, -1,  0 );
-const Vector3 VectorBase<3, Real>::NEGATIVE_UNIT_Z(  0,  0, -1 );
-const Vector3 VectorBase<3, Real>::UNIT_SCALE( 1 );
+const Vector3 VectorBase<3, Real>::zero( 0 );
+const Vector3 VectorBase<3, Real>::unit_x( 1, 0, 0 );
+const Vector3 VectorBase<3, Real>::unit_y( 0, 1, 0 );
+const Vector3 VectorBase<3, Real>::unit_z( 0, 0, 1 );
+const Vector3 VectorBase<3, Real>::negative_unit_x( -1,  0,  0 );
+const Vector3 VectorBase<3, Real>::negative_unit_y(  0, -1,  0 );
+const Vector3 VectorBase<3, Real>::negative_unit_z(  0,  0, -1 );
+const Vector3 VectorBase<3, Real>::unit_scale( 1 );
 
-const Vector4 VectorBase<4, Real>::ZERO( 0 );
+const Vector4 VectorBase<4, Real>::zero( 0 );
 }

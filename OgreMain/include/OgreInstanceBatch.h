@@ -111,7 +111,7 @@ namespace Ogre
 
         ///@see InstanceManager::setNumCustomParams(). Because this may not even be used,
         ///our implementations keep the params separate from the InstancedEntity to lower
-        ///the memory overhead. They default to Vector4::ZERO
+        ///the memory overhead. They default to Vector4::zero
         CustomParamsVec     mCustomParams;
 
         /// This bbox contains all (visible) instanced entities

@@ -1998,7 +1998,7 @@ ViewPoint SceneManager::getSuggestedViewpoint(bool random)
 {
     // By default return the origin
     ViewPoint vp;
-    vp.position = Vector3::ZERO;
+    vp.position = Vector3::zero;
     vp.orientation = Quaternion::IDENTITY;
     return vp;
 }
@@ -2544,7 +2544,7 @@ void SceneManager::findLightsAffectingFrustum(const Camera* camera)
                 if (lightInfo.type == Light::LT_DIRECTIONAL)
                 {
                     // Always visible
-                    lightInfo.position = Vector3::ZERO;
+                    lightInfo.position = Vector3::zero;
                     lightInfo.range = 0;
                     mTestLightInfos.push_back(lightInfo);
                 }
@@ -2738,12 +2738,12 @@ void SceneManager::buildLightClip(const Light* l, PlaneList& planes)
     {
     case Light::LT_POINT:
         {
-            planes.push_back(Plane(Vector3::UNIT_X, pos + Vector3(-r, 0, 0)));
-            planes.push_back(Plane(Vector3::NEGATIVE_UNIT_X, pos + Vector3(r, 0, 0)));
-            planes.push_back(Plane(Vector3::UNIT_Y, pos + Vector3(0, -r, 0)));
-            planes.push_back(Plane(Vector3::NEGATIVE_UNIT_Y, pos + Vector3(0, r, 0)));
-            planes.push_back(Plane(Vector3::UNIT_Z, pos + Vector3(0, 0, -r)));
-            planes.push_back(Plane(Vector3::NEGATIVE_UNIT_Z, pos + Vector3(0, 0, r)));
+            planes.push_back(Plane(Vector3::unit_x, pos + Vector3(-r, 0, 0)));
+            planes.push_back(Plane(Vector3::negative_unit_x, pos + Vector3(r, 0, 0)));
+            planes.push_back(Plane(Vector3::unit_y, pos + Vector3(0, -r, 0)));
+            planes.push_back(Plane(Vector3::negative_unit_y, pos + Vector3(0, r, 0)));
+            planes.push_back(Plane(Vector3::unit_z, pos + Vector3(0, 0, -r)));
+            planes.push_back(Plane(Vector3::negative_unit_z, pos + Vector3(0, 0, r)));
         }
         break;
     case Light::LT_SPOTLIGHT:
@@ -2754,11 +2754,11 @@ void SceneManager::buildLightClip(const Light* l, PlaneList& planes)
             planes.push_back(Plane(-dir, pos + dir * r));
             // 4 sides of pyramids
             // derive orientation
-            Vector3 up = Vector3::UNIT_Y;
+            Vector3 up = Vector3::unit_y;
             // Check it's not coincident with dir
-            if (Math::Abs(up.dotProduct(dir)) >= 1.0f)
+            if (Math::Abs(up.dot_product(dir)) >= 1.0f)
             {
-                up = Vector3::UNIT_Z;
+                up = Vector3::unit_z;
             }
             // Derive rotation from axes (negate dir since -Z)
             Matrix3 q = Math::lookRotation(-dir, up);
@@ -2773,13 +2773,13 @@ void SceneManager::buildLightClip(const Light* l, PlaneList& planes)
 
             // use cross product to derive normals, pass through light world pos
             // top
-            planes.push_back(Plane(tl.crossProduct(tr).normalisedCopy(), pos));
+            planes.push_back(Plane(tl.cross_product(tr).normalised_copy(), pos));
             // right
-            planes.push_back(Plane(tr.crossProduct(br).normalisedCopy(), pos));
+            planes.push_back(Plane(tr.cross_product(br).normalised_copy(), pos));
             // bottom
-            planes.push_back(Plane(br.crossProduct(bl).normalisedCopy(), pos));
+            planes.push_back(Plane(br.cross_product(bl).normalised_copy(), pos));
             // left
-            planes.push_back(Plane(bl.crossProduct(tl).normalisedCopy(), pos));
+            planes.push_back(Plane(bl.cross_product(tl).normalised_copy(), pos));
 
         }
         break;

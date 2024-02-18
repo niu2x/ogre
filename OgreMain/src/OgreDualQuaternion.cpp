@@ -114,7 +114,7 @@ namespace Ogre {
         Quaternion rot;
         toRotationTranslation(rot, pos);
 
-        Vector3 scale = Vector3::UNIT_SCALE;
+        Vector3 scale = Vector3::unit_scale;
         kTrans.makeTransform(pos, scale, rot);
     }
 }

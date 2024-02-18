@@ -46,7 +46,7 @@ TEST_F(Instancing, Bounds) {
     SceneNode* node = sceneMgr->createSceneNode();
     node->attachObject(&instanced_entity);
     node->attachObject(entity);
-    node->translate(Vector3::UNIT_X);
+    node->translate(Vector3::unit_x);
     node->setScale(Vector3(2, 2, 2));
 
     EXPECT_EQ(instanced_entity.getBoundingBox(), entity->getBoundingBox());

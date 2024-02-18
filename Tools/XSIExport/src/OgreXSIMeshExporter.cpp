@@ -69,10 +69,10 @@ using namespace XSI;
 namespace Ogre {
     //-----------------------------------------------------------------------
     XsiMeshExporter::UniqueVertex::UniqueVertex()
-        : position(Vector3::ZERO), normal(Vector3::ZERO), colour(0), nextIndex(0)
+        : position(Vector3::zero), normal(Vector3::zero), colour(0), nextIndex(0)
     {
         for (int i = 0; i < OGRE_MAX_TEXTURE_COORD_SETS; ++i)
-            uv[i] = Vector3::ZERO;
+            uv[i] = Vector3::zero;
     }
     //-----------------------------------------------------------------------
     bool XsiMeshExporter::UniqueVertex::operator==(const UniqueVertex& rhs) const
@@ -569,16 +569,16 @@ namespace Ogre {
                 // bounds
                 if (first)
                 {
-                    squaredRadius = vertex.position.squaredLength();
+                    squaredRadius = vertex.position.squared_length();
                     min = max = vertex.position;
                     first = false;
                 }
                 else
                 {
                     squaredRadius = 
-                        std::max(squaredRadius, vertex.position.squaredLength());
-                    min.makeFloor(vertex.position);
-                    max.makeCeil(vertex.position);
+                        std::max(squaredRadius, vertex.position.squared_length());
+                    min.make_floor(vertex.position);
+                    max.make_ceil(vertex.position);
                 }
             }
         
@@ -797,7 +797,7 @@ namespace Ogre {
                             Vector3 offset(shapeValues[idxPoint * 3], shapeValues[idxPoint * 3 + 1], shapeValues[idxPoint * 3 + 2]);
 
                             // Skip zero offsets
-                            if (offset == Vector3::ZERO)
+                            if (offset == Vector3::zero)
                                 continue;
 
                             // Convert to world space

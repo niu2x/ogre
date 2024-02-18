@@ -711,11 +711,11 @@ namespace Ogre {
             {
                 Quaternion qx, qy, qz, qfinal;
                 qx.FromAngleAxis(Degree(shader.GetParameter(L"rotx").GetValue()),
-                    Vector3::UNIT_X);
+                    Vector3::unit_x);
                 qy.FromAngleAxis(Degree(shader.GetParameter(L"roty").GetValue()), 
-                    Vector3::UNIT_Y);
+                    Vector3::unit_y);
                 qz.FromAngleAxis(Degree(shader.GetParameter(L"rotz").GetValue()), 
-                    Vector3::UNIT_Z);
+                    Vector3::unit_z);
                 qfinal = qx * qy * qz;
 
                 Vector3 trans;

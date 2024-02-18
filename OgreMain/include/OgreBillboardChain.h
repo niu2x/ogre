@@ -240,11 +240,11 @@ namespace Ogre {
         @param faceCamera True to be always facing the camera (Default value: True)
         @param normalVector Only used when faceCamera == false. Must be a non-zero vector.
         This vector is the "point of reference" for each point orientation. For example,
-        if normalVector is Vector3::UNIT_Z, and the point's orientation is an identity
+        if normalVector is Vector3::unit_z, and the point's orientation is an identity
         matrix, the segment corresponding to that point will be facing towards UNIT_Z
         This vector is internally normalized.
         */
-        void setFaceCamera( bool faceCamera, const Vector3 &normalVector=Vector3::UNIT_X );
+        void setFaceCamera( bool faceCamera, const Vector3 &normalVector=Vector3::unit_x );
 
         /// Get the material name in use
         virtual const String& getMaterialName(void) const { return mMaterial->getName(); }

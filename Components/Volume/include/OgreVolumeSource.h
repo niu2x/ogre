@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef __Ogre_Volume_Source_H__
 #define __Ogre_Volume_Source_H__
 
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreVolumePrerequisites.h"
 
 namespace Ogre {

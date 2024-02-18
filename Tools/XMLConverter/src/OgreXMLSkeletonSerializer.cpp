@@ -175,7 +175,7 @@ namespace Ogre {
                 else
                 {
                     // axis scale
-                    scale = Vector3::UNIT_SCALE;
+                    scale = Vector3::unit_scale;
                     const char* factorString = scaleElem.attribute("x").as_string(NULL);
                     if (factorString)
                     {
@@ -195,7 +195,7 @@ namespace Ogre {
             }
             else
             {
-                scale = Vector3::UNIT_SCALE;
+                scale = Vector3::unit_scale;
             }
 
             /*LogManager::getSingleton().log_message("bone " + name + " : position("
@@ -498,7 +498,7 @@ namespace Ogre {
 
         // Scale optional
         Vector3 scale = pBone->getScale();
-        if (scale != Vector3::UNIT_SCALE)
+        if (scale != Vector3::unit_scale)
         {
             pugi::xml_node scaleNode = boneElem.append_child("scale");
             scaleNode.append_attribute("x") = StringConverter::toString(scale.x).c_str();
@@ -601,7 +601,7 @@ namespace Ogre {
         axisNode.append_attribute("z") = StringConverter::toString(axis.z).c_str();
 
         // Scale optional
-        if (key->getScale() != Vector3::UNIT_SCALE)
+        if (key->getScale() != Vector3::unit_scale)
         {
             pugi::xml_node scaleNode = keyNode.append_child("scale");
 

@@ -88,7 +88,7 @@ public:
 
         // Set the the scene node direction to 0,KnotHeight,0 point
         Vector3 NormalisedDirection =
-            (Vector3(0, mKnotSN->getPosition().y, 0) - mLightCameraSN->getPosition()).normalisedCopy();
+            (Vector3(0, mKnotSN->getPosition().y, 0) - mLightCameraSN->getPosition()).normalised_copy();
         mLightCameraSN->setDirection(NormalisedDirection, Node::TS_WORLD);
 
         if (mRotateKnot)
@@ -160,8 +160,8 @@ public:
         createLightShafts(mBillboardSet, mLightCamera, 100);
 
         // Set a floor plane
-        MeshManager::getSingleton().createPlane("FloorPlaneMesh", RGN_DEFAULT, Plane(Vector3::UNIT_Y, 0),
-                                                250, 250, 100, 100, true, 1, 15, 15, Vector3::UNIT_Z);
+        MeshManager::getSingleton().createPlane("FloorPlaneMesh", RGN_DEFAULT, Plane(Vector3::unit_y, 0),
+                                                250, 250, 100, 100, true, 1, 15, 15, Vector3::unit_z);
 
         Entity* pPlaneEnt = mSceneMgr->createEntity("Plane", "FloorPlaneMesh");
         pPlaneEnt->setMaterialName("Examples/Rockwall");

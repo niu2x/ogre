@@ -70,7 +70,7 @@ namespace Ogre
             assert( !(meshReference->hasSkeleton() && indexToBoneMap->empty()) );
         }
 
-        mFullBoundingBox.setExtents( -Vector3::ZERO, Vector3::ZERO );
+        mFullBoundingBox.setExtents( -Vector3::zero, Vector3::zero );
 
         mName = batchName;
 		if (mCreator != NULL)
@@ -306,7 +306,7 @@ namespace Ogre
         InstancedEntityVec::const_iterator itor   = usedEntities.begin();
         InstancedEntityVec::const_iterator end   = usedEntities.end();
 
-        Vector3 vMinPos = Vector3::ZERO, firstPos = Vector3::ZERO;
+        Vector3 vMinPos = Vector3::zero, firstPos = Vector3::zero;
         InstancedEntity *first = 0;
 
         if( !usedEntities.empty() )
@@ -324,7 +324,7 @@ namespace Ogre
             vMinPos.y = std::min( vMinPos.y, vPos.y );
             vMinPos.z = std::min( vMinPos.z, vPos.z );
 
-            if( vMinPos.squaredDistance( vPos ) < vMinPos.squaredDistance( firstPos ) )
+            if( vMinPos.squared_distance( vPos ) < vMinPos.squared_distance( firstPos ) )
             {
                 firstPos   = vPos;
             }
@@ -346,7 +346,7 @@ namespace Ogre
             {
                 const Vector3 &vPos   = (*it)->_getDerivedPosition();
 
-                if( firstPos.squaredDistance( vPos ) < firstPos.squaredDistance( closestPos ) )
+                if( firstPos.squared_distance( vPos ) < firstPos.squared_distance( closestPos ) )
                 {
                     closest      = it;
                     closestPos   = vPos;
@@ -531,7 +531,7 @@ namespace Ogre
         if (mCameraDistLastUpdateFrameNumber != currentFrameNumber || mCachedCamera != cam)
         {
             mCachedCameraDist =
-                getBoundingBox().getCenter().squaredDistance(cam->getDerivedPosition());
+                getBoundingBox().getCenter().squared_distance(cam->getDerivedPosition());
 
             mCachedCamera = cam;
             mCameraDistLastUpdateFrameNumber = currentFrameNumber;

@@ -303,7 +303,7 @@ namespace Ogre
                 newPos = mParentNode->convertWorldToLocalPosition(newPos);
             }
             Vector3 diff = newPos - nextElem.position;
-            Real sqlen = diff.squaredLength();
+            Real sqlen = diff.squared_length();
             if (sqlen >= mSquaredElemLength)
             {
                 // Move existing head to mElemLength
@@ -316,7 +316,7 @@ namespace Ogre
                 // alter diff to represent new head size
                 diff = newPos - headElem.position;
                 // check whether another step is needed or not
-                if (diff.squaredLength() <= mSquaredElemLength)   
+                if (diff.squared_length() <= mSquaredElemLength)   
                     done = true;
 
             }

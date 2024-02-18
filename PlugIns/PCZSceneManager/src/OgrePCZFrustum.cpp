@@ -195,7 +195,7 @@ namespace Ogre
             // check if the portal norm is facing the frustum
             Vector3 frustumToPortal = portal->getDerivedCP() - mOrigin;
             Vector3 portalDirection = portal->getDerivedDirection();
-            Real dotProduct = frustumToPortal.dotProduct(portalDirection);
+            Real dotProduct = frustumToPortal.dot_product(portalDirection);
             if ( dotProduct > 0 )
             {
                 // portal is faced away from Frustum 
@@ -374,7 +374,7 @@ namespace Ogre
             // check if the portal norm is facing the frustum
             Vector3 frustumToPortal = portal->getDerivedCP() - mOrigin;
             Vector3 portalDirection = portal->getDerivedDirection();
-            Real dotProduct = frustumToPortal.dotProduct(portalDirection);
+            Real dotProduct = frustumToPortal.dot_product(portalDirection);
             if ( dotProduct > 0 )
             {
                 // portal is faced away from Frustum 
@@ -500,7 +500,7 @@ namespace Ogre
             // check if the portal norm is facing the frustum
             Vector3 frustumToPortal = portal->getDerivedCP() - mOrigin;
             Vector3 portalDirection = portal->getDerivedDirection();
-            Real dotProduct = frustumToPortal.dotProduct(portalDirection);
+            Real dotProduct = frustumToPortal.dot_product(portalDirection);
 
             // it's facing away from the frustum. Flip the planes.
             if (dotProduct > 0) flipPlane = true;

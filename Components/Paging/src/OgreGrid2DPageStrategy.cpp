@@ -48,8 +48,8 @@ namespace Ogre
     Grid2DPageStrategyData::Grid2DPageStrategyData()
         : PageStrategyData()
         , mMode(G2D_X_Z)
-        , mWorldOrigin(Vector3::ZERO)
-        , mOrigin(Vector2::ZERO)
+        , mWorldOrigin(Vector3::zero)
+        , mOrigin(Vector2::zero)
         , mCellSize(1000)
         , mLoadRadius(2000)
         , mHoldRadius(3000)
@@ -383,7 +383,7 @@ namespace Ogre
             // Note that world points are initialised to ZERO since only 2 dimensions
             // are updated by the grid data (we could display this grid anywhere)
             Vector2 gridMidPoint;
-            Vector3 worldMidPoint = Vector3::ZERO;
+            Vector3 worldMidPoint = Vector3::zero;
             data->getMidPointGridSpace(x, y, gridMidPoint);
             data->convertGridToWorldSpace(gridMidPoint, worldMidPoint);
 
@@ -395,7 +395,7 @@ namespace Ogre
             data->getCornersGridSpace(x, y, gridCorners);
             for (int i = 0; i < 4; ++i)
             {
-                worldCorners[i] = Vector3::ZERO;
+                worldCorners[i] = Vector3::zero;
                 data->convertGridToWorldSpace(gridCorners[i], worldCorners[i]);
                 // make relative to mid point
                 worldCorners[i] -= worldMidPoint;

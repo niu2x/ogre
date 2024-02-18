@@ -166,7 +166,7 @@ namespace Ogre
             // check if the portal norm is facing the camera
             Vector3 cameraToPortal = portal->getDerivedCP() - getDerivedPosition();
             Vector3 portalDirection = portal->getDerivedDirection();
-            Real dotProduct = cameraToPortal.dotProduct(portalDirection);
+            Real dotProduct = cameraToPortal.dot_product(portalDirection);
             if ( dotProduct > 0 )
             {
                 // portal is faced away from camera 

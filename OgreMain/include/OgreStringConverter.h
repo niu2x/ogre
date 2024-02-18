@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "string_vector.h"
 #include "colour_value.h"
 #include "OgreMatrix4.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
 #   define locale_t _locale_t
@@ -266,9 +266,9 @@ namespace Ogre {
         /** Parses a Vector2 out of a String.
 
             Format is "x y" ie. 2 Real components, space delimited. Failure to parse returns
-            Vector2::ZERO.
+            Vector2::zero.
         */
-        static Vector2 parseVector2(const String& val, const Vector2& defaultValue = Vector2::ZERO)
+        static Vector2 parseVector2(const String& val, const Vector2& defaultValue = Vector2::zero)
         {
             Vector2 ret;
             return parse(val, ret) ? ret : defaultValue;
@@ -276,9 +276,9 @@ namespace Ogre {
         /** Parses a Vector3 out of a String.
 
             Format is "x y z" ie. 3 Real components, space delimited. Failure to parse returns
-            Vector3::ZERO.
+            Vector3::zero.
         */
-        static Vector3 parseVector3(const String& val, const Vector3& defaultValue = Vector3::ZERO)
+        static Vector3 parseVector3(const String& val, const Vector3& defaultValue = Vector3::zero)
         {
             Vector3 ret;
             return parse(val, ret) ? ret : defaultValue;
@@ -286,9 +286,9 @@ namespace Ogre {
         /** Parses a Vector4 out of a String.
 
             Format is "x y z w" ie. 4 Real components, space delimited. Failure to parse returns
-            Vector4::ZERO.
+            Vector4::zero.
         */
-        static Vector4 parseVector4(const String& val, const Vector4& defaultValue = Vector4::ZERO)
+        static Vector4 parseVector4(const String& val, const Vector4& defaultValue = Vector4::zero)
         {
             Vector4 ret;
             return parse(val, ret) ? ret : defaultValue;

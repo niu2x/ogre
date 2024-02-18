@@ -236,7 +236,7 @@ void WaterMesh::calculateNormals()
     float *buf = NULL;
     // zero normals
     for(i=0;i<numVertices;i++) {
-        vNormals[i] = Vector3::ZERO;
+        vNormals[i] = Vector3::zero;
     }
     // first, calculate normals for faces, add them to proper vertices
     buf = vertexBuffers[currentBuffNumber] ;

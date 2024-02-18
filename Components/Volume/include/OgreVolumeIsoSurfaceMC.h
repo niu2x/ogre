@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __Ogre_Volume_IsoSurfaceMC_H__
 
 #include "OgreVolumeIsoSurface.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include <float.h>
 
 namespace Ogre {

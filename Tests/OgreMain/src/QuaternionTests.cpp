@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include <gtest/gtest.h>
 #include "OgreQuaternion.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 using namespace Ogre;
 
@@ -61,8 +61,8 @@ TEST(QuaternionTests,FromVectors)
     {
         Vector3 from = list[index][0];
         Vector3 to = list[index][1];
-        Vector3 result = from.getRotationTo(to) * from;
-        EXPECT_TRUE(to.normalisedCopy().positionEquals(result.normalisedCopy())) << " index is " << index << std::endl;
+        Vector3 result = from.rotation_to(to) * from;
+        EXPECT_TRUE(to.normalised_copy().position_equals(result.normalised_copy())) << " index is " << index << std::endl;
         EXPECT_NEAR(from.length(), result.length(), 1e-6) << " index is " << index << std::endl;
     }
     Vector3 list2[][2] =
@@ -75,7 +75,7 @@ TEST(QuaternionTests,FromVectors)
     {
         Vector3 from = list2[index][0];
         Vector3 to = list2[index][1];
-        Quaternion quat = from.getRotationTo(to);
+        Quaternion quat = from.rotation_to(to);
         EXPECT_EQ(quat, Quaternion::IDENTITY) << " index is " << index << std::endl;
     }
 }
@@ -128,8 +128,8 @@ TEST(QuaternionTests, Precision)
     if(OGRE_DOUBLE_PRECISION == 0)
         GTEST_SKIP() << "OGRE_DOUBLE_PRECISION required";
 
-    Quaternion rot(Radian(5), Vector3::UNIT_X);
-    Quaternion rot_inv(Radian(-5), Vector3::UNIT_X);
+    Quaternion rot(Radian(5), Vector3::unit_x);
+    Quaternion rot_inv(Radian(-5), Vector3::unit_x);
     Vector3 v_s(0, 5e6, 0);
     Vector3 v_e = rot * v_s;
     v_e = rot_inv * v_e;

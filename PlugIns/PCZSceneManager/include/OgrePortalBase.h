@@ -89,11 +89,11 @@ namespace Ogre
                 break;
             case PORTAL_TYPE_AABB:
             case PORTAL_TYPE_SPHERE:
-                if (d != Vector3::UNIT_Z &&
-                    d != Vector3::NEGATIVE_UNIT_Z)
+                if (d != Vector3::unit_z &&
+                    d != Vector3::negative_unit_z)
                 {
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
-                        "Valid parameters are Vector3::UNIT_Z or Vector3::NEGATIVE_UNIT_Z", 
+                        "Valid parameters are Vector3::unit_z or Vector3::negative_unit_z", 
                         "Portal::setDirection");
                     return;
                 }

@@ -437,7 +437,7 @@ namespace Ogre {
                 dest->fType = FGT_FACE_LIST;
                 // Assign plane
                 dest->plane.normal = Vector3(src->normal[0], src->normal[1], src->normal[2]);
-                dest->plane.d = -dest->plane.normal.dotProduct(
+                dest->plane.d = -dest->plane.normal.dot_product(
                     Vector3(src->org[0], src->org[1], src->org[2]));
 
                 // Don't rebase indexes here - Quake3 re-uses some indexes for multiple vertex
@@ -477,7 +477,7 @@ namespace Ogre {
                 dest->fType = FGT_FACE_LIST;
                 // Assign plane
                 dest->plane.normal = Vector3(src->normal[0], src->normal[1], src->normal[2]);
-                dest->plane.d = -dest->plane.normal.dotProduct(
+                dest->plane.d = -dest->plane.normal.dot_product(
                     Vector3(src->org[0], src->org[1], src->org[2]));                
             }
             else
@@ -923,7 +923,7 @@ namespace Ogre {
         char* strEnt;
         String line;
         StringVector vecparams;
-        Vector3 origin = Vector3::ZERO;
+        Vector3 origin = Vector3::zero;
         Radian angle ( 0 );
         size_t pos;
         char* lineend;
@@ -971,7 +971,7 @@ namespace Ogre {
                         // Save player start
                         ViewPoint vp;
                         vp.position = origin;
-                        vp.orientation.FromAngleAxis(angle, Vector3::UNIT_Z);
+                        vp.orientation.FromAngleAxis(angle, Vector3::unit_z);
                         mPlayerStarts.push_back(vp);
                     }
                     isPlayerStart = false;

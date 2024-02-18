@@ -129,12 +129,12 @@ public:
         return (float)sqrt( x * x + y * y + z * z );
     }
     
-    inline float squaredLength () const
+    inline float squared_length () const
     {
         return x * x + y * y + z * z;
     }
     
-    inline float dotProduct(const Vector3& v) const
+    inline float dot_product(const Vector3& v) const
     {
         return x * v.x + y * v.y + z * v.z;
     }
@@ -155,12 +155,12 @@ public:
         return *this;
     }
     
-    inline Vector3 crossProduct( const Vector3& v ) const
+    inline Vector3 cross_product( const Vector3& v ) const
     {
         return Vector3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
     }
     
-    inline Vector3 midPoint( const Vector3& v ) const
+    inline Vector3 mid_point( const Vector3& v ) const
     {
         return Vector3( ( x + v.x ) * 0.5f, ( y + v.y ) * 0.5f, ( z + v.z ) * 0.5f );
     }
@@ -193,15 +193,15 @@ public:
     {
         static float fSquareZero = 1e-06f * 1e-06f;
         
-        Vector3 perp = this->crossProduct( Vector3::UNIT_X );
+        Vector3 perp = this->cross_product( Vector3::unit_x );
         
         // Check length
-        if( perp.squaredLength() < fSquareZero )
+        if( perp.squared_length() < fSquareZero )
         {
         /* This vector is the Y axis multiplied by a scalar, so we have 
         to use another axis.
             */
-            perp = this->crossProduct( Vector3::UNIT_Y );
+            perp = this->cross_product( Vector3::unit_y );
         }
         
         return perp;

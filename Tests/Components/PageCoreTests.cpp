@@ -82,7 +82,7 @@ TEST_F(PageCoreTests,SimpleCreateSaveLoadWorld)
     section = world->createSection("Grid2D", mSceneMgr, sectionName2);
 
     // Create a page
-    Page* p = section->loadOrCreatePage(Vector3::ZERO);
+    Page* p = section->loadOrCreatePage(Vector3::zero);
 
     p->createContentCollection("Simple");
 

@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreVulkanUtils.h"
 
 #include "OgrePixelFormat.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreRoot.h"
 
 #include "OgreException.h"

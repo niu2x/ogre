@@ -34,33 +34,33 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     MovablePlane::MovablePlane(const String& name) : Plane(), MovableObject(name),
-        mLastTranslate(Vector3::ZERO), 
+        mLastTranslate(Vector3::zero), 
         mLastRotate(Quaternion::IDENTITY),
         mDirty(true)
     {
     }
     //-----------------------------------------------------------------------
     MovablePlane::MovablePlane (const Plane& rhs) : Plane(rhs), 
-        mLastTranslate(Vector3::ZERO), mLastRotate(Quaternion::IDENTITY), 
+        mLastTranslate(Vector3::zero), mLastRotate(Quaternion::IDENTITY), 
         mDirty(true)
     {
     }
     //-----------------------------------------------------------------------
     MovablePlane::MovablePlane (const Vector3& rkNormal, Real fConstant)
-        : Plane (rkNormal, fConstant), mLastTranslate(Vector3::ZERO), 
+        : Plane (rkNormal, fConstant), mLastTranslate(Vector3::zero), 
         mLastRotate(Quaternion::IDENTITY), mDirty(true)
     {
     }
     //-----------------------------------------------------------------------
     MovablePlane::MovablePlane (const Vector3& rkNormal, const Vector3& rkPoint)
-        : Plane(rkNormal, rkPoint), mLastTranslate(Vector3::ZERO), 
+        : Plane(rkNormal, rkPoint), mLastTranslate(Vector3::zero), 
         mLastRotate(Quaternion::IDENTITY), mDirty(true)
     {
     }
     //-----------------------------------------------------------------------
     MovablePlane::MovablePlane (const Vector3& rkPoint0, const Vector3& rkPoint1,
         const Vector3& rkPoint2)
-        : Plane(rkPoint0, rkPoint1, rkPoint2), mLastTranslate(Vector3::ZERO), 
+        : Plane(rkPoint0, rkPoint1, rkPoint2), mLastTranslate(Vector3::zero), 
         mLastRotate(Quaternion::IDENTITY), mDirty(true)
     {
     }
@@ -80,7 +80,7 @@ namespace Ogre {
                 // d remains the same in rotation, since rotation happens first
                 mDerivedPlane.d = d;
                 // Add on the effect of the translation (project onto new normal)
-                mDerivedPlane.d -= mDerivedPlane.normal.dotProduct(mLastTranslate);
+                mDerivedPlane.d -= mDerivedPlane.normal.dot_product(mLastTranslate);
 
                 mDirty = false;
 

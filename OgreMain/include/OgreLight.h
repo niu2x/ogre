@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "colour_value.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreMovableObject.h"
 #include "OgrePlaneBoundedVolume.h"
 #include "OgreNode.h"

@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreRenderSystem.h"
 #include "OgreGLHardwareBufferManager.h"
 #include "OgreGLGpuProgramManager.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 #include "OgreGLRenderSystemCommon.h"
 #include "OgreGLStateCacheManager.h"

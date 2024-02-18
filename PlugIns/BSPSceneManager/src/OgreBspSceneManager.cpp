@@ -105,7 +105,7 @@ namespace Ogre {
         {
             // Quake3 is always aligned with Z upwards
             Quaternion q;
-            q.FromAngleAxis(Radian(Math::HALF_PI), Vector3::UNIT_X);
+            q.FromAngleAxis(Radian(Math::HALF_PI), Vector3::unit_x);
             // Also draw last, and make close to camera (far clip plane is shorter)
             setSkyDome(true, mLevel->getSkyMaterialName(),
                 mLevel->getSkyCurvature(), 12, 2000, false, q);

@@ -69,9 +69,9 @@ namespace Ogre
         void _update(bool updateChildren, bool parentHasChanged) override;
         void updateFromParentImpl() const override;
 
-        SceneNode* createChildSceneNode(const Vector3& translate = Vector3::ZERO,
+        SceneNode* createChildSceneNode(const Vector3& translate = Vector3::zero,
                                         const Quaternion& rotate = Quaternion::IDENTITY) override;
-        SceneNode* createChildSceneNode(const String& name, const Vector3& translate = Vector3::ZERO,
+        SceneNode* createChildSceneNode(const String& name, const Vector3& translate = Vector3::zero,
                                         const Quaternion& rotate = Quaternion::IDENTITY) override;
 
         PCZone*     getHomeZone(void);

@@ -330,7 +330,7 @@ void TextBox::_cursorPressed(const Ogre::Vector2 &cursorPos)
 
     Ogre::Vector2 co = Widget::cursorOffset(mScrollHandle, cursorPos);
 
-    if (co.squaredLength() <= 81)
+    if (co.squared_length() <= 81)
     {
         mDragging = true;
         mDragOffset = co.y;
@@ -587,7 +587,7 @@ void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
         {
             Ogre::Vector2 co = Widget::cursorOffset(mScrollHandle, cursorPos);
 
-            if (co.squaredLength() <= 81)
+            if (co.squared_length() <= 81)
             {
                 mDragging = true;
                 mDragOffset = co.y;
@@ -885,7 +885,7 @@ void Slider::_cursorPressed(const Ogre::Vector2 &cursorPos)
 
     Ogre::Vector2 co = Widget::cursorOffset(mHandle, cursorPos);
 
-    if (co.squaredLength() <= 81)
+    if (co.squared_length() <= 81)
     {
         mDragging = true;
         mDragOffset = co.x;

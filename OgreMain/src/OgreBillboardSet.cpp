@@ -45,8 +45,8 @@ namespace Ogre {
         mWorldSpace(false),
         mCullIndividual( false ),
         mBillboardType(BBT_POINT),
-        mCommonDirection(Ogre::Vector3::UNIT_Z),
-        mCommonUpVector(Vector3::UNIT_Y),
+        mCommonDirection(Ogre::Vector3::unit_z),
+        mCommonUpVector(Vector3::unit_y),
         mPointRendering(false),
         mBuffersCreated(false),
         mPoolSize(0),
@@ -77,8 +77,8 @@ namespace Ogre {
         mActiveBillboards(0),
         mCullIndividual( false ),
         mBillboardType(BBT_POINT),
-        mCommonDirection(Ogre::Vector3::UNIT_Z),
-        mCommonUpVector(Vector3::UNIT_Y),
+        mCommonDirection(Ogre::Vector3::unit_z),
+        mCommonUpVector(Vector3::unit_y),
         mPointRendering(false),
         mBuffersCreated(false),
         mPoolSize(poolSize),
@@ -126,7 +126,7 @@ namespace Ogre {
         Billboard* newBill = mBillboardPool[mActiveBillboards++];
         newBill->setPosition(position);
         newBill->setColour(colour);
-        newBill->mDirection = Vector3::ZERO;
+        newBill->mDirection = Vector3::zero;
         newBill->setRotation(Radian(0));
         newBill->setTexcoordIndex(0);
         newBill->resetDimensions();
@@ -209,7 +209,7 @@ namespace Ogre {
     }
     float BillboardSet::SortByDirectionFunctor::operator()(Billboard* bill) const
     {
-        return sortDir.dotProduct(bill->getPosition());
+        return sortDir.dot_product(bill->getPosition());
     }
     BillboardSet::SortByDistanceFunctor::SortByDistanceFunctor(const Vector3& pos)
         : sortPos(pos)
@@ -218,7 +218,7 @@ namespace Ogre {
     float BillboardSet::SortByDistanceFunctor::operator()(Billboard* bill) const
     {
         // Sort descending by squared distance
-        return - (sortPos - bill->getPosition()).squaredLength();
+        return - (sortPos - bill->getPosition()).squared_length();
     }
     //-----------------------------------------------------------------------
     SortMode BillboardSet::_getSortMode(void) const
@@ -255,7 +255,7 @@ namespace Ogre {
         }
 
         // Camera direction points down -Z
-        mCamDir = mCamQ * Vector3::NEGATIVE_UNIT_Z;
+        mCamDir = mCamQ * Vector3::negative_unit_z;
     }
     //-----------------------------------------------------------------------
     void BillboardSet::beginBillboards(size_t numBillboards)
@@ -781,16 +781,16 @@ namespace Ogre {
             {
                 // Point billboards will have 'up' based on but not equal to cameras
                 // Use pY temporarily to avoid allocation
-                *pY = mCamQ * Vector3::UNIT_Y;
-                *pX = mCamDir.crossProduct(*pY);
+                *pY = mCamQ * Vector3::unit_y;
+                *pX = mCamDir.cross_product(*pY);
                 pX->normalise();
-                *pY = pX->crossProduct(mCamDir); // both normalised already
+                *pY = pX->cross_product(mCamDir); // both normalised already
             }
             else
             {
                 // Get camera axes for X and Y (depth is irrelevant)
-                *pX = mCamQ * Vector3::UNIT_X;
-                *pY = mCamQ * Vector3::UNIT_Y;
+                *pX = mCamQ * Vector3::unit_x;
+                *pY = mCamQ * Vector3::unit_y;
             }
             break;
 
@@ -798,7 +798,7 @@ namespace Ogre {
             // Y-axis is common direction
             // X-axis is cross with camera direction
             *pY = mCommonDirection;
-            *pX = mCamDir.crossProduct(*pY);
+            *pX = mCamDir.cross_product(*pY);
             pX->normalise();
             break;
 
@@ -807,23 +807,23 @@ namespace Ogre {
             // X-axis is cross with camera direction
             // Scale direction first
             *pY = bb->mDirection;
-            *pX = mCamDir.crossProduct(*pY);
+            *pX = mCamDir.cross_product(*pY);
             pX->normalise();
             break;
 
         case BBT_PERPENDICULAR_COMMON:
             // X-axis is up-vector cross common direction
             // Y-axis is common direction cross X-axis
-            *pX = mCommonUpVector.crossProduct(mCommonDirection);
-            *pY = mCommonDirection.crossProduct(*pX);
+            *pX = mCommonUpVector.cross_product(mCommonDirection);
+            *pY = mCommonDirection.cross_product(*pX);
             break;
 
         case BBT_PERPENDICULAR_SELF:
             // X-axis is up-vector cross own direction
             // Y-axis is own direction cross X-axis
-            *pX = mCommonUpVector.crossProduct(bb->mDirection);
+            *pX = mCommonUpVector.cross_product(bb->mDirection);
             pX->normalise();
-            *pY = bb->mDirection.crossProduct(*pX); // both should be normalised
+            *pY = bb->mDirection.cross_product(*pX); // both should be normalised
             break;
         }
 
@@ -904,7 +904,7 @@ namespace Ogre {
         else if (mRotationType == BBR_VERTEX)
         {
             // TODO: Cache axis when billboard type is BBT_POINT or BBT_PERPENDICULAR_COMMON
-            Vector3 axis = (offsets[3] - offsets[0]).crossProduct(offsets[2] - offsets[1]).normalisedCopy();
+            Vector3 axis = (offsets[3] - offsets[0]).cross_product(offsets[2] - offsets[1]).normalised_copy();
 
             Matrix3 rotation;
             rotation.FromAngleAxis(axis, bb.mRotation);

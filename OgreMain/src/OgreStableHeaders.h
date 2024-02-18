@@ -111,7 +111,7 @@ extern "C" {
 #include "OgreTextureManager.h"
 #include "threading/thread_header.h"
 #include "OgreUserObjectBindings.h"
-#include "OgreVector.h"
+#include "vector.h"
 #if OGRE_NO_ZIP_ARCHIVE == 0
 #   include "OgreZip.h"
 #endif

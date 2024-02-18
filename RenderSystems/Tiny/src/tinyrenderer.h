@@ -70,7 +70,7 @@ static void triangle(const mat4& Viewport, const vec4 clip_verts[3], IShader& sh
             vec3 bc_screen  = barycentric(pts2, vec2(x, y));
             vec3 bc_clip    = vec3(bc_screen.x*pts[0][3], bc_screen.y*pts[1][3], bc_screen.z*pts[2][3]);
             bc_clip = bc_clip/(bc_clip.x+bc_clip.y+bc_clip.z); // check https://github.com/ssloy/tinyrenderer/wiki/Technical-difficulties-linear-interpolation-with-perspective-deformations
-            float frag_depth = vec3(pts[0][2], pts[1][2], pts[2][2]).dotProduct(bc_clip);
+            float frag_depth = vec3(pts[0][2], pts[1][2], pts[2][2]).dot_product(bc_clip);
             if (bc_screen.x<0 || bc_screen.y<0 || bc_screen.z<0) continue;
 
             if (frag_depth < 0.0)

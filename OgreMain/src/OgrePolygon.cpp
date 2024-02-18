@@ -34,7 +34,7 @@ namespace Ogre
 
     //-----------------------------------------------------------------------
     Polygon::Polygon()
-    : mNormal( Vector3::ZERO )
+    : mNormal( Vector3::zero )
     , mIsNormalSet(false)
     {
         // reserve space for 6 vertices to reduce allocation cost
@@ -92,7 +92,7 @@ namespace Ogre
             const Vector3& a = getVertex( i );
             const Vector3& b = getVertex( (i + 1)%getVertexCount() );
 
-            if (a.positionEquals(b))
+            if (a.position_equals(b))
             {
                 deleteVertex(i);
                 --i;
@@ -184,7 +184,7 @@ namespace Ogre
         bool foundStart = false;
         for (size_t i = 0; i < getVertexCount(); ++i )
         {   
-            if (getVertex(0).positionEquals(rhs.getVertex(i)))
+            if (getVertex(0).position_equals(rhs.getVertex(i)))
             {
                 start = i;
                 foundStart = true;
@@ -200,7 +200,7 @@ namespace Ogre
             const Vector3& vA = getVertex( i );
             const Vector3& vB = rhs.getVertex( ( i + start) % getVertexCount() );
 
-            if (!vA.positionEquals(vB))
+            if (!vA.position_equals(vB))
                 return false;
         }
 
@@ -250,7 +250,7 @@ namespace Ogre
             }
             else
             {
-                Real costheta = v1.dotProduct(v2) / (len1 * len2);
+                Real costheta = v1.dot_product(v2) / (len1 * len2);
                 anglesum += std::acos(costheta);
             }
         }

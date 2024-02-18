@@ -70,7 +70,7 @@ namespace Ogre {
 
         // Save inverse derived position/scale/orientation, used for calculate offset transform later
         mBindDerivedInversePosition = - _getDerivedPosition();
-        mBindDerivedInverseScale = Vector3::UNIT_SCALE / _getDerivedScale();
+        mBindDerivedInverseScale = Vector3::unit_scale / _getDerivedScale();
         mBindDerivedInverseOrientation = _getDerivedOrientation().Inverse();
     }
     //---------------------------------------------------------------------

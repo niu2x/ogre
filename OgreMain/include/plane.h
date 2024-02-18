@@ -38,7 +38,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreAxisAlignedBox.h"
 
 namespace Ogre {
@@ -68,7 +68,7 @@ namespace Ogre {
     public:
         /** Default constructor - sets everything to 0.
         */
-        Plane() : normal(Vector3::ZERO), d(0.0f) {}
+        Plane() : normal(Vector3::zero), d(0.0f) {}
         /** Construct a plane through a normal, and a distance to move the plane along the normal.*/
         Plane(const Vector3& p_normal, Real fConstant)
         {
@@ -144,7 +144,7 @@ namespace Ogre {
 
             // Calculate the maximise allows absolute distance for
             // the distance between box centre and plane
-            Real maxAbsDist = normal.absDotProduct(half_size);
+            Real maxAbsDist = normal.abs_dot_product(half_size);
 
             if (dist < -maxAbsDist)
                 return Side::NEGATIVE_SIDE;
@@ -165,21 +165,21 @@ namespace Ogre {
         */
         Real distance_to(const Vector3& rkPoint) const
         {
-            return normal.dotProduct(rkPoint) + d;
+            return normal.dot_product(rkPoint) + d;
         }
 
         /** Redefine this plane based on 3 points. */
         void redefine(const Vector3& p0, const Vector3& p1, const Vector3& p2)
         {
             normal = Math::calculateBasicFaceNormal(p0, p1, p2);
-            d = -normal.dotProduct(p0);
+            d = -normal.dot_product(p0);
         }
 
         /** Redefine this plane based on a normal and a point. */
         void redefine(const Vector3& rkNormal, const Vector3& rkPoint)
         {
             normal = rkNormal;
-            d = -rkNormal.dotProduct(rkPoint);
+            d = -rkNormal.dot_product(rkPoint);
         }
 
         /** Project a vector onto the plane. 

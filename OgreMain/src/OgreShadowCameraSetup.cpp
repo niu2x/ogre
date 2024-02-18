@@ -99,12 +99,12 @@ namespace Ogre
 
              //get texCam orientation
 
-             Vector3 up = Vector3::UNIT_Y;
+             Vector3 up = Vector3::unit_y;
              // Check it's not coincident with dir
-             if (Math::Abs(up.dotProduct(dir)) >= 1.0f)
+             if (Math::Abs(up.dot_product(dir)) >= 1.0f)
              {
                 // Use camera up
-                up = Vector3::UNIT_Z;
+                up = Vector3::unit_z;
              }
              Matrix3 rot = Math::lookRotation(dir, up);
 
@@ -155,12 +155,12 @@ namespace Ogre
             dir = (pos - target); // backwards since point down -z
             dir.normalise();
 
-            Vector3 up = Vector3::UNIT_Y;
+            Vector3 up = Vector3::unit_y;
             // Check it's not coincident with dir
-            if (Math::Abs(up.dotProduct(dir)) >= 1.0f)
+            if (Math::Abs(up.dot_product(dir)) >= 1.0f)
             {
                 // Use camera up
-                up = Vector3::UNIT_Z;
+                up = Vector3::unit_z;
             }
             texCam->getParentNode()->setOrientation(Math::lookRotation(dir, up));
             // keep position set by ShadowRenderer::prepareShadowTextures

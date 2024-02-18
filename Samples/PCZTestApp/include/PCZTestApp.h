@@ -85,7 +85,7 @@ public:
         corners[1] = aabb.getMaximum();
         p->setCorner(0, corners[0]);
         p->setCorner(1, corners[1]);
-        p->setDirection(Ogre::Vector3::NEGATIVE_UNIT_Z); // this indicates an "inward" pointing normal
+        p->setDirection(Ogre::Vector3::negative_unit_z); // this indicates an "inward" pointing normal
         // associate the portal with the terrain's main node
         p->setNode(terrainZone->getEnclosureNode());
         // IMPORTANT: Update the derived values of the portal
@@ -101,7 +101,7 @@ public:
         corners[1] = aabb.getMaximum();
         p2->setCorner(0, corners[0]);
         p2->setCorner(1, corners[1]);
-        p2->setDirection(Ogre::Vector3::UNIT_Z); // this indicates an "outward" pointing normal
+        p2->setDirection(Ogre::Vector3::unit_z); // this indicates an "outward" pointing normal
         // associate the portal with the terrain's main node
         p2->setNode(terrainZone->getEnclosureNode());
         // IMPORTANT: Update the derived values of the portal
@@ -237,14 +237,14 @@ public:
         buildingNode = roomObj.createTestBuilding(mSceneMgr, String("1"));
         buildingNode->setPosition(500, 165, 570);
         //Ogre::Radian r = Radian(3.1416/7.0);
-        //buildingNode->rotate(Vector3::UNIT_Y, r);
+        //buildingNode->rotate(Vector3::unit_y, r);
 
         // create another test buildinig
         RoomObject roomObj2;
         buildingNode = roomObj2.createTestBuilding(mSceneMgr, String("2"));
         buildingNode->setPosition(400, 165, 570);
         //Ogre::Radian r = Radian(3.1416/7.0);
-        //buildingNode->rotate(Vector3::UNIT_Y, r);
+        //buildingNode->rotate(Vector3::unit_y, r);
 
         SceneNode* antiPortalNode1 = createAntiPortal("AntiPortal1");
         antiPortalNode1->setPosition(Vector3(450, 200, 800));
@@ -261,7 +261,7 @@ public:
 
         // create the ray scene query
         raySceneQuery = mSceneMgr->createRayQuery(
-            Ray(mCamera->getParentNode()->getPosition(), Vector3::NEGATIVE_UNIT_Z));
+            Ray(mCamera->getParentNode()->getPosition(), Vector3::negative_unit_z));
         raySceneQuery->setSortByDistance(true, 5);
 
     }
@@ -290,7 +290,7 @@ public:
         // (takes furthest hit)
         static Ray updateRay;
         updateRay.setOrigin(mCamera->getParentSceneNode()->getPosition());
-        updateRay.setDirection(mCamera->getParentSceneNode()->getOrientation()*Vector3::NEGATIVE_UNIT_Z);
+        updateRay.setDirection(mCamera->getParentSceneNode()->getOrientation()*Vector3::negative_unit_z);
         raySceneQuery->setRay(updateRay);
         PCZone * zone = ((PCZSceneNode*)(mCamera->getParentSceneNode()))->getHomeZone();
         ((PCZRaySceneQuery*)raySceneQuery)->setStartZone(zone);

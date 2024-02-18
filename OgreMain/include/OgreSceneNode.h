@@ -339,7 +339,7 @@ namespace Ogre {
             rotate Initial rotation relative to parent
         */
         virtual SceneNode* createChildSceneNode(
-            const Vector3& translate = Vector3::ZERO, 
+            const Vector3& translate = Vector3::zero, 
             const Quaternion& rotate = Quaternion::IDENTITY );
 
         /** Creates a new named SceneNode as a child of this node.
@@ -352,7 +352,7 @@ namespace Ogre {
             @param
                 rotate Initial rotation relative to parent
         */
-        virtual SceneNode* createChildSceneNode(const String& name, const Vector3& translate = Vector3::ZERO, const Quaternion& rotate = Quaternion::IDENTITY);
+        virtual SceneNode* createChildSceneNode(const String& name, const Vector3& translate = Vector3::zero, const Quaternion& rotate = Quaternion::IDENTITY);
 
         /** Allows retrieval of the nearest lights to the centre of this SceneNode.
 
@@ -386,7 +386,7 @@ namespace Ogre {
         @param
         fixedAxis The axis to use if the first parameter is true.
         */
-        void setFixedYawAxis( bool useFixed, const Vector3& fixedAxis = Vector3::UNIT_Y );
+        void setFixedYawAxis( bool useFixed, const Vector3& fixedAxis = Vector3::unit_y );
 
         /** Rotate the node around the Y-axis.
         */
@@ -403,11 +403,11 @@ namespace Ogre {
         */
         void setDirection(Real x, Real y, Real z,
             TransformSpace relativeTo = TS_PARENT,
-            const Vector3& localDirectionVector = Vector3::NEGATIVE_UNIT_Z);
+            const Vector3& localDirectionVector = Vector3::negative_unit_z);
 
         /// @overload
         void setDirection(const Vector3& vec, TransformSpace relativeTo = TS_PARENT,
-            const Vector3& localDirectionVector = Vector3::NEGATIVE_UNIT_Z);
+            const Vector3& localDirectionVector = Vector3::negative_unit_z);
         /** Points the local -Z direction of this node at a point in space.
         @param targetPoint A vector specifying the look at point.
         @param relativeTo The space in which the point resides
@@ -415,7 +415,7 @@ namespace Ogre {
         direction of the node, usually -Z
         */
         void lookAt( const Vector3& targetPoint, TransformSpace relativeTo,
-            const Vector3& localDirectionVector = Vector3::NEGATIVE_UNIT_Z);
+            const Vector3& localDirectionVector = Vector3::negative_unit_z);
         /** Enables / disables automatic tracking of another SceneNode.
 
         If you enable auto-tracking, this SceneNode will automatically rotate to
@@ -435,8 +435,8 @@ namespace Ogre {
         instead of the origin of the target node. Good for fine tuning the look at point.
         */
         void setAutoTracking(bool enabled, SceneNode* const target = 0,
-            const Vector3& localDirectionVector = Vector3::NEGATIVE_UNIT_Z,
-            const Vector3& offset = Vector3::ZERO);
+            const Vector3& localDirectionVector = Vector3::negative_unit_z,
+            const Vector3& offset = Vector3::zero);
         /** Get the auto tracking target for this node, if any. */
         SceneNode* getAutoTrackTarget(void) const { return mAutoTrackTarget; }
         /** Get the auto tracking offset for this node, if the node is auto tracking. */

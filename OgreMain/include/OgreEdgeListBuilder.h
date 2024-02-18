@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreRenderOperation.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

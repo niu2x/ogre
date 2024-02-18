@@ -223,8 +223,8 @@ namespace Ogre
         Vector3 mndistance = ( twoMin - scenter );
         Vector3 mxdistance = ( twoMax - scenter );
 
-        if ( mndistance.squaredLength() < sradius &&
-                mxdistance.squaredLength() < sradius )
+        if ( mndistance.squared_length() < sradius &&
+                mxdistance.squared_length() < sradius )
         {
             return INSIDE;
         }
@@ -284,9 +284,9 @@ namespace Ogre
     */
     void Octree::_getChildIndexes( const AxisAlignedBox &box, int *x, int *y, int *z ) const
     {
-        Vector3 center = mBox.getMaximum().midPoint( mBox.getMinimum() );
+        Vector3 center = mBox.getMaximum().mid_point( mBox.getMinimum() );
 
-        Vector3 ncenter = box.getMaximum().midPoint( box.getMinimum() );
+        Vector3 ncenter = box.getMaximum().mid_point( box.getMinimum() );
 
         if ( ncenter.x > center.x )
             * x = 1;

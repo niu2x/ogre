@@ -72,7 +72,7 @@ namespace Ogre
                 if(data->mUseVertexNormals){
                     if(v->normal.x != (*pNormalOut)[0]){
                         v->normal += Vector3(*pNormalOut);
-                        if(v->normal.isZeroLength()){
+                        if(v->normal.is_zero()){
                             v->normal = Vector3(1.0, 0.0, 0.0);
                         }
                         v->normal.normalise();

@@ -1,2 +1,2 @@
-#include "OgreVector.h"
+#include "vector.h"
 #pragma message( __FILE__ " is deprecated, migrate to Ogre.h")

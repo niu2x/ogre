@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreStringInterface.h"
 #include "OgreMovableObject.h"
 #include "OgreResourceGroupManager.h"

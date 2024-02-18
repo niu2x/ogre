@@ -31,12 +31,12 @@ namespace Ogre {
 namespace Volume {
 
     Vector3 CSGCubeSource::mBoxNormals[6] = {
-        Vector3::UNIT_X,
-        Vector3::UNIT_Y,
-        Vector3::UNIT_Z,
-        Vector3::NEGATIVE_UNIT_X,
-        Vector3::NEGATIVE_UNIT_Y,
-        Vector3::NEGATIVE_UNIT_Z
+        Vector3::unit_x,
+        Vector3::unit_y,
+        Vector3::unit_z,
+        Vector3::negative_unit_x,
+        Vector3::negative_unit_y,
+        Vector3::negative_unit_z
     };
     
     //-----------------------------------------------------------------------
@@ -69,7 +69,7 @@ namespace Volume {
     
     //-----------------------------------------------------------------------
 
-    CSGPlaneSource::CSGPlaneSource(const Real d, const Vector3 &normal) : mD(d), mNormal(normal.normalisedCopy())
+    CSGPlaneSource::CSGPlaneSource(const Real d, const Vector3 &normal) : mD(d), mNormal(normal.normalised_copy())
     {
     }
     
@@ -82,7 +82,7 @@ namespace Volume {
             mNormal.x,
             mNormal.y,
             mNormal.z,
-            mD - mNormal.dotProduct(position)
+            mD - mNormal.dot_product(position)
             );
     }
     
@@ -91,7 +91,7 @@ namespace Volume {
     Real CSGPlaneSource::getValue(const Vector3 &position) const
     {
         // Lineare Algebra: Ein geometrischer Zugang, S.180-181
-        return mD - mNormal.dotProduct(position);
+        return mD - mNormal.dot_product(position);
     }
     
     //-----------------------------------------------------------------------

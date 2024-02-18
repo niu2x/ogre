@@ -28,7 +28,7 @@ THE SOFTWARE.
 #define _ShaderParameter_
 
 #include "OgreShaderPrerequisites.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreMatrix4.h"
 #include "OgreGpuProgramParams.h"
 

@@ -820,17 +820,17 @@ namespace Ogre {
                 Radian angle;
                 deltaTransform.rotate.ToAngleAxis(angle, axis);
                 deltaTransform.isIdentity =
-                    deltaTransform.translate.positionEquals(Vector3::ZERO, tolerance) &&
-                    deltaTransform.scale.positionEquals(Vector3::UNIT_SCALE, tolerance) &&
+                    deltaTransform.translate.position_equals(Vector3::zero, tolerance) &&
+                    deltaTransform.scale.position_equals(Vector3::unit_scale, tolerance) &&
                     Math::RealEqual(angle.valueRadians(), 0.0f, tolerance);
             }
             else
             {
                 // New bone, the delta-transform is identity
 
-                deltaTransform.translate = Vector3::ZERO;
+                deltaTransform.translate = Vector3::zero;
                 deltaTransform.rotate = Quaternion::IDENTITY;
-                deltaTransform.scale = Vector3::UNIT_SCALE;
+                deltaTransform.scale = Vector3::unit_scale;
                 deltaTransform.isIdentity = true;
             }
         }

@@ -227,7 +227,7 @@ void lwLayer::calculateVertexNormals(void)
                 innerpolygon = point->polygons[ g ];
                 if ( innerpolygon == outerpolygon ) continue;
                 if ( outerpolygon->smoothgrp != innerpolygon->smoothgrp ) continue;
-                a = (float)acos( outerpolygon->normal.dotProduct(innerpolygon->normal) );
+                a = (float)acos( outerpolygon->normal.dot_product(innerpolygon->normal) );
                 if ( a > outerpolygon->surface->smooth ) continue;
                 vertex->normal += innerpolygon->normal;
             }

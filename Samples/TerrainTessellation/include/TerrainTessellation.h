@@ -90,7 +90,7 @@ public:
             Vector3 camPos = mCamera->getPosition();
             Ray ray;
             ray.setOrigin(Vector3(camPos.x, mTerrainPos.y + 10000, camPos.z));
-            ray.setDirection(Vector3::NEGATIVE_UNIT_Y);
+            ray.setDirection(Vector3::negative_unit_y);
 
             TerrainGroup::RayResult rayResult = mTerrainGroup->rayIntersects(ray);
             const Real distanceAboveTerrain = 50;
@@ -211,7 +211,7 @@ protected:
         mCamera->setFOVy(Ogre::Degree(50.0));
         mCamera->setFOVy(Ogre::Degree(50.0));
         mCamera->setNearClipDistance(0.01f);
-        mCamera->lookAt(Ogre::Vector3::ZERO);
+        mCamera->lookAt(Ogre::Vector3::zero);
         mCameraNode->setPosition(0, 0, 500);
         mCameraMan->setTopSpeed(100);
 

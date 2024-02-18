@@ -64,7 +64,7 @@ namespace Ogre
 
                     // Dot old and new face normal
                     // If < 0 then more than 90 degree difference
-                    if (newNormal.dotProduct(triangle->normal) < 0.0f) {
+                    if (newNormal.dot_product(triangle->normal) < 0.0f) {
                         // Don't do it!
                         return LodData::NEVER_COLLAPSE_COST;
                     }
@@ -106,7 +106,7 @@ namespace Ogre
                         // This time, the nearer the dot is to -1, the better, because that means
                         // the edges are opposite each other, therefore less kinkiness
                         // Scale into [0..1]
-                        Real kinkiness = otherBorderEdge.dotProduct(collapseEdge);
+                        Real kinkiness = otherBorderEdge.dot_product(collapseEdge);
                         cost = std::max<Real>(cost, kinkiness);
                     }
                 }
@@ -131,7 +131,7 @@ namespace Ogre
                     if (triangle2->hasVertex(dst)) {
 
                         // Dot product of face normal gives a good delta angle
-                        Real dotprod = triangle->normal.dotProduct(triangle2->normal);
+                        Real dotprod = triangle->normal.dot_product(triangle2->normal);
                         // NB we do (1-..) to invert curvature where 1 is high curvature [0..1]
                         // Whilst dot product is high when angle difference is low
                         mincurv = std::max<Real>(mincurv, dotprod);
@@ -177,7 +177,7 @@ namespace Ogre
             }
         }
 
-        Real diff = src->normal.dotProduct(dst->normal) / 8.0f;
+        Real diff = src->normal.dot_product(dst->normal) / 8.0f;
         Real dist = src->position.distance(dst->position);
         cost = cost * dist;
         if(data->mUseVertexNormals){
@@ -189,8 +189,8 @@ namespace Ogre
                 LodData::Vertex* neighbor = it->dst;
                 Real beforeDist = neighbor->position.distance(src->position);
                 Real afterDist = neighbor->position.distance(dst->position);
-                Real beforeDot = neighbor->normal.dotProduct(src->normal);
-                Real afterDot = neighbor->normal.dotProduct(dst->normal);
+                Real beforeDot = neighbor->normal.dot_product(src->normal);
+                Real afterDot = neighbor->normal.dot_product(dst->normal);
                 normalCost = std::max<Real>(normalCost, std::max<Real>(diff, std::abs(beforeDot - afterDot)) *
                     std::max<Real>(afterDist/8.0f, std::max<Real>(dist, std::abs(beforeDist - afterDist))));
             }

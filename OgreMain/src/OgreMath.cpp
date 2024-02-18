@@ -210,14 +210,14 @@ namespace Ogre
 
         // Note we don't care about normalisation here since sign is all we need
         // It means we don't have to worry about magnitude of cross products either
-        dot[0] = v1.crossProduct(v2);
+        dot[0] = v1.cross_product(v2);
         zeroDot[0] = Math::RealEqual(dot[0], 0.0f, 1e-3);
 
 
         v1 = c - b;
         v2 = p - b;
 
-        dot[1] = v1.crossProduct(v2);
+        dot[1] = v1.cross_product(v2);
         zeroDot[1] = Math::RealEqual(dot[1], 0.0f, 1e-3);
 
         // Compare signs (ignore colinear / coincident points)
@@ -230,7 +230,7 @@ namespace Ogre
         v1 = a - c;
         v2 = p - c;
 
-        dot[2] = v1.crossProduct(v2);
+        dot[2] = v1.cross_product(v2);
         zeroDot[2] = Math::RealEqual(dot[2], 0.0f, 1e-3);
         // Compare signs (ignore colinear / coincident points)
         if((!zeroDot[0] && !zeroDot[2] 
@@ -258,14 +258,14 @@ namespace Ogre
 
         // Note we don't care about normalisation here since sign is all we need
         // It means we don't have to worry about magnitude of cross products either
-        dot[0] = v1.crossProduct(v2).dotProduct(normal);
+        dot[0] = v1.cross_product(v2).dot_product(normal);
         zeroDot[0] = Math::RealEqual(dot[0], 0.0f, 1e-3);
 
 
         v1 = c - b;
         v2 = p - b;
 
-        dot[1] = v1.crossProduct(v2).dotProduct(normal);
+        dot[1] = v1.cross_product(v2).dot_product(normal);
         zeroDot[1] = Math::RealEqual(dot[1], 0.0f, 1e-3);
 
         // Compare signs (ignore colinear / coincident points)
@@ -278,7 +278,7 @@ namespace Ogre
         v1 = a - c;
         v2 = p - c;
 
-        dot[2] = v1.crossProduct(v2).dotProduct(normal);
+        dot[2] = v1.cross_product(v2).dot_product(normal);
         zeroDot[2] = Math::RealEqual(dot[2], 0.0f, 1e-3);
         // Compare signs (ignore colinear / coincident points)
         if((!zeroDot[0] && !zeroDot[2] 
@@ -581,8 +581,8 @@ namespace Ogre
         const Real EPSILON = 1e-6f;
         Vector3 E1 = b - a;
         Vector3 E2 = c - a;
-        Vector3 P = ray.getDirection().crossProduct(E2);
-        Real det = E1.dotProduct(P);
+        Vector3 P = ray.getDirection().cross_product(E2);
+        Real det = E1.dot_product(P);
 
         // if determinant is near zero, ray lies in plane of triangle
         if((!positiveSide || det <= EPSILON) && (!negativeSide || det >= -EPSILON))
@@ -591,18 +591,18 @@ namespace Ogre
 
         // calculate u parameter and test bounds
         Vector3 T = ray.getOrigin() - a;
-        Real u = T.dotProduct(P) * inv_det;
+        Real u = T.dot_product(P) * inv_det;
         if(u < 0.0f || u > 1.0f)
             return {false, (Real)0};
 
         // calculate v parameter and test bounds
-        Vector3 Q = T.crossProduct(E1);
-        Real v = ray.getDirection().dotProduct(Q) * inv_det;
+        Vector3 Q = T.cross_product(E1);
+        Real v = ray.getDirection().dot_product(Q) * inv_det;
         if (v < 0.0f || u + v > 1.0f)
             return {false, (Real)0};
 
         // calculate t, ray intersects triangle
-        Real t = E2.dotProduct(Q) * inv_det;
+        Real t = E2.dot_product(Q) * inv_det;
         if (t < 0.0f)
             return {false, (Real)0};
 
@@ -648,7 +648,7 @@ namespace Ogre
         Vector3 side0 = position1 - position2;
         Vector3 side1 = position3 - position1;
         //Calculate face normal
-        Vector3 normal = side1.crossProduct(side0);
+        Vector3 normal = side1.cross_product(side0);
         normal.normalise();
         //Now we use a formula to calculate the tangent. 
         Real deltaV0 = v1 - v2;
@@ -666,8 +666,8 @@ namespace Ogre
         //then we need to reverse the s and t tangents. 
         //This is because the triangle has been mirrored when going from tangent space to object space.
         //reverse tangents if necessary
-        Vector3 tangentCross = tangent.crossProduct(binormal);
-        if (tangentCross.dotProduct(normal) < 0.0f)
+        Vector3 tangentCross = tangent.cross_product(binormal);
+        if (tangentCross.dot_product(normal) < 0.0f)
         {
             tangent = -tangent;
             binormal = -binormal;
@@ -771,9 +771,9 @@ namespace Ogre
         const Vector3& min = aabb.getMinimum();
 
         Vector3 magnitude = max;
-        magnitude.makeCeil(-max);
-        magnitude.makeCeil(min);
-        magnitude.makeCeil(-min);
+        magnitude.make_ceil(-max);
+        magnitude.make_ceil(min);
+        magnitude.make_ceil(-min);
 
         return magnitude.length();
     }

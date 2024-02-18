@@ -131,7 +131,7 @@ protected:
         mCamera->setFOVy(Ogre::Degree(50.0));
         mCamera->setFOVy(Ogre::Degree(50.0));
         mCamera->setNearClipDistance(0.01f);
-        mCameraNode->lookAt(Ogre::Vector3::ZERO, Ogre::Node::TS_PARENT);
+        mCameraNode->lookAt(Ogre::Vector3::zero, Ogre::Node::TS_PARENT);
         mCameraNode->setPosition(0, 0, 500);
         
 
@@ -188,8 +188,8 @@ protected:
         mLightPivot1->setPosition(Vector3(200, 0, 0));
         mLightPivot2->setPosition(Vector3(-200, 0, 0));
 
-        mLightPivot1->setDirection(-Vector3::UNIT_X);        
-        mLightPivot2->setDirection(Vector3::UNIT_X);
+        mLightPivot1->setDirection(-Vector3::unit_x);        
+        mLightPivot2->setDirection(Vector3::unit_x);
 
         Light* l;
         BillboardSet* bbs;

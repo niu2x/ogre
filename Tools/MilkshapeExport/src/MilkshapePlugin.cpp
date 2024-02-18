@@ -417,14 +417,14 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
             if (first)
             {
                 min = max = currpos;
-                maxSquaredRadius = currpos.squaredLength();
+                maxSquaredRadius = currpos.squared_length();
                 first = false;
             }
             else
             {
-                min.makeFloor(currpos);
-                max.makeCeil(currpos);
-                maxSquaredRadius = std::max(maxSquaredRadius, currpos.squaredLength());
+                min.make_floor(currpos);
+                max.make_ceil(currpos);
+                maxSquaredRadius = std::max(maxSquaredRadius, currpos.squared_length());
             }
 
             int boneIdx = msVertex_GetBoneIndex(pVertex);
@@ -689,9 +689,9 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
         // Might we have Gimbal lock here? What order are these 3 angles supposed to be applied?
         // Grr, we'll try our best anyway...
         Ogre::Quaternion qx, qy, qz, qfinal;
-        qx.FromAngleAxis(Ogre::Radian(msBoneRot[0]), Ogre::Vector3::UNIT_X);
-        qy.FromAngleAxis(Ogre::Radian(msBoneRot[1]), Ogre::Vector3::UNIT_Y);
-        qz.FromAngleAxis(Ogre::Radian(msBoneRot[2]), Ogre::Vector3::UNIT_Z);
+        qx.FromAngleAxis(Ogre::Radian(msBoneRot[0]), Ogre::Vector3::unit_x);
+        qy.FromAngleAxis(Ogre::Radian(msBoneRot[1]), Ogre::Vector3::unit_y);
+        qz.FromAngleAxis(Ogre::Radian(msBoneRot[2]), Ogre::Vector3::unit_z);
 
         // Assume rotate by x then y then z
         qfinal = qz * qy * qx;
@@ -1111,9 +1111,9 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
                     kfPos = ogrebone->getOrientation() * kfPos;
 
                     ogrekey->setTranslate(kfPos);
-                    qx.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[0]), Ogre::Vector3::UNIT_X);
-                    qy.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[1]), Ogre::Vector3::UNIT_Y);
-                    qz.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[2]), Ogre::Vector3::UNIT_Z);
+                    qx.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[0]), Ogre::Vector3::unit_x);
+                    qy.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[1]), Ogre::Vector3::unit_y);
+                    qz.FromAngleAxis(Ogre::Radian(currRotKey->Rotation[2]), Ogre::Vector3::unit_z);
                     kfQ = qz * qy * qx;
                     ogrekey->setRotation(kfQ);
 

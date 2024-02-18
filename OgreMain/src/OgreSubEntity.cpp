@@ -242,7 +242,7 @@ namespace Ogre {
             for (const Vector3& v : mSubMesh->extremityPoints)
             {
                 Vector3 diff = l2w * v - cp;
-                Real d = euclidean ? diff.squaredLength() : Math::Sqr(zAxis.dotProduct(diff));
+                Real d = euclidean ? diff.squared_length() : Math::Sqr(zAxis.dot_product(diff));
 
                 dist = std::min(d, dist);
             }

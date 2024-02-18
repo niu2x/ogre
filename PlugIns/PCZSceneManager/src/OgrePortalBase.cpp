@@ -40,7 +40,7 @@ PortalBase::PortalBase(const String& name, const PORTAL_TYPE type)
     mType(type),
     mCurrentHomeZone(0),
     mNewHomeZone(0),
-    mDirection(Vector3::UNIT_Z),
+    mDirection(Vector3::unit_z),
     mRadius(0.0),
     mLocalsUpToDate(false),
     mDerivedUpToDate(false),
@@ -178,13 +178,13 @@ void PortalBase::calcDirectionAndRadius(void) const
     case PORTAL_TYPE_QUAD:
         mDirection = Math::calculateBasicFaceNormal(mCorners[0], mCorners[1], mCorners[2]);
         // calculate local cp
-        mLocalCP = Vector3::ZERO;
+        mLocalCP = Vector3::zero;
         for (int i=0;i<4;i++)
         {
             mLocalCP += mCorners[i];
 
-            min.makeFloor(mCorners[i]);
-            max.makeCeil(mCorners[i]);
+            min.make_floor(mCorners[i]);
+            max.make_ceil(mCorners[i]);
         }
         mLocalCP *= 0.25f;
         // then calculate radius
@@ -194,7 +194,7 @@ void PortalBase::calcDirectionAndRadius(void) const
     case PORTAL_TYPE_AABB:
         // "direction" is is either pointed inward or outward and is set by user, not calculated.
         // calculate local cp
-        mLocalCP = Vector3::ZERO;
+        mLocalCP = Vector3::zero;
         for (int i=0;i<2;i++)
         {
             mLocalCP += mCorners[i];
@@ -409,7 +409,7 @@ void PortalBase::adjustNodeToMatch(SceneNode *node)
         // NOTE: UNIT_Z is the basis for our local direction
         // orient the node to match the direction
         Quaternion q;
-        q = Vector3::UNIT_Z.getRotationTo(mDirection);
+        q = Vector3::unit_z.rotation_to(mDirection);
         node->setOrientation(q);
     }
 
@@ -580,25 +580,25 @@ bool PortalBase::intersects(const Ray& ray )
                 Vector3 cross2, vect3, vect4;
                 vect1 = mDerivedCorners[1] - mDerivedCorners[0];
                 vect2 = isect - mDerivedCorners[0];
-                cross = vect1.crossProduct(vect2);
+                cross = vect1.cross_product(vect2);
                 vect3 = mDerivedCorners[2] - mDerivedCorners[1];
                 vect4 = isect - mDerivedCorners[1];
-                cross2 = vect3.crossProduct(vect4);
-                if (cross.dotProduct(cross2) < 0)
+                cross2 = vect3.cross_product(vect4);
+                if (cross.dot_product(cross2) < 0)
                 {
                     return false;
                 }
                 vect1 = mDerivedCorners[3] - mDerivedCorners[2];
                 vect2 = isect - mDerivedCorners[2];
-                cross = vect1.crossProduct(vect2);
-                if (cross.dotProduct(cross2) < 0)
+                cross = vect1.cross_product(vect2);
+                if (cross.dot_product(cross2) < 0)
                 {
                     return false;
                 }
                 vect1 = mDerivedCorners[0] - mDerivedCorners[3];
                 vect2 = isect - mDerivedCorners[3];
-                cross = vect1.crossProduct(vect2);
-                if (cross.dotProduct(cross2) < 0)
+                cross = vect1.cross_product(vect2);
+                if (cross.dot_product(cross2) < 0)
                 {
                     return false;
                 }
@@ -665,7 +665,7 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
                     // through a mouse hole" case)
                     Vector3 nodeHalfVector = pczsn->_getWorldAABB().getHalfSize();
                     Vector3 portalBox = Vector3(mDerivedRadius, mDerivedRadius, mDerivedRadius);
-                    portalBox.makeFloor(nodeHalfVector);
+                    portalBox.make_floor(nodeHalfVector);
                     if (portalBox.x < mDerivedRadius)
                     {
                         // crossing occurred!
@@ -705,7 +705,7 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
             aabb.setExtents(mDerivedCorners[0], mDerivedCorners[1]);
             //bool previousInside = aabb.contains(pczsn->getPrevPosition());
             bool currentInside = aabb.contains(pczsn->_getDerivedPosition());
-            if (mDirection == Vector3::UNIT_Z)
+            if (mDirection == Vector3::unit_z)
             {
                 // portal norm is "outward" pointing, look for going from outside to inside
                 //if (previousInside == false &&
@@ -744,10 +744,10 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
         {
             // for spheres we check if the center point went from being inside to being outside
             // the sphere surface (or vice versa) for crossing.  
-            //Real previousDistance2 = mPrevDerivedCP.squaredDistance(pczsn->getPrevPosition());
-            Real currentDistance2 = mDerivedCP.squaredDistance(pczsn->_getDerivedPosition());
+            //Real previousDistance2 = mPrevDerivedCP.squared_distance(pczsn->getPrevPosition());
+            Real currentDistance2 = mDerivedCP.squared_distance(pczsn->_getDerivedPosition());
             Real mDerivedRadius2 = mDerivedRadius * mDerivedRadius;
-            if (mDirection == Vector3::UNIT_Z)
+            if (mDirection == Vector3::unit_z)
             {
                 // portal norm is "outward" pointing, look for going from outside to inside 
                 //if (previousDistance2 >= mDerivedRadius2 &&
@@ -815,7 +815,7 @@ bool PortalBase::crossedPortal(const PortalBase* otherPortal)
                     aabb.setExtents(otherPortal->getDerivedCorner(0), otherPortal->getDerivedCorner(1));
                     //bool previousInside = aabb.contains(mPrevDerivedCP);
                     bool currentInside = aabb.contains(mDerivedCP);
-                    if (otherPortal->getDerivedDirection() == Vector3::UNIT_Z)
+                    if (otherPortal->getDerivedDirection() == Vector3::unit_z)
                     {
                         // portal norm is "outward" pointing, look for going from outside to inside
                         //if (previousInside == false &&
@@ -839,10 +839,10 @@ bool PortalBase::crossedPortal(const PortalBase* otherPortal)
                 {
                     // for spheres we check if the center point went from being inside to being outside
                     // the sphere surface (or vice versa) for crossing.  
-                    //Real previousDistance2 = mPrevDerivedCP.squaredDistance(otherPortal->getPrevDerivedCP());
-                    Real currentDistance2 = mDerivedCP.squaredDistance(otherPortal->getDerivedCP());
+                    //Real previousDistance2 = mPrevDerivedCP.squared_distance(otherPortal->getPrevDerivedCP());
+                    Real currentDistance2 = mDerivedCP.squared_distance(otherPortal->getDerivedCP());
                     Real mDerivedRadius2 = Math::Sqr(otherPortal->getDerivedRadius());
-                    if (otherPortal->getDerivedDirection() == Vector3::UNIT_Z)
+                    if (otherPortal->getDerivedDirection() == Vector3::unit_z)
                     {
                         // portal norm is "outward" pointing, look for going from outside to inside 
                         //if (previousDistance2 >= mDerivedRadius2 &&

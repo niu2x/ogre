@@ -447,7 +447,7 @@ namespace Ogre {
     {
         if (vertexData->vertexCount == 0) {
             if (!extendOnly) {
-                outAABB = AxisAlignedBox(Vector3::ZERO, Vector3::ZERO);
+                outAABB = AxisAlignedBox(Vector3::zero, Vector3::zero);
                 outRadius = 0;
             }
             return;
@@ -473,9 +473,9 @@ namespace Ogre {
             float* pFloat;
             elemPos->baseVertexPointerToElement(vertex, &pFloat);
             Vector3 pos(pFloat[0], pFloat[1], pFloat[2]);
-            outAABB.getMinimum().makeFloor(pos);
-            outAABB.getMaximum().makeCeil(pos);
-            radiusSqr = std::max<Real>(radiusSqr, pos.squaredLength());
+            outAABB.getMinimum().make_floor(pos);
+            outAABB.getMaximum().make_ceil(pos);
+            radiusSqr = std::max<Real>(radiusSqr, pos.squared_length());
         }
         outRadius = std::sqrt(radiusSqr);
     }
@@ -943,7 +943,7 @@ namespace Ogre {
     static Real distLineSegToPoint( const Vector3& line0, const Vector3& line1, const Vector3& pt )
     {
         Vector3 v01 = line1 - line0;
-        Real tt = v01.dotProduct( pt - line0 ) / std::max( v01.dotProduct(v01), std::numeric_limits<Real>::epsilon() );
+        Real tt = v01.dot_product( pt - line0 ) / std::max( v01.dot_product(v01), std::numeric_limits<Real>::epsilon() );
         tt = Math::Clamp( tt, Real(0.0f), Real(1.0f) );
         Vector3 onLine = line0 + tt * v01;
         return pt.distance( onLine );

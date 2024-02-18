@@ -223,7 +223,7 @@ namespace Ogre {
         // Quaternion orientation           : orientation of this bone relative to parent 
         writeObject(pBone->getOrientation());
         // Vector3 scale                    : scale of this bone relative to parent 
-        if (pBone->getScale() != Vector3::UNIT_SCALE)
+        if (pBone->getScale() != Vector3::unit_scale)
         {
             writeObject(pBone->getScale());
         }
@@ -316,7 +316,7 @@ namespace Ogre {
         // Vector3 translate            : Translation to apply at this keyframe
         writeObject(key->getTranslate());
         // Vector3 scale                : Scale to apply at this keyframe
-        if (key->getScale() != Vector3::UNIT_SCALE)
+        if (key->getScale() != Vector3::unit_scale)
         {
             writeObject(key->getScale());
         }
@@ -328,7 +328,7 @@ namespace Ogre {
         size_t size = calcBoneSizeWithoutScale(pSkel, pBone);
 
         // scale
-        if (pBone->getScale() != Vector3::UNIT_SCALE)
+        if (pBone->getScale() != Vector3::unit_scale)
         {
             size += sizeof(float) * 3;
         }
@@ -423,7 +423,7 @@ namespace Ogre {
         size_t size = calcKeyFrameSizeWithoutScale(pSkel, pKey);
 
         // Vector3 scale                : Scale to apply at this keyframe
-        if (pKey->getScale() != Vector3::UNIT_SCALE)
+        if (pKey->getScale() != Vector3::unit_scale)
         {
             size += sizeof(float) * 3;
         }

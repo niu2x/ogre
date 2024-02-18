@@ -67,7 +67,7 @@ namespace Ogre {
         mRadius(0.0f),
         mTexCoordDir(TCD_U),
         mFaceCamera(true),
-        mNormalBase(Vector3::UNIT_X),
+        mNormalBase(Vector3::unit_x),
         mVertexCameraUsed(0)
     {
         mVertexData = std::make_unique<VertexData>();
@@ -319,7 +319,7 @@ namespace Ogre {
     void BillboardChain::setFaceCamera( bool faceCamera, const Vector3 &normalVector )
     {
         mFaceCamera = faceCamera;
-        mNormalBase = normalVector.normalisedCopy();
+        mNormalBase = normalVector.normalised_copy();
         mVertexContentDirty = true;
     }
     //-----------------------------------------------------------------------
@@ -414,8 +414,8 @@ namespace Ogre {
             else
             {
                 mRadius = Math::Sqrt(
-                    std::max(mAABB.getMinimum().squaredLength(),
-                    mAABB.getMaximum().squaredLength()));
+                    std::max(mAABB.getMinimum().squared_length(),
+                    mAABB.getMaximum().squared_length()));
             }
 
             mBoundsDirty = false;
@@ -487,7 +487,7 @@ namespace Ogre {
                     else
                         vP1ToEye = elem.orientation * mNormalBase;
 
-                    Vector3 vPerpendicular = chainTangent.crossProduct(vP1ToEye);
+                    Vector3 vPerpendicular = chainTangent.cross_product(vP1ToEye);
                     vPerpendicular.normalise();
                     vPerpendicular *= (elem.width * 0.5f);
 
@@ -613,7 +613,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Real BillboardChain::getSquaredViewDepth(const Camera* cam) const
     {
-        return (cam->getDerivedPosition() - mAABB.getCenter()).squaredLength();
+        return (cam->getDerivedPosition() - mAABB.getCenter()).squared_length();
     }
     //-----------------------------------------------------------------------
     Real BillboardChain::getBoundingRadius(void) const

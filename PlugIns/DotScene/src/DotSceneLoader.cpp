@@ -296,7 +296,7 @@ void DotSceneLoader::processTerrainGroup(pugi::xml_node& XMLNode)
     terrainGlobalOptions->setCompositeMapDistance((Real)compositeMapDistance);
 
     auto terrainGroup = std::make_shared<TerrainGroup>(mSceneMgr, Terrain::ALIGN_X_Z, mapSize, worldSize);
-    terrainGroup->setOrigin(Vector3::ZERO);
+    terrainGroup->setOrigin(Vector3::zero);
     terrainGroup->setResourceGroup(m_sGroupName);
 
     // Process terrain pages (*)
@@ -546,7 +546,7 @@ void DotSceneLoader::processLookTarget(pugi::xml_node& XMLNode, SceneNode* pPare
         position = parseVector3(pElement);
 
     // Process localDirection (?)
-    Vector3 localDirection = Vector3::NEGATIVE_UNIT_Z;
+    Vector3 localDirection = Vector3::negative_unit_z;
     if (auto pElement = XMLNode.child("localDirection"))
         localDirection = parseVector3(pElement);
 
@@ -575,12 +575,12 @@ void DotSceneLoader::processTrackTarget(pugi::xml_node& XMLNode, SceneNode* pPar
     LogManager::getSingleton().log_message("[DotSceneLoader] Processing Track Target, nodeName: " + nodeName, LogMsgLevel::TRIVIAL);
 
     // Process localDirection (?)
-    Vector3 localDirection = Vector3::NEGATIVE_UNIT_Z;
+    Vector3 localDirection = Vector3::negative_unit_z;
     if (auto pElement = XMLNode.child("localDirection"))
         localDirection = parseVector3(pElement);
 
     // Process offset (?)
-    Vector3 offset = Vector3::ZERO;
+    Vector3 offset = Vector3::zero;
     if (auto pElement = XMLNode.child("offset"))
         offset = parseVector3(pElement);
 

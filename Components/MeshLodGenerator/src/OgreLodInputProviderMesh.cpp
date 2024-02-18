@@ -114,7 +114,7 @@ namespace Ogre
                         v->normal.x += pFloat[0];
                         v->normal.y += pFloat[1];
                         v->normal.z += pFloat[2];
-                        if(v->normal.isZeroLength()){
+                        if(v->normal.is_zero()){
                             v->normal = Vector3(1.0, 0.0, 0.0);
                         }
                         v->normal.normalise();

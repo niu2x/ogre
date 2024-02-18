@@ -49,7 +49,7 @@ protected:
             emitter->setTimeToLive(0.5);
             emitter->setEmissionRate(25);
             emitter->setParticleVelocity(25);
-            emitter->setDirection(Vector3::NEGATIVE_UNIT_Z);
+            emitter->setDirection(Vector3::negative_unit_z);
             emitter->setColour(ColourValue::White, ColourValue::Red);
             emitter->setPosition(Vector3(i == 0 ? 5.7 : -18, 0, 0));
         }

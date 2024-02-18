@@ -51,10 +51,10 @@ namespace Ogre
                 mFrameAnimationLastUpdated(std::numeric_limits<unsigned long>::max() - 1),
                 mSharedTransformEntity( 0 ),
                 mTransformLookupNumber(instanceID),
-                mPosition(Vector3::ZERO),
-                mDerivedLocalPosition(Vector3::ZERO),
+                mPosition(Vector3::zero),
+                mDerivedLocalPosition(Vector3::zero),
                 mOrientation(Quaternion::IDENTITY),
-                mScale(Vector3::UNIT_SCALE),
+                mScale(Vector3::unit_scale),
                 mMaxScaleLocal(1),
                 mNeedTransformUpdate(true),
                 mNeedAnimTransformUpdate(true),
@@ -353,7 +353,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     Real InstancedEntity::getSquaredViewDepth( const Camera* cam ) const
     {
-        return _getDerivedPosition().squaredDistance(cam->getDerivedPosition());
+        return _getDerivedPosition().squared_distance(cam->getDerivedPosition());
     }
     //-----------------------------------------------------------------------
     void InstancedEntity::_notifyMoved(void)

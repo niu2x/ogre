@@ -93,7 +93,7 @@ Ogre::Vector3 mLightPositions[NUM_LIGHTS] =
 // Base orientations of the lights
 Ogre::Real mLightRotationAngles[NUM_LIGHTS] = { 35 };
 Ogre::Vector3 mLightRotationAxes[NUM_LIGHTS] = {
-    Ogre::Vector3::UNIT_X
+    Ogre::Vector3::unit_x
 };
 // Rotation speed for lights, degrees per second
 Ogre::Real mLightSpeeds[NUM_LIGHTS] = { 30};
@@ -220,12 +220,12 @@ void Sample_Ocean::setupScene()
 
     // Define a plane mesh that will be used for the ocean surface
     Ogre::Plane oceanSurface;
-    oceanSurface.normal = Ogre::Vector3::UNIT_Y;
+    oceanSurface.normal = Ogre::Vector3::unit_y;
     oceanSurface.d = 20;
     Ogre::MeshManager::getSingleton().createPlane("OceanSurface",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         oceanSurface,
-        1000, 1000, 50, 50, true, 1, 1, 1, Ogre::Vector3::UNIT_Z);
+        1000, 1000, 50, 50, true, 1, 1, 1, Ogre::Vector3::unit_z);
 
     mOceanSurfaceEnt = mSceneMgr->createEntity( "OceanSurface", "OceanSurface" );
     mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(mOceanSurfaceEnt);

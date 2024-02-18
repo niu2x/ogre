@@ -48,8 +48,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     Grid3DPageStrategyData::Grid3DPageStrategyData()
         : PageStrategyData()
-        , mWorldOrigin(Vector3::ZERO)
-        , mOrigin(Vector3::ZERO)
+        , mWorldOrigin(Vector3::zero)
+        , mOrigin(Vector3::zero)
         , mCellSize(1000,1000,1000)
         , mLoadRadius(2000)
         , mHoldRadius(3000)

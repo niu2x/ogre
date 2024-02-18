@@ -94,7 +94,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     TerrainGlobalOptions::TerrainGlobalOptions()
         : mSkirtSize(30)
-        , mLightMapDir(Vector3(1, -1, 0).normalisedCopy())
+        , mLightMapDir(Vector3(1, -1, 0).normalised_copy())
         , mCastsShadows(false)
         , mMaxPixelError(3.0)
         , mRenderQueueGroup(RENDER_QUEUE_MAIN)
@@ -146,7 +146,7 @@ namespace Ogre
         , mSize(0)
         , mMaxBatchSize(0)
         , mMinBatchSize(0)
-        , mPos(Vector3::ZERO)
+        , mPos(Vector3::zero)
         , mQuadTree(0)
         , mNumLodLevels(0)
         , mNumLodLevelsPerLeafNode(0)
@@ -2332,7 +2332,7 @@ namespace Ogre
         int xDir = (rayDirection.x < 0 ? -1 : 1);
         int zDir = (rayDirection.z < 0 ? -1 : 1);
 
-        Result result(true, Vector3::ZERO);
+        Result result(true, Vector3::zero);
         Real dummyHighValue = (Real)mSize * 10000.0f;
 
 
@@ -3158,7 +3158,7 @@ namespace Ogre
         {
             for (int x = widenedRect.left; x < widenedRect.right; ++x)
             {
-                Vector3 cumulativeNormal = Vector3::ZERO;
+                Vector3 cumulativeNormal = Vector3::zero;
 
                 // Build points to sample
                 Vector3 centrePoint;
@@ -3246,16 +3246,16 @@ namespace Ogre
         switch(getAlignment())
         {
         case ALIGN_X_Y:
-            p.redefine(Vector3::UNIT_Z, Vector3(0, 0, vec.z < 0.0 ? minHeight : maxHeight));
+            p.redefine(Vector3::unit_z, Vector3(0, 0, vec.z < 0.0 ? minHeight : maxHeight));
             break;
         case ALIGN_X_Z:
-            p.redefine(Vector3::UNIT_Y, Vector3(0, vec.y < 0.0 ? minHeight : maxHeight, 0));
+            p.redefine(Vector3::unit_y, Vector3(0, vec.y < 0.0 ? minHeight : maxHeight, 0));
             break;
         case ALIGN_Y_Z:
-            p.redefine(Vector3::UNIT_X, Vector3(vec.x < 0.0 ? minHeight : maxHeight, 0, 0));
+            p.redefine(Vector3::unit_x, Vector3(vec.x < 0.0 ? minHeight : maxHeight, 0, 0));
             break;
         }
-        float verticalVal = vec.dotProduct(p.normal);
+        float verticalVal = vec.dot_product(p.normal);
 
         if (Math::RealEqual(verticalVal, 0.0))
             return;
@@ -3340,7 +3340,7 @@ namespace Ogre
 
                 // get world space point
                 // add a little height padding to stop shadowing self
-                Vector3 wpos = Vector3::ZERO;
+                Vector3 wpos = Vector3::zero;
                 getPosition(Tx, Ty, getHeightAtTerrainPosition(Tx, Ty) + heightPad, &wpos);
                 wpos += getPosition();
                 // build ray, cast backwards along light direction
@@ -3924,7 +3924,7 @@ namespace Ogre
             Terrain* neighbour = getNeighbour(ni);
             if (neighbour)
             {
-                Vector3 neighbourPos = Vector3::ZERO;
+                Vector3 neighbourPos = Vector3::zero;
                 neighbour->getPoint(nx, ny, &neighbourPos);
                 // adjust to make it relative to our position
                 *outpos = neighbourPos + neighbour->getPosition() - getPosition();
@@ -4007,25 +4007,25 @@ namespace Ogre
         std::pair<bool, Real> intersectResult;
         if (tDir.x < 0.0f)
         {
-            intersectResult = Math::intersects(terrainRay, Plane(Vector3::UNIT_X, Vector3::ZERO));
+            intersectResult = Math::intersects(terrainRay, Plane(Vector3::unit_x, Vector3::zero));
             if (intersectResult.first && intersectResult.second < dist)
                 dist = intersectResult.second;
         }
         else if (tDir.x > 0.0f)
         {
-            intersectResult = Math::intersects(terrainRay, Plane(Vector3::NEGATIVE_UNIT_X, Vector3(1,0,0)));
+            intersectResult = Math::intersects(terrainRay, Plane(Vector3::negative_unit_x, Vector3(1,0,0)));
             if (intersectResult.first && intersectResult.second < dist)
                 dist = intersectResult.second;
         }
         if (tDir.y < 0.0f)
         {
-            intersectResult = Math::intersects(terrainRay, Plane(Vector3::UNIT_Y, Vector3::ZERO));
+            intersectResult = Math::intersects(terrainRay, Plane(Vector3::unit_y, Vector3::zero));
             if (intersectResult.first && intersectResult.second < dist)
                 dist = intersectResult.second;
         }
         else if (tDir.y > 0.0f)
         {
-            intersectResult = Math::intersects(terrainRay, Plane(Vector3::NEGATIVE_UNIT_Y, Vector3(0,1,0)));
+            intersectResult = Math::intersects(terrainRay, Plane(Vector3::negative_unit_y, Vector3(0,1,0)));
             if (intersectResult.first && intersectResult.second < dist)
                 dist = intersectResult.second;
         }

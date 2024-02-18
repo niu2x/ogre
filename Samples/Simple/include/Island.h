@@ -108,7 +108,7 @@ protected:
         mCamera->setFOVy(Ogre::Degree(50.0));
         mCamera->setFOVy(Ogre::Degree(50.0));
         mCamera->setNearClipDistance(0.01f);
-        mCamera->lookAt(Ogre::Vector3::ZERO);
+        mCamera->lookAt(Ogre::Vector3::zero);
         mCameraNode->setPosition(0, 0, 500);
         
 

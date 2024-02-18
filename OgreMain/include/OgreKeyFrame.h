@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __KeyFrame_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreQuaternion.h"
 #include "any.h"
 #include "OgreHardwareVertexBuffer.h"

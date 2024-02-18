@@ -239,8 +239,8 @@ void Sample_ShaderSystem::setupContent()
     mSceneMgr->setSkyBox(true, "Examples/SceneSkyBox2");
 
     MeshManager::getSingleton().createPlane("Myplane",
-        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::UNIT_Y, 0),
-        1500,1500,25,25,true,1,60,60,Vector3::UNIT_Z);
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::unit_y, 0),
+        1500,1500,25,25,true,1,60,60,Vector3::unit_z);
 
     Entity* pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
     pPlaneEnt->setMaterialName("Examples/Rockwall");
@@ -717,7 +717,7 @@ void Sample_ShaderSystem::createSpotLight()
     light->setSpecularColour(0.5, 0.5, 0.5);    
     light->setAttenuation(1000.0, 1.0, 0.0005, 0.0);
 
-    auto ln = mCameraNode->createChildSceneNode(Vector3::UNIT_Y * 20);
+    auto ln = mCameraNode->createChildSceneNode(Vector3::unit_y * 20);
     ln->attachObject(light);
 }
 

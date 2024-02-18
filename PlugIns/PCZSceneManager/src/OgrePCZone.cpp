@@ -80,7 +80,7 @@ namespace Ogre
             portal2 = *pi2;
             //portal2->updateDerivedValues();
             if (portal2->getTargetZone() == 0 && portal2->closeTo(portal) &&
-                portal2->getDerivedDirection().dotProduct(portal->getDerivedDirection()) < -0.9)
+                portal2->getDerivedDirection().dot_product(portal->getDerivedDirection()) < -0.9)
             {
                 // found a match!
                 return portal2;

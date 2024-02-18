@@ -1214,7 +1214,7 @@ namespace Ogre
             if (transform != VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
             {
                 auto angle = Degree(90) * (transform - 1);
-                dest = Matrix4(Quaternion(angle, Vector3::UNIT_Z)) * dest;
+                dest = Matrix4(Quaternion(angle, Vector3::unit_z)) * dest;
             }
         }
 

@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef __Ogre_Volume_GridSource_H__
 #define __Ogre_Volume_GridSource_H__
 
-#include "OgreVector.h"
+#include "vector.h"
 
 #include "OgreVolumePrerequisites.h"
 #include "OgreVolumeSource.h"

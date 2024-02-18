@@ -42,9 +42,9 @@ namespace Ogre {
         mUseMinPixelSize(false),
 #ifdef OGRE_NODELESS_POSITIONING
         mOrientation(Quaternion::IDENTITY),
-        mPosition(Vector3::ZERO),
+        mPosition(Vector3::zero),
         mAutoTrackTarget(0),
-        mAutoTrackOffset(Vector3::ZERO),
+        mAutoTrackOffset(Vector3::zero),
 #endif
         mSceneLodFactor(1.0f),
         mSceneLodFactorInv(1.0f),
@@ -65,7 +65,7 @@ namespace Ogre {
 
 #ifdef OGRE_NODELESS_POSITIONING
         mYawFixed = true; // Default to fixed yaw, like freelook since most people expect this
-        mYawFixedAxis = Vector3::UNIT_Y;
+        mYawFixedAxis = Vector3::unit_y;
 #endif
 
         invalidateFrustum();
@@ -164,7 +164,7 @@ namespace Ogre {
         // Do nothing if given a zero vector
         // (Replaced assert since this could happen with auto tracking camera and
         //  camera passes through the lookAt point)
-        if (vec == Vector3::ZERO) return;
+        if (vec == Vector3::zero) return;
 
         // Remember, camera points down -Z of local axes!
         // Therefore reverse direction of direction vector before determining local Z
@@ -185,7 +185,7 @@ namespace Ogre {
             updateView();
             mRealOrientation.ToAxes(axes);
             Quaternion rotQuat;
-            if ( (axes[2]+zAdjustVec).squaredLength() <  0.00005f) 
+            if ( (axes[2]+zAdjustVec).squared_length() <  0.00005f) 
             {
                 // Oops, a 180 degree turn (infinite possible rotation axes)
                 // Default to yaw i.e. use current UP
@@ -194,7 +194,7 @@ namespace Ogre {
             else
             {
                 // Derive shortest arc to new direction
-                rotQuat = axes[2].getRotationTo(zAdjustVec);
+                rotQuat = axes[2]rotation_to(zAdjustVec);
 
             }
             targetWorldOrientation = rotQuat * mRealOrientation;
@@ -222,19 +222,19 @@ namespace Ogre {
     Vector3 Camera::getDirection(void) const
     {
         // Direction points down -Z by default
-        return mOrientation * -Vector3::UNIT_Z;
+        return mOrientation * -Vector3::unit_z;
     }
 
     //-----------------------------------------------------------------------
     Vector3 Camera::getUp(void) const
     {
-        return mOrientation * Vector3::UNIT_Y;
+        return mOrientation * Vector3::unit_y;
     }
 
     //-----------------------------------------------------------------------
     Vector3 Camera::getRight(void) const
     {
-        return mOrientation * Vector3::UNIT_X;
+        return mOrientation * Vector3::unit_x;
     }
 
     //-----------------------------------------------------------------------
@@ -259,7 +259,7 @@ namespace Ogre {
     void Camera::roll(const Radian& angle)
     {
         // Rotate around local Z axis
-        Vector3 zAxis = mOrientation * Vector3::UNIT_Z;
+        Vector3 zAxis = mOrientation * Vector3::unit_z;
         OGRE_IGNORE_DEPRECATED_BEGIN
         rotate(zAxis, angle);
         OGRE_IGNORE_DEPRECATED_END
@@ -280,7 +280,7 @@ namespace Ogre {
         else
         {
             // Rotate around local Y axis
-            yAxis = mOrientation * Vector3::UNIT_Y;
+            yAxis = mOrientation * Vector3::unit_y;
         }
 
         OGRE_IGNORE_DEPRECATED_BEGIN
@@ -294,7 +294,7 @@ namespace Ogre {
     void Camera::pitch(const Radian& angle)
     {
         // Rotate around local X axis
-        Vector3 xAxis = mOrientation * Vector3::UNIT_X;
+        Vector3 xAxis = mOrientation * Vector3::unit_x;
         OGRE_IGNORE_DEPRECATED_BEGIN
         rotate(xAxis, angle);
         OGRE_IGNORE_DEPRECATED_END
@@ -441,7 +441,7 @@ namespace Ogre {
                 Vector3 dir = -mRealOrientation.zAxis();
                 Vector3 rdir = dir.reflect(mReflectPlane.normal);
                 Vector3 up = mRealOrientation.yAxis();
-                mDerivedOrientation = dir.getRotationTo(rdir, up) * mRealOrientation;
+                mDerivedOrientation = dir.rotation_to(rdir, up) * mRealOrientation;
 
                 // Calculate reflected position.
                 mDerivedPosition = mReflectMatrix * mRealPosition;
@@ -620,7 +620,7 @@ namespace Ogre {
         // Direction points down -Z
         updateView();
 #ifdef OGRE_NODELESS_POSITIONING
-        return mRealOrientation * Vector3::NEGATIVE_UNIT_Z;
+        return mRealOrientation * Vector3::negative_unit_z;
 #else
         return -mLastParentOrientation.zAxis();
 #endif
@@ -630,7 +630,7 @@ namespace Ogre {
     {
         updateView();
 #ifdef OGRE_NODELESS_POSITIONING
-        return mRealOrientation * Vector3::UNIT_Y;
+        return mRealOrientation * Vector3::unit_y;
 #else
         return mLastParentOrientation.yAxis();
 #endif
@@ -640,7 +640,7 @@ namespace Ogre {
     {
         updateView();
 #ifdef OGRE_NODELESS_POSITIONING
-        return mRealOrientation * Vector3::UNIT_X;
+        return mRealOrientation * Vector3::unit_x;
 #else
         return mLastParentOrientation.xAxis();
 #endif
@@ -739,25 +739,25 @@ namespace Ogre {
 
             Vector3 normal;
             // top plane
-            normal = ul.getDirection().crossProduct(ur.getDirection());
+            normal = ul.getDirection().cross_product(ur.getDirection());
             normal.normalise();
             outVolume->planes.push_back(
                 Plane(normal, getDerivedPosition()));
 
             // right plane
-            normal = ur.getDirection().crossProduct(br.getDirection());
+            normal = ur.getDirection().cross_product(br.getDirection());
             normal.normalise();
             outVolume->planes.push_back(
                 Plane(normal, getDerivedPosition()));
 
             // bottom plane
-            normal = br.getDirection().crossProduct(bl.getDirection());
+            normal = br.getDirection().cross_product(bl.getDirection());
             normal.normalise();
             outVolume->planes.push_back(
                 Plane(normal, getDerivedPosition()));
 
             // left plane
-            normal = bl.getDirection().crossProduct(ul.getDirection());
+            normal = bl.getDirection().cross_product(ul.getDirection());
             normal.normalise();
             outVolume->planes.push_back(
                 Plane(normal, getDerivedPosition()));
@@ -1115,7 +1115,7 @@ namespace Ogre {
             pval.normal *= -1.0;
             pval.d *= -1.0;
         }
-        Quaternion invPlaneRot = pval.normal.getRotationTo(Vector3::UNIT_Z);
+        Quaternion invPlaneRot = pval.normal.rotation_to(Vector3::unit_z);
 
         // get rotated light
         Vector3 lPos = invPlaneRot * getDerivedPosition();

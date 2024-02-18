@@ -126,7 +126,7 @@ public:
                 Position is calculated from an offset to the end position, and rotation is calculated
                 from how much the animation turns the character. */
 
-                Quaternion rot(Degree(-60), Vector3::UNIT_Y);   // how much the animation turns the character
+                Quaternion rot(Degree(-60), Vector3::unit_y);   // how much the animation turns the character
 
                 // find current end position and the offset
                 Vector3 currEnd = mModelNodes[i]->getOrientation() * mSneakEndPos + mModelNodes[i]->getPosition();
@@ -210,7 +210,7 @@ protected:
 
         // create a floor mesh resource
         MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            Plane(Vector3::UNIT_Y, -1), 250, 250, 25, 25, true, 1, 15, 15, Vector3::UNIT_Z);
+            Plane(Vector3::unit_y, -1), 250, 250, 25, 25, true, 1, 15, 15, Vector3::unit_z);
 
         // add a floor to our scene using the floor mesh we created
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");

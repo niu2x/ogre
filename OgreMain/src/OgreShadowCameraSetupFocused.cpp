@@ -184,7 +184,7 @@ namespace Ogre
 
         // deal with Y-only vectors
         return Math::RealEqual(projectionDir.length(), 0.0) ? 
-            Vector3::NEGATIVE_UNIT_Z : projectionDir.normalisedCopy();
+            Vector3::negative_unit_z : projectionDir.normalised_copy();
     }
     //-----------------------------------------------------------------------
     Vector3 FocusedShadowCameraSetup::getNearCameraPoint_ws(const Affine3& viewMatrix,
@@ -306,7 +306,7 @@ namespace Ogre
         // - position is the origin
         // - the view direction is the calculated viewDir
         // - the up vector is the y-axis
-        LProj = Matrix4(Math::lookRotation(-viewDir, Vector3::UNIT_Y).transpose()) * LProj;
+        LProj = Matrix4(Math::lookRotation(-viewDir, Vector3::unit_y).transpose()) * LProj;
 
         // map bodyB to unit cube
         LProj = transformToUnitCube(LProj * LView, mPointListBodyB) * LProj;
@@ -368,7 +368,7 @@ namespace Ogre
 
                     for(auto & v : mBodyPoints)
                     {
-                        if (vInsert.positionEquals(v))
+                        if (vInsert.position_equals(v))
                         {
                             bPresent = true;
                             break;

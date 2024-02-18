@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <memory>
 
 #include "OgreException.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreVulkanMappings.h"
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreVulkanUtils.h"

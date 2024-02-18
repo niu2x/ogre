@@ -30,7 +30,7 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
         const Real start = 30;
         const Real range = 145;
         const Real speed = 1;
-        const Vector3 vec = Vector3(1,0.3,0).normalisedCopy();
+        const Vector3 vec = Vector3(1,0.3,0).normalised_copy();
         totalTime += evt.timeSinceLastFrame;
         Quaternion orient = Quaternion(Degree(start + Ogre::Math::Sin(totalTime * speed) * range), vec);
         ent->getSkeleton()->getBone("Bone02")->setOrientation(orient);
@@ -89,13 +89,13 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
         Vector3 pos(30, 70, 40);
         auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode(pos);
         ln->attachObject(l);
-        ln->setDirection(-pos.normalisedCopy());
+        ln->setDirection(-pos.normalised_copy());
         l->setDiffuseColour(1, 1, 1);
         bbs->createBillboard(pos)->setColour(l->getDiffuseColour());
 
         // Create a floor mesh resource.
         MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                                Plane(Vector3::UNIT_Y, -1), 250, 250, 25, 25, true, 1, 15, 15, Vector3::UNIT_Z);
+                                                Plane(Vector3::unit_y, -1), 250, 250, 25, 25, true, 1, 15, 15, Vector3::unit_z);
 
         // Add a floor to our scene using the floor mesh we created.
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");

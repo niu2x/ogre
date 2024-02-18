@@ -336,7 +336,7 @@ namespace Ogre {
             The axis to use if the first parameter is true.
         @deprecated attach to SceneNode and use SceneNode::yaw(angle, Node::TS_PARENT)
         */
-        OGRE_DEPRECATED void setFixedYawAxis( bool useFixed, const Vector3& fixedAxis = Vector3::UNIT_Y );
+        OGRE_DEPRECATED void setFixedYawAxis( bool useFixed, const Vector3& fixedAxis = Vector3::unit_y );
 
 
         /** Returns the camera's current orientation.
@@ -378,7 +378,7 @@ namespace Ogre {
         @deprecated attach to SceneNode and use SceneNode::setAutoTracking
         */
         OGRE_DEPRECATED void setAutoTracking(bool enabled, SceneNode* const target = 0,
-            const Vector3& offset = Vector3::ZERO);
+            const Vector3& offset = Vector3::zero);
 
         const Vector3& getPositionForViewUpdate(void) const override;
         const Quaternion& getOrientationForViewUpdate(void) const override;

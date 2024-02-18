@@ -301,27 +301,27 @@ namespace Ogre
 
 
         // front
-        p.redefine(Vector3::UNIT_Z, max);
+        p.redefine(Vector3::unit_z, max);
         clip(p);
 
         // back
-        p.redefine(Vector3::NEGATIVE_UNIT_Z, min);
+        p.redefine(Vector3::negative_unit_z, min);
         clip(p);
         
         // left
-        p.redefine(Vector3::NEGATIVE_UNIT_X, min);
+        p.redefine(Vector3::negative_unit_x, min);
         clip(p);
         
         // right
-        p.redefine(Vector3::UNIT_X, max);
+        p.redefine(Vector3::unit_x, max);
         clip(p);
         
         // bottom
-        p.redefine(Vector3::NEGATIVE_UNIT_Y, min);
+        p.redefine(Vector3::negative_unit_y, min);
         clip(p);
         
         // top
-        p.redefine(Vector3::UNIT_Y, max);
+        p.redefine(Vector3::unit_y, max);
         clip(p);
 
     }
@@ -376,7 +376,7 @@ namespace Ogre
             ptDir.normalise();
 
             // remove polygon if dot product is greater or equals null.
-            if ( normal.dotProduct( ptDir ) >= 0 )
+            if ( normal.dot_product( ptDir ) >= 0 )
             {
                 // store edges (copy them because if the polygon is deleted
                 // its vertices are also deleted)
@@ -410,8 +410,8 @@ namespace Ogre
             // iterate from itStart+1 to the element before the last one
             for ( ; it != edgeMap.end(); ++it )
             {   
-                if (itStart->first.positionEquals(it->second) &&
-                     itStart->second.positionEquals(it->first))
+                if (itStart->first.position_equals(it->second) &&
+                     itStart->second.position_equals(it->first))
                 {
                     edgeMap.erase(it);
                     // increment itStart before deletion (iterator invalidation)
@@ -504,7 +504,7 @@ namespace Ogre
                 const Vector3& n2 = getNormal( iPolyB );
 
                 // if the normals point into the same direction
-                if ( n1.directionEquals( n2, Radian( Degree( 0.00001 ) ) )  )
+                if ( n1.direction_equals( n2, Radian( Degree( 0.00001 ) ) )  )
                 {
                     // indicates if a neighbor has been found and joined
                     bool bFound = false;
@@ -523,8 +523,8 @@ namespace Ogre
 
                             // if the edge is the same the current vertex of A has to be equal to the next of B and the other
                             // way round
-                            if ( aCurrent.positionEquals(bNext) &&
-                                 bCurrent.positionEquals(aNext))
+                            if ( aCurrent.position_equals(bNext) &&
+                                 bCurrent.position_equals(aNext))
                             {
                                 // polygons are neighbors, assemble new one
                                 Polygon *pNew = allocatePolygon();
@@ -562,7 +562,7 @@ namespace Ogre
                                     const Vector3& b = pNew->getVertex( (i + 1) % pNew->getVertexCount() );
 
                                     // if the two vertices are the same...
-                                    if (a.positionEquals(b))
+                                    if (a.position_equals(b))
                                     {
                                         // remove a
                                         pNew->deleteVertex( i );
@@ -855,8 +855,8 @@ namespace Ogre
 
             for ( ; it != itEnd; ++it )
             {
-                if (itStart->first.positionEquals(it->second) &&
-                     itStart->second.positionEquals(it->first))
+                if (itStart->first.position_equals(it->second) &&
+                     itStart->second.position_equals(it->first))
                 {
                     // erase itStart and it
                     edgeMap.erase( it );
@@ -889,7 +889,7 @@ namespace Ogre
 
             for ( size_t iVertex = 0; iVertex < numVertices; ++iVertex )
             {
-                poly->insertVertex( Vector3::ZERO );
+                poly->insertVertex( Vector3::zero );
             }
 
             mPolygons.push_back( poly );
@@ -1093,8 +1093,8 @@ namespace Ogre
             {
                 // detect the orientation
                 // the polygon must have the same normal direction as the plane and then n
-                Vector3 vCross = ( vFirst - vSecond ).crossProduct( vNext - vSecond );
-                bool frontside = ( pl.normal ).directionEquals( vCross, Degree( 1 ) );
+                Vector3 vCross = ( vFirst - vSecond ).cross_product( vNext - vSecond );
+                bool frontside = ( pl.normal ).direction_equals( vCross, Degree( 1 ) );
 
                 // first inserted vertex
                 Vector3 firstVertex;
@@ -1176,7 +1176,7 @@ namespace Ogre
         for (Polygon::EdgeMap::iterator it = intersectionEdges.begin(); 
             it != intersectionEdges.end(); ++it)
         {
-            if (it->first.positionEquals(vec))
+            if (it->first.position_equals(vec))
             {
                 vNext = it->second;
 
@@ -1185,7 +1185,7 @@ namespace Ogre
 
                 return true; // found!
             }
-            else if (it->second.positionEquals(vec))
+            else if (it->second.position_equals(vec))
             {
                 vNext = it->first;
 

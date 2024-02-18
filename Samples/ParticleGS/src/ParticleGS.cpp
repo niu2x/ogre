@@ -126,11 +126,11 @@ struct FireworkParticle
 
         // Add a plane to the scene.
         Plane plane;
-        plane.normal = Vector3::UNIT_Y;
+        plane.normal = Vector3::unit_y;
         plane.d = 100;
         MeshManager::getSingleton().createPlane("Myplane",
                                                 ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane,
-                                                1500,1500,20,20,true,1,60,60,Vector3::UNIT_Z);
+                                                1500,1500,20,20,true,1,60,60,Vector3::unit_z);
         Entity* pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
         pPlaneEnt->setMaterialName("Examples/Rockwall");
         pPlaneEnt->setCastShadows(false);

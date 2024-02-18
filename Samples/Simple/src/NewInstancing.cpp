@@ -159,7 +159,7 @@ void Sample_NewInstancing::setupContent()
 
     // create a mesh for our ground
     MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-        Plane(Vector3::UNIT_Y, 0), 10000, 10000, 20, 20, true, 1, 6, 6, Vector3::UNIT_Z);
+        Plane(Vector3::unit_y, 0), 10000, 10000, 20, 20, true, 1, 6, 6, Vector3::unit_z);
 
     // create a ground entity from our mesh and attach it to the origin
     Entity* ground = mSceneMgr->createEntity("Ground", "ground");
@@ -365,7 +365,7 @@ void Sample_NewInstancing::createInstancedEntities()
             if ((mInstancingTechnique < NUM_IM_TECHNIQUES) && (!mUseSceneNodes->isChecked()))
             {
                 mMovedInstances.push_back( ent );
-                ent->setOrientation(Quaternion(Radian(float(orng())/float(orng.max()) * 10 * Math::PI), Vector3::UNIT_Y));
+                ent->setOrientation(Quaternion(Radian(float(orng())/float(orng.max()) * 10 * Math::PI), Vector3::unit_y));
                 ent->setPosition( Ogre::Vector3(mEntities[0]->getBoundingRadius() * (i - NUM_INST_ROW * 0.5f), 0,
                     mEntities[0]->getBoundingRadius() * (j - NUM_INST_COLUMN * 0.5f)) );
             }
@@ -479,37 +479,37 @@ void Sample_NewInstancing::moveUnits( float timeSinceLast )
         {
             //Calculate bounces
             Vector3 entityPos = (*itor)->getPosition();
-            Vector3 planeNormal = Vector3::ZERO;
+            Vector3 planeNormal = Vector3::zero;
             if( (*itor)->getPosition().x < -5000.0f )
             {
-                planeNormal = Vector3::UNIT_X;
+                planeNormal = Vector3::unit_x;
                 entityPos.x = -4999.0f;
             }
             else if( (*itor)->getPosition().x > 5000.0f )
             {
-                planeNormal = Vector3::NEGATIVE_UNIT_X;
+                planeNormal = Vector3::negative_unit_x;
                 entityPos.x = 4999.0f;
             }
             else if( (*itor)->getPosition().z < -5000.0f )
             {
-                planeNormal = Vector3::UNIT_Z;
+                planeNormal = Vector3::unit_z;
                 entityPos.z = -4999.0f;
             }
             else if( (*itor)->getPosition().z > 5000.0f )
             {
-                planeNormal = Vector3::NEGATIVE_UNIT_Z;
+                planeNormal = Vector3::negative_unit_z;
                 entityPos.z = 4999.0f;
             }
 
-            if( planeNormal != Vector3::ZERO )
+            if( planeNormal != Vector3::zero )
             {
-                const Vector3 vDir( (*itor)->getOrientation().xAxis().normalisedCopy() );
+                const Vector3 vDir( (*itor)->getOrientation().xAxis().normalised_copy() );
                 (*itor)->setOrientation( lookAt( planeNormal.reflect( vDir ) ) );
                 (*itor)->setPosition( entityPos );
             }
 
             //Move along the direction we're looking to
-            (*itor)->translate( Vector3::UNIT_X * timeSinceLast * fMovSpeed, Node::TS_LOCAL );
+            (*itor)->translate( Vector3::unit_x * timeSinceLast * fMovSpeed, Node::TS_LOCAL );
             ++itor;
         }
     }
@@ -527,37 +527,37 @@ void Sample_NewInstancing::moveUnits( float timeSinceLast )
             //Calculate bounces
             InstancedEntity* pEnt = *itor;
             Vector3 entityPos = pEnt->getPosition();
-            Vector3 planeNormal = Vector3::ZERO;
+            Vector3 planeNormal = Vector3::zero;
             if( pEnt->getPosition().x < -5000.0f )
             {
-                planeNormal = Vector3::UNIT_X;
+                planeNormal = Vector3::unit_x;
                 entityPos.x = -4999.0f;
             }
             else if( pEnt->getPosition().x > 5000.0f )
             {
-                planeNormal = Vector3::NEGATIVE_UNIT_X;
+                planeNormal = Vector3::negative_unit_x;
                 entityPos.x = 4999.0f;
             }
             else if( pEnt->getPosition().z < -5000.0f )
             {
-                planeNormal = Vector3::UNIT_Z;
+                planeNormal = Vector3::unit_z;
                 entityPos.z = -4999.0f;
             }
             else if( pEnt->getPosition().z > 5000.0f )
             {
-                planeNormal = Vector3::NEGATIVE_UNIT_Z;
+                planeNormal = Vector3::negative_unit_z;
                 entityPos.z = 4999.0f;
             }
 
-            if( planeNormal != Vector3::ZERO )
+            if( planeNormal != Vector3::zero )
             {
-                const Vector3 vDir(pEnt->getOrientation().xAxis().normalisedCopy() );
+                const Vector3 vDir(pEnt->getOrientation().xAxis().normalised_copy() );
                 pEnt->setOrientation( lookAt( planeNormal.reflect( vDir ) ), false );
                 pEnt->setPosition( entityPos, false);
             }
 
             //Move along the direction we're looking to
-            Vector3 transAmount = Vector3::UNIT_X * timeSinceLast * fMovSpeed;
+            Vector3 transAmount = Vector3::unit_x * timeSinceLast * fMovSpeed;
             pEnt->setPosition( pEnt->getPosition() + pEnt->getOrientation() * transAmount );
             ++itor;
         }
@@ -567,7 +567,7 @@ void Sample_NewInstancing::moveUnits( float timeSinceLast )
 //------------------------------------------------------------------------------
 Quaternion Sample_NewInstancing::lookAt( const Vector3 &normDir )
 {
-    return Math::lookRotation(normDir.normalisedCopy(), Vector3::UNIT_Y);
+    return Math::lookRotation(normDir.normalised_copy(), Vector3::unit_y);
 }
 
 //------------------------------------------------------------------------------

@@ -33,10 +33,10 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Light::Light(const String& name) : MovableObject(name),
 #ifdef OGRE_NODELESS_POSITIONING
-        mPosition(Vector3::ZERO),
-        mDirection(Vector3::NEGATIVE_UNIT_Z),
-        mDerivedPosition(Vector3::ZERO),
-        mDerivedDirection(Vector3::NEGATIVE_UNIT_Z),
+        mPosition(Vector3::zero),
+        mDirection(Vector3::negative_unit_z),
+        mDerivedPosition(Vector3::zero),
+        mDerivedDirection(Vector3::negative_unit_z),
         mDerivedCamRelativeDirty(false),
         mDerivedTransformDirty(false),
 #endif
@@ -322,7 +322,7 @@ namespace Ogre {
         // use 4D vector so directional lights still work
         Vector4 eyeSpaceLight = cam->getViewMatrix() * lightPos;
         // Find distance to light, project onto -Z axis
-        Real d = eyeSpaceLight.dotProduct(
+        Real d = eyeSpaceLight.dot_product(
             Vector4(0, 0, -1, -n) );
         #define THRESHOLD 1e-6
         if (d > THRESHOLD || d < -THRESHOLD)
@@ -340,7 +340,7 @@ namespace Ogre {
                 lightDir = lightPos3 - (corner[i] * lightPos.w);
                 // Cross with anticlockwise corner, therefore normal points in
                 normal = (corner[i] - corner[(i+winding)%4])
-                    .crossProduct(lightDir);
+                    .cross_product(lightDir);
                 normal.normalise();
                 mNearClipVolume.planes.push_back(Plane(normal, corner[i]));
             }
@@ -368,8 +368,8 @@ namespace Ogre {
             // light is close to being on the near plane
             // degenerate volume including the entire scene 
             // we will always require light / dark caps
-            mNearClipVolume.planes.push_back(Plane(Vector3::UNIT_Z, -n));
-            mNearClipVolume.planes.push_back(Plane(-Vector3::UNIT_Z, n));
+            mNearClipVolume.planes.push_back(Plane(Vector3::unit_z, -n));
+            mNearClipVolume.planes.push_back(Plane(-Vector3::unit_z, n));
         }
 
         return mNearClipVolume;
@@ -413,7 +413,7 @@ namespace Ogre {
             const Plane& plane = cam->getFrustumPlane(n);
             Vector4 planeVec(plane.normal.x, plane.normal.y, plane.normal.z, plane.d);
             // planes face inwards, we need to know if light is on negative side
-            Real d = planeVec.dotProduct(lightPos);
+            Real d = planeVec.dot_product(lightPos);
             if (d < -1e-06)
             {
                 // Ok, this is a valid one
@@ -473,7 +473,7 @@ namespace Ogre {
                     lightDir = lightPos3 - (*(clockwiseVerts[i]) * lightPos.w);
                     Vector3 edgeDir = *(clockwiseVerts[(i+windingPt1)%4]) - *(clockwiseVerts[(i+windingPt0)%4]);
                     // Cross with anticlockwise corner, therefore normal points in
-                    normal = edgeDir.crossProduct(lightDir);
+                    normal = edgeDir.cross_product(lightDir);
                     normal.normalise();
                     vol.planes.push_back(Plane(normal, *(clockwiseVerts[i])));
                 }
@@ -512,7 +512,7 @@ namespace Ogre {
         else
         {
             tempSquareDist = 
-                (worldPos - getDerivedPosition()).squaredLength();
+                (worldPos - getDerivedPosition()).squared_length();
         }
 
     }
@@ -815,7 +815,7 @@ namespace Ogre {
                     Ogre::Radian halfLightSphereConeAngle = Math::ASin(container.getRadius() / lightSphereConeDirection.length());
 
                     //Check that the light cone and the light-position-to-sphere cone intersect)
-                    Radian angleBetweenConeDirections = lightSphereConeDirection.angleBetween(mDerivedDirection);
+                    Radian angleBetweenConeDirections = lightSphereConeDirection.angle_between(mDerivedDirection);
                     isIntersect = angleBetweenConeDirections <=  halfLightSphereConeAngle + mSpotOuter * 0.5;
                 }
             }
@@ -841,11 +841,11 @@ namespace Ogre {
             if ((isIntersect) && (mLightType == LT_SPOTLIGHT) && (mSpotOuter.valueRadians() <= Math::PI))
             {
                 //Create a rough bounding box around the light and check if
-                Quaternion localToWorld = Vector3::NEGATIVE_UNIT_Z.getRotationTo(mDerivedDirection);
+                Quaternion localToWorld = Vector3::negative_unit_z.rotation_to(mDerivedDirection);
 
                 Real boxOffset = Math::Sin(mSpotOuter * 0.5) * range;
                 AxisAlignedBox lightBoxBound;
-                lightBoxBound.merge(Vector3::ZERO);
+                lightBoxBound.merge(Vector3::zero);
                 lightBoxBound.merge(localToWorld * Vector3(boxOffset, boxOffset, -range));
                 lightBoxBound.merge(localToWorld * Vector3(-boxOffset, boxOffset, -range));
                 lightBoxBound.merge(localToWorld * Vector3(-boxOffset, -boxOffset, -range));

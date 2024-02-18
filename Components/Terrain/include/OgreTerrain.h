@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreTerrainPrerequisites.h"
 #include "OgreCommon.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreAxisAlignedBox.h"
 #include "OgreSceneManager.h"
 #include "OgreTerrainMaterialGenerator.h"
@@ -399,7 +399,7 @@ namespace Ogre
                 , terrainSize(1025)
                 , maxBatchSize(65)
                 , minBatchSize(17)
-                , pos(Vector3::ZERO)
+                , pos(Vector3::zero)
                 , worldSize(1000)
                 , inputImage(0)
                 , inputFloat(0)
@@ -416,7 +416,7 @@ namespace Ogre
                 , terrainSize(1025)
                 , maxBatchSize(65)
                 , minBatchSize(17)
-                , pos(Vector3::ZERO)
+                , pos(Vector3::zero)
                 , worldSize(1000)
                 , inputImage(0)
                 , inputFloat(0)

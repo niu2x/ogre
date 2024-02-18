@@ -54,7 +54,7 @@ void VolumeRenderable::_notifyCurrentCamera( Camera* cam )
 
     // Fake orientation toward camera
     Vector3 zVec = getParentNode()->_getDerivedPosition() - cam->getDerivedPosition();
-    mFakeOrientation = Math::lookRotation(zVec.normalisedCopy(), cam->getDerivedOrientation().yAxis());
+    mFakeOrientation = Math::lookRotation(zVec.normalised_copy(), cam->getDerivedOrientation().yAxis());
 
     Matrix3 tempMat;
     getParentNode()->_getDerivedOrientation().UnitInverse().ToRotationMatrix(tempMat);
@@ -216,6 +216,6 @@ Ogre::Real VolumeRenderable::getBoundingRadius() const
 }
 Ogre::Real VolumeRenderable::getSquaredViewDepth(const Ogre::Camera* cam) const
 {
-    return (cam->getDerivedPosition() - mBox.getCenter()).squaredLength();
+    return (cam->getDerivedPosition() - mBox.getCenter()).squared_length();
 }
 

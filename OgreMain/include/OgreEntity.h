@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include "OgreMovableObject.h"
 #include "OgreQuaternion.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreRenderable.h"
 #include "OgreResourceGroupManager.h"
@@ -571,7 +571,7 @@ namespace Ogre {
         TagPoint* attachObjectToBone(const String &boneName,
             MovableObject *pMovable,
             const Quaternion &offsetOrientation = Quaternion::IDENTITY,
-            const Vector3 &offsetPosition = Vector3::ZERO);
+            const Vector3 &offsetPosition = Vector3::zero);
 
         /** Detach a MovableObject previously attached using attachObjectToBone.
             If the movable object name is not found then an exception is raised.

@@ -40,7 +40,7 @@ namespace Ogre {
         OgreAssert(mNormalsMap.empty(),
                    "Inconsistent calls to addVertex, must include normals always or never");
 
-        if(offset.squaredLength() < 1e-6f)
+        if(offset.squared_length() < 1e-6f)
         {
             return;
         }
@@ -54,7 +54,7 @@ namespace Ogre {
         OgreAssert(mVertexOffsetMap.empty() || !mNormalsMap.empty(),
                    "Inconsistent calls to addVertex, must include normals always or never");
 
-        if(offset.squaredLength() < 1e-6f && normal.squaredLength() < 1e-6f)
+        if(offset.squared_length() < 1e-6f && normal.squared_length() < 1e-6f)
         {
             return;
         }

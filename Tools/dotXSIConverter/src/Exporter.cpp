@@ -31,11 +31,11 @@ SkeletonManager* skelMgr;
 
 //------------------------------------------------------------
 Exporter::UniqueVertex::UniqueVertex()
-    : initialized(false), position(Ogre::Vector3::ZERO), normal(Ogre::Vector3::ZERO), color(0),
+    : initialized(false), position(Ogre::Vector3::zero), normal(Ogre::Vector3::zero), color(0),
     nextIndex(0)
 {
     for (int i = 0; i < OGRE_MAX_TEXTURE_COORD_SETS; ++i)
-        uv[i] = Ogre::Vector2::ZERO;
+        uv[i] = Ogre::Vector2::zero;
 }
 
 //------------------------------------------------------------
@@ -218,15 +218,15 @@ void Exporter::exportSubMesh(Mesh *pMesh, CSLMesh* XSIMesh)
         Vector3 position = Vector3(srcPosArray[i].GetX(), srcPosArray[i].GetY(), srcPosArray[i].GetZ());
         if (first)
         {
-            squaredRadius = position.squaredLength();
+            squaredRadius = position.squared_length();
             min = max = position;
             first = false;
         }
         else
         {
-            squaredRadius = std::max(squaredRadius, position.squaredLength());
-            min.makeFloor(position);
-            max.makeCeil(position);
+            squaredRadius = std::max(squaredRadius, position.squared_length());
+            min.make_floor(position);
+            max.make_ceil(position);
         }
     }
     AxisAlignedBox box;
@@ -447,9 +447,9 @@ void Exporter::recurseBones(Skeleton* pSkel, CSLModel* XSIModel)
         // might be a better choice for conversion to quaternion.
         vec3d = XSIModel->Transform()->GetEulerRotation();
         Ogre::Quaternion qx, qy, qz, qfinal;
-        qx.FromAngleAxis(Ogre::Degree(vec3d.GetX()), Ogre::Vector3::UNIT_X);
-        qy.FromAngleAxis(Ogre::Degree(vec3d.GetY()), Ogre::Vector3::UNIT_Y);
-        qz.FromAngleAxis(Ogre::Degree(vec3d.GetZ()), Ogre::Vector3::UNIT_Z);
+        qx.FromAngleAxis(Ogre::Degree(vec3d.GetX()), Ogre::Vector3::unit_x);
+        qy.FromAngleAxis(Ogre::Degree(vec3d.GetY()), Ogre::Vector3::unit_y);
+        qz.FromAngleAxis(Ogre::Degree(vec3d.GetZ()), Ogre::Vector3::unit_z);
 
         // Assume rotate by x then y then z
         qfinal = qz * qy * qx;
@@ -539,9 +539,9 @@ void Exporter::exportAnim(Skeleton* pSkel, CSLModel* XSIModel)
                 Quaternion qx, qy, qz, kfQ;
                 ogrekey->setScale(kSca);
                 ogrekey->setTranslate(kPos);
-                qx.FromAngleAxis(Ogre::Radian(kfRot.GetX()), Vector3::UNIT_X);
-                qy.FromAngleAxis(Ogre::Radian(kfRot.GetY()), Vector3::UNIT_Y);
-                qz.FromAngleAxis(Ogre::Radian(kfRot.GetZ()), Vector3::UNIT_Z);
+                qx.FromAngleAxis(Ogre::Radian(kfRot.GetX()), Vector3::unit_x);
+                qy.FromAngleAxis(Ogre::Radian(kfRot.GetY()), Vector3::unit_y);
+                qz.FromAngleAxis(Ogre::Radian(kfRot.GetZ()), Vector3::unit_z);
                 kfQ = qz * qy * qx;
                 ogrekey->setRotation(kfQ);
             }

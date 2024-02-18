@@ -200,8 +200,8 @@ void SegmentedDynamicLightManager::calculateLightBounds(const Light* i_Light, Li
         spotBox.merge(flatPositionMin - flatDirectionPerp);
         spotBox.merge(lightPosition);
             
-        boundBox.getMaximum().makeFloor(spotBox.getMaximum());
-        boundBox.getMinimum().makeCeil(spotBox.getMinimum());
+        boundBox.getMaximum().make_floor(spotBox.getMaximum());
+        boundBox.getMinimum().make_ceil(spotBox.getMinimum());
     }
 
     o_LightData.setBounds(boundBox);

@@ -41,10 +41,10 @@ namespace Ogre {
         mNearDist(100.0f), 
         mAspect(1.33333333333333f), 
         mOrthoHeight(1000),
-        mFrustumOffset(Vector2::ZERO),
+        mFrustumOffset(Vector2::zero),
         mFocalLength(1.0f),
         mLastParentOrientation(Quaternion::IDENTITY),
-        mLastParentPosition(Vector3::ZERO),
+        mLastParentPosition(Vector3::zero),
         mRecalcFrustum(true), 
         mRecalcView(true), 
         mRecalcFrustumPlanes(true),
@@ -63,8 +63,8 @@ namespace Ogre {
         mParentNode = 0;
         mName = name;
 
-        mLastLinkedReflectionPlane.normal = Vector3::ZERO;
-        mLastLinkedObliqueProjPlane.normal = Vector3::ZERO;
+        mLastLinkedReflectionPlane.normal = Vector3::zero;
+        mLastLinkedObliqueProjPlane.normal = Vector3::zero;
 
         updateView();
         updateFrustum();
@@ -384,7 +384,7 @@ namespace Ogre {
 
                     // Calculate the scaled plane vector
                     Vector4 clipPlane4d(plane.normal.x, plane.normal.y, plane.normal.z, plane.d);
-                    Vector4 c = clipPlane4d * (2 / (clipPlane4d.dotProduct(qVec)));
+                    Vector4 c = clipPlane4d * (2 / (clipPlane4d.dot_product(qVec)));
 
                     // Replace the third row of the projection matrix
                     mProjMatrix[2][0] = c.x;
@@ -472,16 +472,16 @@ namespace Ogre {
             // Some custom projection matrices can have unusual inverted settings
             // So make sure the AABB is the right way around to start with
             Vector3 tmp = min;
-            min.makeFloor(max);
-            max.makeCeil(tmp);
+            min.make_floor(max);
+            max.make_ceil(tmp);
         }
 
         if (mProjType == PT_PERSPECTIVE)
         {
             // Merge with far plane bounds
             Real radio = farDist / mNearDist;
-            min.makeFloor(Vector3(left * radio, bottom * radio, -farDist));
-            max.makeCeil(Vector3(right * radio, top * radio, 0));
+            min.make_floor(Vector3(left * radio, bottom * radio, -farDist));
+            max.make_ceil(Vector3(right * radio, top * radio, 0));
         }
         mBoundingBox.setExtents(min, max);
 
@@ -819,7 +819,7 @@ namespace Ogre {
     {
         mReflect = false;
         mLinkedReflectPlane = 0;
-        mLastLinkedReflectionPlane.normal = Vector3::ZERO;
+        mLastLinkedReflectionPlane.normal = Vector3::zero;
         invalidateView();
     }
     //---------------------------------------------------------------------
@@ -844,7 +844,7 @@ namespace Ogre {
             Real rsq = r * r;
 
             // early-exit
-            if (eyeSpacePos.squaredLength() <= rsq)
+            if (eyeSpacePos.squared_length() <= rsq)
                 return false;
 
             Real Lxz = Math::Sqr(eyeSpacePos.x) + Math::Sqr(eyeSpacePos.z);

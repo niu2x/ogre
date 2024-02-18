@@ -68,7 +68,7 @@ void Sample_VolumeTerrain::setupContent(void)
 
     // Camera
     mCameraNode->setPosition((Real)3264, (Real)2700, (Real)3264);
-    mCameraNode->lookAt(Vector3::ZERO, Node::TS_PARENT);
+    mCameraNode->lookAt(Vector3::zero, Node::TS_PARENT);
     mCamera->setNearClipDistance((Real)0.5);
 
 }
@@ -156,7 +156,7 @@ void Sample_VolumeTerrain::shootRay(Ray ray, bool doUnion)
         
         mVolumeRoot->getChunkParameters()->updateFrom = intersection - radius * (Real)1.5;
         mVolumeRoot->getChunkParameters()->updateTo = intersection + radius * (Real)1.5;
-        mVolumeRoot->load(mVolumeRootNode, Vector3::ZERO, Vector3(384), 5, mVolumeRoot->getChunkParameters());
+        mVolumeRoot->load(mVolumeRootNode, Vector3::zero, Vector3(384), 5, mVolumeRoot->getChunkParameters());
         delete operation;
     }
 }

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __Common_H__
 // Common stuff
 
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreHeaderPrefix.h"
 #include "murmur_hash3.h"
 
@@ -308,13 +308,13 @@ namespace Ogre {
 
         /** Sort by direction of the camera
          *
-         * The distance along the camera view as in `cam->getDerivedDirection().dotProduct(diff)`
+         * The distance along the camera view as in `cam->getDerivedDirection().dot_product(diff)`
          * Best for @ref PT_ORTHOGRAPHIC
          */
         SM_DIRECTION,
         /** Sort by distance from the camera
          *
-         * The euclidean distance as in `diff.squaredLength()`
+         * The euclidean distance as in `diff.squared_length()`
          * Best for @ref PT_PERSPECTIVE
          */
         SM_DISTANCE

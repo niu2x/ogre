@@ -63,7 +63,7 @@ namespace Ogre
     ParticleEmitter::ParticleEmitter(ParticleSystem* psys)
       : mParent(psys),
         mUseDirPositionRef(false),
-        mDirPositionRef(Vector3::ZERO),
+        mDirPositionRef(Vector3::zero),
         mStartTime(0),
         mDurationMin(0),
         mDurationMax(0),
@@ -75,11 +75,11 @@ namespace Ogre
 
         // Reasonable defaults
         mAngle = 0;
-        setDirection(Vector3::UNIT_X);
+        setDirection(Vector3::unit_x);
         mEmissionRate = 10;
         mMaxSpeed = mMinSpeed = 1;
         mMaxTTL = mMinTTL = 5;
-        mPosition = Vector3::ZERO;
+        mPosition = Vector3::zero;
         mColourRangeStart = mColourRangeEnd = ColourValue::White;
         mEnabled = true;
         mRemainder = 0;
@@ -252,7 +252,7 @@ namespace Ogre
                 Radian angle(sampleSphereUniform(mAngle.valueRadians()));
 
                 // Randomise direction
-                destVector = particleDir.randomDeviant( angle );
+                destVector = particleDir.random_deviant( angle );
             }
             else
             {
@@ -268,7 +268,7 @@ namespace Ogre
                 Radian angle(sampleSphereUniform(mAngle.valueRadians()));
 
                 // Randomise direction
-                destVector = mDirection.randomDeviant(angle, mUp);
+                destVector = mDirection.random_deviant(angle, mUp);
             }
             else
             {

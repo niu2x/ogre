@@ -108,7 +108,7 @@ namespace Ogre {
         mRequiredIndexCount = (mMeshWidth-1) * (mMeshHeight-1) * 2 * iterations * 3;
 
         // Calculate bounds based on control points
-        Vector3 min = Vector3::ZERO, max = Vector3::UNIT_SCALE;
+        Vector3 min = Vector3::zero, max = Vector3::unit_scale;
         Real maxSqRadius = 0;
         bool first = true;
         for (const auto& ctli : mVecCtlPoints)
@@ -116,14 +116,14 @@ namespace Ogre {
             if (first)
             {
                 min = max = ctli;
-                maxSqRadius = ctli.squaredLength();
+                maxSqRadius = ctli.squared_length();
                 first = false;
             }
             else
             {
-                min.makeFloor(ctli);
-                max.makeCeil(ctli);
-                maxSqRadius = std::max(ctli.squaredLength(), maxSqRadius);
+                min.make_floor(ctli);
+                max.make_ceil(ctli);
+                maxSqRadius = std::max(ctli.squared_length(), maxSqRadius);
             }
         }
         mAABB.setExtents(min, max);
@@ -290,14 +290,14 @@ namespace Ogre {
         for(level=0; level<max_levels-1; level++)
         {
             // Subdivide the 2 lines
-            s = a.midPoint(b);
-            t = b.midPoint(c);
+            s = a.mid_point(b);
+            t = b.mid_point(c);
             // Find the midpoint between the 2 midpoints
-            c = s.midPoint(t);
+            c = s.mid_point(t);
             // Get the vector between this subdivided midpoint and the middle point of the original line
             d = c - b;
             // Find the squared length, and break when small enough
-            if(d.dotProduct(d) < test) {
+            if(d.dot_product(d) < test) {
                 break;
             }
             b=a; 
@@ -358,13 +358,13 @@ namespace Ogre {
             if (first)
             {
                 min = max = *i;
-                maxSquaredRadius = i->squaredLength();
+                maxSquaredRadius = i->squared_length();
             }
             else
             {
-                min.makeFloor(*i);
-                max.makeCeil(*i);
-                maxSquaredRadius = std::max(maxSquaredRadius, i->squaredLength());
+                min.make_floor(*i);
+                max.make_ceil(*i);
+                maxSquaredRadius = std::max(maxSquaredRadius, i->squared_length());
             }
 
         }

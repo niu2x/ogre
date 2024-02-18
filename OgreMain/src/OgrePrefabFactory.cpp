@@ -348,7 +348,7 @@ namespace Ogre {
                 *pVertex++ = y0;
                 *pVertex++ = z0;
 
-                Vector3 vNormal = Vector3(x0, y0, z0).normalisedCopy();
+                Vector3 vNormal = Vector3(x0, y0, z0).normalised_copy();
                 *pVertex++ = vNormal.x;
                 *pVertex++ = vNormal.y;
                 *pVertex++ = vNormal.z;
@@ -511,8 +511,8 @@ namespace Ogre {
         zAxis.normalise();
         yAxis = params.upVector;
         yAxis.normalise();
-        xAxis = yAxis.crossProduct(zAxis);
-        if (xAxis.squaredLength() == 0)
+        xAxis = yAxis.cross_product(zAxis);
+        if (xAxis.squared_length() == 0)
         {
             //upVector must be wrong
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "The upVector you supplied is parallel to the plane normal, so is not valid.");
@@ -562,7 +562,7 @@ namespace Ogre {
                 if (params.normals)
                 {
                     // Default normal is along unit Z
-                    vec = Vector3::UNIT_Z;
+                    vec = Vector3::unit_z;
                     // Rotate
                     vec = rot * vec;
 
@@ -637,8 +637,8 @@ namespace Ogre {
         zAxis.normalise();
         yAxis = params.upVector;
         yAxis.normalise();
-        xAxis = yAxis.crossProduct(zAxis);
-        if (xAxis.squaredLength() == 0)
+        xAxis = yAxis.cross_product(zAxis);
+        if (xAxis.squared_length() == 0)
         {
             //upVector must be wrong
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "The upVector you supplied is parallel to the plane normal, so is not valid.");
@@ -700,7 +700,7 @@ namespace Ogre {
                     //   so I'm not going to mess with it for now.
 
                     // Default normal is along unit Z
-                    //vec = Vector3::UNIT_Z;
+                    //vec = Vector3::unit_z;
                     // Rotate
                     vec = rot * vec;
                     vec.normalise();
@@ -781,8 +781,8 @@ namespace Ogre {
         zAxis.normalise();
         yAxis = params.upVector;
         yAxis.normalise();
-        xAxis = yAxis.crossProduct(zAxis);
-        if (xAxis.squaredLength() == 0)
+        xAxis = yAxis.cross_product(zAxis);
+        if (xAxis.squared_length() == 0)
         {
             //upVector must be wrong
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "The upVector you supplied is parallel to the plane normal, so is not valid.");
@@ -848,7 +848,7 @@ namespace Ogre {
                 if (params.normals)
                 {
                     // Default normal is along unit Z
-                    norm = Vector3::UNIT_Z;
+                    norm = Vector3::unit_z;
                     // Rotate
                     norm = params.orientation * norm;
 

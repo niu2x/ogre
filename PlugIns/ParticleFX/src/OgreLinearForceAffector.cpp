@@ -68,7 +68,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void LinearForceAffector::_affectParticles(ParticleSystem* pSystem, Real timeElapsed)
     {
-        Vector3 scaledVector = Vector3::ZERO;
+        Vector3 scaledVector = Vector3::zero;
 
         // Precalc scaled force for optimisation
         if (mForceApplication == FA_ADD)

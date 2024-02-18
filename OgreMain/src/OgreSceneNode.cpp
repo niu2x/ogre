@@ -449,7 +449,7 @@ namespace Ogre {
         }
         else
         {
-            rotate(Vector3::UNIT_Y, angle, relativeTo);
+            rotate(Vector3::unit_y, angle, relativeTo);
         }
 
     }
@@ -465,10 +465,10 @@ namespace Ogre {
         const Vector3& localDirectionVector)
     {
         // Do nothing if given a zero vector
-        if (vec == Vector3::ZERO) return;
+        if (vec == Vector3::zero) return;
 
         // The direction we want the local direction point to
-        Vector3 targetDir = vec.normalisedCopy();
+        Vector3 targetDir = vec.normalised_copy();
 
         // Transform target direction to world space
         switch (relativeTo)
@@ -504,7 +504,7 @@ namespace Ogre {
 
             Quaternion unitZToTarget = Math::lookRotation(targetDir, yawAxis);
 
-            if (localDirectionVector == Vector3::NEGATIVE_UNIT_Z)
+            if (localDirectionVector == Vector3::negative_unit_z)
             {
                 // Specail case for avoid calculate 180 degree turn
                 targetOrientation =
@@ -513,7 +513,7 @@ namespace Ogre {
             else
             {
                 // Calculate the quaternion for rotate local direction to target direction
-                Quaternion localToUnitZ = localDirectionVector.getRotationTo(Vector3::UNIT_Z);
+                Quaternion localToUnitZ = localDirectionVector.rotation_to(Vector3::unit_z);
                 targetOrientation = unitZToTarget * localToUnitZ;
             }
         }
@@ -524,7 +524,7 @@ namespace Ogre {
             // Get current local direction relative to world space
             Vector3 currentDir = currentOrient * localDirectionVector;
 
-            if ((currentDir+targetDir).squaredLength() < 0.00005f)
+            if ((currentDir+targetDir).squared_length() < 0.00005f)
             {
                 // Oops, a 180 degree turn (infinite possible rotation axes)
                 // Default to yaw i.e. use current UP
@@ -534,7 +534,7 @@ namespace Ogre {
             else
             {
                 // Derive shortest arc to new direction
-                Quaternion rotQuat = currentDir.getRotationTo(targetDir);
+                Quaternion rotQuat = currentDir.rotation_to(targetDir);
                 targetOrientation = rotQuat * currentOrient;
             }
         }
@@ -561,7 +561,7 @@ namespace Ogre {
             origin = getPosition();
             break;
         case TS_LOCAL:
-            origin = Vector3::ZERO;
+            origin = Vector3::zero;
             break;
         }
 

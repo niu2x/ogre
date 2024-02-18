@@ -259,9 +259,9 @@ Skeleton *Lwo2MeshWriter::doExportSkeleton(const String &skelName, int l)
         // Grr, we'll try our best anyway...
         Quaternion qx, qy, qz, qfinal;
 /*
-        qx.FromAngleAxis(msBoneRot[0], Vector3::UNIT_X);
-        qy.FromAngleAxis(msBoneRot[1], Vector3::UNIT_Y);
-        qz.FromAngleAxis(msBoneRot[2], Vector3::UNIT_Z);
+        qx.FromAngleAxis(msBoneRot[0], Vector3::unit_x);
+        qy.FromAngleAxis(msBoneRot[1], Vector3::unit_y);
+        qz.FromAngleAxis(msBoneRot[2], Vector3::unit_z);
 */
         // Assume rotate by x then y then z
         qfinal = qz * qy * qx;
@@ -652,12 +652,12 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
         {   
             ogreMesh = Ogre::MeshManager::getSingleton().create(ndest, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             ogreMesh->_setBounds(Ogre::AxisAlignedBox(currentMin, currentMax));
-            ogreMesh->_setBoundingSphereRadius(Ogre::Math::Sqrt(std::max(currentMin.squaredLength(), currentMax.squaredLength())));
+            ogreMesh->_setBoundingSphereRadius(Ogre::Math::Sqrt(std::max(currentMin.squared_length(), currentMax.squared_length())));
         }
         else
         {
-            boundingBoxMin.makeFloor(currentMin);
-            boundingBoxMax.makeCeil(currentMax);
+            boundingBoxMin.make_floor(currentMin);
+            boundingBoxMax.make_ceil(currentMax);
         }
         
         for (unsigned int s = 0; s < object->surfaces.size(); s++)
@@ -708,7 +708,7 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
         if (!SeparateLayers)
         {   
             ogreMesh->_setBounds(Ogre::AxisAlignedBox(boundingBoxMin, boundingBoxMax));
-            ogreMesh->_setBoundingSphereRadius(Ogre::Math::Sqrt(std::max(boundingBoxMin.squaredLength(), boundingBoxMax.squaredLength())));
+            ogreMesh->_setBoundingSphereRadius(Ogre::Math::Sqrt(std::max(boundingBoxMin.squared_length(), boundingBoxMax.squared_length())));
         }
         
         String fname = SeparateLayers ? makeLayerFileName(dest, ol, object->layers[ol]->name) : dest;

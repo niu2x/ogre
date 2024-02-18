@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreVulkanWindow.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 #include "OgreException.h"
 

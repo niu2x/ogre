@@ -239,7 +239,7 @@ namespace Ogre {
         unsigned char* vertex = static_cast<unsigned char*>(vbufLock.pData);
         float* pFloat;
 
-        Vector3 min = Vector3::ZERO, max = Vector3::UNIT_SCALE;
+        Vector3 min = Vector3::zero, max = Vector3::unit_scale;
         bool first = true;
 
         for(size_t j = 0; j < vertexData->vertexCount; ++j, vertex += vbuf->getVertexSize())
@@ -260,8 +260,8 @@ namespace Ogre {
             }
             else
             {
-                min.makeFloor(pt);
-                max.makeCeil(pt);
+                min.make_floor(pt);
+                max.make_ceil(pt);
             }
 
         }
@@ -887,7 +887,7 @@ namespace Ogre {
         Affine3 world2Obj = mParentNode->_getFullTransform().inverse();
         lightPos = world2Obj * lightPos;
         Matrix3 world2Obj3x3 = world2Obj.linear();
-        extrusionDistance *= Math::Sqrt(std::min(std::min(world2Obj3x3.GetColumn(0).squaredLength(), world2Obj3x3.GetColumn(1).squaredLength()), world2Obj3x3.GetColumn(2).squaredLength()));
+        extrusionDistance *= Math::Sqrt(std::min(std::min(world2Obj3x3.GetColumn(0).squared_length(), world2Obj3x3.GetColumn(1).squared_length()), world2Obj3x3.GetColumn(2).squared_length()));
 
         // per-LOD shadow lists & edge data
         mLodBucketList[mCurrentLod]->updateShadowRenderables(lightPos, indexBuffer,

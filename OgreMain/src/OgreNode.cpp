@@ -44,14 +44,14 @@ namespace Ogre {
         mInheritScale(true),
         mCachedTransformOutOfDate(true),
         mOrientation(Quaternion::IDENTITY),
-        mPosition(Vector3::ZERO),
-        mScale(Vector3::UNIT_SCALE),
+        mPosition(Vector3::zero),
+        mScale(Vector3::unit_scale),
         mDerivedOrientation(Quaternion::IDENTITY),
-        mDerivedPosition(Vector3::ZERO),
-        mDerivedScale(Vector3::UNIT_SCALE),
-        mInitialPosition(Vector3::ZERO),
+        mDerivedPosition(Vector3::zero),
+        mDerivedScale(Vector3::unit_scale),
+        mInitialPosition(Vector3::zero),
         mInitialOrientation(Quaternion::IDENTITY),
-        mInitialScale(Vector3::UNIT_SCALE),
+        mInitialScale(Vector3::unit_scale),
         mListener(0)
     {
         needUpdate();
@@ -133,9 +133,9 @@ namespace Ogre {
             {
                 const Affine3& parentTr = mParent->_getFullTransform();
                 Vector3 parentScale(
-                    parentTr.transformDirection(Vector3::UNIT_X).length(),
-                    parentTr.transformDirection(Vector3::UNIT_Y).length(),
-                    parentTr.transformDirection(Vector3::UNIT_Z).length());
+                    parentTr.transformDirection(Vector3::unit_x).length(),
+                    parentTr.transformDirection(Vector3::unit_y).length(),
+                    parentTr.transformDirection(Vector3::unit_z).length());
 
                 assert(mInheritOrientation ^ mInheritScale);
                 mCachedTransform = (mInheritOrientation ? Affine3::getScale(1.0f / parentScale)  * parentTr : Affine3::getScale(parentScale)) * tr;
@@ -670,7 +670,7 @@ namespace Ogre {
         Vector3 zAxis = cam->getDerivedDirection();
 
         // NB use squared length to avoid square root
-        return cam->getSortMode() == SM_DISTANCE ? diff.squaredLength() : Math::Sqr(zAxis.dotProduct(diff));
+        return cam->getSortMode() == SM_DISTANCE ? diff.squared_length() : Math::Sqr(zAxis.dot_product(diff));
     }
     //-----------------------------------------------------------------------
     void Node::needUpdate(bool forceParentUpdate)

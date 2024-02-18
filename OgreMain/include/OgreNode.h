@@ -397,21 +397,21 @@ namespace Ogre {
         */
         virtual void roll(const Radian& angle, TransformSpace relativeTo = TS_LOCAL)
         {
-            rotate(Quaternion(angle, Vector3::UNIT_Z), relativeTo);
+            rotate(Quaternion(angle, Vector3::unit_z), relativeTo);
         }
 
         /** Rotate the node around the X-axis.
         */
         virtual void pitch(const Radian& angle, TransformSpace relativeTo = TS_LOCAL)
         {
-            rotate(Quaternion(angle, Vector3::UNIT_X), relativeTo);
+            rotate(Quaternion(angle, Vector3::unit_x), relativeTo);
         }
 
         /** Rotate the node around the Y-axis.
         */
         virtual void yaw(const Radian& angle, TransformSpace relativeTo = TS_LOCAL)
         {
-            rotate(Quaternion(angle, Vector3::UNIT_Y), relativeTo);
+            rotate(Quaternion(angle, Vector3::unit_y), relativeTo);
         }
 
         /** Rotate the node around an arbitrary axis.
@@ -436,7 +436,7 @@ namespace Ogre {
             Initial rotation relative to parent
         */
         virtual Node* createChild(
-            const Vector3& translate = Vector3::ZERO, 
+            const Vector3& translate = Vector3::zero, 
             const Quaternion& rotate = Quaternion::IDENTITY );
 
         /** Creates a new named Node as a child of this node.
@@ -449,7 +449,7 @@ namespace Ogre {
         @param rotate
             Initial rotation relative to parent
         */
-        virtual Node* createChild(const String& name, const Vector3& translate = Vector3::ZERO, const Quaternion& rotate = Quaternion::IDENTITY);
+        virtual Node* createChild(const String& name, const Vector3& translate = Vector3::zero, const Quaternion& rotate = Quaternion::IDENTITY);
 
         /** Adds a (precreated) child scene node to this node. If it is attached to another node,
             it must be detached first.

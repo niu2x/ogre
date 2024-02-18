@@ -107,7 +107,7 @@ namespace Ogre {
         size_t numVertices)
     {
         // Source vectors
-        Vector3 sourceVec = Vector3::ZERO, sourceNorm = Vector3::ZERO;
+        Vector3 sourceVec = Vector3::zero, sourceNorm = Vector3::zero;
         // Accumulation vectors
         Vector3 accumVecPos, accumVecNorm;
 
@@ -127,8 +127,8 @@ namespace Ogre {
             }
 
             // Load accumulators
-            accumVecPos = Vector3::ZERO;
-            accumVecNorm = Vector3::ZERO;
+            accumVecPos = Vector3::zero;
+            accumVecNorm = Vector3::zero;
 
             // Loop per blend weight
             //
@@ -314,7 +314,7 @@ namespace Ogre {
     {
         for (size_t i = 0; i < numFaces; ++i)
         {
-            *lightFacings++ = (lightPos.dotProduct(*faceNormals++) > 0);
+            *lightFacings++ = (lightPos.dot_product(*faceNormals++) > 0);
         }
     }
     //---------------------------------------------------------------------

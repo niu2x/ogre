@@ -100,12 +100,12 @@ public:
             if (mTwirlLights)
             {
                 mLights[i].dirnode->setDirection(
-                    Quaternion(Degree(ControllerManager::getSingleton().getElapsedTime() * 150 + 360 * i / (float)mLights.size()), Vector3::UNIT_Y) *
-                    Vector3(0,-1,-1).normalisedCopy(), Node::TS_WORLD);
+                    Quaternion(Degree(ControllerManager::getSingleton().getElapsedTime() * 150 + 360 * i / (float)mLights.size()), Vector3::unit_y) *
+                    Vector3(0,-1,-1).normalised_copy(), Node::TS_WORLD);
             }
             else
             {
-                mLights[i].dirnode->setDirection(Vector3::NEGATIVE_UNIT_Y, Node::TS_WORLD);
+                mLights[i].dirnode->setDirection(Vector3::negative_unit_y, Node::TS_WORLD);
             }
         }
         
@@ -129,7 +129,7 @@ protected:
 
         // create a floor mesh resource
         MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            Plane(Vector3::UNIT_Y, -30), 1000, 1000, 10, 10, true, 1, 8, 8, Vector3::UNIT_Z);
+            Plane(Vector3::unit_y, -30), 1000, 1000, 10, 10, true, 1, 8, 8, Vector3::unit_z);
 
         // create a floor entity, give it a material, and place it at the origin
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");
@@ -188,7 +188,7 @@ protected:
         light->setCastShadows(false);
         
         auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-        ln->setDirection(Vector3(-1,-1,0).normalisedCopy());
+        ln->setDirection(Vector3(-1,-1,0).normalised_copy());
         ln->attachObject(light);
 
         for(unsigned int i = 0 ; i < cInitialLightCount ; ++i)
@@ -248,12 +248,12 @@ protected:
         state.light->setAttenuation(200,0,0,0);
         state.light->setDiffuseColour(lightColor);
         state.dirnode = state.node->createChildSceneNode();
-        state.dirnode->setDirection(Vector3::NEGATIVE_UNIT_Y, Node::TS_WORLD);
+        state.dirnode->setDirection(Vector3::negative_unit_y, Node::TS_WORLD);
         state.dirnode->attachObject(state.light);
 
         // Attach a flare with the same colour to the light node
         state.bbs = mSceneMgr->createBillboardSet(1);
-        Billboard* bb = state.bbs->createBillboard(Vector3::ZERO, lightColor);
+        Billboard* bb = state.bbs->createBillboard(Vector3::zero, lightColor);
         bb->setColour(lightColor);
         state.bbs->setMaterialName("Examples/Flare");
         state.bbs->setRenderQueueGroup(cPriorityLights);

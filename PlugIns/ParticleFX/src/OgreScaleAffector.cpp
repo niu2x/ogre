@@ -42,7 +42,7 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     ScaleAffector::ScaleAffector(ParticleSystem* psys)
-        :ParticleAffector(psys), mScaleRange(Vector2::UNIT_SCALE)
+        :ParticleAffector(psys), mScaleRange(Vector2::unit_scale)
     {
         mScaleAdj = 0;
         mType = "Scaler";

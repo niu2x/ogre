@@ -249,7 +249,7 @@ bool TerrainSurface::createCpuSubPrograms(ProgramSet* programSet)
     stage.callBuiltin("mul", ITMat, normal, normal);
 
     auto psSpecular = psMain->resolveLocalParameter(Parameter::SPC_COLOR_SPECULAR);
-    stage.assign(Vector4::ZERO, psSpecular);
+    stage.assign(Vector4::zero, psSpecular);
 
     std::vector<ParameterPtr> blendWeights;
     for(auto bt : mTerrain->getBlendTextures())
@@ -264,7 +264,7 @@ bool TerrainSurface::createCpuSubPrograms(ProgramSet* programSet)
     auto psOutTBN = psMain->resolveLocalParameter(GpuConstantType::GCT_MATRIX_3X3, "TBN");
     stage.callFunction("SGX_CalculateTerrainTBN", {In(normal), In(ITMat), Out(psOutTBN)});
 
-    stage.assign(Vector4::ZERO, diffuseSpec);
+    stage.assign(Vector4::zero, diffuseSpec);
     stage.assign(Vector3(0, 0, 1), TSnormal);
     for (int l = 0; l < mTerrain->getLayerCount(); ++l)
     {

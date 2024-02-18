@@ -175,7 +175,7 @@ namespace Ogre
                         if (lightToPortal.length() <= light->getAttenuationRange())
                         {
                             // if portal is quad portal it must be pointing towards the light 
-                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dotProduct(p->getDerivedDirection()) < 0.0) ||
+                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dot_product(p->getDerivedDirection()) < 0.0) ||
                                 (p->getType() != Portal::PORTAL_TYPE_QUAD))
                             {
                                 if (!light->affectsZone(targetZone))
@@ -201,10 +201,10 @@ namespace Ogre
                     case Light::LT_DIRECTIONAL:
                         // directionals have infinite range, so just make sure
                         // the direction is facing the portal
-                        if (lightToPortal.dotProduct(light->getDerivedDirection()) >= 0.0)
+                        if (lightToPortal.dot_product(light->getDerivedDirection()) >= 0.0)
                         {
                             // if portal is quad portal it must be pointing towards the light 
-                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dotProduct(p->getDerivedDirection()) < 0.0) ||
+                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dot_product(p->getDerivedDirection()) < 0.0) ||
                                 (p->getType() != Portal::PORTAL_TYPE_QUAD))
                             {
                                 if (!light->affectsZone(targetZone))
@@ -236,7 +236,7 @@ namespace Ogre
                         if (lightToPortal.length() <= light->getAttenuationRange())
                         {
                             // if portal is quad portal it must be pointing towards the light 
-                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dotProduct(p->getDerivedDirection()) < 0.0) ||
+                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dot_product(p->getDerivedDirection()) < 0.0) ||
                                 (p->getType() != Portal::PORTAL_TYPE_QUAD))
                             {
                                 if (!light->affectsZone(targetZone))

@@ -11,7 +11,7 @@ CameraMan::CameraMan(Ogre::SceneNode *cam)
     , mOrbiting(false)
     , mMoving(false)
     , mTopSpeed(150)
-    , mVelocity(Ogre::Vector3::ZERO)
+    , mVelocity(Ogre::Vector3::zero)
     , mGoingForward(false)
     , mGoingBack(false)
     , mGoingLeft(false)
@@ -43,7 +43,7 @@ void CameraMan::setYawPitchDist(const Ogre::Radian&  yaw, const Ogre::Radian& pi
 {
     OgreAssert(mTarget, "no target set");
 
-    mOffset = Ogre::Vector3::ZERO;
+    mOffset = Ogre::Vector3::zero;
     mCamera->setPosition(mTarget->_getDerivedPosition());
     mCamera->setOrientation(mTarget->_getDerivedOrientation());
     mCamera->yaw(yaw);
@@ -87,7 +87,7 @@ void CameraMan::manualStop()
         mGoingRight = false;
         mGoingUp = false;
         mGoingDown = false;
-        mVelocity = Ogre::Vector3::ZERO;
+        mVelocity = Ogre::Vector3::zero;
     }
 }
 
@@ -96,7 +96,7 @@ void CameraMan::frameRendered(const Ogre::FrameEvent &evt)
     if (mStyle == CS_FREELOOK)
     {
         // build our acceleration vector based on keyboard input composite
-        Ogre::Vector3 accel = Ogre::Vector3::ZERO;
+        Ogre::Vector3 accel = Ogre::Vector3::zero;
         Ogre::Matrix3 axes = mCamera->getLocalAxes();
         if (mGoingForward) accel -= axes.GetColumn(2);
         if (mGoingBack) accel += axes.GetColumn(2);
@@ -107,7 +107,7 @@ void CameraMan::frameRendered(const Ogre::FrameEvent &evt)
 
         // if accelerating, try to reach top speed in a certain time
         Ogre::Real topSpeed = mFastMove ? mTopSpeed * 20 : mTopSpeed;
-        if (accel.squaredLength() != 0)
+        if (accel.squared_length() != 0)
         {
             accel.normalise();
             mVelocity += accel * topSpeed * evt.timeSinceLastFrame * 10;
@@ -118,15 +118,15 @@ void CameraMan::frameRendered(const Ogre::FrameEvent &evt)
         Ogre::Real tooSmall = std::numeric_limits<Ogre::Real>::epsilon();
 
         // keep camera velocity below top speed and above epsilon
-        if (mVelocity.squaredLength() > topSpeed * topSpeed)
+        if (mVelocity.squared_length() > topSpeed * topSpeed)
         {
             mVelocity.normalise();
             mVelocity *= topSpeed;
         }
-        else if (mVelocity.squaredLength() < tooSmall * tooSmall)
-            mVelocity = Ogre::Vector3::ZERO;
+        else if (mVelocity.squared_length() < tooSmall * tooSmall)
+            mVelocity = Ogre::Vector3::zero;
 
-        if (mVelocity != Ogre::Vector3::ZERO) mCamera->translate(mVelocity * evt.timeSinceLastFrame);
+        if (mVelocity != Ogre::Vector3::zero) mCamera->translate(mVelocity * evt.timeSinceLastFrame);
     }
 }
 

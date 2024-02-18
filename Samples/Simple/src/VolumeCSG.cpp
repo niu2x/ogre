@@ -74,7 +74,7 @@ void Sample_VolumeCSG::setupContent(void)
     CSGIntersectionSource intersection1(&cube3, &sphere5);
 
     // A plane with noise
-    CSGPlaneSource plane1((Real)1.0, Vector3::UNIT_Y);
+    CSGPlaneSource plane1((Real)1.0, Vector3::unit_y);
     Real frequencies[] = {(Real)1.01, (Real)0.48};
     Real amplitudes[] = {(Real)0.25, (Real)0.5};
     CSGNoiseSource noise1(&plane1, frequencies, amplitudes, 2, 100);
@@ -97,7 +97,7 @@ void Sample_VolumeCSG::setupContent(void)
     parameters.src = src;
     parameters.baseError = (Real)0.25;
 
-    mVolumeRoot->load(volumeRootNode, Vector3::ZERO, to, 1, &parameters);
+    mVolumeRoot->load(volumeRootNode, Vector3::zero, to, 1, &parameters);
 
     MaterialPtr mat = MaterialManager::getSingleton().getByName("Ogre/RTShader/TriplanarTexturing", "General");
     mVolumeRoot->setMaterial(mat);

@@ -559,7 +559,7 @@ namespace Ogre {
         */
         virtual void addEntity(Entity* ent, const Vector3& position,
             const Quaternion& orientation = Quaternion::IDENTITY, 
-            const Vector3& scale = Vector3::UNIT_SCALE);
+            const Vector3& scale = Vector3::unit_scale);
 
         /** Adds all the Entity objects attached to a SceneNode and all it's
             children to the static geometry.

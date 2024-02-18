@@ -188,7 +188,7 @@ The third method for simulating sky is rather different from the first two. This
 ```cpp
 Ogre::Plane plane;
 plane.d = 1000;
-plane.normal = Ogre::Vector3::NEGATIVE_UNIT_Y;
+plane.normal = Ogre::Vector3::negative_unit_y;
 ```
 We've defined a plane by providing a distance from the origin (d) and a vector that is normal to our plane (normal). By choosing the the ''negative'' unit vector along the y-axis we have a plane that is parallel to the ground and facing downwards.
 

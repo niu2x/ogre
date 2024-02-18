@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 #include "OgreResourceManager.h"
 #include "OgreSingleton.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreHardwareBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "OgrePatchSurface.h"
@@ -192,7 +192,7 @@ namespace Ogre {
             Real width, Real height,
             int xsegments = 1, int ysegments = 1,
             bool normals = true, unsigned short numTexCoordSets = 1,
-            Real uTile = 1.0f, Real vTile = 1.0f, const Vector3& upVector = Vector3::UNIT_Y,
+            Real uTile = 1.0f, Real vTile = 1.0f, const Vector3& upVector = Vector3::unit_y,
             HardwareBuffer::Usage vertexBufferUsage = HBU_GPU_ONLY,
             HardwareBuffer::Usage indexBufferUsage = HBU_GPU_ONLY,
             bool vertexShadowBuffer = false, bool indexShadowBuffer = false);
@@ -253,7 +253,7 @@ namespace Ogre {
             Real width, Real height, Real curvature,
             int xsegments = 1, int ysegments = 1,
             bool normals = true, unsigned short numTexCoordSets = 1,
-            Real uTile = 1.0f, Real vTile = 1.0f, const Vector3& upVector = Vector3::UNIT_Y,
+            Real uTile = 1.0f, Real vTile = 1.0f, const Vector3& upVector = Vector3::unit_y,
             const Quaternion& orientation = Quaternion::IDENTITY,
             HardwareBuffer::Usage vertexBufferUsage = HBU_GPU_ONLY,
             HardwareBuffer::Usage indexBufferUsage = HBU_GPU_ONLY,
@@ -306,7 +306,7 @@ namespace Ogre {
             Real width, Real height, Real bow = 0.5f, 
             int xsegments = 1, int ysegments = 1,
             bool normals = false, unsigned short numTexCoordSets = 1, 
-            Real uTile = 1.0f, Real vTile = 1.0f, const Vector3& upVector = Vector3::UNIT_Y,
+            Real uTile = 1.0f, Real vTile = 1.0f, const Vector3& upVector = Vector3::unit_y,
             HardwareBuffer::Usage vertexBufferUsage = HBU_GPU_ONLY,
             HardwareBuffer::Usage indexBufferUsage = HBU_GPU_ONLY,
             bool vertexShadowBuffer = false, bool indexShadowBuffer = false);

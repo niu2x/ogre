@@ -143,7 +143,7 @@ namespace OgreBites
         bool mouseReleased(const MouseButtonEvent& evt) override;
 
         /**
-         * fix the yaw axis to be Vector3::UNIT_Y of the parent node (tabletop mode)
+         * fix the yaw axis to be Vector3::unit_y of the parent node (tabletop mode)
          * 
          * otherwise the yaw axis can change freely
          */

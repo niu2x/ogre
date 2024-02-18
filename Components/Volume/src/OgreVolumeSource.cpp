@@ -49,7 +49,7 @@ namespace Volume {
 
     Vector3 Source::getIntersectionEnd(const Ray &ray, Real maxDistance) const
     {
-        Vector3 dir = ray.getDirection().normalisedCopy();
+        Vector3 dir = ray.getDirection().normalised_copy();
         return ray.getOrigin() + dir * maxDistance;
     }
 
@@ -139,15 +139,15 @@ namespace Volume {
      
         Vector4 startVal = getValueAndGradient(start);
         Vector3 scaleSampleGradient(startVal.x, startVal.y, startVal.z);
-        Vector3 scaleSampleEnd = start + scaleSampleGradient.normalisedCopy();
+        Vector3 scaleSampleEnd = start + scaleSampleGradient.normalised_copy();
         Real scaleSample = getValue(scaleSampleEnd);
         Real densityScale = (Real)1.0 / Math::Abs(scaleSample - startVal.w) * (Real)2.0;
 
         Real densityCur = getValue(cur);
-        Vector3 dir = scaledRay.getDirection().normalisedCopy();
+        Vector3 dir = scaledRay.getDirection().normalised_copy();
 
         size_t count = 0;
-        Vector3 prev = Vector3::ZERO, prevPrev = Vector3::ZERO;
+        Vector3 prev = Vector3::zero, prevPrev = Vector3::zero;
         bool atEnd = false;
         Real totalLength = (start - end).length();
         while (Math::Abs(densityCur) > (Real)0.01 && !atEnd)

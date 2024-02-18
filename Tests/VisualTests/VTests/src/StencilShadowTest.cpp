@@ -65,11 +65,11 @@ void StencilShadowTest::setupContent()
     
     // create a ground plane to receive some shadows
     Plane pln = MovablePlane("plane");
-    pln.normal = Vector3::UNIT_Y;
+    pln.normal = Vector3::unit_y;
     pln.d = 107;
     MeshManager::getSingleton().createPlane("ground_plane",
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, pln,
-        1500,1500,50,50,true,1,5,5,Vector3::UNIT_Z);
+        1500,1500,50,50,true,1,5,5,Vector3::unit_z);
     Ogre::Entity* groundPlane = mSceneMgr->createEntity( "plane", "ground_plane" );
     groundPlane->setMaterialName("Examples/Rocky");
     groundPlane->setCastShadows(false);

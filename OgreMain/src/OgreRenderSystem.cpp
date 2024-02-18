@@ -73,7 +73,7 @@ namespace Ogre {
         , mUseCustomCapabilities(false)
         , mNativeShadingLanguageVersion(0)
         , mTexProjRelative(false)
-        , mTexProjRelativeOrigin(Vector3::ZERO)
+        , mTexProjRelativeOrigin(Vector3::zero)
         , mGlobalInstanceVertexDeclaration(NULL)
         , mGlobalNumberOfInstances(1)
     {
@@ -97,20 +97,20 @@ namespace Ogre {
         mFixedFunctionParams->setAutoConstant(15, GpuProgramParameters::ACT_SURFACE_EMISSIVE_COLOUR);
         mFixedFunctionParams->setAutoConstant(16, GpuProgramParameters::ACT_SURFACE_SHININESS);
         mFixedFunctionParams->setAutoConstant(17, GpuProgramParameters::ACT_POINT_PARAMS);
-        mFixedFunctionParams->setConstant(18, Vector4::ZERO); // ACT_FOG_PARAMS
-        mFixedFunctionParams->setConstant(19, Vector4::ZERO); // ACT_FOG_COLOUR
+        mFixedFunctionParams->setConstant(18, Vector4::zero); // ACT_FOG_PARAMS
+        mFixedFunctionParams->setConstant(19, Vector4::zero); // ACT_FOG_COLOUR
         mFixedFunctionParams->setAutoConstant(20, GpuProgramParameters::ACT_AMBIENT_LIGHT_COLOUR);
 
         // allocate per light parameters. slots 21..69
         for(int i = 0; i < OGRE_MAX_SIMULTANEOUS_LIGHTS; i++)
         {
             size_t light_offset = 21 + i * 6;
-            mFixedFunctionParams->setConstant(light_offset + 0, Vector4::ZERO); // position
-            mFixedFunctionParams->setConstant(light_offset + 1, Vector4::ZERO); // direction
-            mFixedFunctionParams->setConstant(light_offset + 2, Vector4::ZERO); // diffuse
-            mFixedFunctionParams->setConstant(light_offset + 3, Vector4::ZERO); // specular
-            mFixedFunctionParams->setConstant(light_offset + 4, Vector4::ZERO); // attenuation
-            mFixedFunctionParams->setConstant(light_offset + 5, Vector4::ZERO); // spotlight
+            mFixedFunctionParams->setConstant(light_offset + 0, Vector4::zero); // position
+            mFixedFunctionParams->setConstant(light_offset + 1, Vector4::zero); // direction
+            mFixedFunctionParams->setConstant(light_offset + 2, Vector4::zero); // diffuse
+            mFixedFunctionParams->setConstant(light_offset + 3, Vector4::zero); // specular
+            mFixedFunctionParams->setConstant(light_offset + 4, Vector4::zero); // attenuation
+            mFixedFunctionParams->setConstant(light_offset + 5, Vector4::zero); // spotlight
         }
     }
 

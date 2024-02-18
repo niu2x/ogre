@@ -122,7 +122,7 @@ bool FFPColour::addFunctionInvocations(ProgramSet* programSet)
     }
     
     vsSpecular = vsMain->resolveLocalParameter(Parameter::SPC_COLOR_SPECULAR);
-    vsStage.assign(Vector4::ZERO, vsSpecular);
+    vsStage.assign(Vector4::zero, vsSpecular);
 
     if (mVSOutputSpecular)
     {
@@ -155,7 +155,7 @@ bool FFPColour::addFunctionInvocations(ProgramSet* programSet)
     else
     {
         psSpecular = psMain->resolveLocalParameter(Parameter::SPC_COLOR_SPECULAR);
-        psStage.assign(Vector4::ZERO, psSpecular);
+        psStage.assign(Vector4::zero, psSpecular);
     }
 
     // Assign diffuse colour.

@@ -940,7 +940,7 @@ namespace Ogre
                     if (lightInfo.type == Light::LT_DIRECTIONAL)
                     {
                         // Always visible
-                        lightInfo.position = Vector3::ZERO;
+                        lightInfo.position = Vector3::zero;
                         lightInfo.range = 0;
                         mTestLightInfos.push_back(lightInfo);
                     }

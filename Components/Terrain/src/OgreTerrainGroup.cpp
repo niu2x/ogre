@@ -47,7 +47,7 @@ namespace Ogre
         , mAlignment(align)
         , mTerrainSize(terrainSize)
         , mTerrainWorldSize(terrainWorldSize)
-        , mOrigin(Vector3::ZERO)
+        , mOrigin(Vector3::zero)
         , mFilenamePrefix("terrain")
         , mFilenameExtension("dat")
         , mResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
@@ -66,7 +66,7 @@ namespace Ogre
         , mAlignment(Terrain::ALIGN_X_Z)
         , mTerrainSize(0)
         , mTerrainWorldSize(0)
-        , mOrigin(Vector3::ZERO)
+        , mOrigin(Vector3::zero)
         , mFilenamePrefix("terrain")
         , mFilenameExtension("dat")
         , mResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
@@ -504,7 +504,7 @@ namespace Ogre
         long curr_x, curr_z;
         convertWorldPositionToTerrainSlot(ray.getOrigin(), &curr_x, &curr_z);
         TerrainSlot* slot = getTerrainSlot(curr_x, curr_z);
-        RayResult result(false, 0, Vector3::ZERO);
+        RayResult result(false, 0, Vector3::zero);
 
         Vector3 tmp, localRayDir, centreOrigin, offset;
         // get the middle of the current tile

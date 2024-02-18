@@ -38,7 +38,7 @@ public:
         mFishNode->setPosition(x, y, z);              // set fishy's new position
 
         // set fishy's direction based on the change in position
-        mFishNode->setDirection(mFishNode->getPosition() - lastPos, Node::TS_PARENT, Vector3::NEGATIVE_UNIT_X);
+        mFishNode->setDirection(mFishNode->getPosition() - lastPos, Node::TS_PARENT, Vector3::negative_unit_x);
 
         mFishSwim->addTime(evt.timeSinceLastFrame * 5);   // update fishy's swimming animation
 

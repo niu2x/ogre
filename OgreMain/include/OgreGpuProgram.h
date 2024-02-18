@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreResource.h"
 #include "OgreGpuProgramParams.h"
 #include "OgreHeaderPrefix.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 
 namespace Ogre {

@@ -47,8 +47,8 @@ namespace Ogre {
         // called by the constructor as initDefaults("Type")
 
         // Defaults
-        mDirection = Vector3::UNIT_Z;
-        mUp = Vector3::UNIT_Y;
+        mDirection = Vector3::unit_z;
+        mUp = Vector3::unit_y;
         setSize(100,100,100);
         mType = t;
 
@@ -132,7 +132,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void AreaEmitter::genAreaAxes(void)
     {
-        Vector3 mLeft = mUp.crossProduct(mDirection);
+        Vector3 mLeft = mUp.cross_product(mDirection);
 
         mXRange = mLeft * (mSize.x * 0.5f);
         mYRange = mUp * (mSize.y * 0.5f);

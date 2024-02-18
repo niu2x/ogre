@@ -120,25 +120,25 @@ void FFP_AddSmooth(in vec4 vIn0, in vec4 vIn1, out vec4 vOut)
 	vOut = vIn0 + vIn1 - (vIn0 * vIn1);
 }
 //-----------------------------------------------------------------------------
-void FFP_DotProduct(in float vIn0, in float vIn1, out float vOut)
+void FFP_dot_product(in float vIn0, in float vIn1, out float vOut)
 {
 	vOut = dot(vIn0, vIn1);
 }
 
 //-----------------------------------------------------------------------------
-void FFP_DotProduct(in vec2 vIn0, in vec2 vIn1, out vec2 vOut)
+void FFP_dot_product(in vec2 vIn0, in vec2 vIn1, out vec2 vOut)
 {
 	vOut = vec2_splat(dot(vIn0, vIn1));
 }
 
 //-----------------------------------------------------------------------------
-void FFP_DotProduct(in vec3 vIn0, in vec3 vIn1, out vec3 vOut)
+void FFP_dot_product(in vec3 vIn0, in vec3 vIn1, out vec3 vOut)
 {
 	vOut = vec3_splat(dot(vIn0, vIn1));
 }
 
 //-----------------------------------------------------------------------------
-void FFP_DotProduct(in vec4 vIn0, in vec4 vIn1, out vec4 vOut)
+void FFP_dot_product(in vec4 vIn0, in vec4 vIn1, out vec4 vOut)
 {
 	vOut = vec4_splat(dot(vIn0, vIn1));
 }

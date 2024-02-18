@@ -474,7 +474,7 @@ bool RTShaderSRSSegmentedLights::addPSGlobalIlluminationInvocationBegin(Function
         psMain->addAtomInstance(curFuncInvocation);     
     }
 
-    ParameterPtr pZeroParam = ParameterFactory::createConstParam(Ogre::Vector3::ZERO);
+    ParameterPtr pZeroParam = ParameterFactory::createConstParam(Ogre::Vector3::zero);
     
     curFuncInvocation = OGRE_NEW AssignmentAtom(groupOrder);
     curFuncInvocation->pushOperand(pZeroParam, Operand::OPS_IN);    

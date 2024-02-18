@@ -404,7 +404,7 @@ void Sample_Compositor::setupScene(void)
     l->setSpecularColour(1, 1, 1);
 
     auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    ln->setDirection(Vector3(-1,-1,0).normalisedCopy());
+    ln->setDirection(Vector3(-1,-1,0).normalised_copy());
     ln->attachObject(l);
 
 
@@ -428,11 +428,11 @@ void Sample_Compositor::setupScene(void)
 
 
     Ogre::Plane plane;
-    plane.normal = Ogre::Vector3::UNIT_Y;
+    plane.normal = Ogre::Vector3::unit_y;
     plane.d = 100;
     Ogre::MeshManager::getSingleton().createPlane("Myplane",
                                                   Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane,
-                                                  1500, 1500, 10, 10, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+                                                  1500, 1500, 10, 10, true, 1, 5, 5, Ogre::Vector3::unit_z);
     Ogre::Entity* pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
     pPlaneEnt->setMaterialName("Examples/Rockwall");
     pPlaneEnt->setCastShadows(false);

@@ -117,13 +117,13 @@ void DefaultDebugDrawer::drawAxes(const Affine3& pose, float size)
 
     // x-axis
     rot[0] = Matrix3::IDENTITY;
-    rot[1].FromAxes(Vector3::UNIT_X, Vector3::NEGATIVE_UNIT_Z, Vector3::UNIT_Y);
+    rot[1].FromAxes(Vector3::unit_x, Vector3::negative_unit_z, Vector3::unit_y);
     // y-axis
-    rot[2].FromAxes(Vector3::UNIT_Y, Vector3::NEGATIVE_UNIT_X, Vector3::UNIT_Z);
-    rot[3].FromAxes(Vector3::UNIT_Y, Vector3::UNIT_Z, Vector3::UNIT_X);
+    rot[2].FromAxes(Vector3::unit_y, Vector3::negative_unit_x, Vector3::unit_z);
+    rot[3].FromAxes(Vector3::unit_y, Vector3::unit_z, Vector3::unit_x);
     // z-axis
-    rot[4].FromAxes(Vector3::UNIT_Z, Vector3::UNIT_Y, Vector3::NEGATIVE_UNIT_X);
-    rot[5].FromAxes(Vector3::UNIT_Z, Vector3::UNIT_X, Vector3::UNIT_Y);
+    rot[4].FromAxes(Vector3::unit_z, Vector3::unit_y, Vector3::negative_unit_x);
+    rot[5].FromAxes(Vector3::unit_z, Vector3::unit_x, Vector3::unit_y);
 
     // 6 arrows
     for (size_t i = 0; i < 6; ++i)

@@ -457,7 +457,7 @@ or per light with Light::setCustomShadowCameraSetup
 The following shows how to activate Plane Optimal Shadow Mapping given
 some pointer to a MovablePlane and a pointer to a light.
 ```cpp
-Ogre::MovablePlane *movablePlane = new Ogre::MovablePlane( Ogre::Vector3::UNIT_Y, 0 );
+Ogre::MovablePlane *movablePlane = new Ogre::MovablePlane( Ogre::Vector3::unit_y, 0 );
 Ogre::Entity *movablePlaneEntity = mSceneMgr->createEntity( "movablePlane", "Floor.mesh" );
 Ogre::SceneNode *movablePlaneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("MovablePlaneNode");
 movablePlaneNode->attachObject(movablePlaneEntity);

@@ -59,7 +59,7 @@ parameters.maxScreenSpaceError = 30;       // The screen space error controlling
 Create the root-chunk and load now. The two vectors define the area to be scanned in the volume-source. The following integer determines the amount of LOD-levels.
 ```cpp
 Ogre::Volume::Chunk *volumeRoot = OGRE_NEW Chunk();
-volumeRoot->load(mVolumeRootNode, Vector3::ZERO, Vector3(256), 5, &parameters);
+volumeRoot->load(mVolumeRootNode, Vector3::zero, Vector3(256), 5, &parameters);
 ```
 Now setup the global volume material:
 ```cpp
@@ -131,5 +131,5 @@ CSGUnionSource operation;
 static_cast<GridSource*>(volumeRoot->getChunkParameters()->src)->combineWithSource(&operation, &sphere, center, radius * (Real)1.5);
 volumeRoot->getChunkParameters()->updateFrom = center - radius * (Real)1.5;
 volumeRoot->getChunkParameters()->updateTo = center + radius * (Real)1.5;
-volumeRoot->load(volumeRootNode, Vector3::ZERO, Vector3(384), 5, volumeRoot->getChunkParameters());
+volumeRoot->load(volumeRootNode, Vector3::zero, Vector3(384), 5, volumeRoot->getChunkParameters());
 ```

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __Ogre_Volume_OctreeNode_H__
 
 #include "OgreVolumePrerequisites.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 namespace Ogre {
 
@@ -119,7 +119,7 @@ namespace Volume {
         @param to
             The front upper right corner of the cell.
         */
-        OctreeNode(const Vector3 &from = Vector3::ZERO, const Vector3 &to = Vector3::ZERO);
+        OctreeNode(const Vector3 &from = Vector3::zero, const Vector3 &to = Vector3::zero);
 
         /** Destructor.
         */

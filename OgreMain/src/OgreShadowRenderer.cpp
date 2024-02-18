@@ -1788,14 +1788,14 @@ SceneManager::ShadowRenderer::findShadowCastersForLight(const Light* light, cons
         Vector3 extrude = light->getDerivedDirection() * -mShadowDirLightExtrudeDist;
         // do first corner
         min = max = corners[0];
-        min.makeFloor(corners[0] + extrude);
-        max.makeCeil(corners[0] + extrude);
+        min.make_floor(corners[0] + extrude);
+        max.make_ceil(corners[0] + extrude);
         for (size_t c = 1; c < 8; ++c)
         {
-            min.makeFloor(corners[c]);
-            max.makeCeil(corners[c]);
-            min.makeFloor(corners[c] + extrude);
-            max.makeCeil(corners[c] + extrude);
+            min.make_floor(corners[c]);
+            max.make_ceil(corners[c]);
+            min.make_floor(corners[c] + extrude);
+            max.make_ceil(corners[c] + extrude);
         }
         aabb.setExtents(min, max);
 

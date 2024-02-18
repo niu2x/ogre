@@ -190,7 +190,7 @@ namespace Ogre {
 
     void Rectangle2D::setDefaultUVs()
     {
-        setUVs( Vector2::ZERO, Vector2::UNIT_Y, Vector2::UNIT_X, Vector2::UNIT_SCALE );
+        setUVs( Vector2::zero, Vector2::unit_y, Vector2::unit_x, Vector2::unit_scale );
     }
 
     // Override this method to prevent parent transforms (rotation,translation,scale)

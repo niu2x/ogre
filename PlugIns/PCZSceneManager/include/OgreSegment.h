@@ -29,7 +29,7 @@ THE SOFTWARE.
 #ifndef SEGMENT_H
 #define SEGMENT_H
 
-#include "OgreVector.h"
+#include "vector.h"
 
 namespace Ogre
 {
@@ -62,7 +62,7 @@ namespace Ogre
 
         // functions to calculate distance to another segment
         Real distance(const Segment& otherSegment) const;
-        Real squaredDistance(const Segment& otherSegment) const;
+        Real squared_distance(const Segment& otherSegment) const;
 
         // intersect check between segment & capsule 
         bool intersects(const Capsule&) const;

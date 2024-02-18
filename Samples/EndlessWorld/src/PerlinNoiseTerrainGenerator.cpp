@@ -98,12 +98,12 @@ Real PerlinNoiseTerrainGenerator::noise(const Vector2& vec2)
     sx = sCurve(rx0);
     sy = sCurve(ry0);
 
-    u = g2[b00].dotProduct( Vector2(rx0,ry0) );
-    v = g2[b10].dotProduct( Vector2(rx1,ry0) );
+    u = g2[b00].dot_product( Vector2(rx0,ry0) );
+    v = g2[b10].dot_product( Vector2(rx1,ry0) );
     a = lerp(sx, u, v);
 
-    u = g2[b01].dotProduct( Vector2(rx0,ry1) );
-    v = g2[b11].dotProduct( Vector2(rx1,ry1) );
+    u = g2[b01].dot_product( Vector2(rx0,ry1) );
+    v = g2[b11].dot_product( Vector2(rx1,ry1) );
     b = lerp(sx, u, v);
 
     return lerp(sy, a, b);

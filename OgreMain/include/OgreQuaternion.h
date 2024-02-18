@@ -158,17 +158,17 @@ namespace Ogre {
         void ToAxes (Vector3& xAxis, Vector3& yAxis, Vector3& zAxis) const;
 
         /** Returns the X orthonormal axis defining the quaternion. Same as doing
-            xAxis = Vector3::UNIT_X * this. Also called the local X-axis
+            xAxis = Vector3::unit_x * this. Also called the local X-axis
         */
         Vector3 xAxis(void) const;
 
         /** Returns the Y orthonormal axis defining the quaternion. Same as doing
-            yAxis = Vector3::UNIT_Y * this. Also called the local Y-axis
+            yAxis = Vector3::unit_y * this. Also called the local Y-axis
         */
         Vector3 yAxis(void) const;
 
         /** Returns the Z orthonormal axis defining the quaternion. Same as doing
-            zAxis = Vector3::UNIT_Z * this. Also called the local Z-axis
+            zAxis = Vector3::unit_z * this. Also called the local Z-axis
         */
         Vector3 zAxis(void) const;
 

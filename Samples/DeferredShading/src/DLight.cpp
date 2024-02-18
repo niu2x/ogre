@@ -201,7 +201,7 @@ Real DLight::getSquaredViewDepth(const Camera* cam) const
     else
     {
         Vector3 dist = cam->getDerivedPosition() - getParentSceneNode()->_getDerivedPosition();
-        return dist.squaredLength();
+        return dist.squared_length();
     }
 }
 //-----------------------------------------------------------------------
@@ -214,14 +214,14 @@ void DLight::getWorldTransforms(Matrix4* xform) const
 {
     if (mParentLight->getType() == Light::LT_SPOTLIGHT)
     {
-        Quaternion quat = Vector3::UNIT_Y.getRotationTo(mParentLight->getDerivedDirection());
+        Quaternion quat = Vector3::unit_y.rotation_to(mParentLight->getDerivedDirection());
         xform->makeTransform(mParentLight->getDerivedPosition(),
-            Vector3::UNIT_SCALE, quat);
+            Vector3::unit_scale, quat);
     }
     else
     {
         xform->makeTransform(mParentLight->getDerivedPosition(),
-            Vector3::UNIT_SCALE, Quaternion::IDENTITY);
+            Vector3::unit_scale, Quaternion::IDENTITY);
     }
     
 }
@@ -270,7 +270,7 @@ bool DLight::isCameraInsideLight(Ogre::Camera* camera)
         Ogre::Vector3 lightToCamDir = camera->getDerivedPosition() - lightPos;
         Ogre::Real distanceFromLight = lightToCamDir.normalise();
 
-        Ogre::Real cosAngle = lightToCamDir.dotProduct(lightDir);
+        Ogre::Real cosAngle = lightToCamDir.dot_product(lightDir);
         Ogre::Radian angle = Ogre::Math::ACos(cosAngle);
         //Check whether we will see the cone from our current POV.
         return (distanceFromLight <= (mParentLight->getAttenuationRange() / cosAngle + clipRangeFix.length()))

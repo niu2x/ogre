@@ -55,11 +55,11 @@ void ThingRenderable::initialise()
     {
         ax = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
         ay = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
-        things.push_back(Math::lookRotation(ax.normalisedCopy(), ay));
+        things.push_back(Math::lookRotation(ax.normalised_copy(), ay));
         
         ax = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
         ay = Vector3(Math::SymmetricRandom(), Math::SymmetricRandom(), Math::SymmetricRandom());
-        orbits.push_back(Math::lookRotation(ax.normalisedCopy(), ay));
+        orbits.push_back(Math::lookRotation(ax.normalised_copy(), ay));
     }
     
     // Create buffers
@@ -158,6 +158,6 @@ Ogre::Real ThingRenderable::getBoundingRadius() const
 }
 Ogre::Real ThingRenderable::getSquaredViewDepth(const Ogre::Camera* cam) const
 {
-    return (cam->getDerivedPosition() - mBox.getCenter()).squaredLength();
+    return (cam->getDerivedPosition() - mBox.getCenter()).squared_length();
 }
 

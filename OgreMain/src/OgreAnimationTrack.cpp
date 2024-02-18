@@ -500,13 +500,13 @@ namespace Ogre {
 
         Vector3 scale = kf.getScale();
         // Not sure how to modify scale for cumulative anims... leave it alone
-        //scale = ((Vector3::UNIT_SCALE - kf.getScale()) * weight) + Vector3::UNIT_SCALE;
-        if (scale != Vector3::UNIT_SCALE)
+        //scale = ((Vector3::unit_scale - kf.getScale()) * weight) + Vector3::unit_scale;
+        if (scale != Vector3::unit_scale)
         {
             if (scl != 1.0f)
-                scale = Vector3::UNIT_SCALE + (scale - Vector3::UNIT_SCALE) * scl;
+                scale = Vector3::unit_scale + (scale - Vector3::unit_scale) * scl;
             else if (weight != 1.0f)
-                scale = Vector3::UNIT_SCALE + (scale - Vector3::UNIT_SCALE) * weight;
+                scale = Vector3::unit_scale + (scale - Vector3::unit_scale) * weight;
         }
         node->scale(scale);
 
@@ -579,8 +579,8 @@ namespace Ogre {
             Radian angle;
             kf->getRotation().ToAngleAxis(angle, axis);
             Real tolerance = 1e-3f;
-            if (!trans.positionEquals(Vector3::ZERO, tolerance) ||
-                !scale.positionEquals(Vector3::UNIT_SCALE, tolerance) ||
+            if (!trans.position_equals(Vector3::zero, tolerance) ||
+                !scale.position_equals(Vector3::unit_scale, tolerance) ||
                 !Math::RealEqual(angle.valueRadians(), 0.0f, tolerance))
             {
                 return true;
@@ -596,8 +596,8 @@ namespace Ogre {
         // NB only eliminate middle keys from sequences of 5+ identical keyframes
         // since we need to preserve the boundary keys in place, and we need
         // 2 at each end to preserve tangents for spline interpolation
-        Vector3 lasttrans = Vector3::ZERO;
-        Vector3 lastscale = Vector3::ZERO;
+        Vector3 lasttrans = Vector3::zero;
+        Vector3 lastscale = Vector3::zero;
         Quaternion lastorientation;
         Radian quatTolerance(1e-3f);
         std::list<unsigned short> removeList;
@@ -611,8 +611,8 @@ namespace Ogre {
             Quaternion neworientation = kf->getRotation();
             // Ignore first keyframe; now include the last keyframe as we eliminate
             // only k-2 in a group of 5 to ensure we only eliminate middle keys
-            if (k && newtrans.positionEquals(lasttrans) &&
-                newscale.positionEquals(lastscale) &&
+            if (k && newtrans.position_equals(lasttrans) &&
+                newscale.position_equals(lastscale) &&
                 neworientation.equals(lastorientation, quatTolerance))
             {
                 ++dupKfCount;
@@ -677,7 +677,7 @@ namespace Ogre {
             TransformKeyFrame* kf = static_cast<TransformKeyFrame*>(k);
             kf->setTranslate(kf->getTranslate() - base->getTranslate());
             kf->setRotation(base->getRotation().Inverse() * kf->getRotation());
-            kf->setScale(kf->getScale() * (Vector3::UNIT_SCALE / base->getScale()));
+            kf->setScale(kf->getScale() * (Vector3::unit_scale / base->getScale()));
         }
             
     }

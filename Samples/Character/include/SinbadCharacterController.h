@@ -99,7 +99,7 @@ public:
             mTimer = 0;
         }
 
-        if (!mKeyDirection.isZeroLength() && mBaseAnimID == ANIM_IDLE_BASE)
+        if (!mKeyDirection.is_zero() && mBaseAnimID == ANIM_IDLE_BASE)
         {
             // start running if not already moving and the player wants to move
             setBaseAnimation(ANIM_RUN_BASE, true);
@@ -116,7 +116,7 @@ public:
         else if (key == 's' && mKeyDirection.z == 1) mKeyDirection.z = 0;
         else if (key == 'd' && mKeyDirection.x == 1) mKeyDirection.x = 0;
 
-        if (mKeyDirection.isZeroLength() && mBaseAnimID == ANIM_RUN_BASE)
+        if (mKeyDirection.is_zero() && mBaseAnimID == ANIM_RUN_BASE)
         {
             // stop running if already moving and the player doesn't want to move
             setBaseAnimation(ANIM_IDLE_BASE);
@@ -152,7 +152,7 @@ private:
     void setupBody(SceneManager* sceneMgr)
     {
         // create main model
-        mBodyNode = sceneMgr->getRootSceneNode()->createChildSceneNode(Vector3::UNIT_Y * CHAR_HEIGHT);
+        mBodyNode = sceneMgr->getRootSceneNode()->createChildSceneNode(Vector3::unit_y * CHAR_HEIGHT);
         mBodyEnt = sceneMgr->createEntity("SinbadBody", "Sinbad.mesh");
         mBodyNode->attachObject(mBodyEnt);
 
@@ -183,7 +183,7 @@ private:
             mSwordTrail->setInitialWidth(i, 0.5);
         }
 
-        mKeyDirection = Vector3::ZERO;
+        mKeyDirection = Vector3::zero;
         mVerticalVelocity = 0;
     }
 
@@ -238,9 +238,9 @@ private:
 
     void updateBody(Real deltaTime)
     {
-        mGoalDirection = Vector3::ZERO;   // we will calculate this
+        mGoalDirection = Vector3::zero;   // we will calculate this
 
-        if (mKeyDirection != Vector3::ZERO && mBaseAnimID != ANIM_DANCE)
+        if (mKeyDirection != Vector3::zero && mBaseAnimID != ANIM_DANCE)
         {
             // calculate actually goal direction in world based on player's key directions
             mGoalDirection += mKeyDirection.z * mCameraNode->getOrientation().zAxis();
@@ -248,7 +248,7 @@ private:
             mGoalDirection.y = 0;
             mGoalDirection.normalise();
 
-            Quaternion toGoal = mBodyNode->getOrientation().zAxis().getRotationTo(mGoalDirection);
+            Quaternion toGoal = mBodyNode->getOrientation().zAxis().rotation_to(mGoalDirection);
 
             // calculate how much the character has to turn to face goal direction
             Real yawToGoal = toGoal.getYaw().valueDegrees();
@@ -368,7 +368,7 @@ private:
             if (mTimer >= mAnims[mBaseAnimID]->getLength())
             {
                 // safely landed, so go back to running or idling
-                if (mKeyDirection == Vector3::ZERO)
+                if (mKeyDirection == Vector3::zero)
                 {
                     setBaseAnimation(ANIM_IDLE_BASE);
                     setTopAnimation(ANIM_IDLE_TOP);
@@ -417,7 +417,7 @@ private:
     void updateCamera(Real deltaTime)
     {
         // place the camera pivot roughly at the character's shoulder
-        mCameraPivot->setPosition(mBodyNode->getPosition() + Vector3::UNIT_Y * CAM_HEIGHT);
+        mCameraPivot->setPosition(mBodyNode->getPosition() + Vector3::unit_y * CAM_HEIGHT);
         // move the camera smoothly to the goal
         Vector3 goalOffset = mCameraGoal->_getDerivedPosition() - mCameraNode->getPosition();
         mCameraNode->translate(goalOffset * deltaTime * 9.0f);

@@ -33,7 +33,7 @@ void Sample_MeshLod::setupContent()
     Light* l = mSceneMgr->createLight();
     l->setType(Light::LT_DIRECTIONAL);
     SceneNode* ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    ln->setDirection(Vector3::NEGATIVE_UNIT_Y);
+    ln->setDirection(Vector3::negative_unit_y);
     ln->attachObject(l);
 
     // create a node for the model

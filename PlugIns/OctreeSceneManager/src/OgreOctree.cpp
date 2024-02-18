@@ -61,9 +61,9 @@ bool Octree::_isTwiceSize( const AxisAlignedBox &box ) const
 */
 void Octree::_getChildIndexes( const AxisAlignedBox &box, int *x, int *y, int *z ) const
 {
-    Vector3 center = mBox.getMaximum().midPoint( mBox.getMinimum() );
+    Vector3 center = mBox.getMaximum().mid_point( mBox.getMinimum() );
 
-    Vector3 ncenter = box.getMaximum().midPoint( box.getMinimum() );
+    Vector3 ncenter = box.getMaximum().mid_point( box.getMinimum() );
 
     if ( ncenter.x > center.x )
         * x = 1;

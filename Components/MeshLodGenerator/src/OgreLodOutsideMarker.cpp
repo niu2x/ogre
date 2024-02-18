@@ -103,7 +103,7 @@ void LodOutsideMarker::initHull()
         v = mVertexListOrig.begin();
         vEnd = mVertexListOrig.end();
         for (; v != vEnd; v++) {
-            Real dist = vertex[0]->position.squaredDistance(v->position);
+            Real dist = vertex[0]->position.squared_distance(v->position);
             if (dist > maxdist) {
                 maxdist = dist;
                 vertex[1] = &*v;
@@ -182,15 +182,15 @@ void LodOutsideMarker::createTriangle( CHVertex* v1, CHVertex* v2, CHVertex* v3 
 
 Real LodOutsideMarker::getPointToLineSqraredDistance(CHVertex* x1, CHVertex* x2, CHVertex* p)
 {
-    Real up = ((x2->position - x1->position).crossProduct(x1->position - p->position)).squaredLength();
-    Real down = (x2->position - x1->position).squaredLength();
+    Real up = ((x2->position - x1->position).cross_product(x1->position - p->position)).squared_length();
+    Real down = (x2->position - x1->position).squared_length();
     return up / down;
 }
 
 Real LodOutsideMarker::getTetrahedronVolume(CHVertex* a, CHVertex* b, CHVertex* c, CHVertex* d)
 {
     // V = |(a-d)*[(b-d)x(c-d)]| / 6
-    return std::abs((a->position - d->position).dotProduct((b->position - d->position).crossProduct(c->position - d->position))) / 6.0f;
+    return std::abs((a->position - d->position).dot_product((b->position - d->position).cross_product(c->position - d->position))) / 6.0f;
 }
 
 LodOutsideMarker::CHVertex* LodOutsideMarker::getFurthestVertex(CHTriangle* tri)
@@ -198,7 +198,7 @@ LodOutsideMarker::CHVertex* LodOutsideMarker::getFurthestVertex(CHTriangle* tri)
     // Find the furthest vertex from triangle plane towards the facing direction.
     CHVertex* furthestVertex = NULL;
     Real furthestDistance = 0;
-    Plane plane(tri->normal, -tri->normal.dotProduct(tri->vertex[0]->position));
+    Plane plane(tri->normal, -tri->normal.dot_product(tri->vertex[0]->position));
     plane.normalise();
     LodData::VertexList::iterator v, vEnd;
     v = mVertexListOrig.begin();
@@ -240,8 +240,8 @@ void LodOutsideMarker::getVisibleTriangles( const CHVertex* target, CHTrianglePL
         if (it->removed) {
             continue;
         }
-        Real dot1 = it->normal.dotProduct(it->vertex[0]->position);
-        Real dot2 = it->normal.dotProduct(target->position);
+        Real dot1 = it->normal.dot_product(it->vertex[0]->position);
+        Real dot2 = it->normal.dot_product(target->position);
         if(std::abs(dot2 - dot1) <= mEpsilon) {
             //Special case: The vertex is on the plane of the triangle
             //mVisibleTriangles.push_back(&*it);
@@ -327,7 +327,7 @@ bool LodOutsideMarker::isSamePosition( const Vector3& p0, const Vector3& p1 )
 
 Real LodOutsideMarker::pointToLineDir(const Vector3& ptarget, const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& n)
 {
-    return n.crossProduct(p1 - p0).dotProduct(ptarget - p0);
+    return n.cross_product(p1 - p0).dot_product(ptarget - p0);
 }
 
 bool LodOutsideMarker::isInsideLine( const Vector3& ptarget, const Vector3& p0, const Vector3& p1 )
@@ -341,9 +341,9 @@ bool LodOutsideMarker::isInsideLine( const Vector3& ptarget, const Vector3& p0, 
 
     Vector3 v1 = p1 - p0;
     Vector3 v2 = ptarget - p0;
-    Real len1 = v1.squaredLength();
-    Real len2 = v2.squaredLength();
-    Real dot = v1.dotProduct(v2);
+    Real len1 = v1.squared_length();
+    Real len2 = v2.squared_length();
+    Real dot = v1.dot_product(v2);
     return isSamePosition(ptarget, p1) || (
         dot > 0.0 // Same direction
         && len1 > len2); // Shorter
@@ -407,7 +407,7 @@ void LodOutsideMarker::fillHorizon(CHEdgeList& horizon, CHVertex* target)
 bool LodOutsideMarker::isVisible(CHTriangle* t, Vector3& v)
 {
     // We don't need epsilon here, because we assume, that the centroid is not on the triangle.
-    return t->normal.dotProduct(t->vertex[0]->position) < t->normal.dotProduct(v);
+    return t->normal.dot_product(t->vertex[0]->position) < t->normal.dot_product(v);
 }
 
 void LodOutsideMarker::cleanHull()
@@ -570,7 +570,7 @@ void LodOutsideMarker::markVertices()
             it = vert->triangles.begin();
             itEnd = vert->triangles.end();
             for (; it != itEnd; it++) {
-                if (tri->normal.dotProduct((*it)->normal) > mWalkAngle) {
+                if (tri->normal.dot_product((*it)->normal) > mWalkAngle) {
                     addHullTriangleVertices(stack, *it);
                 }
             }

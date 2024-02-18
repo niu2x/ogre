@@ -208,7 +208,7 @@ namespace Ogre {
 
         ret->setPosition(offsetPosition);
         ret->setOrientation(offsetOrientation);
-        ret->setScale(Vector3::UNIT_SCALE);
+        ret->setScale(Vector3::unit_scale);
         ret->setBindingPose();
         bone->addChild(ret);
 

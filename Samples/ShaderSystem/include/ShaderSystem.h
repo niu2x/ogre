@@ -24,17 +24,17 @@ class _OgreSampleClassExport InfiniteFrustum : public Frustum
 public:
     InfiniteFrustum() : Frustum()
     {
-        mFrustumPlanes[FRUSTUM_PLANE_LEFT].normal = Vector3::NEGATIVE_UNIT_X;
+        mFrustumPlanes[FRUSTUM_PLANE_LEFT].normal = Vector3::negative_unit_x;
         mFrustumPlanes[FRUSTUM_PLANE_LEFT].d = 9999999999999999999.0f;
-        mFrustumPlanes[FRUSTUM_PLANE_RIGHT].normal = Vector3::UNIT_X;
+        mFrustumPlanes[FRUSTUM_PLANE_RIGHT].normal = Vector3::unit_x;
         mFrustumPlanes[FRUSTUM_PLANE_RIGHT].d = 9999999999999999999.0f;
-        mFrustumPlanes[FRUSTUM_PLANE_TOP].normal = Vector3::NEGATIVE_UNIT_Y;
+        mFrustumPlanes[FRUSTUM_PLANE_TOP].normal = Vector3::negative_unit_y;
         mFrustumPlanes[FRUSTUM_PLANE_TOP].d = 9999999999999999999.0f;
-        mFrustumPlanes[FRUSTUM_PLANE_BOTTOM].normal = Vector3::UNIT_Y;
+        mFrustumPlanes[FRUSTUM_PLANE_BOTTOM].normal = Vector3::unit_y;
         mFrustumPlanes[FRUSTUM_PLANE_BOTTOM].d = 9999999999999999999.0f;
-        mFrustumPlanes[FRUSTUM_PLANE_NEAR].normal = Vector3::NEGATIVE_UNIT_Z;
+        mFrustumPlanes[FRUSTUM_PLANE_NEAR].normal = Vector3::negative_unit_z;
         mFrustumPlanes[FRUSTUM_PLANE_NEAR].d = 9999999999999999999.0f;
-        mFrustumPlanes[FRUSTUM_PLANE_FAR].normal = Vector3::UNIT_Z;
+        mFrustumPlanes[FRUSTUM_PLANE_FAR].normal = Vector3::unit_z;
         mFrustumPlanes[FRUSTUM_PLANE_FAR].d = 9999999999999999999.0f;
     }
     bool isVisible(const AxisAlignedBox& bound, FrustumPlane* culledBy = 0) const override {return true;};

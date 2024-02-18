@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include <gtest/gtest.h>
 #include "OgreDualQuaternion.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreMatrix4.h"
 
 
@@ -37,7 +37,7 @@ using namespace Ogre;
 TEST(DualQuaternionTests,Conversion)
 {
     DualQuaternion dQuat;
-    Quaternion quat(Radian(Degree(60)), Vector3::UNIT_Y);
+    Quaternion quat(Radian(Degree(60)), Vector3::unit_y);
     Vector3 translation(0, 0, 10);
     dQuat.fromRotationTranslation(quat, translation);
         
@@ -46,7 +46,7 @@ TEST(DualQuaternionTests,Conversion)
     dQuat.toRotationTranslation(result, resTrans);
 
     EXPECT_EQ(result, quat);
-    EXPECT_TRUE(resTrans.positionEquals(translation));
+    EXPECT_TRUE(resTrans.position_equals(translation));
 }
 //--------------------------------------------------------------------------
 TEST(DualQuaternionTests,DefaultValue)
@@ -59,16 +59,16 @@ TEST(DualQuaternionTests,DefaultValue)
     dQuatDefault.toRotationTranslation(quatDefault, transDefault);
 
     EXPECT_EQ(quatDefault, Quaternion::IDENTITY); 
-    EXPECT_TRUE(transDefault.positionEquals(Vector3::ZERO));
+    EXPECT_TRUE(transDefault.position_equals(Vector3::zero));
 }
 //--------------------------------------------------------------------------
 TEST(DualQuaternionTests,Matrix)
 {
     Affine3 transform;
     Vector3 translation(10, 4, 0);
-    Vector3 scale = Vector3::UNIT_SCALE;
+    Vector3 scale = Vector3::unit_scale;
     Quaternion rotation;
-    rotation.FromAngleAxis(Radian(Math::PI), Vector3::UNIT_Z);
+    rotation.FromAngleAxis(Radian(Math::PI), Vector3::unit_z);
     transform.makeTransform(translation, scale, rotation);
 
     DualQuaternion dQuat;
@@ -81,8 +81,8 @@ TEST(DualQuaternionTests,Matrix)
     Quaternion rotationResult;
     transformResult.decomposition(translationResult, scaleResult, rotationResult);
 
-    EXPECT_TRUE(translationResult.positionEquals(translation));
-    EXPECT_TRUE(scaleResult.positionEquals(scale));
+    EXPECT_TRUE(translationResult.position_equals(translation));
+    EXPECT_TRUE(scaleResult.position_equals(scale));
     EXPECT_TRUE(rotationResult.equals(rotation, Radian(0.001)));
 }
 //--------------------------------------------------------------------------

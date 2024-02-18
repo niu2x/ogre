@@ -69,7 +69,7 @@ namespace Volume {
             req.totalTo = totalTo;
             req.level = level;
             req.maxLevels = maxLevels;
-            req.isUpdate = mShared->parameters->updateFrom != Vector3::ZERO || mShared->parameters->updateTo != Vector3::ZERO;
+            req.isUpdate = mShared->parameters->updateFrom != Vector3::zero || mShared->parameters->updateTo != Vector3::zero;
 
             req.root = OGRE_NEW OctreeNode(from, to);
             req.meshBuilder = OGRE_NEW MeshBuilder();
@@ -158,7 +158,7 @@ namespace Volume {
     {
 
         // Handle the situation where we update an existing tree
-        if (mShared->parameters->updateFrom != Vector3::ZERO || mShared->parameters->updateTo != Vector3::ZERO)
+        if (mShared->parameters->updateFrom != Vector3::zero || mShared->parameters->updateTo != Vector3::zero)
         {
             // Early out if an update of a part of the tree volume is going on and this chunk is outside of the area.
             AxisAlignedBox chunkCube(from, to);
@@ -306,7 +306,7 @@ namespace Volume {
 
     Real Chunk::getSquaredViewDepth(const Camera* camera) const
     {
-        return (mBox.getCenter() * mShared->parameters->scale).squaredDistance(camera->getDerivedPosition());
+        return (mBox.getCenter() * mShared->parameters->scale).squared_distance(camera->getDerivedPosition());
     }
     
     //-----------------------------------------------------------------------
@@ -329,7 +329,7 @@ namespace Volume {
         isRoot = true;
 
         // Don't recreate the shared parameters on update.
-        if (parameters->updateFrom == Vector3::ZERO && parameters->updateTo == Vector3::ZERO)
+        if (parameters->updateFrom == Vector3::zero && parameters->updateTo == Vector3::zero)
         {
             mShared = new ChunkTreeSharedData(parameters);
             parent->scale(Vector3(parameters->scale));
@@ -350,7 +350,7 @@ namespace Volume {
         
     
         // Just add the frame listener on initial load
-        if (parameters->updateFrom == Vector3::ZERO && parameters->updateTo == Vector3::ZERO)
+        if (parameters->updateFrom == Vector3::zero && parameters->updateTo == Vector3::zero)
         {
             Root::getSingleton().addFrameListener(this);
         }

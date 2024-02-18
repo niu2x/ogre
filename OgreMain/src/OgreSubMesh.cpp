@@ -327,10 +327,10 @@ namespace Ogre {
                 poselem->baseVertexPointerToElement (vdata + i * vsz, &v);
 
                 Vector3 vv (v [0], v [1], v [2]);
-                Real r = (vv - center).squaredLength ();
+                Real r = (vv - center).squared_length ();
 
                 for (auto extremityPoint : extremityPoints)
-                    r += (extremityPoint - vv).squaredLength ();
+                    r += (extremityPoint - vv).squared_length ();
                 if (r > rating)
                 {
                     rating = r;

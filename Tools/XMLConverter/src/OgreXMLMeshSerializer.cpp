@@ -857,7 +857,7 @@ namespace Ogre {
         unsigned short totalTexCoords = 0; // across all buffers
 
         // Information for calculating bounds
-        Vector3 min = Vector3::ZERO, max = Vector3::UNIT_SCALE, pos = Vector3::ZERO;
+        Vector3 min = Vector3::zero, max = Vector3::unit_scale, pos = Vector3::zero;
         Real maxSquaredRadius = -1;
         bool first = true;
 
@@ -1008,14 +1008,14 @@ namespace Ogre {
                         if (first)
                         {
                             min = max = pos;
-                            maxSquaredRadius = pos.squaredLength();
+                            maxSquaredRadius = pos.squared_length();
                             first = false;
                         }
                         else
                         {
-                            min.makeFloor(pos);
-                            max.makeCeil(pos);
-                            maxSquaredRadius = std::max(pos.squaredLength(), maxSquaredRadius);
+                            min.make_floor(pos);
+                            max.make_ceil(pos);
+                            maxSquaredRadius = std::max(pos.squared_length(), maxSquaredRadius);
                         }
                         break;
                     case VES_NORMAL:

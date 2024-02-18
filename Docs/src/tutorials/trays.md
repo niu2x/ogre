@@ -179,5 +179,5 @@ Ray r = OgreBites::TrayManager::screenToScene(mCamera, Vector2(320, 240));
 ```
 Converting a 3D scene coordinate to a 2D screen coordinate:
 ```cpp
-Vector2 p = OgreBites::TrayManager::sceneToScreen(mCamera, Vector3::ZERO);
+Vector2 p = OgreBites::TrayManager::sceneToScreen(mCamera, Vector3::zero);
 ```

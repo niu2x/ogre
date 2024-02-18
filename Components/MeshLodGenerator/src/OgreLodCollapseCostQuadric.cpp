@@ -33,7 +33,7 @@
  */
 
 #include "OgreLodCollapseCostQuadric.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 namespace Ogre
 {
@@ -60,7 +60,7 @@ namespace Ogre
         plane[1] = triangle.normal.y;
         plane[2] = triangle.normal.z;
         Vector3& v0 = triangle.vertex[0]->position;
-        plane[3] = -v0.dotProduct(triangle.normal);
+        plane[3] = -v0.dot_product(triangle.normal);
         for(int i=0;i<4;i++){
             for(int n=0;n<4;n++){
                 quadric[i][n] = plane[i] * plane[n];

@@ -1787,7 +1787,7 @@ namespace Ogre {
         Affine3 world2Obj = mParentNode->_getFullTransform().inverse();
         lightPos = world2Obj * lightPos;
         Matrix3 world2Obj3x3 = world2Obj.linear();
-        extrusionDistance *= Math::Sqrt(std::min(std::min(world2Obj3x3.GetColumn(0).squaredLength(), world2Obj3x3.GetColumn(1).squaredLength()), world2Obj3x3.GetColumn(2).squaredLength()));
+        extrusionDistance *= Math::Sqrt(std::min(std::min(world2Obj3x3.GetColumn(0).squared_length(), world2Obj3x3.GetColumn(1).squared_length()), world2Obj3x3.GetColumn(2).squared_length()));
 
         // We need to search the edge list for silhouette edges
         EdgeData* edgeList = getEdgeList();

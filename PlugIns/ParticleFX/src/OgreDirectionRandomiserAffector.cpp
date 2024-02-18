@@ -75,7 +75,7 @@ namespace Ogre {
         {
             if (mScope > Math::UnitRandom())
             {
-                if (!p->mDirection.isZeroLength())
+                if (!p->mDirection.is_zero())
                 {
                     if (mKeepVelocity)
                     {

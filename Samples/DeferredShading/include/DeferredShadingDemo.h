@@ -172,7 +172,7 @@ protected:
 
             Light* knotLight = mSceneMgr->createLight(StringUtil::format("KnotLight%d", i));
             SceneNode* ln = rootNode->createChildSceneNode(clonePos + Vector3(0,3,0));
-            ln->setDirection(Vector3::NEGATIVE_UNIT_Y);
+            ln->setDirection(Vector3::negative_unit_y);
             ln->attachObject(knotLight);
             knotLight->setType(Light::LT_SPOTLIGHT);
             knotLight->setDiffuseColour(SAMPLE_COLORS[i]);
@@ -255,7 +255,7 @@ protected:
         ln->attachObject(l1);
 
         mCameraNode->setPosition(25, 5, 0);
-        mCameraNode->lookAt(Vector3::ZERO, Node::TS_PARENT);
+        mCameraNode->lookAt(Vector3::zero, Node::TS_PARENT);
         mCamera->setFarClipDistance(1000.0);
         mCamera->setNearClipDistance(0.5);
         setDragLook(true);

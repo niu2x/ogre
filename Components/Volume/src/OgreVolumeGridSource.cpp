@@ -25,7 +25,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreVolumeGridSource.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "log_manager.h"
 #include "OgreRay.h"
 #include "OgreVolumeCSGSource.h"
@@ -47,7 +47,7 @@ namespace Volume {
         std::pair<bool, Real> intersection = ray.intersects(box);
         if (intersection.first)
         {
-            Vector3 direction = ray.getDirection().normalisedCopy();
+            Vector3 direction = ray.getDirection().normalised_copy();
             return ray.getOrigin() + direction * intersection.second;
         }
 
@@ -60,7 +60,7 @@ namespace Volume {
     Vector3 GridSource::getIntersectionEnd(const Ray &ray, Real maxDistance) const
     {
         AxisAlignedBox box((Real)0, (Real)0, (Real)0, (Real)mWidth / mPosXScale, (Real)mHeight / mPosYScale, (Real)mDepth / mPosZScale);
-        Vector3 direction = ray.getDirection().normalisedCopy();
+        Vector3 direction = ray.getDirection().normalised_copy();
         Vector3 invertedDirection = (Real)-1.0 * direction;
         Vector3 origin = ray.getOrigin() + direction * box.getSize().length();
 

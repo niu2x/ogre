@@ -39,7 +39,7 @@ public:
             // set the new position based on the spline path and set the direction based on displacement
             Vector3 lastPos = mFishNodes[i]->getPosition();
             mFishNodes[i]->setPosition(mFishSplines[i].interpolate(mFishAnimTime / FISH_PATH_LENGTH));
-            mFishNodes[i]->setDirection(mFishNodes[i]->getPosition() - lastPos, Node::TS_PARENT, Vector3::NEGATIVE_UNIT_X);
+            mFishNodes[i]->setDirection(mFishNodes[i]->getPosition() - lastPos, Node::TS_PARENT, Vector3::negative_unit_x);
             mFishNodes[i]->setFixedYawAxis(true);
         }
 
@@ -69,7 +69,7 @@ protected:
 
         // make the scene's main light come from above
         auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-        ln->setDirection(Vector3::NEGATIVE_UNIT_Y);
+        ln->setDirection(Vector3::negative_unit_y);
         ln->attachObject(mSceneMgr->createLight(Light::LT_DIRECTIONAL));
 
         setupWater();
@@ -92,9 +92,9 @@ protected:
 
         mCamera->setAutoAspectRatio(true);
         // create our water plane mesh
-        mWaterPlane = Plane(Vector3::UNIT_Y, 0);
+        mWaterPlane = Plane(Vector3::unit_y, 0);
         MeshManager::getSingleton().createPlane("water", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            mWaterPlane, 700, 1300, 10, 10, true, 1, 3, 5, Vector3::UNIT_Z);
+            mWaterPlane, 700, 1300, 10, 10, true, 1, 3, 5, Vector3::unit_z);
 
         // create a water entity using our mesh, give it the shader material, and attach it to the origin
         mWater = mSceneMgr->createEntity("Water", "water");
@@ -172,7 +172,7 @@ protected:
 
             // create an appropriately scaled node and attach the entity
             mFishNodes[i] = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-            mFishNodes[i]->setScale(Vector3::UNIT_SCALE * FISH_SCALE);
+            mFishNodes[i]->setScale(Vector3::unit_scale * FISH_SCALE);
             mFishNodes[i]->attachObject(ent);
 
             // enable and save the swim animation state
@@ -190,7 +190,7 @@ protected:
                 {
                     const Vector3& lastPos = mFishSplines[i].getPoint(j - 1);
                     Vector3 delta = pos - lastPos;
-                    if (delta.length() > 750) pos = lastPos + delta.normalisedCopy() * 750;
+                    if (delta.length() > 750) pos = lastPos + delta.normalised_copy() * 750;
                 }
 
                 mFishSplines[i].addPoint(pos);

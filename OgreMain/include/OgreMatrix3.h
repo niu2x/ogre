@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreVector.h"
+#include "vector.h"
 
 // NB All code adapted from Wild Magic 0.2 Matrix math (free source code)
 // http://www.geometrictools.com/
@@ -202,13 +202,13 @@ namespace Ogre
             Q.SetColumn(0, GetColumn(0) / GetColumn(0).length());
 
             // compute q1
-            Real dot0 = Q.GetColumn(0).dotProduct(GetColumn(1));
-            Q.SetColumn(1, (GetColumn(1) - dot0 * Q.GetColumn(0)).normalisedCopy());
+            Real dot0 = Q.GetColumn(0).dot_product(GetColumn(1));
+            Q.SetColumn(1, (GetColumn(1) - dot0 * Q.GetColumn(0)).normalised_copy());
 
             // compute q2
-            Real dot1 = Q.GetColumn(1).dotProduct(GetColumn(2));
-            dot0 = Q.GetColumn(0).dotProduct(GetColumn(2));
-            Q.SetColumn(2, (GetColumn(2) - dot0 * Q.GetColumn(0) + dot1 * Q.GetColumn(1)).normalisedCopy());
+            Real dot1 = Q.GetColumn(1).dot_product(GetColumn(2));
+            dot0 = Q.GetColumn(0).dot_product(GetColumn(2));
+            Q.SetColumn(2, (GetColumn(2) - dot0 * Q.GetColumn(0) + dot1 * Q.GetColumn(1)).normalised_copy());
 
             return Q;
         }
@@ -330,8 +330,8 @@ namespace Ogre
     {
         Matrix3 ret;
         // cross twice to rederive, only direction is unaltered
-        const Vector3& xAxis = yaw.crossProduct(direction).normalisedCopy();
-        const Vector3& yAxis = direction.crossProduct(xAxis);
+        const Vector3& xAxis = yaw.cross_product(direction).normalised_copy();
+        const Vector3& yAxis = direction.cross_product(xAxis);
         ret.FromAxes(xAxis, yAxis, direction);
         return ret;
     }

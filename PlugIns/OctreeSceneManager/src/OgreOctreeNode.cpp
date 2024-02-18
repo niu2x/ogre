@@ -140,7 +140,7 @@ bool OctreeNode::_isIn( AxisAlignedBox &box )
     if (box.isInfinite())
         return true;
 
-    Vector3 center = _getWorldAABB().getMaximum().midPoint( _getWorldAABB().getMinimum() );
+    Vector3 center = _getWorldAABB().getMaximum().mid_point( _getWorldAABB().getMinimum() );
 
     Vector3 bmin = box.getMinimum();
     Vector3 bmax = box.getMaximum();

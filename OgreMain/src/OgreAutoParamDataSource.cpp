@@ -318,7 +318,7 @@ namespace Ogre {
                 mViewMatrix = mCurrentCamera->getViewMatrix(true);
                 if (mCameraRelativeRendering)
                 {
-                    mViewMatrix.setTrans(Vector3::ZERO);
+                    mViewMatrix.setTrans(Vector3::zero);
                 }
 
             }
@@ -461,7 +461,7 @@ namespace Ogre {
         {
             if (mCameraRelativeRendering)
             {
-                mCameraPositionObjectSpace = Vector4(getInverseWorldMatrix() * Vector3::ZERO);
+                mCameraPositionObjectSpace = Vector4(getInverseWorldMatrix() * Vector3::zero);
             }
             else
             {
@@ -744,12 +744,12 @@ namespace Ogre {
                 // Calculate direction, which same as spotlight direction
                 Vector3 dir = - l.getDerivedDirection(); // backwards since point down -z
                 dir.normalise();
-                Vector3 up = Vector3::UNIT_Y;
+                Vector3 up = Vector3::unit_y;
                 // Check it's not coincident with dir
-                if (Math::Abs(up.dotProduct(dir)) >= 1.0f)
+                if (Math::Abs(up.dot_product(dir)) >= 1.0f)
                 {
                     // Use camera up
-                    up = Vector3::UNIT_Z;
+                    up = Vector3::unit_z;
                 }
                 dummyNode.setOrientation(Math::lookRotation(dir, up));
 

@@ -278,7 +278,7 @@ void ShaderExInstancedViewports::setMonitorsCount( const Vector2 monitorCount )
 
             Ogre::Quaternion q;
             Ogre::Radian angle = Ogre::Degree(90 / ( monitorCount.x *  monitorCount.y) * (x + y * monitorCount.x) );
-            q.FromAngleAxis(angle,Ogre::Vector3::UNIT_Y);
+            q.FromAngleAxis(angle,Ogre::Vector3::unit_y);
             q.normalise();
             Ogre::Matrix3 rotMat;
             q.ToRotationMatrix(rotMat);

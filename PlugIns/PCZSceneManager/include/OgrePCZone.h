@@ -261,8 +261,8 @@ namespace Ogre
 
             bool operator()(const PortalBase* p1, const PortalBase* p2) const
             {
-                Real depth1 = p1->getDerivedCP().squaredDistance(cameraPosition);
-                Real depth2 = p2->getDerivedCP().squaredDistance(cameraPosition);
+                Real depth1 = p1->getDerivedCP().squared_distance(cameraPosition);
+                Real depth2 = p2->getDerivedCP().squared_distance(cameraPosition);
                 return (depth1 < depth2);
             }
         };

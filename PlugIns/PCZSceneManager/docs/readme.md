@@ -96,7 +96,7 @@ Sphere Portals require 2 corner points (center point, and point on the surface o
 the sphere).  
 
 The "direction" norm of AAB and Sphere portals is specified as either 
-Vector3::UNIT_NEGATIVE_Z or Vector3::UNIT_Z.  The first corresponds to a portal
+Vector3::UNIT_NEGATIVE_Z or Vector3::unit_z.  The first corresponds to a portal
 with norm facing 'inward' and the latter corresponds to a portal with norm facing
 'outward'.  
 

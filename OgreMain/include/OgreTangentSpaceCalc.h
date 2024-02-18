@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreRenderOperation.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre
@@ -200,7 +200,7 @@ namespace Ogre
             // What index the opposite parity vertex copy is at (0 if not created yet)
             size_t oppositeParityIndex;
 
-            VertexInfo() : tangent(Vector3::ZERO), binormal(Vector3::ZERO), 
+            VertexInfo() : tangent(Vector3::zero), binormal(Vector3::zero), 
                 parity(0), oppositeParityIndex(0) {}
         };
         typedef std::vector<VertexInfo> VertexInfoArray;

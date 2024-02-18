@@ -37,8 +37,8 @@ namespace Ogre {
         mOwnDimensions(false),
         mUseTexcoordRect(false),
         mTexcoordIndex(0),
-        mPosition(Vector3::ZERO),
-        mDirection(Vector3::ZERO),        
+        mPosition(Vector3::zero),
+        mDirection(Vector3::zero),        
         mColour(0xFFFFFFFF),
         mRotation(0)
     {
@@ -53,7 +53,7 @@ namespace Ogre {
         , mUseTexcoordRect(false)
         , mTexcoordIndex(0)
         , mPosition(position)
-        , mDirection(Vector3::ZERO)
+        , mDirection(Vector3::zero)
         , mColour(colour.as_BYTE())
         , mRotation(0)
     {

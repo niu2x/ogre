@@ -91,9 +91,9 @@ void SceneManager::SkyPlaneRenderer::setSkyPlane(
         }
 
         // Create up vector
-        Vector3 up = plane.normal.crossProduct(Vector3::UNIT_X);
-        if (up == Vector3::ZERO)
-            up = plane.normal.crossProduct(-Vector3::UNIT_Z);
+        Vector3 up = plane.normal.cross_product(Vector3::unit_x);
+        if (up == Vector3::zero)
+            up = plane.normal.cross_product(-Vector3::unit_z);
 
         // Create skyplane
         if( bow > 0 )
@@ -234,7 +234,7 @@ void SceneManager::SkyBoxRenderer::setSkyBox(
         {
             mSkyBoxObj->position(orientation * (vtx * distance));
             // Note UVs mirrored front/back
-            mSkyBoxObj->textureCoord(vtx.normalisedCopy() * Vector3(1, 1, -1));
+            mSkyBoxObj->textureCoord(vtx.normalised_copy() * Vector3(1, 1, -1));
         }
 
         mSkyBoxObj->end();
@@ -343,28 +343,28 @@ MeshPtr SceneManager::SkyDomeRenderer::createSkydomePlane(
     switch(bp)
     {
     case BP_FRONT:
-        plane.normal = Vector3::UNIT_Z;
-        up = Vector3::UNIT_Y;
+        plane.normal = Vector3::unit_z;
+        up = Vector3::unit_y;
         meshName += "Front";
         break;
     case BP_BACK:
-        plane.normal = -Vector3::UNIT_Z;
-        up = Vector3::UNIT_Y;
+        plane.normal = -Vector3::unit_z;
+        up = Vector3::unit_y;
         meshName += "Back";
         break;
     case BP_LEFT:
-        plane.normal = Vector3::UNIT_X;
-        up = Vector3::UNIT_Y;
+        plane.normal = Vector3::unit_x;
+        up = Vector3::unit_y;
         meshName += "Left";
         break;
     case BP_RIGHT:
-        plane.normal = -Vector3::UNIT_X;
-        up = Vector3::UNIT_Y;
+        plane.normal = -Vector3::unit_x;
+        up = Vector3::unit_y;
         meshName += "Right";
         break;
     case BP_UP:
-        plane.normal = -Vector3::UNIT_Y;
-        up = Vector3::UNIT_Z;
+        plane.normal = -Vector3::unit_y;
+        up = Vector3::unit_z;
         meshName += "Up";
         break;
     case BP_DOWN:

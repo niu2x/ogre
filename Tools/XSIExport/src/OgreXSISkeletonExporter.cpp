@@ -320,7 +320,7 @@ namespace Ogre
                 // offset along X the length of the bone
                 double boneLen = endBone.GetParameterValue(L"Length");
                 deformer->pBone->setPosition(
-                    deformer->pBone->getPosition() + Vector3::UNIT_X * boneLen);
+                    deformer->pBone->getPosition() + Vector3::unit_x * boneLen);
             }
 
         }

@@ -104,7 +104,7 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
 
      // create a mesh for our ground
      MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                             Plane(Vector3::UNIT_Y, 0), 1000, 1000, 20, 20, true, 1, 6, 6, Vector3::UNIT_Z);
+                                             Plane(Vector3::unit_y, 0), 1000, 1000, 20, 20, true, 1, 6, 6, Vector3::unit_z);
 
      // create a ground entity from our mesh and attach it to the origin
      Entity* ground = mSceneMgr->createEntity("Ground", "ground");
@@ -130,7 +130,7 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
          for (int z = -280; z < 280; z += 20)
          {
              Vector3 pos(x + Math::RangeRandom(-7, 7), 0, z + Math::RangeRandom(-7, 7));
-             Quaternion ori(Degree(Math::RangeRandom(0, 359)), Vector3::UNIT_Y);
+             Quaternion ori(Degree(Math::RangeRandom(0, 359)), Vector3::unit_y);
              Vector3 scale(1, Math::RangeRandom(0.85, 1.15), 1);
 
              mField->addEntity(grass, pos, ori, scale);
@@ -174,7 +174,7 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
      {
          //! [grass_base]
          // planes intersect along the Y axis with 60 degrees between them
-         Vector3 vec = Quaternion(Degree(i * 60), Vector3::UNIT_Y) * Vector3(width / 2, 0, 0);
+         Vector3 vec = Quaternion(Degree(i * 60), Vector3::unit_y) * Vector3(width / 2, 0, 0);
          //! [grass_base]
 
          //! [mo_quad]

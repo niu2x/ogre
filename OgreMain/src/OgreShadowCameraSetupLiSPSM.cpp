@@ -79,7 +79,7 @@ namespace Ogre
 
         // calculate the projection center C which is n units behind the near plane of P
         // we look into the negative z direction so add n
-        const Vector3 C(C_start_ls + n_opt * Vector3::UNIT_Z);
+        const Vector3 C(C_start_ls + n_opt * Vector3::unit_z);
 
         // set up a transformation matrix to transform the light space to its new origin
         Matrix4 lightSpaceTranslation(Matrix4::IDENTITY);
@@ -169,7 +169,7 @@ namespace Ogre
 
         // try to intersect plane with a ray from origin V3(e_ls_x, 0.0, bodyB_zNear_ls)T
         // and direction +/- UNIT_Y
-        Ray ray(Vector3(e_ls.x, 0.0, bodyB_zMax_ls), Vector3::UNIT_Y);
+        Ray ray(Vector3(e_ls.x, 0.0, bodyB_zMax_ls), Vector3::unit_y);
         std::pair< bool, Real > intersect = ray.intersects(plane);
 
         // we got an intersection point
@@ -180,7 +180,7 @@ namespace Ogre
         else
         {
             // try the other direction
-            ray = Ray(Vector3(e_ls.x, 0.0, bodyB_zMax_ls), Vector3::NEGATIVE_UNIT_Y);
+            ray = Ray(Vector3(e_ls.x, 0.0, bodyB_zMax_ls), Vector3::negative_unit_y);
             intersect = ray.intersects(plane);
 
             // we got an intersection point
@@ -211,7 +211,7 @@ namespace Ogre
 
         // if the direction of the light and the direction of the camera tend to be parallel,
         // then tweak up the adjust factor
-        Real dot = Math::Abs(cam->getDerivedDirection().dotProduct(light->getDerivedDirection()));
+        Real dot = Math::Abs(cam->getDerivedDirection().dot_product(light->getDerivedDirection()));
         if (dot >= mCosCamLightDirThreshold)
         {
             mOptAdjustFactorTweak = 1.0f + (20.0f * ((dot - mCosCamLightDirThreshold) / (1.0f - mCosCamLightDirThreshold)) );
@@ -266,7 +266,7 @@ namespace Ogre
         // - position is the origin
         // - the view direction is the calculated viewDir
         // - the up vector is the y-axis
-        LProj = Matrix4(Math::lookRotation(-viewDir, Vector3::UNIT_Y).transpose()) * LProj;
+        LProj = Matrix4(Math::lookRotation(-viewDir, Vector3::unit_y).transpose()) * LProj;
 
         // calculate LiSPSM projection
         LProj = calculateLiSPSM(LProj * LView, mPointListBodyB, mPointListBodyLVS, *sm, *cam, *light) * LProj;

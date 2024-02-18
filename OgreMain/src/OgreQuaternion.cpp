@@ -361,8 +361,8 @@ namespace Ogre {
 		// nVidia SDK implementation
 		Vector3 uv, uuv;
 		Vector3 qvec(x, y, z);
-		uv = qvec.crossProduct(v);
-		uuv = qvec.crossProduct(uv);
+		uv = qvec.cross_product(v);
+		uuv = qvec.cross_product(uv);
 		uv *= (2.0f * w);
 		uuv *= 2.0f;
 

@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "StringTests.h"
 #include "OgreStringConverter.h"
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreQuaternion.h"
 #include "OgreMatrix4.h"
 #include "colour_value.h"

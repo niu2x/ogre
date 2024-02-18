@@ -74,7 +74,7 @@ namespace Ogre
                 rotate Initial rotation relative to parent
         */
         Bone* createChild(unsigned short handle, 
-            const Vector3& translate = Vector3::ZERO, const Quaternion& rotate = Quaternion::IDENTITY);
+            const Vector3& translate = Vector3::zero, const Quaternion& rotate = Quaternion::IDENTITY);
 
         /** Gets the numeric handle for this bone (unique within the skeleton). */
         unsigned short getHandle(void) const;

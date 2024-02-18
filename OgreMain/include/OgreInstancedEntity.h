@@ -266,7 +266,7 @@ namespace Ogre
         const Vector3& _getDerivedPosition() const {
             assert((!mNeedTransformUpdate || !mUseLocalTransform) && "Transform data should be updated at this point");
             return mUseLocalTransform ? mDerivedLocalPosition :
-                mParentNode ? mParentNode->_getDerivedPosition() : Vector3::ZERO;
+                mParentNode ? mParentNode->_getDerivedPosition() : Vector3::zero;
         }
 
         /** @copydoc MovableObject::isInScene */
@@ -282,7 +282,7 @@ namespace Ogre
             using millions of InstancedEntities, the params have been detached from InstancedEntity
             and stored in it's InstanceBatch instead, to reduce memory overhead.
 
-            If this function is never called, all instances default to Vector4::ZERO. Watch out!
+            If this function is never called, all instances default to Vector4::zero. Watch out!
             If you destroy an instanced entity and then create it again (remember! Instanced entities
             are pre-allocated) it's custom param will contain the old value when it was destroyed.
         @param idx of the param. In the range [0; InstanceManager::getNumCustomParams())

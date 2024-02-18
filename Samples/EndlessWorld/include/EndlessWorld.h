@@ -80,7 +80,7 @@ public:
 			Vector3 camPos = mCameraNode->getPosition();
 			Ray ray;
 			ray.setOrigin(Vector3(camPos.x, mTerrainPos.y + 10000, camPos.z));
-			ray.setDirection(Vector3::NEGATIVE_UNIT_Y);
+			ray.setDirection(Vector3::negative_unit_y);
 
 			TerrainGroup::RayResult rayResult = mTerrainGroup->rayIntersects(ray);
 			const Real distanceAboveTerrain = 50;
@@ -364,7 +364,7 @@ protected:
 		l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
 
 	    auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	    ln->setDirection(Vector3(0.55, -0.3, 0.75).normalisedCopy());
+	    ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
 	    ln->attachObject(l);
 
 		mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));

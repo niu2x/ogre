@@ -224,8 +224,8 @@ static Intersection intersect( const Sphere &one, const AxisAlignedBox &two )
     Vector3 mndistance = ( twoMin - scenter );
     Vector3 mxdistance = ( twoMax - scenter );
 
-    if ( mndistance.squaredLength() < sradius &&
-            mxdistance.squaredLength() < sradius )
+    if ( mndistance.squared_length() < sradius &&
+            mxdistance.squared_length() < sradius )
     {
         return INSIDE;
     }

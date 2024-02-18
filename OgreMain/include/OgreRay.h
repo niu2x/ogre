@@ -48,7 +48,7 @@ namespace Ogre {
         Vector3 mOrigin;
         Vector3 mDirection;
     public:
-        Ray():mOrigin(Vector3::ZERO), mDirection(Vector3::UNIT_Z) {}
+        Ray():mOrigin(Vector3::zero), mDirection(Vector3::unit_z) {}
         Ray(const Vector3& origin, const Vector3& direction)
             :mOrigin(origin), mDirection(direction) {}
 
@@ -75,7 +75,7 @@ namespace Ogre {
         /** Tests whether this ray intersects the given plane. */
         RayTestResult intersects(const Plane& p) const
         {
-            Real denom = p.normal.dotProduct(mDirection);
+            Real denom = p.normal.dot_product(mDirection);
             if (Math::Abs(denom) < std::numeric_limits<Real>::epsilon())
             {
                 // Parallel
@@ -83,7 +83,7 @@ namespace Ogre {
             }
             else
             {
-                Real nom = p.normal.dotProduct(mOrigin) + p.d;
+                Real nom = p.normal.dot_product(mOrigin) + p.d;
                 Real t = -(nom / denom);
                 return RayTestResult(t >= 0, (Real)t);
             }
@@ -101,7 +101,7 @@ namespace Ogre {
             Real radius = s.getRadius();
 
             // Check origin inside first
-            if (rayorig.squaredLength() <= radius*radius && discardInside)
+            if (rayorig.squared_length() <= radius*radius && discardInside)
             {
                 return RayTestResult(true, (Real)0);
             }
@@ -109,9 +109,9 @@ namespace Ogre {
             // Mmm, quadratics
             // Build coeffs which can be used with std quadratic solver
             // ie t = (-b +/- sqrt(b*b + 4ac)) / 2a
-            Real a = mDirection.dotProduct(mDirection);
-            Real b = 2 * rayorig.dotProduct(mDirection);
-            Real c = rayorig.dotProduct(rayorig) - radius*radius;
+            Real a = mDirection.dot_product(mDirection);
+            Real b = 2 * rayorig.dot_product(mDirection);
+            Real c = rayorig.dot_product(rayorig) - radius*radius;
 
             // Calc determinant
             Real d = (b*b) - (4 * a * c);

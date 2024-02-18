@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include <gtest/gtest.h>
-#include "OgreVector.h"
+#include "vector.h"
 #include "OgreMatrix4.h"
 
 using namespace Ogre;
@@ -40,7 +40,7 @@ TEST(VectorTests,Vector2Scaler)
     v1 = Vector2(1);
     EXPECT_EQ(v1, Vector2(1, 1));
     v1 = Vector2(0.0);
-    EXPECT_EQ(v1, Vector2::ZERO);
+    EXPECT_EQ(v1, Vector2::zero);
     v1 += 3;
     EXPECT_EQ(v1, Vector2(3, 3));
 
@@ -60,7 +60,7 @@ TEST(VectorTests,Vector3Scaler)
     v1 = Vector3(1);
     EXPECT_EQ(v1, Vector3(1));
     v1 = Vector3(0.0);
-    EXPECT_EQ(v1, Vector3::ZERO);
+    EXPECT_EQ(v1, Vector3::zero);
     v1 += 3;
     EXPECT_EQ(v1, Vector3(3));
 
@@ -98,13 +98,13 @@ TEST(VectorTests,PerpendicularVector)
     Vector3 v2(0, 1, 0);
     Vector3 v3(0, 0, 1);
 
-    EXPECT_EQ(v1.dotProduct(v1.perpendicular()), (Real)0);
-    EXPECT_EQ(v2.dotProduct(v2.perpendicular()), (Real)0);
-    EXPECT_EQ(v3.dotProduct(v3.perpendicular()), (Real)0);
+    EXPECT_EQ(v1.dot_product(v1.perpendicular()), (Real)0);
+    EXPECT_EQ(v2.dot_product(v2.perpendicular()), (Real)0);
+    EXPECT_EQ(v3.dot_product(v3.perpendicular()), (Real)0);
 
-    EXPECT_EQ((v1 + v2).dotProduct((v1 + v2).perpendicular()), (Real)0);
-    EXPECT_EQ((v2 + v3).dotProduct((v2 + v3).perpendicular()), (Real)0);
-    EXPECT_EQ((v3 + v1).dotProduct((v3 + v1).perpendicular()), (Real)0);
+    EXPECT_EQ((v1 + v2).dot_product((v1 + v2).perpendicular()), (Real)0);
+    EXPECT_EQ((v2 + v3).dot_product((v2 + v3).perpendicular()), (Real)0);
+    EXPECT_EQ((v3 + v1).dot_product((v3 + v1).perpendicular()), (Real)0);
 }
 //--------------------------------------------------------------------------
 TEST(VectorTests, Matrix4ArrayLoading)

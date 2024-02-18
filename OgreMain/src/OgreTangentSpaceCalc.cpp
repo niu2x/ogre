@@ -211,10 +211,10 @@ namespace Ogre
             // orthogonal with the face normals, but will be close to ortho
             // Apply Gram-Schmidt orthogonalise
             Vector3 temp = v.tangent;
-            v.tangent = temp - (v.norm * v.norm.dotProduct(temp));
+            v.tangent = temp - (v.norm * v.norm.dot_product(temp));
 
             temp = v.binormal;
-            v.binormal = temp - (v.norm * v.norm.dotProduct(temp));
+            v.binormal = temp - (v.norm * v.norm.dot_product(temp));
 
             // renormalize 
             v.tangent.normalise();
@@ -308,7 +308,7 @@ namespace Ogre
                 calculateFaceTangentSpace(localVertInd, faceTsU, faceTsV, faceNorm);
 
                 // Skip invalid UV space triangles
-                if (faceTsU.isZeroLength() || faceTsV.isZeroLength())
+                if (faceTsU.is_zero() || faceTsV.is_zero())
                     continue;
 
                 addFaceTangentSpaceToVertices(i, f, localVertInd, faceTsU, faceTsV, faceNorm, result);
@@ -396,9 +396,9 @@ namespace Ogre
 
                     // project down to the plane (plane normal = face normal)
                     Vector3 vRotHalf = uvCurrent - faceNorm;
-                    vRotHalf *= faceNorm.dotProduct(uvCurrent);
+                    vRotHalf *= faceNorm.dot_product(uvCurrent);
 
-                    if ((faceTsU + faceTsV).dotProduct(vRotHalf) < 0.0f)
+                    if ((faceTsU + faceTsV).dot_product(vRotHalf) < 0.0f)
                     {
                         splitVertex = true;
                     }
@@ -417,8 +417,8 @@ namespace Ogre
                 }
                 // copy old values but reset tangent space
                 VertexInfo locVertex = *vertex;
-                locVertex.tangent = Vector3::ZERO;
-                locVertex.binormal = Vector3::ZERO;
+                locVertex.tangent = Vector3::zero;
+                locVertex.binormal = Vector3::zero;
                 locVertex.parity = faceParity;
                 mVertexArray.push_back(locVertex);
                 result.indexesRemapped.push_back(IndexRemap(indexSet, faceIndex, splitInfo));
@@ -447,7 +447,7 @@ namespace Ogre
     {
         // Note that this parity is the reverse of what you'd expect - this is
         // because the 'V' texture coordinate is actually left handed
-        if (u.crossProduct(v).dotProduct(n) >= 0.0f)
+        if (u.cross_product(v).dot_product(n) >= 0.0f)
             return -1;
         else
             return 1;
@@ -466,15 +466,15 @@ namespace Ogre
         Vector3 deltaPos2 = v2.pos - v0.pos;
 
         // face normal
-        tsN = deltaPos1.crossProduct(deltaPos2);
+        tsN = deltaPos1.cross_product(deltaPos2);
         tsN.normalise();
 
 
-        Real uvarea = deltaUV1.crossProduct(deltaUV2) * 0.5f;
+        Real uvarea = deltaUV1.cross_product(deltaUV2) * 0.5f;
         if (Math::RealEqual(uvarea, 0.0f))
         {
             // no tangent, null uv area
-            tsU = tsV = Vector3::ZERO;
+            tsU = tsV = Vector3::zero;
         }
         else
         {
@@ -512,7 +512,7 @@ namespace Ogre
         Vector3 diff1 = v2.pos - v1.pos;
 
         // Weight is just the angle - larger == better
-        return diff0.angleBetween(diff1).valueRadians();
+        return diff0.angle_between(diff1).valueRadians();
 
     }
     //---------------------------------------------------------------------

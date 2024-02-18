@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreShaderPrerequisites.h"
 #include "OgreShaderSubRenderState.h"
-#include "OgreVector.h"
+#include "vector.h"
 
 using namespace Ogre;
 using namespace RTShader;

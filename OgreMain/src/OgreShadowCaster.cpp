@@ -158,9 +158,9 @@ namespace Ogre {
                 for(unsigned i1 = i0 + 1; i1 < edgeCornersCount; ++i1)
                 {
                     // 4~6 edge corners, 6~15 angular distance calculations
-                    Vector3 a = (edgeCorners[i0] - lightPosition).normalisedCopy();
-                    Vector3 b = (edgeCorners[i1] - lightPosition).normalisedCopy();
-                    Real cosAB = a.dotProduct(b);
+                    Vector3 a = (edgeCorners[i0] - lightPosition).normalised_copy();
+                    Vector3 b = (edgeCorners[i1] - lightPosition).normalised_copy();
+                    Real cosAB = a.dot_product(b);
                     if(cosAngle > cosAB)
                         cosAngle  = cosAB;
                 }
@@ -552,43 +552,43 @@ namespace Ogre {
             extrusionDir.x = currentCorner.x - light.x;
             extrusionDir.y = currentCorner.y - light.y;
             extrusionDir.z = currentCorner.z - light.z;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 6 : min min max
             // only z has changed
             currentCorner.z = oldMax.z;
             extrusionDir.z = currentCorner.z - light.z;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 5 : min max max
             currentCorner.y = oldMax.y;
             extrusionDir.y = currentCorner.y - light.y;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 1 : min max min
             currentCorner.z = oldMin.z;
             extrusionDir.z = currentCorner.z - light.z;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 2 : max max min
             currentCorner.x = oldMax.x;
             extrusionDir.x = currentCorner.x - light.x;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 4 : max max max
             currentCorner.z = oldMax.z;
             extrusionDir.z = currentCorner.z - light.z;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 7 : max min max
             currentCorner.y = oldMin.y;
             extrusionDir.y = currentCorner.y - light.y;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
             // 3 : max min min
             currentCorner.z = oldMin.z;
             extrusionDir.z = currentCorner.z - light.z;
-            box.merge(currentCorner + extrudeDist * extrusionDir.normalisedCopy());
+            box.merge(currentCorner + extrudeDist * extrusionDir.normalised_copy());
 
         }
 
