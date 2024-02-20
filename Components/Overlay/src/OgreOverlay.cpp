@@ -70,7 +70,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Overlay::assignZOrders()
     {
-        ushort zorder = static_cast<ushort>(mZOrder * 100.0f);
+        ushort zorder = mZOrder * ushort(100);
 
         // Notify attached 2D elements
         for (auto *e : m2DElements)
@@ -81,8 +81,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Overlay::setZOrder(ushort zorder)
     {
-        // Limit to 650 since this is multiplied by 100 to pad out for containers
-        assert (zorder <= 650 && "Overlay Z-order cannot be greater than 650!");
+        OgreAssert(zorder <= 655, "zorder is multiplied by 100 to pad out for containers");
 
         mZOrder = zorder;
 
@@ -91,7 +90,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     ushort Overlay::getZOrder(void) const
     {
-        return (ushort)mZOrder;
+        return mZOrder;
     }
     //---------------------------------------------------------------------
     bool Overlay::isVisible(void) const
