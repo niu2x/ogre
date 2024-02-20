@@ -635,7 +635,7 @@ namespace Ogre {
             }
             catch (const InvalidParametersException& e)
             {
-                LogManager::getSingleton().stream(LML_CRITICAL)
+                LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
                     << "Program '" << mName << "' is not supported: " << e.getDescription();
                 mCompileError = true;
             }

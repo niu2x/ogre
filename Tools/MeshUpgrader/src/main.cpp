@@ -565,7 +565,7 @@ int main(int numargs, char** args)
 
         if(opts.optimiseVertexCache)
         {
-            logMgr.logMessage("Vertex cache optimization...");
+            logMgr.log_message("Vertex cache optimization...");
             VertexCacheProfiler vcp;
             VertexCacheProfiler vcpnew;
 
@@ -580,7 +580,7 @@ int main(int numargs, char** args)
                 vcpnew.flush();
             }
 
-            logMgr.logMessage(StringUtil::format("Vertex cache optimization: ACMR change %.2f -> %.2f",
+            logMgr.log_message(StringUtil::format("Vertex cache optimization: ACMR change %.2f -> %.2f",
                                                  vcp.getAvgCacheMissRatio(), vcpnew.getAvgCacheMissRatio()));
         }
 
