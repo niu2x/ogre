@@ -72,26 +72,6 @@ namespace Ogre{
         }
     }
 
-    static GpuProgramType translateIDToGpuProgramType(uint32 id)
-    {
-        switch (id)
-        {
-        case ID_VERTEX_PROGRAM:
-        default:
-            return GPT_VERTEX_PROGRAM;
-        case ID_GEOMETRY_PROGRAM:
-            return GPT_GEOMETRY_PROGRAM;
-        case ID_FRAGMENT_PROGRAM:
-            return GPT_FRAGMENT_PROGRAM;
-            case ID_TESSELLATION_HULL_PROGRAM:
-            return GPT_HULL_PROGRAM;
-            case ID_TESSELLATION_DOMAIN_PROGRAM:
-            return GPT_DOMAIN_PROGRAM;
-        case ID_COMPUTE_PROGRAM:
-            return GPT_COMPUTE_PROGRAM;
-        }
-    }
-
     String getPropertyName(const ScriptCompiler *compiler, uint32 id)
     {
         for(auto& kv : compiler->mIds)
@@ -3577,7 +3557,7 @@ namespace Ogre{
         }
 
         // Allocate the program
-        GpuProgramType gpt = translateIDToGpuProgramType(obj->id);
+        GpuProgramType gpt = getProgramType(obj->id);
         GpuProgram *prog = 0;
 
         if(language == "asm")
@@ -3640,6 +3620,10 @@ namespace Ogre{
         if(prog->isSupported() && params)
         {
             GpuProgramParametersSharedPtr ptr = prog->getDefaultParameters();
+
+            if(prog->hasCompileError())
+                return;
+
             GpuProgramTranslator::translateProgramParameters(compiler, ptr, static_cast<ObjectAbstractNode*>(params.get()));
         }
     }
@@ -4347,70 +4331,50 @@ namespace Ogre{
             if(i->type == ANT_PROPERTY)
             {
                 PropertyAbstractNode *prop = static_cast<PropertyAbstractNode*>(i.get());
-                switch(prop->id)
+                if(prop->values.empty())
                 {
-                case ID_MATERIAL:
-                    if(prop->values.empty())
+                    compiler->addError(ScriptCompiler::CE_STRINGEXPECTED, prop->file, prop->line);
+                    return;
+                }
+
+                String value;
+                if(prop->id == ID_MATERIAL)
+                {
+                    if(prop->values.front()->type == ANT_ATOM)
                     {
-                        compiler->addError(ScriptCompiler::CE_STRINGEXPECTED, prop->file, prop->line);
-                        return;
+                        value = ((AtomAbstractNode*)prop->values.front().get())->value;
+
+                        ProcessResourceNameScriptCompilerEvent locEvt(ProcessResourceNameScriptCompilerEvent::MATERIAL, value);
+                        compiler->_fireEvent(&locEvt, 0);
+                        value = locEvt.mName;
                     }
-                    else
+                }
+                else
+                {
+                    // Glob the values together
+                    for(auto& v : prop->values)
                     {
-                        if(prop->values.front()->type == ANT_ATOM)
+                        if(v->type == ANT_ATOM)
                         {
-                            String name = ((AtomAbstractNode*)prop->values.front().get())->value;
-
-                            ProcessResourceNameScriptCompilerEvent locEvt(ProcessResourceNameScriptCompilerEvent::MATERIAL, name);
-                            compiler->_fireEvent(&locEvt, 0);
-
-                            if(!mSystem->setParameter("material", locEvt.mName))
-                            {
-                                if(mSystem->getRenderer())
-                                {
-                                    if(!mSystem->getRenderer()->setParameter("material", locEvt.mName))
-                                        compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                                                           "material property could not be set with material \"" + locEvt.mName + "\"");
-                                }
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    if(prop->values.empty())
-                    {
-                        compiler->addError(ScriptCompiler::CE_STRINGEXPECTED, prop->file, prop->line);
-                        return;
-                    }
-                    else
-                    {
-                        String name = prop->name, value;
-
-                        // Glob the values together
-                        for(auto& v : prop->values)
-                        {
-                            if(v->type == ANT_ATOM)
-                            {
-                                if(value.empty())
-                                    value = ((AtomAbstractNode*)v.get())->value;
-                                else
-                                    value = value + " " + ((AtomAbstractNode*)v.get())->value;
-                            }
+                            if(value.empty())
+                                value = ((AtomAbstractNode*)v.get())->value;
                             else
-                            {
-                                compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                                return;
-                            }
+                                value = value + " " + ((AtomAbstractNode*)v.get())->value;
                         }
-
-                        if(!mSystem->setParameter(name, value))
+                        else
                         {
-                            if(mSystem->getRenderer())
-                            {
-                                if(!mSystem->getRenderer()->setParameter(name, value))
-                                    compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                            }
+                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
+                            return;
                         }
+                    }
+                }
+
+                if(!mSystem->setParameter(prop->name, value))
+                {
+                    if(auto renderer = mSystem->getRenderer())
+                    {
+                        if(!renderer->setParameter(prop->name, value))
+                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                     }
                 }
             }

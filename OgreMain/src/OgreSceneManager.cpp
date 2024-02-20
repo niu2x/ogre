@@ -689,58 +689,20 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
         // Set fixed-function vertex parameters
     }
 
-    if (pass->hasGeometryProgram())
+    for(auto gptype : {GPT_DOMAIN_PROGRAM, GPT_HULL_PROGRAM, GPT_GEOMETRY_PROGRAM})
     {
-        bindGpuProgram(pass->getGeometryProgram()->_getBindingDelegate());
-        // bind parameters later
-    }
-    else
-    {
-        // Unbind program?
-        if (mDestRenderSystem->isGpuProgramBound(GPT_GEOMETRY_PROGRAM))
+        if (pass->hasGpuProgram(gptype))
         {
-            mDestRenderSystem->unbindGpuProgram(GPT_GEOMETRY_PROGRAM);
+            bindGpuProgram(pass->getGpuProgram(gptype)->_getBindingDelegate());
+            // bind parameters later
         }
-    }
-    if (pass->hasTessellationHullProgram())
-    {
-        bindGpuProgram(pass->getTessellationHullProgram()->_getBindingDelegate());
-        // bind parameters later
-    }
-    else
-    {
-        // Unbind program?
-        if (mDestRenderSystem->isGpuProgramBound(GPT_HULL_PROGRAM))
+        else
         {
-            mDestRenderSystem->unbindGpuProgram(GPT_HULL_PROGRAM);
-        }
-    }
-
-    if (pass->hasTessellationDomainProgram())
-    {
-        bindGpuProgram(pass->getTessellationDomainProgram()->_getBindingDelegate());
-        // bind parameters later
-    }
-    else
-    {
-        // Unbind program?
-        if (mDestRenderSystem->isGpuProgramBound(GPT_DOMAIN_PROGRAM))
-        {
-            mDestRenderSystem->unbindGpuProgram(GPT_DOMAIN_PROGRAM);
-        }
-    }
-
-    if (pass->hasComputeProgram())
-    {
-        bindGpuProgram(pass->getComputeProgram()->_getBindingDelegate());
-        // bind parameters later
-    }
-    else
-    {
-        // Unbind program?
-        if (mDestRenderSystem->isGpuProgramBound(GPT_COMPUTE_PROGRAM))
-        {
-            mDestRenderSystem->unbindGpuProgram(GPT_COMPUTE_PROGRAM);
+            // Unbind program?
+            if (mDestRenderSystem->isGpuProgramBound(gptype))
+            {
+                mDestRenderSystem->unbindGpuProgram(gptype);
+            }
         }
     }
 
@@ -2948,7 +2910,7 @@ StaticGeometry* SceneManager::createStaticGeometry(const String& name)
 //---------------------------------------------------------------------
 StaticGeometry* SceneManager::getStaticGeometry(const String& name) const
 {
-    StaticGeometryList::const_iterator i = mStaticGeometryList.find(name);
+    StaticGeometryMap::const_iterator i = mStaticGeometryList.find(name);
     if (i == mStaticGeometryList.end())
     {
         OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
@@ -2963,6 +2925,12 @@ bool SceneManager::hasStaticGeometry(const String& name) const
     return (mStaticGeometryList.find(name) != mStaticGeometryList.end());
 }
 
+//-----------------------------------------------------------------------
+const SceneManager::StaticGeometryMap* SceneManager:: getStaticGeometryCollection() const
+{
+  return &mStaticGeometryList;
+}
+
 //---------------------------------------------------------------------
 void SceneManager::destroyStaticGeometry(StaticGeometry* geom)
 {
@@ -2971,7 +2939,7 @@ void SceneManager::destroyStaticGeometry(StaticGeometry* geom)
 //---------------------------------------------------------------------
 void SceneManager::destroyStaticGeometry(const String& name)
 {
-    StaticGeometryList::iterator i = mStaticGeometryList.find(name);
+    StaticGeometryMap::iterator i = mStaticGeometryList.find(name);
     if (i != mStaticGeometryList.end())
     {
         OGRE_DELETE i->second;

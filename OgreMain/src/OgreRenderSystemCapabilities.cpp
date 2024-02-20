@@ -60,6 +60,7 @@ namespace Ogre {
         , mStencilBufferBitDepth(8)
         , mConstantFloatCount{}
         , mNumMultiRenderTargets(1)
+        , mMaxPointSize(1)
         , mNonPOW2TexturesLimited(false)
         , mMaxSupportedAnisotropy(0)
         , mGeometryProgramNumOutputVertices(0)
@@ -109,31 +110,29 @@ namespace Ogre {
             pLog->log_message("   - Wrap stencil values: " +
                              StringConverter::toString(hasCapability(RSC_STENCIL_WRAP), true));
         }
-        pLog->log_message(" * Vertex programs: yes");
-        pLog->log_message("   - Number of constant 4-vectors: " +
-                         StringConverter::toString(mConstantFloatCount[GPT_VERTEX_PROGRAM]));
-        pLog->log_message(" * Fragment programs: yes");
-        pLog->log_message("   - Number of constant 4-vectors: " +
-                         StringConverter::toString(mConstantFloatCount[GPT_FRAGMENT_PROGRAM]));
+        pLog->log_message(" * Gpu programs: " + StringConverter::toString(hasCapability(RSC_VERTEX_PROGRAM), true));
+        if (hasCapability(RSC_VERTEX_PROGRAM))
+        {
+            pLog->log_message("   - Vertex constant 4-vectors: " +
+                             StringConverter::toString(mConstantFloatCount[GPT_VERTEX_PROGRAM]));
+            pLog->log_message("   - Fragment constant 4-vectors: " +
+                             StringConverter::toString(mConstantFloatCount[GPT_FRAGMENT_PROGRAM]));
+        }
         pLog->log_message(" * Geometry programs: " +
+
                          StringConverter::toString(hasCapability(RSC_GEOMETRY_PROGRAM), true));
         if (hasCapability(RSC_GEOMETRY_PROGRAM))
         {
             pLog->log_message("   - Number of constant 4-vectors: " +
                              StringConverter::toString(mConstantFloatCount[GPT_GEOMETRY_PROGRAM]));
         }
-        pLog->log_message(" * Tessellation Hull programs: " +
-                         StringConverter::toString(hasCapability(RSC_TESSELLATION_HULL_PROGRAM), true));
-        if (hasCapability(RSC_TESSELLATION_HULL_PROGRAM))
+        pLog->log_message(" * Tessellation programs: " +
+                         StringConverter::toString(hasCapability(RSC_TESSELLATION_PROGRAM), true));
+        if (hasCapability(RSC_TESSELLATION_PROGRAM))
         {
-            pLog->log_message("   - Number of constant 4-vectors: " +
+            pLog->log_message("   - Hull program constant 4-vectors: " +
                              StringConverter::toString(mConstantFloatCount[GPT_HULL_PROGRAM]));
-        }
-        pLog->log_message(" * Tessellation Domain programs: " +
-                         StringConverter::toString(hasCapability(RSC_TESSELLATION_DOMAIN_PROGRAM), true));
-        if (hasCapability(RSC_TESSELLATION_DOMAIN_PROGRAM))
-        {
-            pLog->log_message("   - Number of constant 4-vectors: " +
+            pLog->log_message("   - Domain program constant 4-vectors: " +
                              StringConverter::toString(mConstantFloatCount[GPT_DOMAIN_PROGRAM]));
         }
         pLog->log_message(" * Compute programs: " + StringConverter::toString(hasCapability(RSC_COMPUTE_PROGRAM), true));
@@ -219,8 +218,6 @@ namespace Ogre {
         pLog->log_message(" * Point Sprites: " + StringConverter::toString(hasCapability(RSC_POINT_SPRITES), true));
         if (hasCapability(RSC_POINT_SPRITES))
         {
-            pLog->log_message("   - Extended parameters: " +
-                             StringConverter::toString(hasCapability(RSC_POINT_EXTENDED_PARAMETERS), true));
             pLog->log_message("   - Max Size: " + StringConverter::toString(mMaxPointSize));
         }
         pLog->log_message(

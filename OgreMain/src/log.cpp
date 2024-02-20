@@ -155,10 +155,7 @@ void Log::log_message(const String& message, LogMsgLevel lml, bool mask_debug)
                     time_t ct_time;
                     time(&ct_time);
                     p_time = localtime(&ct_time);
-                    log_ << std::setw(2) << std::setfill('0') << p_time->tm_hour
-                         << ":" << std::setw(2) << std::setfill('0')
-                         << p_time->tm_min << ":" << std::setw(2)
-                         << std::setfill('0') << p_time->tm_sec << ": ";
+                    log_ << std::put_time(p_time, "%T: ");
                 }
                 log_ << message << std::endl;
 
