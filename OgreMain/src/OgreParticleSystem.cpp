@@ -843,19 +843,19 @@ namespace Ogre {
                 // No particles, reset to null if auto update bounds
                 if (mBoundsAutoUpdate)
                 {
-                    mWorldAABB.setNull();
+                    mWorldAABB.set_null();
                 }
             }
             else
             {
                 Vector3 min;
                 Vector3 max;
-                if (!mBoundsAutoUpdate && mWorldAABB.isFinite())
+                if (!mBoundsAutoUpdate && mWorldAABB.finite())
                 {
                     // We're on a limit, grow rather than reset each time
                     // so that we pick up the worst case scenario
-                    min = mWorldAABB.getMinimum();
-                    max = mWorldAABB.getMaximum();
+                    min = mWorldAABB.minimum();
+                    max = mWorldAABB.maximum();
                 }
                 else
                 {
@@ -869,7 +869,7 @@ namespace Ogre {
                     min.make_floor(p->mPosition - padding);
                     max.make_ceil(p->mPosition + padding);
                 }
-                mWorldAABB.setExtents(min, max);
+                mWorldAABB.set_extents(min, max);
             }
 
 
@@ -887,7 +887,7 @@ namespace Ogre {
                 // node transform, so reverse transform back since we're expected to 
                 // provide a local AABB
                 AxisAlignedBox newAABB(mWorldAABB);
-                newAABB.transform(mParentNode->_getFullTransform().inverse());
+                newAABB.transform_by(mParentNode->_getFullTransform().inverse());
 
                 if (mBoundsAutoUpdate)
                     mAABB = newAABB;

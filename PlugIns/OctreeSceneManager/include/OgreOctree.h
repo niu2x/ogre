@@ -37,7 +37,7 @@ email                : janders@users.sf.net
 #ifndef OCTREE_H
 #define OCTREE_H
 
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 
 #include <list>
 

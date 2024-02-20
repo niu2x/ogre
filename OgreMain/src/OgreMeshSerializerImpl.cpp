@@ -64,7 +64,7 @@ namespace Ogre {
         determineEndianness(endianMode);
 
         // Check that the mesh has it's bounds set
-        if (pMesh->getBounds().isNull() || pMesh->getBoundingSphereRadius() == 0.0f)
+        if (pMesh->getBounds().is_null() || pMesh->getBoundingSphereRadius() == 0.0f)
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "The Mesh you have supplied does not have its"
                 " bounds completely defined. Define them first before exporting.",
@@ -1275,8 +1275,8 @@ namespace Ogre {
         writeChunkHeader(M_MESH_BOUNDS, calcBoundsInfoSize());
 
         // float minx, miny, minz
-        const Vector3& min = pMesh->mAABB.getMinimum();
-        const Vector3& max = pMesh->mAABB.getMaximum();
+        const Vector3& min = pMesh->mAABB.minimum();
+        const Vector3& max = pMesh->mAABB.maximum();
         writeFloats(min.ptr(), 3);
         writeFloats(max.ptr(), 3);
         writeFloats(&pMesh->mBoundRadius, 1);

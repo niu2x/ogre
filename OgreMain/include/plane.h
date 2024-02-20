@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "vector.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 
 namespace Ogre {
 
@@ -120,12 +120,12 @@ namespace Ogre {
         */
         Side which_side(const AxisAlignedBox& box) const
         {
-            if (box.isNull())
+            if (box.is_null())
                 return Side::NO_SIDE;
             if (box.isInfinite())
                 return Side::BOTH_SIDE;
 
-            return which_side(box.getCenter(), box.getHalfSize());
+            return which_side(box.center(), box.half_size());
         }
 
         /** Returns which side of the plane that the given box lies on.

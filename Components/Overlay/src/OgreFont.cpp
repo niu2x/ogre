@@ -217,7 +217,7 @@ namespace Ogre
         const auto& bbox = bbs->getBoundingBox();
 
         float left = 0;
-        float top = bbox == AxisAlignedBox::BOX_NULL ? 0 : bbox.getMinimum().y - height;
+        float top = bbox == AxisAlignedBox::box_null ? 0 : bbox.minimum().y - height;
         while (it < end)
         {
             uint32 cpId;
@@ -237,7 +237,7 @@ namespace Ogre
 
             left += cp.bearing * height;
 
-            if(!cp.uvRect.isNull())
+            if(!cp.uvRect.is_null())
             {
                 auto bb = bbs->createBillboard(Vector3(left, top, 0), colour);
                 bb->setDimensions(cp.aspectRatio * height, height);

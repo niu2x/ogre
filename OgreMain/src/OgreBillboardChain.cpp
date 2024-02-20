@@ -379,7 +379,7 @@ namespace Ogre {
     {
         if (mBoundsDirty)
         {
-            mAABB.setNull();
+            mAABB.set_null();
             Vector3 widthVector;
             for (const auto& seg : mChainSegmentList)
             {
@@ -407,15 +407,15 @@ namespace Ogre {
             }
 
             // Set the current radius
-            if (mAABB.isNull())
+            if (mAABB.is_null())
             {
                 mRadius = 0.0f;
             }
             else
             {
                 mRadius = Math::Sqrt(
-                    std::max(mAABB.getMinimum().squared_length(),
-                    mAABB.getMaximum().squared_length()));
+                    std::max(mAABB.minimum().squared_length(),
+                    mAABB.maximum().squared_length()));
             }
 
             mBoundsDirty = false;
@@ -613,7 +613,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Real BillboardChain::getSquaredViewDepth(const Camera* cam) const
     {
-        return (cam->getDerivedPosition() - mAABB.getCenter()).squared_length();
+        return (cam->getDerivedPosition() - mAABB.center()).squared_length();
     }
     //-----------------------------------------------------------------------
     Real BillboardChain::getBoundingRadius(void) const

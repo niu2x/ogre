@@ -165,8 +165,8 @@ MeshPtr ProceduralTools::generateTetrahedra()
     tetrahedraSubMesh->indexData->indexStart = 0;
 
     AxisAlignedBox meshBounds;
-    meshBounds.setMinimum(-1,-1,-1);
-    meshBounds.setMaximum(1,1,1);
+    meshBounds.set_minimum(-1,-1,-1);
+    meshBounds.set_maximum(1,1,1);
     tetrahedraMesh->_setBounds(meshBounds);
     tetrahedraMesh->_setBoundingSphereRadius(2);
 

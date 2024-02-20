@@ -227,8 +227,8 @@ namespace Ogre
 
         Vector3 vMin, vMax;
 
-        vMin = aab_trans.getMinimum();
-        vMax = aab_trans.getMaximum();
+        vMin = aab_trans.minimum();
+        vMax = aab_trans.maximum();
 
         const Vector3 trans(-(vMax.x + vMin.x) / (vMax.x - vMin.x),
             -(vMax.y + vMin.y) / (vMax.y - vMin.y),
@@ -269,7 +269,7 @@ namespace Ogre
 
         // in case the sceneBB is empty (e.g. nothing visible to the cam) simply
         // return the standard shadow mapping matrix
-        if (sceneBB.isNull())
+        if (sceneBB.is_null())
         {
             return;
         }
@@ -450,8 +450,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void FocusedShadowCameraSetup::PointListBody::addAAB(const AxisAlignedBox& aab)
     {
-        const Vector3& min = aab.getMinimum();
-        const Vector3& max = aab.getMaximum();
+        const Vector3& min = aab.minimum();
+        const Vector3& max = aab.maximum();
 
         Vector3 currentVertex = min;
         // min min min
@@ -502,7 +502,7 @@ namespace Ogre
     void FocusedShadowCameraSetup::PointListBody::reset(void)
     {
         mBodyPoints.clear();
-        mAAB.setNull();
+        mAAB.set_null();
     }
 
 }

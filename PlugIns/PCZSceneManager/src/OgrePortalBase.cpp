@@ -220,7 +220,7 @@ void PortalBase::calcDirectionAndRadius(void) const
         max = mLocalCP + mRadius;
         break;
     }
-    mLocalPortalAAB.setExtents(min, max);
+    mLocalPortalAAB.set_extents(min, max);
     // locals are now up to date
     mLocalsUpToDate = true;
 }
@@ -277,11 +277,11 @@ void PortalBase::updateDerivedValues(void) const
         case PORTAL_TYPE_AABB:
             {
                 AxisAlignedBox aabb;
-                aabb.setExtents(mCorners[0], mCorners[1]);
+                aabb.set_extents(mCorners[0], mCorners[1]);
                 aabb = ((SceneNode*)mParentNode)->_getWorldAABB();
                 //aabb.transform(mParentNode->_getFullTransform());
-                mDerivedCorners[0] = aabb.getMinimum();
-                mDerivedCorners[1] = aabb.getMaximum();
+                mDerivedCorners[0] = aabb.minimum();
+                mDerivedCorners[1] = aabb.maximum();
                 mDerivedDirection = mDirection;
             }
             break;
@@ -445,7 +445,7 @@ bool PortalBase::intersects(const AxisAlignedBox& aab)
             {
                 // aab to aab check
                 AxisAlignedBox aabb;
-                aabb.setExtents(mDerivedCorners[0], mDerivedCorners[1]);
+                aabb.set_extents(mDerivedCorners[0], mDerivedCorners[1]);
                 return (aab.intersects(aabb));
             }
         case PORTAL_TYPE_SPHERE:
@@ -482,7 +482,7 @@ bool PortalBase::intersects(const Sphere& sphere)
             {
                 // aab to aab check
                 AxisAlignedBox aabb;
-                aabb.setExtents(mDerivedCorners[0], mDerivedCorners[1]);
+                aabb.set_extents(mDerivedCorners[0], mDerivedCorners[1]);
                 return (aabb.intersects(sphere));
             }
         case PORTAL_TYPE_SPHERE:
@@ -536,7 +536,7 @@ bool PortalBase::intersects(const PlaneBoundedVolume& pbv)
         case PORTAL_TYPE_AABB:
             {
                 AxisAlignedBox aabb;
-                aabb.setExtents(mDerivedCorners[0], mDerivedCorners[1]);
+                aabb.set_extents(mDerivedCorners[0], mDerivedCorners[1]);
                 if (!pbv.intersects(aabb))
                 {
                     return false;
@@ -612,7 +612,7 @@ bool PortalBase::intersects(const Ray& ray )
         else if (mType == PORTAL_TYPE_AABB)
         {
             AxisAlignedBox aabb;
-            aabb.setExtents(mDerivedCorners[0], mDerivedCorners[1]);
+            aabb.set_extents(mDerivedCorners[0], mDerivedCorners[1]);
             std::pair<bool, Real> result = ray.intersects(aabb);
             return result.first;
         }
@@ -663,7 +663,7 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
                     // safety check - make sure the node has at least one dimension which is
                     // small enough to fit through the portal! (avoid the "elephant fitting 
                     // through a mouse hole" case)
-                    Vector3 nodeHalfVector = pczsn->_getWorldAABB().getHalfSize();
+                    Vector3 nodeHalfVector = pczsn->_getWorldAABB().half_size();
                     Vector3 portalBox = Vector3(mDerivedRadius, mDerivedRadius, mDerivedRadius);
                     portalBox.make_floor(nodeHalfVector);
                     if (portalBox.x < mDerivedRadius)
@@ -702,7 +702,7 @@ PortalBase::PortalIntersectResult PortalBase::intersects(PCZSceneNode* pczsn)
             // for aabb's we check if the center point went from being inside to being outside
             // the aabb (or vice versa) for crossing.  
             AxisAlignedBox aabb;
-            aabb.setExtents(mDerivedCorners[0], mDerivedCorners[1]);
+            aabb.set_extents(mDerivedCorners[0], mDerivedCorners[1]);
             //bool previousInside = aabb.contains(pczsn->getPrevPosition());
             bool currentInside = aabb.contains(pczsn->_getDerivedPosition());
             if (mDirection == Vector3::unit_z)
@@ -812,7 +812,7 @@ bool PortalBase::crossedPortal(const PortalBase* otherPortal)
                     // for aabb's we check if the center point went from being inside to being outside
                     // the aabb (or vice versa) for crossing.  
                     AxisAlignedBox aabb;
-                    aabb.setExtents(otherPortal->getDerivedCorner(0), otherPortal->getDerivedCorner(1));
+                    aabb.set_extents(otherPortal->getDerivedCorner(0), otherPortal->getDerivedCorner(1));
                     //bool previousInside = aabb.contains(mPrevDerivedCP);
                     bool currentInside = aabb.contains(mDerivedCP);
                     if (otherPortal->getDerivedDirection() == Vector3::unit_z)

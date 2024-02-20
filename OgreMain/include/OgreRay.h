@@ -97,7 +97,7 @@ namespace Ogre {
         RayTestResult intersects(const Sphere& s, bool discardInside = true) const
         {
             // Adjust ray origin relative to sphere center
-            Vector3 rayorig = mOrigin - s.getCenter();
+            Vector3 rayorig = mOrigin - s.center();
             Real radius = s.getRadius();
 
             // Check origin inside first

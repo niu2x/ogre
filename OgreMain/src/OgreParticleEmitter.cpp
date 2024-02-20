@@ -156,13 +156,13 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void ParticleEmitter::setParticleVelocity(Real speed)
     {
-        assert(std::isfinite(speed));
+        assert(std::finite(speed));
         mMinSpeed = mMaxSpeed = speed;
     }
     //-----------------------------------------------------------------------
     void ParticleEmitter::setParticleVelocity(Real min, Real max)
     {
-        assert(std::isfinite(min) && std::isfinite(max));
+        assert(std::finite(min) && std::finite(max));
         mMinSpeed = min;
         mMaxSpeed = max;
     }
@@ -493,13 +493,13 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void ParticleEmitter::setMinParticleVelocity(Real min)
     {
-        assert(std::isfinite(min));
+        assert(std::finite(min));
         mMinSpeed = min;
     }
     //-----------------------------------------------------------------------
     void ParticleEmitter::setMaxParticleVelocity(Real max)
     {
-        assert(std::isfinite(max));
+        assert(std::finite(max));
         mMaxSpeed = max;
     }
     //-----------------------------------------------------------------------

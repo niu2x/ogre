@@ -33,7 +33,7 @@ copyright            : (C) 2002 by Jon Anderson
 email                : janders@users.sf.net
 
 ***************************************************************************/
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreOctreeCamera.h"
 
 namespace Ogre
@@ -51,13 +51,13 @@ OctreeCamera::Visibility OctreeCamera::getVisibility( const AxisAlignedBox &boun
 {
 
     // Null boxes always invisible
-    if ( bound.isNull() )
+    if ( bound.is_null() )
         return NONE;
 
     // Get centre of the box
-    Vector3 centre = bound.getCenter();
+    Vector3 centre = bound.center();
     // Get the half-size of the box
-    Vector3 halfSize = bound.getHalfSize();
+    Vector3 halfSize = bound.half_size();
 
     bool all_inside = true;
 

@@ -49,8 +49,8 @@ bool Octree::_isTwiceSize( const AxisAlignedBox &box ) const
     if (box.isInfinite())
         return false;
 
-    Vector3 halfMBoxSize = mBox.getHalfSize();
-    Vector3 boxSize = box.getSize();
+    Vector3 halfMBoxSize = mBox.half_size();
+    Vector3 boxSize = box.size();
     return ((boxSize.x <= halfMBoxSize.x) && (boxSize.y <= halfMBoxSize.y) && (boxSize.z <= halfMBoxSize.z));
 
 }
@@ -61,9 +61,9 @@ bool Octree::_isTwiceSize( const AxisAlignedBox &box ) const
 */
 void Octree::_getChildIndexes( const AxisAlignedBox &box, int *x, int *y, int *z ) const
 {
-    Vector3 center = mBox.getMaximum().mid_point( mBox.getMinimum() );
+    Vector3 center = mBox.maximum().mid_point( mBox.minimum() );
 
-    Vector3 ncenter = box.getMaximum().mid_point( box.getMinimum() );
+    Vector3 ncenter = box.maximum().mid_point( box.minimum() );
 
     if ( ncenter.x > center.x )
         * x = 1;
@@ -144,7 +144,7 @@ void Octree::_removeNode( OctreeNode * n )
 
 void Octree::_getCullBounds( AxisAlignedBox *b ) const
 {
-    b -> setExtents( mBox.getMinimum() - mHalfSize, mBox.getMaximum() + mHalfSize );
+    b -> set_extents( mBox.minimum() - mHalfSize, mBox.maximum() + mHalfSize );
 }
 
 WireBoundingBox* Octree::getWireBoundingBox()

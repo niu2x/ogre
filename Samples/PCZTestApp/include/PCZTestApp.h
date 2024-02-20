@@ -81,8 +81,8 @@ public:
         terrainZone->getAABB(aabb);
         portalName = Ogre::String("PortalFrom"+zoneName+"ToDefault_Zone");
         p = ((PCZSceneManager*)mSceneMgr)->createPortal(portalName, Ogre::Portal::PORTAL_TYPE_AABB);
-        corners[0] = aabb.getMinimum();
-        corners[1] = aabb.getMaximum();
+        corners[0] = aabb.minimum();
+        corners[1] = aabb.maximum();
         p->setCorner(0, corners[0]);
         p->setCorner(1, corners[1]);
         p->setDirection(Ogre::Vector3::negative_unit_z); // this indicates an "inward" pointing normal
@@ -97,8 +97,8 @@ public:
         portalName = Ogre::String("PortalFromDefault_ZoneTo"+zoneName);
         Portal * p2;
         p2 = ((PCZSceneManager*)mSceneMgr)->createPortal(portalName, Ogre::Portal::PORTAL_TYPE_AABB);
-        corners[0] = aabb.getMinimum();
-        corners[1] = aabb.getMaximum();
+        corners[0] = aabb.minimum();
+        corners[1] = aabb.maximum();
         p2->setCorner(0, corners[0]);
         p2->setCorner(1, corners[1]);
         p2->setDirection(Ogre::Vector3::unit_z); // this indicates an "outward" pointing normal

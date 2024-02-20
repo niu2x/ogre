@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreCommon.h"
 
 #include "OgreNode.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

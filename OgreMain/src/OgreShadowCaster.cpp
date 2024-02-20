@@ -127,30 +127,30 @@ namespace Ogre {
         // could be visible even for well tesselated meshes. As a heuristic we will avoid McGuire cap if
         // angular size is larger than 60 degrees - it guarantees that interpolated points would be
         // extruded by at least cos(60deg/2) ~ 86% of the original extrusion distance.
-        if(lightCapBounds.getHalfSize().length() / (lightCapBounds.getCenter() - lightPosition).length() > 0.5) // if boundingSphereAngularSize > 60deg
+        if(lightCapBounds.half_size().length() / (lightCapBounds.center() - lightPosition).length() > 0.5) // if boundingSphereAngularSize > 60deg
         {
             // Calculate angular size one more time using edge corners angular distance comparision,
             // Determine lit sides of the bound, store in mask
             enum { L = 1, R = 2, B = 4, T = 8, F = 16, N = 32 }; // left, right, bottom, top, far, near
             unsigned lightSidesMask = 
-                (lightPosition.x < lightCapBounds.getMinimum().x ? L : 0) | // left
-                (lightPosition.x > lightCapBounds.getMaximum().x ? R : 0) | // right
-                (lightPosition.y < lightCapBounds.getMinimum().y ? B : 0) | // bottom
-                (lightPosition.y > lightCapBounds.getMaximum().y ? T : 0) | // top
-                (lightPosition.z < lightCapBounds.getMinimum().z ? F : 0) | // far
-                (lightPosition.z > lightCapBounds.getMaximum().z ? N : 0);  // near
+                (lightPosition.x < lightCapBounds.minimum().x ? L : 0) | // left
+                (lightPosition.x > lightCapBounds.maximum().x ? R : 0) | // right
+                (lightPosition.y < lightCapBounds.minimum().y ? B : 0) | // bottom
+                (lightPosition.y > lightCapBounds.maximum().y ? T : 0) | // top
+                (lightPosition.z < lightCapBounds.minimum().z ? F : 0) | // far
+                (lightPosition.z > lightCapBounds.maximum().z ? N : 0);  // near
             
             // find corners on lit/unlit edge (should not be more than 6 simultaneously, but better be safe than sorry)
             Ogre::Vector3 edgeCorners[8]; 
             unsigned edgeCornersCount = 0;
-            std::pair<unsigned, AxisAlignedBox::CornerEnum> cornerMap[8] = {
-                { F|L|B, AxisAlignedBox::FAR_LEFT_BOTTOM }, { F|R|B, AxisAlignedBox::FAR_RIGHT_BOTTOM },
-                { F|L|T, AxisAlignedBox::FAR_LEFT_TOP },    { F|R|T, AxisAlignedBox::FAR_RIGHT_TOP },
-                { N|L|B, AxisAlignedBox::NEAR_LEFT_BOTTOM },{ N|R|B, AxisAlignedBox::NEAR_RIGHT_BOTTOM },
-                { N|L|T, AxisAlignedBox::NEAR_LEFT_TOP },   { N|R|T, AxisAlignedBox::NEAR_RIGHT_TOP }};
+            std::pair<unsigned, AxisAlignedBox::Corner> cornerMap[8] = {
+                { F|L|B, AxisAlignedBox::Corner::FAR_LEFT_BOTTOM }, { F|R|B, AxisAlignedBox::Corner::FAR_RIGHT_BOTTOM },
+                { F|L|T, AxisAlignedBox::Corner::FAR_LEFT_TOP },    { F|R|T, AxisAlignedBox::Corner::FAR_RIGHT_TOP },
+                { N|L|B, AxisAlignedBox::Corner::NEAR_LEFT_BOTTOM },{ N|R|B, AxisAlignedBox::Corner::NEAR_RIGHT_BOTTOM },
+                { N|L|T, AxisAlignedBox::Corner::NEAR_LEFT_TOP },   { N|R|T, AxisAlignedBox::Corner::NEAR_RIGHT_TOP }};
             for(auto& c : cornerMap)
                 if((lightSidesMask & c.first) != 0 && (lightSidesMask & c.first) != c.first) // if adjacent sides not all lit or all unlit
-                    edgeCorners[edgeCornersCount++] = lightCapBounds.getCorner(c.second);
+                    edgeCorners[edgeCornersCount++] = lightCapBounds.corner(c.second);
             
             // find max angular size in range [0..pi] by finding min cos of angular size, range [1..-1]
             Real cosAngle = 1.0;
@@ -533,17 +533,17 @@ namespace Ogre {
             extrusionDir.z = -light.z;
             extrusionDir.normalise();
             extrusionDir *= extrudeDist;
-            box.setExtents(box.getMinimum() + extrusionDir, 
-                box.getMaximum() + extrusionDir);
+            box.set_extents(box.minimum() + extrusionDir, 
+                box.maximum() + extrusionDir);
         }
         else
         {
             Vector3 oldMin, oldMax, currentCorner;
             // Getting the original values
-            oldMin = box.getMinimum();
-            oldMax = box.getMaximum();
+            oldMin = box.minimum();
+            oldMax = box.maximum();
             // Starting the box again with a null content
-            box.setNull();
+            box.set_null();
 
             // merging all the extruded corners
 

@@ -38,7 +38,7 @@ Modified slightly for use with PCZSceneManager Octree Zones by Eric Cha
 #ifndef OCTREE_H
 #define OCTREE_H
 
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 
 #include <list>
 

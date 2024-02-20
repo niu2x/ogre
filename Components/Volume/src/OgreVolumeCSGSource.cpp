@@ -98,7 +98,7 @@ namespace Volume {
 
     CSGCubeSource::CSGCubeSource(const Vector3 &min, const Vector3 &max)
     {
-        mBox.setExtents(min, max);
+        mBox.set_extents(min, max);
     }
     
     //-----------------------------------------------------------------------

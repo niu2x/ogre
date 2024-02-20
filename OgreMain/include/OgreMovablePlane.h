@@ -71,7 +71,7 @@ namespace Ogre {
         /// Overridden from MovableObject
         void _notifyCurrentCamera(Camera*) override { /* don't care */ }
         /// Overridden from MovableObject
-        const AxisAlignedBox& getBoundingBox(void) const override { return AxisAlignedBox::BOX_NULL; }
+        const AxisAlignedBox& getBoundingBox(void) const override { return AxisAlignedBox::box_null; }
         /// Overridden from MovableObject
         Real getBoundingRadius(void) const override { return 0.0f; }
         /// Overridden from MovableObject

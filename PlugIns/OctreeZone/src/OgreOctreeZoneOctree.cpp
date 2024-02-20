@@ -56,13 +56,13 @@ namespace Ogre
     Intersection intersect( const Ray &one, const AxisAlignedBox &two )
     {
         // Null box?
-        if (two.isNull()) return OUTSIDE;
+        if (two.is_null()) return OUTSIDE;
         // Infinite box?
         if (two.isInfinite()) return INTERSECT;
 
         bool inside = true;
-        const Vector3& twoMin = two.getMinimum();
-        const Vector3& twoMax = two.getMaximum();
+        const Vector3& twoMin = two.minimum();
+        const Vector3& twoMax = two.maximum();
         Vector3 origin = one.getOrigin();
         Vector3 dir = one.getDirection();
 
@@ -126,14 +126,14 @@ namespace Ogre
     Intersection intersect( const PlaneBoundedVolume &one, const AxisAlignedBox &two )
     {
         // Null box?
-        if (two.isNull()) return OUTSIDE;
+        if (two.is_null()) return OUTSIDE;
         // Infinite box?
         if (two.isInfinite()) return INTERSECT;
 
         // Get centre of the box
-        Vector3 centre = two.getCenter();
+        Vector3 centre = two.center();
         // Get the half-size of the box
-        Vector3 halfSize = two.getHalfSize();
+        Vector3 halfSize = two.half_size();
 
         // For each plane, see if all points are on the negative side
         // If so, object is not visible.
@@ -166,16 +166,16 @@ namespace Ogre
     Intersection intersect( const AxisAlignedBox &one, const AxisAlignedBox &two )
     {
         // Null box?
-        if (one.isNull() || two.isNull()) return OUTSIDE;
+        if (one.is_null() || two.is_null()) return OUTSIDE;
         if (one.isInfinite()) return INSIDE;
         if (two.isInfinite()) return INTERSECT;
 
 
-        const Vector3& insideMin = two.getMinimum();
-        const Vector3& insideMax = two.getMaximum();
+        const Vector3& insideMin = two.minimum();
+        const Vector3& insideMax = two.maximum();
 
-        const Vector3& outsideMin = one.getMinimum();
-        const Vector3& outsideMax = one.getMaximum();
+        const Vector3& outsideMin = one.minimum();
+        const Vector3& outsideMax = one.maximum();
 
         if (    insideMax.x < outsideMin.x ||
                 insideMax.y < outsideMin.y ||
@@ -206,17 +206,17 @@ namespace Ogre
     Intersection intersect( const Sphere &one, const AxisAlignedBox &two )
     {
         // Null box?
-        if (two.isNull()) return OUTSIDE;
+        if (two.is_null()) return OUTSIDE;
         if (two.isInfinite()) return INTERSECT;
 
         float sradius = one.getRadius();
 
         sradius *= sradius;
 
-        Vector3 scenter = one.getCenter();
+        Vector3 scenter = one.center();
 
-        const Vector3& twoMin = two.getMinimum();
-        const Vector3& twoMax = two.getMaximum();
+        const Vector3& twoMin = two.minimum();
+        const Vector3& twoMax = two.maximum();
 
         float s, d = 0;
 
@@ -272,8 +272,8 @@ namespace Ogre
         if (box.isInfinite())
             return false;
 
-        Vector3 halfMBoxSize = mBox.getHalfSize();
-        Vector3 boxSize = box.getSize();
+        Vector3 halfMBoxSize = mBox.half_size();
+        Vector3 boxSize = box.size();
         return ((boxSize.x <= halfMBoxSize.x) && (boxSize.y <= halfMBoxSize.y) && (boxSize.z <= halfMBoxSize.z));
 
     }
@@ -284,9 +284,9 @@ namespace Ogre
     */
     void Octree::_getChildIndexes( const AxisAlignedBox &box, int *x, int *y, int *z ) const
     {
-        Vector3 center = mBox.getMaximum().mid_point( mBox.getMinimum() );
+        Vector3 center = mBox.maximum().mid_point( mBox.minimum() );
 
-        Vector3 ncenter = box.getMaximum().mid_point( box.getMinimum() );
+        Vector3 ncenter = box.maximum().mid_point( box.minimum() );
 
         if ( ncenter.x > center.x )
             * x = 1;
@@ -367,7 +367,7 @@ namespace Ogre
 
     void Octree::_getCullBounds( AxisAlignedBox *b ) const
     {
-        b -> setExtents( mBox.getMinimum() - mHalfSize, mBox.getMaximum() + mHalfSize );
+        b -> set_extents( mBox.minimum() - mHalfSize, mBox.maximum() + mHalfSize );
     }
 
     WireBoundingBox* Octree::getWireBoundingBox()

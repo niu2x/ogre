@@ -62,7 +62,7 @@ namespace Volume {
         AxisAlignedBox box((Real)0, (Real)0, (Real)0, (Real)mWidth / mPosXScale, (Real)mHeight / mPosYScale, (Real)mDepth / mPosZScale);
         Vector3 direction = ray.getDirection().normalised_copy();
         Vector3 invertedDirection = (Real)-1.0 * direction;
-        Vector3 origin = ray.getOrigin() + direction * box.getSize().length();
+        Vector3 origin = ray.getOrigin() + direction * box.size().length();
 
         Ray inverted(origin, invertedDirection);
         std::pair<bool, Real> intersection = inverted.intersects(box);

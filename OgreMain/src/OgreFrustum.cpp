@@ -193,7 +193,7 @@ namespace Ogre {
     bool Frustum::isVisible(const AxisAlignedBox& bound, FrustumPlane* culledBy) const
     {
         // Null boxes always invisible
-        if (bound.isNull()) return false;
+        if (bound.is_null()) return false;
 
         // Infinite boxes always visible
         if (bound.isInfinite()) return true;
@@ -202,9 +202,9 @@ namespace Ogre {
         updateFrustumPlanes();
 
         // Get centre of the box
-        Vector3 centre = bound.getCenter();
+        Vector3 centre = bound.center();
         // Get the half-size of the box
-        Vector3 halfSize = bound.getHalfSize();
+        Vector3 halfSize = bound.half_size();
 
         // For each plane, see if all points are on the negative side
         // If so, object is not visible
@@ -270,7 +270,7 @@ namespace Ogre {
 
             // If the distance from sphere center to plane is negative, and 'more negative' 
             // than the radius of the sphere, sphere is outside frustum
-            if (mFrustumPlanes[plane].distance_to(sphere.getCenter()) < -sphere.getRadius())
+            if (mFrustumPlanes[plane].distance_to(sphere.center()) < -sphere.getRadius())
             {
                 // ALL corners on negative side therefore out of view
                 if (culledBy)
@@ -483,7 +483,7 @@ namespace Ogre {
             min.make_floor(Vector3(left * radio, bottom * radio, -farDist));
             max.make_ceil(Vector3(right * radio, top * radio, 0));
         }
-        mBoundingBox.setExtents(min, max);
+        mBoundingBox.set_extents(min, max);
 
         mRecalcFrustum = false;
 
@@ -830,7 +830,7 @@ namespace Ogre {
         // Transform light position into camera space
 
         updateView();
-        Vector3 eyeSpacePos = mViewMatrix * sphere.getCenter();
+        Vector3 eyeSpacePos = mViewMatrix * sphere.center();
 
         // initialise
         *left = *bottom = -1.0f;

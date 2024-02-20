@@ -124,7 +124,7 @@ protected:
         node->setPosition(0, 0, 50);
         node->attachObject(ent);
 
-        mPlaneSize = ent->getBoundingBox().getSize().x;   // remember the size of the plane
+        mPlaneSize = ent->getBoundingBox().size().x;   // remember the size of the plane
 
         mCursorQuery = mSceneMgr->createRayQuery(Ray());  // create a ray scene query for the cursor
 

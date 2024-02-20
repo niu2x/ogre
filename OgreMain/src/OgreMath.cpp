@@ -366,15 +366,15 @@ namespace Ogre
     //-----------------------------------------------------------------------
     std::pair<bool, Real> Math::intersects(const Ray& ray, const AxisAlignedBox& box)
     {
-        if (box.isNull()) return std::pair<bool, Real>(false, (Real)0);
+        if (box.is_null()) return std::pair<bool, Real>(false, (Real)0);
         if (box.isInfinite()) return std::pair<bool, Real>(true, (Real)0);
 
         Real lowt = 0.0f;
         Real t;
         bool hit = false;
         Vector3 hitpoint;
-        const Vector3& min = box.getMinimum();
-        const Vector3& max = box.getMaximum();
+        const Vector3& min = box.minimum();
+        const Vector3& max = box.maximum();
         const Vector3& rayorig = ray.getOrigin();
         const Vector3& raydir = ray.getDirection();
 
@@ -483,7 +483,7 @@ namespace Ogre
     bool Math::intersects(const Ray& ray, const AxisAlignedBox& box,
         Real* d1, Real* d2)
     {
-        if (box.isNull())
+        if (box.is_null())
             return false;
 
         if (box.isInfinite())
@@ -493,8 +493,8 @@ namespace Ogre
             return true;
         }
 
-        const Vector3& min = box.getMinimum();
-        const Vector3& max = box.getMaximum();
+        const Vector3& min = box.minimum();
+        const Vector3& max = box.maximum();
         const Vector3& rayorig = ray.getOrigin();
         const Vector3& raydir = ray.getDirection();
 
@@ -604,14 +604,14 @@ namespace Ogre
     //-----------------------------------------------------------------------
     bool Math::intersects(const Sphere& sphere, const AxisAlignedBox& box)
     {
-        if (box.isNull()) return false;
+        if (box.is_null()) return false;
         if (box.isInfinite()) return true;
 
         // Use splitting planes
-        const Vector3& center = sphere.getCenter();
+        const Vector3& center = sphere.center();
         Real radius = sphere.getRadius();
-        const Vector3& min = box.getMinimum();
-        const Vector3& max = box.getMaximum();
+        const Vector3& min = box.minimum();
+        const Vector3& max = box.maximum();
 
         // Arvo's algorithm
         Real s, d = 0;
@@ -760,8 +760,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     Real Math::boundingRadiusFromAABB(const AxisAlignedBox& aabb)
     {
-        const Vector3& max = aabb.getMaximum();
-        const Vector3& min = aabb.getMinimum();
+        const Vector3& max = aabb.maximum();
+        const Vector3& min = aabb.minimum();
 
         Vector3 magnitude = max;
         magnitude.make_ceil(-max);
@@ -773,8 +773,8 @@ namespace Ogre
 
     Real Math::boundingRadiusFromAABBCentered(const AxisAlignedBox& aabb)
     {
-        const Vector3& max = aabb.getMaximum();
-        const Vector3& min = aabb.getMinimum();
+        const Vector3& max = aabb.maximum();
+        const Vector3& min = aabb.minimum();
 
         return ((min - max) * 0.5f).length();
     }

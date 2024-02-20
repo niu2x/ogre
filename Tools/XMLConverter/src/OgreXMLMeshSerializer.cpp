@@ -1229,7 +1229,7 @@ namespace Ogre {
         // Set bounds
         const AxisAlignedBox& currBox = mMesh->getBounds();
         Real currRadius = mMesh->getBoundingSphereRadius();
-        if (currBox.isNull())
+        if (currBox.is_null())
         {
         //do not pad the bounding box
             mMesh->_setBounds(AxisAlignedBox(min, max), false);

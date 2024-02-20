@@ -44,7 +44,7 @@ void DefaultDebugDrawer::drawWireBox(const AxisAlignedBox& aabb, const ColourVal
     beginLines();
 
     int base = mLines.getCurrentVertexCount();
-    for (const auto& corner : aabb.getAllCorners())
+    for (const auto& corner : aabb.all_corners())
     {
         mLines.position(corner);
         mLines.colour(colour);
@@ -163,7 +163,7 @@ void DefaultDebugDrawer::drawSceneNode(const SceneNode* node)
     if (mDrawType & DT_AXES)
     {
         // remove scale here as it will be in full transform below too
-        Vector3f hs(aabb.getHalfSize() / node->_getDerivedScale());
+        Vector3f hs(aabb.half_size() / node->_getDerivedScale());
         float sz = std::min(hs[0], hs[1]);
         sz = std::min(sz, hs[2]);
         sz = std::max(sz, 1.0f);

@@ -54,13 +54,13 @@ static Intersection intersect( const Ray &one, const AxisAlignedBox &two )
 {
     OctreeSceneManager::intersect_call++;
     // Null box?
-    if (two.isNull()) return OUTSIDE;
+    if (two.is_null()) return OUTSIDE;
     // Infinite box?
     if (two.isInfinite()) return INTERSECT;
 
     bool inside = true;
-    const Vector3& twoMin = two.getMinimum();
-    const Vector3& twoMax = two.getMaximum();
+    const Vector3& twoMin = two.minimum();
+    const Vector3& twoMax = two.maximum();
     Vector3 origin = one.getOrigin();
     Vector3 dir = one.getDirection();
 
@@ -125,14 +125,14 @@ static Intersection intersect( const PlaneBoundedVolume &one, const AxisAlignedB
 {
     OctreeSceneManager::intersect_call++;
     // Null box?
-    if (two.isNull()) return OUTSIDE;
+    if (two.is_null()) return OUTSIDE;
     // Infinite box?
     if (two.isInfinite()) return INTERSECT;
 
     // Get centre of the box
-    Vector3 centre = two.getCenter();
+    Vector3 centre = two.center();
     // Get the half-size of the box
-    Vector3 halfSize = two.getHalfSize();
+    Vector3 halfSize = two.half_size();
 
     // For each plane, see if all points are on the negative side
     // If so, object is not visible.
@@ -166,16 +166,16 @@ static Intersection intersect( const AxisAlignedBox &one, const AxisAlignedBox &
 {
     OctreeSceneManager::intersect_call++;
     // Null box?
-    if (one.isNull() || two.isNull()) return OUTSIDE;
+    if (one.is_null() || two.is_null()) return OUTSIDE;
     if (one.isInfinite()) return INSIDE;
     if (two.isInfinite()) return INTERSECT;
 
 
-    const Vector3& insideMin = two.getMinimum();
-    const Vector3& insideMax = two.getMaximum();
+    const Vector3& insideMin = two.minimum();
+    const Vector3& insideMax = two.maximum();
 
-    const Vector3& outsideMin = one.getMinimum();
-    const Vector3& outsideMax = one.getMaximum();
+    const Vector3& outsideMin = one.minimum();
+    const Vector3& outsideMax = one.maximum();
 
     if (    insideMax.x < outsideMin.x ||
             insideMax.y < outsideMin.y ||
@@ -207,17 +207,17 @@ static Intersection intersect( const Sphere &one, const AxisAlignedBox &two )
 {
     OctreeSceneManager::intersect_call++;
     // Null box?
-    if (two.isNull()) return OUTSIDE;
+    if (two.is_null()) return OUTSIDE;
     if (two.isInfinite()) return INTERSECT;
 
     float sradius = one.getRadius();
 
     sradius *= sradius;
 
-    Vector3 scenter = one.getCenter();
+    Vector3 scenter = one.center();
 
-    const Vector3& twoMin = two.getMinimum();
-    const Vector3& twoMax = two.getMaximum();
+    const Vector3& twoMin = two.minimum();
+    const Vector3& twoMax = two.maximum();
 
     float s, d = 0;
 
@@ -305,9 +305,9 @@ void OctreeSceneManager::init( AxisAlignedBox &box, int depth )
 
     mOctree -> mBox = box;
 
-    Vector3 min = box.getMinimum();
+    Vector3 min = box.minimum();
 
-    Vector3 max = box.getMaximum();
+    Vector3 max = box.maximum();
 
     mOctree -> mHalfSize = ( max - min ) / 2;
 
@@ -390,7 +390,7 @@ void OctreeSceneManager::_updateOctreeNode( OctreeNode * onode )
 {
     const AxisAlignedBox& box = onode -> _getWorldAABB();
 
-    if ( box.isNull() )
+    if ( box.is_null() )
         return ;
 
     // Skip if octree has been destroyed (shutdown conditions)
@@ -458,8 +458,8 @@ void OctreeSceneManager::_addOctreeNode( OctreeNode * n, Octree *octant, int dep
         if ( octant -> mChildren[ x ][ y ][ z ] == 0 )
         {
             octant -> mChildren[ x ][ y ][ z ] = OGRE_NEW Octree( octant );
-            const Vector3& octantMin = octant -> mBox.getMinimum();
-            const Vector3& octantMax = octant -> mBox.getMaximum();
+            const Vector3& octantMin = octant -> mBox.minimum();
+            const Vector3& octantMax = octant -> mBox.maximum();
             Vector3 min, max;
 
             if ( x == 0 )
@@ -498,7 +498,7 @@ void OctreeSceneManager::_addOctreeNode( OctreeNode * n, Octree *octant, int dep
                 max.z = octantMax.z;
             }
 
-            octant -> mChildren[ x ][ y ][ z ] -> mBox.setExtents( min, max );
+            octant -> mChildren[ x ][ y ][ z ] -> mBox.set_extents( min, max );
             octant -> mChildren[ x ][ y ][ z ] -> mHalfSize = ( max - min ) / 2;
         }
 
@@ -976,8 +976,8 @@ void OctreeSceneManager::resize( const AxisAlignedBox &box )
     mOctree = OGRE_NEW Octree( 0 );
     mOctree->mBox = box;
 
-    const Vector3 &min = box.getMinimum();
-    const Vector3 &max = box.getMaximum();
+    const Vector3 &min = box.minimum();
+    const Vector3 &max = box.maximum();
     mOctree->mHalfSize = ( max - min ) * 0.5f;
 
     it = nodes.begin();
@@ -1026,7 +1026,7 @@ bool OctreeSceneManager::getOption( const String & key, void *val )
     if ( key == "Size" )
     {
         AxisAlignedBox * b = static_cast < AxisAlignedBox * > ( val );
-        b -> setExtents( mOctree->mBox.getMinimum(), mOctree->mBox.getMaximum() );
+        b -> set_extents( mOctree->mBox.minimum(), mOctree->mBox.maximum() );
         return true;
     }
 

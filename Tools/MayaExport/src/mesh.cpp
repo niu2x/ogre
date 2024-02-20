@@ -1250,7 +1250,7 @@ namespace OgreMayaExporter
             Ogre::Vector3 min2(min1.x,min1.y,min1.z);
             Ogre::Vector3 max2(max1.x,max1.y,max1.z);
             Ogre::AxisAlignedBox newbbox;
-            newbbox.setExtents(min2,max2);
+            newbbox.set_extents(min2,max2);
             bbox.merge(newbbox);
         }
         // Define mesh bounds

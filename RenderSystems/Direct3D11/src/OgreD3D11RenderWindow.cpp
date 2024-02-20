@@ -232,7 +232,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D11RenderWindowBase::_queryDxgiDeviceImpl(IDXGIDeviceN** dxgiDevice)
     {
-        if (mDevice.isNull())
+        if (mDevice.is_null())
         {
             OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, 
                 "D3D11Device is NULL!",
@@ -532,7 +532,7 @@ namespace Ogre
         D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(Root::getSingleton().getRenderSystem());
         rsys->fireDeviceEvent(&mDevice,"BeforeDevicePresent",this);
 
-        if( !mDevice.isNull() )
+        if( !mDevice.is_null() )
         {
             // Step of resolving MSAA resource for swap chains in FlipSequentialMode should be done by application rather than by OS.
             if(mUseFlipMode && mFSAAType.Count > 1)

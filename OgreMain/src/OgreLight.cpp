@@ -811,7 +811,7 @@ namespace Ogre {
                 if (!isIntersect)
                 {
                     //Calculate the cone that exists between the sphere and the center position of the light
-                    Ogre::Vector3 lightSphereConeDirection = container.getCenter() - mDerivedPosition;
+                    Ogre::Vector3 lightSphereConeDirection = container.center() - mDerivedPosition;
                     Ogre::Radian halfLightSphereConeAngle = Math::ASin(container.getRadius() / lightSphereConeDirection.length());
 
                     //Check that the light cone and the light-position-to-sphere cone intersect)
@@ -850,8 +850,8 @@ namespace Ogre {
                 lightBoxBound.merge(localToWorld * Vector3(-boxOffset, boxOffset, -range));
                 lightBoxBound.merge(localToWorld * Vector3(-boxOffset, -boxOffset, -range));
                 lightBoxBound.merge(localToWorld * Vector3(boxOffset, -boxOffset, -range));
-                lightBoxBound.setMaximum(lightBoxBound.getMaximum() + mDerivedPosition);
-                lightBoxBound.setMinimum(lightBoxBound.getMinimum() + mDerivedPosition);
+                lightBoxBound.set_maximum(lightBoxBound.maximum() + mDerivedPosition);
+                lightBoxBound.set_minimum(lightBoxBound.minimum() + mDerivedPosition);
                 isIntersect = lightBoxBound.intersects(container);
                 
                 //If the bounding box check succeeded do one more test
@@ -859,8 +859,8 @@ namespace Ogre {
                 {
                     //Check intersection again with the bounding sphere of the container
                     //Helpful for when the light is at an angle near one of the vertexes of the bounding box
-                    isIntersect = isInLightRange(Sphere(container.getCenter(), 
-                        container.getHalfSize().length()));
+                    isIntersect = isInLightRange(Sphere(container.center(), 
+                        container.half_size().length()));
                 }
             }
         }

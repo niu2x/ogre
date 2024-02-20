@@ -738,7 +738,7 @@ void Sample_ShaderSystem::addModelToScene(const String &  modelName)
         childNode->setPosition(mNumberOfModelsAdded * scaleFactor, 15,  i * scaleFactor);
         childNode->attachObject(entity);
         MeshPtr modelMesh = MeshManager::getSingleton().getByName(modelName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        Vector3 modelSize = modelMesh->getBounds().getSize();
+        Vector3 modelSize = modelMesh->getBounds().size();
         childNode->scale(1 / modelSize.x * scaleFactor, 
                          1 / modelSize.y * scaleFactor, 
                          1 / modelSize.z * scaleFactor

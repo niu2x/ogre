@@ -406,11 +406,11 @@ namespace Ogre {
           {
             return bottom - top;
           }
-          bool isNull() const
+          bool is_null() const
           {
               return width() == 0 || height() == 0;
           }
-          void setNull()
+          void set_null()
           {
               left = right = top = bottom = 0;
           }
@@ -418,11 +418,11 @@ namespace Ogre {
           {
               assert(right >= left && bottom >= top);
               assert(rhs.right >= rhs.left && rhs.bottom >= rhs.top);
-              if (isNull())
+              if (is_null())
               {
                   *this = rhs;
               }
-              else if (!rhs.isNull())
+              else if (!rhs.is_null())
               {
                   left = std::min(left, rhs.left);
                   right = std::max(right, rhs.right);
@@ -447,7 +447,7 @@ namespace Ogre {
               assert(right >= left && bottom >= top);
               assert(rhs.right >= rhs.left && rhs.bottom >= rhs.top);
               TRect ret;
-              if (isNull() || rhs.isNull())
+              if (is_null() || rhs.is_null())
               {
                   // empty
                   return ret;

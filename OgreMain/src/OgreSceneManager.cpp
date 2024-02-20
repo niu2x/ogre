@@ -3621,8 +3621,8 @@ VisibleObjectsBoundsInfo::VisibleObjectsBoundsInfo()
 //---------------------------------------------------------------------
 void VisibleObjectsBoundsInfo::reset()
 {
-    aabb.setNull();
-    receiverAabb.setNull();
+    aabb.set_null();
+    receiverAabb.set_null();
     minDistance = minDistanceInFrustum = std::numeric_limits<Real>::infinity();
     maxDistance = maxDistanceInFrustum = 0;
 }
@@ -3633,7 +3633,7 @@ void VisibleObjectsBoundsInfo::merge(const AxisAlignedBox& boxBounds, const Sphe
     if (receiver)
         receiverAabb.merge(boxBounds);
     // use view matrix to determine distance, works with custom view matrices
-    Vector3 vsSpherePos = cam->getViewMatrix(true) * sphereBounds.getCenter();
+    Vector3 vsSpherePos = cam->getViewMatrix(true) * sphereBounds.center();
     Real camDistToCenter = vsSpherePos.length();
     minDistance = std::min(minDistance, std::max((Real)0, camDistToCenter - sphereBounds.getRadius()));
     maxDistance = std::max(maxDistance, camDistToCenter + sphereBounds.getRadius());
@@ -3645,7 +3645,7 @@ void VisibleObjectsBoundsInfo::mergeNonRenderedButInFrustum(const AxisAlignedBox
 {
     (void)boxBounds;
     // use view matrix to determine distance, works with custom view matrices
-    Vector3 vsSpherePos = cam->getViewMatrix(true) * sphereBounds.getCenter();
+    Vector3 vsSpherePos = cam->getViewMatrix(true) * sphereBounds.center();
     Real camDistToCenter = vsSpherePos.length();
     minDistanceInFrustum = std::min(minDistanceInFrustum, std::max((Real)0, camDistToCenter - sphereBounds.getRadius()));
     maxDistanceInFrustum = std::max(maxDistanceInFrustum, camDistToCenter + sphereBounds.getRadius());

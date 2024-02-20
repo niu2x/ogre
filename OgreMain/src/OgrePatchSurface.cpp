@@ -126,7 +126,7 @@ namespace Ogre {
                 maxSqRadius = std::max(ctli.squared_length(), maxSqRadius);
             }
         }
-        mAABB.setExtents(min, max);
+        mAABB.set_extents(min, max);
         mBoundingSphere = Math::Sqrt(maxSqRadius);
 
     }

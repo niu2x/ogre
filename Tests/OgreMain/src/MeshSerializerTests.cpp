@@ -307,8 +307,8 @@ void MeshSerializerTests::assertMeshClone(Mesh* a, Mesh* b, MeshVersion version 
 #ifndef OGRE_TEST_XMLSERIALIZER
     // XML serializer fails on these!
     EXPECT_TRUE(isEqual(a->getBoundingSphereRadius(), b->getBoundingSphereRadius()));
-    EXPECT_TRUE(isEqual(a->getBounds().getMinimum(), b->getBounds().getMinimum()));
-    EXPECT_TRUE(isEqual(a->getBounds().getMaximum(), b->getBounds().getMaximum()));
+    EXPECT_TRUE(isEqual(a->getBounds().minimum(), b->getBounds().minimum()));
+    EXPECT_TRUE(isEqual(a->getBounds().maximum(), b->getBounds().maximum()));
 #else
     StringStream str;
     Real val1 = a->getBoundingSphereRadius();
@@ -317,14 +317,14 @@ void MeshSerializerTests::assertMeshClone(Mesh* a, Mesh* b, MeshVersion version 
     if (diff > 1.1) {
         str << "bound sphere diff: " << diff << std::endl;
     }
-    val1 = a->getBounds().getMinimum().length();
-    val2 = b->getBounds().getMinimum().length();
+    val1 = a->getBounds().minimum().length();
+    val2 = b->getBounds().minimum().length();
     diff = (val1 > val2) ? (val1 / val2) : (val2 / val1);
     if (diff > 1.1) {
         str << "bound min diff: " << diff << std::endl;
     }
-    val1 = a->getBounds().getMaximum().length();
-    val2 = b->getBounds().getMaximum().length();
+    val1 = a->getBounds().maximum().length();
+    val2 = b->getBounds().maximum().length();
     diff = (val1 > val2) ? (val1 / val2) : (val2 / val1);
     if (diff > 1.1) {
         str << "bound max diff: " << diff << std::endl;

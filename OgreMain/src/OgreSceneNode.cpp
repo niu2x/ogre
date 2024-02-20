@@ -206,7 +206,7 @@ namespace Ogre {
     void SceneNode::_updateBounds(void)
     {
         // Reset bounds first
-        mWorldAABB.setNull();
+        mWorldAABB.set_null();
 
         // Update bounds from own attached objects
         for (auto *o : mObjectsByName)

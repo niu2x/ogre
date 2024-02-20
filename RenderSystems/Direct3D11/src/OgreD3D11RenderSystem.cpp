@@ -1250,7 +1250,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void D3D11RenderSystem::freeDevice(void)
     {
-        if (!mDevice.isNull() && mCurrentCapabilities)
+        if (!mDevice.is_null() && mCurrentCapabilities)
         {
             // Set all texture units to nothing to release texture surfaces
             _disableTextureUnitsFrom(0);
@@ -1333,7 +1333,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D11RenderSystem::validateDevice(bool forceDeviceElection)
     {
-        if(mDevice.isNull())
+        if(mDevice.is_null())
             return;
 
         // The D3D Device is no longer valid if the elected adapter changes or if
