@@ -356,7 +356,7 @@ CS_VECTOR_OPS(4);
         $1 = &tmp;
 
         if (!SWIG_IsOK(res))
-            SWIG_exception_fail(SWIG_TypeError, "Expected float (Ogre::Radian) or Ogre::Degree");
+            %argument_fail(SWIG_TypeError, "float (Ogre::Radian) or Ogre::Degree", $symname, $argnum);
     }
 }
 // punch through overload resolution
@@ -396,7 +396,7 @@ CS_VECTOR_OPS(4);
             PyObject *o = PySequence_GetItem($input, i);
             if (!PyNumber_Check(o)) {
                 Py_XDECREF(o);
-                SWIG_exception_fail(SWIG_TypeError, "Sequence elements must be numbers");
+                %argument_fail(SWIG_TypeError, "Sequence[float]", $symname, $argnum);
             }
             temp.ptr()[i] = (float)PyFloat_AsDouble(o);
             Py_DECREF(o);
@@ -666,6 +666,10 @@ SHARED_PTR(HardwarePixelBuffer);
         typedef pointer_category category;
         static const char* type_name() { return "Ogre::Camera"; }
     };
+    template<> struct traits<Ogre::StaticGeometry> {
+        typedef pointer_category category;
+        static const char* type_name() { return "Ogre::StaticGeometry"; }
+    };
     }
 %}
 #endif
@@ -884,6 +888,7 @@ SHARED_PTR(Mesh);
 %newobject Ogre::SceneManager::createRayQuery(const Ray&);
 %rename(SceneManager_Listener) Ogre::SceneManager::Listener;
 %template(MovableObjectMap) std::map<std::string, Ogre::MovableObject*>;
+%template(StaticGeometryMap) std::map<std::string, Ogre::StaticGeometry*>;
 %template(CameraMap) std::map<std::string, Ogre::Camera*>;
 %include "OgreSceneManager.h"
 %include "OgreDefaultDebugDrawer.h"

@@ -28,7 +28,7 @@
     if(SWIG_IsOK(res))
         $1 = ($ltype)(argp);
     else
-        SWIG_exception_fail(SWIG_TypeError, "Expected size_t");
+        %argument_fail(SWIG_TypeError, "size_t", $symname, $argnum);
 }
 %typecheck(SWIG_TYPECHECK_POINTER) ImTextureID {
     $1 = true; // actual check in the typemap
@@ -40,7 +40,7 @@
     if (SWIG_IsOK(res)) {
         $1 = ($ltype)argp;
     } else {
-        SWIG_exception_fail(SWIG_TypeError, "Expected ImVec4");
+        %argument_fail(SWIG_TypeError, "ImVec4", $symname, $argnum);
     }
 }
 
@@ -48,6 +48,28 @@
 // match the signature of the by value variants
 %typemap(argout) float[4], float[3], float[2] {
     $result = SWIG_Python_AppendOutput($result, SWIG_NewPointerObj($1, $descriptor(ImVec4*), 0));
+}
+
+// for PlotHistogram, PlotLines
+%typemap(in) (const float* values, int values_count)
+{
+    Py_buffer view;
+    int res = PyObject_GetBuffer($input, &view, PyBUF_CONTIG_RO | PyBUF_FORMAT);
+    if (res < 0) {
+        SWIG_fail;
+    }
+    PyBuffer_Release(&view);
+
+    if(view.ndim != 1 || strcmp(view.format, "f") != 0) {
+        %argument_fail(SWIG_TypeError, "array(f)", $symname, $argnum);
+    }
+
+    $1 = ($ltype)view.buf;
+    $2 = view.len / sizeof(float);
+}
+
+%typecheck(SWIG_TYPECHECK_STRING) (const float* values, int values_count) {
+    $1 = true; // actual check in the typemap
 }
 #endif
 

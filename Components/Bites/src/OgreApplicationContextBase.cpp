@@ -4,6 +4,9 @@
 
 #include "OgreApplicationContextBase.h"
 
+#include "OgreImGuiOverlay.h"
+#include "OgreOverlayManager.h"
+#include "OgreImGuiInputListener.h"
 #include "OgreRoot.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreConfigFile.h"
@@ -251,6 +254,70 @@ void ApplicationContextBase::destroyDummyScene()
     mRoot->destroySceneManager(dummyScene);
 }
 
+struct ImGuiConfigDialog : Ogre::FrameListener
+{
+    Ogre::String nextRenderer;
+    bool saveConfig;
+
+    bool frameStarted(const Ogre::FrameEvent& evt) override
+    {
+        Ogre::ImGuiOverlay::NewFrame();
+
+        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
+                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
+        auto center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::Begin("Rendering Settings", NULL, flags);
+        Ogre::DrawRenderingSettings(nextRenderer);
+        ImGui::Separator();
+        if (ImGui::Button("Accept"))
+        {
+            Ogre::Root::getSingleton().queueEndRendering();
+            saveConfig = true;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel"))
+            Ogre::Root::getSingleton().queueEndRendering();
+        ImGui::End();
+        return true;
+    }
+};
+
+void ApplicationContextBase::runRenderingSettingsDialog()
+{
+    createRoot();
+    oneTimeConfig();
+    auto rs = getRoot()->getRenderSystem();
+    auto oldVm = rs->getConfigOptions().at("Video Mode").currentValue;
+    rs->setConfigOption("Video Mode", "800 x 600");
+    setup();
+    rs->setConfigOption("Video Mode", oldVm);
+    createDummyScene();
+
+    float vpScale = getDisplayDPI()/96;
+    Ogre::OverlayManager::getSingleton().setPixelRatio(vpScale);
+    auto overlay = initialiseImGui();
+    ImGui::GetIO().FontGlobalScale = std::round(vpScale); // default font does not work with fractional scaling
+    overlay->show();
+
+    addInputListener(getImGuiInputListener());
+
+    ImGuiConfigDialog dialog;
+    getRoot()->addFrameListener(&dialog);
+    getRoot()->startRendering();
+
+    destroyDummyScene();
+    shutdown();
+    mRoot->shutdown();
+    if(dialog.saveConfig)
+    {
+        mRoot->setRenderSystem(mRoot->getRenderSystemByName(dialog.nextRenderer));
+        mRoot->saveConfig();
+    }
+    delete mRoot;
+    mRoot = NULL;
+}
+
 void ApplicationContextBase::enableShaderCache() const
 {
     Ogre::GpuProgramManager::getSingleton().setSaveMicrocodesToCache(true);
@@ -493,6 +560,23 @@ void ApplicationContextBase::locateResources()
 void ApplicationContextBase::loadResources()
 {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+Ogre::ImGuiOverlay* ApplicationContextBase::initialiseImGui()
+{
+        if(auto overlay = Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay"))
+            return static_cast<Ogre::ImGuiOverlay*>(overlay);
+
+        auto imguiOverlay = new Ogre::ImGuiOverlay();
+        Ogre::OverlayManager::getSingleton().addOverlay(imguiOverlay); // now owned by overlaymgr
+
+        // handle DPI scaling
+        float vpScale = Ogre::OverlayManager::getSingleton().getPixelRatio();
+        ImGui::GetStyle().ScaleAllSizes(vpScale);
+
+        mImGuiListener.reset(new ImGuiInputListener());
+
+        return imguiOverlay;
 }
 
 void ApplicationContextBase::reconfigure(const Ogre::String &renderer, Ogre::NameValuePairList &options)

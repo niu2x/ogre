@@ -574,11 +574,11 @@ namespace Ogre {
             if (name == "OgreUniforms") // default buffer
             {
                 extractUniforms(blockIdx);
-                int binding = int(mType);
+                int binding = mType == GPT_COMPUTE_PROGRAM ? 0 : int(mType);
                 if (binding > 1)
                     LogManager::getSingleton().logWarning(
                         getResourceLogName() +
-                        " - using a UBO in this shader type will alias with shared_params");
+                        " - using 'OgreUniforms' in this shader type does alias with shared_params");
 
                 mDefaultBuffer = hbm.createUniformBuffer(values[2]);
                 static_cast<GL3PlusHardwareBuffer*>(mDefaultBuffer.get())->setGLBufferBinding(binding);
@@ -628,8 +628,17 @@ namespace Ogre {
         if(caps->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
         {
             extractUniforms();
-            extractBufferBlocks(GL_UNIFORM_BLOCK);
-            extractBufferBlocks(GL_SHADER_STORAGE_BLOCK);
+            try
+            {
+                extractBufferBlocks(GL_UNIFORM_BLOCK);
+                extractBufferBlocks(GL_SHADER_STORAGE_BLOCK);
+            }
+            catch (const InvalidParametersException& e)
+            {
+                LogManager::getSingleton().stream(LML_CRITICAL)
+                    << "Program '" << mName << "' is not supported: " << e.getDescription();
+                mCompileError = true;
+            }
             return;
         }
 
