@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 #include "OgreMovableObject.h"
 #include "OgreRenderable.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreRenderOperation.h"
 #include "OgreHeaderPrefix.h"
 

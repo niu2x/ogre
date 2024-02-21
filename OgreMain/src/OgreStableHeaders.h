@@ -50,7 +50,7 @@ extern "C" {
 #include "any.h"
 #include "OgreArchive.h"
 #include "OgreArchiveManager.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "bitwise.h"
 #include "OgreBone.h"
 #include "OgreCamera.h"

@@ -355,7 +355,6 @@ namespace Ogre {
 
         // Point sprites
         rsc->setCapability(RSC_POINT_SPRITES);
-        rsc->setCapability(RSC_POINT_EXTENDED_PARAMETERS);
         
         // GLSL ES is always supported in GL ES 2
         rsc->addShaderProfile("glsles");
@@ -1704,6 +1703,7 @@ namespace Ogre {
             case VET_USHORT2_NORM:
             case VET_SHORT4_NORM:
             case VET_USHORT4_NORM:
+            case VET_INT_10_10_10_2_NORM:
                 normalised = GL_TRUE;
                 break;
             default:

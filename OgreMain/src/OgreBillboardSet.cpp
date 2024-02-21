@@ -400,12 +400,12 @@ namespace Ogre {
         if (mActiveBillboards == 0)
         {
             // No billboards, null bbox
-            mAABB.setNull();
+            mAABB.set_null();
             mBoundingRadius = 0.0f;
         }
         else
         {
-            mAABB.setNull();
+            mAABB.set_null();
             auto iend = mBillboardPool.begin() + mActiveBillboards;
             Affine3 invWorld;
             bool invert = mWorldSpace && getParentSceneNode();
@@ -425,7 +425,7 @@ namespace Ogre {
             Real adjust = std::max(mDefaultWidth, mDefaultHeight);
             Vector3 vecAdjust(adjust, adjust, adjust);
 
-            mAABB.setExtents(mAABB.getMinimum() - vecAdjust, mAABB.getMaximum() + vecAdjust);
+            mAABB.set_extents(mAABB.minimum() - vecAdjust, mAABB.maximum() + vecAdjust);
             mBoundingRadius = Math::boundingRadiusFromAABB(mAABB);
         }
 

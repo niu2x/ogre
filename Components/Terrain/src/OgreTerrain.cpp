@@ -225,7 +225,7 @@ namespace Ogre
     const AxisAlignedBox& Terrain::getAABB() const
     {
         if (!mQuadTree)
-            return AxisAlignedBox::BOX_NULL;
+            return AxisAlignedBox::box_null;
         else
             return mQuadTree->getBoundingBox();
     }
@@ -236,7 +236,7 @@ namespace Ogre
         m.set_trans(getPosition());
 
         AxisAlignedBox ret = getAABB();
-        ret.transform(m);
+        ret.transform_by(m);
         return ret;
     }
     //---------------------------------------------------------------------
@@ -1843,10 +1843,10 @@ namespace Ogre
     //---------------------------------------------------------------------
     void Terrain::updateGeometry()
     {
-        if (!mDirtyGeometryRect.isNull())
+        if (!mDirtyGeometryRect.is_null())
         {
             mQuadTree->updateVertexData(true, false, mDirtyGeometryRect, false);
-            mDirtyGeometryRect.setNull();
+            mDirtyGeometryRect.set_null();
         }
 
         // propagate changes
@@ -1855,16 +1855,16 @@ namespace Ogre
     //---------------------------------------------------------------------
     void Terrain::updateGeometryWithoutNotifyNeighbours()
     {
-        if (!mDirtyGeometryRect.isNull())
+        if (!mDirtyGeometryRect.is_null())
         {
             mQuadTree->updateVertexData(true, false, mDirtyGeometryRect, false);
-            mDirtyGeometryRect.setNull();
+            mDirtyGeometryRect.set_null();
         }
     }
     //---------------------------------------------------------------------
     void Terrain::updateDerivedData(bool synchronous, uint8 typeMask)
     {
-        if (!mDirtyDerivedDataRect.isNull() || !mDirtyLightmapFromNeighboursRect.isNull())
+        if (!mDirtyDerivedDataRect.is_null() || !mDirtyLightmapFromNeighboursRect.is_null())
         {
             mModified = true;
             if (mDerivedDataUpdateInProgress)
@@ -1877,8 +1877,8 @@ namespace Ogre
             {
                 updateDerivedDataImpl(mDirtyDerivedDataRect, mDirtyLightmapFromNeighboursRect, 
                     synchronous, typeMask);
-                mDirtyDerivedDataRect.setNull();
-                mDirtyLightmapFromNeighboursRect.setNull();
+                mDirtyDerivedDataRect.set_null();
+                mDirtyLightmapFromNeighboursRect.set_null();
             }
         }
         else
@@ -3059,7 +3059,7 @@ namespace Ogre
         if (mDerivedUpdatePendingMask)
         {
             newRect.merge(mDirtyDerivedDataRect);
-            mDirtyDerivedDataRect.setNull();
+            mDirtyDerivedDataRect.set_null();
         }
         Rect newLightmapExtraRect(0,0,0,0);
         if (ddres.remainingTypeMask)
@@ -3067,7 +3067,7 @@ namespace Ogre
         if (mDerivedUpdatePendingMask)
         {
             newLightmapExtraRect.merge(mDirtyLightmapFromNeighboursRect);
-            mDirtyLightmapFromNeighboursRect.setNull();
+            mDirtyLightmapFromNeighboursRect.set_null();
         }
         uint8 newMask = ddres.remainingTypeMask | mDerivedUpdatePendingMask;
         if (newMask)
@@ -3403,7 +3403,7 @@ namespace Ogre
     void Terrain::updateCompositeMap()
     {
         // All done in the render thread
-        if (mCompositeMapRequired && !mCompositeMapDirtyRect.isNull())
+        if (mCompositeMapRequired && !mCompositeMapDirtyRect.is_null())
         {
             mModified = true;
             createOrDestroyGPUCompositeMap();
@@ -3421,7 +3421,7 @@ namespace Ogre
                 mMaterialGenerator->updateCompositeMap(this, mCompositeMapDirtyRect);
 
             mCompositeMapDirtyRectLightmapUpdate = false;
-            mCompositeMapDirtyRect.setNull();
+            mCompositeMapDirtyRect.set_null();
 
 
         }
@@ -3653,10 +3653,10 @@ namespace Ogre
         // Shadows across edge - possible effect extends based on the projection of the
         //   neighbour AABB along the light direction (worst case scenario)
 
-        if (!mDirtyGeometryRectForNeighbours.isNull())
+        if (!mDirtyGeometryRectForNeighbours.is_null())
         {
             Rect dirtyRectForNeighbours(mDirtyGeometryRectForNeighbours);
-            mDirtyGeometryRectForNeighbours.setNull();
+            mDirtyGeometryRectForNeighbours.set_null();
             // calculate light update rectangle
             const Vector3& lightVec = TerrainGlobalOptions::getSingleton().getLightMapDirection();
             Rect lightmapRect;
@@ -3675,13 +3675,13 @@ namespace Ogre
                 Rect heightEdgeRect = edgeRect.intersect(dirtyRectForNeighbours);
                 Rect lightmapEdgeRect = edgeRect.intersect(lightmapRect);
 
-                if (!heightEdgeRect.isNull() || !lightmapRect.isNull())
+                if (!heightEdgeRect.is_null() || !lightmapRect.is_null())
                 {
                     // ok, we have something valid to pass on
                     Rect neighbourHeightEdgeRect, neighbourLightmapEdgeRect;
-                    if (!heightEdgeRect.isNull())
+                    if (!heightEdgeRect.is_null())
                         getNeighbourEdgeRect(ni, heightEdgeRect, &neighbourHeightEdgeRect);
-                    if (!lightmapRect.isNull())
+                    if (!lightmapRect.is_null())
                         getNeighbourEdgeRect(ni, lightmapEdgeRect, &neighbourLightmapEdgeRect);
 
                     neighbour->neighbourModified(getOppositeNeighbour(ni), 
@@ -3705,7 +3705,7 @@ namespace Ogre
         uint8 updateDerived = 0;
 
 
-        if (!edgerect.isNull())
+        if (!edgerect.is_null())
         {
             // update edges; match heights first, then recalculate normals
             // reduce to just single line / corner
@@ -3745,7 +3745,7 @@ namespace Ogre
             }
         }
 
-        if (!shadowrect.isNull())
+        if (!shadowrect.is_null())
         {
             // update shadows
             // here we need to widen the rect passed in based on the min/max height 

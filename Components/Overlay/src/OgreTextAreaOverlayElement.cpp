@@ -318,7 +318,7 @@ namespace Ogre {
             Real horiz_height = glyphInfo.aspectRatio * mViewportAspectCoef ;
             const Font::UVRect& uvRect = glyphInfo.uvRect;
 
-            if(uvRect.isNull())
+            if(uvRect.is_null())
             {
                 // Just leave a gap, no tris
                 left += glyphInfo.advance * mCharHeight * 2.0f * mViewportAspectCoef;

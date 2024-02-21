@@ -594,7 +594,7 @@ namespace Ogre {
 
         // Merge bounds
         AxisAlignedBox box;
-        box.setExtents(min, max);
+        box.set_extents(min, max);
         box.merge(pMesh->getBounds());
         pMesh->_setBounds(box, false);
         pMesh->_setBoundingSphereRadius(

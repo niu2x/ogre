@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreMovableObject.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreVertexIndexData.h"
 #include "OgreHeaderPrefix.h"
 

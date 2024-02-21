@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreResource.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreVertexBoneAssignment.h"
 #include "OgreAnimation.h"
 #include "OgreAnimationTrack.h"

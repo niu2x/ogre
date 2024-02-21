@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <vector>
 #include "OgreManualObject.h"
 #include "vector.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreVolumePrerequisites.h"
 
 namespace Ogre {
@@ -170,34 +170,34 @@ namespace Volume {
                 // Update bounding box
                 if (!mBoxInit)
                 {
-                    mBox.setExtents(v.x, v.y, v.z, v.x, v.y, v.z);
+                    mBox.set_extents(v.x, v.y, v.z, v.x, v.y, v.z);
                     mBoxInit = true;
                 }
                 else
                 {
-                    if (v.x < mBox.getMinimum().x)
+                    if (v.x < mBox.minimum().x)
                     {
-                        mBox.setMinimumX(v.x);
+                        mBox.set_minimumX(v.x);
                     }
-                    if (v.y < mBox.getMinimum().y)
+                    if (v.y < mBox.minimum().y)
                     {
-                        mBox.setMinimumY(v.y);
+                        mBox.set_minimumY(v.y);
                     }
-                    if (v.z < mBox.getMinimum().z)
+                    if (v.z < mBox.minimum().z)
                     {
-                        mBox.setMinimumZ(v.z);
+                        mBox.set_minimumZ(v.z);
                     }
-                    if (v.x > mBox.getMaximum().x)
+                    if (v.x > mBox.maximum().x)
                     {
-                        mBox.setMaximumX(v.x);
+                        mBox.set_maximum_x(v.x);
                     }
-                    if (v.y > mBox.getMaximum().y)
+                    if (v.y > mBox.maximum().y)
                     {
-                        mBox.setMaximumY(v.y);
+                        mBox.set_maximum_y(v.y);
                     }
-                    if (v.z > mBox.getMaximum().z)
+                    if (v.z > mBox.maximum().z)
                     {
-                        mBox.setMaximumZ(v.z);
+                        mBox.set_maximum_z(v.z);
                     }
                 }
             }

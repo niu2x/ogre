@@ -199,8 +199,8 @@ namespace Ogre
         //   |/    |/
         //   6-----7
         
-        const Vector3& min = aab.getMinimum();
-        const Vector3& max = aab.getMaximum();
+        const Vector3& min = aab.minimum();
+        const Vector3& max = aab.maximum();
 
         Vector3 currentVertex = min;
 
@@ -281,7 +281,7 @@ namespace Ogre
     void ConvexBody::clip(const AxisAlignedBox& aab)
     {
         // only process finite boxes
-        if (!aab.isFinite())
+        if (!aab.finite())
             return;
         // ordering of the AAB points:
         //      1-----2
@@ -293,8 +293,8 @@ namespace Ogre
         //   |/    |/
         //   6-----7
 
-        const Vector3& min = aab.getMinimum();
-        const Vector3& max = aab.getMaximum();
+        const Vector3& min = aab.minimum();
+        const Vector3& max = aab.maximum();
 
         // clip object for each plane of the AAB
         Plane p;

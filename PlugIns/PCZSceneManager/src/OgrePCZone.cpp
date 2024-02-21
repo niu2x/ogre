@@ -174,14 +174,14 @@ namespace Ogre
         // if there is no node, just return a null box
         if (mEnclosureNode == 0)
         {
-            aabb.setNull();
+            aabb.set_null();
         }
         else
         {
             aabb = mEnclosureNode->_getWorldAABB();
             // since this is the "local" AABB, subtract out any translations
-            aabb.setMinimum(aabb.getMinimum() - mEnclosureNode->_getDerivedPosition());
-            aabb.setMaximum(aabb.getMaximum() - mEnclosureNode->_getDerivedPosition());
+            aabb.set_minimum(aabb.minimum() - mEnclosureNode->_getDerivedPosition());
+            aabb.set_maximum(aabb.maximum() - mEnclosureNode->_getDerivedPosition());
         }
         return;
     }

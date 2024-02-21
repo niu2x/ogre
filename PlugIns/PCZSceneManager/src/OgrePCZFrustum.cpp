@@ -80,15 +80,15 @@ namespace Ogre
     bool PCZFrustum::isVisible( const AxisAlignedBox & bound) const
     {
         // Null boxes are always invisible
-        if (bound.isNull()) return false;
+        if (bound.is_null()) return false;
 
         // Infinite boxes are always visible
         if (bound.isInfinite()) return true;
 
         // Get centre of the box
-        Vector3 centre = bound.getCenter();
+        Vector3 centre = bound.center();
         // Get the half-size of the box
-        Vector3 halfSize = bound.getHalfSize();
+        Vector3 halfSize = bound.half_size();
 
         // Check originplane if told to
         if (mUseOriginPlane)
@@ -121,10 +121,10 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            Plane::Side side = mOriginPlane.which_side(bound.getCenter());
+            Plane::Side side = mOriginPlane.which_side(bound.center());
             if (side == PlaneSide::NEGATIVE_SIDE)
             {
-                Real dist = mOriginPlane.distance_to(bound.getCenter());
+                Real dist = mOriginPlane.distance_to(bound.center());
                 if (dist > bound.getRadius())
                 {
                     return false;
@@ -138,10 +138,10 @@ namespace Ogre
         while ( pit != mActiveCullingPlanes.end() )
         {
             PCPlane * plane = *pit;
-            Plane::Side xside = plane->which_side(bound.getCenter());
+            Plane::Side xside = plane->which_side(bound.center());
             if (xside == PlaneSide::NEGATIVE_SIDE)
             {
-                Real dist = plane->distance_to(bound.getCenter());
+                Real dist = plane->distance_to(bound.center());
                 if (dist > bound.getRadius())
                 {
                     return false;
@@ -181,7 +181,7 @@ namespace Ogre
         if (portal->getType() == PortalBase::PORTAL_TYPE_AABB)
         {
             AxisAlignedBox aabb;
-            aabb.setExtents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
+            aabb.set_extents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
             return isVisible(aabb);
         }
         else if (portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)
@@ -267,15 +267,15 @@ namespace Ogre
     bool PCZFrustum::isFullyVisible(const AxisAlignedBox& bound) const
     {
         // Null boxes are always invisible
-        if (bound.isNull()) return false;
+        if (bound.is_null()) return false;
 
         // Infinite boxes are never fully visible
         if (bound.isInfinite()) return false;
 
         // Get centre of the box
-        Vector3 centre = bound.getCenter();
+        Vector3 centre = bound.center();
         // Get the half-size of the box
-        Vector3 halfSize = bound.getHalfSize();
+        Vector3 halfSize = bound.half_size();
 
         // Check originplane if told to
         if (mUseOriginPlane)
@@ -307,8 +307,8 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            if (mOriginPlane.distance_to(bound.getCenter()) <= bound.getRadius() ||
-                mOriginPlane.which_side(bound.getCenter()) != PlaneSide::POSITIVE_SIDE)
+            if (mOriginPlane.distance_to(bound.center()) <= bound.getRadius() ||
+                mOriginPlane.which_side(bound.center()) != PlaneSide::POSITIVE_SIDE)
             {
                 return false;
             }
@@ -322,8 +322,8 @@ namespace Ogre
         {
             PCPlane* plane = *pit;
 
-            if (plane->distance_to(bound.getCenter()) <= bound.getRadius() ||
-                plane->which_side(bound.getCenter()) != PlaneSide::POSITIVE_SIDE)
+            if (plane->distance_to(bound.center()) <= bound.getRadius() ||
+                plane->which_side(bound.center()) != PlaneSide::POSITIVE_SIDE)
             {
                 return false;
             }
@@ -360,7 +360,7 @@ namespace Ogre
         if (portal->getType() == PortalBase::PORTAL_TYPE_AABB)
         {
             AxisAlignedBox aabb;
-            aabb.setExtents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
+            aabb.set_extents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
             return isFullyVisible(aabb);
         }
         else if (portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)
@@ -419,13 +419,13 @@ namespace Ogre
     {
 
         // Null boxes always invisible
-        if ( bound.isNull() )
+        if ( bound.is_null() )
             return NONE;
 
         // Get centre of the box
-        Vector3 centre = bound.getCenter();
+        Vector3 centre = bound.center();
         // Get the half-size of the box
-        Vector3 halfSize = bound.getHalfSize();
+        Vector3 halfSize = bound.half_size();
 
         bool all_inside = true;
 

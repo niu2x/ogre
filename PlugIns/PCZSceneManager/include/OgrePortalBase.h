@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePCZPrerequisites.h"
 #include "OgreMovableObject.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreCapsule.h"
 #include "OgreSphere.h"
 

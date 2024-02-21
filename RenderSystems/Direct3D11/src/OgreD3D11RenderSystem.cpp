@@ -820,7 +820,6 @@ namespace Ogre
         convertPixelShaderCaps(rsc);
         convertGeometryShaderCaps(rsc);
         convertHullShaderCaps(rsc);
-        convertDomainShaderCaps(rsc);
         convertComputeShaderCaps(rsc);
         rsc->addShaderProfile("hlsl");
 
@@ -889,9 +888,6 @@ namespace Ogre
 #endif
 
         rsc->setNumMultiRenderTargets(std::min(numMultiRenderTargets, (int)OGRE_MAX_MULTIPLE_RENDER_TARGETS));
-
-        rsc->setCapability(RSC_POINT_EXTENDED_PARAMETERS);
-        rsc->setMaxPointSize(256); // TODO: guess!
     
         rsc->setCapability(RSC_VERTEX_TEXTURE_FETCH);
         rsc->setNumVertexTextureUnits(4);
@@ -1000,28 +996,19 @@ namespace Ogre
         if (mFeatureLevel >= D3D_FEATURE_LEVEL_11_0)
         {
             rsc->addShaderProfile("hs_5_0");
+            rsc->addShaderProfile("ds_5_0");
             
-            rsc->setCapability(RSC_TESSELLATION_HULL_PROGRAM);
+            rsc->setCapability(RSC_TESSELLATION_PROGRAM);
 
             // float params, always 4D
             rsc->setTessellationHullProgramConstantFloatCount(D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT);
+            rsc->setTessellationDomainProgramConstantFloatCount(D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT);
         }
 
     }
     //---------------------------------------------------------------------
     void D3D11RenderSystem::convertDomainShaderCaps(RenderSystemCapabilities* rsc) const
     {
-        // Only for shader model 5.0
-        if (mFeatureLevel >= D3D_FEATURE_LEVEL_11_0)
-        {
-            rsc->addShaderProfile("ds_5_0");
-
-            rsc->setCapability(RSC_TESSELLATION_DOMAIN_PROGRAM);
-
-            // float params, always 4D
-            rsc->setTessellationDomainProgramConstantFloatCount(D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT);
-        }
-
     }
     //---------------------------------------------------------------------
     void D3D11RenderSystem::convertComputeShaderCaps(RenderSystemCapabilities* rsc) const
@@ -1263,7 +1250,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void D3D11RenderSystem::freeDevice(void)
     {
-        if (!mDevice.isNull() && mCurrentCapabilities)
+        if (!mDevice.is_null() && mCurrentCapabilities)
         {
             // Set all texture units to nothing to release texture surfaces
             _disableTextureUnitsFrom(0);
@@ -1346,7 +1333,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D11RenderSystem::validateDevice(bool forceDeviceElection)
     {
-        if(mDevice.isNull())
+        if(mDevice.is_null())
             return;
 
         // The D3D Device is no longer valid if the elected adapter changes or if

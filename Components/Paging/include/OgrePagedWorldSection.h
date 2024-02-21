@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __Ogre_PagedWorldSection_H__
 
 #include "OgrePagingPrerequisites.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 
 namespace Ogre
 {

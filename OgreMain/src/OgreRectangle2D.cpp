@@ -50,7 +50,7 @@ namespace Ogre {
         mUseIdentityProjection = true;
         mUseIdentityView = true;
 
-        mBox.setInfinite(); // screenspace -> never culled
+        mBox.set_infinite(); // screenspace -> never culled
 
         mRenderOp.vertexData = OGRE_NEW VertexData();
 
@@ -133,7 +133,7 @@ namespace Ogre {
 
         if(updateAABB)
         {
-            mBox.setExtents(
+            mBox.set_extents(
                 std::min(left, right), std::min(top, bottom), 0,
                 std::max(left, right), std::max(top, bottom), 0);
         }

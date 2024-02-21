@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+#include "OgreProfiler.h"
 #include "OgreStableHeaders.h"
 
 #include "OgreParticleSystem.h"
@@ -427,6 +428,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystem::_update(Real timeElapsed)
     {
+        OgreProfile("ParticleSystem");
         // Only update if attached to a node
         if (!mParentNode)
             return;
@@ -503,6 +505,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystem::_expire(Real timeElapsed)
     {
+        OgreProfile("_expire");
         Particle* pParticle;
         ParticleEmitter* pParticleEmitter;
 
@@ -548,6 +551,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystem::_triggerEmitters(Real timeElapsed)
     {
+        OgreProfile("_triggerEmitters");
         // Add up requests for emission
         static std::vector<unsigned> requested;
         static std::vector<unsigned> emittedRequested;
@@ -682,6 +686,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystem::_triggerAffectors(Real timeElapsed)
     {
+        OgreProfile("_triggerAffectors");
         for (auto a : mAffectors)
         {
             a->_affectParticles(this, timeElapsed);
@@ -830,7 +835,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystem::_updateBounds()
     {
-
+        OgreProfile("_updateBounds");
         if (mParentNode && (mBoundsAutoUpdate || mBoundsUpdateTime > 0.0f))
         {
             if (mActiveParticles.empty())
@@ -838,19 +843,19 @@ namespace Ogre {
                 // No particles, reset to null if auto update bounds
                 if (mBoundsAutoUpdate)
                 {
-                    mWorldAABB.setNull();
+                    mWorldAABB.set_null();
                 }
             }
             else
             {
                 Vector3 min;
                 Vector3 max;
-                if (!mBoundsAutoUpdate && mWorldAABB.isFinite())
+                if (!mBoundsAutoUpdate && mWorldAABB.finite())
                 {
                     // We're on a limit, grow rather than reset each time
                     // so that we pick up the worst case scenario
-                    min = mWorldAABB.getMinimum();
-                    max = mWorldAABB.getMaximum();
+                    min = mWorldAABB.minimum();
+                    max = mWorldAABB.maximum();
                 }
                 else
                 {
@@ -864,7 +869,7 @@ namespace Ogre {
                     min.make_floor(p->mPosition - padding);
                     max.make_ceil(p->mPosition + padding);
                 }
-                mWorldAABB.setExtents(min, max);
+                mWorldAABB.set_extents(min, max);
             }
 
 
@@ -882,7 +887,7 @@ namespace Ogre {
                 // node transform, so reverse transform back since we're expected to 
                 // provide a local AABB
                 AxisAlignedBox newAABB(mWorldAABB);
-                newAABB.transform(mParentNode->_getFullTransform().inverse());
+                newAABB.transform_by(mParentNode->_getFullTransform().inverse());
 
                 if (mBoundsAutoUpdate)
                     mAABB = newAABB;

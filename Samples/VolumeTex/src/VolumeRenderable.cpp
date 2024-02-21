@@ -31,7 +31,7 @@ VolumeRenderable::VolumeRenderable(size_t nSlices, float size, const String &tex
     mTexture(texture)
 {
     mBox = Ogre::AxisAlignedBox(-mSize, -mSize, -mSize, mSize, mSize, mSize);
-    mRadius = mBox.getMaximum().length();
+    mRadius = mBox.maximum().length();
     
     // No shadows
     setCastShadows(false);
@@ -216,6 +216,6 @@ Ogre::Real VolumeRenderable::getBoundingRadius() const
 }
 Ogre::Real VolumeRenderable::getSquaredViewDepth(const Ogre::Camera* cam) const
 {
-    return (cam->getDerivedPosition() - mBox.getCenter()).squared_length();
+    return (cam->getDerivedPosition() - mBox.center()).squared_length();
 }
 

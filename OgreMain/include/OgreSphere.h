@@ -71,7 +71,7 @@ namespace Ogre {
         void setRadius(Real radius) { mRadius = radius; }
 
         /** Returns the center point of the sphere. */
-        const Vector3& getCenter(void) const { return mCenter; }
+        const Vector3& center(void) const { return mCenter; }
 
         /** Sets the center point of the sphere. */
         void setCenter(const Vector3& center) { mCenter = center; }
@@ -90,7 +90,7 @@ namespace Ogre {
         /** Returns whether or not this sphere intersects a plane. */
         bool intersects(const Plane& plane) const
         {
-            return Math::Abs(plane.distance_to(getCenter())) <= getRadius();
+            return Math::Abs(plane.distance_to(center())) <= getRadius();
         }
         /** Returns whether or not this sphere intersects a point. */
         bool intersects(const Vector3& v) const
@@ -100,7 +100,7 @@ namespace Ogre {
         /** Merges another Sphere into the current sphere */
         void merge(const Sphere& oth)
         {
-            Vector3 diff = oth.getCenter() - mCenter;
+            Vector3 diff = oth.center() - mCenter;
             Real lengthSq = diff.squared_length();
             Real radiusDiff = oth.getRadius() - mRadius;
             
@@ -112,7 +112,7 @@ namespace Ogre {
                     return; // no change
                 else 
                 {
-                    mCenter = oth.getCenter();
+                    mCenter = oth.center();
                     mRadius = oth.getRadius();
                     return;
                 }

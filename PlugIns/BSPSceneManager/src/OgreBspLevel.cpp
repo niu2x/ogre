@@ -537,8 +537,8 @@ namespace Ogre {
             node->mSplitPlane.normal.z = q3lvl.mPlanes[q3node->plane].normal[2];
             node->mSplitPlane.d = -q3lvl.mPlanes[q3node->plane].dist;
             // Set bounding box
-            node->mBounds.setMinimum(Vector3(&q3node->bbox[0]));
-            node->mBounds.setMaximum(Vector3(&q3node->bbox[3]));
+            node->mBounds.set_minimum(Vector3(&q3node->bbox[0]));
+            node->mBounds.set_maximum(Vector3(&q3node->bbox[3]));
             // Set back pointer
             // Negative indexes in Quake3 mean leaves
             if (q3node->back < 0)
@@ -664,8 +664,8 @@ namespace Ogre {
             // Set owner
             node->mOwner = this;
             // Set bounding box
-            node->mBounds.setMinimum(Vector3(&q3leaf->bbox[0]));
-            node->mBounds.setMaximum(Vector3(&q3leaf->bbox[3]));
+            node->mBounds.set_minimum(Vector3(&q3leaf->bbox[0]));
+            node->mBounds.set_maximum(Vector3(&q3leaf->bbox[3]));
             // Set faces
             node->mFaceGroupStart = q3leaf->face_start;
             node->mNumFaceGroups = q3leaf->face_count;

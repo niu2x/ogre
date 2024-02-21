@@ -200,8 +200,8 @@ void SegmentedDynamicLightManager::calculateLightBounds(const Light* i_Light, Li
         spotBox.merge(flatPositionMin - flatDirectionPerp);
         spotBox.merge(lightPosition);
             
-        boundBox.getMaximum().make_floor(spotBox.getMaximum());
-        boundBox.getMinimum().make_ceil(spotBox.getMinimum());
+        boundBox.maximum().make_floor(spotBox.maximum());
+        boundBox.minimum().make_ceil(spotBox.minimum());
     }
 
     o_LightData.setBounds(boundBox);
@@ -419,10 +419,10 @@ SegmentedDynamicLightManager::LightData::LightData()
 //------------------------------------------------------------------------------
 void SegmentedDynamicLightManager::LightData::setBounds(const AxisAlignedBox& i_Bounds)
 {
-    mMinX = i_Bounds.getMinimum().x;
-    mMaxX = i_Bounds.getMaximum().x;
-    mMinZ = i_Bounds.getMinimum().z;
-    mMaxZ = i_Bounds.getMaximum().z;
+    mMinX = i_Bounds.minimum().x;
+    mMaxX = i_Bounds.maximum().x;
+    mMinZ = i_Bounds.minimum().z;
+    mMaxZ = i_Bounds.maximum().z;
 }
 
 //------------------------------------------------------------------------------

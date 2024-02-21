@@ -14,7 +14,7 @@
 # and provide build configuration options.
 ######################################################################
 
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.13.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -306,7 +306,7 @@ cmake_dependent_option(OGRE_BUILD_RENDERSYSTEM_TINY "Build Tiny RenderSystem (so
 option(OGRE_BUILD_PLUGIN_BSP "Build BSP SceneManager plugin" TRUE)
 option(OGRE_BUILD_PLUGIN_OCTREE "Build Octree SceneManager plugin" TRUE)
 option(OGRE_BUILD_PLUGIN_PFX "Build ParticleFX plugin" TRUE)
-option(OGRE_BUILD_PLUGIN_DOT_SCENE "Build .scene plugin" TRUE)
+cmake_dependent_option(OGRE_BUILD_PLUGIN_DOT_SCENE "Build .scene plugin" TRUE "pugixml_FOUND" FALSE)
 cmake_dependent_option(OGRE_BUILD_PLUGIN_PCZ "Build PCZ SceneManager plugin" TRUE "" FALSE)
 cmake_dependent_option(OGRE_BUILD_COMPONENT_PAGING "Build Paging component" TRUE "" FALSE)
 cmake_dependent_option(OGRE_BUILD_COMPONENT_MESHLODGENERATOR "Build MeshLodGenerator component" TRUE "" FALSE)
@@ -326,7 +326,7 @@ option(OGRE_BUILD_COMPONENT_RTSHADERSYSTEM "Build RTShader System component" TRU
 cmake_dependent_option(OGRE_BUILD_RTSHADERSYSTEM_SHADERS "Build RTShader System FFP shaders" TRUE "OGRE_BUILD_COMPONENT_RTSHADERSYSTEM" FALSE)
 
 cmake_dependent_option(OGRE_BUILD_SAMPLES "Build Ogre demos" TRUE "OGRE_BUILD_COMPONENT_OVERLAY;OGRE_BUILD_COMPONENT_BITES" FALSE)
-cmake_dependent_option(OGRE_BUILD_TOOLS "Build the command-line tools" TRUE "NOT APPLE_IOS;NOT WINDOWS_STORE;NOT WINDOWS_PHONE" FALSE)
+cmake_dependent_option(OGRE_BUILD_TOOLS "Build the command-line tools" TRUE "pugixml_FOUND;NOT APPLE_IOS;NOT WINDOWS_STORE;NOT WINDOWS_PHONE" FALSE)
 cmake_dependent_option(OGRE_BUILD_XSIEXPORTER "Build the Softimage exporter" FALSE "Softimage_FOUND" FALSE)
 cmake_dependent_option(OGRE_BUILD_LIBS_AS_FRAMEWORKS "Build frameworks for libraries on OS X." TRUE "APPLE;NOT OGRE_BUILD_PLATFORM_APPLE_IOS" FALSE)
 cmake_dependent_option(OGRE_BUILD_TESTS "Build the unit tests & PlayPen" FALSE "OGRE_BUILD_COMPONENT_BITES" FALSE)

@@ -306,14 +306,14 @@ namespace Volume {
 
     Real Chunk::getSquaredViewDepth(const Camera* camera) const
     {
-        return (mBox.getCenter() * mShared->parameters->scale).squared_distance(camera->getDerivedPosition());
+        return (mBox.center() * mShared->parameters->scale).squared_distance(camera->getDerivedPosition());
     }
     
     //-----------------------------------------------------------------------
 
     Real Chunk::getBoundingRadius() const
     {
-        return mBox.getMinimum().distance(mBox.getCenter()) * mShared->parameters->scale;
+        return mBox.minimum().distance(mBox.center()) * mShared->parameters->scale;
     }
     
     //-----------------------------------------------------------------------
@@ -517,7 +517,7 @@ namespace Volume {
         
         // Get the distance to the center.
         Vector3 camPos = mCamera->getRealPosition();
-        Real d = (mBox.getCenter() * mShared->parameters->scale).distance(camPos);
+        Real d = (mBox.center() * mShared->parameters->scale).distance(camPos);
         if (d < 1.0)
         {
             d = 1.0;

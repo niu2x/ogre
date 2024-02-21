@@ -295,13 +295,13 @@ namespace Ogre {
     {
         auto& ori = mParentNode->_getDerivedOrientation();
         auto& scale = mParentNode->_getDerivedScale();
-        return ori.xAxis() * mSourceSize[0] * scale[0] * 0.5f;
+        return Vector3f(ori.xAxis()) * mSourceSize[0] * scale[0] * 0.5f;
     }
     Vector3f Light::getDerivedSourceHalfHeight() const
     {
         auto& ori = mParentNode->_getDerivedOrientation();
         auto& scale = mParentNode->_getDerivedScale();
-        return ori.yAxis() * mSourceSize[1] * scale[1] * 0.5f;
+        return Vector3f(ori.yAxis()) * mSourceSize[1] * scale[1] * 0.5f;
     }
     //-----------------------------------------------------------------------
     const PlaneBoundedVolume& Light::_getNearClipVolume(const Camera* const cam) const
@@ -811,7 +811,7 @@ namespace Ogre {
                 if (!isIntersect)
                 {
                     //Calculate the cone that exists between the sphere and the center position of the light
-                    Ogre::Vector3 lightSphereConeDirection = container.getCenter() - mDerivedPosition;
+                    Ogre::Vector3 lightSphereConeDirection = container.center() - mDerivedPosition;
                     Ogre::Radian halfLightSphereConeAngle = Math::ASin(container.getRadius() / lightSphereConeDirection.length());
 
                     //Check that the light cone and the light-position-to-sphere cone intersect)
@@ -850,8 +850,8 @@ namespace Ogre {
                 lightBoxBound.merge(localToWorld * Vector3(-boxOffset, boxOffset, -range));
                 lightBoxBound.merge(localToWorld * Vector3(-boxOffset, -boxOffset, -range));
                 lightBoxBound.merge(localToWorld * Vector3(boxOffset, -boxOffset, -range));
-                lightBoxBound.setMaximum(lightBoxBound.getMaximum() + mDerivedPosition);
-                lightBoxBound.setMinimum(lightBoxBound.getMinimum() + mDerivedPosition);
+                lightBoxBound.set_maximum(lightBoxBound.maximum() + mDerivedPosition);
+                lightBoxBound.set_minimum(lightBoxBound.minimum() + mDerivedPosition);
                 isIntersect = lightBoxBound.intersects(container);
                 
                 //If the bounding box check succeeded do one more test
@@ -859,8 +859,8 @@ namespace Ogre {
                 {
                     //Check intersection again with the bounding sphere of the container
                     //Helpful for when the light is at an angle near one of the vertexes of the bounding box
-                    isIntersect = isInLightRange(Sphere(container.getCenter(), 
-                        container.getHalfSize().length()));
+                    isIntersect = isInLightRange(Sphere(container.center(), 
+                        container.half_size().length()));
                 }
             }
         }

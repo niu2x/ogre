@@ -507,7 +507,7 @@ Ogre::MeshPtr LodOutsideMarker::createConvexHullMesh(const String& meshName, con
 
     /// Set bounding information (for culling)
     mesh->_setBounds(bounds);
-    mesh->_setBoundingSphereRadius(bounds.getSize().length() / 2.0f);
+    mesh->_setBoundingSphereRadius(bounds.size().length() / 2.0f);
 
     /// Set material to transparent blue
     subMesh->setMaterialName("Examples/TransparentBlue50");

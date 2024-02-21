@@ -59,7 +59,7 @@ ManualObject::ManualObject(const String& name)
         }
         mSectionList.clear();
         mRadius = 0;
-        mAABB.setNull();
+        mAABB.set_null();
         OGRE_DELETE mEdgeList;
         mEdgeList = 0;
         mAnyIndexed = false;

@@ -96,8 +96,8 @@ struct FireworkParticle
 
         // Set bounds.
         AxisAlignedBox aabb;
-        aabb.setMinimum(-100,-100,-100);
-        aabb.setMaximum(100,100,100);
+        aabb.set_minimum(-100,-100,-100);
+        aabb.set_maximum(100,100,100);
         mParticleSystem->setBoundingBox(aabb);
     }
 

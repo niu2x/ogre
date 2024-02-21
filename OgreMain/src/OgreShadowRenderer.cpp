@@ -1797,7 +1797,7 @@ SceneManager::ShadowRenderer::findShadowCastersForLight(const Light* light, cons
             min.make_floor(corners[c] + extrude);
             max.make_ceil(corners[c] + extrude);
         }
-        aabb.setExtents(min, max);
+        aabb.set_extents(min, max);
 
         if (!mShadowCasterAABBQuery)
             mShadowCasterAABBQuery.reset(mSceneManager->createAABBQuery(aabb));

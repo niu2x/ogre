@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "vector.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreXSIHelper.h"
 #include <xsi_x3dobject.h>
 #include <xsi_string.h>

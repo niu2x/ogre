@@ -64,12 +64,12 @@ namespace Ogre {
     StaticGeometry::Region* StaticGeometry::getRegion(const AxisAlignedBox& bounds,
         bool autoCreate)
     {
-        if (bounds.isNull())
+        if (bounds.is_null())
             return 0;
 
         // Get the region which has the largest overlapping volume
-        const Vector3 min = bounds.getMinimum();
-        const Vector3 max = bounds.getMaximum();
+        const Vector3 min = bounds.minimum();
+        const Vector3 max = bounds.maximum();
 
         // Get the min and max region indexes
         ushort minx, miny, minz;
@@ -113,8 +113,8 @@ namespace Ogre {
         // return a 'volume' which ignores zero dimensions
         // since we only use this for relative comparisons of the same bounds
         // this will still be internally consistent
-        Vector3 boxdiff = box.getMaximum() - box.getMinimum();
-        Vector3 intersectDiff = intersectBox.getMaximum() - intersectBox.getMinimum();
+        Vector3 boxdiff = box.maximum() - box.minimum();
+        Vector3 intersectDiff = intersectBox.maximum() - intersectBox.minimum();
 
         return (boxdiff.x == 0 ? 1 : intersectDiff.x) *
             (boxdiff.y == 0 ? 1 : intersectDiff.y) *
@@ -755,8 +755,8 @@ namespace Ogre {
         // update bounds
         // Transform world bounds relative to our centre
         AxisAlignedBox localBounds(
-            qmesh->worldBounds.getMinimum() - mCentre,
-            qmesh->worldBounds.getMaximum() - mCentre);
+            qmesh->worldBounds.minimum() - mCentre,
+            qmesh->worldBounds.maximum() - mCentre);
         mAABB.merge(localBounds);
         mBoundingRadius = Math::boundingRadiusFromAABB(mAABB);
 

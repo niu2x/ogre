@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreSphere.h"
 #include "OgreMath.h"
 #include "plane.h"
@@ -64,13 +64,13 @@ namespace Ogre {
         */
         inline bool intersects(const AxisAlignedBox& box) const
         {
-            if (box.isNull()) return false;
+            if (box.is_null()) return false;
             if (box.isInfinite()) return true;
 
             // Get centre of the box
-            Vector3 centre = box.getCenter();
+            Vector3 centre = box.center();
             // Get the half-size of the box
-            Vector3 halfSize = box.getHalfSize();
+            Vector3 halfSize = box.half_size();
             
             PlaneList::const_iterator i, iend;
             iend = planes.end();
@@ -102,7 +102,7 @@ namespace Ogre {
                 const Plane& plane = *i;
 
                 // Test which side of the plane the sphere is
-                Real d = plane.distance_to(sphere.getCenter());
+                Real d = plane.distance_to(sphere.center());
                 // Negate d if planes point inwards
                 if (outside == PlaneSide::NEGATIVE_SIDE) d = -d;
 

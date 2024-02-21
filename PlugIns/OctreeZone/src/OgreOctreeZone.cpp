@@ -1029,9 +1029,9 @@ namespace Ogre
 
         mOctree -> mBox = box;
 
-        Vector3 min = box.getMinimum();
+        Vector3 min = box.minimum();
 
-        Vector3 max = box.getMaximum();
+        Vector3 max = box.maximum();
 
         mOctree -> mHalfSize = ( max - min ) / 2;
     }
@@ -1044,8 +1044,8 @@ namespace Ogre
         mOctree = OGRE_NEW Octree( this, 0 );
         // set the octree bounding box 
         mOctree->mBox = box;
-        const Vector3 &min = box.getMinimum();
-        const Vector3 &max = box.getMaximum();
+        const Vector3 &min = box.minimum();
+        const Vector3 &max = box.maximum();
         mOctree->mHalfSize = ( max - min ) * 0.5f;
 
         OctreeZoneData * ozd;
@@ -1099,7 +1099,7 @@ namespace Ogre
     {
         const AxisAlignedBox& box = zoneData -> mOctreeWorldAABB;
 
-        if ( box.isNull() )
+        if ( box.is_null() )
             return ;
 
         // Skip if octree has been destroyed (shutdown conditions)
@@ -1174,8 +1174,8 @@ namespace Ogre
             if ( octant -> mChildren[ x ][ y ][ z ] == 0 )
             {
                 octant -> mChildren[ x ][ y ][ z ] = OGRE_NEW Octree( this, octant );
-                const Vector3& octantMin = octant -> mBox.getMinimum();
-                const Vector3& octantMax = octant -> mBox.getMaximum();
+                const Vector3& octantMin = octant -> mBox.minimum();
+                const Vector3& octantMax = octant -> mBox.maximum();
                 Vector3 min, max;
 
                 if ( x == 0 )
@@ -1214,7 +1214,7 @@ namespace Ogre
                     max.z = octantMax.z;
                 }
 
-                octant -> mChildren[ x ][ y ][ z ] -> mBox.setExtents( min, max );
+                octant -> mChildren[ x ][ y ][ z ] -> mBox.set_extents( min, max );
                 octant -> mChildren[ x ][ y ][ z ] -> mHalfSize = ( max - min ) / 2;
             }
 
@@ -1248,7 +1248,7 @@ namespace Ogre
     /* Update the octreezone specific data for a node */
     void OctreeZoneData::update(void)
     {
-        mOctreeWorldAABB.setNull();
+        mOctreeWorldAABB.set_null();
 
         // need to use object iterator here.
         for (auto m : mAssociatedNode->getAttachedObjects())
@@ -1261,7 +1261,7 @@ namespace Ogre
         // update the Octant for the node because things might have moved.
         // if it hasn't been added to the octree, add it, and if has moved
         // enough to leave it's current node, we'll update it.
-        if ( ! mOctreeWorldAABB.isNull() )
+        if ( ! mOctreeWorldAABB.is_null() )
         {
             static_cast < OctreeZone * > ( mAssociatedZone ) -> updateNodeOctant( this );
         }
@@ -1272,16 +1272,16 @@ namespace Ogre
     bool OctreeZoneData::_isIn( AxisAlignedBox &box )
     {
         // Always fail if not in the scene graph or box is null
-        if (!mAssociatedNode->isInSceneGraph() || box.isNull()) return false;
+        if (!mAssociatedNode->isInSceneGraph() || box.is_null()) return false;
 
         // Always succeed if AABB is infinite
         if (box.isInfinite())
             return true;
 
-        Vector3 center = mAssociatedNode->_getWorldAABB().getMaximum().mid_point( mAssociatedNode->_getWorldAABB().getMinimum() );
+        Vector3 center = mAssociatedNode->_getWorldAABB().maximum().mid_point( mAssociatedNode->_getWorldAABB().minimum() );
 
-        Vector3 bmin = box.getMinimum();
-        Vector3 bmax = box.getMaximum();
+        Vector3 bmin = box.minimum();
+        Vector3 bmax = box.maximum();
 
         bool centre = ( bmax > center && bmin < center );
         if (!centre)
@@ -1292,7 +1292,7 @@ namespace Ogre
         // end up in parent due to cascade but when updating need to deal with
         // bbox growing too large for this child
         Vector3 octreeSize = bmax - bmin;
-        Vector3 nodeSize = mAssociatedNode->_getWorldAABB().getMaximum() - mAssociatedNode->_getWorldAABB().getMinimum();
+        Vector3 nodeSize = mAssociatedNode->_getWorldAABB().maximum() - mAssociatedNode->_getWorldAABB().minimum();
         return nodeSize < octreeSize;
     }
 

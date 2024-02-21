@@ -70,7 +70,7 @@ namespace Ogre
             assert( !(meshReference->hasSkeleton() && indexToBoneMap->empty()) );
         }
 
-        mFullBoundingBox.setExtents( -Vector3::zero, Vector3::zero );
+        mFullBoundingBox.set_extents( -Vector3::zero, Vector3::zero );
 
         mName = batchName;
 		if (mCreator != NULL)
@@ -126,7 +126,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void InstanceBatch::_updateBounds(void)
     {
-        mFullBoundingBox.setNull();
+        mFullBoundingBox.set_null();
         Real maxScale = 0;
 
         for(auto *e : mInstancedEntities)
@@ -140,8 +140,8 @@ namespace Ogre
         }
 
         Real addToBound = maxScale * _getMeshReference()->getBoundingSphereRadius();
-        mFullBoundingBox.setMaximum(mFullBoundingBox.getMaximum() + addToBound);
-        mFullBoundingBox.setMinimum(mFullBoundingBox.getMinimum() - addToBound);
+        mFullBoundingBox.set_maximum(mFullBoundingBox.maximum() + addToBound);
+        mFullBoundingBox.set_minimum(mFullBoundingBox.minimum() - addToBound);
 
 
         mBoundingRadius = Math::boundingRadiusFromAABBCentered( mFullBoundingBox );
@@ -482,7 +482,7 @@ namespace Ogre
             Real pixelRatio = cam->getPixelDisplayRatio();
 
             Ogre::Vector3 objBound =
-                getBoundingBox().getSize() * getParentNode()->_getDerivedScale();
+                getBoundingBox().size() * getParentNode()->_getDerivedScale();
             objBound.x = Math::Sqr(objBound.x);
             objBound.y = Math::Sqr(objBound.y);
             objBound.z = Math::Sqr(objBound.z);
@@ -531,7 +531,7 @@ namespace Ogre
         if (mCameraDistLastUpdateFrameNumber != currentFrameNumber || mCachedCamera != cam)
         {
             mCachedCameraDist =
-                getBoundingBox().getCenter().squared_distance(cam->getDerivedPosition());
+                getBoundingBox().center().squared_distance(cam->getDerivedPosition());
 
             mCachedCamera = cam;
             mCameraDistLastUpdateFrameNumber = currentFrameNumber;

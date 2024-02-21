@@ -98,8 +98,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void WireBoundingBox::setupBoundingBoxVertices(const AxisAlignedBox& aab) {
 
-        Vector3 vmax = aab.getMaximum();
-        Vector3 vmin = aab.getMinimum();
+        Vector3 vmax = aab.maximum();
+        Vector3 vmin = aab.minimum();
 
         Real sqLen = std::max(vmax.squared_length(), vmin.squared_length());
         mRadius = Math::Sqrt(sqLen);
@@ -211,7 +211,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Real WireBoundingBox::getSquaredViewDepth(const Camera* cam) const
     {
-        return (cam->getDerivedPosition() - mBox.getCenter()).squared_length();
+        return (cam->getDerivedPosition() - mBox.center()).squared_length();
     }
 
 

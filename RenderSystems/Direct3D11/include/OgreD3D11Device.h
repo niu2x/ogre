@@ -57,7 +57,7 @@ namespace Ogre
         void TransferOwnership(ID3D11DeviceN* device);
         bool IsDeviceLost();
 
-        bool isNull()                                { return !mD3D11Device; }
+        bool is_null()                                { return !mD3D11Device; }
         ID3D11DeviceN* get()                         { return mD3D11Device.Get(); }
         ID3D11DeviceContextN* GetImmediateContext()  { return mImmediateContext.Get(); }
         ID3D11ClassLinkage* GetClassLinkage()        { return mClassLinkage.Get(); }

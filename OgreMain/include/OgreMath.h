@@ -471,7 +471,7 @@ namespace Ogre
             @return
                 A random number in the range from [0,1].
         */
-        static float UnitRandom();
+        static float UnitRandom() { return mRandProvider ? mRandProvider->getRandomUnit() : rand() / float(RAND_MAX); }
 
         /** Generate a random number within the range provided.
             @param fLow
@@ -656,7 +656,7 @@ namespace Ogre
         static RayTestResult intersects(const Ray& ray, const std::vector<Plane>& planeList, bool normalIsOutside);
 
         /** Sphere / plane intersection test. 
-        @remarks NB just do a plane.distance_to(sphere.getCenter()) for more detail!
+        @remarks NB just do a plane.distance_to(sphere.center()) for more detail!
         */
         static bool intersects(const Sphere& sphere, const Plane& plane);
 

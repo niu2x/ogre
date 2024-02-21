@@ -107,8 +107,8 @@ Node * OctreeNode::removeChild( const String & name )
 //same as SceneNode, only it doesn't care about children...
 void OctreeNode::_updateBounds( void )
 {
-    mWorldAABB.setNull();
-    mLocalAABB.setNull();
+    mWorldAABB.set_null();
+    mLocalAABB.set_null();
 
     // Update bounds from own attached objects
     for ( auto o : getAttachedObjects() )
@@ -122,7 +122,7 @@ void OctreeNode::_updateBounds( void )
     //update the OctreeSceneManager that things might have moved.
     // if it hasn't been added to the octree, add it, and if has moved
     // enough to leave it's current node, we'll update it.
-    if ( !_getWorldAABB().isNull() && isInSceneGraph() )
+    if ( !_getWorldAABB().is_null() && isInSceneGraph() )
     {
         static_cast < OctreeSceneManager * > ( getCreator() ) -> _updateOctreeNode( this );
     }
@@ -134,16 +134,16 @@ void OctreeNode::_updateBounds( void )
 bool OctreeNode::_isIn( AxisAlignedBox &box )
 {
     // Always fail if not in the scene graph or box is null
-    if (!isInSceneGraph() || box.isNull()) return false;
+    if (!isInSceneGraph() || box.is_null()) return false;
 
     // Always succeed if AABB is infinite
     if (box.isInfinite())
         return true;
 
-    Vector3 center = _getWorldAABB().getMaximum().mid_point( _getWorldAABB().getMinimum() );
+    Vector3 center = _getWorldAABB().maximum().mid_point( _getWorldAABB().minimum() );
 
-    Vector3 bmin = box.getMinimum();
-    Vector3 bmax = box.getMaximum();
+    Vector3 bmin = box.minimum();
+    Vector3 bmax = box.maximum();
 
     bool centre = ( bmax > center && bmin < center );
     if (!centre)
@@ -154,7 +154,7 @@ bool OctreeNode::_isIn( AxisAlignedBox &box )
     // end up in parent due to cascade but when updating need to deal with
     // bbox growing too large for this child
     Vector3 octreeSize = bmax - bmin;
-    Vector3 nodeSize = _getWorldAABB().getMaximum() - _getWorldAABB().getMinimum();
+    Vector3 nodeSize = _getWorldAABB().maximum() - _getWorldAABB().minimum();
     return nodeSize < octreeSize;
 
 }
@@ -185,7 +185,7 @@ void OctreeNode::getRenderOperation( RenderOperation& rend )
     rend.pIndexes = mIndexes;
     rend.pDiffuseColour = mColors;
 
-    const Vector3 * corners = _getLocalAABB().getAllCorners();
+    const Vector3 * corners = _getLocalAABB().allCorners();
 
     int index = 0;
 

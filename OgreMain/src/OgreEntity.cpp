@@ -440,7 +440,7 @@ namespace Ogre {
                 // get from skeleton
                 // self bounding box without children
                 AxisAlignedBox bbox;
-                bbox.setNull();
+                bbox.set_null();
                 Real maxScale = Real(0);
                 bool boneHasVerts[ OGRE_MAX_NUM_BONES ];
                 uint16 numBones = mSkeletonInstance->getNumBones();
@@ -485,12 +485,12 @@ namespace Ogre {
                     }
                 }
                 // unless all bones were scaled to zero,
-                if (! bbox.isNull())
+                if (! bbox.is_null())
                 {
                     // inflate the bounding box
                     float r = mMesh->getBoneBoundingRadius() * maxScale;  // adjust bone bounding radius by max scale of any bone
                     Vector3 expansion(r, r, r);
-                    bbox.setExtents( bbox.getMinimum() - expansion, bbox.getMaximum() + expansion );
+                    bbox.set_extents( bbox.minimum() - expansion, bbox.maximum() + expansion );
                 }
                 bbox.merge(getChildObjectsBoundingBox());
                 // if bounding box has changed,
@@ -510,7 +510,7 @@ namespace Ogre {
         }
         else
         {
-            mFullBoundingBox.setNull();
+            mFullBoundingBox.set_null();
         }
 
         return mFullBoundingBox;
@@ -520,14 +520,14 @@ namespace Ogre {
     {
         AxisAlignedBox aa_box;
         AxisAlignedBox full_aa_box;
-        full_aa_box.setNull();
+        full_aa_box.set_null();
 
         for(auto child : mChildObjectList)
         {
             aa_box = child->getBoundingBox();
             TagPoint* tp = static_cast<TagPoint*>(child->getParentNode());
             // Use transform local to skeleton since world xform comes later
-            aa_box.transform(tp->_getFullLocalTransform());
+            aa_box.transform_by(tp->_getFullLocalTransform());
 
             full_aa_box.merge(aa_box);
         }

@@ -26,7 +26,7 @@ btBoxShape* createBoxCollider(const MovableObject* mo)
 {
     OgreAssert(mo->getParentSceneNode(), "MovableObject must be attached");
 
-    auto shape = new btBoxShape(convert(mo->getBoundingBox().getHalfSize()));
+    auto shape = new btBoxShape(convert(mo->getBoundingBox().half_size()));
     shape->setLocalScaling(convert(mo->getParentSceneNode()->getScale()));
 
     return shape;
@@ -36,7 +36,7 @@ btCapsuleShape* createCapsuleCollider(const MovableObject* mo)
 {
     OgreAssert(mo->getParentSceneNode(), "MovableObject must be attached");
 
-    auto sz = mo->getBoundingBox().getHalfSize();
+    auto sz = mo->getBoundingBox().half_size();
 
     btScalar height = std::max(sz.x, std::max(sz.y, sz.z));
     btScalar radius;
@@ -68,7 +68,7 @@ btCylinderShape* createCylinderCollider(const MovableObject* mo)
 {
     OgreAssert(mo->getParentSceneNode(), "MovableObject must be attached");
 
-    auto sz = convert(mo->getBoundingBox().getHalfSize());
+    auto sz = convert(mo->getBoundingBox().half_size());
 
     btScalar height = std::max(sz.x(), std::max(sz.y(), sz.z()));
     btCylinderShape* shape;

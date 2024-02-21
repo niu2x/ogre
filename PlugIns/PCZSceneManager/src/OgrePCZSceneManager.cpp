@@ -818,8 +818,8 @@ namespace Ogre
             if (enclosureNode != 0)
             {
                 // since this is the "local" AABB, add in world translation of the enclosure node
-                aabb.setMinimum(aabb.getMinimum() + enclosureNode->_getDerivedPosition());
-                aabb.setMaximum(aabb.getMaximum() + enclosureNode->_getDerivedPosition());
+                aabb.set_minimum(aabb.minimum() + enclosureNode->_getDerivedPosition());
+                aabb.set_maximum(aabb.maximum() + enclosureNode->_getDerivedPosition());
             }
             if (aabb.contains(point))
             {

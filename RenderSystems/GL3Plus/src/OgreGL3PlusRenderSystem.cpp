@@ -252,7 +252,6 @@ namespace Ogre {
 
         // Point sprites
         rsc->setCapability(RSC_POINT_SPRITES);
-        rsc->setCapability(RSC_POINT_EXTENDED_PARAMETERS);
 
         // Check for hardware stencil support and set bit depth
         rsc->setCapability(RSC_HWSTENCIL);
@@ -395,8 +394,7 @@ namespace Ogre {
         // Tessellation Program Properties
         if (hasMinGLVersion(4, 0) || checkExtension("GL_ARB_tessellation_shader"))
         {
-            rsc->setCapability(RSC_TESSELLATION_HULL_PROGRAM);
-            rsc->setCapability(RSC_TESSELLATION_DOMAIN_PROGRAM);
+            rsc->setCapability(RSC_TESSELLATION_PROGRAM);
 
             OGRE_CHECK_GL_ERROR(glGetIntegerv(GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS, &constantCount));
             // float params

@@ -230,7 +230,7 @@ void Exporter::exportSubMesh(Mesh *pMesh, CSLMesh* XSIMesh)
         }
     }
     AxisAlignedBox box;
-    box.setExtents(min, max);
+    box.set_extents(min, max);
     box.merge(pMesh->getBounds());
     pMesh->_setBounds(box);
     pMesh->_setBoundingSphereRadius(std::max(pMesh->getBoundingSphereRadius(), 

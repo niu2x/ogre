@@ -496,7 +496,7 @@ namespace Ogre
     {
         //Check that we really intersect the dirty rect. This avoid assertion errors further down the line.
         Rect updateRect = rect.intersect(Rect(mOffsetX, mOffsetY, mBoundaryX, mBoundaryY));
-        if (!updateRect.isNull())
+        if (!updateRect.is_null())
         {
             // Do we have vertex data?
             if (mVertexDataRecord)
@@ -533,8 +533,8 @@ namespace Ogre
                     AxisAlignedBox childBox = mChildren[i]->getBoundingBox();
                     // this box is relative to child centre
                     Vector3 boxoffset = mChildren[i]->getLocalCentre() - getLocalCentre();
-                    childBox.setMinimum(childBox.getMinimum() + boxoffset);
-                    childBox.setMaximum(childBox.getMaximum() + boxoffset);
+                    childBox.set_minimum(childBox.minimum() + boxoffset);
+                    childBox.set_maximum(childBox.maximum() + boxoffset);
                     mAABB.merge(childBox);
                 }
 
@@ -1102,7 +1102,7 @@ namespace Ogre
     {
         if (rectContainsNode(rect))
         {
-            mAABB.setNull();
+            mAABB.set_null();
             mBoundingRadius = 0;
 
             if (!isLeaf())
@@ -1144,11 +1144,11 @@ namespace Ogre
         {
         case Terrain::ALIGN_X_Y:
         default:
-            return mAABB.getMinimum().z;
+            return mAABB.minimum().z;
         case Terrain::ALIGN_X_Z:
-            return mAABB.getMinimum().y;
+            return mAABB.minimum().y;
         case Terrain::ALIGN_Y_Z:
-            return mAABB.getMinimum().x;
+            return mAABB.minimum().x;
         };
     }
     //---------------------------------------------------------------------
@@ -1158,11 +1158,11 @@ namespace Ogre
         {
         case Terrain::ALIGN_X_Y:
         default:
-            return mAABB.getMaximum().z;
+            return mAABB.maximum().z;
         case Terrain::ALIGN_X_Z:
-            return mAABB.getMaximum().y;
+            return mAABB.maximum().y;
         case Terrain::ALIGN_Y_Z:
-            return mAABB.getMaximum().x;
+            return mAABB.maximum().x;
         };
 
     }
@@ -1207,7 +1207,7 @@ namespace Ogre
             {
                 // Get distance to this terrain node (to closest point of the box)
                 // head towards centre of the box (note, box may not cover mLocalCentre because of height)
-                Vector3 dir(mAABB.getCenter() - localPos);
+                Vector3 dir(mAABB.center() - localPos);
                 dir.normalise();
                 Ray ray(localPos, dir);
                 std::pair<bool, Real> intersectRes = Math::intersects(ray, mAABB);

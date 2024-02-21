@@ -345,7 +345,7 @@ namespace Ogre {
             unsigned short* pIndexes = mAABGeometry.pIndexes + mAABGeometry.numIndexes;
             unsigned long* pColours = (unsigned long*)mAABGeometry.pDiffuseColour + mAABGeometry.numVertices;
 
-            const Vector3* pCorner = aab.getAllCorners();
+            const Vector3* pCorner = aab.allCorners();
 
             int i;
             for (i = 0; i < 8; ++i)

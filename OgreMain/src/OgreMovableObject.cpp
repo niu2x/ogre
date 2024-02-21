@@ -204,7 +204,7 @@ namespace Ogre {
                 //if ratio is relative to distance than the distance at which the object should be displayed
                 //is the size of the radius divided by the ratio
                 //get the size of the entity in the world
-                Ogre::Vector3 objBound = getBoundingBox().getSize() * 
+                Ogre::Vector3 objBound = getBoundingBox().size() * 
                             getParentNode()->_getDerivedScale();
                 
                 //We object are projected from 3 dimensions to 2. The shortest displayed dimension of 
@@ -287,7 +287,7 @@ namespace Ogre {
         if (derive)
         {
             mWorldAABB = this->getBoundingBox();
-            mWorldAABB.transform(_getParentNodeFullTransform());
+            mWorldAABB.transform_by(_getParentNodeFullTransform());
         }
 
         return mWorldAABB;

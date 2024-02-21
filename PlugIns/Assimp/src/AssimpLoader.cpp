@@ -1330,7 +1330,7 @@ void AssimpLoader::loadDataFromNode(const aiScene* mScene, const aiNode* pNode, 
 
         // We must indicate the bounding box
         mesh->_setBounds(mAAB);
-        mesh->_setBoundingSphereRadius((mAAB.getMaximum() - mAAB.getMinimum()).length() / 2);
+        mesh->_setBoundingSphereRadius((mAAB.maximum() - mAAB.minimum()).length() / 2);
     }
 
     // Traverse all child nodes of the current node instance
@@ -1363,7 +1363,7 @@ struct AssimpCodec : public Codec
 
     static void startup()
     {
-        String version = StringUtil::format("Assimp - %d.%d.%d - Open-Asset-Importer", aiGetVersionMajor(),
+        String version = StringUtil::format("Assimp - %d.%d.%x - Open-Asset-Importer", aiGetVersionMajor(),
                                             aiGetVersionMinor(), aiGetVersionRevision());
         LogManager::getSingleton().log_message(version);
 

@@ -393,16 +393,16 @@ namespace Ogre {
         mAABB = bounds;
         mBoundRadius = Math::boundingRadiusFromAABB(mAABB);
 
-        if( mAABB.isFinite() )
+        if( mAABB.finite() )
         {
-            Vector3 max = mAABB.getMaximum();
-            Vector3 min = mAABB.getMinimum();
+            Vector3 max = mAABB.maximum();
+            Vector3 min = mAABB.minimum();
 
             if (pad)
             {
                 // Pad out the AABB a little, helps with most bounds tests
                 Vector3 scaler = (max - min) * MeshManager::getSingleton().getBoundsPaddingFactor();
-                mAABB.setExtents(min  - scaler, max + scaler);
+                mAABB.set_extents(min  - scaler, max + scaler);
                 // Pad out the sphere a little too
                 mBoundRadius = mBoundRadius + (mBoundRadius * MeshManager::getSingleton().getBoundsPaddingFactor());
             }
@@ -434,11 +434,11 @@ namespace Ogre {
         }
         if (pad)
         {
-            Vector3 max = mAABB.getMaximum();
-            Vector3 min = mAABB.getMinimum();
+            Vector3 max = mAABB.maximum();
+            Vector3 min = mAABB.minimum();
             // Pad out the AABB a little, helps with most bounds tests
             Vector3 scaler = (max - min) * MeshManager::getSingleton().getBoundsPaddingFactor();
-            mAABB.setExtents(min - scaler, max + scaler);
+            mAABB.set_extents(min - scaler, max + scaler);
             // Pad out the sphere a little too
             mBoundRadius = mBoundRadius + (mBoundRadius * MeshManager::getSingleton().getBoundsPaddingFactor());
         }
@@ -463,7 +463,7 @@ namespace Ogre {
             float* pFloat;
             elemPos->baseVertexPointerToElement(vertex, &pFloat);
             Vector3 basePos(pFloat[0], pFloat[1], pFloat[2]);
-            outAABB.setExtents(basePos, basePos);
+            outAABB.set_extents(basePos, basePos);
         }
         size_t vSize = vbuf->getVertexSize();
         unsigned char* vEnd = vertex + vertexData->vertexCount * vSize;
@@ -473,8 +473,8 @@ namespace Ogre {
             float* pFloat;
             elemPos->baseVertexPointerToElement(vertex, &pFloat);
             Vector3 pos(pFloat[0], pFloat[1], pFloat[2]);
-            outAABB.getMinimum().make_floor(pos);
-            outAABB.getMaximum().make_ceil(pos);
+            outAABB.minimum().make_floor(pos);
+            outAABB.maximum().make_ceil(pos);
             radiusSqr = std::max<Real>(radiusSqr, pos.squared_length());
         }
         outRadius = std::sqrt(radiusSqr);

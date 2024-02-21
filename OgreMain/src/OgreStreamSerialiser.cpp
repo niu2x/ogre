@@ -536,8 +536,8 @@ namespace Ogre
         {
             bool infinite = aabb->isInfinite();
             write(&infinite);
-            write(&aabb->getMinimum());
-            write(&aabb->getMaximum());
+            write(&aabb->minimum());
+            write(&aabb->maximum());
         }       
     }
     //---------------------------------------------------------------------
@@ -546,7 +546,7 @@ namespace Ogre
 
         for (size_t i = 0; i < count; ++i, ++sphere)
         {
-            write(&sphere->getCenter());
+            write(&sphere->center());
             Real radius = sphere->getRadius();
             write(&radius);
         }
@@ -710,9 +710,9 @@ namespace Ogre
             read(&tmpMax);
 
             if (infinite)
-                aabb->setInfinite();
+                aabb->set_infinite();
             else
-                aabb->setExtents(tmpMin, tmpMax);
+                aabb->set_extents(tmpMin, tmpMax);
         }
     }
     //---------------------------------------------------------------------

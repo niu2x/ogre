@@ -61,7 +61,7 @@ namespace Ogre
         const Vector3 e_ls = lightSpace * getNearCameraPoint_ws(cam.getViewMatrix(), bodyLVS);
 
         // C_start has x and y of e and z from the bodyABB_ls (we look down the negative z axis, so take the maximum z value)
-        const Vector3 C_start_ls(e_ls.x, e_ls.y, bodyBAAB_ls.getMaximum().z);
+        const Vector3 C_start_ls(e_ls.x, e_ls.y, bodyBAAB_ls.maximum().z);
 
         // calculate the optimal distance between origin and near plane
         Real n_opt;
@@ -86,7 +86,7 @@ namespace Ogre
         lightSpaceTranslation.set_trans(-C);
 
         // range from bMin to bMax; d = |B_z_far - B_z_near|
-        Real d = Math::Abs(bodyBAAB_ls.getMaximum().z - bodyBAAB_ls.getMinimum().z);
+        Real d = Math::Abs(bodyBAAB_ls.maximum().z - bodyBAAB_ls.minimum().z);
 
         // set up the LiSPSM perspective transformation
         // build up frustum to map P onto the unit cube with (-1/-1/-1) and (+1/+1/+1)
@@ -107,10 +107,10 @@ namespace Ogre
 
         // calculate z0_ls
         const Vector3 e_ws  = getNearCameraPoint_ws(viewMatrix, bodyLVS);
-        const Vector3 z0_ls = calculateZ0_ls(lightSpace, e_ws, bodyBABB_ls.getMaximum().z, cam);
+        const Vector3 z0_ls = calculateZ0_ls(lightSpace, e_ws, bodyBABB_ls.maximum().z, cam);
 
         // z1_ls has the same x and y values as z0_ls and the minimum z values of bodyABB_ls
-        const Vector3 z1_ls = Vector3(z0_ls.x, z0_ls.y, bodyBABB_ls.getMinimum().z);
+        const Vector3 z1_ls = Vector3(z0_ls.x, z0_ls.y, bodyBABB_ls.minimum().z);
 
         // world
         const Vector3 z0_ws = invLightSpace * z0_ls;
@@ -229,7 +229,7 @@ namespace Ogre
 
         // in case the sceneBB is empty (e.g. nothing visible to the cam) simply
         // return the standard shadow mapping matrix
-        if (sceneBB.isNull())
+        if (sceneBB.is_null())
         {
             return;
         }

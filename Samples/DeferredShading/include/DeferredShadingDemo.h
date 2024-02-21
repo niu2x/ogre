@@ -123,7 +123,7 @@ protected:
     //Utility function to help set scene up
     void setEntityHeight(Entity* ent, Real newHeight)
     {
-        Real curHeight = ent->getMesh()->getBounds().getSize().y;
+        Real curHeight = ent->getMesh()->getBounds().size().y;
         Real scaleFactor = newHeight / curHeight;
         
         SceneNode* parentNode = ent->getParentSceneNode();

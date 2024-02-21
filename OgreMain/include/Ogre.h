@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "any.h"
 #include "OgreArchive.h"
 #include "OgreArchiveManager.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreBillboard.h"
 #include "OgreBillboardChain.h"
 #include "OgreBillboardSet.h"

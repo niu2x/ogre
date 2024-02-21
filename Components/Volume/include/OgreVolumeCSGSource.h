@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreVolumeSource.h"
 #include "vector.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreVolumePrerequisites.h"
 #include "OgreVolumeSimplexNoise.h"
 
@@ -125,8 +125,8 @@ namespace Volume {
         inline Real distanceTo(const Vector3 &position) const
         {
             Real distance;
-            const Vector3 dMin = position - mBox.getMinimum();
-            const Vector3 dMax = mBox.getMaximum() - position;
+            const Vector3 dMin = position - mBox.minimum();
+            const Vector3 dMax = mBox.maximum() - position;
 
             // Check if inside of the box
             if (dMin.x >= (Real)0.0 && dMin.y >= (Real)0.0 && dMin.z >= (Real)0.0 &&

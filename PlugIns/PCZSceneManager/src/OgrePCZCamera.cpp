@@ -32,7 +32,7 @@ email                : ericc@xenopi.com
 -----------------------------------------------------------------------------
 */
 
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgrePCZCamera.h"
 #include "OgrePCZFrustum.h"
 #include "OgrePortal.h"
@@ -41,7 +41,7 @@ namespace Ogre
 {
     PCZCamera::PCZCamera( const String& name, SceneManager* sm ) : Camera( name, sm )
     {
-        mBox.setExtents(-0.1, -0.1, -0.1, 0.1, 0.1, 0.1);
+        mBox.set_extents(-0.1, -0.1, -0.1, 0.1, 0.1, 0.1);
         mExtraCullingFrustum.setUseOriginPlane(true);
     }
 
@@ -58,7 +58,7 @@ namespace Ogre
     bool PCZCamera::isVisible( const AxisAlignedBox &bound, FrustumPlane *culledBy) const 
     {
         // Null boxes always invisible
-        if ( bound.isNull() )
+        if ( bound.is_null() )
             return false;
 
         // Make any pending updates to the calculated frustum planes
@@ -92,13 +92,13 @@ namespace Ogre
     {
 
         // Null boxes always invisible
-        if ( bound.isNull() )
+        if ( bound.is_null() )
             return NONE;
 
         // Get centre of the box
-        Vector3 centre = bound.getCenter();
+        Vector3 centre = bound.center();
         // Get the half-size of the box
-        Vector3 halfSize = bound.getHalfSize();
+        Vector3 halfSize = bound.half_size();
 
         bool all_inside = true;
 
@@ -152,7 +152,7 @@ namespace Ogre
         if (portal->getType() == PortalBase::PORTAL_TYPE_AABB)
         {
             AxisAlignedBox aabb;
-            aabb.setExtents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
+            aabb.set_extents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
             return Camera::isVisible(aabb, culledBy);
         }
         else if (portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)

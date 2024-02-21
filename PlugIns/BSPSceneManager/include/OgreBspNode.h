@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreBspPrerequisites.h"
 #include "plane.h"
-#include "OgreAxisAlignedBox.h"
+#include "axis_aligned_box.h"
 #include "OgreSceneQuery.h"
 
 namespace Ogre {
