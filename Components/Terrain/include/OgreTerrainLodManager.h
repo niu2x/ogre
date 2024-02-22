@@ -30,8 +30,7 @@ THE SOFTWARE.
 #define __Ogre_TerrainLodManager_H__
 
 #include "OgreTerrainPrerequisites.h"
-#include "OgreWorkQueue.h"
-
+#include "work_queue.h"
 
 namespace Ogre
 {

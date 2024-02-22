@@ -31,8 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePagingPrerequisites.h"
 #include "threading/thread_header.h"
-#include "OgreWorkQueue.h"
-
+#include "work_queue.h"
 
 namespace Ogre
 {

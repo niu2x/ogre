@@ -56,7 +56,7 @@ namespace Ogre
 
         while(!mPagesInLoading.empty())
         {
-            Root::getSingleton().getWorkQueue()->processMainThreadTasks();
+            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
         }
 
         OGRE_DELETE mTerrainGroup;
@@ -237,12 +237,15 @@ namespace Ogre
                 }
                 else
                 {
-                    Root::getSingleton().getWorkQueue()->addTask([this]() {
+                    Root::getSingleton().getWorkQueue()->add_task([this]() {
                         handleRequest(NULL, NULL);
                         if(mPagesInLoading.empty())
                             return;
                         // continue loading in main thread
-                        Root::getSingleton().getWorkQueue()->addMainThreadTask([this]() { handleResponse(NULL, NULL); });
+                        Root::getSingleton()
+                            .getWorkQueue()
+                            ->add_main_thread_task(
+                                [this]() { handleResponse(NULL, NULL); });
                     });
                 }
             }
@@ -319,12 +322,13 @@ namespace Ogre
             mNextLoadingTime = currentTime + mLoadingIntervalMs;
 
             // Continue loading other pages
-            Root::getSingleton().getWorkQueue()->addTask([this]() {
+            Root::getSingleton().getWorkQueue()->add_task([this]() {
                 handleRequest(NULL, NULL);
                 if(mPagesInLoading.empty())
                     return;
                 // continue loading in main thread
-                Root::getSingleton().getWorkQueue()->addMainThreadTask([this]() { handleResponse(NULL, NULL); });
+                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                    [this]() { handleResponse(NULL, NULL); });
             });
         }
         else

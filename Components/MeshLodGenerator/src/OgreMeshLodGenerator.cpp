@@ -316,8 +316,9 @@ void MeshLodGenerator::addRequestToQueue( LodConfig& lodConfig, LodCollapseCostP
         OGRE_WQ_LOCK_MUTEX(mQueueMutex);
         mPendingLodRequests.push_back(req);
 
-        Root::getSingleton().getWorkQueue()->addTask([this, req]()
-                                                     { handleRequest(new WorkQueue::Request(0, 0, req, 0, 0), NULL); });
+        Root::getSingleton().getWorkQueue()->add_task([this, req]() {
+            handleRequest(new WorkQueue::Request(0, 0, req, 0, 0), NULL);
+        });
     }
 }
 
@@ -345,7 +346,7 @@ WorkQueue::Response* MeshLodGenerator::handleRequest(const WorkQueue::Request* r
 
     _process(request->config, request->cost.get(), request->data.get(), request->input.get(), request->output.get(), request->collapser.get());
 
-    Root::getSingleton().getWorkQueue()->addMainThreadTask(
+    Root::getSingleton().getWorkQueue()->add_main_thread_task(
         [this, request]() {
             WorkQueue::Response res(NULL, true, request);
             handleResponse(&res, NULL);

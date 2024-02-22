@@ -58,7 +58,7 @@ extern "C" {
 #include "colour_value.h"
 #include "OgreCommon.h"
 #include "data_stream.h"
-#include "OgreDefaultWorkQueue.h"
+#include "default_work_queue.h"
 #include "exception.h"
 #include "OgreFileSystem.h"
 #include "OgreFrustum.h"

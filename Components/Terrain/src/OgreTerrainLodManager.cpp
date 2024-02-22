@@ -269,12 +269,14 @@ namespace Ogre
                 }
                 else
                 {
-                    Root::getSingleton().getWorkQueue()->addTask([this, r]() {
+                    Root::getSingleton().getWorkQueue()->add_task([this, r]() {
                         auto res = handleRequest(r, NULL);
-                        Root::getSingleton().getWorkQueue()->addMainThreadTask([this, res]() {
-                            handleResponse(res, NULL);
-                            delete res;
-                        });
+                        Root::getSingleton()
+                            .getWorkQueue()
+                            ->add_main_thread_task([this, res]() {
+                                handleResponse(res, NULL);
+                                delete res;
+                            });
                     });
                 }
             }
@@ -394,7 +396,7 @@ namespace Ogre
     {
         while (mIncreaseLodLevelInProgress)
         {
-            Root::getSingleton().getWorkQueue()->processMainThreadTasks();
+            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
         }
     }
 }

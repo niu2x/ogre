@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreTerrainPrerequisites.h"
 #include "OgrePagedWorldSection.h"
-#include "OgreWorkQueue.h"
+#include "work_queue.h"
 #include "OgreTerrainGroup.h"
 
 

@@ -142,10 +142,12 @@ struct _OgreLodExport LodConfig {
                                  LodLevel::VertexReductionMethod reductionMethod = LodLevel::VRM_PROPORTIONAL);
 
     struct _OgreLodExport Advanced {
-        /// Whether you want to process it immediatelly on main thread or you want to use Ogre::WorkQueue.
-        /// If you use workqueue the generator will return immediately. After processed in background,
-        /// the LodWorkQueueInjector will inject it in frameEnd event when rendering next frame.
-        /// Ready LODs can also be injected by calling Root::getSingleton().getWorkQueue()->processMainThreadTasks().
+        /// Whether you want to process it immediatelly on main thread or you
+        /// want to use Ogre::WorkQueue. If you use workqueue the generator will
+        /// return immediately. After processed in background, the
+        /// LodWorkQueueInjector will inject it in frameEnd event when rendering
+        /// next frame. Ready LODs can also be injected by calling
+        /// Root::getSingleton().getWorkQueue()->process_main_thread_tasks().
         /// (disabled by default)
         bool useBackgroundQueue;
         /// If enabled, it allows up to 50% smaller index buffers by storing once shared faces with frame shifting.

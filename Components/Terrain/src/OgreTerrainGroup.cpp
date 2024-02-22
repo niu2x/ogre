@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreTerrainGroup.h"
 #include "OgreRoot.h"
-#include "OgreWorkQueue.h"
+#include "work_queue.h"
 #include "OgreStreamSerialiser.h"
 #include "log_manager.h"
 #include "OgreTerrainAutoUpdateLod.h"
@@ -91,7 +91,7 @@ namespace Ogre
         // waiting for terrain preparing finished
         while (getNumTerrainPrepareRequests() > 0)
         {
-            Root::getSingleton().getWorkQueue()->processMainThreadTasks();
+            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
         }
 
         removeAllTerrains();
@@ -359,18 +359,15 @@ namespace Ogre
                 return;
             }
 
-            Root::getSingleton().getWorkQueue()->addTask(
-                [this, slot]()
-                {
-                    auto r = new WorkQueue::Request(0, 0, slot, 0, 0);
-                    auto res = handleRequest(r, NULL);
-                    Root::getSingleton().getWorkQueue()->addMainThreadTask(
-                        [this, res]()
-                        {
-                            handleResponse(res, NULL);
-                            delete res;
-                        });
-                });
+            Root::getSingleton().getWorkQueue()->add_task([this, slot]() {
+                auto r = new WorkQueue::Request(0, 0, slot, 0, 0);
+                auto res = handleRequest(r, NULL);
+                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                    [this, res]() {
+                        handleResponse(res, NULL);
+                        delete res;
+                    });
+            });
             ret.first->second = 0;
         }
     }

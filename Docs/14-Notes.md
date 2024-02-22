@@ -39,12 +39,12 @@ Root::getSingleton().getWorkQueue()->addRequest(mWorkQueueChannel, WORKQUEUE_DER
 
 With the new API you do:
 ```cpp
-Root::getSingleton().getWorkQueue()->addTask(
+Root::getSingleton().getWorkQueue()->add_task(
     [this, req]()
     {
         auto req = new WorkQueue::Request(0, 0, data, 0, 0);
         auto res = handleRequest(r, NULL);
-        Root::getSingleton().getWorkQueue()->addMainThreadTask([this, res]() {
+        Root::getSingleton().getWorkQueue()->add_main_thread_task([this, res]() {
             handleResponse(res, NULL);
             delete res;
         });

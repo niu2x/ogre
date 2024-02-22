@@ -19,7 +19,7 @@
 #include "OgreLodCollapseCostQuadric.h"
 #include "OgreRenderWindow.h"
 #include "OgreLodConfigSerializer.h"
-#include "OgreWorkQueue.h"
+#include "work_queue.h"
 
 using namespace Ogre;
 
@@ -115,7 +115,7 @@ void MeshLodTests::blockedWaitForLodGeneration(const MeshPtr& mesh)
     WorkQueue* wq = Root::getSingleton().getWorkQueue();
     for (int i = 0; i < timeout; i++) 
     {
-        wq->processMainThreadTasks(); // Injects the Lod if ready
+        wq->process_main_thread_tasks(); // Injects the Lod if ready
         if (mesh->getNumLodLevels() != 1) {
             success = true;
             break;

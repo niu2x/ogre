@@ -38,7 +38,7 @@
 #include "OgreLodCollapser.h"
 
 #include "OgreSingleton.h"
-#include "OgreWorkQueue.h"
+#include "work_queue.h"
 
 namespace Ogre
 {

@@ -4,7 +4,7 @@
 The worker threads are organized in [WorkQueues](@ref Ogre::WorkQueue), which allows implementing load-balancing.
 
 By default %Ogre creates one Ogre::WorkQueue, implementing Ogre::DefaultWorkQueueBase with 1-2 workers attached. The workers are started after the first Ogre::RenderWindow is created.
-You can customize the default work queue by calling Ogre::DefaultWorkQueueBase::setWorkerThreadCount and Ogre::DefaultWorkQueueBase::setWorkersCanAccessRenderSystem before the WorkQueue is started or later by manually restarting the WorkQueue.
+You can customize the default work queue by calling Ogre::DefaultWorkQueueBase::set_worker_thread_count and Ogre::DefaultWorkQueueBase::setWorkersCanAccessRenderSystem before the WorkQueue is started or later by manually restarting the WorkQueue.
 
 For resource loading, there is additionally the high-level Ogre::ResourceBackgroundQueue interface, that dispatches work to the default WorkQueue, but hides the internal Ogre::WorkQueue::Request/ Ogre::WorkQueue::Response handling.
 

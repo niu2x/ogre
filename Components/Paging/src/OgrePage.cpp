@@ -181,12 +181,13 @@ namespace Ogre
             }
             else
             {
-                Root::getSingleton().getWorkQueue()->addTask([this]() {
+                Root::getSingleton().getWorkQueue()->add_task([this]() {
                     auto res = handleRequest(NULL, NULL);
-                    Root::getSingleton().getWorkQueue()->addMainThreadTask([this, res]() {
-                        handleResponse(res, NULL);
-                        delete res;
-                    });
+                    Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                        [this, res]() {
+                            handleResponse(res, NULL);
+                            delete res;
+                        });
                 });
             }
 

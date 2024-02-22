@@ -43,7 +43,7 @@ THE SOFTWARE.
 #include "OgreVolumeMeshBuilder.h"
 #include "OgreVolumeOctreeNode.h"
 #include "OgreMaterialManager.h"
-#include "OgreWorkQueue.h"
+#include "work_queue.h"
 
 namespace Ogre {
 namespace Volume {
@@ -75,14 +75,20 @@ namespace Volume {
             req.meshBuilder = OGRE_NEW MeshBuilder();
             req.dualGridGenerator = OGRE_NEW DualGridGenerator();
 
-            Root::getSingleton().getWorkQueue()->addTask([this, req]() {
+            Root::getSingleton().getWorkQueue()->add_task([this, req]() {
                 prepareGeometry(req.level, req.root, req.dualGridGenerator, req.meshBuilder, req.totalFrom, req.totalTo);
-                Root::getSingleton().getWorkQueue()->addMainThreadTask([this, req]() {
-                    loadGeometry(req.meshBuilder, req.dualGridGenerator, req.root, req.level, req.isUpdate);
-                    delete req.root;
-                    delete req.meshBuilder;
-                    delete req.dualGridGenerator;
-                });
+                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                    [this, req]() {
+                        loadGeometry(
+                            req.meshBuilder,
+                            req.dualGridGenerator,
+                            req.root,
+                            req.level,
+                            req.isUpdate);
+                        delete req.root;
+                        delete req.meshBuilder;
+                        delete req.dualGridGenerator;
+                    });
             });
         }
         else
@@ -344,7 +350,9 @@ namespace Volume {
         {
             while(mShared->chunksBeingProcessed)
             {
-                Root::getSingleton().getWorkQueue()->processMainThreadTasks();
+                Root::getSingleton()
+                    .getWorkQueue()
+                    ->process_main_thread_tasks();
             }
         }
         

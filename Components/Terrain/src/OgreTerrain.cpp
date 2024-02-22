@@ -1099,7 +1099,8 @@ namespace Ogre
             return;
         }
 
-        Root::getSingleton().getWorkQueue()->addMainThreadTask([this]() { generateMaterial(); });
+        Root::getSingleton().getWorkQueue()->add_main_thread_task(
+            [this]() { generateMaterial(); });
     }
     //---------------------------------------------------------------------
     void Terrain::unload()
@@ -1917,16 +1918,15 @@ namespace Ogre
             return;
         }
 
-        Root::getSingleton().getWorkQueue()->addTask(
-            [this, req]()
-            {
-                auto r = new WorkQueue::Request(0, 0, req, 0, 0);
-                auto res = handleRequest(r, NULL);
-                Root::getSingleton().getWorkQueue()->addMainThreadTask([this, res](){
+        Root::getSingleton().getWorkQueue()->add_task([this, req]() {
+            auto r = new WorkQueue::Request(0, 0, req, 0, 0);
+            auto res = handleRequest(r, NULL);
+            Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                [this, res]() {
                     handleResponse(res, NULL);
                     delete res;
                 });
-            });
+        });
     }
     //---------------------------------------------------------------------
     void Terrain::waitForDerivedProcesses()
@@ -1934,7 +1934,7 @@ namespace Ogre
         while (mDerivedDataUpdateInProgress || mGenerateMaterialInProgress || mPrepareInProgress)
         {
             // we need to wait for this to finish
-            Root::getSingleton().getWorkQueue()->processMainThreadTasks();
+            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
         }
 
     }

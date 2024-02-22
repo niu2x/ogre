@@ -149,10 +149,10 @@ namespace Ogre {
         // but clamp it at 2 by default - we dont scale much beyond that currently
         // yet it helps on android where it needlessly burns CPU
         threadCount = Math::Clamp(threadCount, 1, 2);
-        defaultQ->setWorkerThreadCount(threadCount);
+        defaultQ->set_worker_thread_count(threadCount);
 
         // only allow workers to access rendersystem if threadsupport is 1
-        defaultQ->setWorkersCanAccessRenderSystem(false);
+        // defaultQ->setWorkersCanAccessRenderSystem(false);
         mWorkQueue.reset(defaultQ);
 
         // ResourceBackgroundQueue
@@ -680,7 +680,7 @@ namespace Ogre {
             HardwareBufferManager::getSingleton()._releaseBufferCopies();
 
         // Tell the queue to process responses
-        mWorkQueue->processMainThreadTasks();
+        mWorkQueue->process_main_thread_tasks();
 
         OgreProfileEndGroup("Frame", OGREPROF_GENERAL);
 
@@ -1134,7 +1134,7 @@ namespace Ogre {
         mActiveRenderer->getCapabilities()->log(LogManager::getSingleton().default_log());
 
         // Background loader
-        mWorkQueue->startup();
+        mWorkQueue->startup(true);
         // Initialise material manager
         mMaterialManager->initialise();
         // Init particle systems manager
@@ -1282,8 +1282,7 @@ namespace Ogre {
         {
             mWorkQueue.reset(queue);
             if (mIsInitialised)
-                mWorkQueue->startup();
-
+                mWorkQueue->startup(true);
         }
     }
 }

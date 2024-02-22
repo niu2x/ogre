@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreSceneManager.h"
 #include "OgreTerrainMaterialGenerator.h"
 #include "OgreTerrainLayerBlendMap.h"
-#include "OgreWorkQueue.h"
+#include "work_queue.h"
 #include "OgreTerrainLodManager.h"
 
 namespace Ogre
