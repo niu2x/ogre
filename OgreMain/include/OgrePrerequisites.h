@@ -278,6 +278,9 @@ namespace Ogre {
     template<class T>
     using SharedPtr = std::shared_ptr<T>;
 
+    template <class T>
+    using UniquePtr = std::unique_ptr<T>;
+
     using std::static_pointer_cast;
     using std::dynamic_pointer_cast;
 

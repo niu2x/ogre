@@ -88,7 +88,7 @@ namespace Ogre
 
     WorkQueue::Response* TerrainLodManager::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
     {
-        LoadLodRequest lreq =std::any_cast<LoadLodRequest>(req->getData());
+        LoadLodRequest lreq = std::any_cast<LoadLodRequest>(req->data());
         // read data from file into temporary height & delta buffer
         try {
             if(lreq.currentPreparedLod>lreq.requestedLod)
@@ -114,9 +114,9 @@ namespace Ogre
 
     void TerrainLodManager::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
     {
-        const WorkQueue::Request* req = res->getRequest();
+        const WorkQueue::Request* req = res->request();
         // No response data, just request
-        LoadLodRequest lreq =std::any_cast<LoadLodRequest>(req->getData());
+        LoadLodRequest lreq = std::any_cast<LoadLodRequest>(req->data());
 
         mIncreaseLodLevelInProgress = false;
 
@@ -155,7 +155,8 @@ namespace Ogre
         }
         else
         {
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) << "Failed to prepare and load terrain LOD: " << res->getMessages();
+            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+                << "Failed to prepare and load terrain LOD: " << res->message();
         }
     }
     void TerrainLodManager::buildLodInfoTable()

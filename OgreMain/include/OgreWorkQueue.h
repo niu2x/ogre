@@ -70,151 +70,166 @@ namespace Ogre
         in their own subsystems. We also provide a default implementation in the
         form of DefaultWorkQueue.
     */
-    class _OgreExport WorkQueue : public UtilityAlloc
-    {
+class WorkQueue {
+public:
+    /// Numeric identifier for a request
+    using RequestID = uint64_t;
+
+    /** General purpose request structure.
+     */
+    class Request {
+
     public:
-        /// Numeric identifier for a request
-        typedef unsigned long long int RequestID;
+        /// Constructor
+        Request(
+            uint16_t channel,
+            uint16_t rtype,
+            const Any& rData,
+            uint8_t retry,
+            RequestID rid);
+        /// Get the request channel (top level categorisation)
+        uint16_t channel() const { return channel_; }
+        /// Get the type of this request within the given channel
+        uint16_t type() const { return type_; }
+        /// Get the user details of this request
+        const Any& data() const { return data_; }
+        /// Get the remaining retry count
+        uint8_t retry_count() const { return retry_count_; }
+        /// Get the identifier of this request
+        RequestID id() const { return id_; }
 
-        /** General purpose request structure. 
-        */
-        class _OgreExport Request : public UtilityAlloc
-        {
-            friend class WorkQueue;
-        protected:
-            /// The request channel, as an integer 
-            uint16 mChannel;
-            /// The request type, as an integer within the channel (user can define enumerations on this)
-            uint16 mType;
-            /// The details of the request (user defined)
-            Any mData;
-            /// Retry count - set this to non-zero to have the request try again on failure
-            uint8 mRetryCount;
-            /// Identifier (assigned by the system)
-            RequestID mID;
-            /// Abort Flag
-            mutable bool mAborted;
-
-        public:
-            /// Constructor 
-            Request(uint16 channel, uint16 rtype, const Any& rData, uint8 retry, RequestID rid);
-            ~Request();
-            /// Get the request channel (top level categorisation)
-            uint16 getChannel() const { return mChannel; }
-            /// Get the type of this request within the given channel
-            uint16 getType() const { return mType; }
-            /// Get the user details of this request
-            const Any& getData() const { return mData; }
-            /// Get the remaining retry count
-            uint8 getRetryCount() const { return mRetryCount; }
-            /// Get the identifier of this request
-            RequestID getID() const { return mID; }
-        };
-
-        /** General purpose response structure. 
-        */
-        struct _OgreExport Response : public UtilityAlloc
-        {
-            /// Pointer to the request that this response is in relation to
-            const Request* mRequest;
-            /// Whether the work item succeeded or not
-            bool mSuccess;
-            /// Any diagnostic messages
-            String mMessages;
-            /// Data associated with the result of the process
-            Any mData;
-
-        public:
-            Response(const Request* rq, bool success, const Any& data, const String& msg = BLANKSTRING);
-            ~Response();
-            /// Get the request that this is a response to (NB destruction destroys this)
-            const Request* getRequest() const { return mRequest; }
-            /// Return whether this is a successful response
-            bool succeeded() const { return mSuccess; }
-            /// Get any diagnostic messages about the process
-            const String& getMessages() const { return mMessages; }
-            /// Return the response data (user defined, only valid on success)
-            const Any& getData() const { return mData; }
-        };
-        WorkQueue() {}
-        virtual ~WorkQueue() {}
-
-        /** Get the number of worker threads that this queue will start when
-            startup() is called.
-        */
-        virtual size_t getWorkerThreadCount() const { return 1; }
-
-        /** Set the number of worker threads that this queue will start
-            when startup() is called (default 1).
-            Calling this will have no effect unless the queue is shut down and
-            restarted.
-        */
-        virtual void setWorkerThreadCount(size_t c) {}
-
-        /** Start up the queue with the options that have been set.
-        @param forceRestart If the queue is already running, whether to shut it
-            down and restart.
-        */
-        virtual void startup(bool forceRestart = true) = 0;
-
-        /** Add a new task to the queue */
-        virtual void addTask(std::function<void()> task) = 0;
-        
-        /** Set whether to pause further processing of any requests. 
-        If true, any further requests will simply be queued and not processed until
-        setPaused(false) is called. Any requests which are in the process of being
-        worked on already will still continue. 
-        */
-        virtual void setPaused(bool pause) = 0;
-        /// Return whether the queue is paused ie not sending more work to workers
-        virtual bool isPaused() const = 0;
-
-        /** Set whether to accept new requests or not. 
-        If true, requests are added to the queue as usual. If false, requests
-        are silently ignored until setRequestsAccepted(true) is called. 
-        */
-        virtual void setRequestsAccepted(bool accept) = 0;
-        /// Returns whether requests are being accepted right now
-        virtual bool getRequestsAccepted() const = 0;
-
-        /** Process the tasks in the main-thread queue.
-
-            This method must be called from the main render
-            thread to 'pump' tasks through the system. The method will usually
-            try to clear all tasks before returning; however, you can specify
-            a time limit on the tasks processing to limit the impact of
-            spikes in demand by calling @ref setMainThreadProcessingTimeLimit.
-        */
-        virtual void processMainThreadTasks();
-
-        /// @deprecated use @ref processMainThreadTasks
-        OGRE_DEPRECATED virtual void processResponses() { }
-
-        /** Get the time limit imposed on the processing of tasks in a
-            single frame, in milliseconds (0 indicates no limit).
-        */
-        uint64 getMainThreadProcessingTimeLimit() const { return getResponseProcessingTimeLimit(); }
-
-        /// @deprecated use @ref getMainThreadProcessingTimeLimit()
-        virtual unsigned long getResponseProcessingTimeLimit() const = 0;
-
-        /** Set the time limit imposed on the processing of tasks in a
-            single frame, in milliseconds (0 indicates no limit).
-            This sets the maximum time that will be spent in @ref processMainThreadTasks() in
-            a single frame. The default is 10ms.
-        */
-        void setMainThreadProcessingTimeLimit(uint64 ms) { setResponseProcessingTimeLimit(ms); }
-
-        /// @deprecated use @ref setMainThreadProcessingTimeLimit
-        virtual void setResponseProcessingTimeLimit(unsigned long ms) = 0;
-
-        /** Add a deferred task that will be processed on the main render thread */
-        virtual void addMainThreadTask(std::function<void()> task) = 0;
-
-        /** Shut down the queue.
-        */
-        virtual void shutdown() = 0;
+    private:
+        /// The request channel, as an integer
+        uint16_t channel_;
+        /// The request type, as an integer within the channel (user can define
+        /// enumerations on this)
+        uint16_t type_;
+        /// The details of the request (user defined)
+        Any data_;
+        /// Retry count - set this to non-zero to have the request try again on
+        /// failure
+        uint8_t retry_count_;
+        /// Identifier (assigned by the system)
+        RequestID id_;
+        /// Abort Flag
     };
+
+    /** General purpose response structure.
+     */
+    class Response {
+
+    public:
+        Response(
+            const Request* rq,
+            bool success,
+            const Any& data,
+            const String& msg = BLANKSTRING);
+        ~Response();
+        /// Get the request that this is a response to (NB destruction destroys
+        /// this)
+        const Request* request() const { return request_; }
+        /// Return whether this is a successful response
+        bool succeeded() const { return success_; }
+        /// Get any diagnostic messages about the process
+        const String& message() const { return message_; }
+        /// Return the response data (user defined, only valid on success)
+        const Any& data() const { return data_; }
+
+    private:
+        /// Pointer to the request that this response is in relation to
+        const Request* request_;
+        /// Whether the work item succeeded or not
+        bool success_;
+        /// Any diagnostic messages
+        String message_;
+        /// Data associated with the result of the process
+        Any data_;
+    };
+    WorkQueue() { }
+    virtual ~WorkQueue() { }
+
+    /** Get the number of worker threads that this queue will start when
+        startup() is called.
+    */
+    virtual size_t getWorkerThreadCount() const { return 1; }
+
+    /** Set the number of worker threads that this queue will start
+        when startup() is called (default 1).
+        Calling this will have no effect unless the queue is shut down and
+        restarted.
+    */
+    virtual void setWorkerThreadCount(size_t c) { }
+
+    /** Start up the queue with the options that have been set.
+    @param forceRestart If the queue is already running, whether to shut it
+        down and restart.
+    */
+    virtual void startup(bool forceRestart = true) = 0;
+
+    /** Add a new task to the queue */
+    virtual void addTask(std::function<void()> task) = 0;
+
+    /** Set whether to pause further processing of any requests.
+    If true, any further requests will simply be queued and not processed until
+    setPaused(false) is called. Any requests which are in the process of being
+    worked on already will still continue.
+    */
+    virtual void setPaused(bool pause) = 0;
+    /// Return whether the queue is paused ie not sending more work to workers
+    virtual bool isPaused() const = 0;
+
+    /** Set whether to accept new requests or not.
+    If true, requests are added to the queue as usual. If false, requests
+    are silently ignored until setRequestsAccepted(true) is called.
+    */
+    virtual void setRequestsAccepted(bool accept) = 0;
+    /// Returns whether requests are being accepted right now
+    virtual bool getRequestsAccepted() const = 0;
+
+    /** Process the tasks in the main-thread queue.
+
+        This method must be called from the main render
+        thread to 'pump' tasks through the system. The method will usually
+        try to clear all tasks before returning; however, you can specify
+        a time limit on the tasks processing to limit the impact of
+        spikes in demand by calling @ref setMainThreadProcessingTimeLimit.
+    */
+    virtual void processMainThreadTasks();
+
+    /// @deprecated use @ref processMainThreadTasks
+    OGRE_DEPRECATED virtual void processResponses() { }
+
+    /** Get the time limit imposed on the processing of tasks in a
+        single frame, in milliseconds (0 indicates no limit).
+    */
+    uint64 getMainThreadProcessingTimeLimit() const
+    {
+        return getResponseProcessingTimeLimit();
+    }
+
+    /// @deprecated use @ref getMainThreadProcessingTimeLimit()
+    virtual unsigned long getResponseProcessingTimeLimit() const = 0;
+
+    /** Set the time limit imposed on the processing of tasks in a
+        single frame, in milliseconds (0 indicates no limit).
+        This sets the maximum time that will be spent in @ref
+       processMainThreadTasks() in a single frame. The default is 10ms.
+    */
+    void setMainThreadProcessingTimeLimit(uint64 ms)
+    {
+        setResponseProcessingTimeLimit(ms);
+    }
+
+    /// @deprecated use @ref setMainThreadProcessingTimeLimit
+    virtual void setResponseProcessingTimeLimit(unsigned long ms) = 0;
+
+    /** Add a deferred task that will be processed on the main render thread */
+    virtual void addMainThreadTask(std::function<void()> task) = 0;
+
+    /** Shut down the queue.
+     */
+    virtual void shutdown() = 0;
+};
 
     /** Base for a general purpose task-based background work queue.
     */

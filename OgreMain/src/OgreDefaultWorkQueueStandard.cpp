@@ -70,7 +70,7 @@ namespace Ogre
 
         if (mWorkerRenderSystemAccess)
         {
-                    OGRE_WQ_LOCK_MUTEX_NAMED(mInitMutex, initLock);
+            OGRE_WQ_LOCK_MUTEX_NAMED(mInitMutex, initLock);
             // have to wait until all threads are registered with the render system
             while (mNumThreadsRegisteredWithRS < mWorkerThreadCount)
                 OGRE_THREAD_WAIT(mInitSync, mInitMutex, initLock);
@@ -85,7 +85,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void DefaultWorkQueue::notifyThreadRegistered()
     {
-            OGRE_WQ_LOCK_MUTEX(mInitMutex);
+        OGRE_WQ_LOCK_MUTEX(mInitMutex);
 
         ++mNumThreadsRegisteredWithRS;
 
@@ -133,7 +133,7 @@ namespace Ogre
     {
 #if XDOG_USE_THREAD
         // Lock; note that OGRE_THREAD_WAIT will free the lock
-            OGRE_WQ_LOCK_MUTEX_NAMED(mRequestMutex, queueLock);
+        OGRE_WQ_LOCK_MUTEX_NAMED(mRequestMutex, queueLock);
         if (mTasks.empty())
         {
             // frees lock and suspends the thread

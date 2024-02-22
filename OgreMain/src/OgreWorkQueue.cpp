@@ -37,28 +37,37 @@ namespace Ogre {
         OGRE_IGNORE_DEPRECATED_END
     }
     //---------------------------------------------------------------------
-    WorkQueue::Request::Request(uint16 channel, uint16 rtype, const Any& rData, uint8 retry, RequestID rid)
-        : mChannel(channel), mType(rtype), mData(rData), mRetryCount(retry), mID(rid), mAborted(false)
+    //---------------------------------------------------------------------
+    WorkQueue::Request::Request(
+        uint16_t channel,
+        uint16_t rtype,
+        const Any& rData,
+        uint8_t retry,
+        RequestID rid)
+    : channel_(channel)
+    , type_(rtype)
+    , data_(rData)
+    , retry_count_(retry)
+    , id_(rid)
     {
 
     }
     //---------------------------------------------------------------------
-    WorkQueue::Request::~Request()
-    {
-
-    }
     //---------------------------------------------------------------------
-    //---------------------------------------------------------------------
-    WorkQueue::Response::Response(const Request* rq, bool success, const Any& data, const String& msg)
-        : mRequest(rq), mSuccess(success), mMessages(msg), mData(data)
+    WorkQueue::Response::Response(
+        const Request* rq,
+        bool success,
+        const Any& data,
+        const String& msg)
+    : request_(rq)
+    , success_(success)
+    , message_(msg)
+    , data_(data)
     {
         
     }
     //---------------------------------------------------------------------
-    WorkQueue::Response::~Response()
-    {
-        OGRE_DELETE mRequest;
-    }
+    WorkQueue::Response::~Response() { OGRE_DELETE request_; }
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     DefaultWorkQueueBase::DefaultWorkQueueBase(const String& name)
@@ -118,7 +127,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void DefaultWorkQueueBase::setPaused(bool pause)
     {
-            OGRE_WQ_LOCK_MUTEX(mRequestMutex);
+        OGRE_WQ_LOCK_MUTEX(mRequestMutex);
 
         mPaused = pause;
     }
@@ -130,7 +139,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void DefaultWorkQueueBase::setRequestsAccepted(bool accept)
     {
-            OGRE_WQ_LOCK_MUTEX(mRequestMutex);
+        OGRE_WQ_LOCK_MUTEX(mRequestMutex);
 
         mAcceptRequests = accept;
     }

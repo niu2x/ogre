@@ -223,7 +223,7 @@ namespace Ogre
     void Page::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
     {
         // Main thread
-        PageResponse pres = std::any_cast<PageResponse>(res->getData());
+        PageResponse pres = std::any_cast<PageResponse>(res->data());
 
         // final loading behaviour
         if (res->succeeded())

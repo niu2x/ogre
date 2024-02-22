@@ -698,7 +698,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     WorkQueue::Response* TerrainGroup::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
     {
-        auto slot =std::any_cast<TerrainSlot*>(req->getData());
+        auto slot = std::any_cast<TerrainSlot*>(req->data());
 
         TerrainSlotDefinition& def = slot->def;
         Terrain* t = slot->instance;
@@ -732,7 +732,7 @@ namespace Ogre
     void TerrainGroup::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
     {
         // No response data, just request
-        auto slot =std::any_cast<TerrainSlot*>(res->getRequest()->getData());
+        auto slot = std::any_cast<TerrainSlot*>(res->request()->data());
 
         TerrainPrepareRequestMap::iterator it = mTerrainPrepareRequests.find(slot);
 
@@ -777,9 +777,9 @@ namespace Ogre
         else
         {
             // oh dear
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) <<
-                "We failed to prepare the terrain at (" << slot->x << ", " <<
-                slot->y <<") with the error '" << res->getMessages() << "'";
+            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+                << "We failed to prepare the terrain at (" << slot->x << ", "
+                << slot->y << ") with the error '" << res->message() << "'";
             freeTerrainSlotInstance(slot);
         }
     }

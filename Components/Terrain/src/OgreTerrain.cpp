@@ -2997,7 +2997,7 @@ namespace Ogre
     WorkQueue::Response* Terrain::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
     {
         // Background thread (maybe)
-        DerivedDataRequest ddr =std::any_cast<DerivedDataRequest>(req->getData());
+        DerivedDataRequest ddr = std::any_cast<DerivedDataRequest>(req->data());
         DerivedDataResponse ddres;
         ddres.remainingTypeMask = ddr.typeMask & DERIVED_DATA_ALL;
 
@@ -3029,8 +3029,10 @@ namespace Ogre
     void Terrain::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
     {
         // Main thread
-        DerivedDataResponse ddres =std::any_cast<DerivedDataResponse>(res->getData());
-        DerivedDataRequest ddreq =std::any_cast<DerivedDataRequest>(res->getRequest()->getData());
+        DerivedDataResponse ddres
+            = std::any_cast<DerivedDataResponse>(res->data());
+        DerivedDataRequest ddreq
+            = std::any_cast<DerivedDataRequest>(res->request()->data());
 
         if ((ddreq.typeMask & DERIVED_DATA_DELTAS) && 
             !(ddres.remainingTypeMask & DERIVED_DATA_DELTAS))
