@@ -86,7 +86,9 @@ namespace Ogre
             OGRE_FREE(mLodInfoTable,MEMCATEGORY_GENERAL);
     }
 
-    WorkQueue::Response* TerrainLodManager::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
+    WorkQueue::Response* TerrainLodManager::handleRequest(
+        UniquePtr<const WorkQueue::Request> req,
+        const WorkQueue* srcQ)
     {
         LoadLodRequest lreq = std::any_cast<LoadLodRequest>(req->data());
         // read data from file into temporary height & delta buffer
@@ -94,7 +96,11 @@ namespace Ogre
             if(lreq.currentPreparedLod>lreq.requestedLod)
                 readLodData(lreq.currentPreparedLod-1, lreq.requestedLod);
         } catch (Exception& e) {
-            return OGRE_NEW WorkQueue::Response(req, false, Any(), e.full_description());
+            return OGRE_NEW WorkQueue::Response(
+                std::move(req),
+                false,
+                Any(),
+                e.full_description());
         }
 
         int lastTreeStart = -1;
@@ -109,7 +115,7 @@ namespace Ogre
                 lastTreeStart = lodinfo.treeStart;
             }
         }
-        return OGRE_NEW WorkQueue::Response(req, true, Any());
+        return OGRE_NEW WorkQueue::Response(std::move(req), true, Any());
     }
 
     void TerrainLodManager::handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ)
@@ -260,24 +266,32 @@ namespace Ogre
                 mIncreaseLodLevelInProgress = true;
                 LoadLodRequest req(this,mHighestLodPrepared,mHighestLodLoaded,mTargetLodLevel);
 
-                auto r = new WorkQueue::Request(0, 0, req, 0, 0);
                 if(synchronous)
                 {
-                    auto res = handleRequest(r, NULL);
+                    auto r
+                        = std::make_unique<WorkQueue::Request>(0, 0, req, 0, 0);
+                    auto res = handleRequest(std::move(r), NULL);
                     handleResponse(res, NULL);
                     delete res;
                 }
                 else
                 {
-                    Root::getSingleton().getWorkQueue()->add_task([this, r]() {
-                        auto res = handleRequest(r, NULL);
-                        Root::getSingleton()
-                            .getWorkQueue()
-                            ->add_main_thread_task([this, res]() {
-                                handleResponse(res, NULL);
-                                delete res;
-                            });
-                    });
+                    Root::getSingleton().getWorkQueue()->add_task(
+                        [this, req]() {
+                            auto r = std::make_unique<WorkQueue::Request>(
+                                0,
+                                0,
+                                req,
+                                0,
+                                0);
+                            auto res = handleRequest(std::move(r), NULL);
+                            Root::getSingleton()
+                                .getWorkQueue()
+                                ->add_main_thread_task([this, res]() {
+                                    handleResponse(res, NULL);
+                                    delete res;
+                                });
+                        });
                 }
             }
             else if(synchronous)

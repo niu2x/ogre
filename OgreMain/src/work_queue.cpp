@@ -49,17 +49,17 @@ WorkQueue::Request::Request(
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 WorkQueue::Response::Response(
-    const Request* rq,
+    UniquePtr<const Request>&& rq,
     bool success,
     const Any& data,
     const String& msg)
-: request_(rq)
+: request_(std::move(rq))
 , success_(success)
 , message_(msg)
 , data_(data)
 {
 }
 //---------------------------------------------------------------------
-WorkQueue::Response::~Response() { OGRE_DELETE request_; }
+WorkQueue::Response::~Response() { }
 
 } // namespace Ogre

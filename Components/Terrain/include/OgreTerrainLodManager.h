@@ -119,7 +119,9 @@ namespace Ogre
             return mLodInfoTable[lodLevel];
         }
     private:
-        WorkQueue::Response* handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ);
+        WorkQueue::Response* handleRequest(
+            UniquePtr<const WorkQueue::Request> req,
+            const WorkQueue* srcQ);
         void handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ);
 
         void init();

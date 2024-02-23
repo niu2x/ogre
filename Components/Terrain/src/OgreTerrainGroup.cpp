@@ -352,16 +352,16 @@ namespace Ogre
 
             if(synchronous)
             {
-                auto r = new WorkQueue::Request(0, 0, slot, 0, 0);
-                auto res = handleRequest(r, NULL);
+                auto r = std::make_unique<WorkQueue::Request>(0, 0, slot, 0, 0);
+                auto res = handleRequest(std::move(r), NULL);
                 handleResponse(res, NULL);
                 delete res;
                 return;
             }
 
             Root::getSingleton().getWorkQueue()->add_task([this, slot]() {
-                auto r = new WorkQueue::Request(0, 0, slot, 0, 0);
-                auto res = handleRequest(r, NULL);
+                auto r = std::make_unique<WorkQueue::Request>(0, 0, slot, 0, 0);
+                auto res = handleRequest(std::move(r), NULL);
                 Root::getSingleton().getWorkQueue()->add_main_thread_task(
                     [this, res]() {
                         handleResponse(res, NULL);
@@ -693,7 +693,9 @@ namespace Ogre
         return false;
     }
     //---------------------------------------------------------------------
-    WorkQueue::Response* TerrainGroup::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
+    WorkQueue::Response* TerrainGroup::handleRequest(
+        UniquePtr<const WorkQueue::Request> req,
+        const WorkQueue* srcQ)
     {
         auto slot = std::any_cast<TerrainSlot*>(req->data());
 
@@ -712,12 +714,16 @@ namespace Ogre
                 // if this worked, we can destroy the input data to save space
                 def.freeImportData();
             }
-            response = OGRE_NEW WorkQueue::Response(req, true, Any());
+            response
+                = OGRE_NEW WorkQueue::Response(std::move(req), true, Any());
         }
         catch (Exception& e)
         {
             // oops
-            response = OGRE_NEW WorkQueue::Response(req, false, Any(),
+            response = OGRE_NEW WorkQueue::Response(
+                std::move(req),
+                false,
+                Any(),
                 e.full_description());
         }
 

@@ -1911,16 +1911,16 @@ namespace Ogre
 
         if(synchronous)
         {
-            auto r = new WorkQueue::Request(0, 0, req, 0, 0);
-            auto res = handleRequest(r, NULL);
+            auto r = std::make_unique<WorkQueue::Request>(0, 0, req, 0, 0);
+            auto res = handleRequest(std::move(r), NULL);
             handleResponse(res, NULL);
             delete res;
             return;
         }
 
         Root::getSingleton().getWorkQueue()->add_task([this, req]() {
-            auto r = new WorkQueue::Request(0, 0, req, 0, 0);
-            auto res = handleRequest(r, NULL);
+            auto r = std::make_unique<WorkQueue::Request>(0, 0, req, 0, 0);
+            auto res = handleRequest(std::move(r), NULL);
             Root::getSingleton().getWorkQueue()->add_main_thread_task(
                 [this, res]() {
                     handleResponse(res, NULL);
@@ -2994,7 +2994,9 @@ namespace Ogre
             TerrainGlobalOptions::getSingleton().getUseVertexCompressionWhenAvailable();
     }
     //---------------------------------------------------------------------
-    WorkQueue::Response* Terrain::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
+    WorkQueue::Response* Terrain::handleRequest(
+        UniquePtr<const WorkQueue::Request> req,
+        const WorkQueue* srcQ)
     {
         // Background thread (maybe)
         DerivedDataRequest ddr = std::any_cast<DerivedDataRequest>(req->data());
@@ -3022,7 +3024,8 @@ namespace Ogre
         }
 
         ddres.terrain = ddr.terrain;
-        WorkQueue::Response* response = OGRE_NEW WorkQueue::Response(req, true, ddres);
+        WorkQueue::Response* response
+            = OGRE_NEW WorkQueue::Response(std::move(req), true, ddres);
         return response;
     }
     //---------------------------------------------------------------------

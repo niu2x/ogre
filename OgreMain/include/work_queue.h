@@ -77,7 +77,6 @@ public:
     /** General purpose request structure.
      */
     class Request {
-
     public:
         /// Constructor
         Request(
@@ -86,6 +85,7 @@ public:
             const Any& rData,
             uint8_t retry,
             RequestID rid);
+
         /// Get the request channel (top level categorisation)
         uint16_t channel() const { return channel_; }
         /// Get the type of this request within the given channel
@@ -119,14 +119,14 @@ public:
 
     public:
         Response(
-            const Request* rq,
+            UniquePtr<const Request>&& rq,
             bool success,
             const Any& data,
             const String& msg = BLANKSTRING);
         ~Response();
         /// Get the request that this is a response to (NB destruction destroys
         /// this)
-        const Request* request() const { return request_; }
+        const Request* request() const { return request_.get(); }
         /// Return whether this is a successful response
         bool succeeded() const { return success_; }
         /// Get any diagnostic messages about the process
@@ -136,7 +136,7 @@ public:
 
     private:
         /// Pointer to the request that this response is in relation to
-        const Request* request_;
+        UniquePtr<const Request> request_;
         /// Whether the work item succeeded or not
         bool success_;
         /// Any diagnostic messages

@@ -85,7 +85,9 @@ namespace Ogre
         String generateFilename() const;
 
         /// WorkQueue::RequestHandler override
-        WorkQueue::Response* handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ);
+        WorkQueue::Response* handleRequest(
+            UniquePtr<const WorkQueue::Request> request,
+            const WorkQueue* srcQ);
         /// WorkQueue::ResponseHandler override
         void handleResponse(const WorkQueue::Response* res, const WorkQueue* srcQ);
     public:

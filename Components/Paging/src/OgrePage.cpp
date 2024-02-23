@@ -200,7 +200,9 @@ namespace Ogre
         destroyAllContentCollections();
     }
     //---------------------------------------------------------------------
-    WorkQueue::Response* Page::handleRequest(const WorkQueue::Request* req, const WorkQueue* srcQ)
+    WorkQueue::Response* Page::handleRequest(
+        UniquePtr<const WorkQueue::Request> req,
+        const WorkQueue* srcQ)
     {
         // Background thread (maybe)
         PageResponse res;
@@ -209,12 +211,15 @@ namespace Ogre
         try
         {
             prepareImpl(res.pageData);
-            response = OGRE_NEW WorkQueue::Response(req, true, res);
+            response = OGRE_NEW WorkQueue::Response(std::move(req), true, res);
         }
         catch (Exception& e)
         {
             // oops
-            response = OGRE_NEW WorkQueue::Response(req, false, res,
+            response = OGRE_NEW WorkQueue::Response(
+                std::move(req),
+                false,
+                res,
                 e.full_description());
         }
 
