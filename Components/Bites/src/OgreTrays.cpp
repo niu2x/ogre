@@ -1913,8 +1913,7 @@ void TrayManager::frameRendered(const Ogre::FrameEvent &evt)
     }
     mWidgetDeathRow.clear();
 
-
-    unsigned long currentTime = mTimer->getMilliseconds();
+    unsigned long currentTime = mTimer->milli_seconds();
     if (areFrameStatsVisible() && currentTime - mLastStatUpdateTime >= FRAME_UPDATE_DELAY)
     {
         Ogre::RenderTarget::FrameStats stats = mWindow->getStatistics();
@@ -1960,7 +1959,7 @@ void TrayManager::frameRendered(const Ogre::FrameEvent &evt)
 void TrayManager::windowUpdate()
 {
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
-    unsigned long currentTime = mTimer->getMilliseconds();
+    unsigned long currentTime = mTimer->milli_seconds();
     if (currentTime - mLastStatUpdateTime >= FRAME_UPDATE_DELAY)
     {
         mLastStatUpdateTime = currentTime;

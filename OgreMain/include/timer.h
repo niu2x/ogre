@@ -25,51 +25,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreTimer.h"
 
-using namespace std::chrono;
+#ifndef __OGRE_TIMER_H__
+#define __OGRE_TIMER_H__
+
+#include "OgrePrerequisites.h"
+#include <chrono>
 
 namespace Ogre {
+/** Timer class */
+class Timer {
+public:
+    Timer();
 
-//--------------------------------------------------------------------------------//
-Timer::Timer()
-{
-    reset();
-}
+    /** Resets timer */
+    void reset();
 
-//--------------------------------------------------------------------------------//
-void Timer::reset()
-{
-    zeroClock = clock();
-    start = steady_clock::now();
-}
+    /** Returns milliseconds since initialisation or last reset */
+    uint64_t milli_seconds();
 
-//--------------------------------------------------------------------------------//
-uint64_t Timer::getMilliseconds()
-{
-    auto now = steady_clock::now();
-    return duration_cast<milliseconds>(now - start).count();
-}
+    /** Returns microseconds since initialisation or last reset */
+    uint64_t micro_seconds();
 
-//--------------------------------------------------------------------------------//
-uint64_t Timer::getMicroseconds()
-{
-    auto now = steady_clock::now();
-    return duration_cast<microseconds>(now - start).count();
-}
+    /** Returns milliseconds since initialisation or last reset, only CPU time
+     * measured */
+    uint64_t milli_seconds_cpu();
 
-//-- Common Across All Timers ----------------------------------------------------//
-uint64_t Timer::getMillisecondsCPU()
-{
-    clock_t newClock = clock();
-    return (uint64_t)((float)(newClock-zeroClock) / ((float)CLOCKS_PER_SEC/1000.0)) ;
-}
+    /** Returns microseconds since initialisation or last reset, only CPU time
+     * measured */
+    uint64_t micro_seconds_cpu();
 
-//-- Common Across All Timers ----------------------------------------------------//
-uint64_t Timer::getMicrosecondsCPU()
-{
-    clock_t newClock = clock();
-    return (uint64_t)((float)(newClock-zeroClock) / ((float)CLOCKS_PER_SEC/1000000.0)) ;
-}
-
-}
+private:
+    std::chrono::steady_clock::time_point start_;
+    clock_t zero_clock_;
+};
+} // namespace Ogre
+#endif

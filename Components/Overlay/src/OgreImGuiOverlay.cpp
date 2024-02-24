@@ -19,7 +19,7 @@
 #include <OgreRenderQueue.h>
 #include <OgreFrameListener.h>
 #include <OgreRoot.h>
-#include <OgreTimer.h>
+#include <timer.h>
 
 namespace Ogre
 {
@@ -167,8 +167,8 @@ void ImGuiOverlay::ImGUIRenderable::createFontTexture()
 }
 void ImGuiOverlay::NewFrame()
 {
-    static auto lastTime = Root::getSingleton().getTimer()->getMilliseconds();
-    auto now = Root::getSingleton().getTimer()->getMilliseconds();
+    static auto lastTime = Root::getSingleton().getTimer()->milli_seconds();
+    auto now = Root::getSingleton().getTimer()->milli_seconds();
 
     ImGuiIO& io = ImGui::GetIO();
     io.DeltaTime = std::max<float>(

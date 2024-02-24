@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "bitwise.h"
 #include "OgreMemoryAllocatorConfig.h"
 #include "log_manager.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 namespace Ogre {
 namespace Volume {
@@ -106,8 +106,9 @@ namespace Volume {
         ser.read(mData, elementCount);
 
         ser.readChunkEnd(VOLUME_CHUNK_ID);
-        
-        LogManager::getSingleton().stream() << "Processed serialization in " << t.getMilliseconds() << "ms.";
+
+        LogManager::getSingleton().stream()
+            << "Processed serialization in " << t.milli_seconds() << "ms.";
     }
         
     //-----------------------------------------------------------------------

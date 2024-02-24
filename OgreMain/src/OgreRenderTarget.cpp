@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreViewport.h"
 #include "OgreRenderTargetListener.h"
 #include "OgreDepthBuffer.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 namespace Ogre {
 
@@ -279,7 +279,7 @@ namespace Ogre {
         mStats.worstFrameTime = 0;
         mStats.vBlankMissCount = -1;
 
-        mLastTime = mTimer->getMilliseconds();
+        mLastTime = mTimer->milli_seconds();
         mLastSecond = mLastTime;
         mFrameCount = 0;
     }
@@ -287,7 +287,7 @@ namespace Ogre {
     void RenderTarget::updateStats(void)
     {
         ++mFrameCount;
-        unsigned long thisTime = mTimer->getMilliseconds();
+        unsigned long thisTime = mTimer->milli_seconds();
 
         // check frame time
         unsigned long frameTime = thisTime - mLastTime ;
@@ -471,10 +471,9 @@ namespace Ogre {
 
         // use ISO 8601 order
         StringStream oss;
-        oss << filenamePrefix
-            << std::put_time(pTime, "%Y%m%d_%H%M%S")
-            << std::setw(3) << std::setfill('0') << (mTimer->getMilliseconds() % 1000)
-            << filenameSuffix;
+        oss << filenamePrefix << std::put_time(pTime, "%Y%m%d_%H%M%S")
+            << std::setw(3) << std::setfill('0')
+            << (mTimer->milli_seconds() % 1000) << filenameSuffix;
         String filename = oss.str();
         writeContentsToFile(filename);
         return filename;

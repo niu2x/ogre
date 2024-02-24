@@ -39,7 +39,7 @@ Ogre-dependent is in the visualization/logging routines and the use of the Timer
 
 */
 
-#include "OgreTimer.h"
+#include "timer.h"
 
 #ifdef USE_REMOTERY
 #include "Remotery.h"
@@ -258,7 +258,7 @@ namespace Ogre {
 
         // we do this at the very end of the function to get the most
         // accurate timing results
-        mCurrent->currTime = mTimer->getMicroseconds();
+        mCurrent->currTime = mTimer->micro_seconds();
 #endif
     }
     //-----------------------------------------------------------------------
@@ -325,7 +325,7 @@ namespace Ogre {
         // get the end time of this profile
         // we do this as close the beginning of this function as possible
         // to get more accurate timing results
-        const ulong endTime = mTimer->getMicroseconds();
+        const ulong endTime = mTimer->micro_seconds();
 
         // empty string is reserved for designating an empty parent
         assert ((profileName != "") && ("Profile name can't be an empty string"));

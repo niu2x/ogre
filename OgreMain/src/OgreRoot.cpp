@@ -46,7 +46,7 @@ THE SOFTWARE.
 #include "OgreBillboardChain.h"
 #include "OgreRibbonTrail.h"
 #include "OgreConvexBody.h"
-#include "OgreTimer.h"
+#include "timer.h"
 #include "OgreFrameListener.h"
 #include "OgreLodStrategyManager.h"
 #include "OgreFileSystemLayer.h"
@@ -712,7 +712,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Root::populateFrameEvent(FrameEventTimeType type, FrameEvent& evtToUpdate)
     {
-        unsigned long now = mTimer->getMilliseconds();
+        unsigned long now = mTimer->milli_seconds();
         evtToUpdate.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
         evtToUpdate.timeSinceLastFrame = calculateEventTime(now, type);
     }
@@ -795,7 +795,7 @@ namespace Ogre {
         FrameEvent evt;
         evt.timeSinceLastFrame = timeSinceLastFrame;
 
-        unsigned long now = mTimer->getMilliseconds();
+        unsigned long now = mTimer->milli_seconds();
         evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
 
         if(!_fireFrameStarted(evt))
@@ -804,7 +804,7 @@ namespace Ogre {
         if (!_updateAllRenderTargets(evt))
             return false;
 
-        now = mTimer->getMilliseconds();
+        now = mTimer->milli_seconds();
         evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
 
         return _fireFrameEnded(evt);

@@ -46,7 +46,7 @@ THE SOFTWARE.
 #include "plane.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreMaterialManager.h"
-#include "OgreTimer.h"
+#include "timer.h"
 #include "OgreTerrainMaterialGeneratorA.h"
 #include "OgreFileSystemLayer.h"
 
@@ -2201,7 +2201,8 @@ namespace Ogre
             return;
 
         // check deferred updates
-        unsigned long currMillis = Root::getSingleton().getTimer()->getMilliseconds();
+        unsigned long currMillis
+            = Root::getSingleton().getTimer()->milli_seconds();
         unsigned long elapsedMillis = currMillis - mLastMillis;
         if (mCompositeMapUpdateCountdown > 0 && elapsedMillis)
         {

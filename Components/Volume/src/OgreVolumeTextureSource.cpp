@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "colour_value.h"
 #include "OgreMemoryAllocatorConfig.h"
 #include "log_manager.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 namespace Ogre {
 namespace Volume {
@@ -60,7 +60,8 @@ namespace Volume {
         Image img;
         img.load(volumeTextureName, ResourceGroupManager::getSingleton().getWorldResourceGroupName());
 
-        LogManager::getSingleton().stream() << "Loaded texture in " << t.getMilliseconds() << "ms.";
+        LogManager::getSingleton().stream()
+            << "Loaded texture in " << t.milli_seconds() << "ms.";
         t.reset();
 
         mWidth = img.getWidth();
@@ -82,7 +83,8 @@ namespace Volume {
         dstBox.format = PF_FLOAT32_R;
         PixelUtil::bulkPixelConversion(srcBox, dstBox);
 
-        LogManager::getSingleton().stream() << "Processed texture in " << t.getMilliseconds() << "ms.";
+        LogManager::getSingleton().stream()
+            << "Processed texture in " << t.milli_seconds() << "ms.";
     }
         
     //-----------------------------------------------------------------------

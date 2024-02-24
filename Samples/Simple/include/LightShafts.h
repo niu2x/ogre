@@ -74,7 +74,8 @@ public:
     void updatePosition(const FrameEvent& e)
     {
         // Just a simple circular trajectory
-        const Real& SimulationTime = Root::getSingleton().getTimer()->getMilliseconds();
+        const Real& SimulationTime
+            = Root::getSingleton().getTimer()->milli_seconds();
         Real Radius = 8;
 
         if (!mRotateEnable)
@@ -94,7 +95,8 @@ public:
         if (mRotateKnot)
         {
             mKnotSN->setOrientation(Quaternion(
-                Degree(Root::getSingleton().getTimer()->getMilliseconds() / 50), Vector3(0, 1, 0)));
+                Degree(Root::getSingleton().getTimer()->milli_seconds() / 50),
+                Vector3(0, 1, 0)));
         }
     }
 

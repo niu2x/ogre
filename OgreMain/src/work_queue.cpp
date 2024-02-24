@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 #include "work_queue.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 namespace Ogre {
 

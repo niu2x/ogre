@@ -63,7 +63,8 @@ namespace OgreBites {
 
     bool Sample_Isosurf::frameRenderingQueued(const FrameEvent& evt)
     {
-        Real seconds = (Real)(Root::getSingleton().getTimer()->getMilliseconds()) / 1000.0;
+        Real seconds
+            = (Real)(Root::getSingleton().getTimer()->milli_seconds()) / 1000.0;
         Ogre::Pass* renderPass = tetrahedra->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0);
         if (renderPass->hasVertexProgram())
         {

@@ -22,7 +22,10 @@ public:
     bool frameRenderingQueued(const FrameEvent& evt) override
     {
         // spin the head around and make it float up and down
-        mPivot->setPosition(0, Math::Sin(mRoot->getTimer()->getMilliseconds() / 150.0) * 10, 0);
+        mPivot->setPosition(
+            0,
+            Math::Sin(mRoot->getTimer()->milli_seconds() / 150.0) * 10,
+            0);
         mPivot->yaw(Radian(-evt.timeSinceLastFrame * 1.5));
         return SdkSample::frameRenderingQueued(evt);
     }

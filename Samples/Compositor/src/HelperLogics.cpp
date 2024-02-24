@@ -17,7 +17,7 @@ same license as the rest of the engine.
 #include <cmath>
 
 #include "Ogre.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 //---------------------------------------------------------------------------
 class HeatVisionListener: public Ogre::CompositorInstance::Listener
@@ -123,7 +123,7 @@ void HeatVisionListener::notifyMaterialRender(Ogre::uint32 pass_id, Ogre::Materi
         fpParams->setNamedConstant("random_fractions", Ogre::Vector4(Ogre::Math::RangeRandom(0.0, 1.0), Ogre::Math::RangeRandom(0, 1.0), 0, 0));
 
         // "depth_modulator" parameter
-        float inc = ((float)timer->getMilliseconds())/1000.0f;
+        float inc = ((float)timer->milli_seconds()) / 1000.0f;
         if ( (std::fabs(curr-end) <= 0.001) ) {
             // take a new value to reach
             end = Ogre::Math::RangeRandom(0.95, 1.0);

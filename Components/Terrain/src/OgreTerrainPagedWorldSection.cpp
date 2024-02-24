@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePagedWorld.h"
 #include "OgrePageManager.h"
 #include "OgreRoot.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 namespace Ogre
 {
@@ -45,7 +45,7 @@ namespace Ogre
     {
         // we always use a grid strategy
         setStrategy(parent->getManager()->getStrategy("Grid2D"));
-        mNextLoadingTime = Root::getSingletonPtr()->getTimer()->getMilliseconds();
+        mNextLoadingTime = Root::getSingletonPtr()->getTimer()->milli_seconds();
     }
     //---------------------------------------------------------------------
     TerrainPagedWorldSection::~TerrainPagedWorldSection()
@@ -285,7 +285,8 @@ namespace Ogre
             return NULL;
         }
 
-        unsigned long currentTime = Root::getSingletonPtr()->getTimer()->getMilliseconds();
+        unsigned long currentTime
+            = Root::getSingletonPtr()->getTimer()->milli_seconds();
         if(currentTime < mNextLoadingTime)
         {
         }
@@ -318,7 +319,8 @@ namespace Ogre
             mTerrainGroup->loadTerrain(x, y, false);
             mPagesInLoading.pop_front();
 
-            unsigned long currentTime = Root::getSingletonPtr()->getTimer()->getMilliseconds();
+            unsigned long currentTime
+                = Root::getSingletonPtr()->getTimer()->milli_seconds();
             mNextLoadingTime = currentTime + mLoadingIntervalMs;
 
             // Continue loading other pages

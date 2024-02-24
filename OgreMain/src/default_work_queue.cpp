@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "OgreTimer.h"
+#include "timer.h"
 
 namespace Ogre {
 //---------------------------------------------------------------------
@@ -201,7 +201,7 @@ void DefaultWorkQueue::process_next_request()
 //---------------------------------------------------------------------
 void DefaultWorkQueue::process_main_thread_tasks()
 {
-    auto ms_start = Root::getSingleton().getTimer()->getMilliseconds();
+    auto ms_start = Root::getSingleton().getTimer()->milli_seconds();
     auto ms_current = 0;
 
     // keep going until we run out of responses or out of time
@@ -219,7 +219,7 @@ void DefaultWorkQueue::process_main_thread_tasks()
 
         // time limit
         if (response_time_limit_ms_) {
-            ms_current = Root::getSingleton().getTimer()->getMilliseconds();
+            ms_current = Root::getSingleton().getTimer()->milli_seconds();
             if (ms_current - ms_start > response_time_limit_ms_)
                 break;
         }

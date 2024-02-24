@@ -35,7 +35,7 @@
 #include "OgreBorderPanelOverlayElement.h"
 #include "OgreTextAreaOverlayElement.h"
 #include "OgreFontManager.h"
-#include "OgreTimer.h"
+#include "timer.h"
 #include "OgreRoot.h"
 #include "OgreCamera.h"
 #include "OgreRenderWindow.h"
