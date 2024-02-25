@@ -125,8 +125,7 @@ namespace Ogre
             if (side == PlaneSide::NEGATIVE_SIDE)
             {
                 Real dist = mOriginPlane.distance_to(bound.center());
-                if (dist > bound.getRadius())
-                {
+                if (dist > bound.radius()) {
                     return false;
                 }
             }
@@ -142,8 +141,7 @@ namespace Ogre
             if (xside == PlaneSide::NEGATIVE_SIDE)
             {
                 Real dist = plane->distance_to(bound.center());
-                if (dist > bound.getRadius())
-                {
+                if (dist > bound.radius()) {
                     return false;
                 }
             }
@@ -307,9 +305,9 @@ namespace Ogre
         // Check originplane if told to
         if (mUseOriginPlane)
         {
-            if (mOriginPlane.distance_to(bound.center()) <= bound.getRadius() ||
-                mOriginPlane.which_side(bound.center()) != PlaneSide::POSITIVE_SIDE)
-            {
+            if (mOriginPlane.distance_to(bound.center()) <= bound.radius()
+                || mOriginPlane.which_side(bound.center())
+                    != PlaneSide::POSITIVE_SIDE) {
                 return false;
             }
         }
@@ -322,9 +320,9 @@ namespace Ogre
         {
             PCPlane* plane = *pit;
 
-            if (plane->distance_to(bound.center()) <= bound.getRadius() ||
-                plane->which_side(bound.center()) != PlaneSide::POSITIVE_SIDE)
-            {
+            if (plane->distance_to(bound.center()) <= bound.radius()
+                || plane->which_side(bound.center())
+                    != PlaneSide::POSITIVE_SIDE) {
                 return false;
             }
 

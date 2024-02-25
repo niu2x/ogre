@@ -101,7 +101,7 @@ extern "C" {
 #include "OgreSimpleSpline.h"
 #include "OgreSingleton.h"
 #include "OgreSkeleton.h"
-#include "OgreSphere.h"
+#include "sphere.h"
 #include "OgreStringConverter.h"
 #include "string_util.h"
 #include "OgreStringInterface.h"

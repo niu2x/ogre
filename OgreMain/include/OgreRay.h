@@ -98,7 +98,7 @@ namespace Ogre {
         {
             // Adjust ray origin relative to sphere center
             Vector3 rayorig = mOrigin - s.center();
-            Real radius = s.getRadius();
+            Real radius = s.radius();
 
             // Check origin inside first
             if (rayorig.squared_length() <= radius*radius && discardInside)

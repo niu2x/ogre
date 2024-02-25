@@ -270,14 +270,13 @@ namespace Ogre {
 
             // If the distance from sphere center to plane is negative, and 'more negative' 
             // than the radius of the sphere, sphere is outside frustum
-            if (mFrustumPlanes[plane].distance_to(sphere.center()) < -sphere.getRadius())
-            {
+            if (mFrustumPlanes[plane].distance_to(sphere.center())
+                < -sphere.radius()) {
                 // ALL corners on negative side therefore out of view
                 if (culledBy)
                     *culledBy = (FrustumPlane)plane;
                 return false;
             }
-
         }
 
         return true;
@@ -840,7 +839,7 @@ namespace Ogre {
         {
             updateFrustum();
             const Matrix4& projMatrix = getProjectionMatrix();
-            Real r = sphere.getRadius();
+            Real r = sphere.radius();
             Real rsq = r * r;
 
             // early-exit

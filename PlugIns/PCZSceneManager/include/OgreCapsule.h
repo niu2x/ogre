@@ -53,7 +53,7 @@ namespace Ogre
         void set(const Vector3& newOrigin, const Vector3& newEnd, Real newRadius);
         void setOrigin(const Vector3& newOrigin);
         void setEndPoint(const Vector3& newEndpoint);
-        void setRadius(Real newRadius);
+        void set_radius(Real newRadius);
 
         // intersection tests
         bool intersects(const Capsule&) const;

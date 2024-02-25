@@ -66,10 +66,7 @@ void Capsule::setEndPoint(const Vector3& newEndpoint)
     mSegment.setEndPoint(newEndpoint);
 }
 //----------------------------------------------------------------------------
-void Capsule::setRadius(Real newRadius)
-{
-    mRadius = newRadius;
-}
+void Capsule::set_radius(Real newRadius) { mRadius = newRadius; }
 //----------------------------------------------------------------------------
 bool Capsule::intersects(const Capsule& otherCapsule) const
 {

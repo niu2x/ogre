@@ -812,7 +812,8 @@ namespace Ogre {
                 {
                     //Calculate the cone that exists between the sphere and the center position of the light
                     Ogre::Vector3 lightSphereConeDirection = container.center() - mDerivedPosition;
-                    Ogre::Radian halfLightSphereConeAngle = Math::ASin(container.getRadius() / lightSphereConeDirection.length());
+                    Ogre::Radian halfLightSphereConeAngle = Math::ASin(
+                        container.radius() / lightSphereConeDirection.length());
 
                     //Check that the light cone and the light-position-to-sphere cone intersect)
                     Radian angleBetweenConeDirections = lightSphereConeDirection.angle_between(mDerivedDirection);

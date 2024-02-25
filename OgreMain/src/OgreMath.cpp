@@ -609,7 +609,7 @@ namespace Ogre
 
         // Use splitting planes
         const Vector3& center = sphere.center();
-        Real radius = sphere.getRadius();
+        Real radius = sphere.radius();
         const Vector3& min = box.minimum();
         const Vector3& max = box.maximum();
 

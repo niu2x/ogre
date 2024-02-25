@@ -547,7 +547,7 @@ namespace Ogre
         for (size_t i = 0; i < count; ++i, ++sphere)
         {
             write(&sphere->center());
-            Real radius = sphere->getRadius();
+            Real radius = sphere->radius();
             write(&radius);
         }
     }
@@ -724,8 +724,8 @@ namespace Ogre
             Real radius;
             read(&center);
             read(&radius);
-            sphere->setCenter(center);
-            sphere->setRadius(radius);
+            sphere->set_center(center);
+            sphere->set_radius(radius);
         }
     }
     //---------------------------------------------------------------------

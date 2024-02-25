@@ -126,7 +126,7 @@ public:
     VertexIndexToShape(const Entity* entity, const Affine3& transform = Affine3::identity);
     ~VertexIndexToShape();
 
-    Real getRadius();
+    Real radius();
     Vector3 getSize();
 
     btBvhTriangleMeshShape* createTrimesh();
@@ -489,7 +489,7 @@ void VertexIndexToShape::addIndexData(IndexData* data, const unsigned int offset
     }
 }
 //------------------------------------------------------------------------------------------------
-Real VertexIndexToShape::getRadius()
+Real VertexIndexToShape::radius()
 {
     if (mBoundRadius == (-1))
     {

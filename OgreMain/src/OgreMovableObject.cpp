@@ -298,8 +298,8 @@ namespace Ogre {
     {
         if (derive)
         {
-            mWorldBoundingSphere.setRadius(getBoundingRadiusScaled());
-            mWorldBoundingSphere.setCenter(mParentNode->_getDerivedPosition());
+            mWorldBoundingSphere.set_radius(getBoundingRadiusScaled());
+            mWorldBoundingSphere.set_center(mParentNode->_getDerivedPosition());
         }
         return mWorldBoundingSphere;
     }

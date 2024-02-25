@@ -210,7 +210,7 @@ static Intersection intersect( const Sphere &one, const AxisAlignedBox &two )
     if (two.is_null()) return OUTSIDE;
     if (two.isInfinite()) return INTERSECT;
 
-    float sradius = one.getRadius();
+    float sradius = one.radius();
 
     sradius *= sradius;
 

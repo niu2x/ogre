@@ -261,9 +261,9 @@ void PortalBase::updateDerivedValues(void) const
         // save off the current DerivedCP
         mPrevDerivedCP = mDerivedCP;
         mDerivedCP = transform * mLocalCP;
-        mDerivedSphere.setCenter(mDerivedCP);
+        mDerivedSphere.set_center(mDerivedCP);
         mDerivedRadius = getBoundingRadiusScaled();
-        mDerivedSphere.setRadius(mDerivedRadius);
+        mDerivedSphere.set_radius(mDerivedRadius);
 
         switch(mType)
         {
@@ -327,9 +327,9 @@ void PortalBase::updateDerivedValues(void) const
             // save off the current DerivedCP
             mPrevDerivedCP = mDerivedCP;
             mDerivedCP = mLocalCP;
-            mDerivedSphere.setCenter(mDerivedCP);
+            mDerivedSphere.set_center(mDerivedCP);
             mDerivedRadius = mRadius;
-            mDerivedSphere.setRadius(mDerivedRadius);
+            mDerivedSphere.set_radius(mDerivedRadius);
             for (int i=0;i<numCorners;i++)
             {
                 mDerivedCorners[i] = mCorners[i];
@@ -351,9 +351,9 @@ void PortalBase::updateDerivedValues(void) const
             // is no "previous" value, so set previous = current.
             mDerivedCP = mLocalCP;
             mPrevDerivedCP = mDerivedCP;
-            mDerivedSphere.setCenter(mDerivedCP);
+            mDerivedSphere.set_center(mDerivedCP);
             mDerivedRadius = mRadius;
-            mDerivedSphere.setRadius(mDerivedRadius);
+            mDerivedSphere.set_radius(mDerivedRadius);
             for (int i=0;i<numCorners;i++)
             {
                 mDerivedCorners[i] = mCorners[i];
@@ -888,9 +888,9 @@ bool PortalBase::closeTo(const PortalBase* otherPortal)
         {
             // quad portals must be within 1/4 sphere of each other
             Sphere quarterSphere1 = mDerivedSphere;
-            quarterSphere1.setRadius(quarterSphere1.getRadius()*0.25f);
+            quarterSphere1.set_radius(quarterSphere1.radius() * 0.25f);
             Sphere quarterSphere2 = otherPortal->getDerivedSphere();
-            quarterSphere2.setRadius(quarterSphere2.getRadius()*0.25f);
+            quarterSphere2.set_radius(quarterSphere2.radius() * 0.25f);
             close = quarterSphere1.intersects(quarterSphere2);
         }
         break;

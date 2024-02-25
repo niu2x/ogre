@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreMovableObject.h"
 #include "axis_aligned_box.h"
 #include "OgreCapsule.h"
-#include "OgreSphere.h"
+#include "sphere.h"
 
 namespace Ogre
 {

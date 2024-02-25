@@ -31,7 +31,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 #include "axis_aligned_box.h"
-#include "OgreSphere.h"
+#include "sphere.h"
 #include "OgreMath.h"
 #include "plane.h"
 #include "OgreHeaderPrefix.h"
@@ -106,7 +106,7 @@ namespace Ogre {
                 // Negate d if planes point inwards
                 if (outside == PlaneSide::NEGATIVE_SIDE) d = -d;
 
-                if ( (d - sphere.getRadius()) > 0)
+                if ((d - sphere.radius()) > 0)
                     return false;
             }
 

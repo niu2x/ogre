@@ -32,7 +32,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 #include "axis_aligned_box.h"
-#include "OgreSphere.h"
+#include "sphere.h"
 #include "OgreShadowCaster.h"
 #include "OgreAnimable.h"
 #include "OgreHeaderPrefix.h"

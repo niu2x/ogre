@@ -732,15 +732,15 @@ namespace Ogre {
 
         getWorldTransforms(&xworld);
 
-        sph.setCenter(xworld * bill.mPosition);
+        sph.set_center(xworld * bill.mPosition);
 
         if (bill.mOwnDimensions)
         {
-            sph.setRadius(std::max(bill.mWidth, bill.mHeight));
+            sph.set_radius(std::max(bill.mWidth, bill.mHeight));
         }
         else
         {
-            sph.setRadius(std::max(mDefaultWidth, mDefaultHeight));
+            sph.set_radius(std::max(mDefaultWidth, mDefaultHeight));
         }
 
         return cam->isVisible(sph);

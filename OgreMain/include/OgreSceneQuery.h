@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __SceneQuery_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSphere.h"
+#include "sphere.h"
 #include "OgreRay.h"
 #include "OgreHeaderPrefix.h"
 
