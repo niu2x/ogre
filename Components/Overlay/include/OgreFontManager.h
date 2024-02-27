@@ -80,14 +80,13 @@ namespace Ogre
     private:
 
         /// Internal methods
-        Resource* createImpl(const String& name, ResourceHandle handle, 
-            const String& group, bool isManual, ManualResourceLoader* loader, 
+        Resource* createImpl(
+            const String& name,
+            ResourceHandle handle,
+            const String& group,
+            bool isManual,
+            ManualResourceLoader* loader,
             const NameValuePairList* params) override;
-        void parseAttribute(const String& line, FontPtr& pFont);
-
-        void logBadAttrib(const String& line, FontPtr& pFont);
-
-
     };
     /** @} */
     /** @} */

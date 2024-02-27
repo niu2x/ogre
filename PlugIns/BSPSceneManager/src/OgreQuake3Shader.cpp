@@ -140,7 +140,7 @@ namespace Ogre {
                 if (mat->isTransparent())
                     mat->setDepthWriteEnabled(false);
 
-                t->setColourOperation(LBO_REPLACE);
+                t->setColourOperation(LayerBlendOperation::REPLACE);
                 // Alpha mode
                 ogrePass->setAlphaRejectSettings(
                     pass[p].alphaFunc, pass[p].alphaVal);
@@ -150,7 +150,7 @@ namespace Ogre {
                 if (pass[p].customBlend)
                 {
                     // Fallback for now
-                    t->setColourOperation(LBO_MODULATE);
+                    t->setColourOperation(LayerBlendOperation::MODULATE);
                 }
                 else
                 {

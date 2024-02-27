@@ -103,10 +103,10 @@ namespace Ogre
     {
         switch( lbt )
         {
-        case LBT_COLOUR:
-            return D3DTSS_COLOROP;
-        case LBT_ALPHA:
-            return D3DTSS_ALPHAOP;
+            case LayerBlendType::COLOUR:
+                return D3DTSS_COLOROP;
+            case LayerBlendType::ALPHA:
+                return D3DTSS_ALPHAOP;
         }
         return  D3DTSS_FORCE_DWORD;
     }

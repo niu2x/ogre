@@ -442,7 +442,7 @@ void SceneManager::ShadowRenderer::renderModulativeTextureShadowedQueueGroupObje
 
                     t = targetPass->createTextureUnitState();
                     t->setTexture(mSpotFadeTexture);
-                    t->setColourOperation(LBO_ADD);
+                    t->setColourOperation(LayerBlendOperation::ADD);
                     t->setTextureAddressingMode(TextureUnitState::TAM_CLAMP);
                 }
 

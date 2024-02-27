@@ -186,7 +186,7 @@ namespace Ogre {
 
         // Default pass details
         pShader->pass[passIdx].animNumFrames = 0;
-        pShader->pass[passIdx].blend = LBO_REPLACE;
+        pShader->pass[passIdx].blend = LayerBlendOperation::REPLACE;
         pShader->pass[passIdx].blendDest = SBF_ZERO;
         pShader->pass[passIdx].blendSrc = SBF_ONE;
         pShader->pass[passIdx].depthFunc = CMPF_LESS_EQUAL;
@@ -328,19 +328,19 @@ namespace Ogre {
         {
             if (params[1] == "add" || params[1] == "gl_add")
             {
-                pPass->blend = LBO_ADD;
+                pPass->blend = LayerBlendOperation::ADD;
                 pPass->blendDest = SBF_ONE;
                 pPass->blendSrc = SBF_ONE;
             }
             else if (params[1] == "filter" || params[1] == "gl_filter")
             {
-                pPass->blend = LBO_MODULATE;
+                pPass->blend = LayerBlendOperation::MODULATE;
                 pPass->blendDest = SBF_ZERO;
                 pPass->blendSrc = SBF_DEST_COLOUR;
             }
             else if (params[1] == "blend" || params[1] == "gl_blend")
             {
-                pPass->blend = LBO_ALPHA_BLEND;
+                pPass->blend = LayerBlendOperation::ALPHA_BLEND;
                 pPass->blendDest = SBF_ONE_MINUS_SOURCE_ALPHA;
                 pPass->blendSrc = SBF_SOURCE_ALPHA;
             }
@@ -351,14 +351,14 @@ namespace Ogre {
                 pPass->blendDest = convertBlendFunc(params[2]);
                 // Detect common blends
                 if (pPass->blendSrc == SBF_ONE && pPass->blendDest == SBF_ZERO)
-                    pPass->blend = LBO_REPLACE;
+                    pPass->blend = LayerBlendOperation::REPLACE;
                 else if (pPass->blendSrc == SBF_ONE && pPass->blendDest == SBF_ONE)
-                    pPass->blend = LBO_ADD;
+                    pPass->blend = LayerBlendOperation::ADD;
                 else if ((pPass->blendSrc == SBF_ZERO && pPass->blendDest == SBF_SOURCE_COLOUR) ||
                     (pPass->blendSrc == SBF_DEST_COLOUR && pPass->blendDest == SBF_ZERO))
-                    pPass->blend = LBO_MODULATE;
+                    pPass->blend = LayerBlendOperation::MODULATE;
                 else if (pPass->blendSrc == SBF_SOURCE_ALPHA && pPass->blendDest == SBF_ONE_MINUS_SOURCE_ALPHA)
-                    pPass->blend = LBO_ALPHA_BLEND;
+                    pPass->blend = LayerBlendOperation::ALPHA_BLEND;
                 else
                     pPass->customBlend = true;
 

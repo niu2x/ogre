@@ -288,16 +288,16 @@ namespace Ogre{
         switch (static_cast<AtomAbstractNode*>(node.get())->id)
         {
         case ID_REPLACE:
-            result = LBO_REPLACE;
+            result = LayerBlendOperation::REPLACE;
             break;
         case ID_ADD:
-            result = LBO_ADD;
+            result = LayerBlendOperation::ADD;
             break;
         case ID_MODULATE:
-            result = LBO_MODULATE;
+            result = LayerBlendOperation::MODULATE;
             break;
         case ID_ALPHA_BLEND:
-            result = LBO_ALPHA_BLEND;
+            result = LayerBlendOperation::ALPHA_BLEND;
             break;
         default:
             return false;

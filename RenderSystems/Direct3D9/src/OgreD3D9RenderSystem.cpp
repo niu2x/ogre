@@ -2016,9 +2016,9 @@ namespace Ogre
         D3DCOLOR manualD3D;
 
         // choose type of blend.
-        if( bm.blendType == LBT_COLOUR )
+        if (bm.blendType == LayerBlendType::COLOUR)
             tss = D3DTSS_COLOROP;
-        else if( bm.blendType == LBT_ALPHA )
+        else if (bm.blendType == LayerBlendType::ALPHA)
             tss = D3DTSS_ALPHAOP;
         else
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
@@ -2037,21 +2037,16 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set operation", "D3D9RenderSystem::_setTextureBlendMode" );
 
         // choose source 1
-        if( bm.blendType == LBT_COLOUR )
-        {
+        if (bm.blendType == LayerBlendType::COLOUR) {
             tss = D3DTSS_COLORARG1;
             manualD3D = D3DCOLOR_COLORVALUE( bm.colourArg1.r, bm.colourArg1.g, bm.colourArg1.b, bm.colourArg1.a );
             mManualBlendColours[stage][0] = bm.colourArg1;
-        }
-        else if( bm.blendType == LBT_ALPHA )
-        {
+        } else if (bm.blendType == LayerBlendType::ALPHA) {
             tss = D3DTSS_ALPHAARG1;
             manualD3D = D3DCOLOR_COLORVALUE( mManualBlendColours[stage][0].r,
                 mManualBlendColours[stage][0].g, 
                 mManualBlendColours[stage][0].b, bm.alphaArg1 );
-        }
-        else
-        {
+        } else {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
                 "Invalid blend type", "D3D9RenderSystem::_setTextureBlendMode");
         }
@@ -2077,14 +2072,11 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set source1", "D3D9RenderSystem::_setTextureBlendMode" );
 
         // choose source 2
-        if( bm.blendType == LBT_COLOUR )
-        {
+        if (bm.blendType == LayerBlendType::COLOUR) {
             tss = D3DTSS_COLORARG2;
             manualD3D = D3DCOLOR_COLORVALUE( bm.colourArg2.r, bm.colourArg2.g, bm.colourArg2.b, bm.colourArg2.a );
             mManualBlendColours[stage][1] = bm.colourArg2;
-        }
-        else if( bm.blendType == LBT_ALPHA )
-        {
+        } else if (bm.blendType == LayerBlendType::ALPHA) {
             tss = D3DTSS_ALPHAARG2;
             manualD3D = D3DCOLOR_COLORVALUE( mManualBlendColours[stage][1].r,
                 mManualBlendColours[stage][1].g, 
@@ -2116,12 +2108,9 @@ namespace Ogre
             mDeviceManager->getActiveDevice()->getD3D9DeviceCaps().TextureOpCaps & D3DTEXOPCAPS_LERP)
         {
             // choose source 0 (lerp factor)
-            if( bm.blendType == LBT_COLOUR )
-            {
+            if (bm.blendType == LayerBlendType::COLOUR) {
                 tss = D3DTSS_COLORARG0;
-            }
-            else if( bm.blendType == LBT_ALPHA )
-            {
+            } else if (bm.blendType == LayerBlendType::ALPHA) {
                 tss = D3DTSS_ALPHAARG0;
             }
             hr = __SetTextureStageState(static_cast<DWORD>(stage), tss, D3DTA_DIFFUSE);

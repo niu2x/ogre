@@ -385,7 +385,7 @@ namespace Ogre {
                     if (tex)
                     {
                         // Set replace on all first layer textures for now
-                        tex->setColourOperation(LBO_REPLACE);
+                        tex->setColourOperation(LayerBlendOperation::REPLACE);
                         tex->setTextureAddressingMode(TextureUnitState::TAM_WRAP);
                     }
 
@@ -396,7 +396,7 @@ namespace Ogre {
                         lightmapName << "@lightmap" << q3lvl.mFaces[face].lm_texture;
                         tex = shadPass->createTextureUnitState(lightmapName.str());
                         // Blend
-                        tex->setColourOperation(LBO_MODULATE);
+                        tex->setColourOperation(LayerBlendOperation::MODULATE);
                         // Use 2nd texture co-ordinate set
                         tex->setTextureCoordSet(1);
                         // Clamp

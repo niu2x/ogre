@@ -1975,8 +1975,7 @@ namespace Ogre {
         GLenum src1op, src2op, cmd;
         GLfloat cv1[4], cv2[4];
 
-        if (bm.blendType == LBT_COLOUR)
-        {
+        if (bm.blendType == LayerBlendType::COLOUR) {
             cv1[0] = bm.colourArg1.r;
             cv1[1] = bm.colourArg1.g;
             cv1[2] = bm.colourArg1.b;
@@ -1991,8 +1990,7 @@ namespace Ogre {
             mManualBlendColours[stage][1] = bm.colourArg2;
         }
 
-        if (bm.blendType == LBT_ALPHA)
-        {
+        if (bm.blendType == LayerBlendType::ALPHA) {
             cv1[0] = mManualBlendColours[stage][0].r;
             cv1[1] = mManualBlendColours[stage][0].g;
             cv1[2] = mManualBlendColours[stage][0].b;
@@ -2102,15 +2100,12 @@ namespace Ogre {
         mStateCacheManager->activateGLTextureUnit(stage);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
 
-        if (bm.blendType == LBT_COLOUR)
-        {
+        if (bm.blendType == LayerBlendType::COLOUR) {
             glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, cmd);
             glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB, src1op);
             glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB, src2op);
             glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_CONSTANT);
-        }
-        else
-        {
+        } else {
             glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, cmd);
             glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, src1op);
             glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, src2op);
@@ -2146,20 +2141,29 @@ namespace Ogre {
         switch (bm.operation)
         {
         case LBX_MODULATE_X2:
-            glTexEnvi(GL_TEXTURE_ENV, bm.blendType == LBT_COLOUR ?
-                      GL_RGB_SCALE : GL_ALPHA_SCALE, 2);
+            glTexEnvi(
+                GL_TEXTURE_ENV,
+                bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
+                                                       : GL_ALPHA_SCALE,
+                2);
             break;
         case LBX_MODULATE_X4:
-            glTexEnvi(GL_TEXTURE_ENV, bm.blendType == LBT_COLOUR ?
-                      GL_RGB_SCALE : GL_ALPHA_SCALE, 4);
+            glTexEnvi(
+                GL_TEXTURE_ENV,
+                bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
+                                                       : GL_ALPHA_SCALE,
+                4);
             break;
         default:
-            glTexEnvi(GL_TEXTURE_ENV, bm.blendType == LBT_COLOUR ?
-                      GL_RGB_SCALE : GL_ALPHA_SCALE, 1);
+            glTexEnvi(
+                GL_TEXTURE_ENV,
+                bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
+                                                       : GL_ALPHA_SCALE,
+                1);
             break;
         }
 
-        if (bm.blendType == LBT_COLOUR){
+        if (bm.blendType == LayerBlendType::COLOUR) {
             glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
             glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
             if (bm.operation == LBX_BLEND_DIFFUSE_COLOUR){

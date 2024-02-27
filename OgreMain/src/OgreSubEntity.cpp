@@ -177,17 +177,16 @@ namespace Ogre {
                 mSubMesh->parent->sharedBlendIndexToBoneIndexMap : mSubMesh->blendIndexToBoneIndexMap;
             assert(indexMap.size() <= mParentEntity->mNumBoneMatrices);
 
+            if (MeshManager::getBonesUseObjectSpace()) {
+                *xform++ = mParentEntity->_getParentNodeFullTransform();
+            }
+
             if (mParentEntity->_isSkeletonAnimated())
             {
                 // Bones, use cached matrices built when Entity::_updateRenderQueue was called
                 auto boneMatrices = MeshManager::getBonesUseObjectSpace() ? mParentEntity->mBoneMatrices
                                                                           : mParentEntity->mBoneWorldMatrices;
                 assert(boneMatrices);
-
-                if (MeshManager::getBonesUseObjectSpace())
-                {
-                    *xform++ = mParentEntity->_getParentNodeFullTransform();
-                }
 
                 for (auto idx : indexMap)
                 {
@@ -196,8 +195,11 @@ namespace Ogre {
             }
             else
             {
+                auto& value = MeshManager::getBonesUseObjectSpace()
+                    ? Affine3::identity
+                    : mParentEntity->_getParentNodeFullTransform();
                 // All animations disabled, use parent entity world transform only
-                std::fill_n(xform, indexMap.size(), mParentEntity->_getParentNodeFullTransform());
+                std::fill_n(xform, indexMap.size(), value);
             }
         }
     }
