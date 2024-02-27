@@ -48,7 +48,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include "OgreGLSLSeparableProgram.h"
 #include "OgreGLVertexArrayObject.h"
 #include "OgreRoot.h"
-#include "OgreConfig.h"
+#include "config.h"
 #include "OgreViewport.h"
 #include "OgreGL3PlusPixelFormat.h"
 #include "OgreGL3PlusStateCacheManager.h"

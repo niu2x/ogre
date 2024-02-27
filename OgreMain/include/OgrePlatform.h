@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef __Platform_H_
 #define __Platform_H_
 
-#include "OgreConfig.h"
+#include "config.h"
 #include "OgreExports.h"
 
 /* Initial platform/compiler-related stuff to set.

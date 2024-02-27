@@ -40,7 +40,7 @@ extern "C" {
 #   include <sys/stat.h>
 }
 
-#include "OgreConfig.h"
+#include "config.h"
 #include "OgreExports.h"
 #include "OgrePrerequisites.h"
 #include "OgrePlatform.h"

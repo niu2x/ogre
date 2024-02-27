@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define RENDERSYSTEMS_GLSUPPORT_INCLUDE_GLSL_OGREGLSLPROGRAMCOMMON_H_
 
 #include "OgreGLSupportPrerequisites.h"
-#include "OgreConfig.h"
+#include "config.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreGLSLShaderCommon.h"
 
