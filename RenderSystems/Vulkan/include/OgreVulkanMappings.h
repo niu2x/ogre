@@ -31,7 +31,7 @@ Copyright (c) 2000-present Torus Knot Software Ltd
 
 #include "OgreVulkanPrerequisites.h"
 
-#include "OgreBlendMode.h"
+#include "blend_mode.h"
 #include "OgrePixelFormat.h"
 #include "OgreTexture.h"
 #include "OgreRenderOperation.h"

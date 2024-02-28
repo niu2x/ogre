@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __XSIMATERIALEXPORTER_H__
 
 #include "OgreXSIHelper.h"
-#include "OgreBlendMode.h"
+#include "blend_mode.h"
 #include "OgreMaterialSerializer.h"
 
 namespace Ogre {

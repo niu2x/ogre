@@ -668,8 +668,14 @@ namespace Ogre {
             // Fixup the texture unit 0   of new pass   blending method   to replace
             // all colour and alpha   with texture without adjustment, because we
             // assume it's detail texture.
-            (*i)->setColourOperationEx(LBX_SOURCE1,   LBS_TEXTURE, LBS_CURRENT);
-            (*i)->setAlphaOperation(LBX_SOURCE1, LBS_TEXTURE, LBS_CURRENT);
+            (*i)->setColourOperationEx(
+                LayerBlendOperationEx::SOURCE1,
+                LayerBlendSource::TEXTURE,
+                LayerBlendSource::CURRENT);
+            (*i)->setAlphaOperation(
+                LayerBlendOperationEx::SOURCE1,
+                LayerBlendSource::TEXTURE,
+                LayerBlendSource::CURRENT);
 
             // Add all the other texture unit states
             for (; i != iend; ++i)

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreSingleton.h"
 #include "OgreResourceManager.h"
 #include "OgreQuake3Shader.h"
-#include "OgreBlendMode.h"
+#include "blend_mode.h"
 
 namespace Ogre {
     /** \addtogroup Plugins

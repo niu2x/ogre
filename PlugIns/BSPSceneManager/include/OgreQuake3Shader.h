@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreQuake3Types.h"
 #include "OgreCommon.h"
 #include "colour_value.h"
-#include "OgreBlendMode.h"
+#include "blend_mode.h"
 #include "OgreTextureUnitState.h"
 
 namespace Ogre {

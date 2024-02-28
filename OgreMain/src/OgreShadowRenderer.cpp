@@ -1396,9 +1396,13 @@ const Pass* SceneManager::ShadowRenderer::deriveShadowCasterPass(const Pass* pas
             // copy base state
             (*tex) = *(pass->getTextureUnitState(t));
             // override colour function
-            tex->setColourOperationEx(LBX_SOURCE1, LBS_MANUAL, LBS_CURRENT,
-                    mShadowTechnique & SHADOWDETAILTYPE_ADDITIVE ? ColourValue::Black : mShadowColour);
-
+            tex->setColourOperationEx(
+                LayerBlendOperationEx::SOURCE1,
+                LayerBlendSource::MANUAL,
+                LayerBlendSource::CURRENT,
+                mShadowTechnique & SHADOWDETAILTYPE_ADDITIVE
+                    ? ColourValue::Black
+                    : mShadowColour);
         }
         // Remove any extras
         while (retPass->getNumTextureUnitStates() > origPassTUCount)

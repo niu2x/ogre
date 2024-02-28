@@ -2004,97 +2004,97 @@ namespace Ogre {
 
         switch (bm.source1)
         {
-        case LBS_CURRENT:
-            src1op = GL_PREVIOUS;
-            break;
-        case LBS_TEXTURE:
-            src1op = GL_TEXTURE;
-            break;
-        case LBS_MANUAL:
-            src1op = GL_CONSTANT;
-            break;
-        case LBS_DIFFUSE:
-            src1op = GL_PRIMARY_COLOR;
-            break;
-            // XXX
-        case LBS_SPECULAR:
-            src1op = GL_PRIMARY_COLOR;
-            break;
-        default:
-            src1op = 0;
+            case LayerBlendSource::CURRENT:
+                src1op = GL_PREVIOUS;
+                break;
+            case LayerBlendSource::TEXTURE:
+                src1op = GL_TEXTURE;
+                break;
+            case LayerBlendSource::MANUAL:
+                src1op = GL_CONSTANT;
+                break;
+            case LayerBlendSource::DIFFUSE:
+                src1op = GL_PRIMARY_COLOR;
+                break;
+                // XXX
+            case LayerBlendSource::SPECULAR:
+                src1op = GL_PRIMARY_COLOR;
+                break;
+            default:
+                src1op = 0;
         }
 
         switch (bm.source2)
         {
-        case LBS_CURRENT:
-            src2op = GL_PREVIOUS;
-            break;
-        case LBS_TEXTURE:
-            src2op = GL_TEXTURE;
-            break;
-        case LBS_MANUAL:
-            src2op = GL_CONSTANT;
-            break;
-        case LBS_DIFFUSE:
-            src2op = GL_PRIMARY_COLOR;
-            break;
-            // XXX
-        case LBS_SPECULAR:
-            src2op = GL_PRIMARY_COLOR;
-            break;
-        default:
-            src2op = 0;
+            case LayerBlendSource::CURRENT:
+                src2op = GL_PREVIOUS;
+                break;
+            case LayerBlendSource::TEXTURE:
+                src2op = GL_TEXTURE;
+                break;
+            case LayerBlendSource::MANUAL:
+                src2op = GL_CONSTANT;
+                break;
+            case LayerBlendSource::DIFFUSE:
+                src2op = GL_PRIMARY_COLOR;
+                break;
+                // XXX
+            case LayerBlendSource::SPECULAR:
+                src2op = GL_PRIMARY_COLOR;
+                break;
+            default:
+                src2op = 0;
         }
 
         switch (bm.operation)
         {
-        case LBX_SOURCE1:
-            cmd = GL_REPLACE;
-            break;
-        case LBX_SOURCE2:
-            cmd = GL_REPLACE;
-            break;
-        case LBX_MODULATE:
-            cmd = GL_MODULATE;
-            break;
-        case LBX_MODULATE_X2:
-            cmd = GL_MODULATE;
-            break;
-        case LBX_MODULATE_X4:
-            cmd = GL_MODULATE;
-            break;
-        case LBX_ADD:
-            cmd = GL_ADD;
-            break;
-        case LBX_ADD_SIGNED:
-            cmd = GL_ADD_SIGNED;
-            break;
-        case LBX_ADD_SMOOTH:
-            cmd = GL_INTERPOLATE;
-            break;
-        case LBX_SUBTRACT:
-            cmd = GL_SUBTRACT;
-            break;
-        case LBX_BLEND_DIFFUSE_COLOUR:
-            cmd = GL_INTERPOLATE;
-            break;
-        case LBX_BLEND_DIFFUSE_ALPHA:
-            cmd = GL_INTERPOLATE;
-            break;
-        case LBX_BLEND_TEXTURE_ALPHA:
-            cmd = GL_INTERPOLATE;
-            break;
-        case LBX_BLEND_CURRENT_ALPHA:
-            cmd = GL_INTERPOLATE;
-            break;
-        case LBX_BLEND_MANUAL:
-            cmd = GL_INTERPOLATE;
-            break;
-        case LBX_DOTPRODUCT:
-            cmd = GL_DOT3_RGB;
-            break;
-        default:
-            cmd = 0;
+            case LayerBlendOperationEx::SOURCE1:
+                cmd = GL_REPLACE;
+                break;
+            case LayerBlendOperationEx::SOURCE2:
+                cmd = GL_REPLACE;
+                break;
+            case LayerBlendOperationEx::MODULATE:
+                cmd = GL_MODULATE;
+                break;
+            case LayerBlendOperationEx::MODULATE_X2:
+                cmd = GL_MODULATE;
+                break;
+            case LayerBlendOperationEx::MODULATE_X4:
+                cmd = GL_MODULATE;
+                break;
+            case LayerBlendOperationEx::ADD:
+                cmd = GL_ADD;
+                break;
+            case LayerBlendOperationEx::ADD_SIGNED:
+                cmd = GL_ADD_SIGNED;
+                break;
+            case LayerBlendOperationEx::ADD_SMOOTH:
+                cmd = GL_INTERPOLATE;
+                break;
+            case LayerBlendOperationEx::SUBTRACT:
+                cmd = GL_SUBTRACT;
+                break;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR:
+                cmd = GL_INTERPOLATE;
+                break;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_ALPHA:
+                cmd = GL_INTERPOLATE;
+                break;
+            case LayerBlendOperationEx::BLEND_TEXTURE_ALPHA:
+                cmd = GL_INTERPOLATE;
+                break;
+            case LayerBlendOperationEx::BLEND_CURRENT_ALPHA:
+                cmd = GL_INTERPOLATE;
+                break;
+            case LayerBlendOperationEx::BLEND_MANUAL:
+                cmd = GL_INTERPOLATE;
+                break;
+            case LayerBlendOperationEx::DOTPRODUCT:
+                cmd = GL_DOT3_RGB;
+                break;
+            default:
+                cmd = 0;
         }
 
         mStateCacheManager->activateGLTextureUnit(stage);
@@ -2115,58 +2115,58 @@ namespace Ogre {
         float blendValue[4] = {0, 0, 0, static_cast<float>(bm.factor)};
         switch (bm.operation)
         {
-        case LBX_BLEND_DIFFUSE_COLOUR:
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_PRIMARY_COLOR);
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_PRIMARY_COLOR);
-            break;
-        case LBX_BLEND_DIFFUSE_ALPHA:
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_PRIMARY_COLOR);
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_PRIMARY_COLOR);
-            break;
-        case LBX_BLEND_TEXTURE_ALPHA:
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_TEXTURE);
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_TEXTURE);
-            break;
-        case LBX_BLEND_CURRENT_ALPHA:
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_PREVIOUS);
-            glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_PREVIOUS);
-            break;
-        case LBX_BLEND_MANUAL:
-            glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, blendValue);
-            break;
-        default:
-            break;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR:
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_PRIMARY_COLOR);
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_PRIMARY_COLOR);
+                break;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_ALPHA:
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_PRIMARY_COLOR);
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_PRIMARY_COLOR);
+                break;
+            case LayerBlendOperationEx::BLEND_TEXTURE_ALPHA:
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_TEXTURE);
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_TEXTURE);
+                break;
+            case LayerBlendOperationEx::BLEND_CURRENT_ALPHA:
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_PREVIOUS);
+                glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_PREVIOUS);
+                break;
+            case LayerBlendOperationEx::BLEND_MANUAL:
+                glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, blendValue);
+                break;
+            default:
+                break;
         };
 
         switch (bm.operation)
         {
-        case LBX_MODULATE_X2:
-            glTexEnvi(
-                GL_TEXTURE_ENV,
-                bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
-                                                       : GL_ALPHA_SCALE,
-                2);
-            break;
-        case LBX_MODULATE_X4:
-            glTexEnvi(
-                GL_TEXTURE_ENV,
-                bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
-                                                       : GL_ALPHA_SCALE,
-                4);
-            break;
-        default:
-            glTexEnvi(
-                GL_TEXTURE_ENV,
-                bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
-                                                       : GL_ALPHA_SCALE,
-                1);
-            break;
+            case LayerBlendOperationEx::MODULATE_X2:
+                glTexEnvi(
+                    GL_TEXTURE_ENV,
+                    bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
+                                                           : GL_ALPHA_SCALE,
+                    2);
+                break;
+            case LayerBlendOperationEx::MODULATE_X4:
+                glTexEnvi(
+                    GL_TEXTURE_ENV,
+                    bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
+                                                           : GL_ALPHA_SCALE,
+                    4);
+                break;
+            default:
+                glTexEnvi(
+                    GL_TEXTURE_ENV,
+                    bm.blendType == LayerBlendType::COLOUR ? GL_RGB_SCALE
+                                                           : GL_ALPHA_SCALE,
+                    1);
+                break;
         }
 
         if (bm.blendType == LayerBlendType::COLOUR) {
             glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
             glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
-            if (bm.operation == LBX_BLEND_DIFFUSE_COLOUR){
+            if (bm.operation == LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR) {
                 glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB, GL_SRC_COLOR);
             } else {
                 glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB, GL_SRC_ALPHA);
@@ -2176,9 +2176,9 @@ namespace Ogre {
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
         glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA, GL_SRC_ALPHA);
-        if(bm.source1 == LBS_MANUAL)
+        if (bm.source1 == LayerBlendSource::MANUAL)
             glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, cv1);
-        if (bm.source2 == LBS_MANUAL)
+        if (bm.source2 == LayerBlendSource::MANUAL)
             glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, cv2);
     }
     //---------------------------------------------------------------------

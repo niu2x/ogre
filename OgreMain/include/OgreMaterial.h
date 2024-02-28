@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreResource.h"
 #include "OgreCommon.h"
 #include "colour_value.h"
-#include "OgreBlendMode.h"
+#include "blend_mode.h"
 #include "OgreHeaderPrefix.h"
 
 

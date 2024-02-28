@@ -2025,8 +2025,7 @@ namespace Ogre
             "Invalid blend type", "D3D9RenderSystem::_setTextureBlendMode");
 
         // set manual factor if required by operation
-        if (bm.operation == LBX_BLEND_MANUAL)
-        {
+        if (bm.operation == LayerBlendOperationEx::BLEND_MANUAL) {
             hr = __SetRenderState( D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(0.0, 0.0, 0.0,  bm.factor) );
             if (FAILED(hr))
                 OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set manual factor", "D3D9RenderSystem::_setTextureBlendMode" );
@@ -2051,8 +2050,7 @@ namespace Ogre
                 "Invalid blend type", "D3D9RenderSystem::_setTextureBlendMode");
         }
         // Set manual factor if required
-        if (bm.source1 == LBS_MANUAL)
-        {
+        if (bm.source1 == LayerBlendSource::MANUAL) {
             if (mCurrentCapabilities->hasCapability(RSC_PERSTAGECONSTANT))
             {
                 // Per-stage state
@@ -2084,8 +2082,7 @@ namespace Ogre
                 bm.alphaArg2 );
         }
         // Set manual factor if required
-        if (bm.source2 == LBS_MANUAL)
-        {
+        if (bm.source2 == LayerBlendSource::MANUAL) {
             if (mCurrentCapabilities->hasCapability(RSC_PERSTAGECONSTANT))
             {
                 // Per-stage state
@@ -2104,9 +2101,11 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set source 2", "D3D9RenderSystem::_setTextureBlendMode" );
 
         // Set interpolation factor if lerping
-        if (bm.operation == LBX_BLEND_DIFFUSE_COLOUR && 
-            mDeviceManager->getActiveDevice()->getD3D9DeviceCaps().TextureOpCaps & D3DTEXOPCAPS_LERP)
-        {
+        if (bm.operation == LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR
+            && mDeviceManager->getActiveDevice()
+                    ->getD3D9DeviceCaps()
+                    .TextureOpCaps
+                & D3DTEXOPCAPS_LERP) {
             // choose source 0 (lerp factor)
             if (bm.blendType == LayerBlendType::COLOUR) {
                 tss = D3DTSS_COLORARG0;
@@ -2118,7 +2117,6 @@ namespace Ogre
             if (FAILED(hr))
                 OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to set lerp source 0", 
                 "D3D9RenderSystem::_setTextureBlendMode" );
-
         }
     }
     //---------------------------------------------------------------------

@@ -115,16 +115,16 @@ namespace Ogre
     {
         switch( lbs )
         {
-        case LBS_CURRENT:
-            return D3DTA_CURRENT;
-        case LBS_TEXTURE:
-            return D3DTA_TEXTURE;
-        case LBS_DIFFUSE:
-            return D3DTA_DIFFUSE;
-        case LBS_SPECULAR:
-            return D3DTA_SPECULAR;
-        case LBS_MANUAL:
-            return perStageConstants ? D3DTA_CONSTANT : D3DTA_TFACTOR;
+            case LayerBlendSource::CURRENT:
+                return D3DTA_CURRENT;
+            case LayerBlendSource::TEXTURE:
+                return D3DTA_TEXTURE;
+            case LayerBlendSource::DIFFUSE:
+                return D3DTA_DIFFUSE;
+            case LayerBlendSource::SPECULAR:
+                return D3DTA_SPECULAR;
+            case LayerBlendSource::MANUAL:
+                return perStageConstants ? D3DTA_CONSTANT : D3DTA_TFACTOR;
         }
         return 0;
     }
@@ -133,42 +133,42 @@ namespace Ogre
     {
         switch( lbo )
         {
-        case LBX_SOURCE1:
-            return D3DTOP_SELECTARG1;
-        case LBX_SOURCE2:
-            return D3DTOP_SELECTARG2;
-        case LBX_MODULATE:
-            return D3DTOP_MODULATE;
-        case LBX_MODULATE_X2:
-            return D3DTOP_MODULATE2X;
-        case LBX_MODULATE_X4:
-            return D3DTOP_MODULATE4X;
-        case LBX_ADD:
-            return D3DTOP_ADD;
-        case LBX_ADD_SIGNED:
-            return D3DTOP_ADDSIGNED;
-        case LBX_ADD_SMOOTH:
-            return D3DTOP_ADDSMOOTH;
-        case LBX_SUBTRACT:
-            return D3DTOP_SUBTRACT;
-        case LBX_BLEND_DIFFUSE_ALPHA:
-            return D3DTOP_BLENDDIFFUSEALPHA;
-        case LBX_BLEND_TEXTURE_ALPHA:
-            return D3DTOP_BLENDTEXTUREALPHA;
-        case LBX_BLEND_CURRENT_ALPHA:
-            return D3DTOP_BLENDCURRENTALPHA;
-        case LBX_BLEND_MANUAL:
-            return D3DTOP_BLENDFACTORALPHA;
-        case LBX_DOTPRODUCT:
-            if (devCaps.TextureOpCaps & D3DTEXOPCAPS_DOTPRODUCT3)
-                return D3DTOP_DOTPRODUCT3;
-            else
+            case LayerBlendOperationEx::SOURCE1:
+                return D3DTOP_SELECTARG1;
+            case LayerBlendOperationEx::SOURCE2:
+                return D3DTOP_SELECTARG2;
+            case LayerBlendOperationEx::MODULATE:
                 return D3DTOP_MODULATE;
-        case LBX_BLEND_DIFFUSE_COLOUR:
-            if (devCaps.TextureOpCaps & D3DTEXOPCAPS_LERP)
-                return D3DTOP_LERP;
-            else
-                return D3DTOP_MODULATE;
+            case LayerBlendOperationEx::MODULATE_X2:
+                return D3DTOP_MODULATE2X;
+            case LayerBlendOperationEx::MODULATE_X4:
+                return D3DTOP_MODULATE4X;
+            case LayerBlendOperationEx::ADD:
+                return D3DTOP_ADD;
+            case LayerBlendOperationEx::ADD_SIGNED:
+                return D3DTOP_ADDSIGNED;
+            case LayerBlendOperationEx::ADD_SMOOTH:
+                return D3DTOP_ADDSMOOTH;
+            case LayerBlendOperationEx::SUBTRACT:
+                return D3DTOP_SUBTRACT;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_ALPHA:
+                return D3DTOP_BLENDDIFFUSEALPHA;
+            case LayerBlendOperationEx::BLEND_TEXTURE_ALPHA:
+                return D3DTOP_BLENDTEXTUREALPHA;
+            case LayerBlendOperationEx::BLEND_CURRENT_ALPHA:
+                return D3DTOP_BLENDCURRENTALPHA;
+            case LayerBlendOperationEx::BLEND_MANUAL:
+                return D3DTOP_BLENDFACTORALPHA;
+            case LayerBlendOperationEx::DOTPRODUCT:
+                if (devCaps.TextureOpCaps & D3DTEXOPCAPS_DOTPRODUCT3)
+                    return D3DTOP_DOTPRODUCT3;
+                else
+                    return D3DTOP_MODULATE;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR:
+                if (devCaps.TextureOpCaps & D3DTEXOPCAPS_LERP)
+                    return D3DTOP_LERP;
+                else
+                    return D3DTOP_MODULATE;
         }
         return 0;
     }

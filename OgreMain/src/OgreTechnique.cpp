@@ -769,7 +769,9 @@ namespace Ogre {
                                 // we allow the texture units, but override the colour functions
                                 for(auto *s : newPass->getTextureUnitStates())
                                 {
-                                    s->setColourOperationEx(LBX_SOURCE1, LBS_CURRENT);
+                                    s->setColourOperationEx(
+                                        LayerBlendOperationEx::SOURCE1,
+                                        LayerBlendSource::CURRENT);
                                 }
                             }
                             else
@@ -853,7 +855,9 @@ namespace Ogre {
                                 // we allow the texture units, but override the colour functions
                                 for(auto *s : newPass->getTextureUnitStates())
                                 {
-                                    s->setColourOperationEx(LBX_SOURCE1, LBS_CURRENT);
+                                    s->setColourOperationEx(
+                                        LayerBlendOperationEx::SOURCE1,
+                                        LayerBlendSource::CURRENT);
                                 }
                             }
                             else

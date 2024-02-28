@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "OgreBlendMode.h"
+#include "blend_mode.h"
 #include "matrix4.h"
 #include "OgreTexture.h"
 #include "OgreHeaderPrefix.h"
@@ -695,69 +695,80 @@ namespace Ogre {
         /// @copydoc Sampler::getMipmapBias
         float getTextureMipmapBias(void) const { return mSampler->getMipmapBias(); }
 
-
         /** Setting advanced blending options.
 
-            This is an extended version of the Ogre::TextureUnitState::setColourOperation method which allows
-            extremely detailed control over the blending applied between this and earlier layers.
-            See the Warning below about the issues between mulitpass and multitexturing that
-            using this method can create.
+            This is an extended version of the
+        Ogre::TextureUnitState::setColourOperation method which allows extremely
+        detailed control over the blending applied between this and earlier
+        layers. See the Warning below about the issues between mulitpass and
+        multitexturing that using this method can create.
 
-            Texture colour operations determine how the final colour of the surface appears when
-            rendered. Texture units are used to combine colour values from various sources (ie. the
-            diffuse colour of the surface from lighting calculations, combined with the colour of
-            the texture). This method allows you to specify the 'operation' to be used, ie. the
-            calculation such as adds or multiplies, and which values to use as arguments, such as
-            a fixed value or a value from a previous calculation.
+            Texture colour operations determine how the final colour of the
+        surface appears when rendered. Texture units are used to combine colour
+        values from various sources (ie. the diffuse colour of the surface from
+        lighting calculations, combined with the colour of the texture). This
+        method allows you to specify the 'operation' to be used, ie. the
+            calculation such as adds or multiplies, and which values to use as
+        arguments, such as a fixed value or a value from a previous calculation.
 
             The defaults for each layer are:
-            - op = Ogre::LBX_MODULATE
-            - source1 = Ogre::LBS_TEXTURE
-            - source2 = Ogre::LBS_CURRENT
+            - op = Ogre::LayerBlendOperationEx::MODULATE
+            - source1 = Ogre::LayerBlendSource::TEXTURE
+            - source2 = Ogre::LayerBlendSource::CURRENT
 
-            ie. each layer takes the colour results of the previous layer, and multiplies them
-            with the new texture being applied. Bear in mind that colours are RGB values from
-            0.0 - 1.0 so multiplying them together will result in values in the same range,
-            'tinted' by the multiply. Note however that a straight multiply normally has the
-            effect of darkening the textures - for this reason there are brightening operations
-            like Ogre::LBX_MODULATE_X2. See the Ogre::LayerBlendOperation and Ogre::LayerBlendSource enumerated
-            types for full details.
+            ie. each layer takes the colour results of the previous layer, and
+        multiplies them with the new texture being applied. Bear in mind that
+        colours are RGB values from 0.0 - 1.0 so multiplying them together will
+        result in values in the same range, 'tinted' by the multiply. Note
+        however that a straight multiply normally has the effect of darkening
+        the textures - for this reason there are brightening operations like
+        Ogre::LayerBlendOperationEx::MODULATE_X2. See the
+        Ogre::LayerBlendOperation and Ogre::LayerBlendSource enumerated types
+        for full details.
 
-            The final 3 parameters are only required if you decide to pass values manually
-            into the operation, i.e. you want one or more of the inputs to the colour calculation
-            to come from a fixed value that you supply. Hence you only need to fill these in if
-            you supply Ogre::LBS_MANUAL to the corresponding source, or use the Ogre::LBX_BLEND_MANUAL
-            operation.
+            The final 3 parameters are only required if you decide to pass
+        values manually into the operation, i.e. you want one or more of the
+        inputs to the colour calculation to come from a fixed value that you
+        supply. Hence you only need to fill these in if you supply
+        Ogre::LayerBlendSource::MANUAL to the corresponding source, or use the
+        Ogre::LayerBlendOperationEx::BLEND_MANUAL operation.
         @warning
             Ogre tries to use multitexturing hardware to blend texture layers
-            together. However, if it runs out of texturing units (e.g. 2 of a GeForce2, 4 on a
-            GeForce3) it has to fall back on multipass rendering, i.e. rendering the same object
-            multiple times with different textures. This is both less efficient and there is a smaller
-            range of blending operations which can be performed. For this reason, if you use this method
-            you MUST also call Ogre::TextureUnitState::setColourOpMultipassFallback to specify which effect you
-            want to fall back on if sufficient hardware is not available.
+            together. However, if it runs out of texturing units (e.g. 2 of a
+        GeForce2, 4 on a GeForce3) it has to fall back on multipass rendering,
+        i.e. rendering the same object multiple times with different textures.
+        This is both less efficient and there is a smaller range of blending
+        operations which can be performed. For this reason, if you use this
+        method you MUST also call
+        Ogre::TextureUnitState::setColourOpMultipassFallback to specify which
+        effect you want to fall back on if sufficient hardware is not available.
         @warning
-            If you wish to avoid having to do this, use the simpler Ogre::TextureUnitState::setColourOperation method
-            which allows less flexible blending options but sets up the multipass fallback automatically,
-            since it only allows operations which have direct multipass equivalents.
+            If you wish to avoid having to do this, use the simpler
+        Ogre::TextureUnitState::setColourOperation method which allows less
+        flexible blending options but sets up the multipass fallback
+        automatically, since it only allows operations which have direct
+        multipass equivalents.
         @param op
             The operation to be used, e.g. modulate (multiply), add, subtract.
         @param source1
             The source of the first colour to the operation e.g. texture colour.
         @param source2
-            The source of the second colour to the operation e.g. current surface colour.
+            The source of the second colour to the operation e.g. current
+        surface colour.
         @param arg1
-            Manually supplied colour value (only required if source1 = LBS_MANUAL).
+            Manually supplied colour value (only required if source1 =
+        LayerBlendSource::MANUAL).
         @param arg2
-            Manually supplied colour value (only required if source2 = LBS_MANUAL).
+            Manually supplied colour value (only required if source2 =
+        LayerBlendSource::MANUAL).
         @param manualBlend
             Manually supplied 'blend' value - only required for operations
-            which require manual blend e.g. LBX_BLEND_MANUAL.
+            which require manual blend e.g. LayerBlendOperationEx::BLEND_MANUAL.
         */
         void setColourOperationEx(
             LayerBlendOperationEx op,
-            LayerBlendSource source1 = LBS_TEXTURE,
-            LayerBlendSource source2 = LBS_CURRENT,
+            LayerBlendSource source1 = LayerBlendSource::TEXTURE,
+            LayerBlendSource source2 = LayerBlendSource::CURRENT,
 
             const ColourValue& arg1 = ColourValue::White,
             const ColourValue& arg2 = ColourValue::White,
@@ -823,26 +834,33 @@ namespace Ogre {
 
             This works in exactly the same way as setColourOperationEx, except
             that the effect is applied to the level of alpha (i.e. transparency)
-            of the texture rather than its colour. When the alpha of a texel (a pixel
-            on a texture) is 1.0, it is opaque, whereas it is fully transparent if the
-            alpha is 0.0. Please refer to the Ogre::TextureUnitState::setColourOperationEx method for more info.
+            of the texture rather than its colour. When the alpha of a texel (a
+        pixel on a texture) is 1.0, it is opaque, whereas it is fully
+        transparent if the alpha is 0.0. Please refer to the
+        Ogre::TextureUnitState::setColourOperationEx method for more info.
         @param op
             The operation to be used, e.g. modulate (multiply), add, subtract
         @param source1
-            The source of the first alpha value to the operation e.g. texture alpha
+            The source of the first alpha value to the operation e.g. texture
+        alpha
         @param source2
-            The source of the second alpha value to the operation e.g. current surface alpha
+            The source of the second alpha value to the operation e.g. current
+        surface alpha
         @param arg1
-            Manually supplied alpha value (only required if source1 = Ogre::LBS_MANUAL)
+            Manually supplied alpha value (only required if source1 =
+        Ogre::LayerBlendSource::MANUAL)
         @param arg2
-            Manually supplied alpha value (only required if source2 = Ogre::LBS_MANUAL)
+            Manually supplied alpha value (only required if source2 =
+        Ogre::LayerBlendSource::MANUAL)
         @param manualBlend
             Manually supplied 'blend' value - only required for operations
-            which require manual blend e.g. Ogre::LBX_BLEND_MANUAL
+            which require manual blend e.g.
+        Ogre::LayerBlendOperationEx::BLEND_MANUAL
         */
-        void setAlphaOperation(LayerBlendOperationEx op,
-            LayerBlendSource source1 = LBS_TEXTURE,
-            LayerBlendSource source2 = LBS_CURRENT,
+        void setAlphaOperation(
+            LayerBlendOperationEx op,
+            LayerBlendSource source1 = LayerBlendSource::TEXTURE,
+            LayerBlendSource source2 = LayerBlendSource::CURRENT,
             Real arg1 = 1.0,
             Real arg2 = 1.0,
             Real manualBlend = 0.0);

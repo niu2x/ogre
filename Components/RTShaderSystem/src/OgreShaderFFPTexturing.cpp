@@ -308,21 +308,21 @@ bool FFPTexturing::addPSFunctionInvocations(TextureUnitParams* textureUnitParams
     // Build colour argument for source2.
     source2 = getPSArgument(texel, colourBlend.source2, colourBlend.colourArg2, colourBlend.alphaArg2, false);
 
-    if(source1 == texel || source2 == texel || colourBlend.operation == LBX_BLEND_TEXTURE_ALPHA)
+    if (source1 == texel || source2 == texel
+        || colourBlend.operation == LayerBlendOperationEx::BLEND_TEXTURE_ALPHA)
         addPSSampleTexelInvocation(textureUnitParams, psMain, texel, FFP_PS_SAMPLING);
 
     bool needDifferentAlphaBlend = false;
-    if (alphaBlend.operation != colourBlend.operation ||
-        alphaBlend.source1 != colourBlend.source1 ||
-        alphaBlend.source2 != colourBlend.source2 ||
-        colourBlend.source1 == LBS_MANUAL ||
-        colourBlend.source2 == LBS_MANUAL ||
-        alphaBlend.source1 == LBS_MANUAL ||
-        alphaBlend.source2 == LBS_MANUAL)
+    if (alphaBlend.operation != colourBlend.operation
+        || alphaBlend.source1 != colourBlend.source1
+        || alphaBlend.source2 != colourBlend.source2
+        || colourBlend.source1 == LayerBlendSource::MANUAL
+        || colourBlend.source2 == LayerBlendSource::MANUAL
+        || alphaBlend.source1 == LayerBlendSource::MANUAL
+        || alphaBlend.source2 == LayerBlendSource::MANUAL)
         needDifferentAlphaBlend = true;
 
-    if(mLateAddBlend && colourBlend.operation == LBX_ADD)
-    {
+    if (mLateAddBlend && colourBlend.operation == LayerBlendOperationEx::ADD) {
         groupOrder = FFP_PS_COLOUR_END + 50 + 20; // after PBR lighting
     }
 
@@ -341,7 +341,9 @@ bool FFPTexturing::addPSFunctionInvocations(TextureUnitParams* textureUnitParams
         // Build alpha argument for source2.
         source2 = getPSArgument(texel, alphaBlend.source2, alphaBlend.colourArg2, alphaBlend.alphaArg2, true);
 
-        if(source1 == texel || source2 == texel || alphaBlend.operation == LBX_BLEND_TEXTURE_ALPHA)
+        if (source1 == texel || source2 == texel
+            || alphaBlend.operation
+                == LayerBlendOperationEx::BLEND_TEXTURE_ALPHA)
             addPSSampleTexelInvocation(textureUnitParams, psMain, texel, FFP_PS_SAMPLING);
 
         // Build alpha blend
@@ -376,22 +378,24 @@ ParameterPtr FFPTexturing::getPSArgument(ParameterPtr texel, LayerBlendSource bl
 {
     switch(blendSrc)
     {
-    case LBS_CURRENT:
-        return mPSOutDiffuse;
-    case LBS_TEXTURE:
-        return texel;
-    case LBS_DIFFUSE:
-        return mPSDiffuse;
-    case LBS_SPECULAR:
-        return mPSSpecular;
-    case LBS_MANUAL:
-        if (isAlphaArgument)
-        {
-            return ParameterFactory::createConstParam(Vector4(alphaValue));
-        }
+        case LayerBlendSource::CURRENT:
+            return mPSOutDiffuse;
+        case LayerBlendSource::TEXTURE:
+            return texel;
+        case LayerBlendSource::DIFFUSE:
+            return mPSDiffuse;
+        case LayerBlendSource::SPECULAR:
+            return mPSSpecular;
+        case LayerBlendSource::MANUAL:
+            if (isAlphaArgument) {
+                return ParameterFactory::createConstParam(Vector4(alphaValue));
+            }
 
-        return ParameterFactory::createConstParam(Vector4((Real)colourValue.r, (Real)colourValue.g,
-                                                         (Real)colourValue.b, (Real)colourValue.a));
+            return ParameterFactory::createConstParam(Vector4(
+                (Real)colourValue.r,
+                (Real)colourValue.g,
+                (Real)colourValue.b,
+                (Real)colourValue.a));
     }
 
     return ParameterPtr();
@@ -410,58 +414,102 @@ void FFPTexturing::addPSBlendInvocations(Function* psMain,
     auto stage = psMain->getStage(groupOrder);
     switch(blendMode.operation)
     {
-    case LBX_SOURCE1:
-        stage.assign(In(arg1).mask(mask), Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_SOURCE2:
-        stage.assign(In(arg2).mask(mask), Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_MODULATE:
-    case LBX_MODULATE_X2:
-    case LBX_MODULATE_X4:
-        stage.mul(In(arg1).mask(mask), In(arg2).mask(mask), Out(mPSOutDiffuse).mask(mask));
-        if (blendMode.operation == LBX_MODULATE_X2)
-            stage.mul(In(mPSOutDiffuse).mask(mask), 2.0, Out(mPSOutDiffuse).mask(mask));
-        if (blendMode.operation == LBX_MODULATE_X4)
-            stage.mul(In(mPSOutDiffuse).mask(mask), 4.0, Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_ADD:
-    case LBX_ADD_SIGNED:
-        stage.add(In(arg1).mask(mask), In(arg2).mask(mask), Out(mPSOutDiffuse).mask(mask));
-        if(blendMode.operation == LBX_ADD_SIGNED)
-            stage.sub(In(mPSOutDiffuse).mask(mask), 0.5, Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_ADD_SMOOTH:
-        stage.callFunction(FFP_FUNC_ADDSMOOTH, In(arg1).mask(mask), In(arg2).mask(mask),
-                           Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_SUBTRACT:
-        stage.sub(In(arg1).mask(mask), In(arg2).mask(mask), Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_BLEND_DIFFUSE_ALPHA:
-        stage.callBuiltin(
-            "mix", {In(arg2).mask(mask), In(arg1).mask(mask), In(mPSDiffuse).w(), Out(mPSOutDiffuse).mask(mask)});
-        break;
-    case LBX_BLEND_TEXTURE_ALPHA:
-        stage.callBuiltin("mix",
-                          {In(arg2).mask(mask), In(arg1).mask(mask), In(texel).w(), Out(mPSOutDiffuse).mask(mask)});
-        break;
-    case LBX_BLEND_CURRENT_ALPHA:
-        stage.callBuiltin(
-            "mix", {In(arg2).mask(mask), In(arg1).mask(mask), In(mPSOutDiffuse).w(), Out(mPSOutDiffuse).mask(mask)});
-        break;
-    case LBX_BLEND_MANUAL:
-        stage.callBuiltin(
-            "mix", {In(arg2).mask(mask), In(arg1).mask(mask), In(blendMode.factor), Out(mPSOutDiffuse).mask(mask)});
-        break;
-    case LBX_DOTPRODUCT:
-        stage.callFunction(FFP_FUNC_DOTPRODUCT, In(arg2).mask(mask), In(arg1).mask(mask),
-                           Out(mPSOutDiffuse).mask(mask));
-        break;
-    case LBX_BLEND_DIFFUSE_COLOUR:
-        stage.callBuiltin("mix", {In(arg2).mask(mask), In(arg1).mask(mask), In(mPSDiffuse).mask(mask),
-                                  Out(mPSOutDiffuse).mask(mask)});
-        break;
+        case LayerBlendOperationEx::SOURCE1:
+            stage.assign(In(arg1).mask(mask), Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::SOURCE2:
+            stage.assign(In(arg2).mask(mask), Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::MODULATE:
+        case LayerBlendOperationEx::MODULATE_X2:
+        case LayerBlendOperationEx::MODULATE_X4:
+            stage.mul(
+                In(arg1).mask(mask),
+                In(arg2).mask(mask),
+                Out(mPSOutDiffuse).mask(mask));
+            if (blendMode.operation == LayerBlendOperationEx::MODULATE_X2)
+                stage.mul(
+                    In(mPSOutDiffuse).mask(mask),
+                    2.0,
+                    Out(mPSOutDiffuse).mask(mask));
+            if (blendMode.operation == LayerBlendOperationEx::MODULATE_X4)
+                stage.mul(
+                    In(mPSOutDiffuse).mask(mask),
+                    4.0,
+                    Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::ADD:
+        case LayerBlendOperationEx::ADD_SIGNED:
+            stage.add(
+                In(arg1).mask(mask),
+                In(arg2).mask(mask),
+                Out(mPSOutDiffuse).mask(mask));
+            if (blendMode.operation == LayerBlendOperationEx::ADD_SIGNED)
+                stage.sub(
+                    In(mPSOutDiffuse).mask(mask),
+                    0.5,
+                    Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::ADD_SMOOTH:
+            stage.callFunction(
+                FFP_FUNC_ADDSMOOTH,
+                In(arg1).mask(mask),
+                In(arg2).mask(mask),
+                Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::SUBTRACT:
+            stage.sub(
+                In(arg1).mask(mask),
+                In(arg2).mask(mask),
+                Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::BLEND_DIFFUSE_ALPHA:
+            stage.callBuiltin(
+                "mix",
+                { In(arg2).mask(mask),
+                  In(arg1).mask(mask),
+                  In(mPSDiffuse).w(),
+                  Out(mPSOutDiffuse).mask(mask) });
+            break;
+        case LayerBlendOperationEx::BLEND_TEXTURE_ALPHA:
+            stage.callBuiltin(
+                "mix",
+                { In(arg2).mask(mask),
+                  In(arg1).mask(mask),
+                  In(texel).w(),
+                  Out(mPSOutDiffuse).mask(mask) });
+            break;
+        case LayerBlendOperationEx::BLEND_CURRENT_ALPHA:
+            stage.callBuiltin(
+                "mix",
+                { In(arg2).mask(mask),
+                  In(arg1).mask(mask),
+                  In(mPSOutDiffuse).w(),
+                  Out(mPSOutDiffuse).mask(mask) });
+            break;
+        case LayerBlendOperationEx::BLEND_MANUAL:
+            stage.callBuiltin(
+                "mix",
+                { In(arg2).mask(mask),
+                  In(arg1).mask(mask),
+                  In(blendMode.factor),
+                  Out(mPSOutDiffuse).mask(mask) });
+            break;
+        case LayerBlendOperationEx::DOTPRODUCT:
+            stage.callFunction(
+                FFP_FUNC_DOTPRODUCT,
+                In(arg2).mask(mask),
+                In(arg1).mask(mask),
+                Out(mPSOutDiffuse).mask(mask));
+            break;
+        case LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR:
+            stage.callBuiltin(
+                "mix",
+                { In(arg2).mask(mask),
+                  In(arg1).mask(mask),
+                  In(mPSDiffuse).mask(mask),
+                  Out(mPSOutDiffuse).mask(mask) });
+            break;
     }
 }
 

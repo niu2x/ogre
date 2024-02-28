@@ -968,20 +968,25 @@ namespace Ogre
             }
 
             // colour_op_ex
-            if (mDefaults ||
-                pTex->getColourBlendMode().operation != LBX_MODULATE ||
-                pTex->getColourBlendMode().source1 != LBS_TEXTURE ||
-                pTex->getColourBlendMode().source2 != LBS_CURRENT)
-            {
+            if (mDefaults
+                || pTex->getColourBlendMode().operation
+                    != LayerBlendOperationEx::MODULATE
+                || pTex->getColourBlendMode().source1
+                    != LayerBlendSource::TEXTURE
+                || pTex->getColourBlendMode().source2
+                    != LayerBlendSource::CURRENT) {
                 writeAttribute(4, "colour_op_ex");
                 writeLayerBlendOperationEx(pTex->getColourBlendMode().operation);
                 writeLayerBlendSource(pTex->getColourBlendMode().source1);
                 writeLayerBlendSource(pTex->getColourBlendMode().source2);
-                if (pTex->getColourBlendMode().operation == LBX_BLEND_MANUAL)
+                if (pTex->getColourBlendMode().operation
+                    == LayerBlendOperationEx::BLEND_MANUAL)
                     writeValue(StringConverter::toString(pTex->getColourBlendMode().factor));
-                if (pTex->getColourBlendMode().source1 == LBS_MANUAL)
+                if (pTex->getColourBlendMode().source1
+                    == LayerBlendSource::MANUAL)
                     writeColourValue(pTex->getColourBlendMode().colourArg1, false);
-                if (pTex->getColourBlendMode().source2 == LBS_MANUAL)
+                if (pTex->getColourBlendMode().source2
+                    == LayerBlendSource::MANUAL)
                     writeColourValue(pTex->getColourBlendMode().colourArg2, false);
 
                 //colour_op_multipass_fallback
@@ -991,20 +996,27 @@ namespace Ogre
             }
 
             // alpha_op_ex
-            if (mDefaults ||
-                pTex->getAlphaBlendMode().operation != LBX_MODULATE ||
-                pTex->getAlphaBlendMode().source1 != LBS_TEXTURE ||
-                pTex->getAlphaBlendMode().source2 != LBS_CURRENT)
-            {
+            if (mDefaults
+                || pTex->getAlphaBlendMode().operation
+                    != LayerBlendOperationEx::MODULATE
+                || pTex->getAlphaBlendMode().source1
+                    != LayerBlendSource::TEXTURE
+                || pTex->getAlphaBlendMode().source2
+                    != LayerBlendSource::CURRENT) {
                 writeAttribute(4, "alpha_op_ex");
                 writeLayerBlendOperationEx(pTex->getAlphaBlendMode().operation);
                 writeLayerBlendSource(pTex->getAlphaBlendMode().source1);
                 writeLayerBlendSource(pTex->getAlphaBlendMode().source2);
-                if (pTex->getAlphaBlendMode().operation == LBX_BLEND_MANUAL)
+                if (pTex->getAlphaBlendMode().operation
+                    == LayerBlendOperationEx::BLEND_MANUAL)
                     writeValue(StringConverter::toString(pTex->getAlphaBlendMode().factor));
-                else if (pTex->getAlphaBlendMode().source1 == LBS_MANUAL)
+                else if (
+                    pTex->getAlphaBlendMode().source1
+                    == LayerBlendSource::MANUAL)
                     writeValue(StringConverter::toString(pTex->getAlphaBlendMode().alphaArg1));
-                else if (pTex->getAlphaBlendMode().source2 == LBS_MANUAL)
+                else if (
+                    pTex->getAlphaBlendMode().source2
+                    == LayerBlendSource::MANUAL)
                     writeValue(StringConverter::toString(pTex->getAlphaBlendMode().alphaArg2));
             }
 
@@ -1329,51 +1341,51 @@ namespace Ogre
     {
         switch (op)
         {
-        case LBX_ADD:
-            writeValue("add");
-            break;
-        case LBX_ADD_SIGNED:
-            writeValue("add_signed");
-            break;
-        case LBX_ADD_SMOOTH:
-            writeValue("add_smooth");
-            break;
-        case LBX_BLEND_CURRENT_ALPHA:
-            writeValue("blend_current_alpha");
-            break;
-        case LBX_BLEND_DIFFUSE_COLOUR:
-            writeValue("blend_diffuse_colour");
-            break;
-        case LBX_BLEND_DIFFUSE_ALPHA:
-            writeValue("blend_diffuse_alpha");
-            break;
-        case LBX_BLEND_MANUAL:
-            writeValue("blend_manual");
-            break;
-        case LBX_BLEND_TEXTURE_ALPHA:
-            writeValue("blend_texture_alpha");
-            break;
-        case LBX_MODULATE:
-            writeValue("modulate");
-            break;
-        case LBX_MODULATE_X2:
-            writeValue("modulate_x2");
-            break;
-        case LBX_MODULATE_X4:
-            writeValue("modulate_x4");
-            break;
-        case LBX_SOURCE1:
-            writeValue("source1");
-            break;
-        case LBX_SOURCE2:
-            writeValue("source2");
-            break;
-        case LBX_SUBTRACT:
-            writeValue("subtract");
-            break;
-        case LBX_DOTPRODUCT:
-            writeValue("dotproduct");
-            break;
+            case LayerBlendOperationEx::ADD:
+                writeValue("add");
+                break;
+            case LayerBlendOperationEx::ADD_SIGNED:
+                writeValue("add_signed");
+                break;
+            case LayerBlendOperationEx::ADD_SMOOTH:
+                writeValue("add_smooth");
+                break;
+            case LayerBlendOperationEx::BLEND_CURRENT_ALPHA:
+                writeValue("blend_current_alpha");
+                break;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR:
+                writeValue("blend_diffuse_colour");
+                break;
+            case LayerBlendOperationEx::BLEND_DIFFUSE_ALPHA:
+                writeValue("blend_diffuse_alpha");
+                break;
+            case LayerBlendOperationEx::BLEND_MANUAL:
+                writeValue("blend_manual");
+                break;
+            case LayerBlendOperationEx::BLEND_TEXTURE_ALPHA:
+                writeValue("blend_texture_alpha");
+                break;
+            case LayerBlendOperationEx::MODULATE:
+                writeValue("modulate");
+                break;
+            case LayerBlendOperationEx::MODULATE_X2:
+                writeValue("modulate_x2");
+                break;
+            case LayerBlendOperationEx::MODULATE_X4:
+                writeValue("modulate_x4");
+                break;
+            case LayerBlendOperationEx::SOURCE1:
+                writeValue("source1");
+                break;
+            case LayerBlendOperationEx::SOURCE2:
+                writeValue("source2");
+                break;
+            case LayerBlendOperationEx::SUBTRACT:
+                writeValue("subtract");
+                break;
+            case LayerBlendOperationEx::DOTPRODUCT:
+                writeValue("dotproduct");
+                break;
         }
     }
     //-----------------------------------------------------------------------
@@ -1381,21 +1393,21 @@ namespace Ogre
     {
         switch (lbs)
         {
-        case LBS_CURRENT:
-            writeValue("src_current");
-            break;
-        case LBS_DIFFUSE:
-            writeValue("src_diffuse");
-            break;
-        case LBS_MANUAL:
-            writeValue("src_manual");
-            break;
-        case LBS_SPECULAR:
-            writeValue("src_specular");
-            break;
-        case LBS_TEXTURE:
-            writeValue("src_texture");
-            break;
+            case LayerBlendSource::CURRENT:
+                writeValue("src_current");
+                break;
+            case LayerBlendSource::DIFFUSE:
+                writeValue("src_diffuse");
+                break;
+            case LayerBlendSource::MANUAL:
+                writeValue("src_manual");
+                break;
+            case LayerBlendSource::SPECULAR:
+                writeValue("src_specular");
+                break;
+            case LayerBlendSource::TEXTURE:
+                writeValue("src_texture");
+                break;
         }
     }
     //-----------------------------------------------------------------------

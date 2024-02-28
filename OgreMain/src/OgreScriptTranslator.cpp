@@ -313,49 +313,49 @@ namespace Ogre{
         switch (static_cast<AtomAbstractNode*>(node.get())->id)
         {
         case ID_SOURCE1:
-            op = LBX_SOURCE1;
+            op = LayerBlendOperationEx::SOURCE1;
             break;
         case ID_SOURCE2:
-            op = LBX_SOURCE2;
+            op = LayerBlendOperationEx::SOURCE2;
             break;
         case ID_MODULATE:
-            op = LBX_MODULATE;
+            op = LayerBlendOperationEx::MODULATE;
             break;
         case ID_MODULATE_X2:
-            op = LBX_MODULATE_X2;
+            op = LayerBlendOperationEx::MODULATE_X2;
             break;
         case ID_MODULATE_X4:
-            op = LBX_MODULATE_X4;
+            op = LayerBlendOperationEx::MODULATE_X4;
             break;
         case ID_ADD:
-            op = LBX_ADD;
+            op = LayerBlendOperationEx::ADD;
             break;
         case ID_ADD_SIGNED:
-            op = LBX_ADD_SIGNED;
+            op = LayerBlendOperationEx::ADD_SIGNED;
             break;
         case ID_ADD_SMOOTH:
-            op = LBX_ADD_SMOOTH;
+            op = LayerBlendOperationEx::ADD_SMOOTH;
             break;
         case ID_SUBTRACT:
-            op = LBX_SUBTRACT;
+            op = LayerBlendOperationEx::SUBTRACT;
             break;
         case ID_BLEND_DIFFUSE_ALPHA:
-            op = LBX_BLEND_DIFFUSE_ALPHA;
+            op = LayerBlendOperationEx::BLEND_DIFFUSE_ALPHA;
             break;
         case ID_BLEND_TEXTURE_ALPHA:
-            op = LBX_BLEND_TEXTURE_ALPHA;
+            op = LayerBlendOperationEx::BLEND_TEXTURE_ALPHA;
             break;
         case ID_BLEND_CURRENT_ALPHA:
-            op = LBX_BLEND_CURRENT_ALPHA;
+            op = LayerBlendOperationEx::BLEND_CURRENT_ALPHA;
             break;
         case ID_BLEND_MANUAL:
-            op = LBX_BLEND_MANUAL;
+            op = LayerBlendOperationEx::BLEND_MANUAL;
             break;
         case ID_DOT_PRODUCT:
-            op = LBX_DOTPRODUCT;
+            op = LayerBlendOperationEx::DOTPRODUCT;
             break;
         case ID_BLEND_DIFFUSE_COLOUR:
-            op = LBX_BLEND_DIFFUSE_COLOUR;
+            op = LayerBlendOperationEx::BLEND_DIFFUSE_COLOUR;
             break;
         default:
             return false;
@@ -371,19 +371,19 @@ namespace Ogre{
         switch (static_cast<AtomAbstractNode*>(node.get())->id)
         {
         case ID_SRC_CURRENT:
-            source1 = LBS_CURRENT;
+            source1 = LayerBlendSource::CURRENT;
             break;
         case ID_SRC_TEXTURE:
-            source1 = LBS_TEXTURE;
+            source1 = LayerBlendSource::TEXTURE;
             break;
         case ID_SRC_DIFFUSE:
-            source1 = LBS_DIFFUSE;
+            source1 = LayerBlendSource::DIFFUSE;
             break;
         case ID_SRC_SPECULAR:
-            source1 = LBS_SPECULAR;
+            source1 = LayerBlendSource::SPECULAR;
             break;
         case ID_SRC_MANUAL:
-            source1 = LBS_MANUAL;
+            source1 = LayerBlendSource::MANUAL;
             break;
         default:
             return false;
@@ -2871,8 +2871,7 @@ namespace Ogre{
                             ColourValue arg1 = ColourValue::White, arg2 = ColourValue::White;
                             Real manualBlend = 0.0f;
 
-                            if(op == LBX_BLEND_MANUAL)
-                            {
+                            if (op == LayerBlendOperationEx::BLEND_MANUAL) {
                                 AbstractNodeList::const_iterator i3 = getNodeAt(prop->values, 3);
                                 if(i3 != prop->values.end())
                                 {
@@ -2888,10 +2887,9 @@ namespace Ogre{
                             }
 
                             AbstractNodeList::const_iterator j = getNodeAt(prop->values, 3);
-                            if(op == LBX_BLEND_MANUAL)
+                            if (op == LayerBlendOperationEx::BLEND_MANUAL)
                                 ++j;
-                            if(source1 == LBS_MANUAL)
-                            {
+                            if (source1 == LayerBlendSource::MANUAL) {
                                 if(j != prop->values.end())
                                 {
                                     if(!getColour(j, prop->values.end(), &arg1, 3))
@@ -2904,8 +2902,7 @@ namespace Ogre{
                                                        "valid colour expected when src_manual is used");
                                 }
                             }
-                            if(source2 == LBS_MANUAL)
-                            {
+                            if (source2 == LayerBlendSource::MANUAL) {
                                 if(j != prop->values.end())
                                 {
                                     if(!getColour(j, prop->values.end(), &arg2, 3))
@@ -3004,8 +3001,7 @@ namespace Ogre{
                             Real arg1 = 0.0f, arg2 = 0.0f;
                             Real manualBlend = 0.0f;
 
-                            if(op == LBX_BLEND_MANUAL)
-                            {
+                            if (op == LayerBlendOperationEx::BLEND_MANUAL) {
                                 AbstractNodeList::const_iterator i3 = getNodeAt(prop->values, 3);
                                 if(i3 != prop->values.end())
                                 {
@@ -3021,10 +3017,9 @@ namespace Ogre{
                             }
 
                             AbstractNodeList::const_iterator j = getNodeAt(prop->values, 3);
-                            if(op == LBX_BLEND_MANUAL)
+                            if (op == LayerBlendOperationEx::BLEND_MANUAL)
                                 ++j;
-                            if(source1 == LBS_MANUAL)
-                            {
+                            if (source1 == LayerBlendSource::MANUAL) {
                                 if(j != prop->values.end())
                                 {
                                     if(!getReal(*j, &arg1))
@@ -3039,8 +3034,7 @@ namespace Ogre{
                                                        "valid colour expected when src_manual is used");
                                 }
                             }
-                            if(source2 == LBS_MANUAL)
-                            {
+                            if (source2 == LayerBlendSource::MANUAL) {
                                 if(j != prop->values.end())
                                 {
                                     if(!getReal(*j, &arg2))

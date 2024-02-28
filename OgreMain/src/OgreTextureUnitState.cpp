@@ -138,10 +138,10 @@ namespace Ogre {
         , mAnimController(0)
     {
         mColourBlendMode.blendType = LayerBlendType::COLOUR;
-        mAlphaBlendMode.operation = LBX_MODULATE;
+        mAlphaBlendMode.operation = LayerBlendOperationEx::MODULATE;
         mAlphaBlendMode.blendType = LayerBlendType::ALPHA;
-        mAlphaBlendMode.source1 = LBS_TEXTURE;
-        mAlphaBlendMode.source2 = LBS_CURRENT;
+        mAlphaBlendMode.source1 = LayerBlendSource::TEXTURE;
+        mAlphaBlendMode.source2 = LayerBlendSource::CURRENT;
         setColourOperation(LayerBlendOperation::MODULATE);
 
         if( Pass::getHashFunction() == Pass::getBuiltinHashFunction( Pass::MIN_TEXTURE_CHANGE ) )
@@ -552,22 +552,31 @@ namespace Ogre {
         switch (op)
         {
             case LayerBlendOperation::REPLACE:
-                setColourOperationEx(LBX_SOURCE1, LBS_TEXTURE, LBS_CURRENT);
+                setColourOperationEx(
+                    LayerBlendOperationEx::SOURCE1,
+                    LayerBlendSource::TEXTURE,
+                    LayerBlendSource::CURRENT);
                 setColourOpMultipassFallback(SBF_ONE, SBF_ZERO);
                 break;
             case LayerBlendOperation::ADD:
-                setColourOperationEx(LBX_ADD, LBS_TEXTURE, LBS_CURRENT);
+                setColourOperationEx(
+                    LayerBlendOperationEx::ADD,
+                    LayerBlendSource::TEXTURE,
+                    LayerBlendSource::CURRENT);
                 setColourOpMultipassFallback(SBF_ONE, SBF_ONE);
                 break;
             case LayerBlendOperation::MODULATE:
-                setColourOperationEx(LBX_MODULATE, LBS_TEXTURE, LBS_CURRENT);
+                setColourOperationEx(
+                    LayerBlendOperationEx::MODULATE,
+                    LayerBlendSource::TEXTURE,
+                    LayerBlendSource::CURRENT);
                 setColourOpMultipassFallback(SBF_DEST_COLOUR, SBF_ZERO);
                 break;
             case LayerBlendOperation::ALPHA_BLEND:
                 setColourOperationEx(
-                    LBX_BLEND_TEXTURE_ALPHA,
-                    LBS_TEXTURE,
-                    LBS_CURRENT);
+                    LayerBlendOperationEx::BLEND_TEXTURE_ALPHA,
+                    LayerBlendSource::TEXTURE,
+                    LayerBlendSource::CURRENT);
                 setColourOpMultipassFallback(
                     SBF_SOURCE_ALPHA,
                     SBF_ONE_MINUS_SOURCE_ALPHA);
