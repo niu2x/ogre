@@ -257,16 +257,16 @@ namespace Ogre
     {
         switch( op )
         {
-        case SBF_ONE:                   return MTLBlendFactorOne;
-        case SBF_ZERO:                  return MTLBlendFactorZero;
-        case SBF_DEST_COLOUR:           return MTLBlendFactorDestinationColor;
-        case SBF_SOURCE_COLOUR:         return MTLBlendFactorSourceColor;
-        case SBF_ONE_MINUS_DEST_COLOUR: return MTLBlendFactorOneMinusDestinationColor;
-        case SBF_ONE_MINUS_SOURCE_COLOUR:return MTLBlendFactorOneMinusSourceColor;
-        case SBF_DEST_ALPHA:            return MTLBlendFactorDestinationAlpha;
-        case SBF_SOURCE_ALPHA:          return MTLBlendFactorSourceAlpha;
-        case SBF_ONE_MINUS_DEST_ALPHA:  return MTLBlendFactorOneMinusDestinationAlpha;
-        case SBF_ONE_MINUS_SOURCE_ALPHA:return MTLBlendFactorOneMinusSourceAlpha;
+        case SceneBlendFactor::ONE:                   return MTLBlendFactorOne;
+        case SceneBlendFactor::ZERO:                  return MTLBlendFactorZero;
+        case SceneBlendFactor::DEST_COLOUR:           return MTLBlendFactorDestinationColor;
+        case SceneBlendFactor::SOURCE_COLOUR:         return MTLBlendFactorSourceColor;
+        case SceneBlendFactor::ONE_MINUS_DEST_COLOUR: return MTLBlendFactorOneMinusDestinationColor;
+        case SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR:return MTLBlendFactorOneMinusSourceColor;
+        case SceneBlendFactor::DEST_ALPHA:            return MTLBlendFactorDestinationAlpha;
+        case SceneBlendFactor::SOURCE_ALPHA:          return MTLBlendFactorSourceAlpha;
+        case SceneBlendFactor::ONE_MINUS_DEST_ALPHA:  return MTLBlendFactorOneMinusDestinationAlpha;
+        case SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA:return MTLBlendFactorOneMinusSourceAlpha;
         }
     }
     //-----------------------------------------------------------------------------------
@@ -274,11 +274,11 @@ namespace Ogre
     {
         switch( op )
         {
-        case SBO_ADD:                   return MTLBlendOperationAdd;
-        case SBO_SUBTRACT:              return MTLBlendOperationSubtract;
-        case SBO_REVERSE_SUBTRACT:      return MTLBlendOperationReverseSubtract;
-        case SBO_MIN:                   return MTLBlendOperationMin;
-        case SBO_MAX:                   return MTLBlendOperationMax;
+        case SceneBlendOperation::ADD:                   return MTLBlendOperationAdd;
+        case SceneBlendOperation::SUBTRACT:              return MTLBlendOperationSubtract;
+        case SceneBlendOperation::REVERSE_SUBTRACT:      return MTLBlendOperationReverseSubtract;
+        case SceneBlendOperation::MIN:                   return MTLBlendOperationMin;
+        case SceneBlendOperation::MAX:                   return MTLBlendOperationMax;
         }
     }
     //-----------------------------------------------------------------------------------

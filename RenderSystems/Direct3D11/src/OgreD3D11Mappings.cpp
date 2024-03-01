@@ -57,16 +57,16 @@ namespace Ogre
     {
         switch( sbf )
         {
-        case SBF_ONE:                       return D3D11_BLEND_ONE;
-        case SBF_ZERO:                      return D3D11_BLEND_ZERO;
-        case SBF_DEST_COLOUR:               return forAlpha ? D3D11_BLEND_DEST_ALPHA : D3D11_BLEND_DEST_COLOR;
-        case SBF_SOURCE_COLOUR:             return forAlpha ? D3D11_BLEND_SRC_ALPHA : D3D11_BLEND_SRC_COLOR;
-        case SBF_ONE_MINUS_DEST_COLOUR:     return forAlpha ? D3D11_BLEND_INV_DEST_ALPHA : D3D11_BLEND_INV_DEST_COLOR;
-        case SBF_ONE_MINUS_SOURCE_COLOUR:   return forAlpha ? D3D11_BLEND_INV_SRC_ALPHA : D3D11_BLEND_INV_SRC_COLOR;
-        case SBF_DEST_ALPHA:                return D3D11_BLEND_DEST_ALPHA;
-        case SBF_SOURCE_ALPHA:              return D3D11_BLEND_SRC_ALPHA;
-        case SBF_ONE_MINUS_DEST_ALPHA:      return D3D11_BLEND_INV_DEST_ALPHA;
-        case SBF_ONE_MINUS_SOURCE_ALPHA:    return D3D11_BLEND_INV_SRC_ALPHA;
+        case SceneBlendFactor::ONE:                       return D3D11_BLEND_ONE;
+        case SceneBlendFactor::ZERO:                      return D3D11_BLEND_ZERO;
+        case SceneBlendFactor::DEST_COLOUR:               return forAlpha ? D3D11_BLEND_DEST_ALPHA : D3D11_BLEND_DEST_COLOR;
+        case SceneBlendFactor::SOURCE_COLOUR:             return forAlpha ? D3D11_BLEND_SRC_ALPHA : D3D11_BLEND_SRC_COLOR;
+        case SceneBlendFactor::ONE_MINUS_DEST_COLOUR:     return forAlpha ? D3D11_BLEND_INV_DEST_ALPHA : D3D11_BLEND_INV_DEST_COLOR;
+        case SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR:   return forAlpha ? D3D11_BLEND_INV_SRC_ALPHA : D3D11_BLEND_INV_SRC_COLOR;
+        case SceneBlendFactor::DEST_ALPHA:                return D3D11_BLEND_DEST_ALPHA;
+        case SceneBlendFactor::SOURCE_ALPHA:              return D3D11_BLEND_SRC_ALPHA;
+        case SceneBlendFactor::ONE_MINUS_DEST_ALPHA:      return D3D11_BLEND_INV_DEST_ALPHA;
+        case SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA:    return D3D11_BLEND_INV_SRC_ALPHA;
         }
         return D3D11_BLEND_ZERO;
     }
@@ -75,15 +75,15 @@ namespace Ogre
     {
         switch( sbo )
         {
-        case SBO_ADD:
+        case SceneBlendOperation::ADD:
             return D3D11_BLEND_OP_ADD;
-        case SBO_SUBTRACT:
+        case SceneBlendOperation::SUBTRACT:
             return D3D11_BLEND_OP_SUBTRACT;
-        case SBO_REVERSE_SUBTRACT:
+        case SceneBlendOperation::REVERSE_SUBTRACT:
             return D3D11_BLEND_OP_REV_SUBTRACT;
-        case SBO_MIN:
+        case SceneBlendOperation::MIN:
             return D3D11_BLEND_OP_MIN;
-        case SBO_MAX:
+        case SceneBlendOperation::MAX:
             return D3D11_BLEND_OP_MAX;
         }
         return D3D11_BLEND_OP_ADD;

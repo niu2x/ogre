@@ -318,7 +318,7 @@ namespace Ogre
 
         /// @deprecated use setColourBlendState
         OGRE_DEPRECATED void _setSceneBlending(SceneBlendFactor sourceFactor, SceneBlendFactor destFactor,
-                                               SceneBlendOperation op = SBO_ADD)
+                                               SceneBlendOperation op = SceneBlendOperation::ADD)
         {
             mCurrentBlend.sourceFactor = sourceFactor;
             mCurrentBlend.destFactor = destFactor;
@@ -584,7 +584,7 @@ namespace Ogre
         OGRE_DEPRECATED void
         _setSeparateSceneBlending(SceneBlendFactor sourceFactor, SceneBlendFactor destFactor,
                                   SceneBlendFactor sourceFactorAlpha, SceneBlendFactor destFactorAlpha,
-                                  SceneBlendOperation op = SBO_ADD, SceneBlendOperation alphaOp = SBO_ADD)
+                                  SceneBlendOperation op = SceneBlendOperation::ADD, SceneBlendOperation alphaOp = SceneBlendOperation::ADD)
         {
             mCurrentBlend.sourceFactor = sourceFactor;
             mCurrentBlend.destFactor = destFactor;

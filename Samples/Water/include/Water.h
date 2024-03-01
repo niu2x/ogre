@@ -65,7 +65,7 @@ static void prepareCircleMaterial()
     auto texLayer = material->getTechnique(0)->getPass(0)->createTextureUnitState();
     texLayer->setTexture(tex);
     texLayer->setTextureAddressingMode( TextureUnitState::TAM_CLAMP );
-    material->setSceneBlending( SBT_ADD );
+    material->setSceneBlending( SceneBlendType::ADD );
     material->setLightingEnabled(false);
     material->setDepthWriteEnabled( false ) ;
 }

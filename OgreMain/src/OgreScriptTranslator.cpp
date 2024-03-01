@@ -147,16 +147,16 @@ namespace Ogre{
         switch (static_cast<AtomAbstractNode*>(node.get())->id)
         {
         case ID_ADD:
-            result = SBT_ADD;
+            result = SceneBlendType::ADD;
             break;
         case ID_MODULATE:
-            result = SBT_MODULATE;
+            result = SceneBlendType::MODULATE;
             break;
         case ID_COLOUR_BLEND:
-            result = SBT_TRANSPARENT_COLOUR;
+            result = SceneBlendType::TRANSPARENT_COLOUR;
             break;
         case ID_ALPHA_BLEND:
-            result = SBT_TRANSPARENT_ALPHA;
+            result = SceneBlendType::TRANSPARENT_ALPHA;
             break;
         default:
             return false;
@@ -172,19 +172,19 @@ namespace Ogre{
         switch (static_cast<AtomAbstractNode*>(node.get())->id)
         {
         case ID_ADD:
-            result = SBO_ADD;
+            result = SceneBlendOperation::ADD;
             break;
         case ID_SUBTRACT:
-            result = SBO_SUBTRACT;
+            result = SceneBlendOperation::SUBTRACT;
             break;
         case ID_REVERSE_SUBTRACT:
-            result = SBO_REVERSE_SUBTRACT;
+            result = SceneBlendOperation::REVERSE_SUBTRACT;
             break;
         case ID_MIN:
-            result = SBO_MIN;
+            result = SceneBlendOperation::MIN;
             break;
         case ID_MAX:
-            result = SBO_MAX;
+            result = SceneBlendOperation::MAX;
             break;
         default:
             return false;
@@ -650,34 +650,34 @@ namespace Ogre{
         switch(atom->id)
         {
         case ID_ONE:
-            *sbf = SBF_ONE;
+            *sbf = SceneBlendFactor::ONE;
             break;
         case ID_ZERO:
-            *sbf = SBF_ZERO;
+            *sbf = SceneBlendFactor::ZERO;
             break;
         case ID_DEST_COLOUR:
-            *sbf = SBF_DEST_COLOUR;
+            *sbf = SceneBlendFactor::DEST_COLOUR;
             break;
         case ID_DEST_ALPHA:
-            *sbf = SBF_DEST_ALPHA;
+            *sbf = SceneBlendFactor::DEST_ALPHA;
             break;
         case ID_SRC_ALPHA:
-            *sbf = SBF_SOURCE_ALPHA;
+            *sbf = SceneBlendFactor::SOURCE_ALPHA;
             break;
         case ID_SRC_COLOUR:
-            *sbf = SBF_SOURCE_COLOUR;
+            *sbf = SceneBlendFactor::SOURCE_COLOUR;
             break;
         case ID_ONE_MINUS_DEST_COLOUR:
-            *sbf = SBF_ONE_MINUS_DEST_COLOUR;
+            *sbf = SceneBlendFactor::ONE_MINUS_DEST_COLOUR;
             break;
         case ID_ONE_MINUS_SRC_COLOUR:
-            *sbf = SBF_ONE_MINUS_SOURCE_COLOUR;
+            *sbf = SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR;
             break;
         case ID_ONE_MINUS_DEST_ALPHA:
-            *sbf = SBF_ONE_MINUS_DEST_ALPHA;
+            *sbf = SceneBlendFactor::ONE_MINUS_DEST_ALPHA;
             break;
         case ID_ONE_MINUS_SRC_ALPHA:
-            *sbf = SBF_ONE_MINUS_SOURCE_ALPHA;
+            *sbf = SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA;
             break;
         default:
             return false;
@@ -2942,19 +2942,19 @@ namespace Ogre{
                             switch(atom->id)
                             {
                             case ID_ADD:
-                                mUnit->setColourOpMultipassFallback(SBF_ONE, SBF_ONE);
+                                mUnit->setColourOpMultipassFallback(SceneBlendFactor::ONE, SceneBlendFactor::ONE);
                                 break;
                             case ID_MODULATE:
-                                mUnit->setColourOpMultipassFallback(SBF_DEST_COLOUR, SBF_ZERO);
+                                mUnit->setColourOpMultipassFallback(SceneBlendFactor::DEST_COLOUR, SceneBlendFactor::ZERO);
                                 break;
                             case ID_COLOUR_BLEND:
-                                mUnit->setColourOpMultipassFallback(SBF_SOURCE_COLOUR, SBF_ONE_MINUS_SOURCE_COLOUR);
+                                mUnit->setColourOpMultipassFallback(SceneBlendFactor::SOURCE_COLOUR, SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR);
                                 break;
                             case ID_ALPHA_BLEND:
-                                mUnit->setColourOpMultipassFallback(SBF_SOURCE_ALPHA, SBF_ONE_MINUS_SOURCE_ALPHA);
+                                mUnit->setColourOpMultipassFallback(SceneBlendFactor::SOURCE_ALPHA, SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA);
                                 break;
                             case ID_REPLACE:
-                                mUnit->setColourOpMultipassFallback(SBF_ONE, SBF_ZERO);
+                                mUnit->setColourOpMultipassFallback(SceneBlendFactor::ONE, SceneBlendFactor::ZERO);
                                 break;
                             default:
                                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,

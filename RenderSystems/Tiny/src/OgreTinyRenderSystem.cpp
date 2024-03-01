@@ -289,7 +289,7 @@ namespace Ogre {
 
     void TinyRenderSystem::setColourBlendState(const ColourBlendState& state)
     {
-        mBlendAdd = state.destFactor == SBF_ONE;
+        mBlendAdd = state.destFactor == SceneBlendFactor::ONE;
     }
 
     HardwareOcclusionQuery* TinyRenderSystem::createHardwareOcclusionQuery(void)

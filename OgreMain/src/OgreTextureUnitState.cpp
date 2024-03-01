@@ -556,21 +556,21 @@ namespace Ogre {
                     LayerBlendOperationEx::SOURCE1,
                     LayerBlendSource::TEXTURE,
                     LayerBlendSource::CURRENT);
-                setColourOpMultipassFallback(SBF_ONE, SBF_ZERO);
+                setColourOpMultipassFallback(SceneBlendFactor::ONE, SceneBlendFactor::ZERO);
                 break;
             case LayerBlendOperation::ADD:
                 setColourOperationEx(
                     LayerBlendOperationEx::ADD,
                     LayerBlendSource::TEXTURE,
                     LayerBlendSource::CURRENT);
-                setColourOpMultipassFallback(SBF_ONE, SBF_ONE);
+                setColourOpMultipassFallback(SceneBlendFactor::ONE, SceneBlendFactor::ONE);
                 break;
             case LayerBlendOperation::MODULATE:
                 setColourOperationEx(
                     LayerBlendOperationEx::MODULATE,
                     LayerBlendSource::TEXTURE,
                     LayerBlendSource::CURRENT);
-                setColourOpMultipassFallback(SBF_DEST_COLOUR, SBF_ZERO);
+                setColourOpMultipassFallback(SceneBlendFactor::DEST_COLOUR, SceneBlendFactor::ZERO);
                 break;
             case LayerBlendOperation::ALPHA_BLEND:
                 setColourOperationEx(
@@ -578,8 +578,8 @@ namespace Ogre {
                     LayerBlendSource::TEXTURE,
                     LayerBlendSource::CURRENT);
                 setColourOpMultipassFallback(
-                    SBF_SOURCE_ALPHA,
-                    SBF_ONE_MINUS_SOURCE_ALPHA);
+                    SceneBlendFactor::SOURCE_ALPHA,
+                    SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA);
                 break;
         }
 

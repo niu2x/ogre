@@ -139,7 +139,7 @@ enum class LayerBlendSource {
    If you wish to make an object blend with others in the scene, e.g. to make
         transparent objects etc, use the Material::setSceneBlending method.
 */
-class _OgreExport LayerBlendModeEx {
+struct LayerBlendModeEx {
 public:
     /// The type of blending (colour or alpha)
     LayerBlendType blendType;
@@ -204,17 +204,17 @@ public:
     @see
         Pass::setSceneBlending
 */
-enum SceneBlendType {
-    SBT_TRANSPARENT_ALPHA, //!< The alpha value of the rendering output is used
-                           //!< as a mask.
-    SBT_TRANSPARENT_COLOUR, //!< Colour the scene based on the brightness of the
-                            //!< input colours, but don’t darken.
-    SBT_ADD, //!< The colour of the rendering output is added to the scene. Good
-             //!< for explosions, flares, lights, ghosts etc.
-    SBT_MODULATE, //!< The colour of the rendering output is multiplied with the
-                  //!< scene contents. Generally colours and darkens the scene,
-                  //!< good for smoked glass, semi-transparent objects etc.
-    SBT_REPLACE //!< The default blend mode where source replaces destination
+enum class SceneBlendType {
+    TRANSPARENT_ALPHA, //!< The alpha value of the rendering output is used
+                       //!< as a mask.
+    TRANSPARENT_COLOUR, //!< Colour the scene based on the brightness of the
+                        //!< input colours, but don’t darken.
+    ADD, //!< The colour of the rendering output is added to the scene. Good
+         //!< for explosions, flares, lights, ghosts etc.
+    MODULATE, //!< The colour of the rendering output is multiplied with the
+              //!< scene contents. Generally colours and darkens the scene,
+              //!< good for smoked glass, semi-transparent objects etc.
+    REPLACE //!< The default blend mode where source replaces destination
     // TODO : more
 };
 
@@ -223,35 +223,29 @@ enum SceneBlendType {
    blending factors directly to affect the combination of object and the
    existing scene. See Material::setSceneBlending for more details.
 */
-enum SceneBlendFactor {
-    SBF_ONE, //!< Constant value of 1.0
-    SBF_ZERO, //!< Constant value of 0.0
-    SBF_DEST_COLOUR, //!< The existing pixel colour
-    SBF_SOURCE_COLOUR, //!< The texture pixel (texel) colour
-    SBF_ONE_MINUS_DEST_COLOUR, //!< 1 - SBF_DEST_COLOUR
-    SBF_ONE_MINUS_SOURCE_COLOUR, //!< 1 - SBF_SOURCE_COLOUR
-    SBF_DEST_ALPHA, //!< The existing pixel alpha value
-    SBF_SOURCE_ALPHA, //!< The texel alpha value
-    SBF_ONE_MINUS_DEST_ALPHA, //!< 1 - SBF_DEST_ALPHA
-    SBF_ONE_MINUS_SOURCE_ALPHA //!< 1 - SBF_SOURCE_ALPHA
+enum class SceneBlendFactor {
+    ONE, //!< Constant value of 1.0
+    ZERO, //!< Constant value of 0.0
+    DEST_COLOUR, //!< The existing pixel colour
+    SOURCE_COLOUR, //!< The texture pixel (texel) colour
+    ONE_MINUS_DEST_COLOUR, //!< 1 - DEST_COLOUR
+    ONE_MINUS_SOURCE_COLOUR, //!< 1 - SOURCE_COLOUR
+    DEST_ALPHA, //!< The existing pixel alpha value
+    SOURCE_ALPHA, //!< The texel alpha value
+    ONE_MINUS_DEST_ALPHA, //!< 1 - DEST_ALPHA
+    ONE_MINUS_SOURCE_ALPHA //!< 1 - SOURCE_ALPHA
 };
 
 /** Blending operations controls how objects are blended into the scene. The
    default operation is add (+) but by changing this you can change how drawn
    objects are blended into the existing scene.
 */
-enum SceneBlendOperation {
-    SBO_ADD,
-    SBO_SUBTRACT,
-    SBO_REVERSE_SUBTRACT,
-    SBO_MIN,
-    SBO_MAX
-};
+enum class SceneBlendOperation { ADD, SUBTRACT, REVERSE_SUBTRACT, MIN, MAX };
 
 /** Describes the global blending factors for combining subsequent renders with
 the existing frame contents.
 
-By default the operation is Ogre::SBO_ADD, which creates this equation
+By default the operation is Ogre::SceneBlendOperation::ADD, which creates this equation
 
 $$final = (passOutput * sourceFactor) + (frameBuffer * destFactor)$$
 
@@ -260,7 +254,7 @@ Each of the factors is specified as one of Ogre::SceneBlendFactor.
 By setting a different Ogre::SceneBlendOperation you can achieve a different
 effect.
 */
-struct _OgreExport ColourBlendState {
+struct ColourBlendState {
     /** @name Write Mask
      * Whether writing is enabled for each of the 4 colour channels */
     /// @{
@@ -292,12 +286,12 @@ struct _OgreExport ColourBlendState {
     , writeG(true)
     , writeB(true)
     , writeA(true)
-    , sourceFactor(SBF_ONE)
-    , destFactor(SBF_ZERO)
-    , sourceFactorAlpha(SBF_ONE)
-    , destFactorAlpha(SBF_ZERO)
-    , operation(SBO_ADD)
-    , alphaOperation(SBO_ADD)
+    , sourceFactor(SceneBlendFactor::ONE)
+    , destFactor(SceneBlendFactor::ZERO)
+    , sourceFactorAlpha(SceneBlendFactor::ONE)
+    , destFactorAlpha(SceneBlendFactor::ZERO)
+    , operation(SceneBlendOperation::ADD)
+    , alphaOperation(SceneBlendOperation::ADD)
     {
     }
 
@@ -305,8 +299,10 @@ struct _OgreExport ColourBlendState {
     bool blendingEnabled() const
     {
         return !(
-            sourceFactor == SBF_ONE && destFactor == SBF_ZERO
-            && sourceFactorAlpha == SBF_ONE && destFactorAlpha == SBF_ZERO);
+            sourceFactor == SceneBlendFactor::ONE
+            && destFactor == SceneBlendFactor::ZERO
+            && sourceFactorAlpha == SceneBlendFactor::ONE
+            && destFactorAlpha == SceneBlendFactor::ZERO);
     }
 };
 /** @} */

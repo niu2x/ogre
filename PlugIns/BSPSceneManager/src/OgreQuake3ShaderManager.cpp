@@ -187,8 +187,8 @@ namespace Ogre {
         // Default pass details
         pShader->pass[passIdx].animNumFrames = 0;
         pShader->pass[passIdx].blend = LayerBlendOperation::REPLACE;
-        pShader->pass[passIdx].blendDest = SBF_ZERO;
-        pShader->pass[passIdx].blendSrc = SBF_ONE;
+        pShader->pass[passIdx].blendDest = SceneBlendFactor::ZERO;
+        pShader->pass[passIdx].blendSrc = SceneBlendFactor::ONE;
         pShader->pass[passIdx].depthFunc = CMPF_LESS_EQUAL;
         pShader->pass[passIdx].flags = 0;
         pShader->pass[passIdx].rgbGenFunc = SHADER_GEN_IDENTITY;
@@ -329,20 +329,20 @@ namespace Ogre {
             if (params[1] == "add" || params[1] == "gl_add")
             {
                 pPass->blend = LayerBlendOperation::ADD;
-                pPass->blendDest = SBF_ONE;
-                pPass->blendSrc = SBF_ONE;
+                pPass->blendDest = SceneBlendFactor::ONE;
+                pPass->blendSrc = SceneBlendFactor::ONE;
             }
             else if (params[1] == "filter" || params[1] == "gl_filter")
             {
                 pPass->blend = LayerBlendOperation::MODULATE;
-                pPass->blendDest = SBF_ZERO;
-                pPass->blendSrc = SBF_DEST_COLOUR;
+                pPass->blendDest = SceneBlendFactor::ZERO;
+                pPass->blendSrc = SceneBlendFactor::DEST_COLOUR;
             }
             else if (params[1] == "blend" || params[1] == "gl_blend")
             {
                 pPass->blend = LayerBlendOperation::ALPHA_BLEND;
-                pPass->blendDest = SBF_ONE_MINUS_SOURCE_ALPHA;
-                pPass->blendSrc = SBF_SOURCE_ALPHA;
+                pPass->blendDest = SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA;
+                pPass->blendSrc = SceneBlendFactor::SOURCE_ALPHA;
             }
             else
             {
@@ -350,14 +350,14 @@ namespace Ogre {
                 pPass->blendSrc = convertBlendFunc(params[1]);
                 pPass->blendDest = convertBlendFunc(params[2]);
                 // Detect common blends
-                if (pPass->blendSrc == SBF_ONE && pPass->blendDest == SBF_ZERO)
+                if (pPass->blendSrc == SceneBlendFactor::ONE && pPass->blendDest == SceneBlendFactor::ZERO)
                     pPass->blend = LayerBlendOperation::REPLACE;
-                else if (pPass->blendSrc == SBF_ONE && pPass->blendDest == SBF_ONE)
+                else if (pPass->blendSrc == SceneBlendFactor::ONE && pPass->blendDest == SceneBlendFactor::ONE)
                     pPass->blend = LayerBlendOperation::ADD;
-                else if ((pPass->blendSrc == SBF_ZERO && pPass->blendDest == SBF_SOURCE_COLOUR) ||
-                    (pPass->blendSrc == SBF_DEST_COLOUR && pPass->blendDest == SBF_ZERO))
+                else if ((pPass->blendSrc == SceneBlendFactor::ZERO && pPass->blendDest == SceneBlendFactor::SOURCE_COLOUR) ||
+                    (pPass->blendSrc == SceneBlendFactor::DEST_COLOUR && pPass->blendDest == SceneBlendFactor::ZERO))
                     pPass->blend = LayerBlendOperation::MODULATE;
-                else if (pPass->blendSrc == SBF_SOURCE_ALPHA && pPass->blendDest == SBF_ONE_MINUS_SOURCE_ALPHA)
+                else if (pPass->blendSrc == SceneBlendFactor::SOURCE_ALPHA && pPass->blendDest == SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA)
                     pPass->blend = LayerBlendOperation::ALPHA_BLEND;
                 else
                     pPass->customBlend = true;
@@ -476,35 +476,35 @@ namespace Ogre {
     {
         if (q3func == "gl_one")
         {
-            return SBF_ONE;
+            return SceneBlendFactor::ONE;
         }
         else if (q3func == "gl_zero")
         {
-            return SBF_ZERO;
+            return SceneBlendFactor::ZERO;
         }
         else if (q3func == "gl_dst_color")
         {
-            return SBF_DEST_COLOUR;
+            return SceneBlendFactor::DEST_COLOUR;
         }
         else if (q3func == "gl_src_color")
         {
-            return SBF_SOURCE_COLOUR;
+            return SceneBlendFactor::SOURCE_COLOUR;
         }
         else if (q3func == "gl_one_minus_dst_color")
         {
-            return SBF_ONE_MINUS_DEST_COLOUR;
+            return SceneBlendFactor::ONE_MINUS_DEST_COLOUR;
         }
         else if (q3func == "gl_src_alpha")
         {
-            return SBF_SOURCE_ALPHA;
+            return SceneBlendFactor::SOURCE_ALPHA;
         }
         else if (q3func == "gl_one_minus_src_alpha")
         {
-            return SBF_ONE_MINUS_SOURCE_ALPHA;
+            return SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA;
         }
 
         // Default if unrecognised
-        return SBF_ONE;
+        return SceneBlendFactor::ONE;
 
     }
 

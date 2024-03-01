@@ -223,8 +223,8 @@ namespace Ogre {
             - emissive = ColourValue::Black
             - shininess = 0 (not shiny)
             - No texture unit settings (& hence no textures)
-            - SourceBlendFactor = Ogre::SBF_ONE
-            - DestBlendFactor = Ogre::SBF_ZERO (no blend, replace with new colour)
+            - SourceBlendFactor = Ogre::SceneBlendFactor::ONE
+            - DestBlendFactor = Ogre::SceneBlendFactor::ZERO (no blend, replace with new colour)
             - Depth buffer checking on
             - Depth buffer writing on
             - Depth buffer comparison function = Ogre::CMPF_LESS_EQUAL

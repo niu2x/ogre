@@ -117,16 +117,16 @@ namespace Ogre
         switch( blendFactor )
         {
             // clang-format off
-        case SBF_ONE:                       return VK_BLEND_FACTOR_ONE;
-        case SBF_ZERO:                      return VK_BLEND_FACTOR_ZERO;
-        case SBF_DEST_COLOUR:               return VK_BLEND_FACTOR_DST_COLOR;
-        case SBF_SOURCE_COLOUR:             return VK_BLEND_FACTOR_SRC_COLOR;
-        case SBF_ONE_MINUS_DEST_COLOUR:     return VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR;
-        case SBF_ONE_MINUS_SOURCE_COLOUR:   return VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
-        case SBF_DEST_ALPHA:                return VK_BLEND_FACTOR_DST_ALPHA;
-        case SBF_SOURCE_ALPHA:              return VK_BLEND_FACTOR_SRC_ALPHA;
-        case SBF_ONE_MINUS_DEST_ALPHA:      return VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA;
-        case SBF_ONE_MINUS_SOURCE_ALPHA:    return VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+        case SceneBlendFactor::ONE:                       return VK_BLEND_FACTOR_ONE;
+        case SceneBlendFactor::ZERO:                      return VK_BLEND_FACTOR_ZERO;
+        case SceneBlendFactor::DEST_COLOUR:               return VK_BLEND_FACTOR_DST_COLOR;
+        case SceneBlendFactor::SOURCE_COLOUR:             return VK_BLEND_FACTOR_SRC_COLOR;
+        case SceneBlendFactor::ONE_MINUS_DEST_COLOUR:     return VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR;
+        case SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR:   return VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+        case SceneBlendFactor::DEST_ALPHA:                return VK_BLEND_FACTOR_DST_ALPHA;
+        case SceneBlendFactor::SOURCE_ALPHA:              return VK_BLEND_FACTOR_SRC_ALPHA;
+        case SceneBlendFactor::ONE_MINUS_DEST_ALPHA:      return VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA;
+        case SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA:    return VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
             // clang-format on
         }
         return VK_BLEND_FACTOR_ONE;
@@ -137,11 +137,11 @@ namespace Ogre
         switch( blendOp )
         {
             // clang-format off
-        case SBO_ADD:               return VK_BLEND_OP_ADD;
-        case SBO_SUBTRACT:          return VK_BLEND_OP_SUBTRACT;
-        case SBO_REVERSE_SUBTRACT:  return VK_BLEND_OP_REVERSE_SUBTRACT;
-        case SBO_MIN:               return VK_BLEND_OP_MIN;
-        case SBO_MAX:               return VK_BLEND_OP_MAX;
+        case SceneBlendOperation::ADD:               return VK_BLEND_OP_ADD;
+        case SceneBlendOperation::SUBTRACT:          return VK_BLEND_OP_SUBTRACT;
+        case SceneBlendOperation::REVERSE_SUBTRACT:  return VK_BLEND_OP_REVERSE_SUBTRACT;
+        case SceneBlendOperation::MIN:               return VK_BLEND_OP_MIN;
+        case SceneBlendOperation::MAX:               return VK_BLEND_OP_MAX;
             // clang-format on
         }
         return VK_BLEND_OP_ADD;

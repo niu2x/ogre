@@ -82,7 +82,7 @@ void DefaultDebugDrawer::drawAxes(const Affine3& pose, float size)
             p->setLightingEnabled(false);
             p->setPolygonModeOverrideable(false);
             p->setVertexColourTracking(TVC_AMBIENT);
-            p->setSceneBlending(SBT_TRANSPARENT_ALPHA);
+            p->setSceneBlending(SceneBlendType::TRANSPARENT_ALPHA);
             p->setCullingMode(CULL_NONE);
             p->setDepthWriteEnabled(false);
             p->setDepthCheckEnabled(false);

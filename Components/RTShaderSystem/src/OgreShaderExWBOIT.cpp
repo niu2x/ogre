@@ -25,7 +25,7 @@ int WBOIT::getExecutionOrder() const { return FFP_POST_PROCESS; }
 bool WBOIT::preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass)
 {
     dstPass->setTransparentSortingEnabled(false);
-    dstPass->setSeparateSceneBlending(SBF_ONE, SBF_ONE, SBF_ZERO, SBF_ONE_MINUS_SOURCE_ALPHA);
+    dstPass->setSeparateSceneBlending(SceneBlendFactor::ONE, SceneBlendFactor::ONE, SceneBlendFactor::ZERO, SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA);
     return true;
 }
 

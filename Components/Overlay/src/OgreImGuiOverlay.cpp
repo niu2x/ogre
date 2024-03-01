@@ -100,10 +100,10 @@ void ImGuiOverlay::ImGUIRenderable::createMaterial()
     Pass* mPass = mMaterial->getTechnique(0)->getPass(0);
     mPass->setCullingMode(CULL_NONE);
     mPass->setVertexColourTracking(TVC_DIFFUSE);
-    mPass->setSceneBlending(SBT_TRANSPARENT_ALPHA);
-    mPass->setSeparateSceneBlendingOperation(SBO_ADD, SBO_ADD);
-    mPass->setSeparateSceneBlending(SBF_SOURCE_ALPHA, SBF_ONE_MINUS_SOURCE_ALPHA,
-                                    SBF_ONE_MINUS_SOURCE_ALPHA, SBF_ZERO);
+    mPass->setSceneBlending(SceneBlendType::TRANSPARENT_ALPHA);
+    mPass->setSeparateSceneBlendingOperation(SceneBlendOperation::ADD, SceneBlendOperation::ADD);
+    mPass->setSeparateSceneBlending(SceneBlendFactor::SOURCE_ALPHA, SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA,
+                                    SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA, SceneBlendFactor::ZERO);
 
     TextureUnitState* mTexUnit = mPass->createTextureUnitState();
     mTexUnit->setTexture(mFontTex);

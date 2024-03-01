@@ -469,7 +469,7 @@ void SceneManager::ShadowRenderer::renderModulativeTextureShadowedQueueGroupObje
             resolveShadowTexture(texUnit, si, 0);
 
             // Set lighting / blending modes
-            targetPass->setSceneBlending(SBF_DEST_COLOUR, SBF_ZERO);
+            targetPass->setSceneBlending(SceneBlendFactor::DEST_COLOUR, SceneBlendFactor::ZERO);
             targetPass->setLightingEnabled(false);
 
             targetPass->_load();
@@ -548,7 +548,7 @@ void SceneManager::ShadowRenderer::renderAdditiveTextureShadowedQueueGroupObject
                         targetPass->removeTextureUnitState(1);
                     }
                     // Set lighting / blending modes
-                    targetPass->setSceneBlending(SBF_ONE, SBF_ONE);
+                    targetPass->setSceneBlending(SceneBlendFactor::ONE, SceneBlendFactor::ONE);
                     targetPass->setLightingEnabled(true);
                     targetPass->_load();
 
@@ -1369,8 +1369,8 @@ const Pass* SceneManager::ShadowRenderer::deriveShadowCasterPass(const Pass* pas
     }
 
     // Special case alpha-blended passes
-    if ((pass->getSourceBlendFactor() == SBF_SOURCE_ALPHA &&
-        pass->getDestBlendFactor() == SBF_ONE_MINUS_SOURCE_ALPHA)
+    if ((pass->getSourceBlendFactor() == SceneBlendFactor::SOURCE_ALPHA &&
+        pass->getDestBlendFactor() == SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA)
         || pass->getAlphaRejectFunction() != CMPF_ALWAYS_PASS)
     {
         // Alpha blended passes must retain their transparency
@@ -1414,7 +1414,7 @@ const Pass* SceneManager::ShadowRenderer::deriveShadowCasterPass(const Pass* pas
     else
     {
         // reset
-        retPass->setSceneBlending(SBT_REPLACE);
+        retPass->setSceneBlending(SceneBlendType::REPLACE);
         retPass->setAlphaRejectFunction(CMPF_ALWAYS_PASS);
         while (retPass->getNumTextureUnitStates() > 0)
         {

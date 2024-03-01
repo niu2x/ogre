@@ -178,10 +178,10 @@ namespace Ogre {
             const GpuProgramParametersSharedPtr& params, GpuProgramParameters* defaultParams,
             const unsigned short level, const bool useMainBuffer);
         void writeTextureUnit(const TextureUnitState *pTex);
-        void writeSceneBlendFactor(const SceneBlendFactor c_src, const SceneBlendFactor c_dest, 
-                                   const SceneBlendFactor a_src, const SceneBlendFactor a_dest);
-        void writeSceneBlendFactor(const SceneBlendFactor sbf_src, const SceneBlendFactor sbf_dest);
-        void writeSceneBlendFactor(const SceneBlendFactor sbf);
+        void writeSceneBlendFactor(SceneBlendFactor c_src, SceneBlendFactor c_dest, 
+                                   SceneBlendFactor a_src, SceneBlendFactor a_dest);
+        void writeSceneBlendFactor(SceneBlendFactor src, SceneBlendFactor dest);
+        void writeSceneBlendFactor(SceneBlendFactor sbf);
         void writeCompareFunction(const CompareFunction cf);
         void writeColourValue(const ColourValue &colour, bool writeAlpha = false);
         void writeLayerBlendOperationEx(const LayerBlendOperationEx op);

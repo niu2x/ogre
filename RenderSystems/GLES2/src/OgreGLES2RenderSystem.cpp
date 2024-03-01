@@ -817,25 +817,25 @@ namespace Ogre {
     {
         switch (ogreBlend)
         {
-            case SBF_ONE:
+            case SceneBlendFactor::ONE:
                 return GL_ONE;
-            case SBF_ZERO:
+            case SceneBlendFactor::ZERO:
                 return GL_ZERO;
-            case SBF_DEST_COLOUR:
+            case SceneBlendFactor::DEST_COLOUR:
                 return GL_DST_COLOR;
-            case SBF_SOURCE_COLOUR:
+            case SceneBlendFactor::SOURCE_COLOUR:
                 return GL_SRC_COLOR;
-            case SBF_ONE_MINUS_DEST_COLOUR:
+            case SceneBlendFactor::ONE_MINUS_DEST_COLOUR:
                 return GL_ONE_MINUS_DST_COLOR;
-            case SBF_ONE_MINUS_SOURCE_COLOUR:
+            case SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR:
                 return GL_ONE_MINUS_SRC_COLOR;
-            case SBF_DEST_ALPHA:
+            case SceneBlendFactor::DEST_ALPHA:
                 return GL_DST_ALPHA;
-            case SBF_SOURCE_ALPHA:
+            case SceneBlendFactor::SOURCE_ALPHA:
                 return GL_SRC_ALPHA;
-            case SBF_ONE_MINUS_DEST_ALPHA:
+            case SceneBlendFactor::ONE_MINUS_DEST_ALPHA:
                 return GL_ONE_MINUS_DST_ALPHA;
-            case SBF_ONE_MINUS_SOURCE_ALPHA:
+            case SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA:
                 return GL_ONE_MINUS_SRC_ALPHA;
         };
 
@@ -966,15 +966,15 @@ namespace Ogre {
     {
         switch (op)
         {
-        case SBO_ADD:
+        case SceneBlendOperation::ADD:
             return GL_FUNC_ADD;
-        case SBO_SUBTRACT:
+        case SceneBlendOperation::SUBTRACT:
             return GL_FUNC_SUBTRACT;
-        case SBO_REVERSE_SUBTRACT:
+        case SceneBlendOperation::REVERSE_SUBTRACT:
             return GL_FUNC_REVERSE_SUBTRACT;
-        case SBO_MIN:
+        case SceneBlendOperation::MIN:
             return hasMinMax ? GL_MIN : GL_FUNC_ADD;
-        case SBO_MAX:
+        case SceneBlendOperation::MAX:
             return hasMinMax ? GL_MAX : GL_FUNC_ADD;
         }
         return GL_FUNC_ADD;

@@ -229,7 +229,7 @@ Ogre::ManualObject* RoomObject::createRoom(Ogre::SceneManager *scene,
                                            Ogre::Vector3 dimensions,
                                            Ogre::Vector3 doorDimensions)
 {
-    addMaterial(name, Ogre::ColourValue(1,1,1,.75), Ogre::SBT_TRANSPARENT_ALPHA);
+    addMaterial(name, Ogre::ColourValue(1,1,1,.75), Ogre::SceneBlendType::TRANSPARENT_ALPHA);
 
     Ogre::ManualObject* room = scene->createManualObject(name); 
 

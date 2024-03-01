@@ -177,25 +177,25 @@ namespace Ogre
     {
         switch( sbf )
         {
-        case SBF_ONE:
+        case SceneBlendFactor::ONE:
             return D3DBLEND_ONE;
-        case SBF_ZERO:
+        case SceneBlendFactor::ZERO:
             return D3DBLEND_ZERO;
-        case SBF_DEST_COLOUR:
+        case SceneBlendFactor::DEST_COLOUR:
             return D3DBLEND_DESTCOLOR;
-        case SBF_SOURCE_COLOUR:
+        case SceneBlendFactor::SOURCE_COLOUR:
             return D3DBLEND_SRCCOLOR;
-        case SBF_ONE_MINUS_DEST_COLOUR:
+        case SceneBlendFactor::ONE_MINUS_DEST_COLOUR:
             return D3DBLEND_INVDESTCOLOR;
-        case SBF_ONE_MINUS_SOURCE_COLOUR:
+        case SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR:
             return D3DBLEND_INVSRCCOLOR;
-        case SBF_DEST_ALPHA:
+        case SceneBlendFactor::DEST_ALPHA:
             return D3DBLEND_DESTALPHA;
-        case SBF_SOURCE_ALPHA:
+        case SceneBlendFactor::SOURCE_ALPHA:
             return D3DBLEND_SRCALPHA;
-        case SBF_ONE_MINUS_DEST_ALPHA:
+        case SceneBlendFactor::ONE_MINUS_DEST_ALPHA:
             return D3DBLEND_INVDESTALPHA;
-        case SBF_ONE_MINUS_SOURCE_ALPHA:
+        case SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA:
             return D3DBLEND_INVSRCALPHA;
         }
         return D3DBLEND_FORCE_DWORD;
@@ -205,15 +205,15 @@ namespace Ogre
     {
         switch(sbo)
         {
-        case SBO_ADD:
+        case SceneBlendOperation::ADD:
             return D3DBLENDOP_ADD;
-        case SBO_SUBTRACT:
+        case SceneBlendOperation::SUBTRACT:
             return D3DBLENDOP_SUBTRACT;
-        case SBO_REVERSE_SUBTRACT:
+        case SceneBlendOperation::REVERSE_SUBTRACT:
             return D3DBLENDOP_REVSUBTRACT;
-        case SBO_MIN:
+        case SceneBlendOperation::MIN:
             return D3DBLENDOP_MIN;
-        case SBO_MAX:
+        case SceneBlendOperation::MAX:
             return D3DBLENDOP_MAX;
         }
 

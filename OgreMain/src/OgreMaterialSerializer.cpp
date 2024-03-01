@@ -508,10 +508,10 @@ namespace Ogre
 
             // scene blend factor
             if (mDefaults ||
-                pPass->getSourceBlendFactor() != SBF_ONE ||
-                pPass->getDestBlendFactor() != SBF_ZERO ||
-                pPass->getSourceBlendFactorAlpha() != SBF_ONE ||
-                pPass->getDestBlendFactorAlpha() != SBF_ZERO)
+                pPass->getSourceBlendFactor() != SceneBlendFactor::ONE ||
+                pPass->getDestBlendFactor() != SceneBlendFactor::ZERO ||
+                pPass->getSourceBlendFactorAlpha() != SceneBlendFactor::ONE ||
+                pPass->getDestBlendFactorAlpha() != SceneBlendFactor::ZERO)
             {
                 writeAttribute(3, "separate_scene_blend");
                 writeSceneBlendFactor(pPass->getSourceBlendFactor(), pPass->getDestBlendFactor(),
@@ -1235,63 +1235,63 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void MaterialSerializer::writeSceneBlendFactor(const SceneBlendFactor sbf)
+    void MaterialSerializer::writeSceneBlendFactor(SceneBlendFactor sbf)
     {
         switch (sbf)
         {
-        case SBF_DEST_ALPHA:
+        case SceneBlendFactor::DEST_ALPHA:
             writeValue("dest_alpha");
             break;
-        case SBF_DEST_COLOUR:
+        case SceneBlendFactor::DEST_COLOUR:
             writeValue("dest_colour");
             break;
-        case SBF_ONE:
+        case SceneBlendFactor::ONE:
             writeValue("one");
             break;
-        case SBF_ONE_MINUS_DEST_ALPHA:
+        case SceneBlendFactor::ONE_MINUS_DEST_ALPHA:
             writeValue("one_minus_dest_alpha");
             break;
-        case SBF_ONE_MINUS_DEST_COLOUR:
+        case SceneBlendFactor::ONE_MINUS_DEST_COLOUR:
             writeValue("one_minus_dest_colour");
             break;
-        case SBF_ONE_MINUS_SOURCE_ALPHA:
+        case SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA:
             writeValue("one_minus_src_alpha");
             break;
-        case SBF_ONE_MINUS_SOURCE_COLOUR:
+        case SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR:
             writeValue("one_minus_src_colour");
             break;
-        case SBF_SOURCE_ALPHA:
+        case SceneBlendFactor::SOURCE_ALPHA:
             writeValue("src_alpha");
             break;
-        case SBF_SOURCE_COLOUR:
+        case SceneBlendFactor::SOURCE_COLOUR:
             writeValue("src_colour");
             break;
-        case SBF_ZERO:
+        case SceneBlendFactor::ZERO:
             writeValue("zero");
             break;
         }
     }
     //-----------------------------------------------------------------------
-    void MaterialSerializer::writeSceneBlendFactor(const SceneBlendFactor sbf_src, const SceneBlendFactor sbf_dst)
+    void MaterialSerializer::writeSceneBlendFactor(SceneBlendFactor src, SceneBlendFactor dst)
     {
-        if (sbf_src == SBF_ONE && sbf_dst == SBF_ONE )
+        if (src == SceneBlendFactor::ONE && dst == SceneBlendFactor::ONE )
             writeValue("add");
-        else if (sbf_src == SBF_DEST_COLOUR && sbf_dst == SBF_ZERO)
+        else if (src == SceneBlendFactor::DEST_COLOUR && dst == SceneBlendFactor::ZERO)
             writeValue("modulate");
-        else if (sbf_src == SBF_SOURCE_COLOUR && sbf_dst == SBF_ONE_MINUS_SOURCE_COLOUR)
+        else if (src == SceneBlendFactor::SOURCE_COLOUR && dst == SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR)
             writeValue("colour_blend");
-        else if (sbf_src == SBF_SOURCE_ALPHA && sbf_dst == SBF_ONE_MINUS_SOURCE_ALPHA)
+        else if (src == SceneBlendFactor::SOURCE_ALPHA && dst == SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA)
             writeValue("alpha_blend");
         else
         {
-            writeSceneBlendFactor(sbf_src);
-            writeSceneBlendFactor(sbf_dst);
+            writeSceneBlendFactor(src);
+            writeSceneBlendFactor(dst);
         }
     }
     //-----------------------------------------------------------------------
     void MaterialSerializer::writeSceneBlendFactor(
-        const SceneBlendFactor c_src, const SceneBlendFactor c_dest, 
-        const SceneBlendFactor a_src, const SceneBlendFactor a_dest)
+        SceneBlendFactor c_src, SceneBlendFactor c_dest, 
+        SceneBlendFactor a_src, SceneBlendFactor a_dest)
     {
         writeSceneBlendFactor(c_src, c_dest);
         writeSceneBlendFactor(a_src, a_dest);

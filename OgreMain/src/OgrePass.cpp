@@ -472,26 +472,26 @@ namespace Ogre {
     {
         switch ( type )
         {
-        case SBT_TRANSPARENT_ALPHA:
-            source = SBF_SOURCE_ALPHA;
-            dest = SBF_ONE_MINUS_SOURCE_ALPHA;
+        case SceneBlendType::TRANSPARENT_ALPHA:
+            source = SceneBlendFactor::SOURCE_ALPHA;
+            dest = SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA;
             return;
-        case SBT_TRANSPARENT_COLOUR:
-            source = SBF_SOURCE_COLOUR;
-            dest = SBF_ONE_MINUS_SOURCE_COLOUR;
+        case SceneBlendType::TRANSPARENT_COLOUR:
+            source = SceneBlendFactor::SOURCE_COLOUR;
+            dest = SceneBlendFactor::ONE_MINUS_SOURCE_COLOUR;
             return;
-        case SBT_MODULATE:
-            source = SBF_DEST_COLOUR;
-            dest = SBF_ZERO;
+        case SceneBlendType::MODULATE:
+            source = SceneBlendFactor::DEST_COLOUR;
+            dest = SceneBlendFactor::ZERO;
             return;
-        case SBT_ADD:
-            source = SBF_ONE;
-            dest = SBF_ONE;
+        case SceneBlendType::ADD:
+            source = SceneBlendFactor::ONE;
+            dest = SceneBlendFactor::ONE;
             return;
         default:
-        case SBT_REPLACE:
-            source = SBF_ONE;
-            dest = SBF_ZERO;
+        case SceneBlendType::REPLACE:
+            source = SceneBlendFactor::ONE;
+            dest = SceneBlendFactor::ZERO;
             return;
         }
     }
@@ -558,11 +558,11 @@ namespace Ogre {
     bool Pass::isTransparent(void) const
     {
         // Transparent if any of the destination colour is taken into account
-        if (mBlendState.destFactor == SBF_ZERO &&
-            mBlendState.sourceFactor != SBF_DEST_COLOUR &&
-            mBlendState.sourceFactor != SBF_ONE_MINUS_DEST_COLOUR &&
-            mBlendState.sourceFactor != SBF_DEST_ALPHA &&
-            mBlendState.sourceFactor != SBF_ONE_MINUS_DEST_ALPHA)
+        if (mBlendState.destFactor == SceneBlendFactor::ZERO &&
+            mBlendState.sourceFactor != SceneBlendFactor::DEST_COLOUR &&
+            mBlendState.sourceFactor != SceneBlendFactor::ONE_MINUS_DEST_COLOUR &&
+            mBlendState.sourceFactor != SceneBlendFactor::DEST_ALPHA &&
+            mBlendState.sourceFactor != SceneBlendFactor::ONE_MINUS_DEST_ALPHA)
         {
             return false;
         }

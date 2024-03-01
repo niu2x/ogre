@@ -873,7 +873,7 @@ namespace Ogre {
                             newPass->setAmbient(ColourValue::Black);
                             newPass->setSelfIllumination(ColourValue::Black);
                             // must be additive
-                            newPass->setSceneBlending(SBF_ONE, SBF_ONE);
+                            newPass->setSceneBlending(SceneBlendFactor::ONE, SceneBlendFactor::ONE);
 
                             // Calculate hash value for new pass, because we are compiling
                             // illumination passes on demand, which will loss hash calculate
@@ -918,7 +918,7 @@ namespace Ogre {
                             newPass->setLightingEnabled(false);
                             newPass->setIteratePerLight(false, false);
                             // modulate
-                            newPass->setSceneBlending(SBF_DEST_COLOUR, SBF_ZERO);
+                            newPass->setSceneBlending(SceneBlendFactor::DEST_COLOUR, SceneBlendFactor::ZERO);
 
                             // Calculate hash value for new pass, because we are compiling
                             // illumination passes on demand, which will loss hash calculate

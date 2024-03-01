@@ -197,7 +197,7 @@ void VolumeRenderable::initialise()
     TextureUnitState * textureUnit = pass->createTextureUnitState();
     
     // Set pass parameters
-    pass->setSceneBlending(SBT_TRANSPARENT_ALPHA);
+    pass->setSceneBlending(SceneBlendType::TRANSPARENT_ALPHA);
     pass->setDepthWriteEnabled(false);
     pass->setCullingMode(CULL_NONE);
     pass->setLightingEnabled(false);

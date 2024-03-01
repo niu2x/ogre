@@ -293,13 +293,13 @@ namespace Ogre
         // Set up blending
         if (mTexture->hasAlpha())
         {
-            mMaterial->setSceneBlending(mAntialiasColour ? SBF_ONE : SBF_SOURCE_ALPHA, SBF_ONE_MINUS_SOURCE_ALPHA);
+            mMaterial->setSceneBlending(mAntialiasColour ? SceneBlendFactor::ONE : SceneBlendFactor::SOURCE_ALPHA, SceneBlendFactor::ONE_MINUS_SOURCE_ALPHA);
             mMaterial->getTechnique(0)->getPass(0)->setTransparentSortingEnabled(false);
         }
         else
         {
             // Use add if no alpha (assume black background)
-            mMaterial->setSceneBlending(SBT_ADD);
+            mMaterial->setSceneBlending(SceneBlendType::ADD);
         }
     }
     //---------------------------------------------------------------------
