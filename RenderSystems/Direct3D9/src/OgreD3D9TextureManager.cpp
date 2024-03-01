@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreD3D9Texture.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreD3D9Mappings.h"
 #include "OgreRoot.h"
 #include "OgreD3D9RenderSystem.h"

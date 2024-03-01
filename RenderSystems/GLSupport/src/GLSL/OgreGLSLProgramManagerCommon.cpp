@@ -28,7 +28,7 @@
 
 #include "OgreGLSLProgramManagerCommon.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGLSLProgramCommon.h"
 
 namespace Ogre {
@@ -272,7 +272,7 @@ namespace Ogre {
                         // the array term might be a simple number or it might be
                         // an expression (e.g. 24*3) or refer to a constant expression
                         // we'd have to evaluate the expression which could get nasty
-                        def.arraySize *= StringConverter::parseInt(arrayDimTerm);
+                        def.arraySize *= StringConverter::parse_int32(arrayDimTerm);
                         arrayStart = part.find("[", arrayEnd);
                     }
                 }

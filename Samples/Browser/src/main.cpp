@@ -77,13 +77,13 @@ int main(int argc, char *argv[]) {
         int startUpSampleIdx = -1;
         if (argc >= 3)
         {
-            startUpSampleIdx = Ogre::StringConverter::parseInt(Ogre::String(argv[2]), -1);
+            startUpSampleIdx = Ogre::StringConverter::parse_int32(Ogre::String(argv[2]), -1);
         }
         else if (argc >= 2)
         {
             // first parameter can be either nograb or index. in the former case, we'll just
             // get -1, which is fine.
-            startUpSampleIdx = Ogre::StringConverter::parseInt(Ogre::String(argv[1]), -1);
+            startUpSampleIdx = Ogre::StringConverter::parse_int32(Ogre::String(argv[1]), -1);
         }
         OgreBites::SampleBrowser brows (nograb, startUpSampleIdx);
         brows.go();

@@ -200,7 +200,7 @@ namespace Ogre
         // so use our own pointer as identifier, use FashHash rather than just casting
         // the pointer to a long so we support 64-bit pointers
         Terrain* pTerrain = this;
-        mMaterialName = "OgreTerrain/" + StringConverter::toString(FastHash((const char*)&pTerrain, sizeof(Terrain*)));
+        mMaterialName = "OgreTerrain/" + StringConverter::to_string(FastHash((const char*)&pTerrain, sizeof(Terrain*)));
 
         memset(mNeighbours, 0, sizeof(Terrain*) * NEIGHBOUR_COUNT);
     }
@@ -775,7 +775,7 @@ namespace Ogre
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
                 "maxBatchSize must be no larger than " + 
-                    StringConverter::toString(TERRAIN_MAX_BATCH_SIZE),
+                    StringConverter::to_string(TERRAIN_MAX_BATCH_SIZE),
                 "Terrain::prepare");
         }
 
@@ -4099,7 +4099,7 @@ namespace Ogre
             {
                 Image img;
                 (*i)->convertToImage(img);
-                img.save(prefix + "_blendtexture" + StringConverter::toString(blendTexture) + suffix);
+                img.save(prefix + "_blendtexture" + StringConverter::to_string(blendTexture) + suffix);
             }
         }
 

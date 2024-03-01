@@ -36,215 +36,215 @@ namespace Ogre {
         //-----------------------------------------------------------------------
         String CmdAngle::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getAngle() );
         }
         void CmdAngle::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setAngle(StringConverter::parseAngle(val));
+            static_cast<ParticleEmitter*>(target)->setAngle(StringConverter::parse_angle(val));
         }
         //-----------------------------------------------------------------------
         String CmdColour::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getColour() );
         }
         void CmdColour::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setColour(StringConverter::parseColourValue(val));
+            static_cast<ParticleEmitter*>(target)->setColour(StringConverter::parse_colour_value(val));
         }
         //-----------------------------------------------------------------------
         String CmdColourRangeStart::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getColourRangeStart() );
         }
         void CmdColourRangeStart::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setColourRangeStart(StringConverter::parseColourValue(val));
+            static_cast<ParticleEmitter*>(target)->setColourRangeStart(StringConverter::parse_colour_value(val));
         }
         //-----------------------------------------------------------------------
         String CmdColourRangeEnd::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getColourRangeEnd() );
         }
         void CmdColourRangeEnd::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setColourRangeEnd(StringConverter::parseColourValue(val));
+            static_cast<ParticleEmitter*>(target)->setColourRangeEnd(StringConverter::parse_colour_value(val));
         }
         //-----------------------------------------------------------------------
         String CmdDirection::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getDirection() );
         }
         void CmdDirection::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setDirection(StringConverter::parseVector3(val));
+            static_cast<ParticleEmitter*>(target)->setDirection(StringConverter::parse_vector3(val));
         }
         //-----------------------------------------------------------------------
         String CmdUp::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getUp() );
         }
         void CmdUp::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setUp(StringConverter::parseVector3(val));
+            static_cast<ParticleEmitter*>(target)->setUp(StringConverter::parse_vector3(val));
         }
         //-----------------------------------------------------------------------
         String CmdDirPositionRef::doGet(const void* target) const
         {
             Vector4 val( static_cast<const ParticleEmitter*>(target)->getDirPositionReference() );
             val.w = static_cast<const ParticleEmitter*>(target)->getDirPositionReferenceEnabled();
-            return StringConverter::toString( val );
+            return StringConverter::to_string( val );
         }
         void CmdDirPositionRef::doSet(void* target, const String& val)
         {
-            const Vector4 parsed = StringConverter::parseVector4(val);
+            const Vector4 parsed = StringConverter::parse_vector4(val);
             const Vector3 vPos( parsed.x, parsed.y, parsed.z );
             static_cast<ParticleEmitter*>(target)->setDirPositionReference( vPos, parsed.w != 0 );
         }
         //-----------------------------------------------------------------------
         String CmdEmissionRate::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getEmissionRate() );
         }
         void CmdEmissionRate::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setEmissionRate(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setEmissionRate(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMaxTTL::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMaxTimeToLive() );
         }
         void CmdMaxTTL::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMaxTimeToLive(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMaxTimeToLive(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMinTTL::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMinTimeToLive() );
         }
         void CmdMinTTL::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMinTimeToLive(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMinTimeToLive(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMaxVelocity::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMaxParticleVelocity() );
         }
         void CmdMaxVelocity::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMaxParticleVelocity(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMaxParticleVelocity(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMinVelocity::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMinParticleVelocity() );
         }
         void CmdMinVelocity::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMinParticleVelocity(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMinParticleVelocity(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdPosition::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getPosition() );
         }
         void CmdPosition::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setPosition(StringConverter::parseVector3(val));
+            static_cast<ParticleEmitter*>(target)->setPosition(StringConverter::parse_vector3(val));
         }
         //-----------------------------------------------------------------------
         String CmdTTL::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getTimeToLive() );
         }
         void CmdTTL::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setTimeToLive(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setTimeToLive(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdVelocity::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getParticleVelocity() );
         }
         void CmdVelocity::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setParticleVelocity(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setParticleVelocity(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdDuration::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getDuration() );
         }
         void CmdDuration::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setDuration(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setDuration(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMinDuration::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMinDuration() );
         }
         void CmdMinDuration::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMinDuration(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMinDuration(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMaxDuration::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMaxDuration() );
         }
         void CmdMaxDuration::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMaxDuration(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMaxDuration(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdRepeatDelay::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getRepeatDelay() );
         }
         void CmdRepeatDelay::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setRepeatDelay(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setRepeatDelay(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMinRepeatDelay::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMinRepeatDelay() );
         }
         void CmdMinRepeatDelay::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMinRepeatDelay(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMinRepeatDelay(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdMaxRepeatDelay::doGet(const void* target) const
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const ParticleEmitter*>(target)->getMaxRepeatDelay() );
         }
         void CmdMaxRepeatDelay::doSet(void* target, const String& val)
         {
-            static_cast<ParticleEmitter*>(target)->setMaxRepeatDelay(StringConverter::parseReal(val));
+            static_cast<ParticleEmitter*>(target)->setMaxRepeatDelay(StringConverter::parse_real(val));
         }
         //-----------------------------------------------------------------------
         String CmdName::doGet(const void* target) const

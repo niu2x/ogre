@@ -174,7 +174,7 @@ namespace Ogre
             OGRE_EXCEPT( Exception::ERR_RENDERINGAPI_ERROR,
                          "Failure while waiting for a MetalFence. Could be out of GPU memory. "
                          "Update your video card drivers. If that doesn't help, "
-                         "contact the developers. Error code: " + StringConverter::toString( result ),
+                         "contact the developers. Error code: " + StringConverter::to_string( result ),
                          "MetalDevice::stall" );
         }
 

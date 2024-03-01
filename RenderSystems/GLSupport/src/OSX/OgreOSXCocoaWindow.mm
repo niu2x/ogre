@@ -29,7 +29,7 @@ THE SOFTWARE.
 #import "OgreOSXCocoaWindow.h"
 #import "OgreRoot.h"
 #import "log_manager.h"
-#import "OgreStringConverter.h"
+#import "string_converter.h"
 
 #import "OgreGLRenderSystemCommon.h"
 #import "OgreGLNativeSupport.h"
@@ -154,39 +154,39 @@ namespace Ogre {
 				
 			opt = miscParams->find("left");
 			if(opt != miscParams->end())
-				winxPt = StringConverter::parseUnsignedInt(opt->second);
+				winxPt = StringConverter::parse_uint32(opt->second);
 				
 			opt = miscParams->find("top");
 			if(opt != miscParams->end())
-				winyPt = (int)NSHeight([[NSScreen mainScreen] frame]) - StringConverter::parseUnsignedInt(opt->second) - heightPt;
+				winyPt = (int)NSHeight([[NSScreen mainScreen] frame]) - StringConverter::parse_uint32(opt->second) - heightPt;
 
 			opt = miscParams->find("hidden");
 			if (opt != miscParams->end())
-				hidden = StringConverter::parseBool(opt->second);
+				hidden = StringConverter::parse_bool(opt->second);
 
 			opt = miscParams->find("depthBuffer");
 			if(opt != miscParams->end())
-				hasDepthBuffer = StringConverter::parseBool(opt->second);
+				hasDepthBuffer = StringConverter::parse_bool(opt->second);
 				
 			opt = miscParams->find("FSAA");
 			if(opt != miscParams->end())
-				fsaa_samples = StringConverter::parseUnsignedInt(opt->second);
+				fsaa_samples = StringConverter::parse_uint32(opt->second);
 			
 			opt = miscParams->find("gamma");
 			if(opt != miscParams->end())
-				mHwGamma = StringConverter::parseBool(opt->second);
+				mHwGamma = StringConverter::parse_bool(opt->second);
 
             opt = miscParams->find("vsync");
 			if(opt != miscParams->end())
-				mVSync = StringConverter::parseBool(opt->second);
+				mVSync = StringConverter::parse_bool(opt->second);
 
 			opt = miscParams->find("colourDepth");
 			if(opt != miscParams->end())
-				colourDepth = StringConverter::parseUnsignedInt(opt->second);
+				colourDepth = StringConverter::parse_uint32(opt->second);
 
 			opt = miscParams->find("Full Screen");
 			if(opt != miscParams->end())
-				fullScreen = StringConverter::parseBool(opt->second);
+				fullScreen = StringConverter::parse_bool(opt->second);
 
             opt = miscParams->find("contentScalingFactor");
             if(opt != miscParams->end())
@@ -194,23 +194,23 @@ namespace Ogre {
             
             opt = miscParams->find("contextProfile");
             if(opt != miscParams->end())
-                contextProfile = StringConverter::parseInt(opt->second);
+                contextProfile = StringConverter::parse_int32(opt->second);
 
             opt = miscParams->find("currentGLContext");
             if (opt != miscParams->end())
-                currentGLContext = StringConverter::parseBool(opt->second);
+                currentGLContext = StringConverter::parse_bool(opt->second);
 
             opt = miscParams->find("externalGLControl");
             if (opt != miscParams->end())
-                mIsExternalGLControl = StringConverter::parseBool(opt->second);
+                mIsExternalGLControl = StringConverter::parse_bool(opt->second);
             
             opt = miscParams->find("externalGLContext");
             if(opt != miscParams->end())
-                externalGLContext = (NSOpenGLContext*)StringConverter::parseSizeT(opt->second);
+                externalGLContext = (NSOpenGLContext*)StringConverter::parse_size_t(opt->second);
             
             opt = miscParams->find("externalWindowHandle");
             if(opt != miscParams->end())
-                externalWindowHandle = (NSObject*)StringConverter::parseSizeT(opt->second);
+                externalWindowHandle = (NSObject*)StringConverter::parse_size_t(opt->second);
             
             opt = miscParams->find("border");
             if(opt != miscParams->end())
@@ -229,13 +229,13 @@ namespace Ogre {
 
             opt = miscParams->find("NSOpenGLCPSurfaceOrder");
             if(opt != miscParams->end())
-                surfaceOrder = StringConverter::parseInt(opt->second);
+                surfaceOrder = StringConverter::parse_int32(opt->second);
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 			opt = miscParams->find("stereoMode");
 			if (opt != miscParams->end())
 			{
-				mStereoEnabled = StringConverter::parseBool(opt->second);
+				mStereoEnabled = StringConverter::parse_bool(opt->second);
 			}
 #endif
         }

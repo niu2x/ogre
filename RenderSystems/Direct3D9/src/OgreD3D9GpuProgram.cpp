@@ -42,11 +42,11 @@ namespace Ogre {
    //-----------------------------------------------------------------------
     String D3D9GpuProgram::CmdColumnMajorMatrices::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const D3D9GpuProgram*>(target)->getColumnMajorMatrices());
+        return StringConverter::to_string(static_cast<const D3D9GpuProgram*>(target)->getColumnMajorMatrices());
     }
     void D3D9GpuProgram::CmdColumnMajorMatrices::doSet(void *target, const String& val)
     {
-        static_cast<D3D9GpuProgram*>(target)->setColumnMajorMatrices(StringConverter::parseBool(val));
+        static_cast<D3D9GpuProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String D3D9GpuProgram::CmdExternalMicrocode::doGet(const void *target) const

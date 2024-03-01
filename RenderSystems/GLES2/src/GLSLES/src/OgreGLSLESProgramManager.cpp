@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGLSLESProgramManager.h"
 #include "OgreGLSLESProgram.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreGLSLESProgram.h"

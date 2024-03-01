@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
@@ -69,7 +69,7 @@ namespace Ogre {
         size_t versionPos = mSource.find("#version");
         if(versionPos != String::npos)
         {
-            mShaderVersion = StringConverter::parseInt(mSource.substr(versionPos+9, 3));
+            mShaderVersion = StringConverter::parse_int32(mSource.substr(versionPos+9, 3));
         }
         String verStr = std::to_string(mShaderVersion);
 
@@ -162,10 +162,10 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String GLSLShaderCommon::CmdColumnMajorMatrices::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const GLSLShaderCommon*>(target)->getColumnMajorMatrices());
+        return StringConverter::to_string(static_cast<const GLSLShaderCommon*>(target)->getColumnMajorMatrices());
     }
     void GLSLShaderCommon::CmdColumnMajorMatrices::doSet(void *target, const String& val)
     {
-        static_cast<GLSLShaderCommon*>(target)->setColumnMajorMatrices(StringConverter::parseBool(val));
+        static_cast<GLSLShaderCommon*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
 }

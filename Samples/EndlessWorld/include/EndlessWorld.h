@@ -119,12 +119,12 @@ public:
 				Real x = (pt.x / 2) + 0.5f;
 				Real y = 1 - ((pt.y / 2) + 0.5f);
 
-				String lName = StringConverter::toString(size_t(t))+"/"+"LodInfoLabel";
+				String lName = StringConverter::to_string(size_t(t))+"/"+"LodInfoLabel";
 
 				OverlayElement *l = OverlayManager::getSingleton().createOverlayElement("TextArea", lName);
-				l->setCaption("Target="+StringConverter::toString(t->getTargetLodLevel())+"\nHighest="+
-					  StringConverter::toString(t->getHighestLodLoaded())+"\nPrepared="+
-					  StringConverter::toString(t->getHighestLodPrepared())
+				l->setCaption("Target="+StringConverter::to_string(t->getTargetLodLevel())+"\nHighest="+
+					  StringConverter::to_string(t->getHighestLodLoaded())+"\nPrepared="+
+					  StringConverter::to_string(t->getHighestLodPrepared())
 					  );
 				l->setPosition(x, y);
 				l->setDimensions(0.1, 0.1);  // center text in label and its position

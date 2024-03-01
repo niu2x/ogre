@@ -75,7 +75,7 @@ namespace Ogre {
             if(msMapCodecs.empty())
                 formats_str = "There are no formats supported (no codecs registered).";
             else
-                formats_str = "Supported formats are: " + StringConverter::toString(getExtensions()) + ".";
+                formats_str = "Supported formats are: " + StringConverter::to_string(getExtensions()) + ".";
 
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
                         "Can not find codec for '" + extension + "' format.\n" + formats_str);

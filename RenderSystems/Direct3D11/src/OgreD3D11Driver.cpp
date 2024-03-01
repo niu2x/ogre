@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D11VideoMode.h"
 #include "OgreD3D11Device.h"
 #include "string_util.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #ifndef DXGI_ADAPTER_FLAG_SOFTWARE
 #define DXGI_ADAPTER_FLAG_SOFTWARE 2 // unavailable in June 2010 SDK
@@ -66,7 +66,7 @@ namespace Ogre
         if(mAdapterIdentifier.VendorId == 0x1414 && mAdapterIdentifier.DeviceId == 0x8c && (mAdapterIdentifier.Flags & DXGI_ADAPTER_FLAG_SOFTWARE))
             driverDescription += " (software)"; // It`s software only variation of "Microsoft Basic Render Driver", always present since Win8
         else if(mSameNameAdapterIndex != 0)
-            driverDescription += " (" + Ogre::StringConverter::toString(mSameNameAdapterIndex + 1) + ")";
+            driverDescription += " (" + Ogre::StringConverter::to_string(mSameNameAdapterIndex + 1) + ")";
 
         return driverDescription;
     }

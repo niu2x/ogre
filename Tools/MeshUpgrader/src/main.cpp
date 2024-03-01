@@ -135,7 +135,7 @@ UpgradeOptions parseOpts(UnaryOptionList& unOpts, BinaryOptionList& binOpts)
     // Binary options (options that take a parameter)
     BinaryOptionList::iterator bi = binOpts.find("-l");
     if (!bi->second.empty()) {
-        opts.numLods = StringConverter::parseInt(bi->second);
+        opts.numLods = StringConverter::parse_int32(bi->second);
     }
 
     bi = binOpts.find("-log");
@@ -145,18 +145,18 @@ UpgradeOptions parseOpts(UnaryOptionList& unOpts, BinaryOptionList& binOpts)
 
     bi = binOpts.find("-d");
     if (!bi->second.empty()) {
-        opts.lodDist = StringConverter::parseReal(bi->second);
+        opts.lodDist = StringConverter::parse_real(bi->second);
     }
 
     bi = binOpts.find("-p");
     if (!bi->second.empty()) {
-        opts.lodPercent = StringConverter::parseReal(bi->second);
+        opts.lodPercent = StringConverter::parse_real(bi->second);
         opts.usePercent = true;
     }
 
     bi = binOpts.find("-f");
     if (!bi->second.empty()) {
-        opts.lodFixed = StringConverter::parseInt(bi->second);
+        opts.lodFixed = StringConverter::parse_int32(bi->second);
         opts.usePercent = false;
     }
 
@@ -292,13 +292,13 @@ void printLodConfig(const LodConfig& lodConfig)
     }
     for (unsigned short i = 0; i < lodConfig.levels.size(); i++) {
         const LodLevel& lodLevel = lodConfig.levels[i];
-        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].distance=" +
-                           StringConverter::toString(lodLevel.distance) + distQuantity);
-        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].reductionMethod=" +
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::to_string(i) + "].distance=" +
+                           StringConverter::to_string(lodLevel.distance) + distQuantity);
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::to_string(i) + "].reductionMethod=" +
                            (lodLevel.manualMeshName.empty() ? reductionMethod : "N/A"));
-        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].reductionValue=" +
-                           (lodLevel.manualMeshName.empty() ? StringConverter::toString(lodLevel.reductionValue) : "N/A"));
-        logMgr->log_message(" - lodConfig.levels[" + StringConverter::toString(i) + "].manualMeshName=" +
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::to_string(i) + "].reductionValue=" +
+                           (lodLevel.manualMeshName.empty() ? StringConverter::to_string(lodLevel.reductionValue) : "N/A"));
+        logMgr->log_message(" - lodConfig.levels[" + StringConverter::to_string(i) + "].manualMeshName=" +
                            (lodLevel.manualMeshName.empty() ? "N/A" : lodLevel.manualMeshName));
     }
 }

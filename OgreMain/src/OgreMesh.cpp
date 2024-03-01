@@ -668,11 +668,11 @@ namespace Ogre {
             // Warn that we've reduced bone assignments
             LogManager::getSingleton().log_warning("the mesh '" + mName + "' "
                 "includes vertices with more than " +
-                StringConverter::toString(OGRE_MAX_BLEND_WEIGHTS) + " bone assignments. "
+                StringConverter::to_string(OGRE_MAX_BLEND_WEIGHTS) + " bone assignments. "
                 "The lowest weighted assignments beyond this limit have been removed, so "
                 "your animation may look slightly different. To eliminate this, reduce "
                 "the number of bone assignments per vertex on your mesh to " +
-                StringConverter::toString(OGRE_MAX_BLEND_WEIGHTS) + ".");
+                StringConverter::to_string(OGRE_MAX_BLEND_WEIGHTS) + ".");
             // we've adjusted them down to the max
             maxBones = OGRE_MAX_BLEND_WEIGHTS;
 
@@ -1649,7 +1649,7 @@ namespace Ogre {
                 #if OGRE_DEBUG_MODE
                     // Override default log
                     Log* log = LogManager::getSingleton().create_log(
-                        mName + "_lod" + StringConverter::toString(lodIndex) +
+                        mName + "_lod" + StringConverter::to_string(lodIndex) +
                         "_prepshadow.log", false, false);
                     usage.edgeData->log(log);
                     // clean up log & close file handle
@@ -2127,7 +2127,7 @@ namespace Ogre {
                         // Mixing of morph and pose animation on same data is not allowed
                         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Animation tracks for dedicated vertex data "
-                            + StringConverter::toString(handle-1) + " on mesh "
+                            + StringConverter::to_string(handle-1) + " on mesh "
                             + mName + " try to mix vertex animation types, which is "
                             "not allowed.",
                             "Mesh::_determineAnimationTypes");

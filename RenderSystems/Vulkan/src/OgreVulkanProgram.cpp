@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanMappings.h"
 
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreVulkanUtils.h"
 
 #include "OgreRenderSystemCapabilities.h"

@@ -288,7 +288,7 @@ namespace Ogre {
         {
             LogManager::getSingleton().log_warning(
                 "shadow index buffer size to small. Auto increasing buffer size to" +
-                StringConverter::toString(sizeof(unsigned short) * preCountIndexes));
+                StringConverter::to_string(sizeof(unsigned short) * preCountIndexes));
 
             SceneManager* pManager = Root::getSingleton()._getCurrentSceneManager();
             if (pManager)

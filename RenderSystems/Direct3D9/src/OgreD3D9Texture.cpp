@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreD3D9HardwarePixelBuffer.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "bitwise.h"
 #include "OgreD3D9Mappings.h"
 #include "OgreD3D9RenderSystem.h"
@@ -849,8 +849,8 @@ namespace Ogre
             mHeight != mSrcHeight)
         {
             LogManager::getSingleton().log_message("D3D9 : ***** Dimensions altered by the render system");
-            LogManager::getSingleton().log_message("D3D9 : ***** Source image dimensions : " + StringConverter::toString(mSrcWidth) + "x" + StringConverter::toString(mSrcHeight));
-            LogManager::getSingleton().log_message("D3D9 : ***** Texture dimensions : " + StringConverter::toString(mWidth) + "x" + StringConverter::toString(mHeight));
+            LogManager::getSingleton().log_message("D3D9 : ***** Source image dimensions : " + StringConverter::to_string(mSrcWidth) + "x" + StringConverter::to_string(mSrcHeight));
+            LogManager::getSingleton().log_message("D3D9 : ***** Texture dimensions : " + StringConverter::to_string(mWidth) + "x" + StringConverter::to_string(mHeight));
         }
         
         // Create list of subsurfaces for getBuffer()

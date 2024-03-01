@@ -92,19 +92,19 @@ namespace Ogre
             // hidden   [parseBool]
             opt = miscParams->find("hidden");
             if(opt != miscParams->end())
-                mHidden = StringConverter::parseBool(opt->second);
+                mHidden = StringConverter::parse_bool(opt->second);
             // colourDepth
             opt = miscParams->find("colourDepth");
             if(opt != miscParams->end())
-                colourDepth = StringConverter::parseUnsignedInt(opt->second);
+                colourDepth = StringConverter::parse_uint32(opt->second);
             // depthBuffer [parseBool]
             opt = miscParams->find("depthBuffer");
             if(opt != miscParams->end())
-                depthBuffer = StringConverter::parseBool(opt->second);
+                depthBuffer = StringConverter::parse_bool(opt->second);
             // FSAA type
             opt = miscParams->find("FSAA");
             if(opt != miscParams->end())
-                mFSAA = StringConverter::parseUnsignedInt(opt->second);
+                mFSAA = StringConverter::parse_uint32(opt->second);
             // FSAA quality
             opt = miscParams->find("FSAAHint");
             if(opt != miscParams->end())
@@ -112,7 +112,7 @@ namespace Ogre
             // sRGB?
             opt = miscParams->find("gamma");
             if(opt != miscParams->end())
-                mHwGamma = StringConverter::parseBool(opt->second);
+                mHwGamma = StringConverter::parse_bool(opt->second);
         }
 
         mName = name;
@@ -643,24 +643,24 @@ namespace Ogre
             // left (x)
             opt = miscParams->find("left");
             if(opt != miscParams->end())
-                left = StringConverter::parseInt(opt->second);
+                left = StringConverter::parse_int32(opt->second);
             // top (y)
             opt = miscParams->find("top");
             if(opt != miscParams->end())
-                top = StringConverter::parseInt(opt->second);
+                top = StringConverter::parse_int32(opt->second);
             // Window title
             opt = miscParams->find("title");
             if(opt != miscParams->end())
                 title = opt->second;
             opt = miscParams->find("windowProc");
             if (opt != miscParams->end())
-                windowProc = reinterpret_cast<WNDPROC>(StringConverter::parseSizeT(opt->second));
+                windowProc = reinterpret_cast<WNDPROC>(StringConverter::parse_size_t(opt->second));
             // externalWindowHandle     -> externalHandle
             opt = miscParams->find("externalWindowHandle");
             if (opt == miscParams->end())
                 opt = miscParams->find("parentWindowHandle");
             if(opt != miscParams->end())
-                externalHandle = (HWND)StringConverter::parseSizeT(opt->second);
+                externalHandle = (HWND)StringConverter::parse_size_t(opt->second);
             // window border style
             opt = miscParams->find("border");
             if(opt != miscParams->end())
@@ -668,30 +668,30 @@ namespace Ogre
             // set outer dimensions?
             opt = miscParams->find("outerDimensions");
             if(opt != miscParams->end())
-                outerSize = StringConverter::parseBool(opt->second);
+                outerSize = StringConverter::parse_bool(opt->second);
             opt = miscParams->find("monitorIndex");
             if(opt != miscParams->end())
-                monitorIndex = StringConverter::parseInt(opt->second);
+                monitorIndex = StringConverter::parse_int32(opt->second);
 
 #if defined(_WIN32_WINNT_WIN8) && _WIN32_WINNT >= _WIN32_WINNT_WIN8
             // useFlipMode    [parseBool]
             opt = miscParams->find("useFlipMode");
             if(opt != miscParams->end())
-                mUseFlipMode = IsWindows8OrGreater() && StringConverter::parseBool(opt->second);
+                mUseFlipMode = IsWindows8OrGreater() && StringConverter::parse_bool(opt->second);
 #endif
             // vsync    [parseBool]
             opt = miscParams->find("vsync");
             if(opt != miscParams->end())
-                mVSync = StringConverter::parseBool(opt->second);
+                mVSync = StringConverter::parse_bool(opt->second);
             // vsyncInterval    [parseUnsignedInt]
             opt = miscParams->find("vsyncInterval");
             if(opt != miscParams->end())
-                mVSyncInterval = StringConverter::parseUnsignedInt(opt->second);
+                mVSyncInterval = StringConverter::parse_uint32(opt->second);
 
             // enable double click messages
             opt = miscParams->find("enableDoubleClick");
             if(opt != miscParams->end())
-                enableDoubleClick = StringConverter::parseBool(opt->second);
+                enableDoubleClick = StringConverter::parse_bool(opt->second);
 
         }
 		
@@ -1234,7 +1234,7 @@ namespace Ogre
             // externalWindowHandle     -> externalHandle
             opt = miscParams->find("externalWindowHandle");
             if(opt != miscParams->end())
-                externalHandle = reinterpret_cast<Windows::UI::Core::CoreWindow^>((void*)StringConverter::parseSizeT(opt->second));
+                externalHandle = reinterpret_cast<Windows::UI::Core::CoreWindow^>((void*)StringConverter::parse_size_t(opt->second));
             else
                 externalHandle = Windows::UI::Core::CoreWindow::GetForCurrentThread();
         }
@@ -1373,7 +1373,7 @@ namespace Ogre
             // externalWindowHandle     -> externalHandle
             opt = miscParams->find("externalWindowHandle");
             if(opt != miscParams->end())
-                externalHandle = reinterpret_cast<Windows::UI::Xaml::Controls::SwapChainPanel^>((void*)StringConverter::parseSizeT(opt->second));
+                externalHandle = reinterpret_cast<Windows::UI::Xaml::Controls::SwapChainPanel^>((void*)StringConverter::parse_size_t(opt->second));
         }
 
         // Reset current control if any
@@ -1551,7 +1551,7 @@ namespace Ogre
             // isOpaque
             opt = miscParams->find("isOpaque");
             if(opt != miscParams->end())
-                isOpaque = StringConverter::parseBool(opt->second);
+                isOpaque = StringConverter::parse_bool(opt->second);
         }
 
         // create brush

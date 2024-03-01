@@ -96,8 +96,8 @@ namespace OgreBites
         {
             if (mCameraMan->getStyle() == CS_FREELOOK)
             {
-                state["CameraPosition"] = Ogre::StringConverter::toString(mCameraNode->getPosition());
-                state["CameraOrientation"] = Ogre::StringConverter::toString(mCameraNode->getOrientation());
+                state["CameraPosition"] = Ogre::StringConverter::to_string(mCameraNode->getPosition());
+                state["CameraOrientation"] = Ogre::StringConverter::to_string(mCameraNode->getOrientation());
             }
         }
 
@@ -109,8 +109,8 @@ namespace OgreBites
             if (state.find("CameraPosition") != state.end() && state.find("CameraOrientation") != state.end())
             {
                 mCameraMan->setStyle(CS_FREELOOK);
-                mCameraNode->setPosition(Ogre::StringConverter::parseVector3(state["CameraPosition"]));
-                mCameraNode->setOrientation(Ogre::StringConverter::parseQuaternion(state["CameraOrientation"]));
+                mCameraNode->setPosition(Ogre::StringConverter::parse_vector3(state["CameraPosition"]));
+                mCameraNode->setOrientation(Ogre::StringConverter::parse_quaternion(state["CameraOrientation"]));
             }
         }
 
@@ -241,7 +241,7 @@ namespace OgreBites
         {
             using namespace Ogre;
             // Create material
-            String matName = "Ogre/DebugTexture" + StringConverter::toString(i);
+            String matName = "Ogre/DebugTexture" + StringConverter::to_string(i);
             MaterialPtr debugMat = MaterialManager::getSingleton().getByName(
                 matName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             if (!debugMat)
@@ -265,7 +265,7 @@ namespace OgreBites
             }
 
             // add widget
-            String widgetName = "DebugTex"+ StringConverter::toString(i);
+            String widgetName = "DebugTex"+ StringConverter::to_string(i);
             Widget* w = mTrayMgr->getWidget(widgetName);
             if (!w)
             {

@@ -31,7 +31,7 @@ THE SOFTWARE
 #include "OgreHardwareBufferManager.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreFont.h"
 #include "OgreFontManager.h"
 #include "OgreOverlayElement.h"
@@ -702,26 +702,26 @@ namespace Ogre {
     //
     String CmdCharHeight::doGet( const void* target ) const
     {
-        return StringConverter::toString( 
+        return StringConverter::to_string( 
             static_cast< const TextAreaOverlayElement* >( target )->getCharHeight() );
     }
     void CmdCharHeight::doSet( void* target, const String& val )
     {
         static_cast< TextAreaOverlayElement* >( target )->setCharHeight( 
-            StringConverter::parseReal( val ) );
+            StringConverter::parse_real( val ) );
     }
     //---------------------------------------------------------------------------------------------
     // Space width command object
     //
     String CmdSpaceWidth::doGet( const void* target ) const
     {
-        return StringConverter::toString( 
+        return StringConverter::to_string( 
             static_cast< const TextAreaOverlayElement* >( target )->getSpaceWidth() );
     }
     void CmdSpaceWidth::doSet( void* target, const String& val )
     {
         static_cast< TextAreaOverlayElement* >( target )->setSpaceWidth( 
-            StringConverter::parseReal( val ) );
+            StringConverter::parse_real( val ) );
     }
     //---------------------------------------------------------------------------------------------
 
@@ -742,13 +742,13 @@ namespace Ogre {
     //
     String CmdColour::doGet( const void* target ) const
     {
-        return StringConverter::toString (
+        return StringConverter::to_string (
             static_cast< const TextAreaOverlayElement* >( target )->getColour());
     }
     void CmdColour::doSet( void* target, const String& val )
     {
         static_cast< TextAreaOverlayElement* >( target )->setColour( 
-            StringConverter::parseColourValue(val) );
+            StringConverter::parse_colour_value(val) );
     }
     //---------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------
@@ -757,13 +757,13 @@ namespace Ogre {
     //
     String CmdColourTop::doGet( const void* target ) const
     {
-        return StringConverter::toString (
+        return StringConverter::to_string (
             static_cast< const TextAreaOverlayElement* >( target )->getColourTop());
     }
     void CmdColourTop::doSet( void* target, const String& val )
     {
         static_cast< TextAreaOverlayElement* >( target )->setColourTop( 
-            StringConverter::parseColourValue(val) );
+            StringConverter::parse_colour_value(val) );
     }
     //---------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------
@@ -772,13 +772,13 @@ namespace Ogre {
     //
     String CmdColourBottom::doGet( const void* target ) const
     {
-        return StringConverter::toString (
+        return StringConverter::to_string (
             static_cast< const TextAreaOverlayElement* >( target )->getColourBottom());
     }
     void CmdColourBottom::doSet( void* target, const String& val )
     {
         static_cast< TextAreaOverlayElement* >( target )->setColourBottom( 
-            StringConverter::parseColourValue(val) );
+            StringConverter::parse_colour_value(val) );
     }
     //---------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------

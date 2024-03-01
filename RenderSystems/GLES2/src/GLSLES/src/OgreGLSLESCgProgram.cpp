@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreGLSLESCgProgram.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGpuProgramManager.h"
 #include "log_manager.h"
 #include "hlsl2glsl.h"  // use the code from here: http://code.google.com/p/hlsl2glslfork/
@@ -322,7 +322,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String GLSLESCgProgram::CmdProfiles::doGet(const void *target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const GLSLESCgProgram*>(target)->getProfiles() );
     }
     void GLSLESCgProgram::CmdProfiles::doSet(void *target, const String& val)

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRingEmitter.h"
 #include "OgreParticle.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 /* Implements an Emitter whose emitting points all lie inside a ring.
@@ -137,22 +137,22 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String RingEmitter::CmdInnerX::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const RingEmitter*>(target)->getInnerSizeX() );
     }
     void RingEmitter::CmdInnerX::doSet(void* target, const String& val)
     {
-        static_cast<RingEmitter*>(target)->setInnerSizeX(StringConverter::parseReal(val));
+        static_cast<RingEmitter*>(target)->setInnerSizeX(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String RingEmitter::CmdInnerY::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const RingEmitter*>(target)->getInnerSizeY() );
     }
     void RingEmitter::CmdInnerY::doSet(void* target, const String& val)
     {
-        static_cast<RingEmitter*>(target)->setInnerSizeY(StringConverter::parseReal(val));
+        static_cast<RingEmitter*>(target)->setInnerSizeY(StringConverter::parse_real(val));
     }
 
 }

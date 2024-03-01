@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgrePanelOverlayElement.h"
 #include "OgreTechnique.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
@@ -416,9 +416,9 @@ namespace Ogre {
     String CmdTiling::doGet(const void* target) const
     {
         // NB only returns 1st layer tiling
-        String ret = "0 " + StringConverter::toString(
+        String ret = "0 " + StringConverter::to_string(
             static_cast<const PanelOverlayElement*>(target)->getTileX() );
-        ret += " " + StringConverter::toString(
+        ret += " " + StringConverter::to_string(
             static_cast<const PanelOverlayElement*>(target)->getTileY() );
         return ret;
     }
@@ -427,22 +427,22 @@ namespace Ogre {
         // 3 params: <layer> <x_tile> <y_tile>
         // Param count is validated higher up
         std::vector<String> vec = StringUtil::split(val);
-        ushort layer = (ushort)StringConverter::parseUnsignedInt(vec[0]);
-        Real x_tile = StringConverter::parseReal(vec[1]);
-        Real y_tile = StringConverter::parseReal(vec[2]);
+        ushort layer = (ushort)StringConverter::parse_uint32(vec[0]);
+        Real x_tile = StringConverter::parse_real(vec[1]);
+        Real y_tile = StringConverter::parse_real(vec[2]);
 
         static_cast<PanelOverlayElement*>(target)->setTiling(x_tile, y_tile, layer);
     }
     //-----------------------------------------------------------------------
     String CmdTransparent::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const PanelOverlayElement*>(target)->isTransparent() );
     }
     void CmdTransparent::doSet(void* target, const String& val)
     {
         static_cast<PanelOverlayElement*>(target)->setTransparent(
-            StringConverter::parseBool(val));
+            StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdUVCoords::doGet(const void* target) const
@@ -450,9 +450,9 @@ namespace Ogre {
         Real u1, v1, u2, v2;
 
         static_cast<const PanelOverlayElement*>(target)->getUV(u1, v1, u2, v2);
-        String ret = " " + StringConverter::toString(u1) + " "
-             + StringConverter::toString(v1) + " " + StringConverter::toString(u2) + " "
-             + StringConverter::toString(v2);
+        String ret = " " + StringConverter::to_string(u1) + " "
+             + StringConverter::to_string(v1) + " " + StringConverter::to_string(u2) + " "
+             + StringConverter::to_string(v2);
 
         return ret;
     }
@@ -461,10 +461,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<PanelOverlayElement*>(target)->setUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
 

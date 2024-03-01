@@ -96,12 +96,12 @@ namespace Ogre {
     public:
         String doGet(const void* target) const override
         {
-            return StringConverter::toString(
+            return StringConverter::to_string(
                 static_cast<const BillboardParticleRenderer*>(target)->getTextureStacksAndSlices());
         }
         void doSet(void* target, const String& val) override
         {
-            Vector2 tmp = StringConverter::parseVector2(val);
+            Vector2 tmp = StringConverter::parse_vector2(val);
             static_cast<BillboardParticleRenderer*>(target)->setTextureStacksAndSlices(tmp.x, tmp.y);
         }
     } msStacksAndSlicesCmd;
@@ -395,46 +395,46 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String CmdCommonDirection::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const BillboardParticleRenderer*>(target)->getCommonDirection() );
     }
     void CmdCommonDirection::doSet(void* target, const String& val)
     {
         static_cast<BillboardParticleRenderer*>(target)->setCommonDirection(
-            StringConverter::parseVector3(val));
+            StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
     String CmdCommonUpVector::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const BillboardParticleRenderer*>(target)->getCommonUpVector() );
     }
     void CmdCommonUpVector::doSet(void* target, const String& val)
     {
         static_cast<BillboardParticleRenderer*>(target)->setCommonUpVector(
-            StringConverter::parseVector3(val));
+            StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
     String CmdPointRendering::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const BillboardParticleRenderer*>(target)->isPointRenderingEnabled() );
     }
     void CmdPointRendering::doSet(void* target, const String& val)
     {
         static_cast<BillboardParticleRenderer*>(target)->setPointRenderingEnabled(
-            StringConverter::parseBool(val));
+            StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdAccurateFacing::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const BillboardParticleRenderer*>(target)->getUseAccurateFacing() );
     }
     void CmdAccurateFacing::doSet(void* target, const String& val)
     {
         static_cast<BillboardParticleRenderer*>(target)->setUseAccurateFacing(
-            StringConverter::parseBool(val));
+            StringConverter::parse_bool(val));
     }
 
 }

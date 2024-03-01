@@ -31,7 +31,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include "OgreGLUtil.h"
 #include "OgreRenderSystem.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGL3PlusTextureManager.h"
 #include "OgreGL3PlusHardwareBuffer.h"
 #include "OgreGLSLShader.h"
@@ -343,7 +343,7 @@ namespace Ogre {
         bool limitedOSXCoreProfile = OGRE_PLATFORM == OGRE_PLATFORM_APPLE && hasMinGLVersion(3, 2);
 
         for (uint16 ver = getNativeShadingLanguageVersion(); ver >= 400; ver -= 10)
-            rsc->addShaderProfile("glsl" + StringConverter::toString(ver));
+            rsc->addShaderProfile("glsl" + StringConverter::to_string(ver));
 
         if (getNativeShadingLanguageVersion() >= 330)
             rsc->addShaderProfile("glsl330");
@@ -553,12 +553,12 @@ namespace Ogre {
 
             const char* shadingLangVersion = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
             StringVector tokens = StringUtil::split(shadingLangVersion, ". ");
-            mNativeShadingLanguageVersion = (StringConverter::parseUnsignedInt(tokens[0]) * 100) + StringConverter::parseUnsignedInt(tokens[1]);
+            mNativeShadingLanguageVersion = (StringConverter::parse_uint32(tokens[0]) * 100) + StringConverter::parse_uint32(tokens[1]);
 
             auto it = mOptions.find("Reversed Z-Buffer");
             if (it != mOptions.end())
             {
-                mIsReverseDepthBufferEnabled = StringConverter::parseBool(it->second.currentValue);
+                mIsReverseDepthBufferEnabled = StringConverter::parse_bool(it->second.currentValue);
 
                 if(mIsReverseDepthBufferEnabled && !hasMinGLVersion(4, 5) && !checkExtension("GL_ARB_clip_control"))
                 {
@@ -570,7 +570,7 @@ namespace Ogre {
             it = mOptions.find("Separate Shader Objects");
             if (it != mOptions.end())
             {
-                mSeparateShaderObjectsEnabled = StringConverter::parseBool(it->second.currentValue);
+                mSeparateShaderObjectsEnabled = StringConverter::parse_bool(it->second.currentValue);
             }
 
             // Initialise GL after the first window has been created
@@ -1398,7 +1398,7 @@ namespace Ogre {
         bool debugEnabled = false;
         if (it != mOptions.end())
         {
-            debugEnabled = StringConverter::parseBool(it->second.currentValue);
+            debugEnabled = StringConverter::parse_bool(it->second.currentValue);
         }
 
         if (debugEnabled && getCapabilities()->hasCapability(RSC_DEBUG))

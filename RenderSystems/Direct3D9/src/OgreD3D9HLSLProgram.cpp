@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9HLSLProgram.h"
 #include "OgreGpuProgramManager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreD3D9GpuProgram.h"
 #include "log_manager.h"
 
@@ -618,20 +618,20 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String D3D9HLSLProgram::CmdColumnMajorMatrices::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const D3D9HLSLProgram*>(target)->getColumnMajorMatrices());
+        return StringConverter::to_string(static_cast<const D3D9HLSLProgram*>(target)->getColumnMajorMatrices());
     }
     void D3D9HLSLProgram::CmdColumnMajorMatrices::doSet(void *target, const String& val)
     {
-        static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parseBool(val));
+        static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String D3D9HLSLProgram::CmdBackwardsCompatibility::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const D3D9HLSLProgram*>(target)->getBackwardsCompatibility());
+        return StringConverter::to_string(static_cast<const D3D9HLSLProgram*>(target)->getBackwardsCompatibility());
     }
     void D3D9HLSLProgram::CmdBackwardsCompatibility::doSet(void *target, const String& val)
     {
-        static_cast<D3D9HLSLProgram*>(target)->setBackwardsCompatibility(StringConverter::parseBool(val));
+        static_cast<D3D9HLSLProgram*>(target)->setBackwardsCompatibility(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String D3D9HLSLProgram::CmdOptimisation::doGet(const void *target) const
@@ -690,7 +690,7 @@ namespace Ogre {
     void D3D9HLSLProgram::CmdMicrocode::doSet(void *target, const String& val)
     {
         //nothing to do 
-        //static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parseBool(val));
+        //static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String D3D9HLSLProgram::CmdAssemblerCode::doGet(const void *target) const
@@ -721,6 +721,6 @@ namespace Ogre {
     void D3D9HLSLProgram::CmdAssemblerCode::doSet(void *target, const String& val)
     {
         //nothing to do 
-        //static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parseBool(val));
+        //static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
 }

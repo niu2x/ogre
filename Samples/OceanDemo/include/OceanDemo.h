@@ -161,7 +161,7 @@ void Sample_Ocean::setupGUI(void)
     for (size_t i=0; i<CONTROLS_PER_PAGE; i++)
     {
         mShaderControls[i] = mTrayMgr->createThickSlider(TL_TOPRIGHT, 
-            "ShaderControlSlider" + StringConverter::toString(i), "Control", 256, 80, 0, 1, 100);
+            "ShaderControlSlider" + StringConverter::to_string(i), "Control", 256, 80, 0, 1, 100);
     }
 
     selectMenu->selectItem(0);
@@ -198,7 +198,7 @@ void Sample_Ocean::setupScene()
         mLightPivots[i] = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         mLightPivots[i]->rotate(mLightRotationAxes[i], Ogre::Angle(mLightRotationAngles[i]));
         // Create a light, use default parameters
-        mLights[i] = mSceneMgr->createLight("Light" + Ogre::StringConverter::toString(i));
+        mLights[i] = mSceneMgr->createLight("Light" + Ogre::StringConverter::to_string(i));
         mLights[i]->setDiffuseColour(mDiffuseLightColours[i]);
         mLights[i]->setSpecularColour(mSpecularLightColours[i]);
         mLights[i]->setVisible(mLightState[i]);
@@ -206,7 +206,7 @@ void Sample_Ocean::setupScene()
         // Attach light
         mLightPivots[i]->createChildSceneNode(mLightPositions[i])->attachObject(mLights[i]);
         // Create billboard for light
-        mLightFlareSets[i] = mSceneMgr->createBillboardSet("Flare" + Ogre::StringConverter::toString(i));
+        mLightFlareSets[i] = mSceneMgr->createBillboardSet("Flare" + Ogre::StringConverter::to_string(i));
         mLightFlareSets[i]->setMaterialName("LightFlare");
         mLightPivots[i]->attachObject(mLightFlareSets[i]);
         mLightFlares[i] = mLightFlareSets[i]->createBillboard(mLightPositions[i]);

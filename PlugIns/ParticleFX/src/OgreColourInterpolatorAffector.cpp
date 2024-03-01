@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreColourInterpolatorAffector.h"
 #include "OgreParticleSystem.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreParticle.h"
 
 
@@ -135,24 +135,24 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String ColourInterpolatorAffector::CmdColourAdjust::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ColourInterpolatorAffector*>(target)->getColourAdjust(mIndex) );
     }
     void ColourInterpolatorAffector::CmdColourAdjust::doSet(void* target, const String& val)
     {
         static_cast<ColourInterpolatorAffector*>(target)->setColourAdjust(mIndex,
-            StringConverter::parseColourValue(val));
+            StringConverter::parse_colour_value(val));
     }
     //-----------------------------------------------------------------------
     String ColourInterpolatorAffector::CmdTimeAdjust::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ColourInterpolatorAffector*>(target)->getTimeAdjust(mIndex) );
     }
     void ColourInterpolatorAffector::CmdTimeAdjust::doSet(void* target, const String& val)
     {
         static_cast<ColourInterpolatorAffector*>(target)->setTimeAdjust(mIndex,
-            StringConverter::parseReal(val));
+            StringConverter::parse_real(val));
     }
 
 }

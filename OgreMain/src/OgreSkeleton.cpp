@@ -126,7 +126,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(
                 Exception::ERR_DUPLICATE_ITEM,
-                "A bone with the handle " + StringConverter::toString(handle) + " already exists",
+                "A bone with the handle " + StringConverter::to_string(handle) + " already exists",
                 "Skeleton::createBone" );
         }
         Bone* ret = OGRE_NEW Bone(handle, this);
@@ -149,7 +149,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(
                 Exception::ERR_DUPLICATE_ITEM,
-                "A bone with the handle " + StringConverter::toString(handle) + " already exists",
+                "A bone with the handle " + StringConverter::to_string(handle) + " already exists",
                 "Skeleton::createBone" );
         }
         // Check name not used

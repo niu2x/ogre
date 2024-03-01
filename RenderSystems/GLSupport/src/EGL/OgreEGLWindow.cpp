@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreRoot.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreGLRenderSystemCommon.h"
 
@@ -162,7 +162,7 @@ namespace Ogre {
             NameValuePairList::const_iterator opt;
             if ((opt = miscParams->find("FSAA")) != miscParams->end())
             {
-                samples = StringConverter::parseUnsignedInt(opt->second);
+                samples = StringConverter::parse_uint32(opt->second);
             }
         }
 

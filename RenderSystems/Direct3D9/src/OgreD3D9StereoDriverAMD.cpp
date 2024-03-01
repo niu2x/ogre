@@ -104,7 +104,7 @@ namespace Ogre
 	void D3D9StereoDriverAMD::deviceCreatedEvent(const NameValuePairList* parameters)
 	{
 		NameValuePairList::const_iterator iter = parameters->find("D3DDEVICE");
-		mDevice = reinterpret_cast<IDirect3DDevice9*>(StringConverter::parseSizeT(iter->second));
+		mDevice = reinterpret_cast<IDirect3DDevice9*>(StringConverter::parse_size_t(iter->second));
 
 		// Cache the parameters and verify the settings are valid for stereo
 		if (!getPresentParamsAndVerifyStereoSettings())
@@ -193,7 +193,7 @@ namespace Ogre
 	void D3D9StereoDriverAMD::afterDeviceResetEvent(const NameValuePairList* parameters)
 	{
 		NameValuePairList::const_iterator iter = parameters->find("D3DDEVICE");
-		mDevice = reinterpret_cast<IDirect3DDevice9*>(StringConverter::parseSizeT(iter->second));
+		mDevice = reinterpret_cast<IDirect3DDevice9*>(StringConverter::parse_size_t(iter->second));
 
 		// Verify fullscreen since AMD stereo only works in fullscreen
 		D3D9Device* ogreDevice = D3D9RenderSystem::getDeviceManager()->getDeviceFromD3D9Device(mDevice);

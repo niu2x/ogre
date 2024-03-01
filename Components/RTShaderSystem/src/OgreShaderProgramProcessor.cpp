@@ -129,7 +129,7 @@ void ProgramProcessor::bindAutoParameters(Program* pCpuProgram, GpuProgramPtr pG
 
 void ProgramProcessor::bindTextureSamplers(Program* pCpuProgram, GpuProgramPtr pGpuProgram)
 {
-    if (StringConverter::parseBool(pGpuProgram->getParameter("has_sampler_binding")))
+    if (StringConverter::parse_bool(pGpuProgram->getParameter("has_sampler_binding")))
         return;
 
     GpuProgramParametersSharedPtr pGpuParams = pGpuProgram->getDefaultParameters();

@@ -176,7 +176,7 @@ void FFPLighting::addDefines(Program* program)
 	if(mTrackVertexColourType & TVC_SPECULAR)
 		program->addPreprocessorDefines("TVC_SPECULAR");
 
-	program->addPreprocessorDefines("LIGHT_COUNT=" + StringConverter::toString(mLightCount));
+	program->addPreprocessorDefines("LIGHT_COUNT=" + StringConverter::to_string(mLightCount));
 }
 
 //-----------------------------------------------------------------------

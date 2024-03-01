@@ -106,7 +106,7 @@ namespace Ogre {
                 if (mode.description() == optVideoMode->second.currentValue)
                 {
                     optColourDepth->second.possibleValues.push_back(
-                        StringConverter::toString((unsigned int)mode.bpp));
+                        StringConverter::to_string((unsigned int)mode.bpp));
                 }
             }
 
@@ -128,12 +128,12 @@ namespace Ogre {
             {
                 if (mode.description() == optVideoMode->second.currentValue)
                 {
-                    String frequency = StringConverter::toString(mode.refreshRate) + " Hz";
+                    String frequency = StringConverter::to_string(mode.refreshRate) + " Hz";
                     optDisplayFrequency->second.possibleValues.push_back(frequency);
 
                     if(optColourDepth != mOptions.end())
                         optColourDepth->second.possibleValues.push_back(
-                            StringConverter::toString((unsigned int)mode.bpp));
+                            StringConverter::to_string((unsigned int)mode.bpp));
                 }
             }
 

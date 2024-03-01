@@ -71,7 +71,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 
                 "Node track with the specified handle " +
-                StringConverter::toString(handle) + " already exists",
+                StringConverter::to_string(handle) + " already exists",
                 "Animation::createNodeTrack");
         }
 
@@ -108,7 +108,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
                 "Cannot find node track with the specified handle " +
-                StringConverter::toString(handle),
+                StringConverter::to_string(handle),
                 "Animation::getNodeTrack");
         }
 
@@ -144,7 +144,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 
                 "Numeric track with the specified handle " +
-                StringConverter::toString(handle) + " already exists",
+                StringConverter::to_string(handle) + " already exists",
                 "Animation::createNumericTrack");
         }
 
@@ -172,7 +172,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
                 "Cannot find numeric track with the specified handle " +
-                StringConverter::toString(handle),
+                StringConverter::to_string(handle),
                 "Animation::getNumericTrack");
         }
 
@@ -209,7 +209,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 
                 "Vertex track with the specified handle " +
-                StringConverter::toString(handle) + " already exists",
+                StringConverter::to_string(handle) + " already exists",
                 "Animation::createVertexTrack");
         }
 
@@ -248,7 +248,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
                 "Cannot find vertex track with the specified handle " +
-                StringConverter::toString(handle),
+                StringConverter::to_string(handle),
                 "Animation::getVertexTrack");
         }
 

@@ -682,7 +682,7 @@ namespace Ogre {
         if (i == mBindingMap.end())
         {
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                "Cannot find buffer binding for index " + StringConverter::toString(index),
+                "Cannot find buffer binding for index " + StringConverter::to_string(index),
                 "VertexBufferBinding::unsetBinding");
         }
         mBindingMap.erase(i);

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreParticle.h"
 #include "OgreQuaternion.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 
@@ -145,32 +145,32 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String AreaEmitter::CmdWidth::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const AreaEmitter*>(target)->getWidth() );
     }
     void AreaEmitter::CmdWidth::doSet(void* target, const String& val)
     {
-        static_cast<AreaEmitter*>(target)->setWidth(StringConverter::parseReal(val));
+        static_cast<AreaEmitter*>(target)->setWidth(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String AreaEmitter::CmdHeight::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const AreaEmitter*>(target)->getHeight() );
     }
     void AreaEmitter::CmdHeight::doSet(void* target, const String& val)
     {
-        static_cast<AreaEmitter*>(target)->setHeight(StringConverter::parseReal(val));
+        static_cast<AreaEmitter*>(target)->setHeight(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String AreaEmitter::CmdDepth::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const AreaEmitter*>(target)->getDepth() );
     }
     void AreaEmitter::CmdDepth::doSet(void* target, const String& val)
     {
-        static_cast<AreaEmitter*>(target)->setDepth(StringConverter::parseReal(val));
+        static_cast<AreaEmitter*>(target)->setDepth(StringConverter::parse_real(val));
     }
 
 

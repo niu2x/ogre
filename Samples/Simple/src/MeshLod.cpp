@@ -223,12 +223,12 @@ bool Sample_MeshLod::loadConfig()
 
     mLodLevelList->clearItems();
     for(auto & level : mLodConfig.levels){
-        mLodLevelList->addItem(StringConverter::toString(level.distance) + "px");
+        mLodLevelList->addItem(StringConverter::to_string(level.distance) + "px");
     }
 
     mProfileList->clearItems();
     for(auto & i : mLodConfig.advanced.profile){
-        mProfileList->addItem(StringConverter::toString(i.src));
+        mProfileList->addItem(StringConverter::to_string(i.src));
     }
 
     mUseVertexNormals->setChecked(mLodConfig.advanced.useVertexNormals, false);
@@ -347,11 +347,11 @@ void Sample_MeshLod::addLodLevel()
     }
     if(/*mLodConfig.levels.empty() || */addLevel){
         mLodConfig.levels.push_back(lvl);
-        mLodLevelList->addItem(StringConverter::toString(lvl.distance) + "px");
+        mLodLevelList->addItem(StringConverter::to_string(lvl.distance) + "px");
         mLodLevelList->selectItem(mLodLevelList->getNumItems() - 1, false);
     } else {
         mLodConfig.levels.insert(mLodConfig.levels.begin() + i, lvl);
-        mLodLevelList->insertItem(i, StringConverter::toString(lvl.distance) + "px");
+        mLodLevelList->insertItem(i, StringConverter::to_string(lvl.distance) + "px");
         mLodLevelList->selectItem(i, false);
     }
 }
@@ -509,7 +509,7 @@ void Sample_MeshLod::addToProfile( Real cost )
         // Copy profile in queued build.
         pv.cost = cost;
         mLodConfig.advanced.profile.push_back(pv);
-        mProfileList->addItem(StringConverter::toString(pv.src));
+        mProfileList->addItem(StringConverter::to_string(pv.src));
         mProfileList->selectItem(mProfileList->getNumItems() - 1, false);
     } else {
         mTrayMgr->showOkDialog("Error", "No vertex selected, because the mesh is not reduced.");

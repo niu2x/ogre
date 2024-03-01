@@ -192,7 +192,7 @@ protected:
         SelectMenu* waterMaterial = mTrayMgr->createThickSelectMenu(TL_TOPLEFT, "WaterMaterialMenu", "Water material", PANEL_WIDTH, 9);
         for (size_t i = 0; i < 9; i++)
         {
-            waterMaterial->addItem(MATERIAL_PREFIX + StringConverter::toString(i));
+            waterMaterial->addItem(MATERIAL_PREFIX + StringConverter::to_string(i));
         }
         waterMaterial->selectItem(8);
         mTrayMgr->createLabel(TL_TOPLEFT, "RainLabel", "Rain : [Space]", PANEL_WIDTH);

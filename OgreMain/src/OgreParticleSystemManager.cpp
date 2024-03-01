@@ -377,7 +377,7 @@ namespace Ogre {
             NameValuePairList::const_iterator ni = params->find("quota");
             if (ni != params->end())
             {
-                quota = StringConverter::parseUnsignedInt(ni->second);
+                quota = StringConverter::parse_uint32(ni->second);
             }
             ni = params->find("resourceGroup");
             if (ni != params->end())

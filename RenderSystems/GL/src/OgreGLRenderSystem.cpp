@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreGLRenderSystem.h"
 #include "OgreGLNativeSupport.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreFrustum.h"
 #include "OgreGLTextureManager.h"
 #include "OgreGLHardwareBuffer.h"
@@ -998,12 +998,12 @@ namespace Ogre {
 
             const char* shadingLangVersion = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
             StringVector tokens = StringUtil::split(shadingLangVersion, ". ");
-            mNativeShadingLanguageVersion = (StringConverter::parseUnsignedInt(tokens[0]) * 100) + StringConverter::parseUnsignedInt(tokens[1]);
+            mNativeShadingLanguageVersion = (StringConverter::parse_uint32(tokens[0]) * 100) + StringConverter::parse_uint32(tokens[1]);
 
             auto it = mOptions.find("Fixed Pipeline Enabled");
             if (it != mOptions.end())
             {
-                mEnableFixedPipeline = StringConverter::parseBool(it->second.currentValue);
+                mEnableFixedPipeline = StringConverter::parse_bool(it->second.currentValue);
             }
 
             // Initialise GL after the first window has been created
@@ -2950,7 +2950,7 @@ namespace Ogre {
 		{		
 			const char* errorCode = glErrorToString(error);
 			String errorString = "GLRenderSystem::setDrawBuffer(" 
-				+ Ogre::StringConverter::toString(colourBuffer) + "): " + errorCode;
+				+ Ogre::StringConverter::to_string(colourBuffer) + "): " + errorCode;
 
 			Ogre::LogManager::getSingleton().log_message(errorString);			
 			result = false;

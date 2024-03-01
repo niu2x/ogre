@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
@@ -161,12 +161,12 @@ namespace Ogre {
         String doGet(const void* target) const override
         {
             const GLSLProgram* t = static_cast<const GLSLProgram*>(target);
-            return StringConverter::toString(t->getMaxOutputVertices());
+            return StringConverter::to_string(t->getMaxOutputVertices());
         }
         void doSet(void* target, const String& val) override
         {
             GLSLProgram* t = static_cast<GLSLProgram*>(target);
-            t->setMaxOutputVertices(StringConverter::parseInt(val));
+            t->setMaxOutputVertices(StringConverter::parse_int32(val));
         }
     };
     static CmdInputOperationType msInputOperationTypeCmd;

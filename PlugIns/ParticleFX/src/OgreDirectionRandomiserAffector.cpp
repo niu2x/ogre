@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreDirectionRandomiserAffector.h"
 #include "OgreParticleSystem.h"
 #include "OgreParticle.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 namespace Ogre {
@@ -132,31 +132,31 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String DirectionRandomiserAffector::CmdRandomness::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const DirectionRandomiserAffector*>(target)->getRandomness() );
     }
     void DirectionRandomiserAffector::CmdRandomness::doSet(void* target, const String& val)
     {
-        static_cast<DirectionRandomiserAffector*>(target)->setRandomness(StringConverter::parseReal(val));
+        static_cast<DirectionRandomiserAffector*>(target)->setRandomness(StringConverter::parse_real(val));
     }
 
     String DirectionRandomiserAffector::CmdScope::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const DirectionRandomiserAffector*>(target)->getScope() );
     }
     void DirectionRandomiserAffector::CmdScope::doSet(void* target, const String& val)
     {
-        static_cast<DirectionRandomiserAffector*>(target)->setScope(StringConverter::parseReal(val));
+        static_cast<DirectionRandomiserAffector*>(target)->setScope(StringConverter::parse_real(val));
     }
     String DirectionRandomiserAffector::CmdKeepVelocity::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const DirectionRandomiserAffector*>(target)->getKeepVelocity() );
     }
     void DirectionRandomiserAffector::CmdKeepVelocity::doSet(void* target, const String& val)
     {
-        static_cast<DirectionRandomiserAffector*>(target)->setKeepVelocity(StringConverter::parseBool(val));
+        static_cast<DirectionRandomiserAffector*>(target)->setKeepVelocity(StringConverter::parse_bool(val));
     }
 
 }

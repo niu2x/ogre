@@ -15,7 +15,7 @@ same license as the rest of the engine.
 #include "DeferredShading.h"
 
 #include "OgreConfigFile.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "exception.h"
 
 #include "OgreRoot.h"

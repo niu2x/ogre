@@ -631,7 +631,7 @@ namespace Ogre
                         // CSAA modes supported by both AMD and Nvidia
                         if (n == 8 && numLevels > 2) optFSAA->possibleValues.push_back("4f8");
                         if (n == 16 && numLevels > 2) optFSAA->possibleValues.push_back("8f16");
-                        optFSAA->possibleValues.push_back(StringConverter::toString(n));
+                        optFSAA->possibleValues.push_back(StringConverter::to_string(n));
                     }
                 }
 
@@ -1699,7 +1699,7 @@ namespace Ogre
                 hr = getActiveD3D9Device()->SetTexture(static_cast<DWORD>(stage), 0);
                 if( hr != S_OK )
                 {
-                    String str = "Unable to disable texture '" + StringConverter::toString(stage) + "' in D3D9";
+                    String str = "Unable to disable texture '" + StringConverter::to_string(stage) + "' in D3D9";
                     OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, str, "D3D9RenderSystem::_setTexture" );
                 }
 
@@ -1709,7 +1709,7 @@ namespace Ogre
                     if( hr != S_OK )
                     {
                         String str = "Unable to disable vertex texture '"
-                            + StringConverter::toString(stage) + "' in D3D9";
+                            + StringConverter::to_string(stage) + "' in D3D9";
                         OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, str);
                     }
                 }
@@ -1718,7 +1718,7 @@ namespace Ogre
             hr = __SetTextureStageState(static_cast<DWORD>(stage), D3DTSS_COLOROP, D3DTOP_DISABLE);
             if( hr != S_OK )
             {
-                String str = "Unable to disable texture '" + StringConverter::toString(stage) + "' in D3D9";
+                String str = "Unable to disable texture '" + StringConverter::to_string(stage) + "' in D3D9";
                 OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, str, "D3D9RenderSystem::_setTexture" );
             }
 
@@ -3772,8 +3772,8 @@ namespace Ogre
     void D3D9RenderSystem::fireDeviceEvent( D3D9Device* device, const String & name )
     {
         NameValuePairList params;
-        params["D3DDEVICE"] =  StringConverter::toString((size_t)device->getD3D9Device());
-        params["DEVICE_ADAPTER_NUMBER"] =  StringConverter::toString(device->getAdapterNumber());
+        params["D3DDEVICE"] =  StringConverter::to_string((size_t)device->getD3D9Device());
+        params["DEVICE_ADAPTER_NUMBER"] =  StringConverter::to_string(device->getAdapterNumber());
 
         fireEvent(name, &params);
     }
@@ -3782,12 +3782,12 @@ namespace Ogre
     void D3D9RenderSystem::createStereoDriver(const NameValuePairList* miscParams)
     {
         // Get the value used to create the render system.  If none, get the parameter value used to create the window.
-        bool stereoMode = StringConverter::parseBool(mOptions["Frame Sequential Stereo"].currentValue);
+        bool stereoMode = StringConverter::parse_bool(mOptions["Frame Sequential Stereo"].currentValue);
         if (!stereoMode)
         {
             NameValuePairList::const_iterator iter = miscParams->find("stereoMode");
             if (iter != miscParams->end())
-              stereoMode = StringConverter::parseBool((*iter).second);
+              stereoMode = StringConverter::parse_bool((*iter).second);
         }
 
         // Always create the stereo bridge regardless of the mode

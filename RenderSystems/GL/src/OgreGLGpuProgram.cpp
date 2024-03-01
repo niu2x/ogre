@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreGLGpuProgram.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "log_manager.h"
 #include "OgreGLSLProgramCommon.h"
 

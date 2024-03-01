@@ -29,7 +29,7 @@
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGpuProgramManager.h"
 
 #include "OgreGLSLShader.h"
@@ -49,11 +49,11 @@ namespace Ogre {
     public:
         String doGet(const void* target) const override
         {
-            return StringConverter::toString(static_cast<const GLSLShader*>(target)->getSamplerBinding());
+            return StringConverter::to_string(static_cast<const GLSLShader*>(target)->getSamplerBinding());
         }
         void doSet(void* target, const String& val) override
         {
-            static_cast<GLSLShader*>(target)->setSamplerBinding(StringConverter::parseBool(val));
+            static_cast<GLSLShader*>(target)->setSamplerBinding(StringConverter::parse_bool(val));
         }
     };
     static CmdHasSamplersBinding msCmdHasSamplerBinding;

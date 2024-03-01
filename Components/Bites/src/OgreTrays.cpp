@@ -457,7 +457,7 @@ void SelectMenu::setItems(const Ogre::StringVector &items)
         Ogre::BorderPanelOverlayElement* e =
                 (Ogre::BorderPanelOverlayElement*)Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
                 ("SdkTrays/SelectMenuItem", "BorderPanel",
-                 mExpandedBox->getName() + "/Item" + Ogre::StringConverter::toString(i + 1));
+                 mExpandedBox->getName() + "/Item" + Ogre::StringConverter::to_string(i + 1));
 
         e->setTop(6 + i * (mSmallBox->getHeight() - 8));
         e->setWidth(mExpandedBox->getWidth() - 32);
@@ -485,7 +485,7 @@ void SelectMenu::removeItem(size_t index)
 {
     if(index >= mItems.size()){
         Ogre::String desc = "Menu \"" + getName() + "\" contains no item at position " +
-                Ogre::StringConverter::toString(index) + ".";
+                Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "SelectMenu::removeItem");
     }
     mItems.erase(mItems.begin() + index);
@@ -522,7 +522,7 @@ void SelectMenu::selectItem(size_t index, bool notifyListener)
     if (index >= mItems.size())
     {
         Ogre::String desc = "Menu \"" + getName() + "\" contains no item at position " +
-                Ogre::StringConverter::toString(index) + ".";
+                Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "SelectMenu::selectItem");
     }
 
@@ -836,7 +836,7 @@ void Slider::setRange(Ogre::Real minValue, Ogre::Real maxValue, unsigned int sna
         mInterval = 0;
         mHandle->hide();
         mValue = minValue;
-        if (snaps == 1) mValueTextArea->setCaption(Ogre::StringConverter::toString(mMinValue));
+        if (snaps == 1) mValueTextArea->setCaption(Ogre::StringConverter::to_string(mMinValue));
         else mValueTextArea->setCaption("");
     }
     else
@@ -853,7 +853,7 @@ void Slider::setValue(Ogre::Real value, bool notifyListener)
 
     mValue = Ogre::Math::Clamp<Ogre::Real>(value, mMinValue, mMaxValue);
 
-    setValueCaption(Ogre::StringConverter::toString(mValue));
+    setValueCaption(Ogre::StringConverter::to_string(mValue));
 
     if (mListener && notifyListener) mListener->sliderMoved(this);
 
@@ -969,7 +969,7 @@ void ParamsPanel::setParamValue(unsigned int index, const Ogre::DisplayString &p
     if (index >= mNames.size())
     {
         Ogre::String desc = "ParamsPanel \"" + getName() + "\" has no parameter at position " +
-                Ogre::StringConverter::toString(index) + ".";
+                Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "ParamsPanel::setParamValue");
     }
 
@@ -994,7 +994,7 @@ Ogre::DisplayString ParamsPanel::getParamValue(unsigned int index)
     if (index >= mNames.size())
     {
         Ogre::String desc = "ParamsPanel \"" + getName() + "\" has no parameter at position " +
-                Ogre::StringConverter::toString(index) + ".";
+                Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "ParamsPanel::getParamValue");
     }
 
@@ -1921,7 +1921,7 @@ void TrayManager::frameRendered(const Ogre::FrameEvent &evt)
         mLastStatUpdateTime = currentTime;
 
         Ogre::String s("FPS: ");
-        s += Ogre::StringConverter::toString((int)stats.lastFPS);
+        s += Ogre::StringConverter::to_string((int)stats.lastFPS);
 
         mFpsLabel->setCaption(s);
 
@@ -1945,10 +1945,10 @@ void TrayManager::frameRendered(const Ogre::FrameEvent &evt)
             str = oss.str();
             values.push_back(str);
 
-            str = Ogre::StringConverter::toString(stats.triangleCount);
+            str = Ogre::StringConverter::to_string(stats.triangleCount);
             values.push_back(str);
 
-            str = Ogre::StringConverter::toString(stats.batchCount);
+            str = Ogre::StringConverter::to_string(stats.batchCount);
             values.push_back(str);
 
             mStatsPanel->setAllParamValues(values);

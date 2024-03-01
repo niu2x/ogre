@@ -256,7 +256,7 @@ namespace Ogre
         bool debugEnabled = false;
         if (it != mOptions.end())
         {
-            debugEnabled = StringConverter::parseBool(it->second.currentValue);
+            debugEnabled = StringConverter::parse_bool(it->second.currentValue);
         }
 
 		if(debugEnabled && !IsWorkingUnderNsight() && D3D11Device::D3D_NO_EXCEPTION != D3D11Device::getExceptionsErrorLevel())
@@ -538,7 +538,7 @@ namespace Ogre
         }
 
         if(name == "Reversed Z-Buffer")
-            mIsReverseDepthBufferEnabled = StringConverter::parseBool(value);
+            mIsReverseDepthBufferEnabled = StringConverter::parse_bool(value);
 
         if( name == "Allow NVPerfHUD" )
         {
@@ -655,7 +655,7 @@ namespace Ogre
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
         // Stereo driver must be created before device is created
-        auto stereoMode = StringConverter::parseBool(mOptions["Frame Sequential Stereo"].currentValue);
+        auto stereoMode = StringConverter::parse_bool(mOptions["Frame Sequential Stereo"].currentValue);
         D3D11StereoDriverBridge* stereoBridge = OGRE_NEW D3D11StereoDriverBridge(stereoMode);
 #endif
 
@@ -772,9 +772,9 @@ namespace Ogre
     void D3D11RenderSystem::fireDeviceEvent(D3D11Device* device, const String & name, D3D11RenderWindowBase* sendingWindow /* = NULL */)
     {
         NameValuePairList params;
-        params["D3DDEVICE"] =  StringConverter::toString((size_t)device->get());
+        params["D3DDEVICE"] =  StringConverter::to_string((size_t)device->get());
         if(sendingWindow)
-            params["RenderWindow"] = StringConverter::toString((size_t)sendingWindow);
+            params["RenderWindow"] = StringConverter::to_string((size_t)sendingWindow);
         fireEvent(name, &params);
     }
     //---------------------------------------------------------------------

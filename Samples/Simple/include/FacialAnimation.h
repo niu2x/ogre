@@ -92,7 +92,7 @@ class _OgreSampleClassExport Sample_FacialAnimation : public SdkSample
         // create sliders to adjust pose influence
         for (unsigned int i = 0; i < mManualKeyFrame->getPoseReferences().size(); i++)
         {
-            String sliderName = "Pose" + StringConverter::toString(i);
+            String sliderName = "Pose" + StringConverter::to_string(i);
             String poseName = mHeadMesh->getPoseList()[i]->getName();
 
             if (poseName.find("Expression") != std::string::npos)
@@ -143,7 +143,7 @@ class _OgreSampleClassExport Sample_FacialAnimation : public SdkSample
     void sliderMoved(OgreBites::Slider * slider) override
     {
         // update the pose reference controlled by this slider
-        mManualKeyFrame->updatePoseReference(StringConverter::parseInt(slider->getName().substr(4)), slider->getValue());
+        mManualKeyFrame->updatePoseReference(StringConverter::parse_int32(slider->getName().substr(4)), slider->getValue());
         // dirty animation state since we're fudging this manually
         mManualAnimState->getParent()->_notifyDirty();
     }

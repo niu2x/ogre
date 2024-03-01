@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreEllipsoidEmitter.h"
 #include "OgreParticle.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 /* Implements an Emitter whose emitting points all lie inside an ellipsoid.

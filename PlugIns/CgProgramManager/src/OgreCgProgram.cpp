@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreCgProgram.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "log_manager.h"
 #include <cctype>
 
@@ -1243,7 +1243,7 @@ namespace Ogre {
 	//-----------------------------------------------------------------------
 	String CgProgram::CmdProfiles::doGet(const void *target) const
 	{
-		return StringConverter::toString(
+		return StringConverter::to_string(
 			static_cast<const CgProgram*>(target)->getProfiles() );
 	}
 	void CgProgram::CmdProfiles::doSet(void *target, const String& val)

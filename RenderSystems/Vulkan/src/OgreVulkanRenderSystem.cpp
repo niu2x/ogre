@@ -386,7 +386,7 @@ namespace Ogre
         it->second.currentValue = value;
 
         if(name == "Reversed Z-Buffer")
-            mIsReverseDepthBufferEnabled = StringConverter::parseBool(value);
+            mIsReverseDepthBufferEnabled = StringConverter::parse_bool(value);
     }
     //-------------------------------------------------------------------------
     void VulkanRenderSystem::addInstanceDebugCallback( void )

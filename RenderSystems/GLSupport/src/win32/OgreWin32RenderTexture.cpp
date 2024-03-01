@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreRenderSystem.h"
 #include "OgreImageCodec.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreWin32RenderTexture.h"
 #include "OgreWin32GLSupport.h"
 #include "OgreWin32Context.h"
@@ -102,8 +102,8 @@ namespace Ogre {
         };
         LogManager::getSingleton().log_message(
             " Win32PBuffer::Creating PBuffer of format bits="+
-            StringConverter::toString(bits)+
-            " float="+StringConverter::toString(isFloat)
+            StringConverter::to_string(bits)+
+            " float="+StringConverter::to_string(isFloat)
         );
 
 

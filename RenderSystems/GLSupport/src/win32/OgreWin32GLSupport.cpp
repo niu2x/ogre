@@ -28,7 +28,7 @@
 #include "OgreRoot.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include <algorithm>
 
@@ -141,7 +141,7 @@ namespace Ogre {
                 if (mMonitorInfoList.empty())       
                     EnumDisplayMonitors(NULL, NULL, sCreateMonitorsInfoEnumProc, (LPARAM)&mMonitorInfoList);            
 
-                monitorIndex = StringConverter::parseInt(monitorIndexIt->second);
+                monitorIndex = StringConverter::parse_int32(monitorIndexIt->second);
                 if (monitorIndex < (int)mMonitorInfoList.size())
                 {                       
                     hMonitor = mMonitorInfoList[monitorIndex].hMonitor;                 
@@ -157,10 +157,10 @@ namespace Ogre {
                 int top  = -1;
 
                 if ((opt = newParams.find("left")) != newParams.end())
-                    left = StringConverter::parseInt(opt->second);
+                    left = StringConverter::parse_int32(opt->second);
 
                 if ((opt = newParams.find("top")) != newParams.end())
-                    top = StringConverter::parseInt(opt->second);
+                    top = StringConverter::parse_int32(opt->second);
 
                 // Fill in anchor point.
                 windowAnchorPoint.x = left;
@@ -171,7 +171,7 @@ namespace Ogre {
                 hMonitor = MonitorFromPoint(windowAnchorPoint, MONITOR_DEFAULTTOPRIMARY);               
             }
 
-            newParams["monitorHandle"] = StringConverter::toString((size_t)hMonitor);                                                               
+            newParams["monitorHandle"] = StringConverter::to_string((size_t)hMonitor);                                                               
         }
 
         window->create(name, width, height, fullScreen, miscParams);

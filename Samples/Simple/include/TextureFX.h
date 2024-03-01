@@ -41,7 +41,7 @@ protected:
         for (unsigned int i = 0; i < 4; i++)
         {
             // create a standard plane entity
-            Entity* ent = mSceneMgr->createEntity("Plane" + StringConverter::toString(i + 1), SceneManager::PT_PLANE);
+            Entity* ent = mSceneMgr->createEntity("Plane" + StringConverter::to_string(i + 1), SceneManager::PT_PLANE);
 
             // attach it to a node, scale it, and position appropriately
             SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();

@@ -14,7 +14,7 @@ CSMGpuConstants::CSMGpuConstants(size_t cascadeCount)
         GpuProgramManager::getSingleton().getSharedParameters("params_shadowMatrixScaleBias");
     for (size_t i = 1; i < cascadeCount; i++)
     {
-        mParamsScaleBias->addConstantDefinition("texMatrixScaleBias" + StringConverter::toString(i),
+        mParamsScaleBias->addConstantDefinition("texMatrixScaleBias" + StringConverter::to_string(i),
                                                 GCT_FLOAT4);
     }
 }
@@ -51,7 +51,7 @@ void CSMGpuConstants::shadowTextureCasterPreViewProj(Light* light, Camera* texCa
         result.z = -depthRange * offsetZ / mViewRange;
         result.w = width0 / width1;
 
-        mParamsScaleBias->setNamedConstant("texMatrixScaleBias" + StringConverter::toString(index), result);
+        mParamsScaleBias->setNamedConstant("texMatrixScaleBias" + StringConverter::to_string(index), result);
     }
 }
 

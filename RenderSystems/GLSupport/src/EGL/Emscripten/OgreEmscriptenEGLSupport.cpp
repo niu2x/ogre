@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreRoot.h"
 
 #include "OgreEmscriptenEGLSupport.h"

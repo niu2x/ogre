@@ -269,7 +269,7 @@ namespace Ogre {
             for(uint32 zoffset=0; zoffset<mDepth; ++zoffset)
             {
                 String name;
-                name = "rtt/" + StringConverter::toString((size_t)this) + "/" + baseName;
+                name = "rtt/" + StringConverter::to_string((size_t)this) + "/" + baseName;
                 RenderTexture *trt = OGRE_NEW MetalRenderTexture( device, name, this,
                                                                   renderTexture, resolveTexture,
                                                                   mFormat, zoffset, mFace, fsaa, level,

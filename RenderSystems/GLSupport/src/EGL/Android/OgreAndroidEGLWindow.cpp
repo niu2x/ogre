@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreGLRenderSystemCommon.h"
 
@@ -117,7 +117,7 @@ namespace Ogre {
             NameValuePairList::const_iterator end = miscParams->end();
             
             if ((opt = miscParams->find("currentGLContext")) != end &&
-                StringConverter::parseBool(opt->second))
+                StringConverter::parse_bool(opt->second))
             {
                 eglContext = eglGetCurrentContext();
                 if (!eglContext)
@@ -132,54 +132,54 @@ namespace Ogre {
 
             if((opt = miscParams->find("externalWindowHandle")) != end)
             {
-                mWindow = (ANativeWindow*)(Ogre::StringConverter::parseSizeT(opt->second));
+                mWindow = (ANativeWindow*)(Ogre::StringConverter::parse_size_t(opt->second));
             }
 
             if((opt = miscParams->find("androidConfig")) != end)
             {
-                config = (AConfiguration*)(Ogre::StringConverter::parseSizeT(opt->second));
+                config = (AConfiguration*)(Ogre::StringConverter::parse_size_t(opt->second));
             }
 
             if((opt = miscParams->find("maxColourBufferSize")) != end)
             {
-                mMaxBufferSize = Ogre::StringConverter::parseInt(opt->second);
+                mMaxBufferSize = Ogre::StringConverter::parse_int32(opt->second);
             }
 
             if((opt = miscParams->find("maxDepthBufferSize")) != end)
             {
-                mMaxDepthSize = Ogre::StringConverter::parseInt(opt->second);
+                mMaxDepthSize = Ogre::StringConverter::parse_int32(opt->second);
             }
 
             if((opt = miscParams->find("maxStencilBufferSize")) != end)
             {
-                mMaxStencilSize = Ogre::StringConverter::parseInt(opt->second);
+                mMaxStencilSize = Ogre::StringConverter::parse_int32(opt->second);
             }
 
             if((opt = miscParams->find("minColourBufferSize")) != end)
             {
-                mMinBufferSize = Ogre::StringConverter::parseInt(opt->second);
+                mMinBufferSize = Ogre::StringConverter::parse_int32(opt->second);
                 if (mMinBufferSize > mMaxBufferSize) mMinBufferSize = mMaxBufferSize;
             }
 
             if((opt = miscParams->find("FSAA")) != end)
             {
-                mMSAA = Ogre::StringConverter::parseInt(opt->second);
+                mMSAA = Ogre::StringConverter::parse_int32(opt->second);
             }
 
             if((opt = miscParams->find("CSAA")) != end)
             {
-                mCSAA = Ogre::StringConverter::parseInt(opt->second);
+                mCSAA = Ogre::StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("preserveContext")) != end &&
-                StringConverter::parseBool(opt->second))
+                StringConverter::parse_bool(opt->second))
             {
                 preserveContextOpt = true;
             }
 
             if ((opt = miscParams->find("externalGLControl")) != end)
             {
-                mIsExternalGLControl = StringConverter::parseBool(opt->second);
+                mIsExternalGLControl = StringConverter::parse_bool(opt->second);
             }
 
             if ((opt = miscParams->find("contentScalingFactor")) != end)

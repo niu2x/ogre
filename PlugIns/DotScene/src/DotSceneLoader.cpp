@@ -30,7 +30,7 @@ String getAttrib(const pugi::xml_node& XMLNode, const String& attrib, const Stri
 Real getAttribReal(const pugi::xml_node& XMLNode, const String& attrib, Real defaultValue = 0)
 {
     if (auto anode = XMLNode.attribute(attrib.c_str()))
-        return StringConverter::parseReal(anode.value());
+        return StringConverter::parse_real(anode.value());
     else
         return defaultValue;
 }
@@ -47,9 +47,9 @@ bool getAttribBool(const pugi::xml_node& XMLNode, const String& attrib, bool def
 
 Vector3 parseVector3(const pugi::xml_node& XMLNode)
 {
-    return Vector3(StringConverter::parseReal(XMLNode.attribute("x").value()),
-                   StringConverter::parseReal(XMLNode.attribute("y").value()),
-                   StringConverter::parseReal(XMLNode.attribute("z").value()));
+    return Vector3(StringConverter::parse_real(XMLNode.attribute("x").value()),
+                   StringConverter::parse_real(XMLNode.attribute("y").value()),
+                   StringConverter::parse_real(XMLNode.attribute("z").value()));
 }
 
 Quaternion parseQuaternion(const pugi::xml_node& XMLNode)
@@ -60,42 +60,42 @@ Quaternion parseQuaternion(const pugi::xml_node& XMLNode)
 
     if (XMLNode.attribute("qw"))
     {
-        orientation.w = StringConverter::parseReal(XMLNode.attribute("qw").value());
-        orientation.x = StringConverter::parseReal(XMLNode.attribute("qx").value());
-        orientation.y = StringConverter::parseReal(XMLNode.attribute("qy").value());
-        orientation.z = StringConverter::parseReal(XMLNode.attribute("qz").value());
+        orientation.w = StringConverter::parse_real(XMLNode.attribute("qw").value());
+        orientation.x = StringConverter::parse_real(XMLNode.attribute("qx").value());
+        orientation.y = StringConverter::parse_real(XMLNode.attribute("qy").value());
+        orientation.z = StringConverter::parse_real(XMLNode.attribute("qz").value());
     }
     else if (XMLNode.attribute("axisX"))
     {
         Vector3 axis;
-        axis.x = StringConverter::parseReal(XMLNode.attribute("axisX").value());
-        axis.y = StringConverter::parseReal(XMLNode.attribute("axisY").value());
-        axis.z = StringConverter::parseReal(XMLNode.attribute("axisZ").value());
-        Real angle = StringConverter::parseReal(XMLNode.attribute("angle").value());
+        axis.x = StringConverter::parse_real(XMLNode.attribute("axisX").value());
+        axis.y = StringConverter::parse_real(XMLNode.attribute("axisY").value());
+        axis.z = StringConverter::parse_real(XMLNode.attribute("axisZ").value());
+        Real angle = StringConverter::parse_real(XMLNode.attribute("angle").value());
 
         orientation.from_angle_axis(Radian(angle), axis);
     }
     else if (XMLNode.attribute("angleX"))
     {
         Matrix3 rot;
-        rot.from_euler_angles_xyz(StringConverter::parseAngle(XMLNode.attribute("angleX").value()),
-                               StringConverter::parseAngle(XMLNode.attribute("angleY").value()),
-                               StringConverter::parseAngle(XMLNode.attribute("angleZ").value()));
+        rot.from_euler_angles_xyz(StringConverter::parse_angle(XMLNode.attribute("angleX").value()),
+                               StringConverter::parse_angle(XMLNode.attribute("angleY").value()),
+                               StringConverter::parse_angle(XMLNode.attribute("angleZ").value()));
         orientation.FromRotationMatrix(rot);
     }
     else if (XMLNode.attribute("x"))
     {
-        orientation.x = StringConverter::parseReal(XMLNode.attribute("x").value());
-        orientation.y = StringConverter::parseReal(XMLNode.attribute("y").value());
-        orientation.z = StringConverter::parseReal(XMLNode.attribute("z").value());
-        orientation.w = StringConverter::parseReal(XMLNode.attribute("w").value());
+        orientation.x = StringConverter::parse_real(XMLNode.attribute("x").value());
+        orientation.y = StringConverter::parse_real(XMLNode.attribute("y").value());
+        orientation.z = StringConverter::parse_real(XMLNode.attribute("z").value());
+        orientation.w = StringConverter::parse_real(XMLNode.attribute("w").value());
     }
     else if (XMLNode.attribute("w"))
     {
-        orientation.w = StringConverter::parseReal(XMLNode.attribute("w").value());
-        orientation.x = StringConverter::parseReal(XMLNode.attribute("x").value());
-        orientation.y = StringConverter::parseReal(XMLNode.attribute("y").value());
-        orientation.z = StringConverter::parseReal(XMLNode.attribute("z").value());
+        orientation.w = StringConverter::parse_real(XMLNode.attribute("w").value());
+        orientation.x = StringConverter::parse_real(XMLNode.attribute("x").value());
+        orientation.y = StringConverter::parse_real(XMLNode.attribute("y").value());
+        orientation.z = StringConverter::parse_real(XMLNode.attribute("z").value());
     }
 
     return orientation;
@@ -103,10 +103,10 @@ Quaternion parseQuaternion(const pugi::xml_node& XMLNode)
 
 ColourValue parseColour(pugi::xml_node& XMLNode)
 {
-    return ColourValue(StringConverter::parseReal(XMLNode.attribute("r").value()),
-                       StringConverter::parseReal(XMLNode.attribute("g").value()),
-                       StringConverter::parseReal(XMLNode.attribute("b").value()),
-                       XMLNode.attribute("a") != NULL ? StringConverter::parseReal(XMLNode.attribute("a").value()) : 1);
+    return ColourValue(StringConverter::parse_real(XMLNode.attribute("r").value()),
+                       StringConverter::parse_real(XMLNode.attribute("g").value()),
+                       StringConverter::parse_real(XMLNode.attribute("b").value()),
+                       XMLNode.attribute("a") != NULL ? StringConverter::parse_real(XMLNode.attribute("a").value()) : 1);
 }
 
 struct DotSceneCodec : public Codec
@@ -285,9 +285,9 @@ void DotSceneLoader::processTerrainGroup(pugi::xml_node& XMLNode)
     LogManager::getSingleton().log_message("[DotSceneLoader] Processing Terrain Group...", LogMsgLevel::TRIVIAL);
 
     Real worldSize = getAttribReal(XMLNode, "worldSize");
-    int mapSize = StringConverter::parseInt(XMLNode.attribute("size").value());
-    int compositeMapDistance = StringConverter::parseInt(XMLNode.attribute("tuningCompositeMapDistance").value());
-    int maxPixelError = StringConverter::parseInt(XMLNode.attribute("tuningMaxPixelError").value());
+    int mapSize = StringConverter::parse_int32(XMLNode.attribute("size").value());
+    int compositeMapDistance = StringConverter::parse_int32(XMLNode.attribute("tuningCompositeMapDistance").value());
+    int maxPixelError = StringConverter::parse_int32(XMLNode.attribute("tuningMaxPixelError").value());
 
     auto terrainGlobalOptions = TerrainGlobalOptions::getSingletonPtr();
     OgreAssert(terrainGlobalOptions, "TerrainGlobalOptions not available");
@@ -302,8 +302,8 @@ void DotSceneLoader::processTerrainGroup(pugi::xml_node& XMLNode)
     // Process terrain pages (*)
     for (auto pPageElement : XMLNode.children("terrain"))
     {
-        int pageX = StringConverter::parseInt(pPageElement.attribute("x").value());
-        int pageY = StringConverter::parseInt(pPageElement.attribute("y").value());
+        int pageX = StringConverter::parse_int32(pPageElement.attribute("x").value());
+        int pageY = StringConverter::parse_int32(pPageElement.attribute("y").value());
 
         terrainGroup->defineTerrain(pageX, pageY, pPageElement.attribute("dataFile").value());
     }
@@ -704,9 +704,9 @@ void DotSceneLoader::processPlane(pugi::xml_node& XMLNode, SceneNode* pParent)
     Real distance = getAttribReal(XMLNode, "distance");
     Real width = getAttribReal(XMLNode, "width");
     Real height = getAttribReal(XMLNode, "height");
-    int xSegments = StringConverter::parseInt(getAttrib(XMLNode, "xSegments"));
-    int ySegments = StringConverter::parseInt(getAttrib(XMLNode, "ySegments"));
-    int numTexCoordSets = StringConverter::parseInt(getAttrib(XMLNode, "numTexCoordSets"));
+    int xSegments = StringConverter::parse_int32(getAttrib(XMLNode, "xSegments"));
+    int ySegments = StringConverter::parse_int32(getAttrib(XMLNode, "ySegments"));
+    int numTexCoordSets = StringConverter::parse_int32(getAttrib(XMLNode, "numTexCoordSets"));
     Real uTile = getAttribReal(XMLNode, "uTile");
     Real vTile = getAttribReal(XMLNode, "vTile");
     String material = getAttrib(XMLNode, "material");
@@ -745,7 +745,7 @@ void DotSceneLoader::processFog(pugi::xml_node& XMLNode)
     else if (sMode == "linear")
         mode = FOG_LINEAR;
     else
-        mode = (FogMode)StringConverter::parseInt(sMode);
+        mode = (FogMode)StringConverter::parse_int32(sMode);
 
     // Process colourDiffuse (?)
     ColourValue colourDiffuse = ColourValue::White;
@@ -858,11 +858,11 @@ void DotSceneLoader::processUserData(pugi::xml_node& XMLNode, UserObjectBindings
 
         Any value;
         if (type == "bool")
-            value = StringConverter::parseBool(data);
+            value = StringConverter::parse_bool(data);
         else if (type == "float")
-            value = StringConverter::parseReal(data);
+            value = StringConverter::parse_real(data);
         else if (type == "int")
-            value = StringConverter::parseInt(data);
+            value = StringConverter::parse_int32(data);
         else
             value = data;
 
@@ -935,7 +935,7 @@ void DotSceneLoader::processKeyframe(pugi::xml_node& XMLNode, NodeAnimationTrack
     // Process node animation keyframe (*)
     Real time = getAttribReal(XMLNode, "time");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Keyframe: " + StringConverter::toString(time), LogMsgLevel::TRIVIAL);
+    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Keyframe: " + StringConverter::to_string(time), LogMsgLevel::TRIVIAL);
 
     auto keyframe = pTrack->createNodeKeyFrame(time);
 
@@ -983,17 +983,17 @@ void DotSceneLoader::exportScene(SceneNode* rootNode, const String& outFileName)
 
 static void write(pugi::xml_node& node, const Vector3& v)
 {
-    node.append_attribute("x") = StringConverter::toString(v.x).c_str();
-    node.append_attribute("y") = StringConverter::toString(v.y).c_str();
-    node.append_attribute("z") = StringConverter::toString(v.z).c_str();
+    node.append_attribute("x") = StringConverter::to_string(v.x).c_str();
+    node.append_attribute("y") = StringConverter::to_string(v.y).c_str();
+    node.append_attribute("z") = StringConverter::to_string(v.z).c_str();
 }
 
 static void write(pugi::xml_node& node, const ColourValue& c)
 {
-    node.append_attribute("r") = StringConverter::toString(c.r).c_str();
-    node.append_attribute("g") = StringConverter::toString(c.g).c_str();
-    node.append_attribute("b") = StringConverter::toString(c.b).c_str();
-    node.append_attribute("a") = StringConverter::toString(c.a).c_str();
+    node.append_attribute("r") = StringConverter::to_string(c.r).c_str();
+    node.append_attribute("g") = StringConverter::to_string(c.g).c_str();
+    node.append_attribute("b") = StringConverter::to_string(c.b).c_str();
+    node.append_attribute("a") = StringConverter::to_string(c.a).c_str();
 }
 
 void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
@@ -1009,10 +1009,10 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
     write(scale, n->getScale());
 
     auto rot = nodeXML.append_child("rotation");
-    rot.append_attribute("qw") = StringConverter::toString(n->getOrientation().w).c_str();
-    rot.append_attribute("qx") = StringConverter::toString(n->getOrientation().x).c_str();
-    rot.append_attribute("qy") = StringConverter::toString(n->getOrientation().y).c_str();
-    rot.append_attribute("qz") = StringConverter::toString(n->getOrientation().z).c_str();
+    rot.append_attribute("qw") = StringConverter::to_string(n->getOrientation().w).c_str();
+    rot.append_attribute("qx") = StringConverter::to_string(n->getOrientation().x).c_str();
+    rot.append_attribute("qy") = StringConverter::to_string(n->getOrientation().y).c_str();
+    rot.append_attribute("qz") = StringConverter::to_string(n->getOrientation().z).c_str();
 
     for(auto mo : n->getAttachedObjects())
     {
@@ -1021,8 +1021,8 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
             auto camera = nodeXML.append_child("camera");
             camera.append_attribute("name") = c->getName().c_str();
             auto clipping = camera.append_child("clipping");
-            clipping.append_attribute("near") = StringConverter::toString(c->getNearClipDistance()).c_str();
-            clipping.append_attribute("far") = StringConverter::toString(c->getFarClipDistance()).c_str();
+            clipping.append_attribute("near") = StringConverter::to_string(c->getNearClipDistance()).c_str();
+            clipping.append_attribute("far") = StringConverter::to_string(c->getFarClipDistance()).c_str();
             continue;
         }
 
@@ -1030,7 +1030,7 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
         {
             auto light = nodeXML.append_child("light");
             light.append_attribute("name") = l->getName().c_str();
-            light.append_attribute("castShadows") = StringConverter::toString(l->getCastShadows()).c_str();
+            light.append_attribute("castShadows") = StringConverter::to_string(l->getCastShadows()).c_str();
 
             if(!l->isVisible())
                 light.append_attribute("visible") = "false";
@@ -1059,20 +1059,20 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
             {
                 auto range = light.append_child("lightRange");
                 range.append_attribute("inner") =
-                    StringConverter::toString(l->getSpotlightInnerAngle()).c_str();
+                    StringConverter::to_string(l->getSpotlightInnerAngle()).c_str();
                 range.append_attribute("outer") =
-                    StringConverter::toString(l->getSpotlightOuterAngle()).c_str();
+                    StringConverter::to_string(l->getSpotlightOuterAngle()).c_str();
                 range.append_attribute("falloff") =
-                    StringConverter::toString(l->getSpotlightFalloff()).c_str();
+                    StringConverter::to_string(l->getSpotlightFalloff()).c_str();
                 auto atten = light.append_child("lightAttenuation");
                 atten.append_attribute("range") =
-                    StringConverter::toString(l->getAttenuationRange()).c_str();
+                    StringConverter::to_string(l->getAttenuationRange()).c_str();
                 atten.append_attribute("constant") =
-                    StringConverter::toString(l->getAttenuationConstant()).c_str();
+                    StringConverter::to_string(l->getAttenuationConstant()).c_str();
                 atten.append_attribute("linear") =
-                    StringConverter::toString(l->getAttenuationLinear()).c_str();
+                    StringConverter::to_string(l->getAttenuationLinear()).c_str();
                 atten.append_attribute("quadratic") =
-                    StringConverter::toString(l->getAttenuationQuadric()).c_str();
+                    StringConverter::to_string(l->getAttenuationQuadric()).c_str();
             }
 
             continue;

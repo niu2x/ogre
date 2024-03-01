@@ -586,7 +586,7 @@ namespace Ogre {
                 if (isdigit(*tokens[i].c_str()))
                     break;
             }
-            mNativeShadingLanguageVersion = (StringConverter::parseUnsignedInt(tokens[i]) * 100) + StringConverter::parseUnsignedInt(tokens[i+1]);
+            mNativeShadingLanguageVersion = (StringConverter::parse_uint32(tokens[i]) * 100) + StringConverter::parse_uint32(tokens[i+1]);
             if (mNativeShadingLanguageVersion < 100) // Emscripten + MS IE/Edge reports an experimental WebGL version (e.g. 0.96) which causes a compile error
                 mNativeShadingLanguageVersion = 100;
 

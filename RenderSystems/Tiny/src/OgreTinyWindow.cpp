@@ -5,7 +5,7 @@
 
 #include "OgreTinyWindow.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreComponents.h"
 #if OGRE_BITES_HAVE_SDL
@@ -29,7 +29,7 @@ void TinyWindow::create(const String& name, uint width, uint height,
     {
         auto it = miscParams->find("sdlwin");
         if(it != miscParams->end())
-            mParentWindow = (SDL_Window*)StringConverter::parseSizeT(it->second);
+            mParentWindow = (SDL_Window*)StringConverter::parse_size_t(it->second);
     }
 
     resize(width, height);

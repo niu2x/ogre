@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreViewport.h"
 
@@ -333,7 +333,7 @@ namespace Ogre {
             NameValuePairList::const_iterator end = miscParams->end();
 
             if ((opt = miscParams->find("currentGLContext")) != end &&
-                StringConverter::parseBool(opt->second))
+                StringConverter::parse_bool(opt->second))
             {
                 eglContext = eglGetCurrentContext();
                 if (!eglContext)
@@ -349,32 +349,32 @@ namespace Ogre {
             // Note: Some platforms support AA inside ordinary windows
             if ((opt = miscParams->find("FSAA")) != end)
             {
-                samples = StringConverter::parseUnsignedInt(opt->second);
+                samples = StringConverter::parse_uint32(opt->second);
             }
 
             if ((opt = miscParams->find("displayFrequency")) != end)
             {
-                frequency = (short)StringConverter::parseInt(opt->second);
+                frequency = (short)StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("vsync")) != end)
             {
-                vsync = StringConverter::parseBool(opt->second);
+                vsync = StringConverter::parse_bool(opt->second);
             }
 
             if ((opt = miscParams->find("gamma")) != end)
             {
-                gamma = StringConverter::parseBool(opt->second);
+                gamma = StringConverter::parse_bool(opt->second);
             }
 
             if ((opt = miscParams->find("left")) != end)
             {
-                left = StringConverter::parseInt(opt->second);
+                left = StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("top")) != end)
             {
-                top = StringConverter::parseInt(opt->second);
+                top = StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("title")) != end)
@@ -384,7 +384,7 @@ namespace Ogre {
 
             if ((opt = miscParams->find("externalGLControl")) != end)
             {
-                mIsExternalGLControl = StringConverter::parseBool(opt->second);
+                mIsExternalGLControl = StringConverter::parse_bool(opt->second);
             }
         }
 

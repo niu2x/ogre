@@ -498,7 +498,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
         animName = mCustomAnimationName;
         if (index >= 1)
         {
-            animName += StringConverter::toString(index);
+            animName += StringConverter::to_string(index);
         }
     }
     else
@@ -507,18 +507,18 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
     }
     if (animName.length() < 1)
     {
-        animName = "Animation" + StringConverter::toString(index);
+        animName = "Animation" + StringConverter::to_string(index);
     }
 
     if (!mQuietMode)
     {
         LogManager::getSingleton().log_message("Animation name = '" + animName + "'");
         LogManager::getSingleton().log_message("duration = " +
-                                              StringConverter::toString(Real(anim->mDuration)));
+                                              StringConverter::to_string(Real(anim->mDuration)));
         LogManager::getSingleton().log_message("tick/sec = " +
-                                              StringConverter::toString(Real(anim->mTicksPerSecond)));
+                                              StringConverter::to_string(Real(anim->mTicksPerSecond)));
         LogManager::getSingleton().log_message("channels = " +
-                                              StringConverter::toString(anim->mNumChannels));
+                                              StringConverter::to_string(anim->mNumChannels));
     }
     Animation* animation;
     mTicksPerSecond = (Real)((0 == anim->mTicksPerSecond) ? 24 : anim->mTicksPerSecond);
@@ -575,7 +575,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
 
     if (!mQuietMode)
     {
-        LogManager::getSingleton().log_message("Cut Time " + StringConverter::toString(cutTime));
+        LogManager::getSingleton().log_message("Cut Time " + StringConverter::to_string(cutTime));
     }
 
     for (int i = 0; i < (int)anim->mNumChannels; i++)
@@ -585,14 +585,14 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
         aiNodeAnim* node_anim = anim->mChannels[i];
         if (!mQuietMode)
         {
-            LogManager::getSingleton().log_message("Channel " + StringConverter::toString(i));
+            LogManager::getSingleton().log_message("Channel " + StringConverter::to_string(i));
             LogManager::getSingleton().log_message("affecting node: " + String(node_anim->mNodeName.data));
             // LogManager::getSingleton().log_message("position keys: " +
-            // StringConverter::toString(node_anim->mNumPositionKeys));
+            // StringConverter::to_string(node_anim->mNumPositionKeys));
             // LogManager::getSingleton().log_message("rotation keys: " +
-            // StringConverter::toString(node_anim->mNumRotationKeys));
+            // StringConverter::to_string(node_anim->mNumRotationKeys));
             // LogManager::getSingleton().log_message("scaling keys: " +
-            // StringConverter::toString(node_anim->mNumScalingKeys));
+            // StringConverter::to_string(node_anim->mNumScalingKeys));
         }
 
         String boneName = String(node_anim->mNodeName.data);
@@ -753,7 +753,7 @@ void AssimpLoader::createBonesFromNode(const aiScene* mScene, const aiNode* pNod
 
         if (!mQuietMode)
         {
-            LogManager::getSingleton().log_message(StringConverter::toString(msBoneCount) +
+            LogManager::getSingleton().log_message(StringConverter::to_string(msBoneCount) +
                                                   ") Creating bone '" + String(pNode->mName.data) + "'");
         }
         msBoneCount++;
@@ -835,7 +835,7 @@ void AssimpLoader::grabBoneNamesFromNode(const aiScene* mScene, const aiNode* pN
                         if (!mQuietMode)
                         {
                             LogManager::getSingleton().log_message(
-                                StringConverter::toString(i) +
+                                StringConverter::to_string(i) +
                                 ") REAL BONE with name : " + String(pAIBone->mName.data));
                         }
 
@@ -999,7 +999,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
         if (verbose)
         {
             LogManager::getSingleton().log_message("Found texture " + basename + " for channel " +
-                                                  StringConverter::toString(uvindex));
+                                                  StringConverter::to_string(uvindex));
         }
         omat->getTechnique(0)->getPass(0)->createTextureUnitState(basename);
     }
@@ -1081,7 +1081,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
     // now begin the object definition
     // We create a submesh per material
-    SubMesh* submesh = mMesh->createSubMesh(name + StringConverter::toString(index));
+    SubMesh* submesh = mMesh->createSubMesh(name + StringConverter::to_string(index));
 
     // prime pointers to vertex related data
     aiVector3D* vec = mesh->mVertices;
@@ -1257,7 +1257,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
     if (!mQuietMode)
     {
-        LogManager::getSingleton().log_message(StringConverter::toString(mesh->mNumFaces) + " faces");
+        LogManager::getSingleton().log_message(StringConverter::to_string(mesh->mNumFaces) + " faces");
     }
 
     aiFace* faces = mesh->mFaces;
@@ -1318,7 +1318,7 @@ void AssimpLoader::loadDataFromNode(const aiScene* mScene, const aiNode* pNode, 
             aiMesh* pAIMesh = mScene->mMeshes[pNode->mMeshes[idx]];
             if (!mQuietMode)
             {
-                LogManager::getSingleton().log_message("SubMesh " + StringConverter::toString(idx) +
+                LogManager::getSingleton().log_message("SubMesh " + StringConverter::to_string(idx) +
                                                       " for mesh '" + String(pNode->mName.data) + "'");
             }
 

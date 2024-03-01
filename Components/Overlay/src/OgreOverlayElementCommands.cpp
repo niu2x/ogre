@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreOverlayElementCommands.h"
 #include "OgreOverlayElement.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "log_manager.h"
 
 
@@ -168,7 +168,7 @@ namespace Ogre {
         //-----------------------------------------------------------------------
         String CmdVisible::doGet(const void* target) const
         {
-            return StringConverter::toString(static_cast<const OverlayElement*>(target)->isVisible());
+            return StringConverter::to_string(static_cast<const OverlayElement*>(target)->isVisible());
         }
         void CmdVisible::doSet(void* target, const String& val)
         {

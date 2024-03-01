@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreRotationAffector.h"
 #include "OgreParticleSystem.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreParticle.h"
 
 
@@ -151,43 +151,43 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String RotationAffector::CmdRotationSpeedRangeEnd::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationSpeedRangeEnd() );
     }
     void RotationAffector::CmdRotationSpeedRangeEnd::doSet(void* target, const String& val)
     {
-        static_cast<RotationAffector*>(target)->setRotationSpeedRangeEnd(StringConverter::parseAngle(val));
+        static_cast<RotationAffector*>(target)->setRotationSpeedRangeEnd(StringConverter::parse_angle(val));
     }
     //-----------------------------------------------------------------------
     String RotationAffector::CmdRotationSpeedRangeStart::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationSpeedRangeStart() );
     }
     void RotationAffector::CmdRotationSpeedRangeStart::doSet(void* target, const String& val)
     {
-        static_cast<RotationAffector*>(target)->setRotationSpeedRangeStart(StringConverter::parseAngle(val));
+        static_cast<RotationAffector*>(target)->setRotationSpeedRangeStart(StringConverter::parse_angle(val));
     }
     
     //-----------------------------------------------------------------------
     String RotationAffector::CmdRotationRangeEnd::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationRangeEnd() );
     }
     void RotationAffector::CmdRotationRangeEnd::doSet(void* target, const String& val)
     {
-        static_cast<RotationAffector*>(target)->setRotationRangeEnd(StringConverter::parseAngle(val));
+        static_cast<RotationAffector*>(target)->setRotationRangeEnd(StringConverter::parse_angle(val));
     }
     //-----------------------------------------------------------------------
     String RotationAffector::CmdRotationRangeStart::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationRangeStart() );
     }
     void RotationAffector::CmdRotationRangeStart::doSet(void* target, const String& val)
     {
-        static_cast<RotationAffector*>(target)->setRotationRangeStart(StringConverter::parseAngle(val));
+        static_cast<RotationAffector*>(target)->setRotationRangeStart(StringConverter::parse_angle(val));
     }
 }
 

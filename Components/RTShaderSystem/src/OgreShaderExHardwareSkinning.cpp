@@ -319,15 +319,15 @@ void HardwareSkinningFactory::writeInstance(MaterialSerializer* ser, SubRenderSt
     ser->writeAttribute(4, "hardware_skinning");
     
     HardwareSkinning* hardSkinSrs = static_cast<HardwareSkinning*>(subRenderState);
-    ser->writeValue(StringConverter::toString(hardSkinSrs->getBoneCount()));
-    ser->writeValue(StringConverter::toString(hardSkinSrs->getWeightCount()));
+    ser->writeValue(StringConverter::to_string(hardSkinSrs->getBoneCount()));
+    ser->writeValue(StringConverter::to_string(hardSkinSrs->getWeightCount()));
 
     //Correct antipodality handling and scaling and shearing support are only really valid for dual quaternion skinning
     if(hardSkinSrs->getSkinningType() == ST_DUAL_QUATERNION)
     {
         ser->writeValue("dual_quaternion");
-        ser->writeValue(StringConverter::toString(hardSkinSrs->hasCorrectAntipodalityHandling()));
-        ser->writeValue(StringConverter::toString(hardSkinSrs->hasScalingShearingSupport()));
+        ser->writeValue(StringConverter::to_string(hardSkinSrs->hasCorrectAntipodalityHandling()));
+        ser->writeValue(StringConverter::to_string(hardSkinSrs->hasScalingShearingSupport()));
     }
 }
 

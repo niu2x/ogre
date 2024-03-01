@@ -158,7 +158,7 @@ namespace Ogre {
         if (!resultHandle.second)
         {
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the handle " +
-                StringConverter::toString((long) (res->getHandle())) +
+                StringConverter::to_string((long) (res->getHandle())) +
                 " already exists.", "ResourceManager::add");
         }
     }

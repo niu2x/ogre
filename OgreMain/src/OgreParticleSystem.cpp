@@ -1436,35 +1436,35 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String CmdCull::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getCullIndividually() );
     }
     void CmdCull::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setCullIndividually(
-            StringConverter::parseBool(val));
+            StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdHeight::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getDefaultHeight() );
     }
     void CmdHeight::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setDefaultHeight(
-            StringConverter::parseReal(val));
+            StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String CmdWidth::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getDefaultWidth() );
     }
     void CmdWidth::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setDefaultWidth(
-            StringConverter::parseReal(val));
+            StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String CmdMaterial::doGet(const void* target) const
@@ -1478,24 +1478,24 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String CmdQuota::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getParticleQuota() );
     }
     void CmdQuota::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setParticleQuota(
-            StringConverter::parseUnsignedInt(val));
+            StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
     String CmdEmittedEmitterQuota::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getEmittedEmitterQuota() );
     }
     void CmdEmittedEmitterQuota::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setEmittedEmitterQuota(
-            StringConverter::parseUnsignedInt(val));
+            StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
     String CmdRenderer::doGet(const void* target) const
@@ -1509,46 +1509,46 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String CmdSorted::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getSortingEnabled());
     }
     void CmdSorted::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setSortingEnabled(
-            StringConverter::parseBool(val));
+            StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdLocalSpace::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getKeepParticlesInLocalSpace());
     }
     void CmdLocalSpace::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setKeepParticlesInLocalSpace(
-            StringConverter::parseBool(val));
+            StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdIterationInterval::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getIterationInterval());
     }
     void CmdIterationInterval::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setIterationInterval(
-            StringConverter::parseReal(val));
+            StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String CmdNonvisibleTimeout::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getNonVisibleUpdateTimeout());
     }
     void CmdNonvisibleTimeout::doSet(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setNonVisibleUpdateTimeout(
-            StringConverter::parseReal(val));
+            StringConverter::parse_real(val));
     }
    //-----------------------------------------------------------------------
     ParticleAffector::~ParticleAffector() 

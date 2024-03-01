@@ -1153,12 +1153,12 @@ namespace Ogre {
             NameValuePairList::const_iterator ni = params->find("poolSize");
             if (ni != params->end())
             {
-                poolSize = StringConverter::parseUnsignedInt(ni->second);
+                poolSize = StringConverter::parse_uint32(ni->second);
             }
             ni = params->find("externalData");
             if (ni != params->end())
             {
-                externalData = StringConverter::parseBool(ni->second);
+                externalData = StringConverter::parse_bool(ni->second);
             }
         }
 

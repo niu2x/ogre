@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreParticle.h"
 #include "OgreQuaternion.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 /* Implements an Emitter whose emitting points all lie inside a cylinder.

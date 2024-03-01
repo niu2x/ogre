@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreDeflectorPlaneAffector.h"
 #include "OgreParticleSystem.h"
 #include "OgreParticle.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 namespace Ogre {
@@ -126,36 +126,36 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String DeflectorPlaneAffector::CmdPlanePoint::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const DeflectorPlaneAffector*>(target)->getPlanePoint() );
     }
     void DeflectorPlaneAffector::CmdPlanePoint::doSet(void* target, const String& val)
     {
         static_cast<DeflectorPlaneAffector*>(target)->setPlanePoint(
-            StringConverter::parseVector3(val));
+            StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
     String DeflectorPlaneAffector::CmdPlaneNormal::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const DeflectorPlaneAffector*>(target)->getPlaneNormal() );
     }
     void DeflectorPlaneAffector::CmdPlaneNormal::doSet(void* target, const String& val)
     {
         static_cast<DeflectorPlaneAffector*>(target)->setPlaneNormal(
-            StringConverter::parseVector3(val));
+            StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
     String DeflectorPlaneAffector::CmdBounce::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const DeflectorPlaneAffector*>(target)->getBounce() );
 
     }
     void DeflectorPlaneAffector::CmdBounce::doSet(void* target, const String& val)
     {
         static_cast<DeflectorPlaneAffector*>(target)->setBounce(
-            StringConverter::parseReal(val));
+            StringConverter::parse_real(val));
     }
 
 }

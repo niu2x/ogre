@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreRenderSystem.h"
 #include "bitwise.h"
 #include "OgreImageCodec.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreRoot.h"
 #include "OgreD3D9DeviceManager.h"
 #include "OgreDepthBuffer.h"
@@ -102,53 +102,53 @@ namespace Ogre
             // left (x)
             opt = miscParams->find("left");
             if(opt != miscParams->end())
-                left = StringConverter::parseInt(opt->second);
+                left = StringConverter::parse_int32(opt->second);
             // top (y)
             opt = miscParams->find("top");
             if(opt != miscParams->end())
-                top = StringConverter::parseInt(opt->second);
+                top = StringConverter::parse_int32(opt->second);
             // Window title
             opt = miscParams->find("title");
             if(opt != miscParams->end())
                 title = opt->second;
             opt = miscParams->find("windowProc");
             if (opt != miscParams->end())
-                windowProc = reinterpret_cast<WNDPROC>(StringConverter::parseSizeT(opt->second));
+                windowProc = reinterpret_cast<WNDPROC>(StringConverter::parse_size_t(opt->second));
             // externalWindowHandle     -> externalHandle
             opt = miscParams->find("externalWindowHandle");
             if (opt == miscParams->end())
                 opt = miscParams->find("parentWindowHandle");
             if(opt != miscParams->end())
-                externalHandle = (HWND)StringConverter::parseSizeT(opt->second);
+                externalHandle = (HWND)StringConverter::parse_size_t(opt->second);
             // vsync    [parseBool]
             opt = miscParams->find("vsync");
             if(opt != miscParams->end())
-                mVSync = StringConverter::parseBool(opt->second);
+                mVSync = StringConverter::parse_bool(opt->second);
             // hidden   [parseBool]
             opt = miscParams->find("hidden");
             if(opt != miscParams->end())
-                mHidden = StringConverter::parseBool(opt->second);
+                mHidden = StringConverter::parse_bool(opt->second);
             // vsyncInterval    [parseUnsignedInt]
             opt = miscParams->find("vsyncInterval");
             if(opt != miscParams->end())
-                mVSyncInterval = StringConverter::parseUnsignedInt(opt->second);
+                mVSyncInterval = StringConverter::parse_uint32(opt->second);
             // displayFrequency
             opt = miscParams->find("displayFrequency");
             if(opt != miscParams->end())
-                mDisplayFrequency = StringConverter::parseUnsignedInt(opt->second);
+                mDisplayFrequency = StringConverter::parse_uint32(opt->second);
             // colourDepth
             opt = miscParams->find("colourDepth");
             if(opt != miscParams->end())
-                colourDepth = StringConverter::parseUnsignedInt(opt->second);
+                colourDepth = StringConverter::parse_uint32(opt->second);
             // depthBuffer [parseBool]
             opt = miscParams->find("depthBuffer");
             if(opt != miscParams->end())
-                depthBuffer = StringConverter::parseBool(opt->second);
+                depthBuffer = StringConverter::parse_bool(opt->second);
             // FSAA settings
             opt = miscParams->find("FSAA");
             if(opt != miscParams->end())
             {
-                mFSAA = StringConverter::parseUnsignedInt(opt->second);
+                mFSAA = StringConverter::parse_uint32(opt->second);
             }
             opt = miscParams->find("FSAAHint");
             if(opt != miscParams->end())
@@ -163,26 +163,26 @@ namespace Ogre
             // set outer dimensions?
             opt = miscParams->find("outerDimensions");
             if(opt != miscParams->end())
-                outerSize = StringConverter::parseBool(opt->second);
+                outerSize = StringConverter::parse_bool(opt->second);
             // NV perf HUD?
             opt = miscParams->find("useNVPerfHUD");
             if(opt != miscParams->end())
-                mUseNVPerfHUD = StringConverter::parseBool(opt->second);
+                mUseNVPerfHUD = StringConverter::parse_bool(opt->second);
             // sRGB?
             opt = miscParams->find("gamma");
             if(opt != miscParams->end())
-                mHwGamma = StringConverter::parseBool(opt->second);
+                mHwGamma = StringConverter::parse_bool(opt->second);
             // monitor index
             opt = miscParams->find("monitorIndex");
             if(opt != miscParams->end())
-                monitorIndex = StringConverter::parseInt(opt->second);
+                monitorIndex = StringConverter::parse_int32(opt->second);
             opt = miscParams->find("show");
             if(opt != miscParams->end())
-                mHidden = !StringConverter::parseBool(opt->second);
+                mHidden = !StringConverter::parse_bool(opt->second);
             // enable double click messages
             opt = miscParams->find("enableDoubleClick");
             if(opt != miscParams->end())
-                enableDoubleClick = StringConverter::parseBool(opt->second);
+                enableDoubleClick = StringConverter::parse_bool(opt->second);
 
         }
         mIsFullScreen = fullScreen;

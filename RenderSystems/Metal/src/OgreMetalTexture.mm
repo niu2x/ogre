@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreMetalDevice.h"
 #include "OgreMetalRenderSystem.h"
 #include "OgreTextureManager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreMetalDepthBuffer.h"
 #include "bitwise.h"
 

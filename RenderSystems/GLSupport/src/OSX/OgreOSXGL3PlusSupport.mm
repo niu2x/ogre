@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #import "exception.h"
 #import "log_manager.h"
-#import "OgreStringConverter.h"
+#import "string_converter.h"
 #import "OgreRoot.h"
 
 #import "OgreGLNativeSupport.h"
@@ -61,7 +61,7 @@ ConfigOptionMap OSXGLSupport::getConfigOptions()
     optContentScalingFactor.name = "Content Scaling Factor";
     optContentScalingFactor.possibleValues.push_back( "1.0" );
     optContentScalingFactor.possibleValues.push_back( "2.0" );
-    optContentScalingFactor.currentValue = StringConverter::toString((float)[NSScreen mainScreen].backingScaleFactor);
+    optContentScalingFactor.currentValue = StringConverter::to_string((float)[NSScreen mainScreen].backingScaleFactor);
     optContentScalingFactor.immutable = false;
 
 	mOptions[ optBitDepth.name ] = optBitDepth;
@@ -150,7 +150,7 @@ RenderWindow* OSXGLSupport::newWindow( const String &name, unsigned int width, u
     NameValuePairList params;
     if(miscParams)
         params = *miscParams;
-    params["contextProfile"] = StringConverter::toString(int(mContextProfile));
+    params["contextProfile"] = StringConverter::to_string(int(mContextProfile));
 
 	// Create the window, if Cocoa return a Cocoa window
     LogManager::getSingleton().log_message("Creating a Cocoa Compatible Render System");

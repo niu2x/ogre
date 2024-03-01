@@ -435,7 +435,7 @@ namespace Ogre
             OGRE_DELETE chunk;
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, 
                 "Corrupt chunk detected in stream " + mStream->name() + " at byte "
-                + StringConverter::toString(off), 
+                + StringConverter::to_string(off), 
                 "StreamSerialiser::readChunkImpl");
         }
         else

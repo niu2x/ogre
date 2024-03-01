@@ -14,7 +14,7 @@ same license as the rest of the engine.
 
 #include "MaterialGenerator.h"
 
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "exception.h"
 
 #include "OgrePass.h"
@@ -62,7 +62,7 @@ const MaterialPtr &MaterialGenerator::getMaterial(Perm permutation)
         GpuProgramPtr fs = getFragmentShader(permutation & fsMask);
         
         /// Create material name
-        String name = materialBaseName + StringConverter::toString(permutation);
+        String name = materialBaseName + StringConverter::to_string(permutation);
 
         std::cerr << name << " " << vs->getName() << " " << fs->getName() << std::endl;
         /// Create material from template, and set shaders

@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreBone.h"
 #include "string_util.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "Ogre.h"
 
 #include <map>
@@ -119,7 +119,7 @@ namespace Ogre {
         for (pugi::xml_node& bonElem : mBonesNode.children())
         {
             String name = bonElem.attribute("name").value();
-            int id = StringConverter::parseInt(bonElem.attribute("id").value());
+            int id = StringConverter::parse_int32(bonElem.attribute("id").value());
             skel->createBone(name,id) ;
 
             max_id = std::max(id, max_id);
@@ -139,7 +139,7 @@ namespace Ogre {
         for (pugi::xml_node& bonElem : mBonesNode.children())
         {
             String name = bonElem.attribute("name").value();
-//          int id = StringConverter::parseInt(bonElem.attribute("id").c_str();
+//          int id = StringConverter::parse_int32(bonElem.attribute("id").c_str();
 
             pugi::xml_node posElem = bonElem.child("position");
             pugi::xml_node rotElem = bonElem.child("rotation");
@@ -151,15 +151,15 @@ namespace Ogre {
             Radian angle ;
             Vector3 scale;
 
-            pos.x = StringConverter::parseReal(posElem.attribute("x").value());
-            pos.y = StringConverter::parseReal(posElem.attribute("y").value());
-            pos.z = StringConverter::parseReal(posElem.attribute("z").value());
+            pos.x = StringConverter::parse_real(posElem.attribute("x").value());
+            pos.y = StringConverter::parse_real(posElem.attribute("y").value());
+            pos.z = StringConverter::parse_real(posElem.attribute("z").value());
             
-            angle = Radian(StringConverter::parseReal(rotElem.attribute("angle").value()));
+            angle = Radian(StringConverter::parse_real(rotElem.attribute("angle").value()));
 
-            axis.x = StringConverter::parseReal(axisElem.attribute("x").value());
-            axis.y = StringConverter::parseReal(axisElem.attribute("y").value());
-            axis.z = StringConverter::parseReal(axisElem.attribute("z").value());
+            axis.x = StringConverter::parse_real(axisElem.attribute("x").value());
+            axis.y = StringConverter::parse_real(axisElem.attribute("y").value());
+            axis.z = StringConverter::parse_real(axisElem.attribute("z").value());
             
             // Optional scale
             if (scaleElem)
@@ -169,7 +169,7 @@ namespace Ogre {
                 if (factorAttrib)
                 {
                     // Uniform scale
-                    Real factor = StringConverter::parseReal(factorAttrib);
+                    Real factor = StringConverter::parse_real(factorAttrib);
                     scale = Vector3(factor, factor, factor);
                 }
                 else
@@ -179,17 +179,17 @@ namespace Ogre {
                     const char* factorString = scaleElem.attribute("x").as_string(NULL);
                     if (factorString)
                     {
-                        scale.x = StringConverter::parseReal(factorString);
+                        scale.x = StringConverter::parse_real(factorString);
                     }
                     factorString = scaleElem.attribute("y").value();
                     if (factorString)
                     {
-                        scale.y = StringConverter::parseReal(factorString);
+                        scale.y = StringConverter::parse_real(factorString);
                     }
                     factorString = scaleElem.attribute("z").value();
                     if (factorString)
                     {
-                        scale.z = StringConverter::parseReal(factorString);
+                        scale.z = StringConverter::parse_real(factorString);
                     }
                 }
             }
@@ -199,9 +199,9 @@ namespace Ogre {
             }
 
             /*LogManager::getSingleton().log_message("bone " + name + " : position("
-                + StringConverter::toString(pos.x) + "," + StringConverter::toString(pos.y) + "," + StringConverter::toString(pos.z) + ")"
-                + " - angle: " + StringConverter::toString(angle) +" - axe: "
-                + StringConverter::toString(axis.x) + "," + StringConverter::toString(axis.y) + "," + StringConverter::toString(axis.z) );
+                + StringConverter::to_string(pos.x) + "," + StringConverter::to_string(pos.y) + "," + StringConverter::to_string(pos.z) + ")"
+                + " - angle: " + StringConverter::to_string(angle) +" - axe: "
+                + StringConverter::to_string(axis.x) + "," + StringConverter::to_string(axis.y) + "," + StringConverter::to_string(axis.z) );
             */      
             
             btmp = skel->getBone(name) ;
@@ -244,18 +244,18 @@ namespace Ogre {
         for (pugi::xml_node& animElem : mAnimNode.children("animation"))
         {
             String name = animElem.attribute("name").value();
-            Real length = StringConverter::parseReal(animElem.attribute("length").value());
+            Real length = StringConverter::parse_real(animElem.attribute("length").value());
             anim = skel->createAnimation(name,length);
             anim->setInterpolationMode(Animation::IM_LINEAR) ;
 
             
             //LogManager::getSingleton().log_message("Animation: nom: " + name + " et longueur: "
-            //  + StringConverter::toString(length) );
+            //  + StringConverter::to_string(length) );
             pugi::xml_node baseInfoNode = animElem.child("baseinfo");
             if (baseInfoNode)
             {
                 String baseName = baseInfoNode.attribute("baseanimationname").value();
-                Real baseTime = StringConverter::parseReal(baseInfoNode.attribute("basekeyframetime").value());
+                Real baseTime = StringConverter::parse_real(baseInfoNode.attribute("basekeyframetime").value());
                 anim->setUseBaseKeyFrame(true, baseTime, baseName);
             }
             
@@ -294,15 +294,15 @@ namespace Ogre {
             Real time;
 
             // Get time and create keyframe
-            time = StringConverter::parseReal(keyfElem.attribute("time").value());
+            time = StringConverter::parse_real(keyfElem.attribute("time").value());
             kf = track->createNodeKeyFrame(time);
             // Optional translate
             pugi::xml_node transElem = keyfElem.child("translate");
             if (transElem)
             {
-                trans.x = StringConverter::parseReal(transElem.attribute("x").value());
-                trans.y = StringConverter::parseReal(transElem.attribute("y").value());
-                trans.z = StringConverter::parseReal(transElem.attribute("z").value());
+                trans.x = StringConverter::parse_real(transElem.attribute("x").value());
+                trans.y = StringConverter::parse_real(transElem.attribute("y").value());
+                trans.z = StringConverter::parse_real(transElem.attribute("z").value());
                 kf->setTranslate(trans) ;
             }
             // Optional rotate
@@ -315,11 +315,11 @@ namespace Ogre {
                     OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "Missing 'axis' element "
                     "expected under parent 'rotate'", "MXLSkeletonSerializer::readKeyFrames");
                 }
-                angle = Radian(StringConverter::parseReal(rotElem.attribute("angle").value()));
+                angle = Radian(StringConverter::parse_real(rotElem.attribute("angle").value()));
 
-                axis.x = StringConverter::parseReal(axisElem.attribute("x").value());
-                axis.y = StringConverter::parseReal(axisElem.attribute("y").value());
-                axis.z = StringConverter::parseReal(axisElem.attribute("z").value());
+                axis.x = StringConverter::parse_real(axisElem.attribute("x").value());
+                axis.y = StringConverter::parse_real(axisElem.attribute("y").value());
+                axis.z = StringConverter::parse_real(axisElem.attribute("z").value());
 
                 q.from_angle_axis(angle,axis);
                 kf->setRotation(q) ;
@@ -334,7 +334,7 @@ namespace Ogre {
                 if (factorAttrib)
                 {
                     // Uniform scale
-                    Real factor = StringConverter::parseReal(factorAttrib);
+                    Real factor = StringConverter::parse_real(factorAttrib);
                     kf->setScale(Vector3(factor, factor, factor));
                 }
                 else
@@ -344,17 +344,17 @@ namespace Ogre {
                     const char* factorString = scaleElem.attribute("x").as_string(NULL);
                     if(factorString)
                     {
-                        xs = StringConverter::parseReal(factorString);
+                        xs = StringConverter::parse_real(factorString);
                     }
                     factorString = scaleElem.attribute("y").value();
                     if(factorString)
                     {
-                        ys = StringConverter::parseReal(factorString);
+                        ys = StringConverter::parse_real(factorString);
                     }
                     factorString = scaleElem.attribute("z").value();
                     if(factorString)
                     {
-                        zs = StringConverter::parseReal(factorString);
+                        zs = StringConverter::parse_real(factorString);
                     }
                     kf->setScale(Vector3(xs, ys, zs));
                     
@@ -364,9 +364,9 @@ namespace Ogre {
             
             /*
             LogManager::getSingleton().log_message("Keyframe: translation("
-                + StringConverter::toString(trans.x) + "," + StringConverter::toString(trans.y) + "," + StringConverter::toString(trans.z) + ")"
-                + " - angle: " + StringConverter::toString(angle) +" - axe: "
-                + StringConverter::toString(axis.x) + "," + StringConverter::toString(axis.y) + "," + StringConverter::toString(axis.z) );
+                + StringConverter::to_string(trans.x) + "," + StringConverter::to_string(trans.y) + "," + StringConverter::to_string(trans.z) + ")"
+                + " - angle: " + StringConverter::to_string(angle) +" - axe: "
+                + StringConverter::to_string(axis.x) + "," + StringConverter::to_string(axis.y) + "," + StringConverter::to_string(axis.z) );
             */
             
 
@@ -394,7 +394,7 @@ namespace Ogre {
         
         // Write all animations
         unsigned short numAnims = pSkeleton->getNumAnimations();
-        String msg = "Exporting animations, count=" + StringConverter::toString(numAnims);
+        String msg = "Exporting animations, count=" + StringConverter::to_string(numAnims);
         LogManager::getSingleton().log_message(msg);
 
         pugi::xml_node animsNode = rootNode.append_child("animations");
@@ -442,11 +442,11 @@ namespace Ogre {
         pugi::xml_node bonesElem = rootNode.append_child("bones");
 
         unsigned short numBones = pSkel->getNumBones();
-        LogManager::getSingleton().log_message("There are " + StringConverter::toString(numBones) + " bones.");
+        LogManager::getSingleton().log_message("There are " + StringConverter::to_string(numBones) + " bones.");
         unsigned short i;
         for (i = 0; i < numBones; ++i)
         {
-            LogManager::getSingleton().log_message("   Exporting Bone number " + StringConverter::toString(i));
+            LogManager::getSingleton().log_message("   Exporting Bone number " + StringConverter::to_string(i));
             Bone* pBone = pSkel->getBone(i);
             writeBone(bonesElem, pBone);
         }
@@ -473,15 +473,15 @@ namespace Ogre {
         pugi::xml_node boneElem = bonesElement.append_child("bone");
 
         // Bone name & handle
-        boneElem.append_attribute("id") = StringConverter::toString(pBone->getHandle()).c_str();
+        boneElem.append_attribute("id") = StringConverter::to_string(pBone->getHandle()).c_str();
         boneElem.append_attribute("name") = pBone->getName().c_str();
 
         // Position
         pugi::xml_node subNode = boneElem.append_child("position");
         Vector3 pos = pBone->getPosition();
-        subNode.append_attribute("x") = StringConverter::toString(pos.x).c_str();
-        subNode.append_attribute("y") = StringConverter::toString(pos.y).c_str();
-        subNode.append_attribute("z") = StringConverter::toString(pos.z).c_str();
+        subNode.append_attribute("x") = StringConverter::to_string(pos.x).c_str();
+        subNode.append_attribute("y") = StringConverter::to_string(pos.y).c_str();
+        subNode.append_attribute("z") = StringConverter::to_string(pos.z).c_str();
         
         // Orientation 
         subNode = 
@@ -491,19 +491,19 @@ namespace Ogre {
         Vector3 axis;
         pBone->getOrientation().ToAngleAxis(angle, axis);
         pugi::xml_node axisNode = subNode.append_child("axis");
-        subNode.append_attribute("angle") = StringConverter::toString(angle.valueRadians()).c_str();
-        axisNode.append_attribute("x") = StringConverter::toString(axis.x).c_str();
-        axisNode.append_attribute("y") = StringConverter::toString(axis.y).c_str();
-        axisNode.append_attribute("z") = StringConverter::toString(axis.z).c_str();
+        subNode.append_attribute("angle") = StringConverter::to_string(angle.valueRadians()).c_str();
+        axisNode.append_attribute("x") = StringConverter::to_string(axis.x).c_str();
+        axisNode.append_attribute("y") = StringConverter::to_string(axis.y).c_str();
+        axisNode.append_attribute("z") = StringConverter::to_string(axis.z).c_str();
 
         // Scale optional
         Vector3 scale = pBone->getScale();
         if (scale != Vector3::unit_scale)
         {
             pugi::xml_node scaleNode = boneElem.append_child("scale");
-            scaleNode.append_attribute("x") = StringConverter::toString(scale.x).c_str();
-            scaleNode.append_attribute("y") = StringConverter::toString(scale.y).c_str();
-            scaleNode.append_attribute("z") = StringConverter::toString(scale.z).c_str();
+            scaleNode.append_attribute("x") = StringConverter::to_string(scale.x).c_str();
+            scaleNode.append_attribute("y") = StringConverter::to_string(scale.y).c_str();
+            scaleNode.append_attribute("z") = StringConverter::to_string(scale.z).c_str();
         }
 
 
@@ -520,8 +520,8 @@ namespace Ogre {
     {
         pugi::xml_node boneParentNode = boneHierarchyNode.append_child("boneparent");
         /*
-        boneParentNode.append_attribute("boneid") = StringConverter::toString(boneId).c_str();
-        boneParentNode.append_attribute("parentid") = StringConverter::toString(parentId).c_str();
+        boneParentNode.append_attribute("boneid") = StringConverter::to_string(boneId).c_str();
+        boneParentNode.append_attribute("parentid") = StringConverter::to_string(parentId).c_str();
         */
         // Modifications: on stoque les noms./ 
         boneParentNode.append_attribute("bone") = boneName.c_str();
@@ -535,14 +535,14 @@ namespace Ogre {
         pugi::xml_node animNode = animsNode.append_child("animation");
 
         animNode.append_attribute("name") = anim->getName().c_str();
-        animNode.append_attribute("length") = StringConverter::toString(anim->getLength()).c_str();
+        animNode.append_attribute("length") = StringConverter::to_string(anim->getLength()).c_str();
         
         // Optional base keyframe information
         if (anim->getUseBaseKeyFrame())
         {
             pugi::xml_node baseInfoNode = animNode.append_child("baseinfo");
             baseInfoNode.append_attribute("baseanimationname") = anim->getBaseKeyFrameAnimationName().c_str();
-            baseInfoNode.append_attribute("basekeyframetime") = StringConverter::toString(anim->getBaseKeyFrameTime()).c_str();
+            baseInfoNode.append_attribute("basekeyframetime") = StringConverter::to_string(anim->getBaseKeyFrameTime()).c_str();
         }
 
         // Write all tracks
@@ -580,14 +580,14 @@ namespace Ogre {
     {
         pugi::xml_node keyNode = keysNode.append_child("keyframe");
 
-        keyNode.append_attribute("time") = StringConverter::toString(key->getTime()).c_str();
+        keyNode.append_attribute("time") = StringConverter::to_string(key->getTime()).c_str();
 
         pugi::xml_node transNode =
             keyNode.append_child("translate");
         Vector3 trans = key->getTranslate();
-        transNode.append_attribute("x") = StringConverter::toString(trans.x).c_str();
-        transNode.append_attribute("y") = StringConverter::toString(trans.y).c_str();
-        transNode.append_attribute("z") = StringConverter::toString(trans.z).c_str();
+        transNode.append_attribute("x") = StringConverter::to_string(trans.x).c_str();
+        transNode.append_attribute("y") = StringConverter::to_string(trans.y).c_str();
+        transNode.append_attribute("z") = StringConverter::to_string(trans.z).c_str();
 
         pugi::xml_node rotNode = keyNode.append_child("rotate");
         // Show Quaternion as angle / axis
@@ -595,19 +595,19 @@ namespace Ogre {
         Vector3 axis;
         key->getRotation().ToAngleAxis(angle, axis);
         pugi::xml_node axisNode = rotNode.append_child("axis");
-        rotNode.append_attribute("angle") = StringConverter::toString(angle.valueRadians()).c_str();
-        axisNode.append_attribute("x") = StringConverter::toString(axis.x).c_str();
-        axisNode.append_attribute("y") = StringConverter::toString(axis.y).c_str();
-        axisNode.append_attribute("z") = StringConverter::toString(axis.z).c_str();
+        rotNode.append_attribute("angle") = StringConverter::to_string(angle.valueRadians()).c_str();
+        axisNode.append_attribute("x") = StringConverter::to_string(axis.x).c_str();
+        axisNode.append_attribute("y") = StringConverter::to_string(axis.y).c_str();
+        axisNode.append_attribute("z") = StringConverter::to_string(axis.z).c_str();
 
         // Scale optional
         if (key->getScale() != Vector3::unit_scale)
         {
             pugi::xml_node scaleNode = keyNode.append_child("scale");
 
-            scaleNode.append_attribute("x") = StringConverter::toString(key->getScale().x).c_str();
-            scaleNode.append_attribute("y") = StringConverter::toString(key->getScale().y).c_str();
-            scaleNode.append_attribute("z") = StringConverter::toString(key->getScale().z).c_str();
+            scaleNode.append_attribute("x") = StringConverter::to_string(key->getScale().x).c_str();
+            scaleNode.append_attribute("y") = StringConverter::to_string(key->getScale().y).c_str();
+            scaleNode.append_attribute("z") = StringConverter::to_string(key->getScale().z).c_str();
         }
 
     }
@@ -617,7 +617,7 @@ namespace Ogre {
     {
         pugi::xml_node linkNode = linksNode.append_child("animationlink");
         linkNode.append_attribute("skeletonName") = link.skeletonName.c_str();
-        linkNode.append_attribute("scale") = StringConverter::toString(link.scale).c_str();
+        linkNode.append_attribute("scale") = StringConverter::to_string(link.scale).c_str();
 
     }
     //---------------------------------------------------------------------
@@ -638,7 +638,7 @@ namespace Ogre {
             }
             else
             {
-                scale = StringConverter::parseReal(strScale);
+                scale = StringConverter::parse_real(strScale);
             }
             skel->addLinkedSkeletonAnimationSource(skelName, scale);
 

@@ -903,45 +903,45 @@ namespace Ogre {
 
             // Common properties
             //if ((ni = params->find("position")) != params->end())
-            //    light->setPosition(StringConverter::parseVector3(ni->second));
+            //    light->setPosition(StringConverter::parse_vector3(ni->second));
 
             //if ((ni = params->find("direction")) != params->end())
-            //    light->setDirection(StringConverter::parseVector3(ni->second));
+            //    light->setDirection(StringConverter::parse_vector3(ni->second));
 
             if ((ni = params->find("diffuseColour")) != params->end())
-                light->setDiffuseColour(StringConverter::parseColourValue(ni->second));
+                light->setDiffuseColour(StringConverter::parse_colour_value(ni->second));
 
             if ((ni = params->find("specularColour")) != params->end())
-                light->setSpecularColour(StringConverter::parseColourValue(ni->second));
+                light->setSpecularColour(StringConverter::parse_colour_value(ni->second));
 
             if ((ni = params->find("attenuation")) != params->end())
             {
-                Vector4 attenuation = StringConverter::parseVector4(ni->second);
+                Vector4 attenuation = StringConverter::parse_vector4(ni->second);
                 light->setAttenuation(attenuation.x, attenuation.y, attenuation.z, attenuation.w);
             }
 
             if ((ni = params->find("castShadows")) != params->end())
-                light->setCastShadows(StringConverter::parseBool(ni->second));
+                light->setCastShadows(StringConverter::parse_bool(ni->second));
 
             if ((ni = params->find("visible")) != params->end())
-                light->setVisible(StringConverter::parseBool(ni->second));
+                light->setVisible(StringConverter::parse_bool(ni->second));
 
             if ((ni = params->find("powerScale")) != params->end())
-                light->setPowerScale(StringConverter::parseReal(ni->second));
+                light->setPowerScale(StringConverter::parse_real(ni->second));
 
             if ((ni = params->find("shadowFarDistance")) != params->end())
-                light->setShadowFarDistance(StringConverter::parseReal(ni->second));
+                light->setShadowFarDistance(StringConverter::parse_real(ni->second));
 
 
             // Spotlight properties
             if ((ni = params->find("spotlightInner")) != params->end())
-                light->setSpotlightInnerAngle(StringConverter::parseAngle(ni->second));
+                light->setSpotlightInnerAngle(StringConverter::parse_angle(ni->second));
 
             if ((ni = params->find("spotlightOuter")) != params->end())
-                light->setSpotlightOuterAngle(StringConverter::parseAngle(ni->second));
+                light->setSpotlightOuterAngle(StringConverter::parse_angle(ni->second));
 
             if ((ni = params->find("spotlightFalloff")) != params->end())
-                light->setSpotlightFalloff(StringConverter::parseReal(ni->second));
+                light->setSpotlightFalloff(StringConverter::parse_real(ni->second));
         }
 
         return light;

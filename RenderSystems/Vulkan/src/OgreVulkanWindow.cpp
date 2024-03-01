@@ -425,20 +425,20 @@ namespace Ogre
 
             auto opt = miscParams->find( "externalWindowHandle" );
             if( opt != end )
-                mWindowHandle = StringConverter::parseSizeT( opt->second );
+                mWindowHandle = StringConverter::parse_size_t( opt->second );
 
             opt = miscParams->find( "vsync" );
             if( opt != end )
-                mVSync = StringConverter::parseBool( opt->second );
+                mVSync = StringConverter::parse_bool( opt->second );
             opt = miscParams->find( "vsyncInterval" );
             if( opt != end )
-                mVSyncInterval = StringConverter::parseUnsignedInt( opt->second );
+                mVSyncInterval = StringConverter::parse_uint32( opt->second );
             opt = miscParams->find( "FSAA" );
             if( opt != end )
-                mFSAA = StringConverter::parseUnsignedInt(opt->second);
+                mFSAA = StringConverter::parse_uint32(opt->second);
             opt = miscParams->find( "gamma" );
             if( opt != end )
-                mHwGamma = StringConverter::parseBool( opt->second );
+                mHwGamma = StringConverter::parse_bool( opt->second );
         }
 
         OgreAssert( mWindowHandle,  "externalWindowHandle required" );

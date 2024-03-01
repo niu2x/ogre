@@ -62,7 +62,7 @@ namespace Ogre
         file << endl;
 
         for(auto & it : mCapabilitiesMap) {
-            file << "\t" << it.first << " " << StringConverter::toString(caps->hasCapability(it.second)) << endl;
+            file << "\t" << it.first << " " << StringConverter::to_string(caps->hasCapability(it.second)) << endl;
         }
 
         file << endl;
@@ -75,22 +75,22 @@ namespace Ogre
         }
 
         file << endl;
-        file << "\t" << "max_point_size " << StringConverter::toString(caps->getMaxPointSize()) << endl;
+        file << "\t" << "max_point_size " << StringConverter::to_string(caps->getMaxPointSize()) << endl;
 
         file << endl;
-        file << "\t" << "non_pow2_textures_limited " << StringConverter::toString(caps->getNonPOW2TexturesLimited()) << endl;
+        file << "\t" << "non_pow2_textures_limited " << StringConverter::to_string(caps->getNonPOW2TexturesLimited()) << endl;
         
         file << endl;
-        file << "\t" << "num_texture_units " << StringConverter::toString(caps->getNumTextureUnits()) << endl;
-        file << "\t" << "num_multi_render_targets " << StringConverter::toString(caps->getNumMultiRenderTargets()) << endl;
-        file << "\t" << "vertex_program_constant_float_count " << StringConverter::toString(caps->getConstantFloatCount(GPT_VERTEX_PROGRAM)) << endl;
-        file << "\t" << "fragment_program_constant_float_count " << StringConverter::toString(caps->getConstantFloatCount(GPT_FRAGMENT_PROGRAM)) << endl;
-        file << "\t" << "geometry_program_constant_float_count " << StringConverter::toString(caps->getConstantFloatCount(GPT_GEOMETRY_PROGRAM)) << endl;
-        file << "\t" << "tessellation_hull_program_constant_float_count " << StringConverter::toString(caps->getConstantFloatCount(GPT_HULL_PROGRAM)) << endl;
-        file << "\t" << "tessellation_domain_program_constant_float_count " << StringConverter::toString(caps->getConstantFloatCount(GPT_DOMAIN_PROGRAM)) << endl;
-        file << "\t" << "compute_program_constant_float_count " << StringConverter::toString(caps->getConstantFloatCount(GPT_COMPUTE_PROGRAM)) << endl;
-        file << "\t" << "num_vertex_texture_units " << StringConverter::toString(caps->getNumVertexTextureUnits()) << endl;
-        file << "\t" << "num_vertex_attributes " << StringConverter::toString(caps->getNumVertexAttributes()) << endl;
+        file << "\t" << "num_texture_units " << StringConverter::to_string(caps->getNumTextureUnits()) << endl;
+        file << "\t" << "num_multi_render_targets " << StringConverter::to_string(caps->getNumMultiRenderTargets()) << endl;
+        file << "\t" << "vertex_program_constant_float_count " << StringConverter::to_string(caps->getConstantFloatCount(GPT_VERTEX_PROGRAM)) << endl;
+        file << "\t" << "fragment_program_constant_float_count " << StringConverter::to_string(caps->getConstantFloatCount(GPT_FRAGMENT_PROGRAM)) << endl;
+        file << "\t" << "geometry_program_constant_float_count " << StringConverter::to_string(caps->getConstantFloatCount(GPT_GEOMETRY_PROGRAM)) << endl;
+        file << "\t" << "tessellation_hull_program_constant_float_count " << StringConverter::to_string(caps->getConstantFloatCount(GPT_HULL_PROGRAM)) << endl;
+        file << "\t" << "tessellation_domain_program_constant_float_count " << StringConverter::to_string(caps->getConstantFloatCount(GPT_DOMAIN_PROGRAM)) << endl;
+        file << "\t" << "compute_program_constant_float_count " << StringConverter::to_string(caps->getConstantFloatCount(GPT_COMPUTE_PROGRAM)) << endl;
+        file << "\t" << "num_vertex_texture_units " << StringConverter::to_string(caps->getNumVertexTextureUnits()) << endl;
+        file << "\t" << "num_vertex_attributes " << StringConverter::to_string(caps->getNumVertexAttributes()) << endl;
 
         file << endl;
 
@@ -421,19 +421,19 @@ namespace Ogre
                     break;
                 case SET_INT_METHOD:
                 {
-                    ushort integer = (ushort)StringConverter::parseInt(tokens[1]);
+                    ushort integer = (ushort)StringConverter::parse_int32(tokens[1]);
                     callSetIntMethod(keyword, integer);
                     break;
                 }
                 case SET_BOOL_METHOD:
                 {
-                    bool b = StringConverter::parseBool(tokens[1]);
+                    bool b = StringConverter::parse_bool(tokens[1]);
                     callSetBoolMethod(keyword, b);
                     break;
                 }
                 case SET_REAL_METHOD:
                 {
-                    Real real = StringConverter::parseReal(tokens[1]);
+                    Real real = StringConverter::parse_real(tokens[1]);
                     callSetRealMethod(keyword, real);
                     break;
                 }
@@ -444,7 +444,7 @@ namespace Ogre
                 }
                 case SET_CAPABILITY_ENUM_BOOL:
                 {
-                    bool b = StringConverter::parseBool(tokens[1]);
+                    bool b = StringConverter::parse_bool(tokens[1]);
                     setCapabilityEnumBool(tokens[0], b);
                     break;
                 }
@@ -458,7 +458,7 @@ namespace Ogre
         if (mCurrentLine != 0 && mCurrentStream)
         {
             LogManager::getSingleton().log_message(
-                "Error in .rendercaps " + mCurrentStream->name() + ":" + StringConverter::toString(mCurrentLineNumber) +
+                "Error in .rendercaps " + mCurrentStream->name() + ":" + StringConverter::to_string(mCurrentLineNumber) +
                 " : " + error);
         }
         else if (mCurrentStream)

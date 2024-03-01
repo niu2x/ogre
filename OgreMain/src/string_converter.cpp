@@ -63,7 +63,7 @@ namespace Ogre {
     locale_t StringConverter::_numLocale = newlocale(LC_NUMERIC_MASK, OGRE_DEFAULT_LOCALE, NULL);
 
     template<typename T>
-    String StringConverter::_toString(T val, uint16 width, char fill, std::ios::fmtflags flags)
+    String StringConverter::_to_string(T val, uint16 width, char fill, std::ios::fmtflags flags)
     {
         StringStream stream;
         stream.width(width);
@@ -81,7 +81,7 @@ namespace Ogre {
     }
 
     //-----------------------------------------------------------------------
-    String StringConverter::toString(float val, unsigned short precision,
+    String StringConverter::to_string(float val, unsigned short precision,
                                      unsigned short width, char fill, std::ios::fmtflags flags)
     {
         StringStream stream;
@@ -95,7 +95,7 @@ namespace Ogre {
     }
 
     //-----------------------------------------------------------------------
-    String StringConverter::toString(double val, unsigned short precision,
+    String StringConverter::to_string(double val, unsigned short precision,
                                      unsigned short width, char fill, std::ios::fmtflags flags)
     {
         StringStream stream;
@@ -109,58 +109,58 @@ namespace Ogre {
     }
 
     //-----------------------------------------------------------------------
-    String StringConverter::toString(int32 val,
+    String StringConverter::to_string(int32 val,
         unsigned short width, char fill, std::ios::fmtflags flags)
     {
-        return _toString(val, width, fill, flags);
+        return _to_string(val, width, fill, flags);
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(uint32 val,
+    String StringConverter::to_string(uint32 val,
         unsigned short width, char fill, std::ios::fmtflags flags)
     {
-        return _toString(val, width, fill, flags);
+        return _to_string(val, width, fill, flags);
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(unsigned long val,
+    String StringConverter::to_string(unsigned long val,
         unsigned short width, char fill, std::ios::fmtflags flags)
     {
-        return _toString(val, width, fill, flags);
+        return _to_string(val, width, fill, flags);
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(unsigned long long val,
+    String StringConverter::to_string(unsigned long long val,
         unsigned short width, char fill, std::ios::fmtflags flags)
     {
-        return _toString(val, width, fill, flags);
+        return _to_string(val, width, fill, flags);
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(long val,
+    String StringConverter::to_string(long val,
         unsigned short width, char fill, std::ios::fmtflags flags)
     {
-        return _toString(val, width, fill, flags);
+        return _to_string(val, width, fill, flags);
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const Vector2& val)
+    String StringConverter::to_string(const Vector2& val)
     {
         StringStream stream;
         stream << val.x << " " << val.y;
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const Vector3& val)
+    String StringConverter::to_string(const Vector3& val)
     {
         StringStream stream;
         stream << val.x << " " << val.y << " " << val.z;
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const Vector4& val)
+    String StringConverter::to_string(const Vector4& val)
     {
         StringStream stream;
         stream << val.x << " " << val.y << " " << val.z << " " << val.w;
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const Matrix3& val)
+    String StringConverter::to_string(const Matrix3& val)
     {
         StringStream stream;
         stream << val[0][0] << " "
@@ -175,7 +175,7 @@ namespace Ogre {
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(bool val, bool yesNo)
+    String StringConverter::to_string(bool val, bool yesNo)
     {
         if (val)
         {
@@ -199,7 +199,7 @@ namespace Ogre {
             }
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const Matrix4& val)
+    String StringConverter::to_string(const Matrix4& val)
     {
         StringStream stream;
         stream << val[0][0] << " "
@@ -221,21 +221,21 @@ namespace Ogre {
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const Quaternion& val)
+    String StringConverter::to_string(const Quaternion& val)
     {
         StringStream stream;
         stream  << val.w << " " << val.x << " " << val.y << " " << val.z;
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const ColourValue& val)
+    String StringConverter::to_string(const ColourValue& val)
     {
         StringStream stream;
         stream << val.r << " " << val.g << " " << val.b << " " << val.a;
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::toString(const StringVector& val)
+    String StringConverter::to_string(const StringVector& val)
     {
         StringStream stream;
         StringVector::const_iterator i, iend, ibegin;
@@ -387,7 +387,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    bool StringConverter::isNumber(const String& val)
+    bool StringConverter::is_number(const String& val)
     {
         char* end;
         strtod(val.c_str(), &end);

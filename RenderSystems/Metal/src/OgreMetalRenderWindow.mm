@@ -202,18 +202,18 @@ namespace Ogre
 
             opt = miscParams->find("FSAA");
             if( opt != end )
-                mFSAA = std::max( 1u, StringConverter::parseUnsignedInt( opt->second ) );
+                mFSAA = std::max( 1u, StringConverter::parse_uint32( opt->second ) );
 
             opt = miscParams->find("gamma");
             if( opt != end )
-                mHwGamma = StringConverter::parseBool( opt->second );
+                mHwGamma = StringConverter::parse_bool( opt->second );
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
             opt = miscParams->find("externalWindowHandle");
             if( opt != end )
             {
                 LogManager::getSingleton().log_message("Mac Cocoa Window: Rendering on an external NSWindow*");
-                mWindow = (__bridge NSWindow*)reinterpret_cast<void*>(StringConverter::parseSizeT(opt->second));
+                mWindow = (__bridge NSWindow*)reinterpret_cast<void*>(StringConverter::parse_size_t(opt->second));
                 assert( mWindow &&
                        "Unable to get a pointer to the parent NSWindow."
                        "Was the 'externalWindowHandle' parameter set correctly in the call to createRenderWindow()?");

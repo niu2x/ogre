@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "exception.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreGLXRenderTexture.h"
 #include "OgreGLXContext.h"
@@ -143,8 +143,8 @@ namespace Ogre
         
         mWidth = iWidth;  
         mHeight = iHeight;
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "GLXPBuffer::create used final dimensions " + StringConverter::toString(mWidth) + " x " + StringConverter::toString(mHeight));
-        LogManager::getSingleton().log_message("GLXPBuffer::create used FBConfigID " + StringConverter::toString(fbConfigID));
+        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "GLXPBuffer::create used final dimensions " + StringConverter::to_string(mWidth) + " x " + StringConverter::to_string(mHeight));
+        LogManager::getSingleton().log_message("GLXPBuffer::create used FBConfigID " + StringConverter::to_string(fbConfigID));
         
         mContext = new GLXContext(mGLSupport, fbConfig, glxDrawable);
     }

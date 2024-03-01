@@ -174,7 +174,7 @@ bool TextureAtlasSampler::addFunctionInvocations(ProgramSet* programSet)
         {
             //Find the texture coordinates texel and sampler from the original FFPTexturing
             ParameterPtr texcoord = psMain->getInputParameter((Parameter::Content)(Parameter::SPC_TEXTURE_COORDINATE0 + j), GCT_FLOAT2);
-            ParameterPtr texel = psMain->getLocalParameter(c_ParamTexel + StringConverter::toString(j));
+            ParameterPtr texel = psMain->getLocalParameter(c_ParamTexel + StringConverter::to_string(j));
             UniformParameterPtr sampler = psProgram->getParameterByType(GCT_SAMPLER2D, j);
                 
             const char* addressUFuncName = getAdressingFunctionName(mTextureAddressings[j].u);
@@ -418,10 +418,10 @@ bool TextureAtlasSamplerFactory::addTexutreAtlasDefinition( const DataStreamPtr&
                     TextureAtlasRecord newRecord(
                         strings[0], // original texture filename
                         strings[1], // atlas filename
-                        (float)StringConverter::parseReal(strings[4]), // woffset
-                        (float)StringConverter::parseReal(strings[5]), // hoffset
-                        (float)StringConverter::parseReal(strings[7]), // width
-                        (float)StringConverter::parseReal(strings[8]), // height
+                        (float)StringConverter::parse_real(strings[4]), // woffset
+                        (float)StringConverter::parse_real(strings[5]), // hoffset
+                        (float)StringConverter::parse_real(strings[7]), // width
+                        (float)StringConverter::parse_real(strings[8]), // height
                         it->second->size() // texture index in atlas texture
                         );
 

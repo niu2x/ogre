@@ -340,7 +340,7 @@ namespace Ogre
         {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, 
                     String("Given mesh must have at least ") + 
-                    StringConverter::toString(neededTextureCoord) + "free TEXCOORDs",
+                    StringConverter::to_string(neededTextureCoord) + "free TEXCOORDs",
                     "InstanceBatchHW_VTF::checkSubMeshCompatibility");
         }
 

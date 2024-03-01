@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "Ogre.h"
 #include "msLib.h"
 #include "resource.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreDefaultHardwareBufferManager.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreVertexIndexData.h"
@@ -403,7 +403,7 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
         logMgr.log_message("Doing positions and texture coords...");
         for (j = 0; j < ogreSubMesh->vertexData->vertexCount; ++j)
         {
-            logMgr.log_message("Doing vertex " + Ogre::StringConverter::toString(j));
+            logMgr.log_message("Doing vertex " + Ogre::StringConverter::to_string(j));
             msVertex *pVertex = msMesh_GetVertexAt (pMesh, (int)j);
             msVertexEx *pVertexEx=msMesh_GetVertexExAt(pMesh, (int)j);
             msVec3 Vertex;
@@ -668,7 +668,7 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
 
     // Do the bones
     int numBones = msModel_GetBoneCount(pModel);
-    msg = "Number of bones: " + Ogre::StringConverter::toString(numBones);
+    msg = "Number of bones: " + Ogre::StringConverter::to_string(numBones);
     logMgr.log_message(msg);
 
     int i;
@@ -716,7 +716,7 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
         {
             // Root bone
             msg = "Root bone detected: Name='" + Ogre::String(bone->szName) + "' Index=" 
-                + Ogre::StringConverter::toString(i);
+                + Ogre::StringConverter::to_string(i);
             logMgr.log_message(msg);
         }
         else
@@ -831,7 +831,7 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
     matMgrSgl.initialise();
 
     int numMaterials = msModel_GetMaterialCount(pModel);
-    msg = "Number of materials: " + Ogre::StringConverter::toString(numMaterials);
+    msg = "Number of materials: " + Ogre::StringConverter::to_string(numMaterials);
     logMgr.log_message(msg);
 
     OPENFILENAME ofn;
@@ -916,7 +916,7 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
     Ogre::String msg;
 
     int numFrames = msModel_GetTotalFrames(pModel);
-    msg = "Number of frames: " + Ogre::StringConverter::toString(numFrames);
+    msg = "Number of frames: " + Ogre::StringConverter::to_string(numFrames);
     logMgr.log_message(msg);
 
     if (splitAnimations)
@@ -1055,7 +1055,7 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
             Ogre::Bone* ogrebone = ogreskel->getBone(bone->szName);
 
             // Create animation tracks
-            msg = "Creating AnimationTrack for bone " + Ogre::StringConverter::toString(i);
+            msg = "Creating AnimationTrack for bone " + Ogre::StringConverter::to_string(i);
             logMgr.log_message(msg);
 
             Ogre::NodeAnimationTrack *ogretrack = ogreanim->createNodeTrack(i, ogrebone);
@@ -1067,7 +1067,7 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
 
             int numKeys = msBone_GetRotationKeyCount(bone);
 
-            msg = "Number of keyframes: " + Ogre::StringConverter::toString(numKeys);
+            msg = "Number of keyframes: " + Ogre::StringConverter::to_string(numKeys);
             logMgr.log_message(msg);
 
             int currKeyIdx;
@@ -1082,8 +1082,8 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
                 if (currRotKey->fTime >= currSplit.start && currRotKey->fTime <= currSplit.end)
                 {
 
-                    msg = "Creating KeyFrame #" + Ogre::StringConverter::toString(currKeyIdx)
-                        + " for bone #" + Ogre::StringConverter::toString(i);
+                    msg = "Creating KeyFrame #" + Ogre::StringConverter::to_string(currKeyIdx)
+                        + " for bone #" + Ogre::StringConverter::to_string(i);
                     logMgr.log_message(msg);
                     // Create keyframe
                     // Adjust for start time, and for the fact that frames are numbered from 1

@@ -21,7 +21,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "LightMaterialGenerator.h"
 
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "exception.h"
 #include "OgreMaterialManager.h"
 
@@ -85,7 +85,7 @@ public:
         assert(mMasterSource.empty()==false);
 
         // Create name
-        String name = mBaseName+StringConverter::toString(permutation)+"_ps";       
+        String name = mBaseName+StringConverter::to_string(permutation)+"_ps";       
 
         // Create shader object
         HighLevelGpuProgramPtr ptrProgram = HighLevelGpuProgramManager::getSingleton().createProgram(
@@ -251,7 +251,7 @@ public:
         OgreAssert(!mMasterSource.empty(), "no source code");
 
         // Create name
-        String name = mBaseName+StringConverter::toString(permutation)+"_ps";
+        String name = mBaseName+StringConverter::to_string(permutation)+"_ps";
 
         // Create shader object
         HighLevelGpuProgramPtr ptrProgram;
@@ -330,7 +330,7 @@ protected:
         {
             assert(false && "Permutation must have a light type");
         }
-        strPPD += "LIGHT_TYPE=" + StringConverter::toString(lightType);
+        strPPD += "LIGHT_TYPE=" + StringConverter::to_string(lightType);
 
         //Optional parameters
         if (permutation & LightMaterialGenerator::MI_SPECULAR)

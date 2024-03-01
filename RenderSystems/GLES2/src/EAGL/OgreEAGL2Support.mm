@@ -72,7 +72,7 @@ namespace Ogre {
         optContentScalingFactor.possibleValues.push_back( "1.33" );
         optContentScalingFactor.possibleValues.push_back( "1.5" );
         optContentScalingFactor.possibleValues.push_back( "2.0" );
-        optContentScalingFactor.currentValue = StringConverter::toString([UIScreen mainScreen].scale);
+        optContentScalingFactor.currentValue = StringConverter::to_string([UIScreen mainScreen].scale);
         optContentScalingFactor.immutable = false;
         
         mFSAALevels.push_back(0);

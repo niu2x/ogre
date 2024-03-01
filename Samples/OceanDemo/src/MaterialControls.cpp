@@ -15,7 +15,7 @@ same license as the rest of the engine.
 #include "MaterialControls.h"
 #include "log_manager.h"
 #include "string_vector.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreConfigFile.h"
 #include "OgreResourceGroupManager.h"
 #include "exception.h"
@@ -56,9 +56,9 @@ void MaterialControls::addControl(const Ogre::String& params)
     else if (vecparams[2] == "GPU_FRAGMENT")
         newControl.ValType = GPU_FRAGMENT;
 
-    newControl.MinVal = Ogre::StringConverter::parseReal(vecparams[3]);
-    newControl.MaxVal = Ogre::StringConverter::parseReal(vecparams[4]);
-    newControl.ElementIndex = Ogre::StringConverter::parseInt(vecparams[5]);
+    newControl.MinVal = Ogre::StringConverter::parse_real(vecparams[3]);
+    newControl.MaxVal = Ogre::StringConverter::parse_real(vecparams[4]);
+    newControl.ElementIndex = Ogre::StringConverter::parse_int32(vecparams[5]);
 
     mShaderControlsContainer.push_back(newControl);
 

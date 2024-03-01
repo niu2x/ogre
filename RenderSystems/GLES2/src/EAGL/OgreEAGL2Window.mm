@@ -208,7 +208,7 @@ namespace Ogre {
         NameValuePairList::const_iterator option;
         if ((option = miscParams->find("retainedBacking")) != miscParams->end())
         {
-            retainedBacking = StringConverter::parseBool(option->second);
+            retainedBacking = StringConverter::parse_bool(option->second);
         }
 
         eaglLayer.opaque = YES;
@@ -230,7 +230,7 @@ namespace Ogre {
         EAGLSharegroup *group = nil;
         if ((option = miscParams->find("externalSharegroup")) != miscParams->end())
         {
-            group = (__bridge EAGLSharegroup *)(void*)StringConverter::parseSizeT(option->second);
+            group = (__bridge EAGLSharegroup *)(void*)StringConverter::parse_size_t(option->second);
             LogManager::getSingleton().log_message("iOS: Using an external EAGLSharegroup");
         }
         else
@@ -297,12 +297,12 @@ namespace Ogre {
             // Note: Some platforms support AA inside ordinary windows
             if ((opt = miscParams->find("FSAA")) != end)
             {
-                mFSAA = StringConverter::parseUnsignedInt(opt->second);
+                mFSAA = StringConverter::parse_uint32(opt->second);
             }
             
             if ((opt = miscParams->find("displayFrequency")) != end)
             {
-                frequency = (short)StringConverter::parseInt(opt->second);
+                frequency = (short)StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("contentScalingFactor")) != end)
@@ -312,17 +312,17 @@ namespace Ogre {
             
             if ((opt = miscParams->find("vsync")) != end)
             {
-                vsync = StringConverter::parseBool(opt->second);
+                vsync = StringConverter::parse_bool(opt->second);
             }
             
             if ((opt = miscParams->find("left")) != end)
             {
-                left = StringConverter::parseInt(opt->second);
+                left = StringConverter::parse_int32(opt->second);
             }
             
             if ((opt = miscParams->find("top")) != end)
             {
-                top = StringConverter::parseInt(opt->second);
+                top = StringConverter::parse_int32(opt->second);
             }
             
             if ((opt = miscParams->find("title")) != end)
@@ -332,21 +332,21 @@ namespace Ogre {
 
             if ((opt = miscParams->find("externalWindowHandle")) != end)
             {
-                mWindow = (__bridge UIWindow *)(void*)StringConverter::parseSizeT(opt->second);
+                mWindow = (__bridge UIWindow *)(void*)StringConverter::parse_size_t(opt->second);
                 mIsExternal = true;
                 LogManager::getSingleton().log_message("iOS: Using an external window handle");
             }
         
             if ((opt = miscParams->find("externalViewHandle")) != end)
             {
-                mView = (__bridge EAGL2View *)(void*)StringConverter::parseSizeT(opt->second);
+                mView = (__bridge EAGL2View *)(void*)StringConverter::parse_size_t(opt->second);
                 mUsingExternalView = true;
                 LogManager::getSingleton().log_message("iOS: Using an external view handle");
             }
         
             if ((opt = miscParams->find("externalViewControllerHandle")) != end)
             {
-                mViewController = (__bridge EAGL2ViewController *)(void*)StringConverter::parseSizeT(opt->second);
+                mViewController = (__bridge EAGL2ViewController *)(void*)StringConverter::parse_size_t(opt->second);
                 if(mViewController.view != nil)
                     mView = (EAGL2View *)mViewController.view;
                 mUsingExternalViewController = true;

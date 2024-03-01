@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreVulkanWindow.h"
 
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreVulkanUtils.h"
 
@@ -119,14 +119,14 @@ namespace Ogre
                          "VulkanDevice::createPhysicalDevice" );
         }
 
-        const String numDevicesStr = StringConverter::toString( numDevices );
-        String deviceIdsStr = StringConverter::toString( deviceIdx );
+        const String numDevicesStr = StringConverter::to_string( numDevices );
+        String deviceIdsStr = StringConverter::to_string( deviceIdx );
 
         if( deviceIdx >= numDevices )
         {
             LogManager::getSingleton().log_warning( "[Vulkan] Requested device index " + deviceIdsStr +
                                                    " but there's only " +
-                                                   StringConverter::toString( numDevices ) + "devices" );
+                                                   StringConverter::to_string( numDevices ) + "devices" );
             deviceIdx = 0u;
             deviceIdsStr = "0";
         }

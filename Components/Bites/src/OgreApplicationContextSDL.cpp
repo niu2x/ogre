@@ -53,7 +53,7 @@ NativeWindowPair ApplicationContextSDL::createWindow(const Ogre::String& name, O
     }
 
     int flags = p.useFullScreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
-    int d = Ogre::StringConverter::parseInt(miscParams["monitorIndex"], 1) - 1;
+    int d = Ogre::StringConverter::parse_int32(miscParams["monitorIndex"], 1) - 1;
     ret.native =
         SDL_CreateWindow(p.name.c_str(), SDL_WINDOWPOS_UNDEFINED_DISPLAY(d),
                          SDL_WINDOWPOS_UNDEFINED_DISPLAY(d), p.width, p.height, flags);
@@ -65,15 +65,15 @@ NativeWindowPair ApplicationContextSDL::createWindow(const Ogre::String& name, O
 #endif
 
     // for tiny rendersystem
-    p.miscParams["sdlwin"] = Ogre::StringConverter::toString(size_t(ret.native));
+    p.miscParams["sdlwin"] = Ogre::StringConverter::to_string(size_t(ret.native));
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-    p.miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.x11.window));
+    p.miscParams["externalWindowHandle"] = Ogre::StringConverter::to_string(size_t(wmInfo.info.x11.window));
 #elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    p.miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.win.window));
+    p.miscParams["externalWindowHandle"] = Ogre::StringConverter::to_string(size_t(wmInfo.info.win.window));
 #elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE
     assert(wmInfo.subsystem == SDL_SYSWM_COCOA);
-    p.miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.cocoa.window));
+    p.miscParams["externalWindowHandle"] = Ogre::StringConverter::to_string(size_t(wmInfo.info.cocoa.window));
 #endif
 
     if(!mWindows.empty())

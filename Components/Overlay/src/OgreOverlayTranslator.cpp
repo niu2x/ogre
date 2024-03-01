@@ -85,7 +85,7 @@ void FontTranslator::parseAttribute(ScriptCompiler* compiler, FontPtr& pFont,
         {
             // Unicode glyph spec
             String trimmed = val.substr(1);
-            cp = StringConverter::parseUnsignedInt(trimmed);
+            cp = StringConverter::parse_uint32(trimmed);
         }
         else
         {
@@ -122,8 +122,8 @@ void FontTranslator::parseAttribute(ScriptCompiler* compiler, FontPtr& pFont,
             if (succ && itemVec.size() == 2)
             {
                 pFont->addCodePointRange(
-                    Font::CodePointRange(StringConverter::parseUnsignedInt(itemVec[0]),
-                                         StringConverter::parseUnsignedInt(itemVec[1])));
+                    Font::CodePointRange(StringConverter::parse_uint32(itemVec[0]),
+                                         StringConverter::parse_uint32(itemVec[1])));
             }
         }
     }

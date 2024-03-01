@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "OgreControllerManager.h"
 #include "log_manager.h"
 #include "OgreBspSceneNode.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "log_manager.h"
 #include "OgreTechnique.h"
 #include "OgrePass.h"

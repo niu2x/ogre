@@ -448,7 +448,7 @@ namespace OgreBites
 
                     if (all || info["Category"] == selectedCategory)
                     {
-                        Ogre::String name = "SdkTrays/SampleThumb" + Ogre::StringConverter::toString(sampleTitles.size() + 1);
+                        Ogre::String name = "SdkTrays/SampleThumb" + Ogre::StringConverter::to_string(sampleTitles.size() + 1);
 
                         // clone a new material for sample thumbnail
                         Ogre::MaterialPtr newMat = templateMat->clone(name);
@@ -499,7 +499,7 @@ namespace OgreBites
         void sliderMoved(Slider* slider) override
         {
             // format the caption to be fraction style
-            Ogre::String denom = "/" + Ogre::StringConverter::toString(mSampleMenu->getNumItems());
+            Ogre::String denom = "/" + Ogre::StringConverter::to_string(mSampleMenu->getNumItems());
             slider->setValueCaption(slider->getValueCaption() + denom);
 
             // tell the sample menu to change if it hasn't already

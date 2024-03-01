@@ -126,7 +126,7 @@ namespace Ogre
                 {
                     //No? Clone it and track it
                     MaterialPtr cloned = casterMat->clone( mName + "/VTFMaterialCaster" +
-                                                    StringConverter::toString(clonedMaterials.size()) );
+                                                    StringConverter::to_string(clonedMaterials.size()) );
                     technique->setShadowCasterMaterial( cloned );
                     clonedMaterials[casterName] = cloned;
                 }

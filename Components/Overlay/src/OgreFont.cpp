@@ -29,7 +29,7 @@ THE SOFTWARE
 #include "OgreTextureManager.h"
 #include "OgreTexture.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreTextureUnitState.h"
 #include "OgreTechnique.h"
 #include "bitwise.h"
@@ -579,23 +579,23 @@ namespace Ogre
     String CmdSize::doGet(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
-        return StringConverter::toString(f->getTrueTypeSize());
+        return StringConverter::to_string(f->getTrueTypeSize());
     }
     void CmdSize::doSet(void* target, const String& val)
     {
         Font* f = static_cast<Font*>(target);
-        f->setTrueTypeSize(StringConverter::parseReal(val));
+        f->setTrueTypeSize(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String CmdResolution::doGet(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
-        return StringConverter::toString(f->getTrueTypeResolution());
+        return StringConverter::to_string(f->getTrueTypeResolution());
     }
     void CmdResolution::doSet(void* target, const String& val)
     {
         Font* f = static_cast<Font*>(target);
-        f->setTrueTypeResolution(StringConverter::parseUnsignedInt(val));
+        f->setTrueTypeResolution(StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
     String CmdCodePoints::doGet(const void* target) const
@@ -619,8 +619,8 @@ namespace Ogre
             StringVector itemVec = StringUtil::split(item, "-");
             if (itemVec.size() == 2)
             {
-                f->addCodePointRange({StringConverter::parseUnsignedInt(itemVec[0]),
-                                      StringConverter::parseUnsignedInt(itemVec[1])});
+                f->addCodePointRange({StringConverter::parse_uint32(itemVec[0]),
+                                      StringConverter::parse_uint32(itemVec[1])});
             }
         }
     }

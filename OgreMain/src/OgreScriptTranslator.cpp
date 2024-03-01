@@ -923,7 +923,7 @@ namespace Ogre{
         {
             int count = 1;
             if (val.size() == 6)
-                count = StringConverter::parseInt(val.substr(5));
+                count = StringConverter::parse_int32(val.substr(5));
             else if (val.size() > 6)
                 return false;
 
@@ -936,7 +936,7 @@ namespace Ogre{
         {
             int count = 1;
             if (val.size() == 7)
-                count = StringConverter::parseInt(val.substr(6));
+                count = StringConverter::parse_int32(val.substr(6));
             else if (val.size() > 7)
                 return false;
 
@@ -949,7 +949,7 @@ namespace Ogre{
         {
             int count = 1;
             if (val.size() == 5)
-                count = StringConverter::parseInt(val.substr(4));
+                count = StringConverter::parse_int32(val.substr(4));
             else if (val.size() > 5)
                 return false;
 
@@ -962,7 +962,7 @@ namespace Ogre{
         {
             int count = 1;
             if (val.size() == 4)
-                count = StringConverter::parseInt(val.substr(3));
+                count = StringConverter::parse_int32(val.substr(3));
             else if (val.size() > 4)
                 return false;
 
@@ -975,7 +975,7 @@ namespace Ogre{
         {
             int count = 1;
             if (val.size() == 5)
-                count = StringConverter::parseInt(val.substr(4));
+                count = StringConverter::parse_int32(val.substr(4));
             else if (val.size() > 5)
                 return false;
 
@@ -990,8 +990,8 @@ namespace Ogre{
 
             if (val.size() == 9)
             {
-                count1 = StringConverter::parseInt(val.substr(6, 1));
-                count2 = StringConverter::parseInt(val.substr(8, 1));
+                count1 = StringConverter::parse_int32(val.substr(6, 1));
+                count2 = StringConverter::parse_int32(val.substr(8, 1));
             }
             else
                 return false;
@@ -1992,9 +1992,9 @@ namespace Ogre{
                                 }
 
                             }
-                            else if(StringConverter::isNumber(atom->value))
+                            else if(StringConverter::is_number(atom->value))
                             {
-                                mPass->setPassIterationCount(Ogre::StringConverter::parseInt(atom->value));
+                                mPass->setPassIterationCount(Ogre::StringConverter::parse_int32(atom->value));
 
                                 AbstractNodeList::const_iterator i1 = getNodeAt(prop->values, 1);
                                 if(i1 != prop->values.end() && (*i1)->type == ANT_ATOM)
@@ -2033,10 +2033,10 @@ namespace Ogre{
                                         if(i2 != prop->values.end() && (*i2)->type == ANT_ATOM)
                                         {
                                             atom = (AtomAbstractNode*)(*i2).get();
-                                            if(StringConverter::isNumber(atom->value))
+                                            if(StringConverter::is_number(atom->value))
                                             {
                                                 mPass->setLightCountPerIteration(
-                                                    static_cast<unsigned short>(StringConverter::parseInt(atom->value)));
+                                                    static_cast<unsigned short>(StringConverter::parse_int32(atom->value)));
 
                                                 AbstractNodeList::const_iterator i3 = getNodeAt(prop->values, 3);
                                                 if(i3 != prop->values.end() && (*i3)->type == ANT_ATOM)
@@ -2128,8 +2128,8 @@ namespace Ogre{
                                     if(i1 != prop->values.end() && (*i1)->type == ANT_ATOM)
                                     {
                                         AtomAbstractNode *atom = (AtomAbstractNode*)(*i1).get();
-                                        if(StringConverter::isNumber(atom->value))
-                                            constant = StringConverter::parseReal(atom->value);
+                                        if(StringConverter::is_number(atom->value))
+                                            constant = StringConverter::parse_real(atom->value);
                                         else
                                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                     }
@@ -2142,8 +2142,8 @@ namespace Ogre{
                                     if(i2 != prop->values.end() && (*i2)->type == ANT_ATOM)
                                     {
                                         AtomAbstractNode *atom = (AtomAbstractNode*)(*i2).get();
-                                        if(StringConverter::isNumber(atom->value))
-                                            linear = StringConverter::parseReal(atom->value);
+                                        if(StringConverter::is_number(atom->value))
+                                            linear = StringConverter::parse_real(atom->value);
                                         else
                                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                     }
@@ -2156,8 +2156,8 @@ namespace Ogre{
                                     if(i3 != prop->values.end() && (*i3)->type == ANT_ATOM)
                                     {
                                         AtomAbstractNode *atom = (AtomAbstractNode*)(*i3).get();
-                                        if(StringConverter::isNumber(atom->value))
-                                            quadratic = StringConverter::parseReal(atom->value);
+                                        if(StringConverter::is_number(atom->value))
+                                            quadratic = StringConverter::parse_real(atom->value);
                                         else
                                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                     }
@@ -2690,7 +2690,7 @@ namespace Ogre{
                     else
                     {
                         AbstractNodeList::const_iterator i1 = getNodeAt(prop->values, 1);
-                        if((*i1)->type == ANT_ATOM && StringConverter::isNumber(((AtomAbstractNode*)(*i1).get())->value))
+                        if((*i1)->type == ANT_ATOM && StringConverter::is_number(((AtomAbstractNode*)(*i1).get())->value))
                         {
                             // Short form
                             AbstractNodeList::const_iterator i0 = getNodeAt(prop->values, 0), i2 = getNodeAt(prop->values, 2);
@@ -3395,9 +3395,9 @@ namespace Ogre{
         }
 
         String tps;
-        tps = StringConverter::toString(techniqueIndex) + " "
-            + StringConverter::toString(passIndex) + " "
-            + StringConverter::toString(texUnitIndex);
+        tps = StringConverter::to_string(techniqueIndex) + " "
+            + StringConverter::to_string(passIndex) + " "
+            + StringConverter::to_string(texUnitIndex);
 
         ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->setParameter( "set_T_P_S", tps );
 
@@ -3656,7 +3656,7 @@ namespace Ogre{
             // int1, int2, etc.
             if (end != start)
             {
-                dimensions *= StringConverter::parseInt(
+                dimensions *= StringConverter::parse_int32(
                     declarator.substr(start, end - start));
                 start = end;
             }
@@ -3665,7 +3665,7 @@ namespace Ogre{
             while (start != String::npos)
             {
                 end = declarator.find_first_of(']', start);
-                dimensions *= StringConverter::parseInt(
+                dimensions *= StringConverter::parse_int32(
                     declarator.substr(start + 1, end - start - 1));
                 start = declarator.find_first_of('[', end);
             }
@@ -3745,7 +3745,7 @@ namespace Ogre{
                             }
 
                             AtomAbstractNode *atom0 = (AtomAbstractNode*)(*i0).get(), *atom1 = (AtomAbstractNode*)(*i1).get();
-                            if(!named && !StringConverter::isNumber(atom0->value))
+                            if(!named && !StringConverter::is_number(atom0->value))
                             {
                                 compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
                                                    "parameter index expected");
@@ -3758,7 +3758,7 @@ namespace Ogre{
                             if(named)
                                 name = atom0->value;
                             else
-                                index = StringConverter::parseInt(atom0->value);
+                                index = StringConverter::parse_int32(atom0->value);
 
                             // Determine the type
                             if(atom1->value == "matrix4x4")
@@ -3876,7 +3876,7 @@ namespace Ogre{
                                 return;
                             }
                             AtomAbstractNode *atom0 = (AtomAbstractNode*)(*i0).get(), *atom1 = (AtomAbstractNode*)(*i1).get();
-                            if(!named && !StringConverter::isNumber(atom0->value))
+                            if(!named && !StringConverter::is_number(atom0->value))
                             {
                                 compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
                                                    "parameter index expected");
@@ -3886,7 +3886,7 @@ namespace Ogre{
                             if(named)
                                 name = atom0->value;
                             else
-                                index = StringConverter::parseInt(atom0->value);
+                                index = StringConverter::parse_int32(atom0->value);
 
                             // Look up the auto constant
                             StringUtil::lower_case(&atom1->value);
@@ -4192,7 +4192,7 @@ namespace Ogre{
 
                 if (value.front() == '[' && value.back() == ']')
                 {
-                    arraySz = StringConverter::parseInt(value.substr(1, value.size() - 2), 0);
+                    arraySz = StringConverter::parse_int32(value.substr(1, value.size() - 2), 0);
                     if(!arraySz)
                     {
                         compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
@@ -4664,14 +4664,14 @@ namespace Ogre{
                                         return;
                                     }
                                     atom = (AtomAbstractNode*)(*it).get();
-                                    if (!StringConverter::isNumber(atom->value))
+                                    if (!StringConverter::is_number(atom->value))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                         return;
                                     }
 
                                     *pSize = 0;
-                                    *pFactor = StringConverter::parseReal(atom->value);
+                                    *pFactor = StringConverter::parse_real(atom->value);
                                     *pSetFlag = true;
                                 }
                                 break;
@@ -4706,26 +4706,26 @@ namespace Ogre{
                                         return;
                                     }
                                     atom = (AtomAbstractNode*)(*it).get();
-                                    if (!StringConverter::isNumber(atom->value))
+                                    if (!StringConverter::is_number(atom->value))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                         return;
                                     }
 
-                                    depthBufferId = Math::uint16Cast(StringConverter::parseInt(atom->value));
+                                    depthBufferId = Math::uint16Cast(StringConverter::parse_int32(atom->value));
                                 }
                                 break;
                             default:
-                                if (StringConverter::isNumber(atom->value))
+                                if (StringConverter::is_number(atom->value))
                                 {
                                     if (atomIndex == 2)
                                     {
-                                        width = StringConverter::parseInt(atom->value);
+                                        width = StringConverter::parse_int32(atom->value);
                                         widthSet = true;
                                     }
                                     else if (atomIndex == 3)
                                     {
-                                        height = StringConverter::parseInt(atom->value);
+                                        height = StringConverter::parse_int32(atom->value);
                                         heightSet = true;
                                     }
                                     else

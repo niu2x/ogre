@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreVulkanUtils.h"
 
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanMappings.h"
 
@@ -68,7 +68,7 @@ namespace Ogre
         case VK_ERROR_INVALID_SHADER_NV:        return "VK_ERROR_INVALID_SHADER_NV";
         case VK_ERROR_NOT_PERMITTED_EXT:        return "VK_ERROR_NOT_PERMITTED_EXT";
         default:
-            return StringConverter::toString( result );
+            return StringConverter::to_string( result );
         }
         // clang-format on
     }

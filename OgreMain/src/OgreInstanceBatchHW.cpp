@@ -131,7 +131,7 @@ namespace Ogre
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "There are not enough free TEXCOORDs to hold the "
                                                         "custom parameters (required: " +
-                                                        Ogre::StringConverter::toString( 3 + mCreator->
+                                                        Ogre::StringConverter::to_string( 3 + mCreator->
                                                         getNumCustomParams() ) + "). See InstanceManager"
                                                         "::setNumCustomParams documentation",
                         "InstanceBatchHW::checkSubMeshCompatibility");

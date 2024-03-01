@@ -243,7 +243,7 @@ void Sample_NewInstancing::switchInstancingTechnique()
         }
 
         mCurrentManager = mSceneMgr->createInstanceManager(
-            "InstanceMgr" + StringConverter::toString(mInstancingTechnique), c_meshNames[mCurrentMesh],
+            "InstanceMgr" + StringConverter::to_string(mInstancingTechnique), c_meshNames[mCurrentMesh],
             ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, technique,
             NUM_INST_ROW * NUM_INST_COLUMN, flags);
 

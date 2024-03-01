@@ -173,7 +173,7 @@ bool IntegratedPSSM3::setParameter(const String& name, const String& value)
     }
     else if (name == "light_count")
     {
-        mMultiLightCount = StringConverter::parseInt(value);
+        mMultiLightCount = StringConverter::parse_int32(value);
         return true;
     }
 

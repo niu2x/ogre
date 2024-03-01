@@ -472,45 +472,45 @@ namespace Ogre
     String CmdSkeletal::doGet(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
-        return StringConverter::toString(t->isSkeletalAnimationIncluded());
+        return StringConverter::to_string(t->isSkeletalAnimationIncluded());
     }
     void CmdSkeletal::doSet(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
-        t->setSkeletalAnimationIncluded(StringConverter::parseBool(val));
+        t->setSkeletalAnimationIncluded(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdMorph::doGet(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
-        return StringConverter::toString(t->isMorphAnimationIncluded());
+        return StringConverter::to_string(t->isMorphAnimationIncluded());
     }
     void CmdMorph::doSet(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
-        t->setMorphAnimationIncluded(StringConverter::parseBool(val));
+        t->setMorphAnimationIncluded(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdPose::doGet(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
-        return StringConverter::toString(t->getNumberOfPosesIncluded());
+        return StringConverter::to_string(t->getNumberOfPosesIncluded());
     }
     void CmdPose::doSet(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
-        t->setPoseAnimationIncluded((ushort)StringConverter::parseUnsignedInt(val));
+        t->setPoseAnimationIncluded((ushort)StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
     String CmdVTF::doGet(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
-        return StringConverter::toString(t->isVertexTextureFetchRequired());
+        return StringConverter::to_string(t->isVertexTextureFetchRequired());
     }
     void CmdVTF::doSet(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
-        t->setVertexTextureFetchRequired(StringConverter::parseBool(val));
+        t->setVertexTextureFetchRequired(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String CmdManualNamedConstsFile::doGet(const void* target) const

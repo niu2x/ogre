@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "exception.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 #include "OgreEGLRenderTexture.h"
 #include "OgreEGLContext.h"
@@ -134,8 +134,8 @@ namespace Ogre {
 
         mWidth = iWidth;
         mHeight = iHeight;
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "EGLPBuffer::create used final dimensions " + StringConverter::toString(mWidth) + " x " + StringConverter::toString(mHeight));
-        LogManager::getSingleton().log_message("EGLPBuffer::create used FBConfigID " + StringConverter::toString(glConfigID));
+        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "EGLPBuffer::create used final dimensions " + StringConverter::to_string(mWidth) + " x " + StringConverter::to_string(mHeight));
+        LogManager::getSingleton().log_message("EGLPBuffer::create used FBConfigID " + StringConverter::to_string(glConfigID));
 
         mContext = new EGLContext(mGlDisplay, mGLSupport, glConfig, mEglDrawable, NULL);
     }

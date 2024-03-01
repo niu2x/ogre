@@ -432,7 +432,7 @@ SubRenderState* LayeredBlendingFactory::createInstance(ScriptCompiler* compiler,
                 vec.push_back(m.name);
 
             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
-                "Expected one of the following blend modes: " + StringConverter::toString(vec));
+                "Expected one of the following blend modes: " + StringConverter::to_string(vec));
             return NULL;
         }
 
@@ -526,7 +526,7 @@ void LayeredBlendingFactory::writeInstance(MaterialSerializer* ser, SubRenderSta
         ser->writeAttribute(5, "source_modifier");  
         ser->writeValue(sourceModifierToString(modType));
         ser->writeValue("custom");
-        ser->writeValue(StringConverter::toString(customNum));
+        ser->writeValue(StringConverter::to_string(customNum));
     }
 
 }

@@ -3607,7 +3607,7 @@ namespace Ogre {
                     {
                         String lightNumberAsString = uiNameValueAsString.substr(theWordLight.size(), firstSpacePos - theWordLight.size());
 
-                        size_t lightNumber = StringConverter::parseInt(lightNumberAsString);
+                        size_t lightNumber = StringConverter::parse_int32(lightNumberAsString);
                         extraInfo = lightNumber;
 
                         String colorPart = uiNameValueAsString.substr(firstSpacePos + 1);

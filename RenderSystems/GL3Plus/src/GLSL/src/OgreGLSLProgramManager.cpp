@@ -28,7 +28,7 @@
 
 #include "OgreGLSLProgramManager.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGLSLShader.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreGL3PlusHardwareBufferManager.h"

@@ -157,7 +157,7 @@ namespace Ogre
             String attributeVal;
             while (valueIt != pMat->getUserLodValues().end())
             {
-                attributeVal.append(StringConverter::toString(*valueIt++));
+                attributeVal.append(StringConverter::to_string(*valueIt++));
                 if (valueIt != pMat->getUserLodValues().end())
                     attributeVal.append(" ");
             }
@@ -229,7 +229,7 @@ namespace Ogre
                 pTech->getLodIndex() != 0)
             {
                 writeAttribute(2, "lod_index");
-                writeValue(StringConverter::toString(pTech->getLodIndex()));
+                writeValue(StringConverter::to_string(pTech->getLodIndex()));
             }
 
             // Scheme name
@@ -274,7 +274,7 @@ namespace Ogre
                 else
                     writeValue("exclude");
                 writeValue(quoteWord(rule.devicePattern));
-                writeValue(StringConverter::toString(rule.caseSensitive));
+                writeValue(StringConverter::to_string(rule.caseSensitive));
             }
             // Iterate over passes
             for(auto& p : pTech->getPasses())
@@ -304,7 +304,7 @@ namespace Ogre
         
         writeAttribute(2, "pass");
         // only output pass name if its not the default name
-        if (pPass->getName() != StringConverter::toString(pPass->getIndex()))
+        if (pPass->getName() != StringConverter::to_string(pPass->getIndex()))
             writeValue(quoteWord(pPass->getName()));
 
         beginSection(2);
@@ -324,14 +324,14 @@ namespace Ogre
                 pPass->getMaxSimultaneousLights() != OGRE_MAX_SIMULTANEOUS_LIGHTS)
             {
                 writeAttribute(3, "max_lights");
-                writeValue(StringConverter::toString(pPass->getMaxSimultaneousLights()));
+                writeValue(StringConverter::to_string(pPass->getMaxSimultaneousLights()));
             }
             // start_light
             if (mDefaults ||
                 pPass->getStartLight() != 0)
             {
                 writeAttribute(3, "start_light");
-                writeValue(StringConverter::toString(pPass->getStartLight()));
+                writeValue(StringConverter::to_string(pPass->getStartLight()));
             }
             // iteration
             if (mDefaults ||
@@ -341,13 +341,13 @@ namespace Ogre
                 // pass iteration count
                 if (pPass->getPassIterationCount() > 1 || pPass->getLightCountPerIteration() > 1)
                 {
-                    writeValue(StringConverter::toString(pPass->getPassIterationCount()));
+                    writeValue(StringConverter::to_string(pPass->getPassIterationCount()));
                     if (pPass->getIteratePerLight())
                     {
                         if (pPass->getLightCountPerIteration() > 1)
                         {
                             writeValue("per_n_lights");
-                            writeValue(StringConverter::toString(
+                            writeValue(StringConverter::to_string(
                                 pPass->getLightCountPerIteration()));
                         }
                         else
@@ -384,7 +384,7 @@ namespace Ogre
             if(mDefaults || pPass->getLightMask() != 0xFFFFFFFF)
             {
                 writeAttribute(3, "light_mask");
-                writeValue(StringConverter::toString(pPass->getLightMask()));
+                writeValue(StringConverter::to_string(pPass->getLightMask()));
             }
 
             if (pPass->getLightingEnabled())
@@ -437,7 +437,7 @@ namespace Ogre
                     {
                         writeColourValue(pPass->getSpecular(), true);
                     }
-                    writeValue(StringConverter::toString(pPass->getShininess()));
+                    writeValue(StringConverter::to_string(pPass->getShininess()));
 
                 }
 
@@ -462,7 +462,7 @@ namespace Ogre
                 pPass->getPointSize() != 1.0)
             {
                 writeAttribute(3, "point_size");
-                writeValue(StringConverter::toString(pPass->getPointSize()));
+                writeValue(StringConverter::to_string(pPass->getPointSize()));
             }
 
             // Point sprites
@@ -484,9 +484,9 @@ namespace Ogre
                      pPass->getPointAttenuationLinear() != 1.0 ||
                      pPass->getPointAttenuationQuadratic() != 0.0))
                 {
-                    writeValue(StringConverter::toString(pPass->getPointAttenuationConstant()));
-                    writeValue(StringConverter::toString(pPass->getPointAttenuationLinear()));
-                    writeValue(StringConverter::toString(pPass->getPointAttenuationQuadratic()));
+                    writeValue(StringConverter::to_string(pPass->getPointAttenuationConstant()));
+                    writeValue(StringConverter::to_string(pPass->getPointAttenuationLinear()));
+                    writeValue(StringConverter::to_string(pPass->getPointAttenuationQuadratic()));
                 }
             }
 
@@ -495,7 +495,7 @@ namespace Ogre
                 pPass->getPointMinSize() != 0.0)
             {
                 writeAttribute(3, "point_size_min");
-                writeValue(StringConverter::toString(pPass->getPointMinSize()));
+                writeValue(StringConverter::to_string(pPass->getPointMinSize()));
             }
 
             // Point max size
@@ -503,7 +503,7 @@ namespace Ogre
                 pPass->getPointMaxSize() != 0.0)
             {
                 writeAttribute(3, "point_size_max");
-                writeValue(StringConverter::toString(pPass->getPointMaxSize()));
+                writeValue(StringConverter::to_string(pPass->getPointMaxSize()));
             }
 
             // scene blend factor
@@ -533,7 +533,7 @@ namespace Ogre
             {
                 writeAttribute(3, "alpha_rejection");
                 writeCompareFunction(pPass->getAlphaRejectFunction());
-                writeValue(StringConverter::toString(pPass->getAlphaRejectValue()));
+                writeValue(StringConverter::to_string(pPass->getAlphaRejectValue()));
             }
             // alpha_to_coverage
             if (mDefaults ||
@@ -575,15 +575,15 @@ namespace Ogre
                 pPass->getDepthBiasSlopeScale() != 0)
             {
                 writeAttribute(3, "depth_bias");
-                writeValue(StringConverter::toString(pPass->getDepthBiasConstant()));
-                writeValue(StringConverter::toString(pPass->getDepthBiasSlopeScale()));
+                writeValue(StringConverter::to_string(pPass->getDepthBiasConstant()));
+                writeValue(StringConverter::to_string(pPass->getDepthBiasSlopeScale()));
             }
             //iteration depth bias
             if (mDefaults ||
                 pPass->getIterationDepthBias() != 0)
             {
                 writeAttribute(3, "iteration_depth_bias");
-                writeValue(StringConverter::toString(pPass->getIterationDepthBias()));
+                writeValue(StringConverter::to_string(pPass->getIterationDepthBias()));
             }
 
             //light scissor
@@ -735,9 +735,9 @@ namespace Ogre
                     if (pPass->getFogMode() != FOG_NONE)
                     {
                         writeColourValue(pPass->getFogColour());
-                        writeValue(StringConverter::toString(pPass->getFogDensity()));
-                        writeValue(StringConverter::toString(pPass->getFogStart()));
-                        writeValue(StringConverter::toString(pPass->getFogEnd()));
+                        writeValue(StringConverter::to_string(pPass->getFogDensity()));
+                        writeValue(StringConverter::to_string(pPass->getFogStart()));
+                        writeValue(StringConverter::to_string(pPass->getFogEnd()));
                     }
                 }
             }
@@ -832,7 +832,7 @@ namespace Ogre
         mBuffer += "\n";
         writeAttribute(3, "texture_unit");
         // only write out name if its not equal to the default name
-        if (pTex->getName() != StringConverter::toString(pTex->getParent()->getTextureUnitStateIndex(pTex)))
+        if (pTex->getName() != StringConverter::to_string(pTex->getParent()->getTextureUnitStateIndex(pTex)))
             writeValue(quoteWord(pTex->getName()));
 
         beginSection(3);
@@ -878,7 +878,7 @@ namespace Ogre
 
                 if (uint32(pTex->getNumMipmaps()) != TextureManager::getSingleton().getDefaultNumMipmaps())
                 {
-                    writeValue(StringConverter::toString(pTex->getNumMipmaps()));
+                    writeValue(StringConverter::to_string(pTex->getNumMipmaps()));
                 }
 
                 if (pTex->getDesiredFormat() != PF_UNKNOWN)
@@ -893,7 +893,7 @@ namespace Ogre
                 writeAttribute(4, "anim_texture");
                 for (unsigned int n = 0; n < pTex->getNumFrames(); n++)
                     writeValue(quoteWord(pTex->getFrameTextureName(n)));
-                writeValue(StringConverter::toString(pTex->getAnimationDuration()));
+                writeValue(StringConverter::to_string(pTex->getAnimationDuration()));
             }
 
             //anisotropy level
@@ -901,7 +901,7 @@ namespace Ogre
                 pTex->getTextureAnisotropy() != 1)
             {
                 writeAttribute(4, "max_anisotropy");
-                writeValue(StringConverter::toString(pTex->getTextureAnisotropy()));
+                writeValue(StringConverter::to_string(pTex->getTextureAnisotropy()));
             }
 
             //texture coordinate set
@@ -909,7 +909,7 @@ namespace Ogre
                 pTex->getTextureCoordSet() != 0)
             {
                 writeAttribute(4, "tex_coord_set");
-                writeValue(StringConverter::toString(pTex->getTextureCoordSet()));
+                writeValue(StringConverter::to_string(pTex->getTextureCoordSet()));
             }
 
             //addressing mode
@@ -964,7 +964,7 @@ namespace Ogre
             {
                 writeAttribute(4, "mipmap_bias");
                 writeValue(
-                    StringConverter::toString(pTex->getTextureMipmapBias()));
+                    StringConverter::to_string(pTex->getTextureMipmapBias()));
             }
 
             // colour_op_ex
@@ -981,7 +981,7 @@ namespace Ogre
                 writeLayerBlendSource(pTex->getColourBlendMode().source2);
                 if (pTex->getColourBlendMode().operation
                     == LayerBlendOperationEx::BLEND_MANUAL)
-                    writeValue(StringConverter::toString(pTex->getColourBlendMode().factor));
+                    writeValue(StringConverter::to_string(pTex->getColourBlendMode().factor));
                 if (pTex->getColourBlendMode().source1
                     == LayerBlendSource::MANUAL)
                     writeColourValue(pTex->getColourBlendMode().colourArg1, false);
@@ -1009,15 +1009,15 @@ namespace Ogre
                 writeLayerBlendSource(pTex->getAlphaBlendMode().source2);
                 if (pTex->getAlphaBlendMode().operation
                     == LayerBlendOperationEx::BLEND_MANUAL)
-                    writeValue(StringConverter::toString(pTex->getAlphaBlendMode().factor));
+                    writeValue(StringConverter::to_string(pTex->getAlphaBlendMode().factor));
                 else if (
                     pTex->getAlphaBlendMode().source1
                     == LayerBlendSource::MANUAL)
-                    writeValue(StringConverter::toString(pTex->getAlphaBlendMode().alphaArg1));
+                    writeValue(StringConverter::to_string(pTex->getAlphaBlendMode().alphaArg1));
                 else if (
                     pTex->getAlphaBlendMode().source2
                     == LayerBlendSource::MANUAL)
-                    writeValue(StringConverter::toString(pTex->getAlphaBlendMode().alphaArg2));
+                    writeValue(StringConverter::to_string(pTex->getAlphaBlendMode().alphaArg2));
             }
 
             bool individualTransformElems = false;
@@ -1026,7 +1026,7 @@ namespace Ogre
                 pTex->getTextureRotate() != Radian(0))
             {
                 writeAttribute(4, "rotate");
-                writeValue(StringConverter::toString(pTex->getTextureRotate().valueDegrees()));
+                writeValue(StringConverter::to_string(pTex->getTextureRotate().valueDegrees()));
                 individualTransformElems = true;
             }
 
@@ -1036,8 +1036,8 @@ namespace Ogre
                 pTex->getTextureVScroll() != 0 )
             {
                 writeAttribute(4, "scroll");
-                writeValue(StringConverter::toString(pTex->getTextureUScroll()));
-                writeValue(StringConverter::toString(pTex->getTextureVScroll()));
+                writeValue(StringConverter::to_string(pTex->getTextureUScroll()));
+                writeValue(StringConverter::to_string(pTex->getTextureVScroll()));
                 individualTransformElems = true;
             }
             // scale
@@ -1046,8 +1046,8 @@ namespace Ogre
                 pTex->getTextureVScale() != 1.0 )
             {
                 writeAttribute(4, "scale");
-                writeValue(StringConverter::toString(pTex->getTextureUScale()));
-                writeValue(StringConverter::toString(pTex->getTextureVScale()));
+                writeValue(StringConverter::to_string(pTex->getTextureUScale()));
+                writeValue(StringConverter::to_string(pTex->getTextureVScale()));
                 individualTransformElems = true;
             }
 
@@ -1062,7 +1062,7 @@ namespace Ogre
                 {
                     for (int col = 0; col < 4; ++col)
                     {
-                        writeValue(StringConverter::toString(xform[row][col]));
+                        writeValue(StringConverter::to_string(xform[row][col]));
                     }
                 }
             }
@@ -1129,7 +1129,7 @@ namespace Ogre
                     writeValue("compositor");
                     writeValue(quoteWord(pTex->getReferencedCompositorName()));
                     writeValue(quoteWord(pTex->getReferencedTextureName()));
-                    writeValue(StringConverter::toString(pTex->getReferencedMRTIndex()));
+                    writeValue(StringConverter::to_string(pTex->getReferencedMRTIndex()));
                     break;
                 };
             }
@@ -1169,7 +1169,7 @@ namespace Ogre
         if (effect.arg1)
         {
             writeAttribute(4, "rotate_anim");
-            writeValue(StringConverter::toString(effect.arg1));
+            writeValue(StringConverter::to_string(effect.arg1));
         }
     }
     //-----------------------------------------------------------------------
@@ -1218,10 +1218,10 @@ namespace Ogre
             break;
         }
 
-        writeValue(StringConverter::toString(effect.base));
-        writeValue(StringConverter::toString(effect.frequency));
-        writeValue(StringConverter::toString(effect.phase));
-        writeValue(StringConverter::toString(effect.amplitude));
+        writeValue(StringConverter::to_string(effect.base));
+        writeValue(StringConverter::to_string(effect.frequency));
+        writeValue(StringConverter::to_string(effect.phase));
+        writeValue(StringConverter::to_string(effect.amplitude));
     }
     //-----------------------------------------------------------------------
     void MaterialSerializer::writeScrollEffect(
@@ -1230,8 +1230,8 @@ namespace Ogre
         if (effect.arg1 || effect.arg2)
         {
             writeAttribute(4, "scroll_anim");
-            writeValue(StringConverter::toString(effect.arg1));
-            writeValue(StringConverter::toString(effect.arg2));
+            writeValue(StringConverter::to_string(effect.arg1));
+            writeValue(StringConverter::to_string(effect.arg2));
         }
     }
     //-----------------------------------------------------------------------
@@ -1330,11 +1330,11 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void MaterialSerializer::writeColourValue(const ColourValue &colour, bool writeAlpha)
     {
-        writeValue(StringConverter::toString(colour.r));
-        writeValue(StringConverter::toString(colour.g));
-        writeValue(StringConverter::toString(colour.b));
+        writeValue(StringConverter::to_string(colour.r));
+        writeValue(StringConverter::to_string(colour.g));
+        writeValue(StringConverter::to_string(colour.b));
         if (writeAlpha)
-            writeValue(StringConverter::toString(colour.a));
+            writeValue(StringConverter::to_string(colour.a));
     }
     //-----------------------------------------------------------------------
     void MaterialSerializer::writeLayerBlendOperationEx(const LayerBlendOperationEx op)
@@ -1555,7 +1555,7 @@ namespace Ogre
                 }
 
                 writeGpuProgramParameter("param_indexed", 
-                                         StringConverter::toString(logicalIndex), autoEntry, 
+                                         StringConverter::to_string(logicalIndex), autoEntry, 
                                          defaultAutoEntry, true, false, false, false, false,
                                          logicalUse.physicalIndex, logicalUse.currentSize,
                                          params, defaultParams, level, useMainBuffer);
@@ -1674,11 +1674,11 @@ namespace Ogre
                 switch(autoConstDef->dataType)
                 {
                 case GpuProgramParameters::ACDT_REAL:
-                    writeValue(StringConverter::toString(autoEntry->fData), useMainBuffer);
+                    writeValue(StringConverter::to_string(autoEntry->fData), useMainBuffer);
                     break;
 
                 case GpuProgramParameters::ACDT_INT:
-                    writeValue(StringConverter::toString(autoEntry->data), useMainBuffer);
+                    writeValue(StringConverter::to_string(autoEntry->data), useMainBuffer);
                     break;
 
                 default:
@@ -1691,7 +1691,7 @@ namespace Ogre
 
                 // only write a number if > 1
                 if (physicalSize > 1)
-                    countLabel = StringConverter::toString(physicalSize);
+                    countLabel = StringConverter::to_string(physicalSize);
 
                 if (isRegister)
                 {
@@ -1702,7 +1702,7 @@ namespace Ogre
                     // iterate through real constants
                     for (size_t f = 0; f < physicalSize; ++f)
                     {
-                        writeValue(StringConverter::toString(*pInt++), useMainBuffer);
+                        writeValue(StringConverter::to_string(*pInt++), useMainBuffer);
                     }
                 }
                 else if (isFloat)
@@ -1714,7 +1714,7 @@ namespace Ogre
                     // iterate through real constants
                     for (size_t f = 0; f < physicalSize; ++f)
                     {
-                        writeValue(StringConverter::toString(*pFloat++), useMainBuffer);
+                        writeValue(StringConverter::to_string(*pFloat++), useMainBuffer);
                     }
                 }
                 else if (isDouble)
@@ -1726,7 +1726,7 @@ namespace Ogre
                     // iterate through double constants
                     for (size_t f = 0; f < physicalSize; ++f)
                     {
-                        writeValue(StringConverter::toString(*pDouble++), useMainBuffer);
+                        writeValue(StringConverter::to_string(*pDouble++), useMainBuffer);
                     }
                 }
                 else if (isInt)
@@ -1738,7 +1738,7 @@ namespace Ogre
                     // iterate through int constants
                     for (size_t f = 0; f < physicalSize; ++f)
                     {
-                        writeValue(StringConverter::toString(*pInt++), useMainBuffer);
+                        writeValue(StringConverter::to_string(*pInt++), useMainBuffer);
                     }
                 }
                 else if (isUnsignedInt) 
@@ -1750,7 +1750,7 @@ namespace Ogre
                     // iterate through uint constants
                     for (size_t f = 0; f < physicalSize; ++f)
                     {
-                        writeValue(StringConverter::toString(*pUInt++), useMainBuffer);
+                        writeValue(StringConverter::to_string(*pUInt++), useMainBuffer);
                     }
                 }
                 //else if (isBool)
@@ -1763,7 +1763,7 @@ namespace Ogre
                 //    // iterate through bool constants
                 //    for (size_t f = 0; f < physicalSize; ++f)
                 //    {
-                //        writeValue(StringConverter::toString(*pBool++), useMainBuffer);
+                //        writeValue(StringConverter::to_string(*pBool++), useMainBuffer);
                 //    }
                 //}
             }

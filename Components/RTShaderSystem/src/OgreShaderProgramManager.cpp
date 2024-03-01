@@ -227,7 +227,7 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
     {
         pGpuProgram->setParameter("target", profiles);
         pGpuProgram->setParameter("enable_backwards_compatibility", "true");
-        pGpuProgram->setParameter("column_major_matrices", StringConverter::toString(shaderProgram->getUseColumnMajorMatrices()));
+        pGpuProgram->setParameter("column_major_matrices", StringConverter::to_string(shaderProgram->getUseColumnMajorMatrices()));
     }
     else if (language == "glsl")
     {

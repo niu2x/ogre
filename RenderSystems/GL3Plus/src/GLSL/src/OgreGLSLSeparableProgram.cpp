@@ -27,7 +27,7 @@
 */
 
 #include "OgreGLSLSeparableProgram.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGLSLShader.h"
 #include "OgreGLSLProgramManager.h"
 #include "OgreGpuProgramManager.h"

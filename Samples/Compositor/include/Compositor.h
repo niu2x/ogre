@@ -16,7 +16,7 @@ Also see acknowledgements in Readme.html
 #define __CompositorDemo_H__
 
 #include "OgreConfigFile.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "exception.h"
 
 #include "SdkSample.h"
@@ -194,7 +194,7 @@ void Sample_Compositor::changePage(size_t pageNum)
     size_t maxCompositorsInPage = mCompositorNames.size() - (pageNum * COMPOSITORS_PER_PAGE);
     for (size_t i=0; i < COMPOSITORS_PER_PAGE; i++)
     {
-        String checkBoxName = "Compositor_" + Ogre::StringConverter::toString(i);
+        String checkBoxName = "Compositor_" + Ogre::StringConverter::to_string(i);
         CheckBox* cb = static_cast<CheckBox*>(mTrayMgr->getWidget(TL_TOPLEFT, checkBoxName));
         if (i < maxCompositorsInPage)
         {
@@ -258,7 +258,7 @@ void Sample_Compositor::setupControls(void)
 
     for (size_t i=0; i < COMPOSITORS_PER_PAGE; i++)
     {
-        String checkBoxName = "Compositor_" + Ogre::StringConverter::toString(i);
+        String checkBoxName = "Compositor_" + Ogre::StringConverter::to_string(i);
         CheckBox* cb = mTrayMgr->createCheckBox(TL_TOPLEFT, checkBoxName, "Compositor", 175);
         cb->hide();
     }
@@ -340,7 +340,7 @@ void Sample_Compositor::checkBoxToggled(OgreBites::CheckBox * box)
                         {
                             //Dirty string composition. NOT ROBUST!
                             mDebugTextureSelectMenu->addItem(compositorName + ";" + texDef->name + ";" +
-                                                             Ogre::StringConverter::toString((Ogre::uint32)i));
+                                                             Ogre::StringConverter::to_string((Ogre::uint32)i));
                         }
                     }
                     else
@@ -384,7 +384,7 @@ void Sample_Compositor::itemSelected(OgreBites::SelectMenu* menu)
     else
     {
         mDebugTextureTUS->setCompositorReference(parts[0], parts[1],
-                                                 StringConverter::parseUnsignedInt(parts[2]));
+                                                 StringConverter::parse_uint32(parts[2]));
     }
 }
 

@@ -372,19 +372,19 @@ namespace Volume {
         config.loadFromResourceSystem(filename, resourceGroup);
 
         String source = config.getSetting("source");
-        Vector3 dimensions = StringConverter::parseVector3(config.getSetting("sourceDimensions"));
-        bool trilinearValue = StringConverter::parseBool(config.getSetting("trilinearValue"));
-        bool trilinearGradient = StringConverter::parseBool(config.getSetting("trilinearGradient"));
-        bool sobelGradient = StringConverter::parseBool(config.getSetting("sobelGradient"));
-        bool async = StringConverter::parseBool(config.getSetting("async"));
+        Vector3 dimensions = StringConverter::parse_vector3(config.getSetting("sourceDimensions"));
+        bool trilinearValue = StringConverter::parse_bool(config.getSetting("trilinearValue"));
+        bool trilinearGradient = StringConverter::parse_bool(config.getSetting("trilinearGradient"));
+        bool sobelGradient = StringConverter::parse_bool(config.getSetting("sobelGradient"));
+        bool async = StringConverter::parse_bool(config.getSetting("async"));
 
         TextureSource *textureSource = new TextureSource(source, dimensions.x, dimensions.y, dimensions.z, trilinearValue, trilinearGradient, sobelGradient);
     
-        Vector3 from = StringConverter::parseVector3(config.getSetting("scanFrom"));
-        Vector3 to = StringConverter::parseVector3(config.getSetting("scanTo"));
-        size_t level = StringConverter::parseUnsignedInt(config.getSetting("level"));
-        Real scale = StringConverter::parseReal(config.getSetting("scale"));
-        Real maxScreenSpaceError = StringConverter::parseReal(config.getSetting("maxScreenSpaceError"));
+        Vector3 from = StringConverter::parse_vector3(config.getSetting("scanFrom"));
+        Vector3 to = StringConverter::parse_vector3(config.getSetting("scanTo"));
+        size_t level = StringConverter::parse_uint32(config.getSetting("level"));
+        Real scale = StringConverter::parse_real(config.getSetting("scale"));
+        Real maxScreenSpaceError = StringConverter::parse_real(config.getSetting("maxScreenSpaceError"));
     
         ChunkParameters parameters;
         parameters.sceneManager = sceneManager;
@@ -392,12 +392,12 @@ namespace Volume {
         parameters.src = textureSource;
         parameters.scale = scale;
         parameters.maxScreenSpaceError = maxScreenSpaceError;
-        parameters.createGeometryFromLevel = StringConverter::parseInt(config.getSetting("createGeometryFromLevel"));
-        parameters.baseError = StringConverter::parseReal(config.getSetting("baseError"));
-        parameters.errorMultiplicator = StringConverter::parseReal(config.getSetting("errorMultiplicator"));
-        parameters.createOctreeVisualization = StringConverter::parseBool(config.getSetting("createOctreeVisualization"));
-        parameters.createDualGridVisualization = StringConverter::parseBool(config.getSetting("createDualGridVisualization"));
-        parameters.skirtFactor = StringConverter::parseReal(config.getSetting("skirtFactor"));
+        parameters.createGeometryFromLevel = StringConverter::parse_int32(config.getSetting("createGeometryFromLevel"));
+        parameters.baseError = StringConverter::parse_real(config.getSetting("baseError"));
+        parameters.errorMultiplicator = StringConverter::parse_real(config.getSetting("errorMultiplicator"));
+        parameters.createOctreeVisualization = StringConverter::parse_bool(config.getSetting("createOctreeVisualization"));
+        parameters.createDualGridVisualization = StringConverter::parse_bool(config.getSetting("createDualGridVisualization"));
+        parameters.skirtFactor = StringConverter::parse_real(config.getSetting("skirtFactor"));
         parameters.async = async;
     
         load(parent, from, to, level, &parameters);

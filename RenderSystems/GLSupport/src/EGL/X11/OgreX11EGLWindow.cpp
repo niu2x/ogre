@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreViewport.h"
 
 #include "OgreX11EGLSupport.h"
@@ -102,12 +102,12 @@ namespace Ogre {
                 if (tokens.size() >= 3)
                 {
                     // deprecated display:screen:xid:visualinfo format
-                    mParentWindow = (Window)StringConverter::parseSizeT(tokens[2]);
+                    mParentWindow = (Window)StringConverter::parse_size_t(tokens[2]);
                 }
                 else
                 {
                     // xid format
-                    mParentWindow = (Window)StringConverter::parseSizeT(tokens[0]);
+                    mParentWindow = (Window)StringConverter::parse_size_t(tokens[0]);
                 }
             }
         }
@@ -252,7 +252,7 @@ namespace Ogre {
             NameValuePairList::const_iterator end = miscParams->end();
 
             if ((opt = miscParams->find("currentGLContext")) != end &&
-                StringConverter::parseBool(opt->second))
+                StringConverter::parse_bool(opt->second))
             {
                 eglContext = eglGetCurrentContext();
                 EGL_CHECK_ERROR
@@ -270,35 +270,35 @@ namespace Ogre {
             // Note: Some platforms support AA inside ordinary windows
             if ((opt = miscParams->find("FSAA")) != end)
             {
-                samples = StringConverter::parseUnsignedInt(opt->second);
+                samples = StringConverter::parse_uint32(opt->second);
             }
 
             if ((opt = miscParams->find("displayFrequency")) != end)
             {
-                frequency = (short)StringConverter::parseInt(opt->second);
+                frequency = (short)StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("vsync")) != end)
             {
-                vsync = StringConverter::parseBool(opt->second);
+                vsync = StringConverter::parse_bool(opt->second);
             }
 
             if((opt = miscParams->find("vsyncInterval")) != end)
-                vsyncInterval = StringConverter::parseUnsignedInt(opt->second);
+                vsyncInterval = StringConverter::parse_uint32(opt->second);
 
             if ((opt = miscParams->find("gamma")) != end)
             {
-                mHwGamma = StringConverter::parseBool(opt->second);
+                mHwGamma = StringConverter::parse_bool(opt->second);
             }
 
             if ((opt = miscParams->find("left")) != end)
             {
-                left = StringConverter::parseInt(opt->second);
+                left = StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("top")) != end)
             {
-                top = StringConverter::parseInt(opt->second);
+                top = StringConverter::parse_int32(opt->second);
             }
 
             if ((opt = miscParams->find("title")) != end)
@@ -308,7 +308,7 @@ namespace Ogre {
 
             if ((opt = miscParams->find("externalGLControl")) != end)
             {
-                mIsExternalGLControl = StringConverter::parseBool(opt->second);
+                mIsExternalGLControl = StringConverter::parse_bool(opt->second);
             }
         }
 

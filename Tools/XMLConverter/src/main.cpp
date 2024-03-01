@@ -154,16 +154,16 @@ XmlOptions parseArgs(int numArgs, char **args)
         {
             //Input format was "-merge 2"
             //Assume we want to merge 2 with 3
-            opts.mergeTexcoordResult    = StringConverter::parseInt( bi->second, 0 );
+            opts.mergeTexcoordResult    = StringConverter::parse_int32( bi->second, 0 );
             opts.mergeTexcoordToDestroy = opts.mergeTexcoordResult + 1;
         }
         else if( separator + 1 < bi->second.size() )
         {
             //Input format was "-merge 1,2"
             //We want to merge 1 with 2
-            opts.mergeTexcoordResult    = StringConverter::parseInt(
+            opts.mergeTexcoordResult    = StringConverter::parse_int32(
                                                             bi->second.substr( 0, separator ), 0 );
-            opts.mergeTexcoordToDestroy = StringConverter::parseInt(
+            opts.mergeTexcoordToDestroy = StringConverter::parse_int32(
                                                             bi->second.substr( separator+1,
                                                             bi->second.size() ), 1 );
         }
@@ -180,7 +180,7 @@ XmlOptions parseArgs(int numArgs, char **args)
     bi = binOpt.find("-x");
     if (!bi->second.empty())
     {
-        opts.nuextremityPoints = StringConverter::parseInt(bi->second);
+        opts.nuextremityPoints = StringConverter::parse_int32(bi->second);
     }
 
     opts.logFile = binOpt["-log"];

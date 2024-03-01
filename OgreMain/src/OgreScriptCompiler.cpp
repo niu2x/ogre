@@ -297,7 +297,7 @@ namespace Ogre
         case ANT_OBJECT:
             {
                 ObjectAbstractNode *obj = static_cast<ObjectAbstractNode*>(node.get());
-                msg = msg + node->file + " - " + StringConverter::toString(node->line) + " - " + obj->cls + " \"" + obj->name + "\" =";
+                msg = msg + node->file + " - " + StringConverter::to_string(node->line) + " - " + obj->cls + " \"" + obj->name + "\" =";
                 for(AbstractNodeList::iterator i = obj->values.begin(); i != obj->values.end(); ++i)
                 {
                     if((*i)->type == ANT_ATOM)
@@ -306,7 +306,7 @@ namespace Ogre
             }
             break;
         default:
-            msg = msg + "Unacceptable node type: " + StringConverter::toString(node->type);
+            msg = msg + "Unacceptable node type: " + StringConverter::to_string(node->type);
         }
 
         LogManager::getSingleton().log_message(msg);

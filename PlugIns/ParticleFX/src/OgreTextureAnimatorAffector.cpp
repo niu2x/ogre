@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 #include "OgreTextureAnimatorAffector.h"
 #include "OgreParticleSystem.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreParticle.h"
 
 
@@ -15,12 +15,12 @@ class CmdStart : public ParamCommand
 public:
     String doGet(const void* target) const override
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->getTexcoordStart());
     }
     void doSet(void* target, const String& val) override
     {
-        static_cast<TextureAnimatorAffector*>(target)->setTexcoordStart(StringConverter::parseInt(val));
+        static_cast<TextureAnimatorAffector*>(target)->setTexcoordStart(StringConverter::parse_int32(val));
     }
 };
 class CmdCount : public ParamCommand
@@ -28,12 +28,12 @@ class CmdCount : public ParamCommand
 public:
     String doGet(const void* target) const override
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->getTexcoordCount());
     }
     void doSet(void* target, const String& val) override
     {
-        static_cast<TextureAnimatorAffector*>(target)->setTexcoordCount(StringConverter::parseInt(val));
+        static_cast<TextureAnimatorAffector*>(target)->setTexcoordCount(StringConverter::parse_int32(val));
     }
 };
 class CmdDuration : public ParamCommand
@@ -41,12 +41,12 @@ class CmdDuration : public ParamCommand
 public:
     String doGet(const void* target) const override
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->getDuration());
     }
     void doSet(void* target, const String& val) override
     {
-        static_cast<TextureAnimatorAffector*>(target)->setDuration(StringConverter::parseReal(val));
+        static_cast<TextureAnimatorAffector*>(target)->setDuration(StringConverter::parse_real(val));
     }
 };
 class CmdOffset : public ParamCommand
@@ -54,12 +54,12 @@ class CmdOffset : public ParamCommand
 public:
     String doGet(const void* target) const override
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->isRandomStartOffset());
     }
     void doSet(void* target, const String& val) override
     {
-        static_cast<TextureAnimatorAffector*>(target)->useRandomStartOffset(StringConverter::parseBool(val));
+        static_cast<TextureAnimatorAffector*>(target)->useRandomStartOffset(StringConverter::parse_bool(val));
     }
 };
 

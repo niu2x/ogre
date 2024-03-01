@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreColourImageAffector.h"
 #include "OgreParticleSystem.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreParticle.h"
 #include "exception.h"
 #include "OgreResourceGroupManager.h"

@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreLinearForceAffector.h"
 #include "OgreParticleSystem.h"
 #include "OgreParticle.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 
 namespace Ogre {
@@ -118,13 +118,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String LinearForceAffector::CmdForceVector::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const LinearForceAffector*>(target)->getForceVector() );
     }
     void LinearForceAffector::CmdForceVector::doSet(void* target, const String& val)
     {
         static_cast<LinearForceAffector*>(target)->setForceVector(
-            StringConverter::parseVector3(val));
+            StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
     String LinearForceAffector::CmdForceApp::doGet(const void* target) const

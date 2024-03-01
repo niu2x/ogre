@@ -448,10 +448,10 @@ namespace Ogre {
     //---------------------------------------------------------------------
     String BorderPanelOverlayElement::getCellUVString(BorderCellIndex idx) const
     {
-        String ret = StringConverter::toString(mBorderUV[idx].u1) + " " +
-                    StringConverter::toString(mBorderUV[idx].v1) + " " +
-                    StringConverter::toString(mBorderUV[idx].u2) + " " +
-                    StringConverter::toString(mBorderUV[idx].v2);
+        String ret = StringConverter::to_string(mBorderUV[idx].u1) + " " +
+                    StringConverter::to_string(mBorderUV[idx].v1) + " " +
+                    StringConverter::to_string(mBorderUV[idx].u2) + " " +
+                    StringConverter::to_string(mBorderUV[idx].v2);
         return ret;
     }
     //---------------------------------------------------------------------
@@ -740,20 +740,20 @@ namespace Ogre {
     {
         const BorderPanelOverlayElement* t = static_cast<const BorderPanelOverlayElement*>(target);
         return String(
-            StringConverter::toString(t->getLeftBorderSize()) + " " +
-            StringConverter::toString(t->getRightBorderSize()) + " " +
-            StringConverter::toString(t->getTopBorderSize()) + " " +
-            StringConverter::toString(t->getBottomBorderSize()) );
+            StringConverter::to_string(t->getLeftBorderSize()) + " " +
+            StringConverter::to_string(t->getRightBorderSize()) + " " +
+            StringConverter::to_string(t->getTopBorderSize()) + " " +
+            StringConverter::to_string(t->getBottomBorderSize()) );
     }
     void CmdBorderSize::doSet(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setBorderSize(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -779,10 +779,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setBottomLeftBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -796,10 +796,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setBottomRightBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -813,10 +813,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setTopLeftBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -830,10 +830,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setTopRightBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -847,10 +847,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setLeftBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -864,10 +864,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setRightBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -881,10 +881,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setTopBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //-----------------------------------------------------------------------
@@ -898,10 +898,10 @@ namespace Ogre {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setBottomBorderUV(
-            StringConverter::parseReal(vec[0]),
-            StringConverter::parseReal(vec[1]),
-            StringConverter::parseReal(vec[2]),
-            StringConverter::parseReal(vec[3])
+            StringConverter::parse_real(vec[0]),
+            StringConverter::parse_real(vec[1]),
+            StringConverter::parse_real(vec[2]),
+            StringConverter::parse_real(vec[3])
             );
     }
     //---------------------------------------------------------------------

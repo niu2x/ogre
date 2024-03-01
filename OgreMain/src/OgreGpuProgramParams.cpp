@@ -1398,7 +1398,7 @@ namespace Ogre
 
         if(!autoDef)
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No constant definition found for type " +
-                        StringConverter::toString(acType),
+                        StringConverter::to_string(acType),
                         "GpuProgramParameters::setAutoConstant");
 
         // round up to nearest multiple of 4
@@ -1519,7 +1519,7 @@ namespace Ogre
 
         if(!autoDef)
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No constant definition found for type " +
-                        StringConverter::toString(acType),
+                        StringConverter::to_string(acType),
                         "GpuProgramParameters::setAutoConstantReal");
 
         // round up to nearest multiple of 4
@@ -2205,7 +2205,7 @@ namespace Ogre
         if(name.back() == ']')
         {
             size_t start = name.find('[');
-            offset = StringConverter::parseInt(name.substr(start + 1, name.size() - start - 2));
+            offset = StringConverter::parse_int32(name.substr(start + 1, name.size() - start - 2));
             offset = std::min(offset, def->arraySize - 1);
             size_t type_sz = def->isDouble() ? 8 : ( def->isSampler() ? 1 : 4);
             offset *= type_sz;

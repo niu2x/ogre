@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGLContext.h"
 #include "OgreGLPixelFormat.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreRoot.h"
 #include "OgreGLHardwarePixelBuffer.h"
 #include "OgreGLNativeSupport.h"

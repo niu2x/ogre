@@ -167,7 +167,7 @@ protected:
         for (unsigned int i = 0; i < NUM_FISH; i++)
         {
             // create fish entity
-            Entity* ent = mSceneMgr->createEntity("Fish" + StringConverter::toString(i + 1), "fish.mesh");
+            Entity* ent = mSceneMgr->createEntity("Fish" + StringConverter::to_string(i + 1), "fish.mesh");
             mSubmergedEnts.push_back(ent);
 
             // create an appropriately scaled node and attach the entity

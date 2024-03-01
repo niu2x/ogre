@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreGLPixelFormat.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "bitwise.h"
 #include "OgreGLFBORenderTexture.h"
 #include "OgreRoot.h"
@@ -144,7 +144,7 @@ GLTextureBuffer::GLTextureBuffer(GLRenderSystem* renderSystem, GLTexture* parent
         for(uint32 zoffset=0; zoffset<mDepth; ++zoffset)
         {
             String name;
-            name = "rtt/" + StringConverter::toString((size_t)this) + "/" + parent->getName();
+            name = "rtt/" + StringConverter::to_string((size_t)this) + "/" + parent->getName();
             GLSurfaceDesc surface;
             surface.buffer = this;
             surface.zoffset = zoffset;

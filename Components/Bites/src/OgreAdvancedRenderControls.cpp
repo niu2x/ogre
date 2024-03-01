@@ -239,17 +239,17 @@ void AdvancedRenderControls::frameRendered(const Ogre::FrameEvent& evt) {
     if (!mTrayMgr->isDialogVisible() && mDetailsPanel->isVisible())
     {
         // if details panel is visible, then update its contents
-        mDetailsPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
-        mDetailsPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
-        mDetailsPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
-        mDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
-        mDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
-        mDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
-        mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
+        mDetailsPanel->setParamValue(0, Ogre::StringConverter::to_string(mCamera->getDerivedPosition().x));
+        mDetailsPanel->setParamValue(1, Ogre::StringConverter::to_string(mCamera->getDerivedPosition().y));
+        mDetailsPanel->setParamValue(2, Ogre::StringConverter::to_string(mCamera->getDerivedPosition().z));
+        mDetailsPanel->setParamValue(4, Ogre::StringConverter::to_string(mCamera->getDerivedOrientation().w));
+        mDetailsPanel->setParamValue(5, Ogre::StringConverter::to_string(mCamera->getDerivedOrientation().x));
+        mDetailsPanel->setParamValue(6, Ogre::StringConverter::to_string(mCamera->getDerivedOrientation().y));
+        mDetailsPanel->setParamValue(7, Ogre::StringConverter::to_string(mCamera->getDerivedOrientation().z));
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
-        mDetailsPanel->setParamValue(14, StringConverter::toString(mShaderGenerator->getShaderCount(GPT_VERTEX_PROGRAM)));
-        mDetailsPanel->setParamValue(15, StringConverter::toString(mShaderGenerator->getShaderCount(GPT_FRAGMENT_PROGRAM)));
+        mDetailsPanel->setParamValue(14, StringConverter::to_string(mShaderGenerator->getShaderCount(GPT_VERTEX_PROGRAM)));
+        mDetailsPanel->setParamValue(15, StringConverter::to_string(mShaderGenerator->getShaderCount(GPT_FRAGMENT_PROGRAM)));
 #endif
     }
 }

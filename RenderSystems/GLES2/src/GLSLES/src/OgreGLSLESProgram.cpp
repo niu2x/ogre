@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreGLUtil.h"
 #include "OgreGLES2RenderSystem.h"
 #include "OgreGLNativeSupport.h"
@@ -242,8 +242,8 @@ namespace Ogre {
     {
         if (isSupported())
         {
-//            LogManager::getSingleton().log_message("Deleting shader " + StringConverter::toString(mGLShaderHandle) +
-//                                                  " and program " + StringConverter::toString(mGLProgramHandle));
+//            LogManager::getSingleton().log_message("Deleting shader " + StringConverter::to_string(mGLShaderHandle) +
+//                                                  " and program " + StringConverter::to_string(mGLProgramHandle));
             OGRE_CHECK_GL_ERROR(glDeleteShader(mGLShaderHandle));
 
             if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
@@ -275,25 +275,25 @@ namespace Ogre {
 #if !OGRE_NO_GLES2_GLSL_OPTIMISER
     String GLSLESProgram::CmdOptimisation::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const GLSLESProgram*>(target)->getOptimiserEnabled());
+        return StringConverter::to_string(static_cast<const GLSLESProgram*>(target)->getOptimiserEnabled());
     }
     void GLSLESProgram::CmdOptimisation::doSet(void *target, const String& val)
     {
-        static_cast<GLSLESProgram*>(target)->setOptimiserEnabled(StringConverter::parseBool(val));
+        static_cast<GLSLESProgram*>(target)->setOptimiserEnabled(StringConverter::parse_bool(val));
     }
 #endif
     //-----------------------------------------------------------------------
     void GLSLESProgram::attachToProgramObject( const GLuint programObject )
     {
-//        LogManager::getSingleton().log_message("Attaching shader " + StringConverter::toString(mGLShaderHandle) +
-//                                              " to program " + StringConverter::toString(programObject));
+//        LogManager::getSingleton().log_message("Attaching shader " + StringConverter::to_string(mGLShaderHandle) +
+//                                              " to program " + StringConverter::to_string(programObject));
         OGRE_CHECK_GL_ERROR(glAttachShader(programObject, mGLShaderHandle));
     }
     //-----------------------------------------------------------------------
     void GLSLESProgram::detachFromProgramObject( const GLuint programObject )
     {
-//        LogManager::getSingleton().log_message("Detaching shader " + StringConverter::toString(mGLShaderHandle) +
-//                                              " to program " + StringConverter::toString(programObject));
+//        LogManager::getSingleton().log_message("Detaching shader " + StringConverter::to_string(mGLShaderHandle) +
+//                                              " to program " + StringConverter::to_string(programObject));
         OGRE_CHECK_GL_ERROR(glDetachShader(programObject, mGLShaderHandle));
     }
 

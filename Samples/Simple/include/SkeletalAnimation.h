@@ -252,7 +252,7 @@ protected:
             mModelNodes.push_back(sn);
 
             // create and attach a jaiqua entity
-            ent = mSceneMgr->createEntity("Jaiqua" + StringConverter::toString(i + 1), "jaiqua.mesh");
+            ent = mSceneMgr->createEntity("Jaiqua" + StringConverter::to_string(i + 1), "jaiqua.mesh");
             ent->setMaterialName("jaiqua");
             sn->attachObject(ent);
         

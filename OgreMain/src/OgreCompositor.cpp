@@ -192,7 +192,7 @@ void Compositor::createGlobalTextures()
             RenderTarget* rendTarget;
             if (def->formatList.size() > 1)
             {
-                String MRTbaseName = "mrt/c" + StringConverter::toString(dummyCounter++) + 
+                String MRTbaseName = "mrt/c" + StringConverter::to_string(dummyCounter++) + 
                     "/" + mName + "/" + def->name;
                 MultiRenderTarget* mrt = 
                     Root::getSingleton().getRenderSystem()->createMultiRenderTarget(MRTbaseName);
@@ -204,7 +204,7 @@ void Compositor::createGlobalTextures()
                     p != def->formatList.end(); ++p, ++atch)
                 {
 
-                    String texname = MRTbaseName + "/" + StringConverter::toString(atch);
+                    String texname = MRTbaseName + "/" + StringConverter::to_string(atch);
                     TexturePtr tex;
                     
                     tex = TextureManager::getSingleton().createManual(
@@ -227,7 +227,7 @@ void Compositor::createGlobalTextures()
             }
             else
             {
-                String texName =  "c" + StringConverter::toString(dummyCounter++) + 
+                String texName =  "c" + StringConverter::to_string(dummyCounter++) + 
                     "/" + mName + "/" + def->name;
                 
                 // space in the name mixup the cegui in the compositor demo

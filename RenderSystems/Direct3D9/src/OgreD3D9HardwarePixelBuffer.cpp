@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D9Mappings.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "bitwise.h"
 #include "OgreRoot.h"
 #include "OgreD3D9RenderSystem.h"
@@ -985,7 +985,7 @@ void D3D9HardwarePixelBuffer::updateRenderTexture(bool writeGamma, uint fsaa, co
     if (mSliceTRT.empty())
     {
         String name;
-        name = "rtt/" +Ogre::StringConverter::toString((size_t)this) + "/" + srcName;
+        name = "rtt/" +Ogre::StringConverter::to_string((size_t)this) + "/" + srcName;
 
         mSliceTRT.push_back(OGRE_NEW D3D9RenderTexture(name, this, writeGamma, fsaa));
         Root::getSingleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[0]);

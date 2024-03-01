@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreHollowEllipsoidEmitter.h"
 #include "OgreParticle.h"
 #include "exception.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreMath.h"
 
 /* Implements an Emitter whose emitting points all lie inside an ellipsoid.
@@ -166,32 +166,32 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String HollowEllipsoidEmitter::CmdInnerX::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const HollowEllipsoidEmitter*>(target)->getInnerSizeX() );
     }
     void HollowEllipsoidEmitter::CmdInnerX::doSet(void* target, const String& val)
     {
-        static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeX(StringConverter::parseReal(val));
+        static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeX(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String HollowEllipsoidEmitter::CmdInnerY::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const HollowEllipsoidEmitter*>(target)->getInnerSizeY() );
     }
     void HollowEllipsoidEmitter::CmdInnerY::doSet(void* target, const String& val)
     {
-        static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeY(StringConverter::parseReal(val));
+        static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeY(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
     String HollowEllipsoidEmitter::CmdInnerZ::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const HollowEllipsoidEmitter*>(target)->getInnerSizeZ() );
     }
     void HollowEllipsoidEmitter::CmdInnerZ::doSet(void* target, const String& val)
     {
-        static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeZ(StringConverter::parseReal(val));
+        static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeZ(StringConverter::parse_real(val));
     }
 
 

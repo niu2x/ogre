@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 #include "OgreHeaderPrefix.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 namespace Ogre {
 
@@ -90,7 +90,7 @@ namespace Ogre {
     class SimpleParamCommand : public ParamCommand {
     public:
         String doGet(const void* target) const override {
-            return StringConverter::toString((static_cast<const _Class*>(target)->*getter)());
+            return StringConverter::to_string((static_cast<const _Class*>(target)->*getter)());
         }
 
         void doSet(void* target, const String& val) override {

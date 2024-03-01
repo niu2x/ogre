@@ -148,11 +148,11 @@ namespace Ogre {
             {
                 size = static_cast<GLsizei>(PixelUtil::getMemorySize(width, height, depth, mFormat));
                 // std::stringstream str;
-                // str << "GL3PlusTexture::create - " << StringConverter::toString(mTextureID)
-                // << " bytes: " << StringConverter::toString(PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat))
-                // << " Mip: " + StringConverter::toString(mip)
-                // << " Width: " << StringConverter::toString(width)
-                // << " Height: " << StringConverter::toString(height)
+                // str << "GL3PlusTexture::create - " << StringConverter::to_string(mTextureID)
+                // << " bytes: " << StringConverter::to_string(PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat))
+                // << " Mip: " + StringConverter::to_string(mip)
+                // << " Width: " << StringConverter::to_string(width)
+                // << " Height: " << StringConverter::to_string(height)
                 // << " Format " << PixelUtil::getFormatName(mFormat)
                 // << " Internal Format: 0x" << std::hex << format
                 // << " Origin Format: 0x" << std::hex << GL3PlusPixelUtil::getGLOriginFormat(mFormat)
@@ -240,11 +240,11 @@ namespace Ogre {
                 for(uint32 mip = 0; mip <= mNumMipmaps; mip++)
                 {
                     //                    std::stringstream str;
-                    //                    str << "GL3PlusTexture::create - " << StringConverter::toString(mTextureID)
-                    //                    << " bytes: " << StringConverter::toString(PixelUtil::getMemorySize(width, height, depth, mFormat))
-                    //                    << " Mip: " + StringConverter::toString(mip)
-                    //                    << " Width: " << StringConverter::toString(width)
-                    //                    << " Height: " << StringConverter::toString(height)
+                    //                    str << "GL3PlusTexture::create - " << StringConverter::to_string(mTextureID)
+                    //                    << " bytes: " << StringConverter::to_string(PixelUtil::getMemorySize(width, height, depth, mFormat))
+                    //                    << " Mip: " + StringConverter::to_string(mip)
+                    //                    << " Width: " << StringConverter::to_string(width)
+                    //                    << " Height: " << StringConverter::to_string(height)
                     //                    << " Format " << PixelUtil::getFormatName(mFormat)
                     //                    << " Internal Format: 0x" << std::hex << format
                     //                    << " Origin Format: 0x" << std::hex << GL3PlusPixelUtil::getGLOriginFormat(mFormat)

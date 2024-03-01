@@ -159,7 +159,7 @@ namespace Ogre {
         if (opt == end)
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Can't find 'Full Screen' option");
 
-        ret.useFullScreen = StringConverter::parseBool(opt->second.currentValue);
+        ret.useFullScreen = StringConverter::parse_bool(opt->second.currentValue);
 
         opt = mOptions.find("Video Mode");
         if (opt == end)

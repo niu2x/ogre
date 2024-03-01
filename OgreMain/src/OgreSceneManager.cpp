@@ -457,7 +457,7 @@ ParticleSystem* SceneManager::createParticleSystem(const String& name, const Str
 ParticleSystem* SceneManager::createParticleSystem(const String& name, size_t quota, const String& group)
 {
     NameValuePairList params;
-    params["quota"] = StringConverter::toString(quota);
+    params["quota"] = StringConverter::to_string(quota);
     params["resourceGroup"] = group;
 
     return static_cast<ParticleSystem*>(createMovableObject(name, MOT_PARTICLE_SYSTEM, &params));
@@ -2002,7 +2002,7 @@ Real SceneManager::getFogDensity(void) const
 BillboardSet* SceneManager::createBillboardSet(const String& name, unsigned int poolSize)
 {
     NameValuePairList params;
-    params["poolSize"] = StringConverter::toString(poolSize);
+    params["poolSize"] = StringConverter::to_string(poolSize);
     return static_cast<BillboardSet*>(createMovableObject(name, MOT_BILLBOARD_SET, &params));
 }
 //-----------------------------------------------------------------------

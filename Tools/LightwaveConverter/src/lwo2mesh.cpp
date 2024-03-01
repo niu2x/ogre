@@ -2,7 +2,7 @@
 #include "lwo2mesh.h"
 #include "Ogre.h"
 #include "OgreMesh.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreDefaultHardwareBufferManager.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
@@ -555,7 +555,7 @@ inline String Lwo2MeshWriter::makeLayerFileName(char* dest, unsigned int l, char
         TempName += ".";
         TempName += layername;
     } else {
-        TempName += ".layer" + StringConverter::toString(l);
+        TempName += ".layer" + StringConverter::to_string(l);
     }
 
     _makepath( buf, drive, dir, TempName.c_str(), ext );

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D11Mappings.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "bitwise.h"
 
 #include "OgreRoot.h"
@@ -76,7 +76,7 @@ namespace Ogre {
             for(size_t zoffset=0; zoffset<mDepth; ++zoffset)
             {
                 String name;
-                name = "rtt/"+StringConverter::toString((size_t)this) + "/" + parentTexture->getName();
+                name = "rtt/"+StringConverter::to_string((size_t)this) + "/" + parentTexture->getName();
 
                 RenderTexture *trt = new D3D11RenderTexture(name, this, zoffset, mDevice);
                 mSliceTRT.push_back(trt);

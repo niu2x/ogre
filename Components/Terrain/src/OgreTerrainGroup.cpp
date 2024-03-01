@@ -282,14 +282,14 @@ namespace Ogre
         OgreAssert(cfg.getSetting("PageSource") == "Heightmap", "only heightmap PageSource supported");
         OgreAssert(cfg.getSetting("PageWorldZ") == cfg.getSetting("PageWorldX"), "terrain must be square");
 
-        mTerrainWorldSize = StringConverter::parseReal(cfg.getSetting("PageWorldX"));
-        mTerrainSize = StringConverter::parseInt(cfg.getSetting("PageSize"));
+        mTerrainWorldSize = StringConverter::parse_real(cfg.getSetting("PageWorldX"));
+        mTerrainSize = StringConverter::parse_int32(cfg.getSetting("PageSize"));
 
         mAlignment = Terrain::ALIGN_X_Z;
         mOrigin = Vector3(mTerrainWorldSize / 2, 0, mTerrainWorldSize / 2);
 
-        mDefaultImportData.inputScale = StringConverter::parseReal(cfg.getSetting("MaxHeight"));
-        mDefaultImportData.maxBatchSize = StringConverter::parseInt(cfg.getSetting("TileSize"));
+        mDefaultImportData.inputScale = StringConverter::parse_real(cfg.getSetting("MaxHeight"));
+        mDefaultImportData.maxBatchSize = StringConverter::parse_int32(cfg.getSetting("TileSize"));
         mDefaultImportData.minBatchSize = (mDefaultImportData.maxBatchSize - 1)/2 + 1;
 
         // copy data that would have normally happened on construction
@@ -302,7 +302,7 @@ namespace Ogre
         {
             const String& detailTexName = cfg.getSetting("DetailTexture");
             OgreAssert(!detailTexName.empty(), "DetailTexture must be given");
-            Real detailTile = StringConverter::parseReal(cfg.getSetting("DetailTile"), 1);
+            Real detailTile = StringConverter::parse_real(cfg.getSetting("DetailTile"), 1);
             mDefaultImportData.layerList.resize(1);
             mDefaultImportData.layerList[0].worldSize =
                 (mTerrainWorldSize / mTerrainSize) * (mDefaultImportData.maxBatchSize / detailTile);

@@ -422,7 +422,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
                             /// Texture unit not there
                             LogManager::getSingleton().log_warning("in compilation of Compositor "
                                 +mCompositor->getName()+": material "+srcmat->getName()+" texture unit "
-                                +StringConverter::toString(x)+" out of bounds");
+                                +StringConverter::to_string(x)+" out of bounds");
                         }
                     }
                 }
@@ -688,7 +688,7 @@ void CompositorInstance::createResources(bool forResizeOnly)
             /// Make the tetxure
             if (def->formatList.size() > 1)
             {
-                String MRTbaseName = "mrt/c" + StringConverter::toString(dummyCounter++) + 
+                String MRTbaseName = "mrt/c" + StringConverter::to_string(dummyCounter++) + 
                 "/" + def->name + "/" + mChain->getViewport()->getTarget()->getName();
                 MultiRenderTarget* mrt = 
                 Root::getSingleton().getRenderSystem()->createMultiRenderTarget(MRTbaseName);
@@ -700,7 +700,7 @@ void CompositorInstance::createResources(bool forResizeOnly)
                      p != def->formatList.end(); ++p, ++atch)
                 {
                     
-                    String texname = MRTbaseName + "/" + StringConverter::toString(atch);
+                    String texname = MRTbaseName + "/" + StringConverter::to_string(atch);
                     String mrtLocalName = getMRTTexLocalName(def->name, atch);
                     TexturePtr tex;
                     if (def->pooled)
@@ -733,7 +733,7 @@ void CompositorInstance::createResources(bool forResizeOnly)
             }
             else
             {
-                String texName =  "c" + StringConverter::toString(dummyCounter++) + 
+                String texName =  "c" + StringConverter::to_string(dummyCounter++) + 
                 "/" + def->name + "/" + mChain->getViewport()->getTarget()->getName();
                 
                 // space in the name mixup the cegui in the compositor demo

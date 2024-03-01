@@ -131,12 +131,12 @@ namespace Ogre
     //------------------------------------------------------------------------------//
     String CmdFPS::doGet(const void* target) const
     {
-        return StringConverter::toString(
+        return StringConverter::to_string(
             static_cast<const ExternalTextureSource*>(target)->getFPS() );
     }
     void CmdFPS::doSet(void* target, const String& val)
     {
-        static_cast<ExternalTextureSource*>(target)->setFPS(StringConverter::parseInt(val));
+        static_cast<ExternalTextureSource*>(target)->setFPS(StringConverter::parse_int32(val));
     }
     //------------------------------------------------------------------------------//
     String CmdPlayMode::doGet(const void* target) const
@@ -183,9 +183,9 @@ namespace Ogre
 
         static_cast<const ExternalTextureSource*>(target)->getTextureTecPassStateLevel(t, p, s);
 
-        String ret = StringConverter::toString( t ) + " " 
-                    + StringConverter::toString( p ) + " " 
-                    + StringConverter::toString( s );
+        String ret = StringConverter::to_string( t ) + " " 
+                    + StringConverter::to_string( p ) + " " 
+                    + StringConverter::to_string( s );
         
         return ret;         
     }
@@ -198,9 +198,9 @@ namespace Ogre
 
         if( vecparams.size() == 3 )
         {
-            t = StringConverter::parseInt( vecparams[0] );
-            p = StringConverter::parseInt( vecparams[1] );
-            s = StringConverter::parseInt( vecparams[2] );
+            t = StringConverter::parse_int32( vecparams[0] );
+            p = StringConverter::parse_int32( vecparams[1] );
+            s = StringConverter::parse_int32( vecparams[2] );
         }
         else
         {

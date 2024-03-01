@@ -725,27 +725,27 @@ namespace Ogre {
             NameValuePairList::const_iterator ni = params->find("maxElements");
             if (ni != params->end())
             {
-                maxElements = StringConverter::parseSizeT(ni->second);
+                maxElements = StringConverter::parse_size_t(ni->second);
             }
             ni = params->find("numberOfChains");
             if (ni != params->end())
             {
-                numberOfChains = StringConverter::parseSizeT(ni->second);
+                numberOfChains = StringConverter::parse_size_t(ni->second);
             }
             ni = params->find("useTextureCoords");
             if (ni != params->end())
             {
-                useTex = StringConverter::parseBool(ni->second);
+                useTex = StringConverter::parse_bool(ni->second);
             }
             ni = params->find("useVertexColours");
             if (ni != params->end())
             {
-                useCol = StringConverter::parseBool(ni->second);
+                useCol = StringConverter::parse_bool(ni->second);
             }
             ni = params->find("dynamic");
             if (ni != params->end())
             {
-                dynamic = StringConverter::parseBool(ni->second);
+                dynamic = StringConverter::parse_bool(ni->second);
             }
         }
 

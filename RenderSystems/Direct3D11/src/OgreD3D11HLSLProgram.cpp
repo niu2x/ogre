@@ -31,13 +31,13 @@ THE SOFTWARE.
 #include "OgreD3D11Device.h"
 #include "OgreRoot.h"
 #include "log_manager.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "OgreD3D11Mappings.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreD3D11HardwareBuffer.h"
 #include "OgreD3D11RenderSystem.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------
@@ -940,7 +940,7 @@ namespace Ogre {
                         {
                             std::string name = varDesc.Name;
                             name += "[";
-                            name += StringConverter::toString(ifs);
+                            name += StringConverter::to_string(ifs);
                             name += "]";
                             mSlotMap.insert(std::make_pair(name, ifs));
                         }
@@ -1259,20 +1259,20 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     String D3D11HLSLProgram::CmdColumnMajorMatrices::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const D3D11HLSLProgram*>(target)->getColumnMajorMatrices());
+        return StringConverter::to_string(static_cast<const D3D11HLSLProgram*>(target)->getColumnMajorMatrices());
     }
     void D3D11HLSLProgram::CmdColumnMajorMatrices::doSet(void *target, const String& val)
     {
-        static_cast<D3D11HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parseBool(val));
+        static_cast<D3D11HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     String D3D11HLSLProgram::CmdEnableBackwardsCompatibility::doGet(const void *target) const
     {
-        return StringConverter::toString(static_cast<const D3D11HLSLProgram*>(target)->getEnableBackwardsCompatibility());
+        return StringConverter::to_string(static_cast<const D3D11HLSLProgram*>(target)->getEnableBackwardsCompatibility());
     }
     void D3D11HLSLProgram::CmdEnableBackwardsCompatibility::doSet(void *target, const String& val)
     {
-        static_cast<D3D11HLSLProgram*>(target)->setEnableBackwardsCompatibility(StringConverter::parseBool(val));
+        static_cast<D3D11HLSLProgram*>(target)->setEnableBackwardsCompatibility(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
     void D3D11HLSLProgram::CreateVertexShader()

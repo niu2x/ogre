@@ -211,7 +211,7 @@ namespace Ogre {
         else
         {
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,"No viewport with given zorder : "
-                + StringConverter::toString(zorder), "RenderTarget::_updateViewport");
+                + StringConverter::to_string(zorder), "RenderTarget::_updateViewport");
         }
     }
 
@@ -395,7 +395,7 @@ namespace Ogre {
         if(i == mViewportList.end())
         {
             OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,"No viewport with given Z-order: "
-                + StringConverter::toString(ZOrder), "RenderTarget::getViewportByZOrder");
+                + StringConverter::to_string(ZOrder), "RenderTarget::getViewportByZOrder");
         }
         return i->second;
     }

@@ -21,8 +21,8 @@ ApplicationContextAndroid::ApplicationContextAndroid(const Ogre::String& appName
 
 NativeWindowPair ApplicationContextAndroid::createWindow(const Ogre::String& name, Ogre::uint32 w, Ogre::uint32 h, Ogre::NameValuePairList miscParams)
 {
-    miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(mWindows[0].native));
-    miscParams["androidConfig"] = Ogre::StringConverter::toString(reinterpret_cast<size_t>(mAConfig));
+    miscParams["externalWindowHandle"] = Ogre::StringConverter::to_string(reinterpret_cast<size_t>(mWindows[0].native));
+    miscParams["androidConfig"] = Ogre::StringConverter::to_string(reinterpret_cast<size_t>(mAConfig));
     miscParams["preserveContext"] = "true"; //Optionally preserve the gl context, prevents reloading all resources, this is false by default
 
     auto p = mRoot->getRenderSystem()->getRenderWindowDescription();

@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "log_manager.h"
 #include "OgreRenderSystem.h"
 #include "OgreImageCodec.h"
-#include "OgreStringConverter.h"
+#include "string_converter.h"
 #include "exception.h"
 #include "OgreWin32GLSupport.h"
 #include "OgreWin32Context.h"
@@ -118,39 +118,39 @@ namespace Ogre {
                 title = opt->second;
 
             if ((opt = miscParams->find("left")) != end)
-                left = StringConverter::parseInt(opt->second);
+                left = StringConverter::parse_int32(opt->second);
 
             if ((opt = miscParams->find("top")) != end)
-                top = StringConverter::parseInt(opt->second);
+                top = StringConverter::parse_int32(opt->second);
 
             if ((opt = miscParams->find("depthBuffer")) != end)
             {
-                mDepthBufferPoolId = StringConverter::parseBool(opt->second) ?
+                mDepthBufferPoolId = StringConverter::parse_bool(opt->second) ?
                                                 DepthBuffer::POOL_DEFAULT : DepthBuffer::POOL_NO_DEPTH;
             }
 
             if ((opt = miscParams->find("vsync")) != end)
-                mVSync = StringConverter::parseBool(opt->second);
+                mVSync = StringConverter::parse_bool(opt->second);
 
             if ((opt = miscParams->find("hidden")) != end)
-                hidden = StringConverter::parseBool(opt->second);
+                hidden = StringConverter::parse_bool(opt->second);
 
             if ((opt = miscParams->find("vsyncInterval")) != end)
-                mVSyncInterval = StringConverter::parseUnsignedInt(opt->second);
+                mVSyncInterval = StringConverter::parse_uint32(opt->second);
 
             if ((opt = miscParams->find("FSAA")) != end)
-                mFSAA = StringConverter::parseUnsignedInt(opt->second);
+                mFSAA = StringConverter::parse_uint32(opt->second);
 
             if ((opt = miscParams->find("FSAAHint")) != end)
                 mFSAAHint = opt->second;
 
             if ((opt = miscParams->find("gamma")) != end)
-                hwGamma = StringConverter::parseBool(opt->second);
+                hwGamma = StringConverter::parse_bool(opt->second);
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 			if ((opt = miscParams->find("stereoMode")) != end)
 			{
-				mStereoEnabled = StringConverter::parseBool(opt->second);
+				mStereoEnabled = StringConverter::parse_bool(opt->second);
 			}
 #endif
 
@@ -159,7 +159,7 @@ namespace Ogre {
             if ((opt = miscParams->find("parentWindowHandle")) != end ||
                 (opt = miscParams->find("externalWindowHandle")) != end)
             {
-                mHWnd = (HWND)StringConverter::parseSizeT(opt->second);
+                mHWnd = (HWND)StringConverter::parse_size_t(opt->second);
                 if (mHWnd)
                 {
                     mIsExternal = true;
@@ -167,13 +167,13 @@ namespace Ogre {
                 }
 
                 if ((opt = miscParams->find("externalGLControl")) != end) {
-                  mIsExternalGLControl = StringConverter::parseBool(opt->second);
+                  mIsExternalGLControl = StringConverter::parse_bool(opt->second);
                 }
             }
 
             if ((opt = miscParams->find("currentGLContext")) != end )
             {
-                if( StringConverter::parseBool(opt->second) )
+                if( StringConverter::parse_bool(opt->second) )
                 {
                     mGlrc = wglGetCurrentContext();
 
@@ -190,7 +190,7 @@ namespace Ogre {
             }
             if ((opt = miscParams->find("externalGLContext")) != end)
             {
-                mGlrc = (HGLRC)StringConverter::parseSizeT(opt->second);
+                mGlrc = (HGLRC)StringConverter::parse_size_t(opt->second);
 
                 if( mGlrc )
                 {
@@ -210,14 +210,14 @@ namespace Ogre {
             // set outer dimensions?
             opt = miscParams->find("outerDimensions");
             if(opt != miscParams->end())
-                outerSize = StringConverter::parseBool(opt->second);
+                outerSize = StringConverter::parse_bool(opt->second);
 
             // only available with fullscreen
             if ((opt = miscParams->find("displayFrequency")) != end)
-                mDisplayFrequency = StringConverter::parseUnsignedInt(opt->second);
+                mDisplayFrequency = StringConverter::parse_uint32(opt->second);
             if ((opt = miscParams->find("colourDepth")) != end)
             {
-                mColourDepth = StringConverter::parseUnsignedInt(opt->second);
+                mColourDepth = StringConverter::parse_uint32(opt->second);
                 if (!mIsFullScreen)
                 {
                     // make sure we don't exceed desktop colour depth
@@ -227,19 +227,19 @@ namespace Ogre {
             }
 
             if ((opt = miscParams->find("windowProc")) != end)
-                windowProc = reinterpret_cast<WNDPROC>(StringConverter::parseSizeT(opt->second));
+                windowProc = reinterpret_cast<WNDPROC>(StringConverter::parse_size_t(opt->second));
 
             // monitor index
             if ((opt = miscParams->find("monitorIndex")) != end)
-                monitorIndex = StringConverter::parseInt(opt->second);
+                monitorIndex = StringConverter::parse_int32(opt->second);
             
             // monitor handle
             if ((opt = miscParams->find("monitorHandle")) != end)
-                hMonitor = (HMONITOR)StringConverter::parseSizeT(opt->second);
+                hMonitor = (HMONITOR)StringConverter::parse_size_t(opt->second);
 
             // enable double click messages
             if ((opt = miscParams->find("enableDoubleClick")) != end)
-                enableDoubleClick = StringConverter::parseBool(opt->second);
+                enableDoubleClick = StringConverter::parse_bool(opt->second);
 
         }
 
