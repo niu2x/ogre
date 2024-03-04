@@ -5,7 +5,7 @@
 
 #include "OgreTinyWindow.h"
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 #include "OgreComponents.h"
 #if OGRE_BITES_HAVE_SDL

@@ -355,7 +355,7 @@ bool FFPLighting::preAddToRenderState(const RenderState* renderState, Pass* srcP
 	return true;
 }
 
-bool FFPLighting::setParameter(const String& name, const String& value)
+bool FFPLighting::set_parameter(const String& name, const String& value)
 {
 	if(name == "normalise" || name == "normalised") // allow both spelling variations
 	{
@@ -388,7 +388,7 @@ SubRenderState*	FFPLightingFactory::createInstance(ScriptCompiler* compiler,
 
     if(ret && prop->values.size() >= 2)
     {
-        ret->setParameter((*it)->getString(), "true"); // normalise
+        ret->set_parameter((*it)->getString(), "true"); // normalise
     }
 
     return ret;

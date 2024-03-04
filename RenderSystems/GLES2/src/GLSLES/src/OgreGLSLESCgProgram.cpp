@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreGLSLESCgProgram.h"
 #include "OgreResourceGroupManager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGpuProgramManager.h"
 #include "log_manager.h"
 #include "hlsl2glsl.h"  // use the code from here: http://code.google.com/p/hlsl2glslfork/
@@ -94,14 +94,14 @@ namespace Ogre {
     {
 
         // Add parameter "entry_point" and "profiles" to the material serializer dictionary
-        if (createParamDictionary("GLSLESCgProgram"))
+        if (create_param_dictionary("GLSLESCgProgram"))
         {
             setupBaseParamDictionary();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("profiles", 
+            dict->add_parameter(ParameterDef("profiles", 
                 "Space-separated list of Cg profiles supported by this profile.",
-                PT_STRING),&msCmdProfiles);
+                ParameterType::STRING),&msCmdProfiles);
 
         }
     }
@@ -320,12 +320,12 @@ namespace Ogre {
         return syntaxSupported;
     }
     //-----------------------------------------------------------------------
-    String GLSLESCgProgram::CmdProfiles::doGet(const void *target) const
+    String GLSLESCgProgram::CmdProfiles::get(const void *target) const
     {
         return StringConverter::to_string(
             static_cast<const GLSLESCgProgram*>(target)->getProfiles() );
     }
-    void GLSLESCgProgram::CmdProfiles::doSet(void *target, const String& val)
+    void GLSLESCgProgram::CmdProfiles::set(void *target, const String& val)
     {
         static_cast<GLSLESCgProgram*>(target)->setProfiles(StringUtil::split(val));
     }

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
@@ -118,12 +118,12 @@ namespace Ogre {
     {
     }
     //-----------------------------------------------------------------------
-    String GLSLShaderCommon::CmdAttach::doGet(const void *target) const
+    String GLSLShaderCommon::CmdAttach::get(const void *target) const
     {
         return (static_cast<const GLSLShaderCommon*>(target))->getAttachedShaderNames();
     }
     //-----------------------------------------------------------------------
-    void GLSLShaderCommon::CmdAttach::doSet(void *target, const String& shaderNames)
+    void GLSLShaderCommon::CmdAttach::set(void *target, const String& shaderNames)
     {
         //get all the shader program names: there could be more than one
         StringVector vecShaderNames = StringUtil::split(shaderNames, " \t", 0);
@@ -160,11 +160,11 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    String GLSLShaderCommon::CmdColumnMajorMatrices::doGet(const void *target) const
+    String GLSLShaderCommon::CmdColumnMajorMatrices::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const GLSLShaderCommon*>(target)->getColumnMajorMatrices());
     }
-    void GLSLShaderCommon::CmdColumnMajorMatrices::doSet(void *target, const String& val)
+    void GLSLShaderCommon::CmdColumnMajorMatrices::set(void *target, const String& val)
     {
         static_cast<GLSLShaderCommon*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }

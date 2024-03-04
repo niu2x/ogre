@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreD3D9Prerequisites.h"
 #include "string_util.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"
 #include "OgreD3D9Mappings.h"

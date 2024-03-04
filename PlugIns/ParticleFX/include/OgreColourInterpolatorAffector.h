@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "colour_value.h"
 
 namespace Ogre {
@@ -52,8 +52,8 @@ namespace Ogre {
             size_t      mIndex;
 
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Command object for red adjust (see ParamCommand).*/
@@ -63,8 +63,8 @@ namespace Ogre {
             size_t      mIndex;
 
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Default constructor. */

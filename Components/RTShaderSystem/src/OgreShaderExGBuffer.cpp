@@ -63,7 +63,7 @@ static GBuffer::TargetLayout translate(const String& val)
     return GBuffer::TL_DIFFUSE_SPECULAR;
 }
 
-void GBuffer::setParameter(const String& name, const Any& value)
+void GBuffer::set_parameter(const String& name, const Any& value)
 {
     if(name == "target_buffers")
     {
@@ -74,7 +74,7 @@ void GBuffer::setParameter(const String& name, const Any& value)
             mOutBuffers.push_back(translate(buf));
         return;
     }
-    SubRenderState::setParameter(name, value);
+    SubRenderState::set_parameter(name, value);
 }
 
 //-----------------------------------------------------------------------
@@ -241,7 +241,7 @@ SubRenderState* GBufferFactory::createInstance(ScriptCompiler* compiler, Propert
         targets.push_back((*it++)->getString());
 
     auto ret = static_cast<GBuffer*>(createOrRetrieveInstance(translator));
-    ret->setParameter("target_buffers", targets);
+    ret->set_parameter("target_buffers", targets);
     return ret;
 }
 

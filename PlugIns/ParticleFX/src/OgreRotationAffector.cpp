@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreRotationAffector.h"
 #include "OgreParticleSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 
 
@@ -50,24 +50,24 @@ namespace Ogre {
         mType = "Rotator";
 
         // Init parameters
-        if (createParamDictionary("RotationAffector"))
+        if (create_param_dictionary("RotationAffector"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("rotation_speed_range_start", 
-                "The start of a range of rotation speed to be assigned to emitted particles.", PT_REAL),
+            dict->add_parameter(ParameterDef("rotation_speed_range_start", 
+                "The start of a range of rotation speed to be assigned to emitted particles.", ParameterType::REAL),
                 &msRotationSpeedRangeStartCmd);
 
-            dict->addParameter(ParameterDef("rotation_speed_range_end", 
-                "The end of a range of rotation speed to be assigned to emitted particles.", PT_REAL),
+            dict->add_parameter(ParameterDef("rotation_speed_range_end", 
+                "The end of a range of rotation speed to be assigned to emitted particles.", ParameterType::REAL),
                 &msRotationSpeedRangeEndCmd);
 
-            dict->addParameter(ParameterDef("rotation_range_start", 
-                "The start of a range of rotation angles to be assigned to emitted particles.", PT_REAL),
+            dict->add_parameter(ParameterDef("rotation_range_start", 
+                "The start of a range of rotation angles to be assigned to emitted particles.", ParameterType::REAL),
                 &msRotationRangeStartCmd);
 
-            dict->addParameter(ParameterDef("rotation_range_end", 
-                "The end of a range of rotation angles to be assigned to emitted particles.", PT_REAL),
+            dict->add_parameter(ParameterDef("rotation_range_end", 
+                "The end of a range of rotation angles to be assigned to emitted particles.", ParameterType::REAL),
                 &msRotationRangeEndCmd);
         }
     }
@@ -149,43 +149,43 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String RotationAffector::CmdRotationSpeedRangeEnd::doGet(const void* target) const
+    String RotationAffector::CmdRotationSpeedRangeEnd::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationSpeedRangeEnd() );
     }
-    void RotationAffector::CmdRotationSpeedRangeEnd::doSet(void* target, const String& val)
+    void RotationAffector::CmdRotationSpeedRangeEnd::set(void* target, const String& val)
     {
         static_cast<RotationAffector*>(target)->setRotationSpeedRangeEnd(StringConverter::parse_angle(val));
     }
     //-----------------------------------------------------------------------
-    String RotationAffector::CmdRotationSpeedRangeStart::doGet(const void* target) const
+    String RotationAffector::CmdRotationSpeedRangeStart::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationSpeedRangeStart() );
     }
-    void RotationAffector::CmdRotationSpeedRangeStart::doSet(void* target, const String& val)
+    void RotationAffector::CmdRotationSpeedRangeStart::set(void* target, const String& val)
     {
         static_cast<RotationAffector*>(target)->setRotationSpeedRangeStart(StringConverter::parse_angle(val));
     }
     
     //-----------------------------------------------------------------------
-    String RotationAffector::CmdRotationRangeEnd::doGet(const void* target) const
+    String RotationAffector::CmdRotationRangeEnd::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationRangeEnd() );
     }
-    void RotationAffector::CmdRotationRangeEnd::doSet(void* target, const String& val)
+    void RotationAffector::CmdRotationRangeEnd::set(void* target, const String& val)
     {
         static_cast<RotationAffector*>(target)->setRotationRangeEnd(StringConverter::parse_angle(val));
     }
     //-----------------------------------------------------------------------
-    String RotationAffector::CmdRotationRangeStart::doGet(const void* target) const
+    String RotationAffector::CmdRotationRangeStart::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const RotationAffector*>(target)->getRotationRangeStart() );
     }
-    void RotationAffector::CmdRotationRangeStart::doSet(void* target, const String& val)
+    void RotationAffector::CmdRotationRangeStart::set(void* target, const String& val)
     {
         static_cast<RotationAffector*>(target)->setRotationRangeStart(StringConverter::parse_angle(val));
     }

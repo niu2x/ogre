@@ -57,7 +57,7 @@ namespace Ogre {
         ResourcePtr ret = ResourcePtr(
             createImpl(name, getNextHandle(), group, isManual, loader, params));
         if (params)
-            ret->setParameterList(*params);
+            ret->set_parameter_list(*params);
 
         addImpl(ret);
         // Tell resource group manager

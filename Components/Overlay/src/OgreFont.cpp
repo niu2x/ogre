@@ -29,7 +29,7 @@ THE SOFTWARE
 #include "OgreTextureManager.h"
 #include "OgreTexture.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreTextureUnitState.h"
 #include "OgreTechnique.h"
 #include "bitwise.h"
@@ -58,32 +58,32 @@ namespace Ogre
     class CmdType : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdSource : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdSize : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdResolution : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdCodePoints : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
 
     // Command object for setting / getting parameters
@@ -121,23 +121,23 @@ namespace Ogre
         mType(FT_TRUETYPE), mTtfSize(0), mTtfResolution(0), mTtfMaxBearingY(0), mAntialiasColour(true)
     {
 
-        if (createParamDictionary("Font"))
+        if (create_param_dictionary("Font"))
         {
-            ParamDictionary* dict = getParamDictionary();
-            dict->addParameter(
-                ParameterDef("type", "'truetype' or 'image' based font", PT_STRING),
+            ParamDictionary* dict = param_dictionary();
+            dict->add_parameter(
+                ParameterDef("type", "'truetype' or 'image' based font", ParameterType::STRING),
                 &msTypeCmd);
-            dict->addParameter(
-                ParameterDef("source", "Filename of the source of the font.", PT_STRING),
+            dict->add_parameter(
+                ParameterDef("source", "Filename of the source of the font.", ParameterType::STRING),
                 &msSourceCmd);
-            dict->addParameter(
-                ParameterDef("size", "True type size", PT_REAL),
+            dict->add_parameter(
+                ParameterDef("size", "True type size", ParameterType::REAL),
                 &msSizeCmd);
-            dict->addParameter(
-                ParameterDef("resolution", "True type resolution", PT_UNSIGNED_INT),
+            dict->add_parameter(
+                ParameterDef("resolution", "True type resolution", ParameterType::UNSIGNED_INT),
                 &msResolutionCmd);
-            dict->addParameter(
-                ParameterDef("code_points", "Add a range of code points", PT_STRING),
+            dict->add_parameter(
+                ParameterDef("code_points", "Add a range of code points", ParameterType::STRING),
                 &msCodePointsCmd);
         }
 
@@ -540,7 +540,7 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String CmdType::doGet(const void* target) const
+    String CmdType::get(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
         if (f->getType() == FT_TRUETYPE)
@@ -552,7 +552,7 @@ namespace Ogre
             return "image";
         }
     }
-    void CmdType::doSet(void* target, const String& val)
+    void CmdType::set(void* target, const String& val)
     {
         Font* f = static_cast<Font*>(target);
         if (val == "truetype")
@@ -565,40 +565,40 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    String CmdSource::doGet(const void* target) const
+    String CmdSource::get(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
         return f->getSource();
     }
-    void CmdSource::doSet(void* target, const String& val)
+    void CmdSource::set(void* target, const String& val)
     {
         Font* f = static_cast<Font*>(target);
         f->setSource(val);
     }
     //-----------------------------------------------------------------------
-    String CmdSize::doGet(const void* target) const
+    String CmdSize::get(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
         return StringConverter::to_string(f->getTrueTypeSize());
     }
-    void CmdSize::doSet(void* target, const String& val)
+    void CmdSize::set(void* target, const String& val)
     {
         Font* f = static_cast<Font*>(target);
         f->setTrueTypeSize(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String CmdResolution::doGet(const void* target) const
+    String CmdResolution::get(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
         return StringConverter::to_string(f->getTrueTypeResolution());
     }
-    void CmdResolution::doSet(void* target, const String& val)
+    void CmdResolution::set(void* target, const String& val)
     {
         Font* f = static_cast<Font*>(target);
         f->setTrueTypeResolution(StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
-    String CmdCodePoints::doGet(const void* target) const
+    String CmdCodePoints::get(const void* target) const
     {
         const Font* f = static_cast<const Font*>(target);
         StringStream str;
@@ -608,7 +608,7 @@ namespace Ogre
         }
         return str.str();
     }
-    void CmdCodePoints::doSet(void* target, const String& val)
+    void CmdCodePoints::set(void* target, const String& val)
     {
         // Format is "code_points start1-end1 start2-end2"
         Font* f = static_cast<Font*>(target);

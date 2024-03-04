@@ -22,7 +22,7 @@ const String& ImageBasedLighting::getType() const { return SRS_IMAGE_BASED_LIGHT
 //-----------------------------------------------------------------------
 int ImageBasedLighting::getExecutionOrder() const { return FFP_LIGHTING + 10; }
 
-bool ImageBasedLighting::setParameter(const String& name, const String& value)
+bool ImageBasedLighting::set_parameter(const String& name, const String& value)
 {
     if (name == "texture" && !value.empty())
     {
@@ -135,7 +135,7 @@ SubRenderState* ImageBasedLightingFactory::createInstance(ScriptCompiler* compil
         return NULL;
     }
     auto ret = static_cast<ImageBasedLighting*>(createOrRetrieveInstance(translator));
-    ret->setParameter("texture", (*it++)->getString());
+    ret->set_parameter("texture", (*it++)->getString());
 
     if (prop->values.size() < 4)
         return ret;
@@ -146,7 +146,7 @@ SubRenderState* ImageBasedLightingFactory::createInstance(ScriptCompiler* compil
         return NULL;
     }
 
-    ret->setParameter("luminance", (*it++)->getString());
+    ret->set_parameter("luminance", (*it++)->getString());
 
     return ret;
 }

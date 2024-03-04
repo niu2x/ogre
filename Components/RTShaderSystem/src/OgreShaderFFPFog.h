@@ -89,7 +89,7 @@ public:
     */
     void setCalcMode(CalcMode calcMode) { mCalcMode = calcMode; }
 
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     /** 
     Return the current calculation mode.

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __OverlayElementEmitterCommands_H__
 
 #include "OgreOverlayPrerequisites.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 
 #include "OgreOverlayElement.h"
 
@@ -59,43 +59,43 @@ namespace Ogre  {
         class CmdMaterial : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /// Command object for OverlayElement  - see ParamCommand 
         class CmdCaption : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /// Command object for OverlayElement  - see ParamCommand 
         class CmdMetricsMode : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /// Command object for OverlayElement  - see ParamCommand 
         class CmdHorizontalAlign : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /// Command object for OverlayElement  - see ParamCommand 
         class CmdVerticalAlign : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /// Command object for OverlayElement  - see ParamCommand 
         class CmdVisible : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
     }

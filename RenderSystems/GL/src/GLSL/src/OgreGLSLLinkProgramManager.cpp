@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreGLSLLinkProgramManager.h"
 #include "OgreGLSLProgram.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "log_manager.h"
 
 namespace Ogre {

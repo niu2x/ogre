@@ -638,47 +638,47 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void OverlayElement::addBaseParameters(void)    
     {
-        ParamDictionary* dict = getParamDictionary();
+        ParamDictionary* dict = param_dictionary();
 
-        dict->addParameter(ParameterDef("left", 
+        dict->add_parameter(ParameterDef("left", 
             "The position of the left border of the gui element."
-            , PT_REAL),
+            , ParameterType::REAL),
             &msLeftCmd);
-        dict->addParameter(ParameterDef("top", 
+        dict->add_parameter(ParameterDef("top", 
             "The position of the top border of the gui element."
-            , PT_REAL),
+            , ParameterType::REAL),
             &msTopCmd);
-        dict->addParameter(ParameterDef("width", 
+        dict->add_parameter(ParameterDef("width", 
             "The width of the element."
-            , PT_REAL),
+            , ParameterType::REAL),
             &msWidthCmd);
-        dict->addParameter(ParameterDef("height", 
+        dict->add_parameter(ParameterDef("height", 
             "The height of the element."
-            , PT_REAL),
+            , ParameterType::REAL),
             &msHeightCmd);
-        dict->addParameter(ParameterDef("material", 
+        dict->add_parameter(ParameterDef("material", 
             "The name of the material to use."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msMaterialCmd);
-        dict->addParameter(ParameterDef("caption", 
+        dict->add_parameter(ParameterDef("caption", 
             "The element caption, if supported."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCaptionCmd);
-        dict->addParameter(ParameterDef("metrics_mode", 
+        dict->add_parameter(ParameterDef("metrics_mode", 
             "The type of metrics to use, either 'relative' to the screen, 'pixels' or 'relative_aspect_adjusted'."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msMetricsModeCmd);
-        dict->addParameter(ParameterDef("horz_align", 
+        dict->add_parameter(ParameterDef("horz_align", 
             "The horizontal alignment, 'left', 'right' or 'center'."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msHorizontalAlignCmd);
-        dict->addParameter(ParameterDef("vert_align", 
+        dict->add_parameter(ParameterDef("vert_align", 
             "The vertical alignment, 'top', 'bottom' or 'center'."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msVerticalAlignCmd);
-        dict->addParameter(ParameterDef("visible", 
+        dict->add_parameter(ParameterDef("visible", 
             "Initial visibility of element, either 'true' or 'false' (default true)."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msVisibleCmd);
     }
     //-----------------------------------------------------------------------
@@ -800,7 +800,7 @@ namespace Ogre {
 
         newElement = OverlayManager::getSingleton().createOverlayElement(
             getTypeName(), instanceName + "/" + mName);
-        copyParametersTo(newElement);
+        copy_parameters_to(newElement);
 
         return newElement;
     }

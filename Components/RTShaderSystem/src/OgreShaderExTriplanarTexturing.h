@@ -144,7 +144,7 @@ public:
     @param textureNameFromZ
         The texture mapping from z.
     */
-    void setParameter(const String& name, const Any& value) override;
+    void set_parameter(const String& name, const Any& value) override;
     
     /** 
     @see SubRenderState::getType.

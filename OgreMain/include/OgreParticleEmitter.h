@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "vector.h"
 #include "colour_value.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 #include "OgreParticleSystem.h"
 #include "OgreHeaderPrefix.h"
@@ -167,7 +167,7 @@ namespace Ogre {
             call this to ask the base class to add it's parameters to their dictionary as well.
             Can't do this in the constructor because that runs in a non-virtual context.
         @par
-            The subclass must have called it's own createParamDictionary before calling this method.
+            The subclass must have called it's own create_param_dictionary before calling this method.
         */
         void addBaseParameters(void);
 

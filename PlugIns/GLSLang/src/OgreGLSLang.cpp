@@ -263,7 +263,7 @@ GLSLangProgram::GLSLangProgram(ResourceManager* creator, const String& name, Res
                                const String& group, bool isManual, ManualResourceLoader* loader)
     : HighLevelGpuProgram(creator, name, handle, group, isManual, loader)
 {
-    if (createParamDictionary("glslangProgram"))
+    if (create_param_dictionary("glslangProgram"))
     {
         setupBaseParamDictionary();
         memset(&DefaultTBuiltInResource.limits, 1, sizeof(TLimits));

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGLUtil.h"
 #include "OgreGLES2RenderSystem.h"
 #include "OgreGLNativeSupport.h"
@@ -55,14 +55,14 @@ namespace Ogre {
         , mOptimiserEnabled(false)
 #endif
     {
-        if (createParamDictionary("GLSLESProgram"))
+        if (create_param_dictionary("GLSLESProgram"))
         {
             setupBaseParamDictionary();
 #if !OGRE_NO_GLES2_GLSL_OPTIMISER
-            ParamDictionary* dict = getParamDictionary();
-            dict->addParameter(ParameterDef("use_optimiser", 
+            ParamDictionary* dict = param_dictionary();
+            dict->add_parameter(ParameterDef("use_optimiser", 
                                             "Should the GLSL optimiser be used. Default is false.",
-                                            PT_BOOL),&msCmdOptimisation);
+                                            ParameterType::BOOL),&msCmdOptimisation);
 #endif
         }
         // There is nothing to load
@@ -273,11 +273,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
 #if !OGRE_NO_GLES2_GLSL_OPTIMISER
-    String GLSLESProgram::CmdOptimisation::doGet(const void *target) const
+    String GLSLESProgram::CmdOptimisation::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const GLSLESProgram*>(target)->getOptimiserEnabled());
     }
-    void GLSLESProgram::CmdOptimisation::doSet(void *target, const String& val)
+    void GLSLESProgram::CmdOptimisation::set(void *target, const String& val)
     {
         static_cast<GLSLESProgram*>(target)->setOptimiserEnabled(StringConverter::parse_bool(val));
     }

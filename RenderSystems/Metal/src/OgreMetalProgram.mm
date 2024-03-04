@@ -71,17 +71,17 @@ namespace Ogre {
         mDevice( device ),
         mCompiled( false )
     {
-        if (createParamDictionary("MetalProgram"))
+        if (create_param_dictionary("MetalProgram"))
         {
             setupBaseParamDictionary();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("shader_reflection_pair_hint",
+            dict->add_parameter(ParameterDef("shader_reflection_pair_hint",
                                             "Metal requires Pixel Shaders to be paired with a valid "
                                             "vertex shader to obtain reflection data (i.e. program "
                                             "parameters). Pixel Shaders without parameters don't need "
                                             "this. Pass the name of an already defined vertex shader.",
-                                            PT_STRING),&msCmdShaderReflectionPairHint);
+                                            ParameterType::STRING),&msCmdShaderReflectionPairHint);
         }
         mTargetBufferName = "";
         mEntryPoint = "mainfunc"; // 1.4.4: A Metal function cannot be called main.
@@ -445,12 +445,12 @@ namespace Ogre {
         mLogicalToPhysical.reset(); // disallow access by index for now
     }
     //-----------------------------------------------------------------------
-    String MetalProgram::CmdShaderReflectionPairHint::doGet(const void *target) const
+    String MetalProgram::CmdShaderReflectionPairHint::get(const void *target) const
     {
         return static_cast<const MetalProgram*>(target)->getShaderReflectionPairHint();
     }
     //-----------------------------------------------------------------------
-    void MetalProgram::CmdShaderReflectionPairHint::doSet(void *target, const String& val)
+    void MetalProgram::CmdShaderReflectionPairHint::set(void *target, const String& val)
     {
         static_cast<MetalProgram*>(target)->setShaderReflectionPairHint(val);
     }

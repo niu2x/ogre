@@ -284,21 +284,21 @@ namespace Ogre
         mainRenderState->setHaveAreaLights(tplRS->haveAreaLights());
 
         if(auto surface = tplRS->getSubRenderState("TerrainSurface"))
-            surface->setParameter("use_normal_mapping", std::to_string(mLayerNormalMappingEnabled));
+            surface->set_parameter("use_normal_mapping", std::to_string(mLayerNormalMappingEnabled));
 
         try
         {
             mainRenderState->link(*tplRS, pass, pass);
             auto surface = mainRenderState->getSubRenderState("TerrainSurface");
             OgreAssert(surface, "TerrainSurface SubRenderState not found");
-            surface->setParameter("use_parallax_mapping", std::to_string(mLayerParallaxMappingEnabled));
-            surface->setParameter("use_parallax_occlusion_mapping", std::to_string(mLayerParallaxOcclusionMappingEnabled));
-            surface->setParameter("use_specular_mapping", std::to_string(mLayerSpecularMappingEnabled));
+            surface->set_parameter("use_parallax_mapping", std::to_string(mLayerParallaxMappingEnabled));
+            surface->set_parameter("use_parallax_occlusion_mapping", std::to_string(mLayerParallaxOcclusionMappingEnabled));
+            surface->set_parameter("use_specular_mapping", std::to_string(mLayerSpecularMappingEnabled));
             if(isShadowingEnabled(HIGH_LOD, terrain))
             {
                 auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_SHADOW_MAPPING);
                 if(mPSSM)
-                    pssm->setParameter("split_points", mPSSM->getSplitPoints());
+                    pssm->set_parameter("split_points", mPSSM->getSplitPoints());
                 pssm->preAddToRenderState(mainRenderState.get(), pass, pass);
                 mainRenderState->addSubRenderStateInstance(pssm);
             }
@@ -335,7 +335,7 @@ namespace Ogre
                     lod1RenderState->setLightCount(1);
                     auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_SHADOW_MAPPING);
                     if(mPSSM)
-                        pssm->setParameter("split_points", mPSSM->getSplitPoints());
+                        pssm->set_parameter("split_points", mPSSM->getSplitPoints());
                     pssm->preAddToRenderState(lod1RenderState.get(), pass, pass);
                     lod1RenderState->addSubRenderStateInstance(pssm);
                 }
@@ -388,7 +388,7 @@ namespace Ogre
         {
             compRenderState->link({SRS_TRANSFORM, "TerrainSurface", SRS_PER_PIXEL_LIGHTING}, pass, pass);
             auto terrainSurface = compRenderState->getSubRenderState("TerrainSurface");
-            terrainSurface->setParameter("for_composite_map", "true");
+            terrainSurface->set_parameter("for_composite_map", "true");
             compRenderState->acquirePrograms(pass);
             terrainSurface->updateGpuProgramsParams(NULL, NULL, NULL, NULL); // composite map scene manager not registered
         }

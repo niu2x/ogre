@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D11VertexDeclaration.h"
 #include "OgreD3D11RenderToVertexBuffer.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreD3D11Device.h"
 
 namespace Ogre {

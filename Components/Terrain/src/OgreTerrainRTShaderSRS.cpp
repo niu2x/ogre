@@ -92,7 +92,7 @@ bool TerrainTransform::createCpuSubPrograms(ProgramSet* programSet)
 
 String TerrainSurface::Type = "TerrainSurface";
 
-bool TerrainSurface::setParameter(const String& name, const String& value)
+bool TerrainSurface::set_parameter(const String& name, const String& value)
 {
     if(name == "for_composite_map")
     {

@@ -7,7 +7,7 @@
 
 #include "OgreRenderSystem.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreTinyTextureManager.h"
 #include "OgreHardwareBuffer.h"
 #include "OgreGpuProgramManager.h"

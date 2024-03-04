@@ -36,7 +36,7 @@ THE SOFTWARE.
 
 #include "exception.h"
 #include "OgrePixelFormat.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 #include "OgreVulkanUtils.h"
 #include "OgreVulkanDescriptorPool.h"

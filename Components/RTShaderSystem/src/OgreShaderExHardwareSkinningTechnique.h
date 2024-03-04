@@ -63,7 +63,7 @@ public:
 
     void setHardwareSkinningParam(ushort boneCount, ushort weightCount, bool correctAntipodalityHandling, bool scalingShearingSupport);
 
-    virtual bool setParameter(const String& name, const String& value);
+    virtual bool set_parameter(const String& name, const String& value);
 
     /**
     Returns the number of bones in the model assigned to the material.
@@ -188,7 +188,7 @@ public:
     @param correctAntipodalityHandling If correct antipodality handling should be utilized (Only applicable for dual quaternion skinning).
     @param scalingShearingSupport If scaling and shearing support should be enabled (Only applicable for dual quaternion skinning).
     */
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     /**
     Returns the number of bones in the model assigned to the material.

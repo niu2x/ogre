@@ -49,46 +49,46 @@ namespace Ogre {
         class CmdTarget : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
         /// Command object for setting matrix packing in column-major order
         class CmdColumnMajorMatrices : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
         /// Command object for setting optimisation level
         class CmdOptimisation : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
 
         /// Command object for getting/setting micro code
         class CmdMicrocode : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
 
         /// Command object for getting/setting assembler code
         class CmdAssemblerCode : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
 
         /// Command object for enabling backwards compatibility
         class CmdBackwardsCompatibility : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
 
     protected:

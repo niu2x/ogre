@@ -92,11 +92,11 @@ public:
             name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
             "hlsl", GPT_FRAGMENT_PROGRAM);
         ptrProgram->setSource(mMasterSource);
-        ptrProgram->setParameter("entry_point","main");
-        ptrProgram->setParameter("target","ps_2_a");
+        ptrProgram->set_parameter("entry_point","main");
+        ptrProgram->set_parameter("target","ps_2_a");
         // set up the preprocessor defines
         // Important to do this before any call to get parameters, i.e. before the program gets loaded
-        ptrProgram->setParameter("preprocessor_defines", getPPDefines(permutation));
+        ptrProgram->set_parameter("preprocessor_defines", getPPDefines(permutation));
 
         setUpBaseParameters(ptrProgram->getDefaultParameters());
 
@@ -268,7 +268,7 @@ public:
         ptrProgram->setSource(mMasterSource);
         // set up the preprocessor defines
         // Important to do this before any call to get parameters, i.e. before the program gets loaded
-        ptrProgram->setParameter("preprocessor_defines", getPPDefines(permutation));
+        ptrProgram->set_parameter("preprocessor_defines", getPPDefines(permutation));
 
         setUpBaseParameters(ptrProgram->getDefaultParameters());
 

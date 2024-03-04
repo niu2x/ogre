@@ -130,7 +130,7 @@ void FontTranslator::parseAttribute(ScriptCompiler* compiler, FontPtr& pFont,
     else if(attrib == "character_spacer")
         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line, attrib);
     else if (prop->values.empty() || !getString(prop->values.front(), &val) ||
-             !pFont->setParameter(attrib, val))
+             !pFont->set_parameter(attrib, val))
     {
         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
     }
@@ -220,7 +220,7 @@ void ElementTranslator::translate(ScriptCompiler* compiler, const AbstractNodePt
             if(prop->name == "space_width")
                 compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line, prop->name);
 
-            if(!succ || !newElement->setParameter(prop->name, val))
+            if(!succ || !newElement->set_parameter(prop->name, val))
                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
         }
         else if(c->type == ANT_OBJECT)

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 
 namespace Ogre {
     /** \addtogroup Plugins
@@ -50,32 +50,32 @@ namespace Ogre {
         class CmdRedAdjust : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Command object for green adjust (see ParamCommand).*/
         class CmdGreenAdjust : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Command object for blue adjust (see ParamCommand).*/
         class CmdBlueAdjust : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Command object for alpha adjust (see ParamCommand).*/
         class CmdAlphaAdjust : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
 

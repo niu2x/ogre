@@ -137,7 +137,7 @@ void GLSLProgramWriter::writeMainSourceCode(std::ostream& os, Program* program)
             "GLSLProgramWriter::writeSourceCode" );
     }
 
-    const UniformParameterList& parameterList = program->getParameters();
+    const UniformParameterList& parameterList = program->parameters();
 
     // Generate global variable code.
     writeUniformParametersTitle(os, program);
@@ -212,7 +212,7 @@ void GLSLProgramWriter::writeMainSourceCode(std::ostream& os, Program* program)
         redirectGlobalWrites(os, pFuncInvoc, inParams, parameterList);
         for (auto& operand : pFuncInvoc->getOperandList())
         {
-            const ParameterPtr& param = operand.getParameter();
+            const ParameterPtr& param = operand.parameter();
             if (gpuType != GPT_VERTEX_PROGRAM || param->getSemantic() != Parameter::SPS_TEXTURE_COORDINATES)
                 continue;
 

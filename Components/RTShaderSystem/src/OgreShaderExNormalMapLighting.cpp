@@ -161,7 +161,7 @@ bool NormalMapLighting::preAddToRenderState(const RenderState* renderState, Pass
     return false;
 }
 
-bool NormalMapLighting::setParameter(const String& name, const String& value)
+bool NormalMapLighting::set_parameter(const String& name, const String& value)
 {
     if (name == "normalmap_space")
     {
@@ -225,7 +225,7 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
                 TextureUnitState* normalMapTexture = pass->createTextureUnitState();
                 uint16 texureIdx = pass->getNumTextureUnitStates() - 1;
                 normalMapTexture->setTextureName((*it)->getString());
-                subRenderState->setParameter("texture_index", std::to_string(texureIdx));
+                subRenderState->set_parameter("texture_index", std::to_string(texureIdx));
 
                 ShaderGenerator::_markNonFFP(normalMapTexture);
 
@@ -233,7 +233,7 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
                 if (prop->values.size() >= 3)
                 {
                     ++it;
-                    if (!subRenderState->setParameter("normalmap_space", (*it)->getString()))
+                    if (!subRenderState->set_parameter("normalmap_space", (*it)->getString()))
                     {
                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                     }
@@ -287,10 +287,10 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
         ShaderGenerator::_markNonFFP(texState);
 
         SubRenderState* subRenderState = createOrRetrieveInstance(translator);
-        subRenderState->setParameter("texture_index", std::to_string(texureIdx));
+        subRenderState->set_parameter("texture_index", std::to_string(texureIdx));
 
         auto it = prop->values.begin();
-        if (!subRenderState->setParameter("normalmap_space", (*it)->getString()))
+        if (!subRenderState->set_parameter("normalmap_space", (*it)->getString()))
         {
             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
             return subRenderState;
@@ -308,7 +308,7 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
             String paramName = (*it)->getString();
             String paramValue = (*++it)->getString();
 
-            if (!subRenderState->setParameter(paramName, paramValue))
+            if (!subRenderState->set_parameter(paramName, paramValue))
             {
                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                 return subRenderState;

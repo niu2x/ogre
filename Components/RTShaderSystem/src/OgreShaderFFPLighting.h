@@ -83,7 +83,7 @@ public:
      */
     void setNormaliseEnabled(bool enable) { mNormalisedEnable = enable; }
 
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     /**
     Get the specular component state.

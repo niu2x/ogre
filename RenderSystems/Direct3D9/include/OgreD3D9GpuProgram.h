@@ -45,15 +45,15 @@ namespace Ogre {
         class CmdColumnMajorMatrices : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
         /// Command object for getting/setting external micro code (void*)
         class CmdExternalMicrocode : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
     protected:
         static CmdColumnMajorMatrices msCmdColumnMajorMatrices;

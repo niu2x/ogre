@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9Mappings.h"
 #include "string_util.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "log_manager.h"
 #include "exception.h"
 

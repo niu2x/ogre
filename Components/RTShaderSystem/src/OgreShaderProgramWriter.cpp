@@ -138,7 +138,7 @@ void ProgramWriter::redirectGlobalWrites(std::ostream& os, FunctionAtom* func, c
         if (opSemantic != Operand::OPS_OUT && opSemantic != Operand::OPS_INOUT)
             continue;
 
-        const ParameterPtr& param = operand.getParameter();
+        const ParameterPtr& param = operand.parameter();
 
         // Check if we write to an input variable because they are only readable
         // Well, actually "attribute" were writable in GLSL < 120, but we dont care here

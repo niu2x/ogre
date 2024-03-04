@@ -44,7 +44,7 @@ date                 : Jan 1 2004
 email                : pjcast@yahoo.com
 ***************************************************************************/
 
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "OgreResourceGroupManager.h"
 #include "OgreHeaderPrefix.h"
 

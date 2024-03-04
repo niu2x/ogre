@@ -3399,7 +3399,7 @@ namespace Ogre{
             + StringConverter::to_string(passIndex) + " "
             + StringConverter::to_string(texUnitIndex);
 
-        ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->setParameter( "set_T_P_S", tps );
+        ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->set_parameter( "set_T_P_S", tps );
 
         for(auto & i : obj->children)
         {
@@ -3414,7 +3414,7 @@ namespace Ogre{
                         str = str + " ";
                     str = str + (*j)->getValue();
                 }
-                ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->setParameter(prop->name, str);
+                ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->set_parameter(prop->name, str);
             }
             else if(i->type == ANT_OBJECT)
             {
@@ -3591,20 +3591,20 @@ namespace Ogre{
 
         // special case for Cg
         if(!profiles.empty())
-            prog->setParameter("profiles", profiles);
+            prog->set_parameter("profiles", profiles);
 
         // special case for HLSL
         if(!target.empty())
-            prog->setParameter("target", target);
+            prog->set_parameter("target", target);
 
         // special case for unified
         for(const auto& d : delegates)
-            prog->setParameter("delegate", d);
+            prog->set_parameter("delegate", d);
 
         // Set the custom parameters
         for(const auto& p : customParameters)
         {
-            if(prog->isSupported() && !prog->setParameter(p.first->name, p.second))
+            if(prog->isSupported() && !prog->set_parameter(p.first->name, p.second))
             {
                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, p.first->file, p.first->line, p.first->name);
             }
@@ -4363,11 +4363,11 @@ namespace Ogre{
                     }
                 }
 
-                if(!mSystem->setParameter(prop->name, value))
+                if(!mSystem->set_parameter(prop->name, value))
                 {
                     if(auto renderer = mSystem->getRenderer())
                     {
-                        if(!renderer->setParameter(prop->name, value))
+                        if(!renderer->set_parameter(prop->name, value))
                             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                     }
                 }
@@ -4434,7 +4434,7 @@ namespace Ogre{
                     }
                 }
 
-                if(!mEmitter->setParameter(prop->name, value))
+                if(!mEmitter->set_parameter(prop->name, value))
                 {
                     compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                 }
@@ -4500,7 +4500,7 @@ namespace Ogre{
                     }
                 }
 
-                if(!mAffector->setParameter(prop->name, value))
+                if(!mAffector->set_parameter(prop->name, value))
                 {
                     compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                 }

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreHollowEllipsoidEmitter.h"
 #include "OgreParticle.h"
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreMath.h"
 
 /* Implements an Emitter whose emitting points all lie inside an ellipsoid.
@@ -55,14 +55,14 @@ namespace Ogre {
         if (initDefaults("HollowEllipsoid"))
         {
             // Add custom parameters
-            ParamDictionary* pDict = getParamDictionary();
+            ParamDictionary* pDict = param_dictionary();
 
-            pDict->addParameter(ParameterDef("inner_width", "Parametric value describing the proportion of the "
-                "shape which is hollow.", PT_REAL), &msCmdInnerX);
-            pDict->addParameter(ParameterDef("inner_height", "Parametric value describing the proportion of the "
-                "shape which is hollow.", PT_REAL), &msCmdInnerY);
-            pDict->addParameter(ParameterDef("inner_depth", "Parametric value describing the proportion of the "
-                "shape which is hollow.", PT_REAL), &msCmdInnerZ);
+            pDict->add_parameter(ParameterDef("inner_width", "Parametric value describing the proportion of the "
+                "shape which is hollow.", ParameterType::REAL), &msCmdInnerX);
+            pDict->add_parameter(ParameterDef("inner_height", "Parametric value describing the proportion of the "
+                "shape which is hollow.", ParameterType::REAL), &msCmdInnerY);
+            pDict->add_parameter(ParameterDef("inner_depth", "Parametric value describing the proportion of the "
+                "shape which is hollow.", ParameterType::REAL), &msCmdInnerZ);
         }
         // default is half empty
         setInnerSize(0.5,0.5,0.5);
@@ -164,32 +164,32 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String HollowEllipsoidEmitter::CmdInnerX::doGet(const void* target) const
+    String HollowEllipsoidEmitter::CmdInnerX::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const HollowEllipsoidEmitter*>(target)->getInnerSizeX() );
     }
-    void HollowEllipsoidEmitter::CmdInnerX::doSet(void* target, const String& val)
+    void HollowEllipsoidEmitter::CmdInnerX::set(void* target, const String& val)
     {
         static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeX(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String HollowEllipsoidEmitter::CmdInnerY::doGet(const void* target) const
+    String HollowEllipsoidEmitter::CmdInnerY::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const HollowEllipsoidEmitter*>(target)->getInnerSizeY() );
     }
-    void HollowEllipsoidEmitter::CmdInnerY::doSet(void* target, const String& val)
+    void HollowEllipsoidEmitter::CmdInnerY::set(void* target, const String& val)
     {
         static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeY(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String HollowEllipsoidEmitter::CmdInnerZ::doGet(const void* target) const
+    String HollowEllipsoidEmitter::CmdInnerZ::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const HollowEllipsoidEmitter*>(target)->getInnerSizeZ() );
     }
-    void HollowEllipsoidEmitter::CmdInnerZ::doSet(void* target, const String& val)
+    void HollowEllipsoidEmitter::CmdInnerZ::set(void* target, const String& val)
     {
         static_cast<HollowEllipsoidEmitter*>(target)->setInnerSizeZ(StringConverter::parse_real(val));
     }

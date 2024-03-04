@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreParticle.h"
 #include "OgreQuaternion.h"
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 
 
@@ -53,22 +53,22 @@ namespace Ogre {
         mType = t;
 
         // Set up parameters
-        if (createParamDictionary(mType + "Emitter"))
+        if (create_param_dictionary(mType + "Emitter"))
         {
 
             addBaseParameters();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
             // Custom params
-            dict->addParameter(ParameterDef("width", 
+            dict->add_parameter(ParameterDef("width", 
                 "Width of the shape in world coordinates.",
-                PT_REAL),&msWidthCmd);
-            dict->addParameter(ParameterDef("height", 
+                ParameterType::REAL),&msWidthCmd);
+            dict->add_parameter(ParameterDef("height", 
                 "Height of the shape in world coordinates.",
-                PT_REAL),&msHeightCmd);
-            dict->addParameter(ParameterDef("depth", 
+                ParameterType::REAL),&msHeightCmd);
+            dict->add_parameter(ParameterDef("depth", 
                 "Depth of the shape in world coordinates.",
-                PT_REAL),&msDepthCmd);
+                ParameterType::REAL),&msDepthCmd);
             return true;
 
         }
@@ -143,32 +143,32 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String AreaEmitter::CmdWidth::doGet(const void* target) const
+    String AreaEmitter::CmdWidth::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const AreaEmitter*>(target)->getWidth() );
     }
-    void AreaEmitter::CmdWidth::doSet(void* target, const String& val)
+    void AreaEmitter::CmdWidth::set(void* target, const String& val)
     {
         static_cast<AreaEmitter*>(target)->setWidth(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String AreaEmitter::CmdHeight::doGet(const void* target) const
+    String AreaEmitter::CmdHeight::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const AreaEmitter*>(target)->getHeight() );
     }
-    void AreaEmitter::CmdHeight::doSet(void* target, const String& val)
+    void AreaEmitter::CmdHeight::set(void* target, const String& val)
     {
         static_cast<AreaEmitter*>(target)->setHeight(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String AreaEmitter::CmdDepth::doGet(const void* target) const
+    String AreaEmitter::CmdDepth::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const AreaEmitter*>(target)->getDepth() );
     }
-    void AreaEmitter::CmdDepth::doSet(void* target, const String& val)
+    void AreaEmitter::CmdDepth::set(void* target, const String& val)
     {
         static_cast<AreaEmitter*>(target)->setDepth(StringConverter::parse_real(val));
     }

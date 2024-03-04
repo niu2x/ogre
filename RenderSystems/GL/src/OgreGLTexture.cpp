@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreCodec.h"
 #include "OgreImageCodec.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "bitwise.h"
 
 #include "OgreGLFBORenderTexture.h"

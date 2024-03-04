@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreColourFaderAffector2.h"
 #include "OgreParticleSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 
 
@@ -58,42 +58,42 @@ namespace Ogre {
         StateChangeVal = 1; // Switch when there is 1 second left on the TTL
 
         // Init parameters
-        if (createParamDictionary("ColourFaderAffector2"))
+        if (create_param_dictionary("ColourFaderAffector2"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
             // Phase 1
-            dict->addParameter(ParameterDef("red1", 
+            dict->add_parameter(ParameterDef("red1", 
                 "The amount by which to adjust the red component of particles per second.",
-                PT_REAL), &msRedCmd1);
-            dict->addParameter(ParameterDef("green1", 
+                ParameterType::REAL), &msRedCmd1);
+            dict->add_parameter(ParameterDef("green1", 
                 "The amount by which to adjust the green component of particles per second.",
-                PT_REAL), &msGreenCmd1);
-            dict->addParameter(ParameterDef("blue1", 
+                ParameterType::REAL), &msGreenCmd1);
+            dict->add_parameter(ParameterDef("blue1", 
                 "The amount by which to adjust the blue component of particles per second.",
-                PT_REAL), &msBlueCmd1);
-            dict->addParameter(ParameterDef("alpha1", 
+                ParameterType::REAL), &msBlueCmd1);
+            dict->add_parameter(ParameterDef("alpha1", 
                 "The amount by which to adjust the alpha component of particles per second.",
-                PT_REAL), &msAlphaCmd1);
+                ParameterType::REAL), &msAlphaCmd1);
 
             // Phase 2
-            dict->addParameter(ParameterDef("red2", 
+            dict->add_parameter(ParameterDef("red2", 
                 "The amount by which to adjust the red component of particles per second.",
-                PT_REAL), &msRedCmd2);
-            dict->addParameter(ParameterDef("green2", 
+                ParameterType::REAL), &msRedCmd2);
+            dict->add_parameter(ParameterDef("green2", 
                 "The amount by which to adjust the green component of particles per second.",
-                PT_REAL), &msGreenCmd2);
-            dict->addParameter(ParameterDef("blue2", 
+                ParameterType::REAL), &msGreenCmd2);
+            dict->add_parameter(ParameterDef("blue2", 
                 "The amount by which to adjust the blue component of particles per second.",
-                PT_REAL), &msBlueCmd2);
-            dict->addParameter(ParameterDef("alpha2", 
+                ParameterType::REAL), &msBlueCmd2);
+            dict->add_parameter(ParameterDef("alpha2", 
                 "The amount by which to adjust the alpha component of particles per second.",
-                PT_REAL), &msAlphaCmd2);
+                ParameterType::REAL), &msAlphaCmd2);
 
             // State Change Value
-            dict->addParameter(ParameterDef("state_change", 
+            dict->add_parameter(ParameterDef("state_change", 
                 "When the particle has this much time to live left, it will switch to state 2.",
-                PT_REAL), &msStateCmd);
+                ParameterType::REAL), &msStateCmd);
 
         }
     }
@@ -224,96 +224,96 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String ColourFaderAffector2::CmdRedAdjust1::doGet(const void* target) const
+    String ColourFaderAffector2::CmdRedAdjust1::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getRedAdjust1() );
     }
-    void ColourFaderAffector2::CmdRedAdjust1::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdRedAdjust1::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setRedAdjust1(
             StringConverter::parse_real(val));
     }
-    String ColourFaderAffector2::CmdRedAdjust2::doGet(const void* target) const
+    String ColourFaderAffector2::CmdRedAdjust2::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getRedAdjust2() );
     }
-    void ColourFaderAffector2::CmdRedAdjust2::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdRedAdjust2::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setRedAdjust2(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String ColourFaderAffector2::CmdGreenAdjust1::doGet(const void* target) const
+    String ColourFaderAffector2::CmdGreenAdjust1::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getGreenAdjust1() );
     }
-    void ColourFaderAffector2::CmdGreenAdjust1::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdGreenAdjust1::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setGreenAdjust1(
             StringConverter::parse_real(val));
     }
-    String ColourFaderAffector2::CmdGreenAdjust2::doGet(const void* target) const
+    String ColourFaderAffector2::CmdGreenAdjust2::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getGreenAdjust2() );
     }
-    void ColourFaderAffector2::CmdGreenAdjust2::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdGreenAdjust2::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setGreenAdjust2(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String ColourFaderAffector2::CmdBlueAdjust1::doGet(const void* target) const
+    String ColourFaderAffector2::CmdBlueAdjust1::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getBlueAdjust1() );
     }
-    void ColourFaderAffector2::CmdBlueAdjust1::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdBlueAdjust1::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setBlueAdjust1(
             StringConverter::parse_real(val));
     }
-    String ColourFaderAffector2::CmdBlueAdjust2::doGet(const void* target) const
+    String ColourFaderAffector2::CmdBlueAdjust2::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getBlueAdjust2() );
     }
-    void ColourFaderAffector2::CmdBlueAdjust2::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdBlueAdjust2::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setBlueAdjust2(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String ColourFaderAffector2::CmdAlphaAdjust1::doGet(const void* target) const
+    String ColourFaderAffector2::CmdAlphaAdjust1::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getAlphaAdjust1() );
     }
-    void ColourFaderAffector2::CmdAlphaAdjust1::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdAlphaAdjust1::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setAlphaAdjust1(
             StringConverter::parse_real(val));
     }
-    String ColourFaderAffector2::CmdAlphaAdjust2::doGet(const void* target) const
+    String ColourFaderAffector2::CmdAlphaAdjust2::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getAlphaAdjust2() );
     }
-    void ColourFaderAffector2::CmdAlphaAdjust2::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdAlphaAdjust2::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setAlphaAdjust2(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String ColourFaderAffector2::CmdStateChange::doGet(const void* target) const
+    String ColourFaderAffector2::CmdStateChange::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourFaderAffector2*>(target)->getStateChange() );
     }
-    void ColourFaderAffector2::CmdStateChange::doSet(void* target, const String& val)
+    void ColourFaderAffector2::CmdStateChange::set(void* target, const String& val)
     {
         static_cast<ColourFaderAffector2*>(target)->setStateChange(
             StringConverter::parse_real(val));

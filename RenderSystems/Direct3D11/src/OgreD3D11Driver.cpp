@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D11VideoMode.h"
 #include "OgreD3D11Device.h"
 #include "string_util.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 #ifndef DXGI_ADAPTER_FLAG_SOFTWARE
 #define DXGI_ADAPTER_FLAG_SOFTWARE 2 // unavailable in June 2010 SDK

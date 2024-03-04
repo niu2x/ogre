@@ -61,7 +61,7 @@ void HardwareSkinningTechnique::setHardwareSkinningParam(ushort boneCount, ushor
     mScalingShearingSupport = scalingShearingSupport;
 }
 
-bool HardwareSkinningTechnique::setParameter(const String& name, const String& value)
+bool HardwareSkinningTechnique::set_parameter(const String& name, const String& value)
 {
     if(name == "max_bone_count")
     {

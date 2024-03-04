@@ -82,7 +82,7 @@ int HardwareSkinning::getExecutionOrder() const
 }
 
 //-----------------------------------------------------------------------
-bool HardwareSkinning::setParameter(const String& name, const String& value)
+bool HardwareSkinning::set_parameter(const String& name, const String& value)
 {
     if (name == "type")
     {
@@ -111,7 +111,7 @@ bool HardwareSkinning::setParameter(const String& name, const String& value)
     }
     else if(mActiveTechnique)
     {
-        return mActiveTechnique->setParameter(name, value);
+        return mActiveTechnique->set_parameter(name, value);
     }
     return false;
 }
@@ -177,7 +177,7 @@ bool HardwareSkinning::preAddToRenderState(const RenderState* renderState, Pass*
         
         //If the skinning data is being passed through the material, we need to create an instance of the appropriate
         //skinning type and set its parameters here
-        setParameter("type", pData.skinningType == ST_LINEAR ? "linear" : "dual_quaternion");
+        set_parameter("type", pData.skinningType == ST_LINEAR ? "linear" : "dual_quaternion");
         mActiveTechnique->setHardwareSkinningParam(pData.maxBoneCount, pData.maxWeightCount,
                                                    pData.correctAntipodalityHandling, pData.scalingShearingSupport);
     }
@@ -185,7 +185,7 @@ bool HardwareSkinning::preAddToRenderState(const RenderState* renderState, Pass*
     //If there is no associated technique, default to linear skinning as a pass-through
     if(!mActiveTechnique)
     {
-        setParameter("type", "linear");
+        set_parameter("type", "linear");
     }
 
     int boneCount = mActiveTechnique->getBoneCount();
@@ -296,11 +296,11 @@ SubRenderState* HardwareSkinningFactory::createInstance(ScriptCompiler* compiler
 
         //create and update the hardware skinning sub render state
         SubRenderState* subRenderState = createOrRetrieveInstance(translator);
-        subRenderState->setParameter("type", skinningType);
+        subRenderState->set_parameter("type", skinningType);
 
         for(const auto& p : params)
         {
-            if(!subRenderState->setParameter(p.first, p.second))
+            if(!subRenderState->set_parameter(p.first, p.second))
             {
                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, p.second);
             }

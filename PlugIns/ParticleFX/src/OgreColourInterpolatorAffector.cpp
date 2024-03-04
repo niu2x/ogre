@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreColourInterpolatorAffector.h"
 #include "OgreParticleSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 
 
@@ -52,17 +52,17 @@ namespace Ogre {
         mType = "ColourInterpolator";
 
         // Init parameters
-        if (createParamDictionary("ColourInterpolatorAffector"))
+        if (create_param_dictionary("ColourInterpolatorAffector"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
             for (int i=0;i<MAX_STAGES;i++)
             {
                 msColourCmd[i].mIndex   = i;
                 msTimeCmd[i].mIndex     = i;
 
-                dict->addParameter(StringUtil::format("colour%d", i), &msColourCmd[i]);
-                dict->addParameter(StringUtil::format("time%d", i), &msTimeCmd[i]);
+                dict->add_parameter(StringUtil::format("colour%d", i), &msColourCmd[i]);
+                dict->add_parameter(StringUtil::format("time%d", i), &msTimeCmd[i]);
             }
         }
     }
@@ -133,23 +133,23 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String ColourInterpolatorAffector::CmdColourAdjust::doGet(const void* target) const
+    String ColourInterpolatorAffector::CmdColourAdjust::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourInterpolatorAffector*>(target)->getColourAdjust(mIndex) );
     }
-    void ColourInterpolatorAffector::CmdColourAdjust::doSet(void* target, const String& val)
+    void ColourInterpolatorAffector::CmdColourAdjust::set(void* target, const String& val)
     {
         static_cast<ColourInterpolatorAffector*>(target)->setColourAdjust(mIndex,
             StringConverter::parse_colour_value(val));
     }
     //-----------------------------------------------------------------------
-    String ColourInterpolatorAffector::CmdTimeAdjust::doGet(const void* target) const
+    String ColourInterpolatorAffector::CmdTimeAdjust::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ColourInterpolatorAffector*>(target)->getTimeAdjust(mIndex) );
     }
-    void ColourInterpolatorAffector::CmdTimeAdjust::doSet(void* target, const String& val)
+    void ColourInterpolatorAffector::CmdTimeAdjust::set(void* target, const String& val)
     {
         static_cast<ColourInterpolatorAffector*>(target)->setTimeAdjust(mIndex,
             StringConverter::parse_real(val));

@@ -7,7 +7,7 @@
 
 #include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "OgreParticleAffectorFactory.h"
 
 namespace Ogre {

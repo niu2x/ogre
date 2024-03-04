@@ -37,7 +37,7 @@ SPIRVShader::SPIRVShader(ResourceManager* creator, const String& name, ResourceH
                          bool isManual, ManualResourceLoader* loader)
     : GLSLShader(creator, name, handle, group, isManual, loader)
 {
-    if (createParamDictionary("SPIRVGpuProgram"))
+    if (create_param_dictionary("SPIRVGpuProgram"))
     {
         setupBaseParamDictionary();
     }

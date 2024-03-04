@@ -186,7 +186,7 @@ bool FFPFog::preAddToRenderState(const RenderState* renderState, Pass* srcPass, 
 }
 
 //-----------------------------------------------------------------------
-bool FFPFog::setParameter(const String& name, const String& value)
+bool FFPFog::set_parameter(const String& name, const String& value)
 {
 	if(name == "calc_mode" && !value.empty())
 	{
@@ -220,7 +220,7 @@ SubRenderState* FFPFogFactory::createInstance(ScriptCompiler* compiler,
                 if(prop->values.size() >= 2)
                 {
                     ++it;
-                    if(!subRenderState->setParameter("calc_mode", (*it)->getString()))
+                    if(!subRenderState->set_parameter("calc_mode", (*it)->getString()))
                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                 }
                 

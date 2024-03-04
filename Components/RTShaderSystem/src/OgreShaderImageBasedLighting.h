@@ -39,7 +39,7 @@ public:
     bool preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass) override;
     bool createCpuSubPrograms(ProgramSet* programSet) override;
     void copyFrom(const SubRenderState& rhs) override;
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
     void updateGpuProgramsParams(Renderable* rend, const Pass* pass, const AutoParamDataSource* source,
                                  const LightList* ll) override;
 };

@@ -132,7 +132,7 @@ namespace Ogre
         void setParameters(const GpuProgramParametersSharedPtr& params);
         /** Gets the parameters being used here. 
         */
-        const GpuProgramParametersSharedPtr& getParameters(void) const;
+        const GpuProgramParametersSharedPtr& parameters(void) const;
 
         /// Load this usage (and ensure program is loaded)
         void _load(void);

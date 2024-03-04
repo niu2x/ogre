@@ -38,7 +38,7 @@ namespace Ogre {
     {
         mType = "Point";
         // Set up parameters
-        if (createParamDictionary("PointEmitter"))
+        if (create_param_dictionary("PointEmitter"))
         {
             addBaseParameters();
         }

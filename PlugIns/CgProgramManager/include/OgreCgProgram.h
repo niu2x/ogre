@@ -55,15 +55,15 @@ namespace Ogre {
         class CmdProfiles : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /// Command object for setting compilation arguments
         class CmdArgs : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
     protected:

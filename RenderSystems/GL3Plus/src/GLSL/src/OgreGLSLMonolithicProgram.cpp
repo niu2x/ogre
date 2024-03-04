@@ -34,7 +34,7 @@
 #include "string_vector.h"
 #include "log_manager.h"
 #include "OgreGpuProgramManager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 namespace Ogre {
 

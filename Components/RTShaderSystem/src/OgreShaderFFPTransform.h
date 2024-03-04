@@ -74,7 +74,7 @@ public:
 
     bool preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass) override;
 
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     static String Type;
 protected:

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreVulkanWindow.h"
 
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 #include "OgreVulkanUtils.h"
 

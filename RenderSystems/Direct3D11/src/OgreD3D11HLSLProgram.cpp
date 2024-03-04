@@ -31,13 +31,13 @@ THE SOFTWARE.
 #include "OgreD3D11Device.h"
 #include "OgreRoot.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreD3D11Mappings.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreD3D11HardwareBuffer.h"
 #include "OgreD3D11RenderSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------
@@ -1150,20 +1150,20 @@ namespace Ogre {
 		mEnableBackwardsCompatibility = true;
 #endif
 
-        if (createParamDictionary("D3D11HLSLProgram"))
+        if (create_param_dictionary("D3D11HLSLProgram"))
         {
             setupBaseParamDictionary();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("target", 
+            dict->add_parameter(ParameterDef("target", 
                 "Name of the assembler target to compile down to.",
-                PT_STRING),&msCmdTarget);
-            dict->addParameter(ParameterDef("column_major_matrices", 
+                ParameterType::STRING),&msCmdTarget);
+            dict->add_parameter(ParameterDef("column_major_matrices", 
                 "Whether matrix packing in column-major order.",
-                PT_BOOL),&msCmdColumnMajorMatrices);
-            dict->addParameter(ParameterDef("enable_backwards_compatibility", 
+                ParameterType::BOOL),&msCmdColumnMajorMatrices);
+            dict->add_parameter(ParameterDef("enable_backwards_compatibility", 
                 "enable backwards compatibility.",
-                PT_BOOL),&msCmdEnableBackwardsCompatibility);
+                ParameterType::BOOL),&msCmdEnableBackwardsCompatibility);
         }
 
     }
@@ -1248,29 +1248,29 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String D3D11HLSLProgram::CmdTarget::doGet(const void *target) const
+    String D3D11HLSLProgram::CmdTarget::get(const void *target) const
     {
         return static_cast<const D3D11HLSLProgram*>(target)->getTarget();
     }
-    void D3D11HLSLProgram::CmdTarget::doSet(void *target, const String& val)
+    void D3D11HLSLProgram::CmdTarget::set(void *target, const String& val)
     {
         static_cast<D3D11HLSLProgram*>(target)->setTarget(val);
     }
     //-----------------------------------------------------------------------
-    String D3D11HLSLProgram::CmdColumnMajorMatrices::doGet(const void *target) const
+    String D3D11HLSLProgram::CmdColumnMajorMatrices::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const D3D11HLSLProgram*>(target)->getColumnMajorMatrices());
     }
-    void D3D11HLSLProgram::CmdColumnMajorMatrices::doSet(void *target, const String& val)
+    void D3D11HLSLProgram::CmdColumnMajorMatrices::set(void *target, const String& val)
     {
         static_cast<D3D11HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String D3D11HLSLProgram::CmdEnableBackwardsCompatibility::doGet(const void *target) const
+    String D3D11HLSLProgram::CmdEnableBackwardsCompatibility::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const D3D11HLSLProgram*>(target)->getEnableBackwardsCompatibility());
     }
-    void D3D11HLSLProgram::CmdEnableBackwardsCompatibility::doSet(void *target, const String& val)
+    void D3D11HLSLProgram::CmdEnableBackwardsCompatibility::set(void *target, const String& val)
     {
         static_cast<D3D11HLSLProgram*>(target)->setEnableBackwardsCompatibility(StringConverter::parse_bool(val));
     }

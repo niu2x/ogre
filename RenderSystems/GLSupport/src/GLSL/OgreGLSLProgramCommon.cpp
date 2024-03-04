@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "OgreGLSLProgramCommon.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 #include <sstream>
 

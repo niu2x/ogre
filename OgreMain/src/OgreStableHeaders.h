@@ -104,7 +104,7 @@ extern "C" {
 #include "sphere.h"
 #include "string_converter.h"
 #include "string_util.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "string_vector.h"
 #include "OgreSubMesh.h"
 #include "OgreTechnique.h"

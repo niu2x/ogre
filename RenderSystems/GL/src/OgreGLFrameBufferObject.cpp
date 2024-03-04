@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGLFrameBufferObject.h"
 #include "OgreGLPixelFormat.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreRoot.h"
 #include "OgreGLHardwarePixelBuffer.h"
 #include "OgreGLFBORenderTexture.h"

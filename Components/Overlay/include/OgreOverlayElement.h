@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreOverlayPrerequisites.h"
 #include "OgreRenderable.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "colour_value.h"
 
 namespace Ogre {
@@ -173,7 +173,7 @@ namespace Ogre {
         call this to ask the base class to add it's parameters to their dictionary as well.
         Can't do this in the constructor because that runs in a non-virtual context.
         @par
-        The subclass must have called it's own createParamDictionary before calling this method.
+        The subclass must have called it's own create_param_dictionary before calling this method.
         */
         virtual void addBaseParameters(void);
 
@@ -457,7 +457,7 @@ namespace Ogre {
             return ll;
         }
 
-        virtual void copyFromTemplate(OverlayElement* templateOverlay) { templateOverlay->copyParametersTo(this); }
+        virtual void copyFromTemplate(OverlayElement* templateOverlay) { templateOverlay->copy_parameters_to(this); }
         virtual OverlayElement* clone(const String& instanceName);
     };
 

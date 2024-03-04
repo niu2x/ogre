@@ -124,7 +124,7 @@ public:
 
     /** Get the list of uniform parameters of this program.
     */
-    const UniformParameterList& getParameters() const { return mParameters; };
+    const UniformParameterList& parameters() const { return mParameters; };
 
     /// @deprecated use getMain()
     Function* getEntryPointFunction()                    { return mEntryPointFunction; }
@@ -195,7 +195,7 @@ private:
     void destroyParameters();
 
     /** Add parameter to this program. */
-    void addParameter(UniformParameterPtr parameter);
+    void add_parameter(UniformParameterPtr parameter);
         
     /** Remove parameter from this program. */
     void removeParameter(UniformParameterPtr parameter);

@@ -40,23 +40,23 @@ namespace Ogre {
     D3D9GpuProgram::CmdExternalMicrocode D3D9GpuProgram::msCmdExternalMicrocode;
 
    //-----------------------------------------------------------------------
-    String D3D9GpuProgram::CmdColumnMajorMatrices::doGet(const void *target) const
+    String D3D9GpuProgram::CmdColumnMajorMatrices::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const D3D9GpuProgram*>(target)->getColumnMajorMatrices());
     }
-    void D3D9GpuProgram::CmdColumnMajorMatrices::doSet(void *target, const String& val)
+    void D3D9GpuProgram::CmdColumnMajorMatrices::set(void *target, const String& val)
     {
         static_cast<D3D9GpuProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String D3D9GpuProgram::CmdExternalMicrocode::doGet(const void *target) const
+    String D3D9GpuProgram::CmdExternalMicrocode::get(const void *target) const
     {
         //D3D9GpuProgram* program=const_cast<D3D9GpuProgram*>(static_cast<const D3D9GpuProgram*>(target));
         //LPD3DXBUFFER ptr=program->getExternalMicrocode();
         //nothing to do
         return String();
     }
-    void D3D9GpuProgram::CmdExternalMicrocode::doSet(void *target, const String& val)
+    void D3D9GpuProgram::CmdExternalMicrocode::set(void *target, const String& val)
     {
         D3D9GpuProgram* program = const_cast<D3D9GpuProgram*>(static_cast<const D3D9GpuProgram*>(target));
         const void* buffer = val.data();
@@ -68,17 +68,17 @@ namespace Ogre {
         const String& group, bool isManual, ManualResourceLoader* loader) 
         : GpuProgram(creator, name, handle, group, isManual, loader), mExternalMicrocode(NULL), mColumnMajorMatrices(false)
     {           
-        if (createParamDictionary("D3D9GpuProgram"))
+        if (create_param_dictionary("D3D9GpuProgram"))
         {
             setupBaseParamDictionary();
 
-            ParamDictionary* dict = getParamDictionary();
-            dict->addParameter(ParameterDef("column_major_matrices", 
+            ParamDictionary* dict = param_dictionary();
+            dict->add_parameter(ParameterDef("column_major_matrices", 
                 "Whether matrix packing in column-major order.",
-                PT_BOOL),&msCmdColumnMajorMatrices);
-            dict->addParameter(ParameterDef("external_micro_code", 
+                ParameterType::BOOL),&msCmdColumnMajorMatrices);
+            dict->add_parameter(ParameterDef("external_micro_code", 
                 "the cached external micro code data.",
-                PT_STRING),&msCmdExternalMicrocode);
+                ParameterType::STRING),&msCmdExternalMicrocode);
         }
     }
 

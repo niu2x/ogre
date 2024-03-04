@@ -42,71 +42,71 @@ namespace Ogre {
         class _OgrePrivate CmdBorderSize : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying the Material for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderMaterial : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderLeftUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderTopUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderRightUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderBottomUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderTopLeftUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderBottomLeftUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderBottomRightUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for specifying texture coordinates for the border (see ParamCommand).*/
         class _OgrePrivate CmdBorderTopRightUV : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         // Command objects
         static CmdBorderSize msCmdBorderSize;
@@ -139,7 +139,7 @@ namespace Ogre {
     {   
         mBorderUV->u1 = mBorderUV->u2 = mBorderUV->v1 = mBorderUV->v2 = 0;
 
-        if (createParamDictionary("BorderPanelOverlayElement"))
+        if (create_param_dictionary("BorderPanelOverlayElement"))
         {
             addBaseParameters();
         }
@@ -266,56 +266,56 @@ namespace Ogre {
     void BorderPanelOverlayElement::addBaseParameters(void)
     {
         PanelOverlayElement::addBaseParameters();
-        ParamDictionary* dict = getParamDictionary();
+        ParamDictionary* dict = param_dictionary();
 
-        dict->addParameter(ParameterDef("border_size", 
+        dict->add_parameter(ParameterDef("border_size", 
             "The sizes of the borders relative to the screen size, in the order "
             "left, right, top, bottom."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderSize);
-        dict->addParameter(ParameterDef("border_material", 
+        dict->add_parameter(ParameterDef("border_material", 
             "The material to use for the border."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderMaterial);
-        dict->addParameter(ParameterDef("border_topleft_uv", 
+        dict->add_parameter(ParameterDef("border_topleft_uv", 
             "The texture coordinates for the top-left corner border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderTopLeftUV);
-        dict->addParameter(ParameterDef("border_topright_uv", 
+        dict->add_parameter(ParameterDef("border_topright_uv", 
             "The texture coordinates for the top-right corner border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderTopRightUV);
-        dict->addParameter(ParameterDef("border_bottomright_uv", 
+        dict->add_parameter(ParameterDef("border_bottomright_uv", 
             "The texture coordinates for the bottom-right corner border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderBottomRightUV);
-        dict->addParameter(ParameterDef("border_bottomleft_uv", 
+        dict->add_parameter(ParameterDef("border_bottomleft_uv", 
             "The texture coordinates for the bottom-left corner border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderBottomLeftUV);
-        dict->addParameter(ParameterDef("border_left_uv", 
+        dict->add_parameter(ParameterDef("border_left_uv", 
             "The texture coordinates for the left edge border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderLeftUV);
-        dict->addParameter(ParameterDef("border_top_uv", 
+        dict->add_parameter(ParameterDef("border_top_uv", 
             "The texture coordinates for the top edge border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderTopUV);
-        dict->addParameter(ParameterDef("border_right_uv", 
+        dict->add_parameter(ParameterDef("border_right_uv", 
             "The texture coordinates for the right edge border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderRightUV);
-        dict->addParameter(ParameterDef("border_bottom_uv", 
+        dict->add_parameter(ParameterDef("border_bottom_uv", 
             "The texture coordinates for the bottom edge border texture. 2 sets of uv values, "
             "one for the top-left corner, the other for the bottom-right corner."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdBorderBottomUV);
 
     }
@@ -736,7 +736,7 @@ namespace Ogre {
     // Command objects
     //---------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String CmdBorderSize::doGet(const void* target) const
+    String CmdBorderSize::get(const void* target) const
     {
         const BorderPanelOverlayElement* t = static_cast<const BorderPanelOverlayElement*>(target);
         return String(
@@ -745,7 +745,7 @@ namespace Ogre {
             StringConverter::to_string(t->getTopBorderSize()) + " " +
             StringConverter::to_string(t->getBottomBorderSize()) );
     }
-    void CmdBorderSize::doSet(void* target, const String& val)
+    void CmdBorderSize::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -757,24 +757,24 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderMaterial::doGet(const void* target) const
+    String CmdBorderMaterial::get(const void* target) const
     {
         // No need right now..
         return static_cast<const BorderPanelOverlayElement*>(target)->getBorderMaterialName();
     }
-    void CmdBorderMaterial::doSet(void* target, const String& val)
+    void CmdBorderMaterial::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
         static_cast<BorderPanelOverlayElement*>(target)->setBorderMaterialName(val);
     }
     //-----------------------------------------------------------------------
-    String CmdBorderBottomLeftUV::doGet(const void* target) const
+    String CmdBorderBottomLeftUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getBottomLeftBorderUVString();
     }
-    void CmdBorderBottomLeftUV::doSet(void* target, const String& val)
+    void CmdBorderBottomLeftUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -786,12 +786,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderBottomRightUV::doGet(const void* target) const
+    String CmdBorderBottomRightUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getBottomRightBorderUVString();
     }
-    void CmdBorderBottomRightUV::doSet(void* target, const String& val)
+    void CmdBorderBottomRightUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -803,12 +803,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderTopLeftUV::doGet(const void* target) const
+    String CmdBorderTopLeftUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getTopLeftBorderUVString();
     }
-    void CmdBorderTopLeftUV::doSet(void* target, const String& val)
+    void CmdBorderTopLeftUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -820,12 +820,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderTopRightUV::doGet(const void* target) const
+    String CmdBorderTopRightUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getTopRightBorderUVString();
     }
-    void CmdBorderTopRightUV::doSet(void* target, const String& val)
+    void CmdBorderTopRightUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -837,12 +837,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderLeftUV::doGet(const void* target) const
+    String CmdBorderLeftUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getLeftBorderUVString();
     }
-    void CmdBorderLeftUV::doSet(void* target, const String& val)
+    void CmdBorderLeftUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -854,12 +854,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderRightUV::doGet(const void* target) const
+    String CmdBorderRightUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getRightBorderUVString();
     }
-    void CmdBorderRightUV::doSet(void* target, const String& val)
+    void CmdBorderRightUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -871,12 +871,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderTopUV::doGet(const void* target) const
+    String CmdBorderTopUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getTopBorderUVString();
     }
-    void CmdBorderTopUV::doSet(void* target, const String& val)
+    void CmdBorderTopUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 
@@ -888,12 +888,12 @@ namespace Ogre {
             );
     }
     //-----------------------------------------------------------------------
-    String CmdBorderBottomUV::doGet(const void* target) const
+    String CmdBorderBottomUV::get(const void* target) const
     {
         // No need right now..
         return  static_cast<const BorderPanelOverlayElement*>(target)->getBottomBorderUVString();
     }
-    void CmdBorderBottomUV::doSet(void* target, const String& val)
+    void CmdBorderBottomUV::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 

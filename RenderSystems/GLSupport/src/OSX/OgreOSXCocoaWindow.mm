@@ -29,7 +29,7 @@ THE SOFTWARE.
 #import "OgreOSXCocoaWindow.h"
 #import "OgreRoot.h"
 #import "log_manager.h"
-#import "string_converter.h"
+#import "string_interface.h"
 
 #import "OgreGLRenderSystemCommon.h"
 #import "OgreGLNativeSupport.h"
@@ -549,7 +549,7 @@ namespace Ogre {
             bufferRect[2] = mWidth;     // width of buffer rect 
             bufferRect[3] = mHeight;    // height of buffer rect 
             CGLContextObj ctx = (CGLContextObj)[mGLContext CGLContextObj];
-            CGLSetParameter(ctx, kCGLCPSwapRectangle, bufferRect);
+            CGLset_parameter(ctx, kCGLCPSwapRectangle, bufferRect);
         }
         else
         {
@@ -693,7 +693,7 @@ namespace Ogre {
         bufferRect[2] = viewBounds.size.width;    // width of buffer rect 
         bufferRect[3] = viewBounds.size.height;   // height of buffer rect 
         CGLContextObj ctx = (CGLContextObj)[mGLContext CGLContextObj];
-        CGLSetParameter(ctx, kCGLCPSwapRectangle, bufferRect);
+        CGLset_parameter(ctx, kCGLCPSwapRectangle, bufferRect);
         
         mIsExternal = true;
     }
@@ -714,7 +714,7 @@ namespace Ogre {
                     backingRect = mainDisplayRect;
 
                 GLint backingStoreDimensions[2] = { static_cast<GLint>(backingRect.size.width), static_cast<GLint>(backingRect.size.height) };
-                CGLSetParameter((CGLContextObj)[mGLContext CGLContextObj], kCGLCPSurfaceBackingSize, backingStoreDimensions);
+                CGLset_parameter((CGLContextObj)[mGLContext CGLContextObj], kCGLCPSurfaceBackingSize, backingStoreDimensions);
                 CGLEnable((CGLContextObj)[mGLContext CGLContextObj], kCGLCESurfaceBackingSize);
 
                 NSRect windowRect = NSMakeRect(0.0, 0.0, mainDisplayRect.size.width, mainDisplayRect.size.height);
@@ -736,7 +736,7 @@ namespace Ogre {
             {
                 // Reset and disable the backing store in windowed mode
                 GLint backingStoreDimensions[2] = { 0, 0 };
-                CGLSetParameter((CGLContextObj)[mGLContext CGLContextObj], kCGLCPSurfaceBackingSize, backingStoreDimensions);
+                CGLset_parameter((CGLContextObj)[mGLContext CGLContextObj], kCGLCPSurfaceBackingSize, backingStoreDimensions);
                 CGLDisable((CGLContextObj)[mGLContext CGLContextObj], kCGLCESurfaceBackingSize);
 
                 NSRect viewRect = NSMakeRect(mWindowOriginPt.x, mWindowOriginPt.y, widthPt, heightPt);

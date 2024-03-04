@@ -154,7 +154,7 @@ void IntegratedPSSM3::setSplitPoints(const SplitPointList& newSplitPoints)
     }
 }
 
-bool IntegratedPSSM3::setParameter(const String& name, const String& value)
+bool IntegratedPSSM3::set_parameter(const String& name, const String& value)
 {
     if(name == "debug")
     {
@@ -180,7 +180,7 @@ bool IntegratedPSSM3::setParameter(const String& name, const String& value)
     return false;
 }
 
-void IntegratedPSSM3::setParameter(const String& name, const Any& value)
+void IntegratedPSSM3::set_parameter(const String& name, const Any& value)
 {
     if(name == "split_points")
     {
@@ -193,7 +193,7 @@ void IntegratedPSSM3::setParameter(const String& name, const Any& value)
         return;
     }
 
-    SubRenderState::setParameter(name, value);
+    SubRenderState::set_parameter(name, value);
 }
 
 //-----------------------------------------------------------------------
@@ -372,7 +372,7 @@ SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
         {
             IntegratedPSSM3::SplitPointList splitPointList;
             if(SGScriptTranslator::getVector(it, itEnd, splitPointList, 4))
-                subRenderState->setParameter("split_points", splitPointList);
+                subRenderState->set_parameter("split_points", splitPointList);
 
             std::advance(it, 4);
         }
@@ -382,11 +382,11 @@ SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
             const auto& val = (*it)->getString();
             if(val == "debug")
             {
-                subRenderState->setParameter("debug", "true");
+                subRenderState->set_parameter("debug", "true");
             }
             else if(val == "pcf16")
             {
-                subRenderState->setParameter("filter", "pcf16");
+                subRenderState->set_parameter("filter", "pcf16");
             }
         }
 
@@ -403,7 +403,7 @@ SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
             String paramName = (*it)->getString();
             String paramValue = (*++it)->getString();
 
-            if (!subRenderState->setParameter(paramName, paramValue))
+            if (!subRenderState->set_parameter(paramName, paramValue))
             {
                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, paramName);
                 return subRenderState;

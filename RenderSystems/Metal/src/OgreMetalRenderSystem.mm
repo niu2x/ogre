@@ -318,10 +318,10 @@ namespace Ogre
             mDefaultVP = GpuProgramManager::getSingleton().createProgram("MetalDefaultVP", RGN_INTERNAL, "metal", GPT_VERTEX_PROGRAM).get();
             mDefaultFP = GpuProgramManager::getSingleton().createProgram("MetalDefaultFP", RGN_INTERNAL, "metal", GPT_FRAGMENT_PROGRAM).get();
             mDefaultVP->setSourceFile("DefaultShaders.metal");
-            mDefaultVP->setParameter("entry_point", "default_vp");
+            mDefaultVP->set_parameter("entry_point", "default_vp");
             mDefaultFP->setSourceFile("DefaultShaders.metal");
-            mDefaultFP->setParameter("entry_point", "default_fp");
-            mDefaultFP->setParameter("shader_reflection_pair_hint", "MetalDefaultVP");
+            mDefaultFP->set_parameter("entry_point", "default_fp");
+            mDefaultFP->set_parameter("shader_reflection_pair_hint", "MetalDefaultVP");
         }
 
         RenderWindow *win = OGRE_NEW MetalRenderWindow( &mDevice, this );

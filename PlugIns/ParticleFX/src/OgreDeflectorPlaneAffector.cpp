@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreDeflectorPlaneAffector.h"
 #include "OgreParticleSystem.h"
 #include "OgreParticle.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 
 namespace Ogre {
@@ -45,20 +45,20 @@ namespace Ogre {
         mType = "DeflectorPlane";
 
         // Set up parameters
-        if (createParamDictionary("DeflectorPlaneAffector"))
+        if (create_param_dictionary("DeflectorPlaneAffector"))
         {
             addBaseParameters();
             // Add extra parameters
-            ParamDictionary* dict = getParamDictionary();
-            dict->addParameter(ParameterDef("plane_point",
+            ParamDictionary* dict = param_dictionary();
+            dict->add_parameter(ParameterDef("plane_point",
                 "A point on the deflector plane. Together with the normal vector it defines the plane.",
-                PT_VECTOR3), &msPlanePointCmd);
-            dict->addParameter(ParameterDef("plane_normal",
+                ParameterType::VECTOR3), &msPlanePointCmd);
+            dict->add_parameter(ParameterDef("plane_normal",
                 "The normal vector of the deflector plane. Together with the point it defines the plane.",
-                PT_VECTOR3), &msPlaneNormalCmd);
-            dict->addParameter(ParameterDef("bounce",
+                ParameterType::VECTOR3), &msPlaneNormalCmd);
+            dict->add_parameter(ParameterDef("bounce",
                 "The amount of bouncing when a particle is deflected. 0 means no deflection and 1 stands for 100 percent reflection.",
-                PT_REAL), &msBounceCmd);
+                ParameterType::REAL), &msBounceCmd);
         }
     }
     //-----------------------------------------------------------------------
@@ -124,35 +124,35 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String DeflectorPlaneAffector::CmdPlanePoint::doGet(const void* target) const
+    String DeflectorPlaneAffector::CmdPlanePoint::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const DeflectorPlaneAffector*>(target)->getPlanePoint() );
     }
-    void DeflectorPlaneAffector::CmdPlanePoint::doSet(void* target, const String& val)
+    void DeflectorPlaneAffector::CmdPlanePoint::set(void* target, const String& val)
     {
         static_cast<DeflectorPlaneAffector*>(target)->setPlanePoint(
             StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
-    String DeflectorPlaneAffector::CmdPlaneNormal::doGet(const void* target) const
+    String DeflectorPlaneAffector::CmdPlaneNormal::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const DeflectorPlaneAffector*>(target)->getPlaneNormal() );
     }
-    void DeflectorPlaneAffector::CmdPlaneNormal::doSet(void* target, const String& val)
+    void DeflectorPlaneAffector::CmdPlaneNormal::set(void* target, const String& val)
     {
         static_cast<DeflectorPlaneAffector*>(target)->setPlaneNormal(
             StringConverter::parse_vector3(val));
     }
     //-----------------------------------------------------------------------
-    String DeflectorPlaneAffector::CmdBounce::doGet(const void* target) const
+    String DeflectorPlaneAffector::CmdBounce::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const DeflectorPlaneAffector*>(target)->getBounce() );
 
     }
-    void DeflectorPlaneAffector::CmdBounce::doSet(void* target, const String& val)
+    void DeflectorPlaneAffector::CmdBounce::set(void* target, const String& val)
     {
         static_cast<DeflectorPlaneAffector*>(target)->setBounce(
             StringConverter::parse_real(val));

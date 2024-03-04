@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreVulkanUtils.h"
 
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanMappings.h"
 

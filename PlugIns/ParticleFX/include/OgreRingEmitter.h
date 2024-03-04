@@ -58,15 +58,15 @@ namespace Ogre {
         class CmdInnerX : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
         /** Command object for inner size (see ParamCommand).*/
         class CmdInnerY : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         RingEmitter(ParticleSystem* psys);

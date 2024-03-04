@@ -1785,7 +1785,7 @@ namespace Ogre
             // check program type for vertex program
             // write program type
             mGpuProgramBuffer += "\n";
-            writeAttribute(0, program->getParameter("type"), false);
+            writeAttribute(0, program->parameter("type"), false);
 
             // write program name
             writeValue( quoteWord(program->getName()), false);
@@ -1799,14 +1799,14 @@ namespace Ogre
                 writeAttribute(1, "source", false);
                 writeValue(quoteWord(program->getSourceFile()), false);
                 // write special parameters based on language
-                for (const auto& name : program->getParameters())
+                for (const auto& name : program->parameters())
                 {
                     if (name != "type" &&
                         name != "assemble_code" &&
                         name != "micro_code" &&
                         name != "external_micro_code")
                     {
-                        String paramstr = program->getParameter(name);
+                        String paramstr = program->parameter(name);
                         if ((name == "includes_skeletal_animation") && (paramstr == "false"))
                             paramstr.clear();
                         if ((name == "includes_morph_animation") && (paramstr == "false"))

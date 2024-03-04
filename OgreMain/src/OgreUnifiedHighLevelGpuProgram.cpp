@@ -36,8 +36,8 @@ namespace Ogre
     class CmdDelegate : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     static CmdDelegate msCmdDelegate;
     static const String sLanguage = "unified";
@@ -49,15 +49,15 @@ namespace Ogre
         const String& group, bool isManual, ManualResourceLoader* loader)
         :GpuProgram(creator, name, handle, group, isManual, loader)
     {
-        if (createParamDictionary("UnifiedHighLevelGpuProgram"))
+        if (create_param_dictionary("UnifiedHighLevelGpuProgram"))
         {
             setupBaseParamDictionary();
 
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("delegate", 
+            dict->add_parameter(ParameterDef("delegate", 
                 "Additional delegate programs containing implementations.",
-                PT_STRING),&msCmdDelegate);
+                ParameterType::STRING),&msCmdDelegate);
         }
 
     }
@@ -392,13 +392,13 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String CmdDelegate::doGet(const void* target) const
+    String CmdDelegate::get(const void* target) const
     {
         // Can't do this (not one delegate), shouldn't matter
         return BLANKSTRING;
     }
     //-----------------------------------------------------------------------
-    void CmdDelegate::doSet(void* target, const String& val)
+    void CmdDelegate::set(void* target, const String& val)
     {
         static_cast<UnifiedHighLevelGpuProgram*>(target)->addDelegateProgram(val);
     }

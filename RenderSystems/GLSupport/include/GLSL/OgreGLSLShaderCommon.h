@@ -60,15 +60,15 @@ namespace Ogre {
         class CmdAttach : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& shaderNames) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& shaderNames) override;
         };
         /// Command object for setting matrix packing in column-major order
         class CmdColumnMajorMatrices : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         GLSLShaderCommon(ResourceManager* creator,

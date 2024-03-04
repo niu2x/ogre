@@ -174,7 +174,7 @@ void DeferredShadingSystem::createResources(void)
     RTShader::RenderState* schemRenderState = rtShaderGen.getRenderState("GBuffer");
     schemRenderState->setLightCountAutoUpdate(false); // does not use lights
     auto subRenderState = rtShaderGen.createSubRenderState(RTShader::SRS_GBUFFER);
-    subRenderState->setParameter("target_buffers", StringVector{"diffuse_specular", "normal_viewdepth"});
+    subRenderState->set_parameter("target_buffers", StringVector{"diffuse_specular", "normal_viewdepth"});
     schemRenderState->addTemplateSubRenderState(subRenderState);
 
     mCompositorLogics["SSAOLogic"] = new SSAOLogic;

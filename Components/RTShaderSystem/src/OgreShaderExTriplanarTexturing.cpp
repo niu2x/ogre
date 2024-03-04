@@ -179,7 +179,7 @@ namespace RTShader {
         mPSTPParams->setGpuParameter(mParameters);
     }
 
-    void TriplanarTexturing::setParameter(const String& name, const Any& value)
+    void TriplanarTexturing::set_parameter(const String& name, const Any& value)
     {
         if (name == "parameters")
         {
@@ -197,7 +197,7 @@ namespace RTShader {
                 return;
             }
         }
-        SubRenderState::setParameter(name, value);
+        SubRenderState::set_parameter(name, value);
     }
 
     //-----------------------------------------------------------------------
@@ -235,14 +235,14 @@ namespace RTShader {
                 }
                 ++it;
                 Vector3 vParameters(parameters[0], parameters[1], parameters[2]);
-                tpSubRenderState->setParameter("parameters", vParameters);
+                tpSubRenderState->set_parameter("parameters", vParameters);
 
                 StringVector textureNames = {(*it++)->getString(), (*it++)->getString(), (*it++)->getString()};
 
                 if(textureNames[0].empty() || textureNames[1].empty() || textureNames[2].empty())
                     return NULL;
 
-                tpSubRenderState->setParameter("texture_names", textureNames);
+                tpSubRenderState->set_parameter("texture_names", textureNames);
 
                 return subRenderState;
             }

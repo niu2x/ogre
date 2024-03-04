@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreColourImageAffector.h"
 #include "OgreParticleSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 #include "exception.h"
 #include "OgreResourceGroupManager.h"
@@ -44,11 +44,11 @@ namespace Ogre {
         mType = "ColourImage";
 
         // Init parameters
-        if (createParamDictionary("ColourImageAffector"))
+        if (create_param_dictionary("ColourImageAffector"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("image", "image where the colours come from", PT_STRING), &msImageCmd);
+            dict->add_parameter(ParameterDef("image", "image where the colours come from", ParameterType::STRING), &msImageCmd);
         }
     }
     //-----------------------------------------------------------------------
@@ -140,11 +140,11 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String ColourImageAffector::CmdImageAdjust::doGet(const void* target) const
+    String ColourImageAffector::CmdImageAdjust::get(const void* target) const
     {
         return static_cast<const ColourImageAffector*>(target)->getImageAdjust();
     }
-    void ColourImageAffector::CmdImageAdjust::doSet(void* target, const String& val)
+    void ColourImageAffector::CmdImageAdjust::set(void* target, const String& val)
     {
         static_cast<ColourImageAffector*>(target)->setImageAdjust(val);
     }

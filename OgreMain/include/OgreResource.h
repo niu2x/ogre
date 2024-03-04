@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _Resource_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "OgreHeaderPrefix.h"
 #include "threading/thread_header.h"
 

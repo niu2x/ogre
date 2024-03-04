@@ -41,14 +41,14 @@ const String& PerPixelLighting::getType() const
     return SRS_PER_PIXEL_LIGHTING;
 }
 
-bool PerPixelLighting::setParameter(const String& name, const String& value)
+bool PerPixelLighting::set_parameter(const String& name, const String& value)
 {
 	if(name == "two_sided")
 	{
 		return StringConverter::parse(value, mTwoSidedLighting);
 	}
 
-	return FFPLighting::setParameter(name, value);
+	return FFPLighting::set_parameter(name, value);
 }
 
 //-----------------------------------------------------------------------
@@ -319,7 +319,7 @@ SubRenderState* PerPixelLightingFactory::createInstance(ScriptCompiler* compiler
     while(it != prop->values.end())
     {
         const String& val = (*it++)->getString();
-        if (!ret->setParameter(val, "true"))
+        if (!ret->set_parameter(val, "true"))
             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, val);
     }
 

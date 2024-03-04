@@ -168,7 +168,7 @@ protected:
 
 
         auto srs = mShaderGenerator->createSubRenderState(RTShader::SRS_SHADOW_MAPPING);
-        srs->setParameter("light_count", "2");
+        srs->set_parameter("light_count", "2");
         renderState->addTemplateSubRenderState(srs);
 
         // set shadow properties

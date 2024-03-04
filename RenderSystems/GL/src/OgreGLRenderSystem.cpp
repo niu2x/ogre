@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreGLRenderSystem.h"
 #include "OgreGLNativeSupport.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreFrustum.h"
 #include "OgreGLTextureManager.h"
 #include "OgreGLHardwareBuffer.h"

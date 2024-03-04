@@ -2879,8 +2879,8 @@ namespace Ogre {
             ogreProgramType);
 
         ogreProgram->setSource(source);
-        ogreProgram->setParameter("entry_point", entry);
-        ogreProgram->setParameter("profiles", profile);
+        ogreProgram->set_parameter("entry_point", entry);
+        ogreProgram->set_parameter("profiles", profile);
 
         //ogreProgram->load();
         if (ogreProgram->isSupported())

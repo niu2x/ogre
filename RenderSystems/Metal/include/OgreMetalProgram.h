@@ -60,8 +60,8 @@ namespace Ogre
         class CmdShaderReflectionPairHint : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
 
         MetalProgram( ResourceManager* creator, const String& name, ResourceHandle handle,

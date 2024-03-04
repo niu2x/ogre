@@ -51,7 +51,7 @@ namespace Ogre {
         mNextAutoHandle(0), mBlendState(ANIMBLEND_AVERAGE)
         // set animation blending to weighted, not cumulative
     {
-        if (createParamDictionary("Skeleton"))
+        if (create_param_dictionary("Skeleton"))
         {
             // no custom params
         }

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreD3D9HardwarePixelBuffer.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "bitwise.h"
 #include "OgreD3D9Mappings.h"
 #include "OgreD3D9RenderSystem.h"

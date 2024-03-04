@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9HLSLProgram.h"
 #include "OgreGpuProgramManager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreD3D9GpuProgram.h"
 #include "log_manager.h"
 
@@ -359,7 +359,7 @@ namespace Ogre {
         else
         {
             // Process params
-            if (desc.Type == D3DXPT_FLOAT || desc.Type == D3DXPT_INT || desc.Type == D3DXPT_BOOL)
+            if (desc.Type == D3DXPT_FLOAT || desc.Type == D3DXParameterType::INT || desc.Type == D3DXParameterType::BOOL)
             {
                 size_t paramIndex = desc.RegisterIndex;
                 String name = prefix + paramName;
@@ -392,7 +392,7 @@ namespace Ogre {
         def.arraySize = d3dDesc.Elements;
         switch(d3dDesc.Type)
         {
-        case D3DXPT_INT:
+        case D3DXParameterType::INT:
             switch(d3dDesc.Columns)
             {
             case 1:
@@ -528,29 +528,29 @@ namespace Ogre {
         , mOptimisationLevel(OPT_DEFAULT)
         , mParametersMapSizeAsBuffer(0)
     {
-        if (createParamDictionary("D3D9HLSLProgram"))
+        if (create_param_dictionary("D3D9HLSLProgram"))
         {
             setupBaseParamDictionary();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("target", 
+            dict->add_parameter(ParameterDef("target", 
                 "Name of the assembler target to compile down to.",
-                PT_STRING),&msCmdTarget);
-            dict->addParameter(ParameterDef("column_major_matrices", 
+                ParameterType::STRING),&msCmdTarget);
+            dict->add_parameter(ParameterDef("column_major_matrices", 
                 "Whether matrix packing in column-major order.",
-                PT_BOOL),&msCmdColumnMajorMatrices);
-            dict->addParameter(ParameterDef("optimisation_level", 
+                ParameterType::BOOL),&msCmdColumnMajorMatrices);
+            dict->add_parameter(ParameterDef("optimisation_level", 
                 "The optimisation level to use.",
-                PT_STRING),&msCmdOptimisation);
-            dict->addParameter(ParameterDef("micro_code", 
+                ParameterType::STRING),&msCmdOptimisation);
+            dict->add_parameter(ParameterDef("micro_code", 
                 "the micro code.",
-                PT_STRING),&msCmdMicrocode);
-            dict->addParameter(ParameterDef("assemble_code", 
+                ParameterType::STRING),&msCmdMicrocode);
+            dict->add_parameter(ParameterDef("assemble_code", 
                 "the assemble code.",
-                PT_STRING),&msCmdAssemblerCode);
-            dict->addParameter(ParameterDef("backwards_compatibility",
+                ParameterType::STRING),&msCmdAssemblerCode);
+            dict->add_parameter(ParameterDef("backwards_compatibility",
                 "Enable backwards compatibility mode.",
-                PT_BOOL),&msCmdBackwardsCompatibility);
+                ParameterType::BOOL),&msCmdBackwardsCompatibility);
         }
         
     }
@@ -607,34 +607,34 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String D3D9HLSLProgram::CmdTarget::doGet(const void *target) const
+    String D3D9HLSLProgram::CmdTarget::get(const void *target) const
     {
         return static_cast<const D3D9HLSLProgram*>(target)->getTarget();
     }
-    void D3D9HLSLProgram::CmdTarget::doSet(void *target, const String& val)
+    void D3D9HLSLProgram::CmdTarget::set(void *target, const String& val)
     {
         static_cast<D3D9HLSLProgram*>(target)->setTarget(val);
     }
     //-----------------------------------------------------------------------
-    String D3D9HLSLProgram::CmdColumnMajorMatrices::doGet(const void *target) const
+    String D3D9HLSLProgram::CmdColumnMajorMatrices::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const D3D9HLSLProgram*>(target)->getColumnMajorMatrices());
     }
-    void D3D9HLSLProgram::CmdColumnMajorMatrices::doSet(void *target, const String& val)
+    void D3D9HLSLProgram::CmdColumnMajorMatrices::set(void *target, const String& val)
     {
         static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String D3D9HLSLProgram::CmdBackwardsCompatibility::doGet(const void *target) const
+    String D3D9HLSLProgram::CmdBackwardsCompatibility::get(const void *target) const
     {
         return StringConverter::to_string(static_cast<const D3D9HLSLProgram*>(target)->getBackwardsCompatibility());
     }
-    void D3D9HLSLProgram::CmdBackwardsCompatibility::doSet(void *target, const String& val)
+    void D3D9HLSLProgram::CmdBackwardsCompatibility::set(void *target, const String& val)
     {
         static_cast<D3D9HLSLProgram*>(target)->setBackwardsCompatibility(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String D3D9HLSLProgram::CmdOptimisation::doGet(const void *target) const
+    String D3D9HLSLProgram::CmdOptimisation::get(const void *target) const
     {
         switch(static_cast<const D3D9HLSLProgram*>(target)->getOptimisationLevel())
         {
@@ -653,7 +653,7 @@ namespace Ogre {
             return "3";
         }
     }
-    void D3D9HLSLProgram::CmdOptimisation::doSet(void *target, const String& val)
+    void D3D9HLSLProgram::CmdOptimisation::set(void *target, const String& val)
     {
         if (StringUtil::starts_with(val, "default", true))
             static_cast<D3D9HLSLProgram*>(target)->setOptimisationLevel(OPT_DEFAULT);
@@ -670,7 +670,7 @@ namespace Ogre {
     }
 
     //-----------------------------------------------------------------------
-    String D3D9HLSLProgram::CmdMicrocode::doGet(const void *target) const
+    String D3D9HLSLProgram::CmdMicrocode::get(const void *target) const
     {
         D3D9HLSLProgram* program=const_cast<D3D9HLSLProgram*>(static_cast<const D3D9HLSLProgram*>(target));
         LPD3DXBUFFER buffer=program->getMicroCode();
@@ -687,13 +687,13 @@ namespace Ogre {
             return String();
         }
     }
-    void D3D9HLSLProgram::CmdMicrocode::doSet(void *target, const String& val)
+    void D3D9HLSLProgram::CmdMicrocode::set(void *target, const String& val)
     {
         //nothing to do 
         //static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String D3D9HLSLProgram::CmdAssemblerCode::doGet(const void *target) const
+    String D3D9HLSLProgram::CmdAssemblerCode::get(const void *target) const
     {
         D3D9HLSLProgram* program=const_cast<D3D9HLSLProgram*>(static_cast<const D3D9HLSLProgram*>(target));
         LPD3DXBUFFER buffer=program->getMicroCode();
@@ -718,7 +718,7 @@ namespace Ogre {
             return String();
         }
     }
-    void D3D9HLSLProgram::CmdAssemblerCode::doSet(void *target, const String& val)
+    void D3D9HLSLProgram::CmdAssemblerCode::set(void *target, const String& val)
     {
         //nothing to do 
         //static_cast<D3D9HLSLProgram*>(target)->setColumnMajorMatrices(StringConverter::parse_bool(val));

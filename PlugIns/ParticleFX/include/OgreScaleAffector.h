@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 
 namespace Ogre {
     /** \addtogroup Plugins
@@ -50,8 +50,8 @@ namespace Ogre {
         class CmdScaleAdjust : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Default constructor. */

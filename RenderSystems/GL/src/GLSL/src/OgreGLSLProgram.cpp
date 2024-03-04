@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
 #include "OgreRenderSystemCapabilities.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
@@ -128,12 +128,12 @@ namespace Ogre {
     class CmdInputOperationType : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override
+        String get(const void* target) const override
         {
             const GLSLProgram* t = static_cast<const GLSLProgram*>(target);
             return operationTypeToString(t->getInputOperationType());
         }
-        void doSet(void* target, const String& val) override
+        void set(void* target, const String& val) override
         {
             GLSLProgram* t = static_cast<GLSLProgram*>(target);
             t->setInputOperationType(parseOperationType(val));
@@ -143,12 +143,12 @@ namespace Ogre {
     class CmdOutputOperationType : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override
+        String get(const void* target) const override
         {
             const GLSLProgram* t = static_cast<const GLSLProgram*>(target);
             return operationTypeToString(t->getOutputOperationType());
         }
-        void doSet(void* target, const String& val) override
+        void set(void* target, const String& val) override
         {
             GLSLProgram* t = static_cast<GLSLProgram*>(target);
             t->setOutputOperationType(parseOperationType(val));
@@ -158,12 +158,12 @@ namespace Ogre {
     class CmdMaxOutputVertices : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override
+        String get(const void* target) const override
         {
             const GLSLProgram* t = static_cast<const GLSLProgram*>(target);
             return StringConverter::to_string(t->getMaxOutputVertices());
         }
-        void doSet(void* target, const String& val) override
+        void set(void* target, const String& val) override
         {
             GLSLProgram* t = static_cast<GLSLProgram*>(target);
             t->setMaxOutputVertices(StringConverter::parse_int32(val));
@@ -279,33 +279,33 @@ namespace Ogre {
         , mMaxOutputVertices(3)
     {
         // add parameter command "attach" to the material serializer dictionary
-        if (createParamDictionary("GLSLProgram"))
+        if (create_param_dictionary("GLSLProgram"))
         {
             setupBaseParamDictionary();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("attach", 
+            dict->add_parameter(ParameterDef("attach", 
                 "name of another GLSL program needed by this program",
-                PT_STRING),&msCmdAttach);
-            dict->addParameter(ParameterDef("column_major_matrices", 
+                ParameterType::STRING),&msCmdAttach);
+            dict->add_parameter(ParameterDef("column_major_matrices", 
                 "Whether matrix packing in column-major order.",
-                PT_BOOL),&msCmdColumnMajorMatrices);
-            dict->addParameter(
+                ParameterType::BOOL),&msCmdColumnMajorMatrices);
+            dict->add_parameter(
                 ParameterDef("input_operation_type",
                 "The input operation type for this geometry program. \
                 Can be 'point_list', 'line_list', 'line_strip', 'triangle_list', \
-                'triangle_strip' or 'triangle_fan'", PT_STRING),
+                'triangle_strip' or 'triangle_fan'", ParameterType::STRING),
                 &msInputOperationTypeCmd);
-            dict->addParameter(
+            dict->add_parameter(
                 ParameterDef("output_operation_type",
                 "The input operation type for this geometry program. \
                 Can be 'point_list', 'line_strip' or 'triangle_strip'",
-                 PT_STRING),
+                 ParameterType::STRING),
                  &msOutputOperationTypeCmd);
-            dict->addParameter(
+            dict->add_parameter(
                 ParameterDef("max_output_vertices", 
                 "The maximum number of vertices a single run of this geometry program can output",
-                PT_INT),&msMaxOutputVerticesCmd);
+                ParameterType::INT),&msMaxOutputVerticesCmd);
         }
         mPassFFPStates = Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_FIXED_FUNCTION);
     }

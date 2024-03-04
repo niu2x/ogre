@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreOverlayContainer.h"
 #include "OgreOverlayElement.h"
 #include "OgreOverlay.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 namespace Ogre
 {
@@ -263,16 +263,16 @@ namespace Ogre
         container->setMaterialName("Core/StatsBlockCenter");
         container->setHeight(mGuiHeight);
         container->setWidth(mGuiWidth * 2 + 15);
-        container->setParameter("border_size", "1 1 1 1");
-        container->setParameter("border_material", "Core/StatsBlockBorder");
-        container->setParameter("border_topleft_uv", "0.0000 1.0000 0.0039 0.9961");
-        container->setParameter("border_top_uv", "0.0039 1.0000 0.9961 0.9961");
-        container->setParameter("border_topright_uv", "0.9961 1.0000 1.0000 0.9961");
-        container->setParameter("border_left_uv","0.0000 0.9961 0.0039 0.0039");
-        container->setParameter("border_right_uv","0.9961 0.9961 1.0000 0.0039");
-        container->setParameter("border_bottomleft_uv","0.0000 0.0039 0.0039 0.0000");
-        container->setParameter("border_bottom_uv","0.0039 0.0039 0.9961 0.0000");
-        container->setParameter("border_bottomright_uv","0.9961 0.0039 1.0000 0.0000");
+        container->set_parameter("border_size", "1 1 1 1");
+        container->set_parameter("border_material", "Core/StatsBlockBorder");
+        container->set_parameter("border_topleft_uv", "0.0000 1.0000 0.0039 0.9961");
+        container->set_parameter("border_top_uv", "0.0039 1.0000 0.9961 0.9961");
+        container->set_parameter("border_topright_uv", "0.9961 1.0000 1.0000 0.9961");
+        container->set_parameter("border_left_uv","0.0000 0.9961 0.0039 0.0039");
+        container->set_parameter("border_right_uv","0.9961 0.9961 1.0000 0.0039");
+        container->set_parameter("border_bottomleft_uv","0.0000 0.0039 0.0039 0.0000");
+        container->set_parameter("border_bottom_uv","0.0039 0.0039 0.9961 0.0000");
+        container->set_parameter("border_bottomright_uv","0.9961 0.0039 1.0000 0.0000");
         container->setLeft(5);
         container->setTop(5);
 
@@ -288,11 +288,11 @@ namespace Ogre
         textArea->setHeight(height);
         textArea->setTop(top);
         textArea->setLeft(left);
-        textArea->setParameter("font_name", "SdkTrays/Value");
-        textArea->setParameter("char_height", StringConverter::to_string(fontSize));
+        textArea->set_parameter("font_name", "SdkTrays/Value");
+        textArea->set_parameter("char_height", StringConverter::to_string(fontSize));
         textArea->setCaption(caption);
-        textArea->setParameter("colour_top", "1 1 1");
-        textArea->setParameter("colour_bottom", "1 1 1");
+        textArea->set_parameter("colour_top", "1 1 1");
+        textArea->set_parameter("colour_bottom", "1 1 1");
 
         if (show) {
             textArea->show();

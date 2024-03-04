@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreOverlay.h"
 #include "OgreResourceGroupManager.h"
 #include "OgreOverlayElementFactory.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreOverlayTranslator.h"
 
 namespace Ogre {

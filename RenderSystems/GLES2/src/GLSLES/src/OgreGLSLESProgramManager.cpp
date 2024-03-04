@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreGLSLESProgramManager.h"
 #include "OgreGLSLESProgram.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreGLSLESProgram.h"
@@ -150,7 +150,7 @@ namespace Ogre {
             else
             {
                 LogManager::getSingleton().log_message("Error from GLSL Optimiser, disabling optimisation for program: " + gpuProgram->getName());
-                gpuProgram->getGLSLProgram()->setParameter("use_optimiser", "false");
+                gpuProgram->getGLSLProgram()->set_parameter("use_optimiser", "false");
                 //LogManager::getSingleton().log_message(String(glslopt_get_log(shader)));
                 //LogManager::getSingleton().log_message("Original Shader");
                 //LogManager::getSingleton().log_message(gpuProgram->getGLSLProgram()->getSource());

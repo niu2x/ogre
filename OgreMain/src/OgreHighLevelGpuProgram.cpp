@@ -36,11 +36,11 @@ namespace Ogre
     {
     public:
         //-----------------------------------------------------------------------
-        String doGet(const void* target) const override
+        String get(const void* target) const override
         {
             return static_cast<const HighLevelGpuProgram*>(target)->getPreprocessorDefines();
         }
-        void doSet(void* target, const String& val) override
+        void set(void* target, const String& val) override
         {
             static_cast<HighLevelGpuProgram*>(target)->setPreprocessorDefines(val);
         }
@@ -51,21 +51,21 @@ namespace Ogre
     class CmdEntryPoint : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override
+        String get(const void* target) const override
         {
             return static_cast<const HighLevelGpuProgram*>(target)->getEntryPoint();
         }
-        void doSet(void* target, const String& val) override { static_cast<HighLevelGpuProgram*>(target)->setEntryPoint(val); }
+        void set(void* target, const String& val) override { static_cast<HighLevelGpuProgram*>(target)->setEntryPoint(val); }
     };
     static CmdEntryPoint msCmdEntryPoint;
 
     void HighLevelGpuProgram::setupBaseParamDictionary()
     {
         GpuProgram::setupBaseParamDictionary();
-        ParamDictionary* dict = getParamDictionary();
+        ParamDictionary* dict = param_dictionary();
 
-        dict->addParameter("preprocessor_defines", &msCmdPreprocessorDefines);
-        dict->addParameter("entry_point", &msCmdEntryPoint);
+        dict->add_parameter("preprocessor_defines", &msCmdPreprocessorDefines);
+        dict->add_parameter("entry_point", &msCmdEntryPoint);
     }
 
     //---------------------------------------------------------------------------

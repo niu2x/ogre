@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #import "exception.h"
 #import "log_manager.h"
-#import "string_converter.h"
+#import "string_interface.h"
 #import "OgreRoot.h"
 
 #import "OgreGLNativeSupport.h"

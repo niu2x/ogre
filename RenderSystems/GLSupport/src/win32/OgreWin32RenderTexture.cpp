@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreRenderSystem.h"
 #include "OgreImageCodec.h"
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreWin32RenderTexture.h"
 #include "OgreWin32GLSupport.h"
 #include "OgreWin32Context.h"

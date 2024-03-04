@@ -1038,7 +1038,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
         auto rs = shaderGen->getRenderState(MSN_SHADERGEN, *omat, 0);
         auto srs = shaderGen->createSubRenderState("NormalMap");
 
-        srs->setParameter("texture_index", std::to_string(texureIdx));
+        srs->set_parameter("texture_index", std::to_string(texureIdx));
         rs->addTemplateSubRenderState(srs);
     }
 
@@ -1053,11 +1053,11 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
         auto rs = shaderGen->getRenderState(MSN_SHADERGEN, *omat, 0);
         auto srs = shaderGen->createSubRenderState("CookTorranceLighting");
 
-        srs->setParameter("texture", basename);
+        srs->set_parameter("texture", basename);
         rs->addTemplateSubRenderState(srs);
 
         srs = shaderGen->createSubRenderState("FFP_Texturing");
-        srs->setParameter("late_add_blend", "true");
+        srs->set_parameter("late_add_blend", "true");
         rs->addTemplateSubRenderState(srs);
     }
 #endif

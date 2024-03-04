@@ -41,78 +41,78 @@ namespace Ogre {
     class _OgrePrivate CmdQuota : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for emittedEmitterQuota (see ParamCommand).*/
     class _OgrePrivate CmdEmittedEmitterQuota : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for material (see ParamCommand).*/
     class _OgrePrivate CmdMaterial : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for cull_each (see ParamCommand).*/
     class _OgrePrivate CmdCull : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for particle_width (see ParamCommand).*/
     class _OgrePrivate CmdWidth : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for particle_height (see ParamCommand).*/
     class _OgrePrivate CmdHeight : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for renderer (see ParamCommand).*/
     class _OgrePrivate CmdRenderer : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for sorting (see ParamCommand).*/
     class CmdSorted : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for local space (see ParamCommand).*/
     class CmdLocalSpace : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for iteration interval(see ParamCommand).*/
     class CmdIterationInterval : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for nonvisible timeout (see ParamCommand).*/
     class CmdNonvisibleTimeout : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /// Command objects
     static CmdCull msCullCmd;
@@ -337,14 +337,14 @@ namespace Ogre {
         {
             ParticleEmitter* rhsEm = rhs.getEmitter(i);
             ParticleEmitter* newEm = addEmitter(rhsEm->getType());
-            rhsEm->copyParametersTo(newEm);
+            rhsEm->copy_parameters_to(newEm);
         }
         // Copy affectors
         for(unsigned short i = 0; i < rhs.getNumAffectors(); ++i)
         {
             ParticleAffector* rhsAf = rhs.getAffector(i);
             ParticleAffector* newAf = addAffector(rhsAf->getType());
-            rhsAf->copyParametersTo(newAf);
+            rhsAf->copy_parameters_to(newAf);
         }
         setParticleQuota(rhs.getParticleQuota());
         setEmittedEmitterQuota(rhs.getEmittedEmitterQuota());
@@ -363,7 +363,7 @@ namespace Ogre {
         // Copy settings
         if (mRenderer && rhs.getRenderer())
         {
-            rhs.getRenderer()->copyParametersTo(mRenderer);
+            rhs.getRenderer()->copy_parameters_to(mRenderer);
         }
 
         return *this;
@@ -769,65 +769,65 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void ParticleSystem::initParameters(void)
     {
-        if (createParamDictionary("ParticleSystem"))
+        if (create_param_dictionary("ParticleSystem"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("quota", 
+            dict->add_parameter(ParameterDef("quota", 
                 "The maximum number of particles allowed at once in this system.",
-                PT_UNSIGNED_INT),
+                ParameterType::UNSIGNED_INT),
                 &msQuotaCmd);
 
-            dict->addParameter(ParameterDef("emit_emitter_quota", 
+            dict->add_parameter(ParameterDef("emit_emitter_quota", 
                 "The maximum number of emitters to be emitted at once in this system.",
-                PT_UNSIGNED_INT),
+                ParameterType::UNSIGNED_INT),
                 &msEmittedEmitterQuotaCmd);
 
-            dict->addParameter(ParameterDef("material", 
+            dict->add_parameter(ParameterDef("material", 
                 "The name of the material to be used to render all particles in this system.",
-                PT_STRING),
+                ParameterType::STRING),
                 &msMaterialCmd);
 
-            dict->addParameter(ParameterDef("particle_width", 
+            dict->add_parameter(ParameterDef("particle_width", 
                 "The width of particles in world units.",
-                PT_REAL),
+                ParameterType::REAL),
                 &msWidthCmd);
 
-            dict->addParameter(ParameterDef("particle_height", 
+            dict->add_parameter(ParameterDef("particle_height", 
                 "The height of particles in world units.",
-                PT_REAL),
+                ParameterType::REAL),
                 &msHeightCmd);
 
-            dict->addParameter(ParameterDef("cull_each", 
+            dict->add_parameter(ParameterDef("cull_each", 
                 "If true, each particle is culled in it's own right. If false, the entire system is culled as a whole.",
-                PT_BOOL),
+                ParameterType::BOOL),
                 &msCullCmd);
 
-            dict->addParameter(ParameterDef("renderer", 
+            dict->add_parameter(ParameterDef("renderer", 
                 "Sets the particle system renderer to use (default 'billboard').",
-                PT_STRING),
+                ParameterType::STRING),
                 &msRendererCmd);
 
-            dict->addParameter(ParameterDef("sorted", 
+            dict->add_parameter(ParameterDef("sorted", 
                 "Sets whether particles should be sorted relative to the camera. ",
-                PT_BOOL),
+                ParameterType::BOOL),
                 &msSortedCmd);
 
-            dict->addParameter(ParameterDef("local_space", 
+            dict->add_parameter(ParameterDef("local_space", 
                 "Sets whether particles should be kept in local space rather than "
                 "emitted into world space. ",
-                PT_BOOL),
+                ParameterType::BOOL),
                 &msLocalSpaceCmd);
 
-            dict->addParameter(ParameterDef("iteration_interval", 
+            dict->add_parameter(ParameterDef("iteration_interval", 
                 "Sets a fixed update interval for the system, or 0 for the frame rate. ",
-                PT_REAL),
+                ParameterType::REAL),
                 &msIterationIntervalCmd);
 
-            dict->addParameter(ParameterDef("nonvisible_update_timeout", 
+            dict->add_parameter(ParameterDef("nonvisible_update_timeout", 
                 "Sets a timeout on updates to the system if the system is not visible "
                 "for the given number of seconds (0 to always update)",
-                PT_REAL),
+                ParameterType::REAL),
                 &msNonvisibleTimeoutCmd);
 
         }
@@ -1323,7 +1323,7 @@ namespace Ogre {
                     for (size_t t = oldSize; t < maxNumberOfEmitters; ++t)
                     {
                         clonedEmitter = ParticleSystemManager::getSingleton()._createEmitter(emitter->getType(), this);
-                        emitter->copyParametersTo(clonedEmitter);
+                        emitter->copy_parameters_to(clonedEmitter);
                         clonedEmitter->setEmitted(emitter->isEmitted()); // is always 'true' by the way, but just in case
 
                         // Initially deactivate the emitted emitter if duration/repeat_delay are set
@@ -1434,118 +1434,118 @@ namespace Ogre {
         mEmittedEmitterPoolInitialised = false; // Don't rearrange immediately; it will be performed in the regular flow
     }
     //-----------------------------------------------------------------------
-    String CmdCull::doGet(const void* target) const
+    String CmdCull::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getCullIndividually() );
     }
-    void CmdCull::doSet(void* target, const String& val)
+    void CmdCull::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setCullIndividually(
             StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdHeight::doGet(const void* target) const
+    String CmdHeight::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getDefaultHeight() );
     }
-    void CmdHeight::doSet(void* target, const String& val)
+    void CmdHeight::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setDefaultHeight(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String CmdWidth::doGet(const void* target) const
+    String CmdWidth::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getDefaultWidth() );
     }
-    void CmdWidth::doSet(void* target, const String& val)
+    void CmdWidth::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setDefaultWidth(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String CmdMaterial::doGet(const void* target) const
+    String CmdMaterial::get(const void* target) const
     {
         return static_cast<const ParticleSystem*>(target)->getMaterialName();
     }
-    void CmdMaterial::doSet(void* target, const String& val)
+    void CmdMaterial::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setMaterialName(val);
     }
     //-----------------------------------------------------------------------
-    String CmdQuota::doGet(const void* target) const
+    String CmdQuota::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getParticleQuota() );
     }
-    void CmdQuota::doSet(void* target, const String& val)
+    void CmdQuota::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setParticleQuota(
             StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
-    String CmdEmittedEmitterQuota::doGet(const void* target) const
+    String CmdEmittedEmitterQuota::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getEmittedEmitterQuota() );
     }
-    void CmdEmittedEmitterQuota::doSet(void* target, const String& val)
+    void CmdEmittedEmitterQuota::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setEmittedEmitterQuota(
             StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
-    String CmdRenderer::doGet(const void* target) const
+    String CmdRenderer::get(const void* target) const
     {
         return static_cast<const ParticleSystem*>(target)->getRendererName();
     }
-    void CmdRenderer::doSet(void* target, const String& val)
+    void CmdRenderer::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setRenderer(val);
     }
     //-----------------------------------------------------------------------
-    String CmdSorted::doGet(const void* target) const
+    String CmdSorted::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getSortingEnabled());
     }
-    void CmdSorted::doSet(void* target, const String& val)
+    void CmdSorted::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setSortingEnabled(
             StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdLocalSpace::doGet(const void* target) const
+    String CmdLocalSpace::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getKeepParticlesInLocalSpace());
     }
-    void CmdLocalSpace::doSet(void* target, const String& val)
+    void CmdLocalSpace::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setKeepParticlesInLocalSpace(
             StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdIterationInterval::doGet(const void* target) const
+    String CmdIterationInterval::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getIterationInterval());
     }
-    void CmdIterationInterval::doSet(void* target, const String& val)
+    void CmdIterationInterval::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setIterationInterval(
             StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String CmdNonvisibleTimeout::doGet(const void* target) const
+    String CmdNonvisibleTimeout::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ParticleSystem*>(target)->getNonVisibleUpdateTimeout());
     }
-    void CmdNonvisibleTimeout::doSet(void* target, const String& val)
+    void CmdNonvisibleTimeout::set(void* target, const String& val)
     {
         static_cast<ParticleSystem*>(target)->setNonVisibleUpdateTimeout(
             StringConverter::parse_real(val));

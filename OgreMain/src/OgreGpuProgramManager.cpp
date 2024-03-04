@@ -59,7 +59,7 @@ namespace {
         size_t calculateSize(void) const override { return 0; }
 
         /// Overridden from StringInterface
-        bool setParameter(const String& name, const String& value)
+        bool set_parameter(const String& name, const String& value)
         {
             // always silently ignore all parameters so as not to report errors on
             // unsupported platforms

@@ -373,7 +373,7 @@ namespace Ogre {
     typedef std::map<String, String> BinaryOptionList;
 
     /// Name / value parameter pair (first = name, second = value)
-    typedef std::map<String, String> NameValuePairList;
+    using NameValuePairList =  std::map<String, String>;
 
     /// Alias / Texture name pair (first = alias, second = texture name)
     typedef std::map<String, String> AliasTextureNamePairList;

@@ -89,7 +89,7 @@ public:
 
     int getNormalMapSamplerIndex() const { return mNormalMapSamplerIndex; }
 
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
 // Protected methods
 protected:

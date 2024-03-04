@@ -132,7 +132,7 @@ void FFPTransform::copyFrom(const SubRenderState& rhs)
     mInstancingTexCoordIndex = rhsTransform.mInstancingTexCoordIndex;
 }
 
-bool FFPTransform::setParameter(const String& name, const String& value)
+bool FFPTransform::set_parameter(const String& name, const String& value)
 {
     if (name == "instanced")
     {
@@ -164,7 +164,7 @@ SubRenderState* FFPTransformFactory::createInstance(ScriptCompiler* compiler,
                 return NULL;
 
             auto ret = createOrRetrieveInstance(translator);
-            ret->setParameter("instanced", std::to_string(texCoordSlot));
+            ret->set_parameter("instanced", std::to_string(texCoordSlot));
 
             return ret;
         }

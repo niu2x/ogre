@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __ParticleSystemRenderer_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 #include "OgreFactoryObj.h"
 #include "OgreRenderQueue.h"
 #include "OgreCommon.h"

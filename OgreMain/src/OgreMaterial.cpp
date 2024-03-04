@@ -61,7 +61,7 @@ namespace Ogre {
         list all the options that need to be set before loading, of which 
         we have none as such. Full details can be set through scripts.
         */ 
-        createParamDictionary("Material");
+        create_param_dictionary("Material");
     }
     //-----------------------------------------------------------------------
     Material::~Material()

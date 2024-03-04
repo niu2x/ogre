@@ -64,7 +64,7 @@ GpuProgramType Program::getType() const
 }
 
 //-----------------------------------------------------------------------------
-void Program::addParameter(UniformParameterPtr parameter)
+void Program::add_parameter(UniformParameterPtr parameter)
 {
     if (getParameterByName(parameter->getName()).get() != NULL)
     {
@@ -147,7 +147,7 @@ UniformParameterPtr Program::resolveParameter(GpuProgramParameters::AutoConstant
 
     // Create new parameter
     param = std::make_shared<UniformParameter>(autoType, data, size);
-    addParameter(param);
+    add_parameter(param);
 
     return param;
 }
@@ -171,7 +171,7 @@ UniformParameterPtr Program::resolveAutoParameterReal(GpuProgramParameters::Auto
 
     // Create new parameter.
     param = std::make_shared<UniformParameter>(autoType, float(data), size);
-    addParameter(param);
+    add_parameter(param);
 
     return param;
 }
@@ -196,7 +196,7 @@ UniformParameterPtr Program::resolveAutoParameterReal(GpuProgramParameters::Auto
 
     // Create new parameter.
     param = std::make_shared<UniformParameter>(autoType, data, size, type);
-    addParameter(param);
+    add_parameter(param);
 
     return param;
 }
@@ -221,7 +221,7 @@ UniformParameterPtr Program::resolveAutoParameterInt(GpuProgramParameters::AutoC
 
     // Create new parameter.
     param = std::make_shared<UniformParameter>(autoType, data, size, type);
-    addParameter(param);
+    add_parameter(param);
 
     return param;
 }
@@ -262,7 +262,7 @@ UniformParameterPtr Program::resolveParameter(GpuConstantType type,
 
     // Create new parameter.
     param = ParameterFactory::createUniform(type, index, variability, suggestedName, size);
-    addParameter(param);
+    add_parameter(param);
 
     return param;
 }

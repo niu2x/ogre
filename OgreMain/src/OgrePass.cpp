@@ -877,7 +877,7 @@ namespace Ogre {
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "This pass has no " + to_string(type) + " program");
         }
-        return programUsage->getParameters();
+        return programUsage->parameters();
     }
 
     GpuProgramParametersSharedPtr Pass::getVertexProgramParameters(void) const
@@ -1015,7 +1015,7 @@ namespace Ogre {
             if (programUsage)
             {
                 // Update program auto params
-                programUsage->getParameters()->_updateAutoParams(source, mask);
+                programUsage->parameters()->_updateAutoParams(source, mask);
             }
         }
     }

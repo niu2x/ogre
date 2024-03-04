@@ -190,7 +190,7 @@ private:
     */
     bool needsTextureMatrix(TextureUnitState* textureUnitState);
 
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     // Texture units list.      
     TextureUnitParamsList mTextureUnitParamsList;

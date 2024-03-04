@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "exception.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 #include "OgreGLRenderSystem.h"
 

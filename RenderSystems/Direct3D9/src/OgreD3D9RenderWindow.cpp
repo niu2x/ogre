@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreRenderSystem.h"
 #include "bitwise.h"
 #include "OgreImageCodec.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreRoot.h"
 #include "OgreD3D9DeviceManager.h"
 #include "OgreDepthBuffer.h"

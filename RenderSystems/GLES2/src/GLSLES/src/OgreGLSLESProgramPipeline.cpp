@@ -27,7 +27,7 @@
  */
 
 #include "OgreGLSLESProgramPipeline.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGLSLESProgram.h"
 #include "OgreGLSLESProgramManager.h"
 #include "OgreGpuProgramManager.h"
@@ -107,7 +107,7 @@ namespace Ogre
             // Check CmdParams for each shader type to see if we should optimise
             if(mVertexProgram)
             {
-                String paramStr = mVertexProgram->getGLSLProgram()->getParameter("use_optimiser");
+                String paramStr = mVertexProgram->getGLSLProgram()->parameter("use_optimiser");
                 if((paramStr == "true") || paramStr.empty())
                 {
                     GLSLESProgramPipelineManager::getSingleton().optimiseShaderSource(mVertexProgram);
@@ -116,7 +116,7 @@ namespace Ogre
 
             if(mFragmentProgram)
             {
-                String paramStr = mFragmentProgram->getGLSLProgram()->getParameter("use_optimiser");
+                String paramStr = mFragmentProgram->getGLSLProgram()->parameter("use_optimiser");
                 if((paramStr == "true") || paramStr.empty())
                 {
                     GLSLESProgramPipelineManager::getSingleton().optimiseShaderSource(mFragmentProgram);

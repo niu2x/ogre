@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreMath.h"
 #include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
-#include "OgreStringInterface.h"
+#include "string_interface.h"
 
 namespace Ogre {
     /** \addtogroup Plugins
@@ -50,32 +50,32 @@ namespace Ogre {
         class CmdRotationSpeedRangeStart : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /// Command object for particle emitter  - see ParamCommand 
         class CmdRotationSpeedRangeEnd : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /// Command object for particle emitter  - see ParamCommand 
         class CmdRotationRangeStart : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /// Command object for particle emitter  - see ParamCommand 
         class CmdRotationRangeEnd : public ParamCommand
         {
         public:
-            String doGet(const void* target) const override;
-            void doSet(void* target, const String& val) override;
+            String get(const void* target) const override;
+            void set(void* target, const String& val) override;
         };
 
         /** Default constructor. */

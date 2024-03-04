@@ -376,7 +376,7 @@ ParameterPtr Function::resolveLocalParameter(GpuConstantType type, const String&
     }
 
     param = std::make_shared<Parameter>(type, name, Parameter::SPS_UNKNOWN, 0, Parameter::SPC_UNKNOWN, arraySize);
-    addParameter(mLocalParameters, param);
+    add_parameter(mLocalParameters, param);
 
     return param;
 }
@@ -394,7 +394,7 @@ ParameterPtr Function::resolveLocalStructParameter(const String& type, const Str
 
     param = std::make_shared<Parameter>(GCT_UNKNOWN, name, Parameter::SPS_UNKNOWN, 0, Parameter::SPC_UNKNOWN);
     param->setStructType(type);
-    addParameter(mLocalParameters, param);
+    add_parameter(mLocalParameters, param);
 
     return param;
 }
@@ -413,7 +413,7 @@ ParameterPtr Function::resolveLocalParameter(const Parameter::Content content, G
     param = std::make_shared<Parameter>(
         type, getParameterName("l", semanticFromContent(content), mLocalParameters.size()),
         Parameter::SPS_UNKNOWN, 0, content);
-    addParameter(mLocalParameters, param);
+    add_parameter(mLocalParameters, param);
 
     return param;
 }
@@ -429,7 +429,7 @@ void Function::addInputParameter(ParameterPtr parameter)
             "Parameter <" + parameter->getName() + "> has equal semantic parameter");
     }
 
-    addParameter(mInputParameters, parameter);
+    add_parameter(mInputParameters, parameter);
 }
 
 //-----------------------------------------------------------------------------
@@ -442,7 +442,7 @@ void Function::addOutputParameter(ParameterPtr parameter)
             "Parameter <" + parameter->getName() + "> has equal semantic parameter");
     }
 
-    addParameter(mOutputParameters, parameter);
+    add_parameter(mOutputParameters, parameter);
 }
 
 //-----------------------------------------------------------------------------
@@ -469,7 +469,7 @@ void Function::deleteAllOutputParameters()
     mOutputParameters.clear();
 }
 //-----------------------------------------------------------------------------
-void Function::addParameter(ShaderParameterList& parameterList, ParameterPtr parameter)
+void Function::add_parameter(ShaderParameterList& parameterList, ParameterPtr parameter)
 
 {
     // Check that parameter with the same name doest exist in input parameters list.

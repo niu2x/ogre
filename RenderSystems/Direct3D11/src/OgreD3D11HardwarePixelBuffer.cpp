@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D11Mappings.h"
 #include "exception.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "bitwise.h"
 
 #include "OgreRoot.h"

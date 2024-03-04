@@ -263,7 +263,7 @@ namespace Ogre {
 
         mAutoWindow = 0;
 
-        StringInterface::cleanupDictionary();
+        StringInterface::clean();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
         mLogManager->get_default_log()->removeListener(mAndroidLogger.get());

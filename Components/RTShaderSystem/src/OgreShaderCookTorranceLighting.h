@@ -42,7 +42,7 @@ public:
     */
     const String& getMetalRoughnessMapName() const { return mMetalRoughnessMapName; }
 
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     bool createCpuSubPrograms(ProgramSet* programSet) override;
 

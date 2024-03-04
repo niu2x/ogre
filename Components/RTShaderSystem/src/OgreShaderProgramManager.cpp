@@ -220,20 +220,20 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
     }
 
     pGpuProgram->setSource(source);
-    pGpuProgram->setParameter("preprocessor_defines", shaderProgram->getPreprocessorDefines());
-    pGpuProgram->setParameter("entry_point", "main");
+    pGpuProgram->set_parameter("preprocessor_defines", shaderProgram->getPreprocessorDefines());
+    pGpuProgram->set_parameter("entry_point", "main");
 
     if (language == "hlsl")
     {
-        pGpuProgram->setParameter("target", profiles);
-        pGpuProgram->setParameter("enable_backwards_compatibility", "true");
-        pGpuProgram->setParameter("column_major_matrices", StringConverter::to_string(shaderProgram->getUseColumnMajorMatrices()));
+        pGpuProgram->set_parameter("target", profiles);
+        pGpuProgram->set_parameter("enable_backwards_compatibility", "true");
+        pGpuProgram->set_parameter("column_major_matrices", StringConverter::to_string(shaderProgram->getUseColumnMajorMatrices()));
     }
     else if (language == "glsl")
     {
         auto* rs = Root::getSingleton().getRenderSystem();
         if( rs && rs->getNativeShadingLanguageVersion() >= 420)
-            pGpuProgram->setParameter("has_sampler_binding", "true");
+            pGpuProgram->set_parameter("has_sampler_binding", "true");
     }
 
     pGpuProgram->load();

@@ -101,7 +101,7 @@ public:
     ~Operand();
 
     /** Returns the parameter object as weak reference */
-    const ParameterPtr& getParameter()  const { return mParameter; }
+    const ParameterPtr& parameter()  const { return mParameter; }
 
     /** Returns true if not all fields used. (usage is described through semantic)*/
     bool hasFreeFields()    const { return mMask != OPM_ALL; }

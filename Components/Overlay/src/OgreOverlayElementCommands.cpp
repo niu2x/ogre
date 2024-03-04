@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreOverlayElementCommands.h"
 #include "OgreOverlayElement.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "log_manager.h"
 
 
@@ -38,11 +38,11 @@ namespace Ogre {
 
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
-        String CmdMaterial::doGet(const void* target) const
+        String CmdMaterial::get(const void* target) const
         {
             return static_cast<const OverlayElement*>(target)->getMaterialName();
         }
-        void CmdMaterial::doSet(void* target, const String& val)
+        void CmdMaterial::set(void* target, const String& val)
         {
             if (val != "")
             {
@@ -51,18 +51,18 @@ namespace Ogre {
         }
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
-        String CmdCaption::doGet(const void* target) const
+        String CmdCaption::get(const void* target) const
         {
             return static_cast<const OverlayElement*>(target)->getCaption();
         }
-        void CmdCaption::doSet(void* target, const String& val)
+        void CmdCaption::set(void* target, const String& val)
         {
             static_cast<OverlayElement*>(target)->setCaption(val);
         }
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
-        String CmdMetricsMode::doGet(const void* target) const
+        String CmdMetricsMode::get(const void* target) const
         {
             GuiMetricsMode gmm = 
                 static_cast<const OverlayElement*>(target)->getMetricsMode();
@@ -79,7 +79,7 @@ namespace Ogre {
                 return "relative";
             }
         }
-        void CmdMetricsMode::doSet(void* target, const String& val)
+        void CmdMetricsMode::set(void* target, const String& val)
         {
             if (val == "pixels")
             {
@@ -97,7 +97,7 @@ namespace Ogre {
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
-        String CmdHorizontalAlign::doGet(const void* target) const
+        String CmdHorizontalAlign::get(const void* target) const
         {
             GuiHorizontalAlignment gha = 
                 static_cast<const OverlayElement*>(target)->getHorizontalAlignment();
@@ -113,7 +113,7 @@ namespace Ogre {
             // To keep compiler happy
             return "center";
         }
-        void CmdHorizontalAlign::doSet(void* target, const String& val)
+        void CmdHorizontalAlign::set(void* target, const String& val)
         {
             if (val == "left")
             {
@@ -131,7 +131,7 @@ namespace Ogre {
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
-        String CmdVerticalAlign::doGet(const void* target) const
+        String CmdVerticalAlign::get(const void* target) const
         {
             GuiVerticalAlignment gva = 
                 static_cast<const OverlayElement*>(target)->getVerticalAlignment();
@@ -147,7 +147,7 @@ namespace Ogre {
             // To keep compiler happy
             return "center";
         }
-        void CmdVerticalAlign::doSet(void* target, const String& val)
+        void CmdVerticalAlign::set(void* target, const String& val)
         {
             if (val == "top")
             {
@@ -166,11 +166,11 @@ namespace Ogre {
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
         //-----------------------------------------------------------------------
-        String CmdVisible::doGet(const void* target) const
+        String CmdVisible::get(const void* target) const
         {
             return StringConverter::to_string(static_cast<const OverlayElement*>(target)->isVisible());
         }
-        void CmdVisible::doSet(void* target, const String& val)
+        void CmdVisible::set(void* target, const String& val)
         {
             if (val == "true")
             {

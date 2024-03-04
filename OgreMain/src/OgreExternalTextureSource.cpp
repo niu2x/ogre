@@ -47,26 +47,26 @@ namespace Ogre
     class _OgrePrivate CmdInputFileName : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class _OgrePrivate CmdFPS : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class _OgrePrivate CmdPlayMode : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class _OgrePrivate CmdTecPassState : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     static CmdInputFileName msCmdInputFile;     /// Command for setting input file name
     static CmdFPS msCmdFramesPerSecond;         /// Command for setting frames per second
@@ -94,52 +94,52 @@ namespace Ogre
                 "ExternalTextureSource::addBaseParams");
 
         //Create Dictionary Here
-        if (createParamDictionary( mDictionaryName ))
+        if (create_param_dictionary( mDictionaryName ))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
             
-            dict->addParameter(ParameterDef("filename", 
+            dict->add_parameter(ParameterDef("filename", 
                 "A source for the texture effect (only certain plugins require this)"
-                , PT_STRING),
+                , ParameterType::STRING),
                 &msCmdInputFile);
-            dict->addParameter(ParameterDef("frames_per_second", 
+            dict->add_parameter(ParameterDef("frames_per_second", 
                 "How fast should playback be (only certain plugins use this)"
-                , PT_INT),
+                , ParameterType::INT),
                 &msCmdFramesPerSecond);
-            dict->addParameter(ParameterDef("play_mode", 
+            dict->add_parameter(ParameterDef("play_mode", 
                 "How the playback starts(only certain plugins use this)"
-                , PT_STRING),
+                , ParameterType::STRING),
                 &msCmdPlayMode);
-            dict->addParameter(ParameterDef("set_T_P_S", 
+            dict->add_parameter(ParameterDef("set_T_P_S", 
                 "Set the technique, pass, and state level of this texture_unit (eg. 0 0 0 )"
-                , PT_STRING),
+                , ParameterType::STRING),
                 &msCmdTecPassState);
         }
     }
 
     //---------------------------------------------------------------------------------------//
     //*** String Interface Command Class Definitions *****************************************/
-    String CmdInputFileName::doGet(const void* target) const
+    String CmdInputFileName::get(const void* target) const
     {
         return static_cast<const ExternalTextureSource*>(target)->getInputName();
     }
-    void CmdInputFileName::doSet(void* target, const String& val)
+    void CmdInputFileName::set(void* target, const String& val)
     {
         static_cast<ExternalTextureSource*>(target)->setInputName( val );
     }
     
     //------------------------------------------------------------------------------//
-    String CmdFPS::doGet(const void* target) const
+    String CmdFPS::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ExternalTextureSource*>(target)->getFPS() );
     }
-    void CmdFPS::doSet(void* target, const String& val)
+    void CmdFPS::set(void* target, const String& val)
     {
         static_cast<ExternalTextureSource*>(target)->setFPS(StringConverter::parse_int32(val));
     }
     //------------------------------------------------------------------------------//
-    String CmdPlayMode::doGet(const void* target) const
+    String CmdPlayMode::get(const void* target) const
     {
         eTexturePlayMode eMode = static_cast<const ExternalTextureSource*>(target)->getPlayMode();
         String val;
@@ -162,7 +162,7 @@ namespace Ogre
 
         return val;
     }
-    void CmdPlayMode::doSet(void* target, const String& val)
+    void CmdPlayMode::set(void* target, const String& val)
     {
         eTexturePlayMode eMode = TextureEffectPause;
 
@@ -177,7 +177,7 @@ namespace Ogre
     }
 
     //------------------------------------------------------------------------------//
-    String CmdTecPassState::doGet(const void* target) const
+    String CmdTecPassState::get(const void* target) const
     {
         int t = 0, p = 0, s = 0;
 
@@ -190,7 +190,7 @@ namespace Ogre
         return ret;         
     }
 
-    void CmdTecPassState::doSet(void* target, const String& val)
+    void CmdTecPassState::set(void* target, const String& val)
     {
         int t = 0, p = 0, s = 0;
 

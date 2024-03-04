@@ -53,22 +53,22 @@ namespace Ogre {
         class CmdTarget : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
         /// Command object for setting matrix packing in column-major order
         class CmdColumnMajorMatrices : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
         /// Command object for setting backwards compatibility
         class CmdEnableBackwardsCompatibility : public ParamCommand
         {
         public:
-            String doGet(const void* target) const;
-            void doSet(void* target, const String& val);
+            String get(const void* target) const;
+            void set(void* target, const String& val);
         };
 
         typedef std::vector<D3D11_SIGNATURE_PARAMETER_DESC> D3d11ShaderParameters;

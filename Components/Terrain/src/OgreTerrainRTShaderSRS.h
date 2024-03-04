@@ -45,7 +45,7 @@ public:
     bool createCpuSubPrograms(RTShader::ProgramSet* programSet) override;
     bool preAddToRenderState(const RTShader::RenderState* renderState, Pass* srcPass, Pass* dstPass) override;
     void updateParams();
-    bool setParameter(const String& name, const String& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
     static String Type;
 protected:

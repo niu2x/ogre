@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "OgreD3D9HardwareBuffer.h"
 #include "OgreD3D9VertexDeclaration.h"
 #include "log_manager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "exception.h"
 
 namespace Ogre {

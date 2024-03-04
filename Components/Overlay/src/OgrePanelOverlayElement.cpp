@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgrePanelOverlayElement.h"
 #include "OgreTechnique.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreHardwareBufferManager.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"
@@ -40,22 +40,22 @@ namespace Ogre {
     class _OgrePrivate CmdTiling : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for specifying transparency (see ParamCommand).*/
     class _OgrePrivate CmdTransparent : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     /** Command object for specifying UV coordinates (see ParamCommand).*/
     class _OgrePrivate CmdUVCoords : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     // Command objects
     static CmdTiling msCmdTiling;
@@ -86,7 +86,7 @@ namespace Ogre {
         }
 
         // No normals or colours
-        if (createParamDictionary("PanelOverlayElement"))
+        if (create_param_dictionary("PanelOverlayElement"))
         {
             addBaseParameters();
         }
@@ -392,28 +392,28 @@ namespace Ogre {
     void PanelOverlayElement::addBaseParameters(void)
     {
         OverlayContainer::addBaseParameters();
-        ParamDictionary* dict = getParamDictionary();
+        ParamDictionary* dict = param_dictionary();
 
-        dict->addParameter(ParameterDef("uv_coords",
+        dict->add_parameter(ParameterDef("uv_coords",
            "The texture coordinates for the texture. 1 set of uv values."
-           , PT_STRING),
+           , ParameterType::STRING),
            &msCmdUVCoords);
 
-        dict->addParameter(ParameterDef("tiling",
+        dict->add_parameter(ParameterDef("tiling",
             "The number of times to repeat the background texture."
-            , PT_STRING),
+            , ParameterType::STRING),
             &msCmdTiling);
 
-        dict->addParameter(ParameterDef("transparent",
+        dict->add_parameter(ParameterDef("transparent",
             "Sets whether the panel is transparent, i.e. invisible itself "
             "but it's contents are still displayed."
-            , PT_BOOL),
+            , ParameterType::BOOL),
             &msCmdTransparent);
     }
     //-----------------------------------------------------------------------
     // Command objects
     //-----------------------------------------------------------------------
-    String CmdTiling::doGet(const void* target) const
+    String CmdTiling::get(const void* target) const
     {
         // NB only returns 1st layer tiling
         String ret = "0 " + StringConverter::to_string(
@@ -422,7 +422,7 @@ namespace Ogre {
             static_cast<const PanelOverlayElement*>(target)->getTileY() );
         return ret;
     }
-    void CmdTiling::doSet(void* target, const String& val)
+    void CmdTiling::set(void* target, const String& val)
     {
         // 3 params: <layer> <x_tile> <y_tile>
         // Param count is validated higher up
@@ -434,18 +434,18 @@ namespace Ogre {
         static_cast<PanelOverlayElement*>(target)->setTiling(x_tile, y_tile, layer);
     }
     //-----------------------------------------------------------------------
-    String CmdTransparent::doGet(const void* target) const
+    String CmdTransparent::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const PanelOverlayElement*>(target)->isTransparent() );
     }
-    void CmdTransparent::doSet(void* target, const String& val)
+    void CmdTransparent::set(void* target, const String& val)
     {
         static_cast<PanelOverlayElement*>(target)->setTransparent(
             StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdUVCoords::doGet(const void* target) const
+    String CmdUVCoords::get(const void* target) const
     {
         Real u1, v1, u2, v2;
 
@@ -456,7 +456,7 @@ namespace Ogre {
 
         return ret;
     }
-    void CmdUVCoords::doSet(void* target, const String& val)
+    void CmdUVCoords::set(void* target, const String& val)
     {
         std::vector<String> vec = StringUtil::split(val);
 

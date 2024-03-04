@@ -98,7 +98,7 @@ void CGProgramWriter::writeSourceCode(std::ostream& os, Program* program)
     writeUniformParametersTitle(os, program);
     os << std::endl;
 
-    for (const auto& p : program->getParameters())
+    for (const auto& p : program->parameters())
     {
         p->isSampler() ? writeSamplerParameter(os, p) : writeParameter(os, p);
         os << ";" << std::endl;
@@ -123,7 +123,7 @@ void CGProgramWriter::writeSourceCode(std::ostream& os, Program* program)
 
     for (const auto& a : curFunction->getAtomInstances())
     {
-        redirectGlobalWrites(os, a, curFunction->getInputParameters(), program->getParameters());
+        redirectGlobalWrites(os, a, curFunction->getInputParameters(), program->parameters());
         writeAtomInstance(os, a);
     }
 

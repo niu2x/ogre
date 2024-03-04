@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreVulkanDevice.h"
 #include "OgreVulkanMappings.h"
 
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreVulkanUtils.h"
 
 #include "OgreRenderSystemCapabilities.h"
@@ -50,7 +50,7 @@ namespace Ogre
         mDevice( device ),
         mShaderModule( VK_NULL_HANDLE )
     {
-        if( createParamDictionary( "VulkanProgram" ) )
+        if( create_param_dictionary( "VulkanProgram" ) )
         {
             setupBaseParamDictionary();
         }

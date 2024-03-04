@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreScaleAffector.h"
 #include "OgreParticleSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 
 
@@ -48,12 +48,12 @@ namespace Ogre {
         mType = "Scaler";
 
         // Init parameters
-        if (createParamDictionary("ScaleAffector"))
+        if (create_param_dictionary("ScaleAffector"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter("rate", &msScaleCmd);
-            dict->addParameter("scale_range", &msScaleRangeCmd);
+            dict->add_parameter("rate", &msScaleCmd);
+            dict->add_parameter("scale_range", &msScaleRangeCmd);
         }
     }
     //-----------------------------------------------------------------------
@@ -94,12 +94,12 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String ScaleAffector::CmdScaleAdjust::doGet(const void* target) const
+    String ScaleAffector::CmdScaleAdjust::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const ScaleAffector*>(target)->getAdjust() );
     }
-    void ScaleAffector::CmdScaleAdjust::doSet(void* target, const String& val)
+    void ScaleAffector::CmdScaleAdjust::set(void* target, const String& val)
     {
         static_cast<ScaleAffector*>(target)->setAdjust(
             StringConverter::parse_real(val));

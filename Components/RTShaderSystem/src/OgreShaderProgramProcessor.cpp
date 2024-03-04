@@ -77,7 +77,7 @@ void ProgramProcessor::bindAutoParameters(Program* pCpuProgram, GpuProgramPtr pG
 {
     GpuProgramParametersSharedPtr pGpuParams = pGpuProgram->getDefaultParameters();
 
-    for (const auto& p : pCpuProgram->getParameters())
+    for (const auto& p : pCpuProgram->parameters())
     {
         const GpuConstantDefinition* gpuConstDef = pGpuParams->_findNamedConstantDefinition(p->getName());
 
@@ -129,13 +129,13 @@ void ProgramProcessor::bindAutoParameters(Program* pCpuProgram, GpuProgramPtr pG
 
 void ProgramProcessor::bindTextureSamplers(Program* pCpuProgram, GpuProgramPtr pGpuProgram)
 {
-    if (StringConverter::parse_bool(pGpuProgram->getParameter("has_sampler_binding")))
+    if (StringConverter::parse_bool(pGpuProgram->parameter("has_sampler_binding")))
         return;
 
     GpuProgramParametersSharedPtr pGpuParams = pGpuProgram->getDefaultParameters();
 
     // Bind the samplers.
-    for (const auto& pCurParam : pCpuProgram->getParameters())
+    for (const auto& pCurParam : pCpuProgram->parameters())
     {
         if (pCurParam->isSampler() && pCurParam->isUsed())
         {
@@ -713,7 +713,7 @@ void ProgramProcessor::buildParameterReferenceMap(const FunctionAtomInstanceList
     {
         for (Operand& curOperand : func->getOperandList())
         {
-            paramsRefMap[curOperand.getParameter().get()].push_back(&curOperand);
+            paramsRefMap[curOperand.parameter().get()].push_back(&curOperand);
         }
     }
 }

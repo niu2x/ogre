@@ -85,8 +85,8 @@ public:
     far point, and each value in between is both a far point of the previous
     split, and a near point for the next one.
     */
-    void setParameter(const String& name, const Any& value) override;
-    bool setParameter(const String& name, const String& value) override;
+    void set_parameter(const String& name, const Any& value) override;
+    bool set_parameter(const String& name, const String& value) override;
 
 
 

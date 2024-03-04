@@ -180,7 +180,7 @@ bool CookTorranceLighting::preAddToRenderState(const RenderState* renderState, P
     return true;
 }
 
-bool CookTorranceLighting::setParameter(const String& name, const String& value)
+bool CookTorranceLighting::set_parameter(const String& name, const String& value)
 {
     if (name == "texture" && !value.empty())
     {
@@ -218,7 +218,7 @@ SubRenderState* CookTorranceLightingFactory::createInstance(ScriptCompiler* comp
             return subRenderState;
         }
 
-        if(!subRenderState->setParameter("texture", (*it++)->getString()))
+        if(!subRenderState->set_parameter("texture", (*it++)->getString()))
             compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
 
         return subRenderState;

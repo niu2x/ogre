@@ -148,7 +148,7 @@ void TargetRenderState::bindUniformParameters(Program* pCpuProgram, const GpuPro
     bool samplersBound = ShaderGenerator::getSingleton().getTargetLanguage()[0] != 'g';
 
     // Bind each uniform parameter to its GPU parameter.
-    for (const auto& param : pCpuProgram->getParameters())
+    for (const auto& param : pCpuProgram->parameters())
     {
         if((samplersBound && param->isSampler()) || !param->isUsed()) continue;
 

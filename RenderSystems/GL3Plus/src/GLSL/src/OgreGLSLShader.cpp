@@ -29,7 +29,7 @@
 #include "OgreHighLevelGpuProgramManager.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreGpuProgramManager.h"
 
 #include "OgreGLSLShader.h"
@@ -47,11 +47,11 @@ namespace Ogre {
     class CmdHasSamplersBinding : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override
+        String get(const void* target) const override
         {
             return StringConverter::to_string(static_cast<const GLSLShader*>(target)->getSamplerBinding());
         }
-        void doSet(void* target, const String& val) override
+        void set(void* target, const String& val) override
         {
             static_cast<GLSLShader*>(target)->setSamplerBinding(StringConverter::parse_bool(val));
         }
@@ -260,14 +260,14 @@ namespace Ogre {
         const String& group, bool isManual, ManualResourceLoader* loader)
         : GLSLShaderCommon(creator, name, handle, group, isManual, loader)
     {
-        if (createParamDictionary("GLSLShader"))
+        if (create_param_dictionary("GLSLShader"))
         {
             setupBaseParamDictionary();
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter("attach", &msCmdAttach);
-            dict->addParameter("column_major_matrices", &msCmdColumnMajorMatrices);
-            dict->addParameter("has_sampler_binding", &msCmdHasSamplerBinding);
+            dict->add_parameter("attach", &msCmdAttach);
+            dict->add_parameter("column_major_matrices", &msCmdColumnMajorMatrices);
+            dict->add_parameter("has_sampler_binding", &msCmdHasSamplerBinding);
         }
 
         mHasSamplerBinding = false;

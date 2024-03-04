@@ -592,7 +592,7 @@ protected:
                 mSceneMgr->setShadowCasterRenderBackFaces(true);
 
                 auto subRenderState = mShaderGenerator->createSubRenderState(RTShader::SRS_SHADOW_MAPPING);
-                subRenderState->setParameter("split_points",
+                subRenderState->set_parameter("split_points",
                                              static_cast<PSSMShadowCameraSetup*>(mPSSMSetup.get())->getSplitPoints());
                 schemRenderState->addTemplateSubRenderState(subRenderState);
 

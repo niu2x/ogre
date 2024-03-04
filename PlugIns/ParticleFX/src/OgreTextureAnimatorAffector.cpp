@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: MIT
 #include "OgreTextureAnimatorAffector.h"
 #include "OgreParticleSystem.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "OgreParticle.h"
 
 
@@ -13,12 +13,12 @@ namespace Ogre {
 class CmdStart : public ParamCommand
 {
 public:
-    String doGet(const void* target) const override
+    String get(const void* target) const override
     {
         return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->getTexcoordStart());
     }
-    void doSet(void* target, const String& val) override
+    void set(void* target, const String& val) override
     {
         static_cast<TextureAnimatorAffector*>(target)->setTexcoordStart(StringConverter::parse_int32(val));
     }
@@ -26,12 +26,12 @@ public:
 class CmdCount : public ParamCommand
 {
 public:
-    String doGet(const void* target) const override
+    String get(const void* target) const override
     {
         return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->getTexcoordCount());
     }
-    void doSet(void* target, const String& val) override
+    void set(void* target, const String& val) override
     {
         static_cast<TextureAnimatorAffector*>(target)->setTexcoordCount(StringConverter::parse_int32(val));
     }
@@ -39,12 +39,12 @@ public:
 class CmdDuration : public ParamCommand
 {
 public:
-    String doGet(const void* target) const override
+    String get(const void* target) const override
     {
         return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->getDuration());
     }
-    void doSet(void* target, const String& val) override
+    void set(void* target, const String& val) override
     {
         static_cast<TextureAnimatorAffector*>(target)->setDuration(StringConverter::parse_real(val));
     }
@@ -52,12 +52,12 @@ public:
 class CmdOffset : public ParamCommand
 {
 public:
-    String doGet(const void* target) const override
+    String get(const void* target) const override
     {
         return StringConverter::to_string(
             static_cast<const TextureAnimatorAffector*>(target)->isRandomStartOffset());
     }
-    void doSet(void* target, const String& val) override
+    void set(void* target, const String& val) override
     {
         static_cast<TextureAnimatorAffector*>(target)->useRandomStartOffset(StringConverter::parse_bool(val));
     }
@@ -77,14 +77,14 @@ public:
         mType = "TextureAnimator";
 
         // Init parameters
-        if (createParamDictionary("TextureAnimatorAffector"))
+        if (create_param_dictionary("TextureAnimatorAffector"))
         {
-            ParamDictionary* dict = getParamDictionary();
+            ParamDictionary* dict = param_dictionary();
 
-            dict->addParameter(ParameterDef("texcoord_start", "", PT_INT), &msStartCmd);
-            dict->addParameter(ParameterDef("texcoord_count", "", PT_INT), &msCountCmd);
-            dict->addParameter(ParameterDef("duration", "", PT_REAL), &msDurationCmd);
-            dict->addParameter(ParameterDef("random_offset", "", PT_BOOL), &msOffset);
+            dict->add_parameter(ParameterDef("texcoord_start", "", ParameterType::INT), &msStartCmd);
+            dict->add_parameter(ParameterDef("texcoord_count", "", ParameterType::INT), &msCountCmd);
+            dict->add_parameter(ParameterDef("duration", "", ParameterType::REAL), &msDurationCmd);
+            dict->add_parameter(ParameterDef("random_offset", "", ParameterType::BOOL), &msOffset);
         }
     }
     //-----------------------------------------------------------------------

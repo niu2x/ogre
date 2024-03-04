@@ -61,7 +61,7 @@ namespace Ogre {
             mDesiredFloatBitDepth(0),
             mDesiredFormat(PF_UNKNOWN)
     {
-        if (createParamDictionary("Texture"))
+        if (create_param_dictionary("Texture"))
         {
             // Define the parameters that have to be present to load
             // from a generic source; actually there are none, since when

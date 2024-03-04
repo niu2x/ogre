@@ -546,7 +546,7 @@ bool FFPTexturing::needsTextureMatrix(TextureUnitState* textureUnitState)
 }
 
 
-bool FFPTexturing::setParameter(const String& name, const String& value)
+bool FFPTexturing::set_parameter(const String& name, const String& value)
 {
     if(name == "late_add_blend")
     {
@@ -710,7 +710,7 @@ SubRenderState* FFPTexturingFactory::createInstance(ScriptCompiler* compiler,
                 return inst;
 
             if (value == "late_add_blend")
-                inst->setParameter(value, "true");
+                inst->set_parameter(value, "true");
 
             return inst;
         }       

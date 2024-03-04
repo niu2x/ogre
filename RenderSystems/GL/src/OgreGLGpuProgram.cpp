@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreGLGpuProgram.h"
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "log_manager.h"
 #include "OgreGLSLProgramCommon.h"
 
@@ -53,7 +53,7 @@ GLGpuProgram::GLGpuProgram(ResourceManager* creator, const String& name,
     ManualResourceLoader* loader) 
     : GpuProgram(creator, name, handle, group, isManual, loader)
 {
-    if (createParamDictionary("GLGpuProgram"))
+    if (create_param_dictionary("GLGpuProgram"))
     {
         setupBaseParamDictionary();
     }

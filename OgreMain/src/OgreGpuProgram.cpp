@@ -40,44 +40,44 @@ namespace Ogre
     class CmdType : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdSyntax : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdSkeletal : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdMorph : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdPose : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdVTF : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
     class CmdManualNamedConstsFile : public ParamCommand
     {
     public:
-        String doGet(const void* target) const override;
-        void doSet(void* target, const String& val) override;
+        String get(const void* target) const override;
+        void set(void* target, const String& val) override;
     };
 
     using CmdInstancing = SimpleParamCommand<GpuProgram, bool, &GpuProgram::isInstancingIncluded, &GpuProgram::setInstancingIncluded>;
@@ -385,33 +385,33 @@ namespace Ogre
     //-----------------------------------------------------------------------------
     void GpuProgram::setupBaseParamDictionary(void)
     {
-        ParamDictionary* dict = getParamDictionary();
+        ParamDictionary* dict = param_dictionary();
 
-        dict->addParameter(
+        dict->add_parameter(
             ParameterDef("type", "'vertex_program', 'geometry_program', 'fragment_program', 'hull_program', 'domain_program', 'compute_program'",
-                         PT_STRING), &msTypeCmd);
-        dict->addParameter(
-            ParameterDef("syntax", "Syntax code, e.g. vs_1_1", PT_STRING), &msSyntaxCmd);
-        dict->addParameter("includes_instancing", &msInstancingCmd);
-        dict->addParameter(
+                         ParameterType::STRING), &msTypeCmd);
+        dict->add_parameter(
+            ParameterDef("syntax", "Syntax code, e.g. vs_1_1", ParameterType::STRING), &msSyntaxCmd);
+        dict->add_parameter("includes_instancing", &msInstancingCmd);
+        dict->add_parameter(
             ParameterDef("includes_skeletal_animation", 
-                         "Whether this vertex program includes skeletal animation", PT_BOOL), 
+                         "Whether this vertex program includes skeletal animation", ParameterType::BOOL), 
             &msSkeletalCmd);
-        dict->addParameter(
+        dict->add_parameter(
             ParameterDef("includes_morph_animation", 
-                         "Whether this vertex program includes morph animation", PT_BOOL), 
+                         "Whether this vertex program includes morph animation", ParameterType::BOOL), 
             &msMorphCmd);
-        dict->addParameter(
+        dict->add_parameter(
             ParameterDef("includes_pose_animation", 
-                         "The number of poses this vertex program supports for pose animation", PT_INT),
+                         "The number of poses this vertex program supports for pose animation", ParameterType::INT),
             &msPoseCmd);
-        dict->addParameter(
+        dict->add_parameter(
             ParameterDef("uses_vertex_texture_fetch", 
-                         "Whether this vertex program requires vertex texture fetch support.", PT_BOOL), 
+                         "Whether this vertex program requires vertex texture fetch support.", ParameterType::BOOL), 
             &msVTFCmd);
-        dict->addParameter(
+        dict->add_parameter(
             ParameterDef("manual_named_constants", 
-                         "File containing named parameter mappings for low-level programs.", PT_BOOL), 
+                         "File containing named parameter mappings for low-level programs.", ParameterType::BOOL), 
             &msManNamedConstsFileCmd);
     }
 
@@ -424,12 +424,12 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String CmdType::doGet(const void* target) const
+    String CmdType::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return GpuProgram::getProgramTypeName(t->getType()) + "_program";
     }
-    void CmdType::doSet(void* target, const String& val)
+    void CmdType::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         if (val == "vertex_program")
@@ -458,67 +458,67 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    String CmdSyntax::doGet(const void* target) const
+    String CmdSyntax::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return t->getSyntaxCode();
     }
-    void CmdSyntax::doSet(void* target, const String& val)
+    void CmdSyntax::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         t->setSyntaxCode(val);
     }
     //-----------------------------------------------------------------------
-    String CmdSkeletal::doGet(const void* target) const
+    String CmdSkeletal::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return StringConverter::to_string(t->isSkeletalAnimationIncluded());
     }
-    void CmdSkeletal::doSet(void* target, const String& val)
+    void CmdSkeletal::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         t->setSkeletalAnimationIncluded(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdMorph::doGet(const void* target) const
+    String CmdMorph::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return StringConverter::to_string(t->isMorphAnimationIncluded());
     }
-    void CmdMorph::doSet(void* target, const String& val)
+    void CmdMorph::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         t->setMorphAnimationIncluded(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdPose::doGet(const void* target) const
+    String CmdPose::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return StringConverter::to_string(t->getNumberOfPosesIncluded());
     }
-    void CmdPose::doSet(void* target, const String& val)
+    void CmdPose::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         t->setPoseAnimationIncluded((ushort)StringConverter::parse_uint32(val));
     }
     //-----------------------------------------------------------------------
-    String CmdVTF::doGet(const void* target) const
+    String CmdVTF::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return StringConverter::to_string(t->isVertexTextureFetchRequired());
     }
-    void CmdVTF::doSet(void* target, const String& val)
+    void CmdVTF::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         t->setVertexTextureFetchRequired(StringConverter::parse_bool(val));
     }
     //-----------------------------------------------------------------------
-    String CmdManualNamedConstsFile::doGet(const void* target) const
+    String CmdManualNamedConstsFile::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
         return t->getManualNamedConstantsFile();
     }
-    void CmdManualNamedConstsFile::doSet(void* target, const String& val)
+    void CmdManualNamedConstsFile::set(void* target, const String& val)
     {
         GpuProgram* t = static_cast<GpuProgram*>(target);
         t->setManualNamedConstantsFile(val);

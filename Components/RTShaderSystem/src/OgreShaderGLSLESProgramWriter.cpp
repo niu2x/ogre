@@ -59,7 +59,7 @@ namespace Ogre {
 
             os << std::endl;
 
-            for(const auto& p : program->getParameters())
+            for(const auto& p : program->parameters())
             {
                 if(p->getType() != GCT_SAMPLER_EXTERNAL_OES)
                     continue;

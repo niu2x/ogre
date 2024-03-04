@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "OgreCgProgram.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgramManager.h"
-#include "string_converter.h"
+#include "string_interface.h"
 #include "log_manager.h"
 #include <cctype>
 
@@ -90,12 +90,12 @@ namespace Ogre {
 					mDelegate =
 						HighLevelGpuProgramManager::getSingleton().createProgram(
 								mName+"/Delegate", mGroup, getHighLevelLanguage(), mType);
-					mDelegate->setParameter("target", getHighLevelTarget());
-					mDelegate->setParameter("entry_point", "main");
+					mDelegate->set_parameter("target", getHighLevelTarget());
+					mDelegate->set_parameter("entry_point", "main");
 					// HLSL/GLSL output uses row major matrices, so need to tell Ogre that
-					mDelegate->setParameter("column_major_matrices", "false");
+					mDelegate->set_parameter("column_major_matrices", "false");
 					// HLSL output requires backwards compatibility to be enabled
-					mDelegate->setParameter("backwards_compatibility", "true");
+					mDelegate->set_parameter("backwards_compatibility", "true");
 				}
 				else if (!useDelegate && mDelegate)
 				{
@@ -203,31 +203,31 @@ namespace Ogre {
 				// need to set input and output operations
 				if (mInputOp == CG_POINT)
 				{
-					mDelegate->setParameter("input_operation_type", "point_list");
+					mDelegate->set_parameter("input_operation_type", "point_list");
 				}
 				else if (mInputOp == CG_LINE)
 				{
-					mDelegate->setParameter("input_operation_type", "line_strip");
+					mDelegate->set_parameter("input_operation_type", "line_strip");
 				}
 				else if (mInputOp == CG_LINE_ADJ)
 				{
-					mDelegate->setParameter("input_operation_type", "line_strip_adj");
+					mDelegate->set_parameter("input_operation_type", "line_strip_adj");
 				}
 				else if (mInputOp == CG_TRIANGLE)
 				{
-					mDelegate->setParameter("input_operation_type", "triangle_strip");
+					mDelegate->set_parameter("input_operation_type", "triangle_strip");
 				}
 				else if (mInputOp == CG_TRIANGLE_ADJ)
 				{
-					mDelegate->setParameter("input_operation_type", "triangle_strip_adj");
+					mDelegate->set_parameter("input_operation_type", "triangle_strip_adj");
 				}
 
 				if (mOutputOp == CG_POINT_OUT)
-					mDelegate->setParameter("output_operation_type", "point_list");
+					mDelegate->set_parameter("output_operation_type", "point_list");
 				else if (mOutputOp == CG_LINE_OUT)
-					mDelegate->setParameter("output_operation_type", "line_strip");
+					mDelegate->set_parameter("output_operation_type", "line_strip");
 				else if (mOutputOp == CG_TRIANGLE_OUT)
-					mDelegate->setParameter("output_operation_type", "triangle_strip");
+					mDelegate->set_parameter("output_operation_type", "triangle_strip");
 			}
 			if (getHighLevelLanguage() == "glsl")
 			{
@@ -472,8 +472,8 @@ namespace Ogre {
 					HighLevelGpuProgramManager::getSingleton().createProgram(
 					mName, mGroup, "hlsl", mType);
 				vp->setSource(mProgramString);
-				vp->setParameter("target", mSelectedProfile);
-				vp->setParameter("entry_point", "main");
+				vp->set_parameter("target", mSelectedProfile);
+				vp->set_parameter("entry_point", "main");
 
 				vp->load();
 
@@ -1183,18 +1183,18 @@ namespace Ogre {
 		mCgContext(context),
 		mSelectedCgProfile(CG_PROFILE_UNKNOWN), mCgArguments(0), mParametersMapSizeAsBuffer(0)
 	{
-		if (createParamDictionary("CgProgram"))
+		if (create_param_dictionary("CgProgram"))
 		{
 			setupBaseParamDictionary();
 
-			ParamDictionary* dict = getParamDictionary();
+			ParamDictionary* dict = param_dictionary();
 
-			dict->addParameter(ParameterDef("profiles",
+			dict->add_parameter(ParameterDef("profiles",
 				"Space-separated list of Cg profiles supported by this profile.",
-				PT_STRING),&msCmdProfiles);
-			dict->addParameter(ParameterDef("compile_arguments",
+				ParameterType::STRING),&msCmdProfiles);
+			dict->add_parameter(ParameterDef("compile_arguments",
 				"A string of compilation arguments to pass to the Cg compiler.",
-				PT_STRING),&msCmdArgs);
+				ParameterType::STRING),&msCmdArgs);
 		}
 
 	}
@@ -1241,21 +1241,21 @@ namespace Ogre {
 	//-----------------------------------------------------------------------
 	//-----------------------------------------------------------------------
 	//-----------------------------------------------------------------------
-	String CgProgram::CmdProfiles::doGet(const void *target) const
+	String CgProgram::CmdProfiles::get(const void *target) const
 	{
 		return StringConverter::to_string(
 			static_cast<const CgProgram*>(target)->getProfiles() );
 	}
-	void CgProgram::CmdProfiles::doSet(void *target, const String& val)
+	void CgProgram::CmdProfiles::set(void *target, const String& val)
 	{
 		static_cast<CgProgram*>(target)->setProfiles(StringUtil::split(val));
 	}
 	//-----------------------------------------------------------------------
-	String CgProgram::CmdArgs::doGet(const void *target) const
+	String CgProgram::CmdArgs::get(const void *target) const
 	{
 		return static_cast<const CgProgram*>(target)->getPreprocessorDefines();
 	}
-	void CgProgram::CmdArgs::doSet(void *target, const String& val)
+	void CgProgram::CmdArgs::set(void *target, const String& val)
 	{
 		static_cast<CgProgram*>(target)->setPreprocessorDefines(val);
 	}

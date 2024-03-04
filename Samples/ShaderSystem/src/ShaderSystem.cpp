@@ -186,7 +186,7 @@ void Sample_ShaderSystem::sliderMoved(Slider* slider)
         auto instanceSet = mReflectionMapSubRS->getAccessor()->getSubRenderStateInstanceSet();
         for (auto inst : instanceSet)
         {
-            inst->setParameter("luminance", luminance);
+            inst->set_parameter("luminance", luminance);
         }
     }   
 
@@ -492,7 +492,7 @@ void Sample_ShaderSystem::setPerPixelFogEnable( bool enable )
         auto fogSubRenderState = schemRenderState->getSubRenderState(SRS_FOG);
 
         // Select the desired fog calculation mode.
-        fogSubRenderState->setParameter("calc_mode", mPerPixelFogEnable ? "per_pixel" : "per_vertex");
+        fogSubRenderState->set_parameter("calc_mode", mPerPixelFogEnable ? "per_pixel" : "per_vertex");
 
         // Invalidate the scheme in order to re-generate all shaders based technique related to this scheme.
         mShaderGenerator->invalidateScheme(Ogre::MSN_SHADERGEN);
@@ -591,9 +591,9 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 {
                     RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState(RTShader::SRS_NORMALMAP);
 
-                    normalMapSubRS->setParameter("normalmap_space", "object_space");
+                    normalMapSubRS->set_parameter("normalmap_space", "object_space");
                     setNormalMap(curPass, "Panels_Normal_Obj.png");
-                    normalMapSubRS->setParameter("texture_index", "1");
+                    normalMapSubRS->set_parameter("texture_index", "1");
                     renderState->addTemplateSubRenderState(normalMapSubRS);
                 }
 
@@ -613,9 +613,9 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 {
                     RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState(RTShader::SRS_NORMALMAP);
 
-                    normalMapSubRS->setParameter("normalmap_space", "tangent_space");
+                    normalMapSubRS->set_parameter("normalmap_space", "tangent_space");
                     setNormalMap(curPass, "Panels_Normal_Tangent.png");
-                    normalMapSubRS->setParameter("texture_index", "1");
+                    normalMapSubRS->set_parameter("texture_index", "1");
 
                     renderState->addTemplateSubRenderState(normalMapSubRS);
                 }
@@ -631,8 +631,8 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
             if (mCurLightingModel == SSLM_ImageBasedLighting)
             {               
                 RTShader::SubRenderState* subRenderState = mShaderGenerator->createSubRenderState(RTShader::SRS_IMAGE_BASED_LIGHTING);
-                subRenderState->setParameter("texture", "studio_garden.jpg");
-                subRenderState->setParameter("luminance", std::to_string(mReflectionPowerSlider->getValue()));
+                subRenderState->set_parameter("texture", "studio_garden.jpg");
+                subRenderState->set_parameter("luminance", std::to_string(mReflectionPowerSlider->getValue()));
                 renderState->addTemplateSubRenderState(subRenderState);
                 mReflectionMapSubRS = subRenderState;               
             }
@@ -917,8 +917,8 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
 
     
         auto subRenderState = mShaderGenerator->createSubRenderState(SRS_SHADOW_MAPPING);
-        subRenderState->setParameter("split_points", pssmSetup->getSplitPoints());
-        subRenderState->setParameter("debug", menuIndex > 1);
+        subRenderState->set_parameter("split_points", pssmSetup->getSplitPoints());
+        subRenderState->set_parameter("debug", menuIndex > 1);
         schemRenderState->addTemplateSubRenderState(subRenderState);        
     }
 #endif

@@ -189,7 +189,7 @@ void FunctionAtom::pushOperand(ParameterPtr parameter, Operand::OpSemantic opSem
 void FunctionAtom::setOperands(const OperandVector& ops)
 {
     for (size_t i = 0; i < ops.size(); i++)
-        if(!ops[i].getParameter())
+        if(!ops[i].parameter())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, parameterNullMsg(mFunctionName, i));
 
     mOperands = ops;
@@ -266,7 +266,7 @@ bool FunctionInvocation::operator < ( const FunctionInvocation& rhs ) const
 
 static uchar getSwizzledSize(const Operand& op)
 {
-    auto gct = op.getParameter()->getType();
+    auto gct = op.parameter()->getType();
     if (op.getMask() == Operand::OPM_ALL)
         return GpuConstantDefinition::getElementSize(gct, false);
 
@@ -405,7 +405,7 @@ void SampleTextureAtom::writeSourceCode(std::ostream& os, const String& targetLa
     os << "\t=\t";
 
     os << "texture";
-    const auto& sampler = mOperands.front().getParameter();
+    const auto& sampler = mOperands.front().parameter();
     switch(sampler->getType())
     {
     case GCT_SAMPLER1D:

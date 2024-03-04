@@ -267,7 +267,7 @@ private:
     ~Function();
 
     /** Add parameter to given list */
-    void addParameter(ShaderParameterList& parameterList, ParameterPtr parameter);
+    void add_parameter(ShaderParameterList& parameterList, ParameterPtr parameter);
 
     /** Delete parameter from a given list */
     void deleteParameter(ShaderParameterList& parameterList, ParameterPtr parameter);

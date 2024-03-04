@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreRingEmitter.h"
 #include "OgreParticle.h"
 #include "exception.h"
-#include "string_converter.h"
+#include "string_interface.h"
 
 
 /* Implements an Emitter whose emitting points all lie inside a ring.
@@ -47,12 +47,12 @@ namespace Ogre {
         if (initDefaults("Ring"))
         {
             // Add custom parameters
-            ParamDictionary* pDict = getParamDictionary();
+            ParamDictionary* pDict = param_dictionary();
 
-            pDict->addParameter(ParameterDef("inner_width", "Parametric value describing the proportion of the "
-                "shape which is hollow.", PT_REAL), &msCmdInnerX);
-            pDict->addParameter(ParameterDef("inner_height", "Parametric value describing the proportion of the "
-                "shape which is hollow.", PT_REAL), &msCmdInnerY);
+            pDict->add_parameter(ParameterDef("inner_width", "Parametric value describing the proportion of the "
+                "shape which is hollow.", ParameterType::REAL), &msCmdInnerX);
+            pDict->add_parameter(ParameterDef("inner_height", "Parametric value describing the proportion of the "
+                "shape which is hollow.", ParameterType::REAL), &msCmdInnerY);
         }
         // default is half empty
         setInnerSize(0.5,0.5);
@@ -135,22 +135,22 @@ namespace Ogre {
     // Command objects
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    String RingEmitter::CmdInnerX::doGet(const void* target) const
+    String RingEmitter::CmdInnerX::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const RingEmitter*>(target)->getInnerSizeX() );
     }
-    void RingEmitter::CmdInnerX::doSet(void* target, const String& val)
+    void RingEmitter::CmdInnerX::set(void* target, const String& val)
     {
         static_cast<RingEmitter*>(target)->setInnerSizeX(StringConverter::parse_real(val));
     }
     //-----------------------------------------------------------------------
-    String RingEmitter::CmdInnerY::doGet(const void* target) const
+    String RingEmitter::CmdInnerY::get(const void* target) const
     {
         return StringConverter::to_string(
             static_cast<const RingEmitter*>(target)->getInnerSizeY() );
     }
-    void RingEmitter::CmdInnerY::doSet(void* target, const String& val)
+    void RingEmitter::CmdInnerY::set(void* target, const String& val)
     {
         static_cast<RingEmitter*>(target)->setInnerSizeY(StringConverter::parse_real(val));
     }
