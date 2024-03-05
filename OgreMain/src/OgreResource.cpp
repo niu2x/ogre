@@ -63,7 +63,7 @@ namespace Ogre
         // Just call load as if this is the background thread, locking on
         // load status will prevent race conditions
         load(true);
-        _fireLoadingComplete();
+        _fireloading_complete();
     }
     //-----------------------------------------------------------------------
     void Resource::prepare(bool background)
@@ -144,9 +144,7 @@ namespace Ogre
 
         // Fire events (if not background)
         if (!background)
-            _firePreparingComplete();
-
-
+            _firepreparing_complete();
     }
     //---------------------------------------------------------------------
     void Resource::load(bool background)
@@ -285,9 +283,7 @@ namespace Ogre
 
         // Fire events, if not background
         if (!background)
-            _fireLoadingComplete();
-
-
+            _fireloading_complete();
     }
     //---------------------------------------------------------------------
     size_t Resource::calculateSize(void) const
@@ -348,9 +344,7 @@ namespace Ogre
         if(old==LOADSTATE_LOADED && mCreator)
             mCreator->_notifyResourceUnloaded(this);
 
-        _fireUnloadingComplete();
-
-
+        _fireUnloading_complete();
     }
     //-----------------------------------------------------------------------
     void Resource::reload(LoadingFlags flags)
@@ -385,33 +379,33 @@ namespace Ogre
         mListenerList.erase(lis);
     }
     //-----------------------------------------------------------------------
-    void Resource::_fireLoadingComplete(bool unused)
+    void Resource::_fireloading_complete(bool unused)
     {
         // Lock the listener list
         
         for (auto& l : mListenerList)
         {
-            l->loadingComplete(this);
+            l->loading_complete(this);
         }
     }
     //-----------------------------------------------------------------------
-    void Resource::_firePreparingComplete(bool unused)
+    void Resource::_firepreparing_complete(bool unused)
     {
         // Lock the listener list
         
         for (auto& l : mListenerList)
         {
-            l->preparingComplete(this);
+            l->preparing_complete(this);
         }
     }
     //-----------------------------------------------------------------------
-    void Resource::_fireUnloadingComplete(void)
+    void Resource::_fireUnloading_complete(void)
     {
         // Lock the listener list
         
         for (auto& l : mListenerList)
         {
-            l->unloadingComplete(this);
+            l->unloading_complete(this);
         }
     }
 

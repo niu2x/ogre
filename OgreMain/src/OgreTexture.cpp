@@ -334,7 +334,7 @@ namespace Ogre {
                     mLoader->loadResource(this);
 
                 mLoadingState.store(LOADSTATE_LOADED);
-                _fireLoadingComplete();
+                _fireloading_complete();
             }
         }
     }
@@ -351,7 +351,7 @@ namespace Ogre {
             if(mLoadingState.load() != LOADSTATE_UNLOADING)
             {
                 mLoadingState.store(LOADSTATE_UNLOADED);
-                _fireUnloadingComplete();
+                _fireUnloading_complete();
             }
         }
     }

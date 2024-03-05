@@ -64,8 +64,7 @@ namespace Ogre {
             through a generic interface.</li>
         </ol>
     */
-    class _OgreExport Resource : public StringInterface, public ResourceAlloc
-    {
+    class Resource : public StringInterface {
     public:
         class Listener
         {
@@ -80,8 +79,7 @@ namespace Ogre {
                 ResourceGroupManager, which will then be sent back to the 
                 listener as part of the application's primary frame loop thread.
             */
-            virtual void loadingComplete(Resource*) {}
-
+            virtual void loading_complete(Resource*) { }
 
             /** Called whenever the resource finishes preparing (paging into memory).
 
@@ -91,10 +89,10 @@ namespace Ogre {
                 ResourceGroupManager, which will then be sent back to the 
                 listener as part of the application's primary frame loop thread.
             */
-            virtual void preparingComplete(Resource*) {}
+            virtual void preparing_complete(Resource*) { }
 
             /** Called whenever the resource has been unloaded. */
-            virtual void unloadingComplete(Resource*) {}
+            virtual void unloading_complete(Resource*) { }
         };
         
         /// Enum identifying the loading state of the resource
@@ -433,19 +431,19 @@ namespace Ogre {
             If you use %Ogre's built in frame loop you don't need to call this
             yourself.
         */
-        void _fireLoadingComplete(bool unused = false);
+        void _fireloading_complete(bool unused = false);
 
         /** Firing of preparing complete event
 
             @copydetails _fireLoadingComplete
         */
-        void _firePreparingComplete(bool unused = false);
+        void _firepreparing_complete(bool unused = false);
 
         /** Firing of unloading complete event
 
             @copydetails _fireLoadingComplete
         */
-        void _fireUnloadingComplete(void);
+        void _fireUnloading_complete(void);
     };
 
     /** Interface describing a manual resource loader.

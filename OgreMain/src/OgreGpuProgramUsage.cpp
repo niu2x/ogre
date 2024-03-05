@@ -152,13 +152,13 @@ namespace Ogre
         // TODO?
     }
     //---------------------------------------------------------------------
-    void GpuProgramUsage::unloadingComplete(Resource* prog)
+    void GpuProgramUsage::unloading_complete(Resource* prog)
     {
         mRecreateParams = true;
 
     }
     //---------------------------------------------------------------------
-    void GpuProgramUsage::loadingComplete(Resource* prog)
+    void GpuProgramUsage::loading_complete(Resource* prog)
     {
         // Need to re-create parameters
         if (mRecreateParams)

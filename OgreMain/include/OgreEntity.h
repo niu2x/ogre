@@ -809,7 +809,7 @@ namespace Ogre {
         /** Resource::Listener hook to notify Entity that a delay-loaded Mesh is
             complete.
         */
-        void loadingComplete(Resource* res) override;
+        void loading_complete(Resource* res) override;
 
         void visitRenderables(Renderable::Visitor* visitor, bool debugRenderables = false) override;
 
