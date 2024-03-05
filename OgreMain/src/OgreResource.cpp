@@ -31,13 +31,25 @@ THE SOFTWARE.
 namespace Ogre 
 {
     //-----------------------------------------------------------------------
-    Resource::Resource(ResourceManager* creator, const String& name, ResourceHandle handle,
-        const String& group, bool isManual, ManualResourceLoader* loader)
-        : mCreator(creator), mName(name), mGroup(group), mHandle(handle), 
-        mLoadingState(LOADSTATE_UNLOADED), mIsBackgroundLoaded(false),
-        mIsManual(isManual), mSize(0),  mLoader(loader), mStateCount(0)
-    {
-    }
+Resource::Resource(
+    ResourceManager* creator,
+    const String& name,
+    ResourceHandle handle,
+    const String& group,
+    bool isManual,
+    ManualResourceLoader* loader)
+: mCreator(creator)
+, mName(name)
+, mGroup(group)
+, mHandle(handle)
+, mLoadingState(LoadingState::UNLOADED)
+, mIsBackgroundLoaded(false)
+, mIsManual(isManual)
+, mSize(0)
+, mLoader(loader)
+, mStateCount(0)
+{
+}
     //-----------------------------------------------------------------------
     Resource::~Resource() 
     { 
@@ -70,21 +82,21 @@ namespace Ogre
     {
         // quick check that avoids any synchronisation
         LoadingState old = mLoadingState.load();
-        if (old != LOADSTATE_UNLOADED && old != LOADSTATE_PREPARING) return;
+        if (old != LoadingState::UNLOADED && old != LoadingState::PREPARING)
+            return;
 
         // atomically do slower check to make absolutely sure,
         // and set the load state to PREPARING
-        old = LOADSTATE_UNLOADED;
-        if (!mLoadingState.compare_exchange_strong(old,LOADSTATE_PREPARING))
-        {
-            while( mLoadingState.load() == LOADSTATE_PREPARING )
-            {
-                            
-            }
+        old = LoadingState::UNLOADED;
+        if (!mLoadingState.compare_exchange_strong(
+                old,
+                LoadingState::PREPARING)) {
+            while (mLoadingState.load() == LoadingState::PREPARING) { }
 
             LoadingState state = mLoadingState.load();
-            if( state != LOADSTATE_PREPARED && state != LOADSTATE_LOADING && state != LOADSTATE_LOADED )
-            {
+            if (state != LoadingState::PREPARED
+                && state != LoadingState::LOADING
+                && state != LoadingState::LOADED) {
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Another thread failed in resource operation",
                     "Resource::prepare");
             }
@@ -127,15 +139,14 @@ namespace Ogre
         }
         catch (...)
         {
-            mLoadingState.store(LOADSTATE_UNLOADED);
+            mLoadingState.store(LoadingState::UNLOADED);
 
-            
             unloadImpl();
 
             throw;
         }
 
-        mLoadingState.store(LOADSTATE_PREPARED);
+        mLoadingState.store(LoadingState::PREPARED);
 
         // Since we don't distinguish between GPU and CPU RAM, this
         // seems pointless
@@ -161,40 +172,35 @@ namespace Ogre
         // This next section is to deal with cases where 2 threads are fighting over
         // who gets to prepare / load - this will only usually happen if loading is escalated
         bool keepChecking = true;
-        LoadingState old = LOADSTATE_UNLOADED;
+        LoadingState old = LoadingState::UNLOADED;
         while (keepChecking)
         {
             // quick check that avoids any synchronisation
             old = mLoadingState.load();
 
-            if ( old == LOADSTATE_PREPARING )
-            {
-                while( mLoadingState.load() == LOADSTATE_PREPARING )
-                {
-                                    
-                }
+            if (old == LoadingState::PREPARING) {
+                while (mLoadingState.load() == LoadingState::PREPARING) { }
                 old = mLoadingState.load();
             }
 
-            if (old!=LOADSTATE_UNLOADED && old!=LOADSTATE_PREPARED && old!=LOADSTATE_LOADING) return;
+            if (old != LoadingState::UNLOADED && old != LoadingState::PREPARED
+                && old != LoadingState::LOADING)
+                return;
 
             // atomically do slower check to make absolutely sure,
             // and set the load state to LOADING
-            if (old==LOADSTATE_LOADING || !mLoadingState.compare_exchange_strong(old,LOADSTATE_LOADING))
-            {
-                while( mLoadingState.load() == LOADSTATE_LOADING )
-                {
-                                    
-                }
+            if (old == LoadingState::LOADING
+                || !mLoadingState.compare_exchange_strong(
+                    old,
+                    LoadingState::LOADING)) {
+                while (mLoadingState.load() == LoadingState::LOADING) { }
 
                 LoadingState state = mLoadingState.load();
-                if( state == LOADSTATE_PREPARED || state == LOADSTATE_PREPARING )
-                {
+                if (state == LoadingState::PREPARED
+                    || state == LoadingState::PREPARING) {
                     // another thread is preparing, loop around
                     continue;
-                }
-                else if( state != LOADSTATE_LOADED )
-                {
+                } else if (state != LoadingState::LOADED) {
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Another thread failed in resource operation",
                         "Resource::load");
                 }
@@ -213,7 +219,7 @@ namespace Ogre
 
             if (mIsManual)
             {
-                if (old==LOADSTATE_UNLOADED && mLoader)
+                if (old == LoadingState::UNLOADED && mLoader)
                     mLoader->prepareResource(this);
 
                 preLoadImpl();
@@ -237,7 +243,7 @@ namespace Ogre
             else
             {
 
-                if (old==LOADSTATE_UNLOADED)
+                if (old == LoadingState::UNLOADED)
                     prepareImpl();
 
                 preLoadImpl();
@@ -265,16 +271,15 @@ namespace Ogre
             // We reset it to UNLOADED because the only other case is when
             // old == PREPARED in which case the loadImpl should wipe out
             // any prepared data since it might be invalid.
-            mLoadingState.store(LOADSTATE_UNLOADED);
+            mLoadingState.store(LoadingState::UNLOADED);
 
-            
             unloadImpl();
 
             // Re-throw
             throw;
         }
 
-        mLoadingState.store(LOADSTATE_LOADED);
+        mLoadingState.store(LoadingState::LOADED);
         _dirtyState();
 
         // Notify manager
@@ -319,15 +324,18 @@ namespace Ogre
     { 
         // Early-out without lock (mitigate perf cost of ensuring unloaded)
         LoadingState old = mLoadingState.load();
-        if (old!=LOADSTATE_LOADED && old!=LOADSTATE_PREPARED) return;
+        if (old != LoadingState::LOADED && old != LoadingState::PREPARED)
+            return;
 
-
-        if (!mLoadingState.compare_exchange_strong(old,LOADSTATE_UNLOADING)) return;
+        if (!mLoadingState.compare_exchange_strong(
+                old,
+                LoadingState::UNLOADING))
+            return;
 
         // Scope lock for actual unload
         {
-                    
-            if (old==LOADSTATE_PREPARED) {
+
+            if (old == LoadingState::PREPARED) {
                 unprepareImpl();
             } else {
                 preUnloadImpl();
@@ -336,22 +344,21 @@ namespace Ogre
             }
         }
 
-        mLoadingState.store(LOADSTATE_UNLOADED);
+        mLoadingState.store(LoadingState::UNLOADED);
 
         // Notify manager
         // Note if we have gone from PREPARED to UNLOADED, then we haven't actually
         // unloaded, i.e. there is no memory freed on the GPU.
-        if(old==LOADSTATE_LOADED && mCreator)
+        if (old == LoadingState::LOADED && mCreator)
             mCreator->_notifyResourceUnloaded(this);
 
         _fireUnloading_complete();
     }
     //-----------------------------------------------------------------------
     void Resource::reload(LoadingFlags flags)
-    { 
-            
-        if (mLoadingState.load() == LOADSTATE_LOADED)
-        {
+    {
+
+        if (mLoadingState.load() == LoadingState::LOADED) {
             unload();
             load();
         }

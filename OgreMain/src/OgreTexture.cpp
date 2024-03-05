@@ -333,7 +333,7 @@ namespace Ogre {
                 if(mIsManual && mLoader)
                     mLoader->loadResource(this);
 
-                mLoadingState.store(LOADSTATE_LOADED);
+                mLoadingState.store(LoadingState::LOADED);
                 _fireloading_complete();
             }
         }
@@ -348,9 +348,8 @@ namespace Ogre {
             mInternalResourcesCreated = false;
 
             // this is also public API, so update state accordingly
-            if(mLoadingState.load() != LOADSTATE_UNLOADING)
-            {
-                mLoadingState.store(LOADSTATE_UNLOADED);
+            if (mLoadingState.load() != LoadingState::UNLOADING) {
+                mLoadingState.store(LoadingState::UNLOADED);
                 _fireUnloading_complete();
             }
         }

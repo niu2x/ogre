@@ -321,7 +321,7 @@ namespace Ogre
         if (_getDelegate())
             return _getDelegate()->getLoadingState();
         else
-            return Resource::LOADSTATE_UNLOADED;
+            return Resource::LoadingState::UNLOADED;
     }
     //-----------------------------------------------------------------------
     size_t UnifiedHighLevelGpuProgram::getSize(void) const

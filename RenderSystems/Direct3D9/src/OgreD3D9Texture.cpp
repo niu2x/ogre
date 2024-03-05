@@ -1179,7 +1179,7 @@ namespace Ogre
             }
             catch (...)
             {
-                mLoadingState.store(LOADSTATE_UNLOADED);
+                mLoadingState.store(LoadingState::UNLOADED);
                 LogManager::getSingleton().stream(LogMsgLevel::WARNING)
                     << "Warning: Failed to restore texture " << getName() << " on DeviceCreate.";
             }

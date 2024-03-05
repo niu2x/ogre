@@ -96,20 +96,19 @@ namespace Ogre {
         };
         
         /// Enum identifying the loading state of the resource
-        enum LoadingState
-        {
+        enum class LoadingState {
             /// Not loaded
-            LOADSTATE_UNLOADED,
+            UNLOADED,
             /// Loading is in progress
-            LOADSTATE_LOADING,
+            LOADING,
             /// Fully loaded
-            LOADSTATE_LOADED,
+            LOADED,
             /// Currently unloading
-            LOADSTATE_UNLOADING,
+            UNLOADING,
             /// Fully prepared
-            LOADSTATE_PREPARED,
+            PREPARED,
             /// Preparing is in progress
-            LOADSTATE_PREPARING
+            PREPARING
         };
 
         /// Enum that allow to choose subset of unloaded/reloaded resources and to adjust reloading behavior
@@ -157,9 +156,15 @@ namespace Ogre {
     protected:
         /** Protected unnamed constructor to prevent default construction. 
         */
-        Resource() 
-            : mCreator(0), mHandle(0), mLoadingState(LOADSTATE_UNLOADED), 
-              mIsBackgroundLoaded(0), mIsManual(0), mSize(0), mLoader(0), mStateCount(0)
+        Resource()
+        : mCreator(0)
+        , mHandle(0)
+        , mLoadingState(LoadingState::UNLOADED)
+        , mIsBackgroundLoaded(0)
+        , mIsManual(0)
+        , mSize(0)
+        , mLoader(0)
+        , mStateCount(0)
         { 
         }
 
@@ -312,7 +317,7 @@ namespace Ogre {
         bool isPrepared(void) const
         { 
             // No lock required to read this state since no modify
-            return (mLoadingState.load() == LOADSTATE_PREPARED);
+            return (mLoadingState.load() == LoadingState::PREPARED);
         }
 
         /** Returns true if the Resource has been loaded, false otherwise.
@@ -320,7 +325,7 @@ namespace Ogre {
         bool isLoaded(void) const
         { 
             // No lock required to read this state since no modify
-            return (mLoadingState.load() == LOADSTATE_LOADED);
+            return (mLoadingState.load() == LoadingState::LOADED);
         }
 
         /** Returns whether the resource is currently in the process of
@@ -328,7 +333,7 @@ namespace Ogre {
         */
         bool isLoading() const
         {
-            return (mLoadingState.load() == LOADSTATE_LOADING);
+            return (mLoadingState.load() == LoadingState::LOADING);
         }
 
         /** Returns the current loading state.
