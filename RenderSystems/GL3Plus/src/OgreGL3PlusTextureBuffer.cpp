@@ -268,7 +268,7 @@ namespace Ogre {
 
     void GL3PlusTextureBuffer::download(const PixelBox &data)
     {
-        if (data.getSize() != getSize())
+        if (data.size() != size())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "only download of entire buffer is supported by GL",
                         "GL3PlusTextureBuffer::download");
 
@@ -380,8 +380,7 @@ namespace Ogre {
         GLenum filtering = GL_LINEAR;
 
         // Set filtering modes depending on the dimensions and source
-        if (srcBox.getSize()==dstBox.getSize())
-        {
+        if (srcBox.size() == dstBox.size()) {
             // Dimensions match -- use nearest filtering (fastest and pixel correct)
             filtering = GL_NEAREST;
         }
@@ -490,8 +489,7 @@ namespace Ogre {
 
         // Fall back to normal GLHardwarePixelBuffer::blitFromMemory in case
         // the source dimensions match the destination ones, in which case no scaling is needed
-        if (src.getSize() == dstBox.getSize())
-        {
+        if (src.size() == dstBox.size()) {
             _blitFromMemory(src, dstBox);
             return;
         }
@@ -504,7 +502,7 @@ namespace Ogre {
             src.getWidth(), src.getHeight(), src.getDepth(), 0, src.format);
 
         // Upload data to 0,0,0 in temporary texture
-        Box tempTarget(src.getSize());
+        Box tempTarget(src.size());
         tex->getBuffer()->blitFromMemory(src, tempTarget);
 
         // Blit from texture
@@ -544,28 +542,21 @@ namespace Ogre {
                         "GL3PlusHardwarePixelBuffer::blitToMemory");
         }
 
-        if (srcBox.getOrigin() == Vector3i(0, 0 ,0) &&
-            srcBox.getSize() == getSize() &&
-            dst.getSize() == getSize() &&
-            GL3PlusPixelUtil::getGLInternalFormat(dst.format) != 0)
-        {
+        if (srcBox.getOrigin() == Vector3i(0, 0, 0) && srcBox.size() == size()
+            && dst.size() == size()
+            && GL3PlusPixelUtil::getGLInternalFormat(dst.format) != 0) {
             // The direct case: the user wants the entire texture in a format supported by GL
             // so we don't need an intermediate buffer
             download(dst);
-        }
-        else
-        {
+        } else {
             // Use buffer for intermediate copy
             allocateBuffer();
             // Download entire buffer
             download(mBuffer);
-            if(srcBox.getSize() != dst.getSize())
-            {
+            if (srcBox.size() != dst.size()) {
                 // We need scaling
                 Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
-            }
-            else
-            {
+            } else {
                 // Just copy the bit that we need
                 PixelUtil::bulkPixelConversion(mBuffer.getSubVolume(srcBox), dst);
             }

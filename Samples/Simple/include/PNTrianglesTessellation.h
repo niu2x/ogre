@@ -74,30 +74,25 @@ public:
 
     void checkBoxToggled(CheckBox* box) override
     {
-        if (box->getName() == "Wire")
-        {
+        if (box->name() == "Wire") {
             if( mCamera->getPolygonMode() == PM_WIREFRAME )
                 mCamera->setPolygonMode(PM_SOLID);
             else
                 mCamera->setPolygonMode(PM_WIREFRAME);
-        }
-        else if (StringUtil::starts_with(box->getName(), "Light", false))
-        {
+        } else if (StringUtil::starts_with(box->name(), "Light", false)) {
             // get the light pivot that corresponds to this checkbox
-            SceneNode* pivot = box->getName() == "Light1" ? mLightPivot1 : mLightPivot2;
+            SceneNode* pivot
+                = box->name() == "Light1" ? mLightPivot1 : mLightPivot2;
             // toggle visibility of light and billboard set
             pivot->setVisible(box->isChecked());
-        }
-        else if (box->getName() == "MoveLights")
-        {
+        } else if (box->name() == "MoveLights") {
             mMoveLights = !mMoveLights;
         }
     }
 
     void sliderMoved(Slider* slider) override
     {
-        if( slider->getName() == "tessellationAmount" )
-        {
+        if (slider->name() == "tessellationAmount") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( mMaterialMenu->getSelectedItem() );
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_tessellationAmount", slider->getValue() );
         }
@@ -158,7 +153,7 @@ protected:
             mesh->buildTangentVectors();
 
             // create an entity from the mesh and set the first available material
-            Entity* ent = mSceneMgr->createEntity(mesh->getName(), mesh->getName());
+            Entity* ent = mSceneMgr->createEntity(mesh->name(), mesh->name());
             ent->setMaterialName(it->second.front());
         }
     }

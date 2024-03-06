@@ -574,26 +574,60 @@ namespace Ogre
                 // 16 bytes per vertex, shaders only
                 // POSITION (encoded x/y as indexes from base)
                 // short2(x, y)
-                offset += dcl->addElement(POSITION_BUFFER, offset, VET_SHORT2, VES_POSITION).getSize();
+                offset += dcl->addElement(
+                                 POSITION_BUFFER,
+                                 offset,
+                                 VET_SHORT2,
+                                 VES_POSITION)
+                              .size();
                 // UV0 - height
                 // float(height)
-                dcl->addElement(POSITION_BUFFER, offset, VET_FLOAT1, VES_TEXTURE_COORDINATES, 0).getSize();
+                dcl->addElement(
+                       POSITION_BUFFER,
+                       offset,
+                       VET_FLOAT1,
+                       VES_TEXTURE_COORDINATES,
+                       0)
+                    .size();
                 // UV1 delta information
                 // float2(delta, deltaLODthreshold)
-                dcl->addElement(DELTA_BUFFER, 0, VET_FLOAT2, VES_TEXTURE_COORDINATES, 1).getSize();
+                dcl->addElement(
+                       DELTA_BUFFER,
+                       0,
+                       VET_FLOAT2,
+                       VES_TEXTURE_COORDINATES,
+                       1)
+                    .size();
             }
             else
             {
                 // 28 bytes per vertex, compatibility
                 // POSITION
                 // float3(x, y, z)
-                offset += dcl->addElement(POSITION_BUFFER, offset, VET_FLOAT3, VES_POSITION).getSize();
+                offset += dcl->addElement(
+                                 POSITION_BUFFER,
+                                 offset,
+                                 VET_FLOAT3,
+                                 VES_POSITION)
+                              .size();
                 // UV0
                 // float2(u, v)
-                dcl->addElement(POSITION_BUFFER, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0).getSize();
+                dcl->addElement(
+                       POSITION_BUFFER,
+                       offset,
+                       VET_FLOAT2,
+                       VES_TEXTURE_COORDINATES,
+                       0)
+                    .size();
                 // UV1 delta information
                 // float2(delta, deltaLODthreshold)
-                dcl->addElement(DELTA_BUFFER, 0, VET_FLOAT2, VES_TEXTURE_COORDINATES, 1).getSize();
+                dcl->addElement(
+                       DELTA_BUFFER,
+                       0,
+                       VET_FLOAT2,
+                       VES_TEXTURE_COORDINATES,
+                       1)
+                    .size();
             }
 
             // Calculate number of vertices
@@ -642,7 +676,8 @@ namespace Ogre
         resetBounds(rect);
 
         // Main data
-        uint16 inc = (mTerrain->getSize()-1) / (mVertexDataRecord->resolution-1);
+        uint16 inc
+            = (mTerrain->size() - 1) / (mVertexDataRecord->resolution - 1);
         long destOffsetX = rect.left <= mOffsetX ? 0 : (rect.left - mOffsetX) / inc;
         long destOffsetY = rect.top <= mOffsetY ? 0 : (rect.top - mOffsetY) / inc;
         // Fill the buffers
@@ -658,10 +693,10 @@ namespace Ogre
             lockMode = HardwareBuffer::HBL_DISCARD;
         }
 
-        Real uvScale = 1.0f / (mTerrain->getSize() - 1);
+        Real uvScale = 1.0f / (mTerrain->size() - 1);
         const float* pBaseHeight = mTerrain->getHeightData(rect.left, rect.top);
         const float* pBaseDelta = mTerrain->getDeltaData(rect.left, rect.top);
-        uint16 rowskip = mTerrain->getSize() * inc;
+        uint16 rowskip = mTerrain->size() * inc;
         uint16 destPosRowSkip = 0, destDeltaRowSkip = 0;
         unsigned char* pRootPosBuf = 0;
         unsigned char* pRootDeltaBuf = 0;
@@ -798,7 +833,7 @@ namespace Ogre
                     writeDeltaVertex(vcompress, x, y, 0, 99, &pDeltaBuf);
                 }
             }
-            pBaseHeight += mTerrain->getSize() * skirtSpacing;
+            pBaseHeight += mTerrain->size() * skirtSpacing;
             if (pRowPosBuf)
                 pRowPosBuf += destPosRowSkip;
             if (pRowDeltaBuf)
@@ -967,7 +1002,7 @@ namespace Ogre
         const VertexDataRecord* vdr = getVertexDataRecord();
 
         // Ratio of the main terrain resolution in relation to this vertex data resolution
-        uint16 resolutionRatio = (mTerrain->getSize() - 1) / (vdr->resolution - 1);
+        uint16 resolutionRatio = (mTerrain->size() - 1) / (vdr->resolution - 1);
         // At what frequency do we sample the vertex data we're using?
         // mSize is the coverage in terms of the original terrain data (not split to fit in 16-bit)
         uint16 vertexIncrement = (mSize-1) / (batchSize-1);

@@ -241,7 +241,7 @@ namespace OgreBites
           -----------------------------------------------------------------------------*/
         void buttonHit(Button* b) override
         {
-            if (b->getName() == "StartStop")   // start or stop sample
+            if (b->name() == "StartStop") // start or stop sample
             {
                 if (b->getCaption() == "Start Sample")
                 {
@@ -254,8 +254,9 @@ namespace OgreBites
                     }
                 } else
                     runSample(0);
-            }
-            else if (b->getName() == "UnloadReload")   // unload or reload sample plugins and update controls
+            } else if (b->name() == "UnloadReload") // unload or reload sample
+                                                    // plugins and update
+                                                    // controls
             {
                 if (b->getCaption() == "Unload Samples")
                 {
@@ -284,8 +285,7 @@ namespace OgreBites
                     }
                     catch (Ogre::Exception&) {}
                 }
-            }
-            else if (b->getName() == "Configure")   // enter configuration screen
+            } else if (b->name() == "Configure") // enter configuration screen
             {
                 mOwnsImGuiOverlay = !Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay");
                 auto imguiOverlay = initialiseImGui();
@@ -328,7 +328,7 @@ namespace OgreBites
                         = ImVec4(0.26f, 0.98f, 0.2f, 0.95f);
                 }
 
-                mWindow->addListener(this);
+                mWindow->add_listener(this);
                 mInputListenerChain = TouchAgnosticInputListenerChain(mWindow, {this, mTrayMgr, getImGuiInputListener()});
 
                 mTrayMgr->removeWidgetFromTray("StartStop");
@@ -356,8 +356,7 @@ namespace OgreBites
                 }
 
                 windowResized(mWindow);
-            }
-            else if (b->getName() == "Back")   // leave configuration screen
+            } else if (b->name() == "Back") // leave configuration screen
             {
                 if(mOwnsImGuiOverlay)
                     Ogre::OverlayManager::getSingleton().destroy("ImGuiOverlay"); // bring down overly to avoid interfering with samples
@@ -365,7 +364,7 @@ namespace OgreBites
                     Ogre::ImGuiOverlay::NewFrame(); // clear dialog
 
                 mInputListenerChain = TouchAgnosticInputListenerChain(mWindow, {this, mTrayMgr});
-                mWindow->removeListener(this);
+                mWindow->remove_listener(this);
 
                 while (!mTrayMgr->getWidgets(TL_NONE).empty())
                 {
@@ -386,13 +385,11 @@ namespace OgreBites
 
                 mCarouselPlace += CAROUSEL_REDRAW_EPS;  // force redraw
                 windowResized(mWindow);
-            }
-            else if (b->getName() == "Apply")   // apply any changes made in the configuration screen
+            } else if (b->name() == "Apply") // apply any changes made in the
+                                             // configuration screen
             {
                 reconfigure(mNextRenderer);
-            }
-            else
-            {
+            } else {
                 mRoot->queueEndRendering();   // exit browser
             }
         }
@@ -422,7 +419,9 @@ namespace OgreBites
             {
                 for (unsigned int i = 0; i < mThumbs.size(); i++)    // destroy all thumbnails in carousel
                 {
-                    Ogre::MaterialManager::getSingleton().remove(mThumbs[i]->getName(), "Essential");
+                    Ogre::MaterialManager::getSingleton().remove(
+                        mThumbs[i]->name(),
+                        "Essential");
                     Widget::nukeOverlayElement(mThumbs[i]);
                 }
                 mThumbs.clear();

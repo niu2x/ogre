@@ -140,12 +140,11 @@ void Sample_NewInstancing::setupContent()
     mSceneMgr->setShadowTextureSelfShadow( true );
     mSceneMgr->setShadowCasterRenderBackFaces( true );
 
-    if (Ogre::Root::getSingletonPtr()->getRenderSystem()->getName().find("OpenGL ES 2") == String::npos)
-    {
+    if (Ogre::Root::getSingletonPtr()->getRenderSystem()->name().find(
+            "OpenGL ES 2")
+        == String::npos) {
         mSceneMgr->setShadowTextureConfig( 0, 2048, 2048, PF_DEPTH16 );
-    }
-    else
-    {
+    } else {
         // Use a smaller texture for GL ES 3.0
         mSceneMgr->setShadowTextureConfig( 0, 512, 512, PF_DEPTH16 );
     }
@@ -415,7 +414,7 @@ void Sample_NewInstancing::clearScene()
             sceneNode->getParentSceneNode()->removeAndDestroyChild( sceneNode );
         }
         if( mInstancingTechnique >= NUM_IM_TECHNIQUES )
-            mSceneMgr->destroyEntity( (*itor)->getName() );
+            mSceneMgr->destroyEntity((*itor)->name());
         else
             mSceneMgr->destroyInstancedEntity( static_cast<InstancedEntity*>(*itor) );
 

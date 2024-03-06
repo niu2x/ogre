@@ -294,8 +294,7 @@ void DLight::updateFromCamera(Ogre::Camera* camera)
 {
     //Set shader params
     const Ogre::MaterialPtr& mat = getMaterial();
-    if (!mat->isLoaded()) 
-    {
+    if (!mat->is_loaded()) {
         mat->load();
     }
     Ogre::Technique* tech = mat->getBestTechnique();

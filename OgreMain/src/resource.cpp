@@ -28,8 +28,7 @@ THE SOFTWARE.
 // Ogre includes
 #include "OgreStableHeaders.h"
 
-namespace Ogre 
-{
+namespace Ogre {
 //-----------------------------------------------------------------------
 Resource::Resource(
     ResourceManager* creator,
@@ -384,4 +383,4 @@ void Resource::_fire_unloading_complete(void)
         l->unloading_complete(this);
     }
 }
-}
+} // namespace Ogre

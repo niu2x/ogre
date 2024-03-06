@@ -89,7 +89,7 @@ extern "C" {
 #include "OgreBuiltinMovableFactories.h"
 #include "OgreRenderSystem.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreResource.h"
+#include "resource.h"
 #include "OgreRoot.h"
 #include "OgreShadowTextureManager.h"
 #include "OgreSceneManager.h"

@@ -98,11 +98,12 @@ void Context::destroyMaterials( const Ogre::String& resourceGroupID )
         while( resourceIterator.hasMoreElements() )
         {
             Ogre::ResourcePtr material = resourceIterator.getNext();
-            std::string matName = material->getName();
+            std::string matName = material->name();
 
-            if( resourceGroupID == material->getGroup())
-            {
-                mShaderGenerator->removeAllShaderBasedTechniques( matName, material->getGroup() );
+            if (resourceGroupID == material->group()) {
+                mShaderGenerator->removeAllShaderBasedTechniques(
+                    matName,
+                    material->group());
                 material->unload();
                 material.reset();
                 materialNamesToRemove.push_back( matName );
@@ -134,9 +135,8 @@ void Context::destroyTextures( const Ogre::String& resourceGroupID )
         while( resourceIterator.hasMoreElements() )
         {
             Ogre::ResourcePtr texture = resourceIterator.getNext();
-            Ogre::String resourceName = texture->getName();
-            if( resourceGroupID == texture->getGroup())
-            {
+            Ogre::String resourceName = texture->name();
+            if (resourceGroupID == texture->group()) {
                 texture->unload();
                 texture.reset();
                 textureNamesToRemove.push_back( resourceName );

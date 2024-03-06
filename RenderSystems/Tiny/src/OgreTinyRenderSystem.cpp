@@ -86,7 +86,7 @@ namespace Ogre {
         shutdown();
     }
 
-    const String& TinyRenderSystem::getName(void) const
+    const String& TinyRenderSystem::name(void) const
     {
         static String strName("Tiny Rendering Subsystem");
         return strName;

@@ -937,7 +937,7 @@ namespace Ogre
         /// Get the alignment of the terrain
         Alignment getAlignment() const;
         /// Get the size of the terrain in vertices along one side
-        uint16 getSize() const;
+        uint16 size() const;
         /** Set the size of terrain in vertices along one side. 
         @note The existing height data will be bilinear filtered to fill the new size
         @param newSize the new size of the terrain

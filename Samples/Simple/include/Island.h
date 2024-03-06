@@ -47,29 +47,25 @@ public:
 
     void checkBoxToggled(CheckBox* box)
     {
-        if (box->getName() == "Wire")
-        {
+        if (box->name() == "Wire") {
             if( mCamera->getPolygonMode() == PM_WIREFRAME )
                 mCamera->setPolygonMode(PM_SOLID);
             else
                 mCamera->setPolygonMode(PM_WIREFRAME);
         }
-        if (box->getName() == "Tessellation")
-        {
+        if (box->name() == "Tessellation") {
             g_UseDynamicLOD = !g_UseDynamicLOD;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_UseDynamicLOD", g_UseDynamicLOD );
         }
-        if (box->getName() == "FrustumCull")
-        {
+        if (box->name() == "FrustumCull") {
             g_FrustumCullInHS = !g_FrustumCullInHS;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_FrustumCullInHS", g_FrustumCullInHS );
         }
-        if (box->getName() == "RenderRefraction")
-        {
+        if (box->name() == "RenderRefraction") {
             g_RenderCaustics = !g_RenderCaustics;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
@@ -79,15 +75,16 @@ public:
 
     void sliderMoved(Slider* slider)
     {
-        if (slider->getName() == "tessellationLOD")
-        {
+        if (slider->name() == "tessellationLOD") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_DynamicTessFactor", slider->getValue() );
         }
-        if (slider->getName() == "tessellationFactor")
-        {
+        if (slider->name() == "tessellationFactor") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
-            lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_StaticTessFactor", slider->getValue() );        
+            lMaterialPtr->getTechnique(0)
+                ->getPass(0)
+                ->getTessellationHullProgramParameters()
+                ->setNamedConstant("g_StaticTessFactor", slider->getValue());
         }
     }
 

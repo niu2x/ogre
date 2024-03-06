@@ -73,12 +73,9 @@ namespace Ogre {
     {
         // Have to call this here reather than in Resource destructor
         // since calling virtual methods in base destructors causes crash
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             unload();
-        }
-        else
-        {
+        } else {
             unloadHighLevel();
         }
     }
@@ -122,7 +119,9 @@ namespace Ogre {
             OGRE_CHECK_GL_ERROR(glLinkProgram(mGLProgramHandle));
             OGRE_CHECK_GL_ERROR(glGetProgramiv(mGLProgramHandle, GL_LINK_STATUS, &mLinked));
 
-            GLSLES::logObjectInfo( mName + String("GLSL vertex program result : "), mGLProgramHandle );
+            GLSLES::logObjectInfo(
+                name() + String("GLSL vertex program result : "),
+                mGLProgramHandle);
 
             GLSLESProgramCommon::_writeToCache(hash, mGLProgramHandle);
         }
@@ -151,7 +150,11 @@ namespace Ogre {
 
             if(caps->hasCapability(RSC_DEBUG))
             {
-                glLabelObjectEXT(GL_SHADER_OBJECT_EXT, mGLShaderHandle, 0, mName.c_str());
+                glLabelObjectEXT(
+                    GL_SHADER_OBJECT_EXT,
+                    mGLShaderHandle,
+                    0,
+                    name().c_str());
             }
 
             // also create program object

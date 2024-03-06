@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 #include "OgreSingleton.h"
-#include "OgreResource.h"
+#include "resource.h"
 #include "work_queue.h"
 #include "OgreHeaderPrefix.h"
 

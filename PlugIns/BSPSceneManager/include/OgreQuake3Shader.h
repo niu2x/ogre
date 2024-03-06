@@ -28,7 +28,7 @@ THE SOFTWARE.
 #ifndef __QUAKE3SHADER_H__
 #define __QUAKE3SHADER_H__
 
-#include "OgreResource.h"
+#include "resource.h"
 #include "OgreBspPrerequisites.h"
 #include "OgreQuake3Types.h"
 #include "OgreCommon.h"

@@ -279,12 +279,9 @@ namespace Ogre {
     {
         // Have to call this here rather than in Resource destructor
         // since calling virtual methods in base destructors causes crash
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             unload();
-        }
-        else
-        {
+        } else {
             unloadHighLevel();
         }
     }
@@ -414,7 +411,9 @@ namespace Ogre {
 
         if(!mLinked)
         {
-            logObjectInfo( mName + String(" - GLSL program result : "), mGLProgramHandle );
+            logObjectInfo(
+                name() + String(" - GLSL program result : "),
+                mGLProgramHandle);
             return false;
         }
 
@@ -430,7 +429,8 @@ namespace Ogre {
         auto caps = Root::getSingleton().getRenderSystem()->getCapabilities();
 
         if (caps->hasCapability(RSC_DEBUG))
-            OGRE_CHECK_GL_ERROR(glObjectLabel(GL_SHADER, mGLShaderHandle, -1, mName.c_str()));
+            OGRE_CHECK_GL_ERROR(
+                glObjectLabel(GL_SHADER, mGLShaderHandle, -1, name().c_str()));
 
         compileSource();
 
@@ -636,7 +636,8 @@ namespace Ogre {
             catch (const InvalidParametersException& e)
             {
                 LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
-                    << "Program '" << mName << "' is not supported: " << e.description();
+                    << "Program '" << name()
+                    << "' is not supported: " << e.description();
                 mCompileError = true;
             }
             return;
@@ -684,7 +685,10 @@ namespace Ogre {
     void GLSLShader::detachFromProgramObject(const GLuint programObject)
     {
         OGRE_CHECK_GL_ERROR(glDetachShader(programObject, mGLShaderHandle));
-        logObjectInfo( "Error detaching " + mName + " shader object from GLSL Program Object", programObject);
+        logObjectInfo(
+            "Error detaching " + name()
+                + " shader object from GLSL Program Object",
+            programObject);
         // attach child objects
         GLSLProgramContainerIterator childprogramcurrent = mAttachedGLSLPrograms.begin();
         GLSLProgramContainerIterator childprogramend = mAttachedGLSLPrograms.end();

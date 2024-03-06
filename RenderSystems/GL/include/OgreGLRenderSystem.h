@@ -151,7 +151,7 @@ namespace Ogre {
 
         void applyFixedFunctionParams(const GpuProgramParametersPtr& params, uint16 variabilityMask) override;
 
-        const String& getName(void) const override;
+        const String& name(void) const override;
 
         void _initialise() override;
 

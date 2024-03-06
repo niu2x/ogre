@@ -139,7 +139,7 @@ namespace Ogre
 
         void shutdown( void ) override;
 
-        const String &getName( void ) const override;
+        const String& name(void) const override;
         void refreshConfig();
         void initConfigOptions() override;
         void setConfigOption( const String &name, const String &value ) override;

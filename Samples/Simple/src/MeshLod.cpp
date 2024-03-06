@@ -141,7 +141,8 @@ void Sample_MeshLod::recreateEntity()
         mSceneMgr->destroyEntity(mMeshEntity);
         mMeshEntity = 0; // createEntity may throw exception, so it is safer to reset to 0.
     }
-    mMeshEntity = mSceneMgr->createEntity(mLodConfig.mesh->getName(), mLodConfig.mesh);
+    mMeshEntity
+        = mSceneMgr->createEntity(mLodConfig.mesh->name(), mLodConfig.mesh);
     mMeshNode->attachObject(mMeshEntity);
 }
 void Sample_MeshLod::changeSelectedMesh( const String& name )
@@ -216,7 +217,7 @@ bool Sample_MeshLod::loadConfig()
     // The mesh should already be set.
     assert(mLodConfig.mesh.get());
 
-    String filename(mLodConfig.mesh->getName());
+    String filename(mLodConfig.mesh->name());
     filename += ".lodconfig";
     LodConfigSerializer lcs;
     lcs.importLodConfig(&mLodConfig, filename);
@@ -239,7 +240,7 @@ bool Sample_MeshLod::loadConfig()
 
 void Sample_MeshLod::saveConfig()
 {
-    String filename(mLodConfig.mesh->getName());
+    String filename(mLodConfig.mesh->name());
     filename += ".lodconfig";
     LodConfigSerializer lcs;
     lcs.exportLodConfig(mLodConfig, filename);
@@ -448,8 +449,8 @@ void Sample_MeshLod::moveCameraToPixelDistance( Real pixels )
 bool Sample_MeshLod::getResourceFullPath(MeshPtr& mesh, String& outPath)
 {
     ResourceGroupManager& resourceGroupMgr = ResourceGroupManager::getSingleton();
-    String group = mesh->getGroup();
-    String name = mesh->getName();
+    String group = mesh->group();
+    String name = mesh->name();
     Ogre::FileInfo* info = NULL;
     FileInfoListPtr locPtr = resourceGroupMgr.listResourceFileInfo(group);
     FileInfoList::iterator it, itEnd;
@@ -465,7 +466,7 @@ bool Sample_MeshLod::getResourceFullPath(MeshPtr& mesh, String& outPath)
         outPath = name;
         return false;
     }
-    outPath = info->archive->getName();
+    outPath = info->archive->name();
     if (outPath[outPath .size()-1] != '/' && outPath[outPath .size()-1] != '\\') {
         outPath += '/';
     }
@@ -525,21 +526,21 @@ bool Sample_MeshLod::frameStarted( const FrameEvent& evt )
 
 void Sample_MeshLod::checkBoxToggled( CheckBox * box )
 {
-    if(box->getName() == "chkUseVertexNormals") {
+    if (box->name() == "chkUseVertexNormals") {
         mLodConfig.advanced.useVertexNormals = box->isChecked();
         loadUserLod();
-    } else if (box->getName() == "chkShowWireframe") {
+    } else if (box->name() == "chkShowWireframe") {
         mCamera->setPolygonMode(mWireframe->isChecked() ? PM_WIREFRAME : PM_SOLID);
     }
 }
 
 void Sample_MeshLod::itemSelected( SelectMenu* menu )
 {
-    if (menu->getName() == "cmbModels") {
+    if (menu->name() == "cmbModels") {
         changeSelectedMesh(menu->getSelectedItem());
-    } else if(menu->getName() == "cmbLodLevels") {
+    } else if (menu->name() == "cmbLodLevels") {
         loadLodLevel(menu->getSelectionIndex());
-    } else if(menu->getName() == "cmbManualMesh") {
+    } else if (menu->name() == "cmbManualMesh") {
         mWorkLevel.manualMeshName = menu->getSelectedItem();
         loadUserLod();
     }
@@ -547,55 +548,54 @@ void Sample_MeshLod::itemSelected( SelectMenu* menu )
 
 void Sample_MeshLod::sliderMoved(Slider* slider)
 {
-    if (slider->getName() == "sldReductionValue") {
+    if (slider->name() == "sldReductionValue") {
         mWorkLevel.reductionValue = slider->getValue();
         loadUserLod();
-    } else if (slider->getName() == "sldOutsideWeight") {
+    } else if (slider->name() == "sldOutsideWeight") {
         if(mOutsideWeightSlider->getValue() == 100){
             mLodConfig.advanced.outsideWeight = LodData::NEVER_COLLAPSE_COST;
         } else {
             mLodConfig.advanced.outsideWeight = (mOutsideWeightSlider->getValue() * mOutsideWeightSlider->getValue()) / 10000;
         }
         loadUserLod();
-    } else if (slider->getName() == "sldOutsideWalkAngle") {
+    } else if (slider->name() == "sldOutsideWalkAngle") {
         mLodConfig.advanced.outsideWalkAngle = mOutsideWalkAngle->getValue();
         loadUserLod();
     }
-    
 }
 
 void Sample_MeshLod::buttonHit( OgreBites::Button* button )
 {
-    if(button->getName() == "btnReduceMore") {
+    if (button->name() == "btnReduceMore") {
         mReductionSlider->setValue(mReductionSlider->getValue()+1);
-    } else if(button->getName() == "btnReduceLess") {
+    } else if (button->name() == "btnReduceLess") {
         mReductionSlider->setValue(mReductionSlider->getValue()-1);
-    } else if(button->getName() == "btnAddToProfile") {
+    } else if (button->name() == "btnAddToProfile") {
         addToProfile(std::numeric_limits<Real>::max());
-    } else if(button->getName() == "btnRemoveFromProfile") {
+    } else if (button->name() == "btnRemoveFromProfile") {
         if(!mLodConfig.advanced.profile.empty()){
             LodProfile& profile = mLodConfig.advanced.profile;
             profile.erase(profile.begin() + mProfileList->getSelectionIndex());
             mProfileList->removeItem(mProfileList->getSelectionIndex());
             loadUserLod();
         }
-    } else if(button->getName() == "btnAddLodLevel") {
+    } else if (button->name() == "btnAddLodLevel") {
         addLodLevel();
-    } else if(button->getName() == "btnRemoveSelectedLodLevel") {
+    } else if (button->name() == "btnRemoveSelectedLodLevel") {
         removeLodLevel();
-    } else if(button->getName() == "btnRemoveInitialLodLevel") {
+    } else if (button->name() == "btnRemoveInitialLodLevel") {
         removeInitialLodLevel();
-    } else if(button->getName() == "btnAutoconfigure") {
+    } else if (button->name() == "btnAutoconfigure") {
         mTrayMgr->destroyAllWidgetsInTray(TL_TOP);
         mTrayMgr->createLabel(TL_TOP, "lblWhatYouSee", "Showing autoconfigured LOD", 300);
         loadAutomaticLod();
         forceLodLevel(-1); // disable Lod level forcing
-    } else if (button->getName() == "btnShowAll") {
+    } else if (button->name() == "btnShowAll") {
         loadUserLod(false);
         mTrayMgr->destroyAllWidgetsInTray(TL_TOP);
         mTrayMgr->createLabel(TL_TOP, "lblWhatYouSee", "Showing all LOD levels", 300);
         forceLodLevel(-1); // disable Lod level forcing
-    } else if(button->getName() == "btnShowMesh") {
+    } else if (button->name() == "btnShowMesh") {
         mTrayMgr->destroyAllWidgetsInTray(TL_TOP);
         mTrayMgr->createLabel(TL_TOP, "lblWhatYouSee", "Showing LOD from mesh file", 300);
         if(mMeshEntity){
@@ -603,13 +603,14 @@ void Sample_MeshLod::buttonHit( OgreBites::Button* button )
             mMeshEntity = 0;
         }
         mLodConfig.mesh->reload(Resource::LF_DEFAULT);
-        mMeshEntity = mSceneMgr->createEntity(mLodConfig.mesh->getName(), mLodConfig.mesh);
+        mMeshEntity
+            = mSceneMgr->createEntity(mLodConfig.mesh->name(), mLodConfig.mesh);
         mMeshNode->attachObject(mMeshEntity);
         forceLodLevel(-1); // disable Lod level forcing
         //String filename("");
         //getResourceFullPath(mLodConfig.mesh, filename);
         //mTrayMgr->showOkDialog("Success", "Showing mesh from: " + filename);
-    } else if(button->getName() == "btnSaveMesh") {
+    } else if (button->name() == "btnSaveMesh") {
         if(!mTrayMgr->getTrayContainer(TL_TOP)->isVisible() && !mLodConfig.levels.empty()){
             MeshLodGenerator::getSingleton().clearPendingLodRequests();
             MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
@@ -633,14 +634,13 @@ void Sample_MeshLod::buttonHit( OgreBites::Button* button )
         if(!mTrayMgr->getTrayContainer(TL_TOP)->isVisible()){
             loadUserLod();
         }
-    }
-    else if(button->getName() == "btnRestoreMesh") {
+    } else if (button->name() == "btnRestoreMesh") {
         String filename("");
         if(getResourceFullPath(mLodConfig.mesh, filename) && filename != "") {
             if(FileSystemLayer::fileExists(filename + ".orig"))
                 FileSystemLayer::renameFile(filename + ".orig", filename);
         }
-        changeSelectedMesh(mLodConfig.mesh->getName());
+        changeSelectedMesh(mLodConfig.mesh->name());
     }
 }
 

@@ -325,9 +325,10 @@ protected:
             TransformKeyFrame* newKf = track->createNodeKeyFrame(ANIM_CHOP);
             TransformKeyFrame* startKf = track->getNodeKeyFrame(0);
 
-            Bone* bone = skel->getBone(track->getHandle());
+            Bone* bone = skel->getBone(track->handle());
 
-            if (bone->getName() == "Spineroot")   // adjust spine root relative to new location
+            if (bone->name()
+                == "Spineroot") // adjust spine root relative to new location
             {
                 mSneakStartPos = startKf->getTranslate() + bone->getInitialPosition();
                 mSneakEndPos = oldKf.getTranslate() + bone->getInitialPosition();
@@ -336,8 +337,7 @@ protected:
                 newKf->setTranslate(oldKf.getTranslate());
                 newKf->setRotation(oldKf.getRotation());
                 newKf->setScale(oldKf.getScale());
-            }
-            else   // make all other bones loop back
+            } else // make all other bones loop back
             {
                 newKf->setTranslate(startKf->getTranslate());
                 newKf->setRotation(startKf->getRotation());

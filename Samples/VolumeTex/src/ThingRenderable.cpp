@@ -89,7 +89,7 @@ void ThingRenderable::initialise()
     VertexBufferBinding* bind = vdata->vertexBufferBinding;
 
     size_t offset = 0;
-    offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).getSize();
+    offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).size();
 
     vbuf = 
     HardwareBufferManager::getSingleton().createVertexBuffer(

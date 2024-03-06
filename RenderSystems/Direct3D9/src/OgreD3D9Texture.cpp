@@ -1140,8 +1140,7 @@ namespace Ogre
     {
         IDirect3DDevice9* d3d9Device = D3D9RenderSystem::getActiveD3D9Device();
         TextureResources* textureResources = getTextureResources(d3d9Device);
-        if ((!textureResources || !textureResources->pBaseTex) && isLoaded())
-        {
+        if ((!textureResources || !textureResources->pBaseTex) && is_loaded()) {
             // FIXME
             // createTextureResources(d3d9Device);
             // createTextureResources calls getBuffer again causing a stackoverflow
@@ -1149,7 +1148,7 @@ namespace Ogre
             // to fix this we should probably use the notify mechanism instead of
             // recrating the texture in here..
             createInternalResourcesImpl(d3d9Device);
-            textureResources = getTextureResources(d3d9Device);         
+            textureResources = getTextureResources(d3d9Device);
         }
         assert(textureResources != NULL);
 

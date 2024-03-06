@@ -135,7 +135,9 @@ public:
     
     void cleanupContent() override
     {
-        MaterialManager::getSingleton().removeListener(mGBufSchemeHandler, "GBuffer");
+        MaterialManager::getSingleton().remove_listener(
+            mGBufSchemeHandler,
+            "GBuffer");
         delete mGBufSchemeHandler;
         mGBufSchemeHandler = NULL;
 
@@ -440,7 +442,9 @@ protected:
         changePost(mPostNames[0]);
 
         mGBufSchemeHandler = new SSAOGBufferSchemeHandler();
-        MaterialManager::getSingleton().addListener(mGBufSchemeHandler, "GBuffer");
+        MaterialManager::getSingleton().add_listener(
+            mGBufSchemeHandler,
+            "GBuffer");
     }
     
     /**
@@ -590,17 +594,16 @@ protected:
     // sdkTray listener callbacks
     void itemSelected(SelectMenu* menu) override
     {
-        if (menu->getName() == SSAO_OBJECT_MENU_NAME)
+        if (menu->name() == SSAO_OBJECT_MENU_NAME)
             changeMesh(menu->getSelectionIndex());
-        
-        else if (menu->getName() == SSAO_COMPOSITOR_MENU_NAME)
+
+        else if (menu->name() == SSAO_COMPOSITOR_MENU_NAME)
             changeCompositor(menu->getSelectedItem());
-        
-        else if (menu->getName() == SSAO_POST_MENU_NAME)
-            changePost(menu->getSelectedItem());    
-        
-        else if (menu->getName() == SSAO_CAMERA_MENU_NAME)
-        {
+
+        else if (menu->name() == SSAO_POST_MENU_NAME)
+            changePost(menu->getSelectedItem());
+
+        else if (menu->name() == SSAO_CAMERA_MENU_NAME) {
             if (menu->getSelectedItem() == SSAO_CAMERA_SIBENIK)
             {
                 mCameraNode->setPosition(27, 9, -2);
@@ -616,71 +619,65 @@ protected:
     
     void sliderMoved(Slider* slider) override
     {
-        if (slider->getName() == SSAO_CREASE_MINIMUM_NAME)
+        if (slider->name() == SSAO_CREASE_MINIMUM_NAME)
             setUniform("SSAO/CreaseShading", "cMinimumCrease", slider->getValue());
-        
-        else if (slider->getName() == SSAO_CREASE_BIAS_NAME)
+
+        else if (slider->name() == SSAO_CREASE_BIAS_NAME)
             setUniform("SSAO/CreaseShading", "cBias", slider->getValue());
-        
-        else if (slider->getName() == SSAO_CREASE_AVERAGER_NAME)
+
+        else if (slider->name() == SSAO_CREASE_AVERAGER_NAME)
             setUniform("SSAO/CreaseShading", "cAverager", slider->getValue());
-        
-        else if (slider->getName() == SSAO_CREASE_RANGE_NAME)
+
+        else if (slider->name() == SSAO_CREASE_RANGE_NAME)
             setUniform("SSAO/CreaseShading", "cRange", slider->getValue() * slider->getValue());
-        
-        else if (slider->getName() == SSAO_CREASE_KERNELSIZE_NAME)
+
+        else if (slider->name() == SSAO_CREASE_KERNELSIZE_NAME)
             setUniform("SSAO/CreaseShading", "cKernelSize", slider->getValue());
-        
-        else if (slider->getName() == SSAO_SAMPLE_LENGTH_SCREENSPACE)
-        {
+
+        else if (slider->name() == SSAO_SAMPLE_LENGTH_SCREENSPACE) {
             setUniform("SSAO/Crytek", "cSampleLengthScreenSpace", slider->getValue()/100.0f);
             setUniform("SSAO/HorizonBased", "cSampleLengthScreenSpace", slider->getValue()/100.0f);
             setUniform("SSAO/HemisphereMC", "cSampleLengthScreenSpace", slider->getValue()/100.0f);
             setUniform("SSAO/Volumetric", "cSampleLengthScreenSpace", slider->getValue()/100.0f);
-        }
-        else if (slider->getName() == SSAO_SAMPLE_LENGTH_WORLDSPACE)
-        {
+        } else if (slider->name() == SSAO_SAMPLE_LENGTH_WORLDSPACE) {
             setUniform("SSAO/Crytek", "cSampleLengthWorldSpace", slider->getValue());
             setUniform("SSAO/HorizonBased", "cSampleLengthWorldSpace", slider->getValue());
             setUniform("SSAO/HemisphereMC", "cSampleLengthWorldSpace", slider->getValue());
             setUniform("SSAO/Volumetric", "cSampleLengthWorldSpace", slider->getValue());
         }
-        
-        else if (slider->getName() == SSAO_ANGLE_BIAS_NAME)
+
+        else if (slider->name() == SSAO_ANGLE_BIAS_NAME)
             setUniform("SSAO/HorizonBased", "cAngleBias", slider->getValue());
-        
-        else if (slider->getName() == SSAO_CRYTEK_OFFSET_SCALE_NAME)
+
+        else if (slider->name() == SSAO_CRYTEK_OFFSET_SCALE_NAME)
             setUniform("SSAO/Crytek", "cOffsetScale", slider->getValue()/100);
-        
-        else if (slider->getName() == SSAO_CRYTEK_EDGE_HIGHLIGHT_NAME)
+
+        else if (slider->name() == SSAO_CRYTEK_EDGE_HIGHLIGHT_NAME)
             setUniform("SSAO/Crytek", "cEdgeHighlight", 2.0f - slider->getValue());
-        
-        else if (slider->getName() == SSAO_CRYTEK_DEFAULT_ACCESSIBILITY_NAME)
+
+        else if (slider->name() == SSAO_CRYTEK_DEFAULT_ACCESSIBILITY_NAME)
             setUniform("SSAO/Crytek", "cDefaultAccessibility", slider->getValue());
-        
-        else if (slider->getName() == SSAO_UNSHARP_KERNEL_BIAS_NAME)
-        {
+
+        else if (slider->name() == SSAO_UNSHARP_KERNEL_BIAS_NAME) {
             setUniform("SSAO/UnsharpMask/GaussianBlurY", "cKernelWidthBias", slider->getValue());
             setUniform("SSAO/UnsharpMask/GaussianBlurX", "cKernelWidthBias", slider->getValue());
         }
-        
-        else if (slider->getName() == SSAO_UNSHARP_LAMBDA_NAME)
+
+        else if (slider->name() == SSAO_UNSHARP_LAMBDA_NAME)
             setUniform("SSAO/UnsharpMask", "cLambda", slider->getValue() * slider->getValue());
-        
-        else if (slider->getName() == SSAO_BILATERAL_PHOTOMETRIC_EXPONENT)
-        {
+
+        else if (slider->name() == SSAO_BILATERAL_PHOTOMETRIC_EXPONENT) {
             setUniform("SSAO/HorizonBased/CrossBilateralFilter/X", "cPhotometricExponent", slider->getValue());
             setUniform("SSAO/HorizonBased/CrossBilateralFilter/Y", "cPhotometricExponent", slider->getValue());
         }
-        
-        else if(slider->getName() == SSAO_SAMPLE_LENGTH_EXPONENT_NAME)
+
+        else if (slider->name() == SSAO_SAMPLE_LENGTH_EXPONENT_NAME)
             setUniform("SSAO/HemisphereMC", "cSampleLengthExponent", slider->getValue());
     }
     
     void checkBoxToggled(OgreBites::CheckBox *box) override
     {
-        if(box->getName() == SSAO_MODUALTE)
-        {
+        if (box->name() == SSAO_MODUALTE) {
             if (box->isChecked())
             {
                 CompositorManager::getSingleton().addCompositor(mViewport, "SSAO/Post/Modulate");
@@ -696,9 +693,7 @@ protected:
                 CompositorManager::getSingleton().setCompositorEnabled(mViewport, "SSAO/Post/Modulate", false);
                 CompositorManager::getSingleton().removeCompositor(mViewport, "SSAO/Post/Modulate");
             }
-        }
-        else if (box->getName() == SSAO_SAMPLE_SPACE_NAME)
-        {
+        } else if (box->name() == SSAO_SAMPLE_SPACE_NAME) {
             setUniform("SSAO/Crytek", "cSampleInScreenspace", box->isChecked());
             setUniform("SSAO/HorizonBased", "cSampleInScreenspace", box->isChecked());
             setUniform("SSAO/HemisphereMC", "cSampleInScreenspace", box->isChecked());

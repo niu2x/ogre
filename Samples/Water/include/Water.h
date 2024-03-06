@@ -268,36 +268,24 @@ protected:
     
     void sliderMoved(Slider* slider) override
     {
-        if (slider->getName() == "HeadDepthSlider")
-        {
+        if (slider->name() == "HeadDepthSlider") {
             headDepth = slider->getValue();
-        }
-        else if (slider->getName() == "RippleSpeedSlider")
-        {
+        } else if (slider->name() == "RippleSpeedSlider") {
             waterMesh->PARAM_C = slider->getValue();
-        }
-        else if (slider->getName() == "DistanceSlider")
-        {
+        } else if (slider->name() == "DistanceSlider") {
             waterMesh->PARAM_D = slider->getValue();
-        }
-        else if (slider->getName() == "ViscositySlider")
-        {
+        } else if (slider->name() == "ViscositySlider") {
             waterMesh->PARAM_U = slider->getValue();
-        }
-        else if (slider->getName() == "FrameTimeSlider")
-        {
+        } else if (slider->name() == "FrameTimeSlider") {
             waterMesh->PARAM_T = slider->getValue();
         }
     }
     
     void checkBoxToggled(CheckBox* checkBox) override
     {
-        if (checkBox->getName() == "FakeNormalsCB")
-        {
+        if (checkBox->name() == "FakeNormalsCB") {
             waterMesh->useFakeNormals = checkBox->isChecked();
-        }
-        else if (checkBox->getName() == "SkyboxCB")
-        {
+        } else if (checkBox->name() == "SkyboxCB") {
             sceneMgr->setSkyBox(checkBox->isChecked(), "Examples/SceneSkyBox2");
         }
     }

@@ -88,7 +88,7 @@ protected:
         CompositorManager::getSingleton().setCompositorEnabled(mViewport, "Fresnel", true);
 
         // toggle reflection in camera
-        compositor->getRenderTarget("reflection")->addListener(this);
+        compositor->getRenderTarget("reflection")->add_listener(this);
 
         mCamera->setAutoAspectRatio(true);
         // create our water plane mesh

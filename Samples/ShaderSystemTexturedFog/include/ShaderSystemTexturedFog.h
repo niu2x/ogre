@@ -133,13 +133,11 @@ protected:
     //--------------------------------------------------------------------------
     void sliderMoved(Slider* slider) override
     {
-        if (slider->getName() == FOG_DISTANCE_SLIDER)
-        {
+        if (slider->name() == FOG_DISTANCE_SLIDER) {
             Real fogDist = slider->getValue();
             mSceneMgr->setFog(mSceneMgr->getFogMode(), ColourValue::White, 0, fogDist * 0.5f, fogDist);
-        }   
-        if (slider->getName() == FOG_BACKGROUND_SLIDER)
-        {
+        }
+        if (slider->name() == FOG_BACKGROUND_SLIDER) {
             String textureName;
             size_t back = (size_t)(slider->getValue() + 0.5);
             switch (back)
@@ -157,7 +155,7 @@ protected:
         
     void checkBoxToggled(CheckBox* box) override
     {
-        const String& cbName = box->getName();
+        const String& cbName = box->name();
         if (cbName == ACTIVATE_FOG_BUTTON)
         {
             //With our shader the 3 middle parameters don't really make a difference. Only the first and last do.

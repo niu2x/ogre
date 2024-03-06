@@ -106,7 +106,7 @@ protected:
     {
         HardwareBufferManager::getSingleton().destroyVertexDeclaration(mDecl);
         mPatchPass->setPolygonMode(PM_SOLID);
-        MeshManager::getSingleton().remove(mPatch->getHandle());
+        MeshManager::getSingleton().remove(mPatch->handle());
     }
 
     VertexDeclaration* mDecl;

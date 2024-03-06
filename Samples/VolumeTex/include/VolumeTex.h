@@ -82,16 +82,11 @@ protected:
 
     void sliderMoved(Slider* slider) override
     {
-        if (slider->getName() == "RealSlider")
-        {
+        if (slider->name() == "RealSlider") {
             global_real = slider->getValue();
-        }
-        else if (slider->getName() == "ImagSlider")
-        {
+        } else if (slider->name() == "ImagSlider") {
             global_imag = slider->getValue();
-        }
-        else if (slider->getName() == "ThetaSlider")
-        {
+        } else if (slider->name() == "ThetaSlider") {
             global_theta = slider->getValue();
         }
         generate();

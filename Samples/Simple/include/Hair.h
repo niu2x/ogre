@@ -62,110 +62,93 @@ public:
 
     void checkBoxToggled(CheckBox* box)
     {
-        if (box->getName() == "Wire")
-        {
+        if (box->name() == "Wire") {
             if( mCamera->getPolygonMode() == PM_WIREFRAME )
                 mCamera->setPolygonMode(PM_SOLID);
             else
                 mCamera->setPolygonMode(PM_WIREFRAME);
         }
-        if (box->getName() == "PlayAnimation")
-        {
+        if (box->name() == "PlayAnimation") {
             mPlayAnimation = !mPlayAnimation;
         }
-        if (box->getName() == "LoopAnimation")
-        {
+        if (box->name() == "LoopAnimation") {
             mLoopAnimation = !mLoopAnimation;
         }
-        if (box->getName() == "ShortHair")
-        {
+        if (box->name() == "ShortHair") {
             mShortHair = !mShortHair;
             // change mesh / model
         }
-        if (box->getName() == "CurlyHair")
-        {
+        if (box->name() == "CurlyHair") {
             mCurlyHair = !mCurlyHair;
             // change mesh / model
         }
-        if (box->getName() == "Shadows")
-        {
+        if (box->name() == "Shadows") {
             mShadows = !mShadows;
             // render or not shadows / using Ogre shadows.
         }
-        if (box->getName() == "RenderMStrands")
-        {
+        if (box->name() == "RenderMStrands") {
             mRenderMStrands = !mRenderMStrands;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_RenderMStrands", mRenderMStrands );
         }
-        if (box->getName() == "RenderSStrands")
-        {
+        if (box->name() == "RenderSStrands") {
             mRenderSStrands = !mRenderSStrands;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_RenderSStrands", mRenderSStrands );
         }
-        if (box->getName() == "HWTessellation")
-        {
+        if (box->name() == "HWTessellation") {
             mHWTessellation = !mHWTessellation;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_HWTessellation", mHWTessellation );
         }
-        if (box->getName() == "DynamicLOD" && mHWTessellation)
-        {
+        if (box->name() == "DynamicLOD" && mHWTessellation) {
             mDynamicLOD = !mDynamicLOD;
             
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_DynamicLOD", mDynamicLOD );
         }
-        if (box->getName() == "WindForce")
-        {
+        if (box->name() == "WindForce") {
             mAddWindForce = !mAddWindForce;
-        }   
-        if (box->getName() == "ComputeShader")
-        {
+        }
+        if (box->name() == "ComputeShader") {
             mComputeShader = !mComputeShader;
         }
-        if (box->getName() == "SimulationLOD")
-        {
+        if (box->name() == "SimulationLOD") {
             mSimulationLOD = !mSimulationLOD;
         }
-        if (box->getName() == "Simulate")
-        {
+        if (box->name() == "Simulate") {
             mSimulate = !mSimulate;
         }
-        if (box->getName() == "ShowCollision")
-        {
+        if (box->name() == "ShowCollision") {
             mShowCollision = !mShowCollision;
         }
-        if (box->getName() == "ShowScene")
-        {
+        if (box->name() == "ShowScene") {
             mShowScene = !mShowScene;
         }
     }
 
     void sliderMoved(Slider* slider)
     {
-        if (slider->getName() == "tessellationLOD")
+        if (slider->name() == "tessellationLOD")
             if (!mDynamicLOD && mHWTessellation)
             {
                 MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
                 lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_ManualLOD", slider->getValue() );
             }
-        if (slider->getName() == "HairWidth")
+        if (slider->name() == "HairWidth")
             if (!mDynamicLOD && mHWTessellation)
             {
                 MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
                 lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_HairWidth", slider->getValue() );
             }
-        if (slider->getName()=="LODRate")
-        {
+        if (slider->name() == "LODRate") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_LODRate", slider->getValue() );
         }
-        if (slider->getName()=="WindStrength")
+        if (slider->name() == "WindStrength")
             if (mAddWindForce)
             {
                 MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();

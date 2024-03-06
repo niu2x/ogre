@@ -213,7 +213,7 @@ namespace Ogre {
 #endif
     }
 
-    const String& GLES2RenderSystem::getName(void) const
+    const String& GLES2RenderSystem::name(void) const
     {
         static String strName("OpenGL ES 2.x Rendering Subsystem");
         return strName;

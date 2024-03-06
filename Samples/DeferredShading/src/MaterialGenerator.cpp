@@ -64,14 +64,15 @@ const MaterialPtr &MaterialGenerator::getMaterial(Perm permutation)
         /// Create material name
         String name = materialBaseName + StringConverter::to_string(permutation);
 
-        std::cerr << name << " " << vs->getName() << " " << fs->getName() << std::endl;
+        std::cerr << name << " " << vs->name() << " " << fs->name()
+                  << std::endl;
         /// Create material from template, and set shaders
         MaterialPtr mat = templ->clone(name);
         Technique *tech = mat->getTechnique(0);
         Pass *pass = tech->getPass(0);
-        pass->setFragmentProgram(fs->getName());
-        pass->setVertexProgram(vs->getName());
-    
+        pass->setFragmentProgram(fs->name());
+        pass->setVertexProgram(vs->name());
+
         /// And store it
         mMaterials[permutation] = mat;
         return mMaterials[permutation];

@@ -120,7 +120,7 @@ namespace Ogre {
         // Overridden RenderSystem functions
         // ----------------------------------
 
-        const String& getName(void) const override;
+        const String& name(void) const override;
 
         void _initialise() override;
 

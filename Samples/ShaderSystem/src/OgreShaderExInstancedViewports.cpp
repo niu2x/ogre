@@ -85,7 +85,7 @@ void ShaderExInstancedViewports::copyFrom(const SubRenderState& rhs)
 //-----------------------------------------------------------------------
 bool ShaderExInstancedViewports::preAddToRenderState( const RenderState* renderState, Pass* srcPass, Pass* dstPass )
 {
-    auto matname = srcPass->getParent()->getParent()->getName();
+    auto matname = srcPass->getParent()->getParent()->name();
     return matname.find("SdkTrays") == String::npos && matname.find("Instancing") == String::npos;
 }
 //-----------------------------------------------------------------------

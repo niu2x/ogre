@@ -72,28 +72,21 @@ void GLTextureBuffer::blitToMemory(const Box &srcBox, const PixelBox &dst)
     if(!mBuffer.contains(srcBox))
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "source box out of range",
          "GLHardwarePixelBuffer::blitToMemory");
-    if(srcBox.getOrigin() == Vector3i(0, 0 ,0) &&
-       srcBox.getSize() == getSize() &&
-       dst.getSize() == getSize() &&
-       GLPixelUtil::getGLInternalFormat(dst.format) != 0)
-    {
+    if (srcBox.getOrigin() == Vector3i(0, 0, 0) && srcBox.size() == size()
+        && dst.size() == size()
+        && GLPixelUtil::getGLInternalFormat(dst.format) != 0) {
         // The direct case: the user wants the entire texture in a format supported by GL
         // so we don't need an intermediate buffer
         download(dst);
-    }
-    else
-    {
+    } else {
         // Use buffer for intermediate copy
         allocateBuffer();
         // Download entire buffer
         download(mBuffer);
-        if(srcBox.getSize() != dst.getSize())
-        {
+        if (srcBox.size() != dst.size()) {
             // We need scaling
             Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
-        }
-        else
-        {
+        } else {
             // Just copy the bit that we need
             PixelUtil::bulkPixelConversion(mBuffer.getSubVolume(srcBox), dst);
         }
@@ -298,7 +291,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
 //-----------------------------------------------------------------------------  
 void GLTextureBuffer::download(const PixelBox &data)
 {
-    if(data.getSize() != getSize())
+    if (data.size() != size())
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "only download of entire buffer is supported by GL",
             "GLTextureBuffer::download");
     mRenderSystem->_getStateCacheManager()->bindGLTexture( mTarget, mTextureID );
@@ -446,14 +439,11 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
     mRenderSystem->_getStateCacheManager()->bindGLTexture(src->mTarget, src->mTextureID);
     
     /// Set filtering modes depending on the dimensions and source
-    if(srcBox.getSize()==dstBox.getSize())
-    {
+    if (srcBox.size() == dstBox.size()) {
         /// Dimensions match -- use nearest filtering (fastest and pixel correct)
         mRenderSystem->_getStateCacheManager()->setTexParameteri(src->mTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         mRenderSystem->_getStateCacheManager()->setTexParameteri(src->mTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    }
-    else
-    {
+    } else {
         /// Dimensions don't match -- use bi or trilinear filtering depending on the
         /// source texture.
         if(src->mUsage & TU_AUTOMIPMAP)
@@ -608,9 +598,7 @@ void GLTextureBuffer::blitFromMemory(const PixelBox &src, const Box &dstBox)
     /// Fall back to normal GLHardwarePixelBuffer::blitFromMemory in case 
     /// - FBO is not supported
     /// - the source dimensions match the destination ones, in which case no scaling is needed
-    if (!GLAD_GL_EXT_framebuffer_object ||
-        (src.getSize() == dstBox.getSize()))
-    {
+    if (!GLAD_GL_EXT_framebuffer_object || (src.size() == dstBox.size())) {
         _blitFromMemory(src, dstBox);
         return;
     }
@@ -626,7 +614,7 @@ void GLTextureBuffer::blitFromMemory(const PixelBox &src, const Box &dstBox)
         src.getWidth(), src.getHeight(), src.getDepth(), MIP_UNLIMITED, src.format);
 
     // Upload data to 0,0,0 in temporary texture
-    Box tempTarget(src.getSize());
+    Box tempTarget(src.size());
     tex->getBuffer()->blitFromMemory(src, tempTarget);
 
     // Blit from texture

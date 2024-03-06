@@ -279,8 +279,7 @@ protected:
     //--------------------------------------------------------------------------
     void sliderMoved(Slider* slider) override
     {
-        if (slider->getName() == NUM_OF_LIGHTS_SLIDER)
-        {
+        if (slider->name() == NUM_OF_LIGHTS_SLIDER) {
             size_t numOfLights = (size_t)slider->getValue();
 
             while (mLights.size() < numOfLights)
@@ -292,7 +291,7 @@ protected:
             {
                 removeSpotLight();
             }
-        }   
+        }
     }
 
     void removeSpotLight()
@@ -304,8 +303,8 @@ protected:
             // Delete the nodes
             mSceneMgr->destroyBillboardSet(state.bbs);
             mSceneMgr->destroyLight(state.light);
-            mSceneMgr->destroyAnimationState(state.anim->getName());
-            mSceneMgr->destroyAnimation(state.anim->getName());
+            mSceneMgr->destroyAnimationState(state.anim->name());
+            mSceneMgr->destroyAnimation(state.anim->name());
             mSceneMgr->destroySceneNode(state.node);
             
 
@@ -316,7 +315,7 @@ protected:
     
     void checkBoxToggled(CheckBox* box) override
     {
-        const String& cbName = box->getName();
+        const String& cbName = box->name();
 
         if (cbName == DEBUG_MODE_CHECKBOX)
         {

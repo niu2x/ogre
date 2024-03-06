@@ -351,7 +351,9 @@ namespace Ogre
             int numBlendTex = getBlendTextureCount(numLayers);
             for (int i = 0; i < numBlendTex; ++i)
             {
-                stream.write(mCpuBlendMapStorage[i].getData(), mCpuBlendMapStorage[i].getSize());
+                stream.write(
+                    mCpuBlendMapStorage[i].getData(),
+                    mCpuBlendMapStorage[i].size());
             }
         }
         else
@@ -368,7 +370,7 @@ namespace Ogre
             {
                 // Must blit back in CPU format!
                 tex->getBuffer()->blitToMemory(tmp.getPixelBox());
-                stream.write(tmp.getData(), tmp.getSize());
+                stream.write(tmp.getData(), tmp.size());
             }
         }
 
@@ -383,15 +385,15 @@ namespace Ogre
 			if (mCpuTerrainNormalMap.getData())
 			{
 				// save from CPU data if it's there, it means GPU data was never created
-				stream.write(mCpuTerrainNormalMap.getData(), mCpuTerrainNormalMap.getSize());
-			}
-			else
-			{
+                stream.write(
+                    mCpuTerrainNormalMap.getData(),
+                    mCpuTerrainNormalMap.size());
+            } else {
                 Image tmp(PF_BYTE_RGB, mSize, mSize);
 				mTerrainNormalMap->getBuffer()->blitToMemory(tmp.getPixelBox());
-				stream.write(tmp.getData(), tmp.getSize());
-			}
-			stream.writeChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
+                stream.write(tmp.getData(), tmp.size());
+            }
+            stream.writeChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
 		}
 
         // colourmap
@@ -404,13 +406,13 @@ namespace Ogre
             if (mCpuColourMap.getData())
             {
                 // save from CPU data if it's there, it means GPU data was never created
-                stream.write(mCpuColourMap.getData(), mCpuColourMap.getSize());
+                stream.write(mCpuColourMap.getData(), mCpuColourMap.size());
             }
             else
             {
                 Image tmp(PF_BYTE_RGB, mGlobalColourMapSize, mGlobalColourMapSize);
                 mColourMap->getBuffer()->blitToMemory(tmp.getPixelBox());
-                stream.write(tmp.getData(), tmp.getSize());
+                stream.write(tmp.getData(), tmp.size());
             }
             stream.writeChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
 
@@ -426,13 +428,13 @@ namespace Ogre
             if (mCpuLightmap.getData())
             {
                 // save from CPU data if it's there, it means GPU data was never created
-                stream.write(mCpuLightmap.getData(), mCpuLightmap.getSize());
+                stream.write(mCpuLightmap.getData(), mCpuLightmap.size());
             }
             else
             {
                 Image tmp(PF_L8, mLightmapSize, mLightmapSize);
                 mLightmap->getBuffer()->blitToMemory(tmp.getPixelBox());
-                stream.write(tmp.getData(), tmp.getSize());
+                stream.write(tmp.getData(), tmp.size());
             }
             stream.writeChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
         }
@@ -447,14 +449,16 @@ namespace Ogre
             if (mCpuCompositeMap.getData())
             {
                 // save from CPU data if it's there, it means GPU data was never created
-                stream.write(mCpuCompositeMap.getData(), mCpuCompositeMap.getSize());
+                stream.write(
+                    mCpuCompositeMap.getData(),
+                    mCpuCompositeMap.size());
             }
             else
             {
                 // composite map is 4 channel, 3x diffuse, 1x specular mask
                 Image tmp(PF_BYTE_RGBA, mCompositeMapSize, mCompositeMapSize);
                 mCompositeMap->getBuffer()->blitToMemory(tmp.getPixelBox());
-                stream.write(tmp.getData(), tmp.getSize());
+                stream.write(tmp.getData(), tmp.size());
             }
             stream.writeChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
         }
@@ -673,7 +677,9 @@ namespace Ogre
         for (int i = 0; i < numBlendTex; ++i)
         {
             mCpuBlendMapStorage.emplace_back(PF_BYTE_RGBA, mLayerBlendMapSize, mLayerBlendMapSize);
-            stream.read(mCpuBlendMapStorage.back().getData(), mCpuBlendMapStorage.back().getSize());
+            stream.read(
+                mCpuBlendMapStorage.back().getData(),
+                mCpuBlendMapStorage.back().size());
         }
 
         // derived data
@@ -690,29 +696,33 @@ namespace Ogre
             {
                 mNormalMapRequired = true;
                 mCpuTerrainNormalMap.create(PF_BYTE_RGB, sz, sz);
-                stream.read(mCpuTerrainNormalMap.getData(), mCpuTerrainNormalMap.getSize());
-                
+                stream.read(
+                    mCpuTerrainNormalMap.getData(),
+                    mCpuTerrainNormalMap.size());
+
             }
             else if (name == "colourmap")
             {
                 mGlobalColourMapEnabled = true;
                 mGlobalColourMapSize = sz;
                 mCpuColourMap.create(PF_BYTE_RGB, sz, sz);
-                stream.read(mCpuColourMap.getData(), mCpuColourMap.getSize());
+                stream.read(mCpuColourMap.getData(), mCpuColourMap.size());
             }
             else if (name == "lightmap")
             {
                 mLightMapRequired = true;
                 mLightmapSize = sz;
                 mCpuLightmap.create(PF_L8, sz, sz);
-                stream.read(mCpuLightmap.getData(), mCpuLightmap.getSize());
+                stream.read(mCpuLightmap.getData(), mCpuLightmap.size());
             }
             else if (name == "compositemap")
             {
                 mCompositeMapRequired = true;
                 mCompositeMapSize = sz;
                 mCpuCompositeMap.create(PF_BYTE_RGBA, sz, sz);
-                stream.read(mCpuCompositeMap.getData(), mCpuCompositeMap.getSize());
+                stream.read(
+                    mCpuCompositeMap.getData(),
+                    mCpuCompositeMap.size());
             }
 
             stream.readChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
@@ -1669,10 +1679,7 @@ namespace Ogre
         return mAlign;
     }
     //---------------------------------------------------------------------
-    uint16 Terrain::getSize() const
-    {
-        return mSize;
-    }
+    uint16 Terrain::size() const { return mSize; }
     //---------------------------------------------------------------------
     uint16 Terrain::getMaxBatchSize() const
     {
@@ -1962,45 +1969,45 @@ namespace Ogre
         TextureManager* tmgr = TextureManager::getSingletonPtr();
         if (tmgr)
         {
-            for (auto & i : mBlendTextureList)
-            {   
-                tmgr->remove(i->getHandle());
+            for (auto& i : mBlendTextureList) {
+                tmgr->remove(i->handle());
             }
             mBlendTextureList.clear();
 
             if (mTerrainNormalMap)
             {
-                tmgr->remove(mTerrainNormalMap->getHandle());
+                tmgr->remove(mTerrainNormalMap->handle());
                 mTerrainNormalMap.reset();
             }
 
             if (mColourMap)
             {
-                tmgr->remove(mColourMap->getHandle());
+                tmgr->remove(mColourMap->handle());
                 mColourMap.reset();
             }
 
             if (mLightmap)
             {
-                tmgr->remove(mLightmap->getHandle());
+                tmgr->remove(mLightmap->handle());
                 mLightmap.reset();
             }
 
             if (mCompositeMap)
             {
-                tmgr->remove(mCompositeMap->getHandle());
+                tmgr->remove(mCompositeMap->handle());
                 mCompositeMap.reset();
             }
         }
 
         if (mMaterial)
         {
-            MaterialManager::getSingleton().remove(mMaterial->getHandle());
+            MaterialManager::getSingleton().remove(mMaterial->handle());
             mMaterial.reset();
         }
         if (mCompositeMapMaterial)
         {
-            MaterialManager::getSingleton().remove(mCompositeMapMaterial->getHandle());
+            MaterialManager::getSingleton().remove(
+                mCompositeMapMaterial->handle());
             mCompositeMapMaterial.reset();
         }
 
@@ -2804,7 +2811,7 @@ namespace Ogre
 
         while (mBlendTextureList.size() > numTex)
         {
-            tmgr->remove(mBlendTextureList.back()->getHandle());            
+            tmgr->remove(mBlendTextureList.back()->handle());
             mBlendTextureList.pop_back();
         }
 
@@ -2833,7 +2840,10 @@ namespace Ogre
             {
                 // initialise black
                 auto buf = mBlendTextureList[i]->getBuffer();
-                uint8* pInit = buf->lock(Box(buf->getSize()), HardwarePixelBuffer::HBL_DISCARD).data;
+                uint8* pInit = buf->lock(
+                                      Box(buf->size()),
+                                      HardwarePixelBuffer::HBL_DISCARD)
+                                   .data;
                 memset(pInit, 0, buf->getSizeInBytes());
                 buf->unlock();
             }
@@ -2877,7 +2887,7 @@ namespace Ogre
         else if (!mNormalMapRequired && mTerrainNormalMap)
         {
             // destroy
-            TextureManager::getSingleton().remove(mTerrainNormalMap->getHandle());
+            TextureManager::getSingleton().remove(mTerrainNormalMap->handle());
             mTerrainNormalMap.reset();
         }
 
@@ -3835,7 +3845,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void Terrain::getNeighbourEdgeRect(NeighbourIndex index, const Rect& inRect, Rect* outRect) const
     {
-        assert (mSize == getNeighbour(index)->getSize());
+        assert(mSize == getNeighbour(index)->size());
 
         // Basically just reflect the rect 
         // remember index is neighbour relationship from OUR perspective so
@@ -3883,7 +3893,7 @@ namespace Ogre
     {
         // Get the index of the point we should be looking at on a neighbour
         // in order to match up points
-        assert (mSize == getNeighbour(index)->getSize());
+        assert(mSize == getNeighbour(index)->size());
 
         // left/right
         switch(index)
@@ -4353,7 +4363,8 @@ namespace Ogre
 
             if (mTerrainNormalMap)
             {
-                TextureManager::getSingletonPtr()->remove(mTerrainNormalMap->getHandle());
+                TextureManager::getSingletonPtr()->remove(
+                    mTerrainNormalMap->handle());
                 mTerrainNormalMap.reset();
             }
 

@@ -30,7 +30,7 @@ public:
     void checkBoxToggled(CheckBox* box) override
     {
         // show or hide the particle system with the same name as the check box
-        mSceneMgr->getParticleSystem(box->getName())->setVisible(box->isChecked());
+        mSceneMgr->getParticleSystem(box->name())->setVisible(box->isChecked());
     }
 
 protected:

@@ -161,7 +161,9 @@ void DeferredShadingSystem::createResources(void)
     static bool firstTime = true;
     if (firstTime)
     {
-        MaterialManager::getSingleton().addListener(new GBufferSchemeHandler, "GBuffer");
+        MaterialManager::getSingleton().add_listener(
+            new GBufferSchemeHandler,
+            "GBuffer");
 
         compMan.registerCustomCompositionPass("DeferredLight", new DeferredLightCompositionPass);
 
@@ -211,5 +213,5 @@ void DeferredShadingSystem::logCurrentMode(void)
     assert(ci->getEnabled()==true);
 
     LogManager::getSingleton().log_message("Current Mode: ");
-    LogManager::getSingleton().log_message(ci->getCompositor()->getName());
+    LogManager::getSingleton().log_message(ci->getCompositor()->name());
 }

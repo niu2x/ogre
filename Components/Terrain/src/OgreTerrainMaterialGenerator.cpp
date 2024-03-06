@@ -65,7 +65,7 @@ namespace Ogre
     {
         if (mCompositeMapRTT && TextureManager::getSingletonPtr())
         {
-            TextureManager::getSingleton().remove(mCompositeMapRTT->getHandle());
+            TextureManager::getSingleton().remove(mCompositeMapRTT->handle());
             mCompositeMapRTT = 0;
         }
         if (mCompositeMapSM && Root::getSingletonPtr())
@@ -124,7 +124,7 @@ namespace Ogre
         // check for size change (allow smaller to be reused)
         if (mCompositeMapRTT && size != mCompositeMapRTT->getWidth())
         {
-            TextureManager::getSingleton().remove(mCompositeMapRTT->getHandle());
+            TextureManager::getSingleton().remove(mCompositeMapRTT->handle());
             mCompositeMapRTT = 0;
         }
 

@@ -177,12 +177,9 @@ namespace Ogre {
     {
         // Have to call this here rather than in Resource destructor
         // since calling virtual methods in base destructors causes crash
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             unload();
-        }
-        else
-        {
+        } else {
             unloadHighLevel();
         }
     }
@@ -322,8 +319,12 @@ namespace Ogre {
         GLenum glErr = glGetError();
         if(glErr != GL_NO_ERROR)
         {
-            reportGLSLError( glErr, "GLSLProgram::attachToProgramObject",
-                "Error attaching " + mName + " shader object to GLSL Program Object", programObject );
+            reportGLSLError(
+                glErr,
+                "GLSLProgram::attachToProgramObject",
+                "Error attaching " + name()
+                    + " shader object to GLSL Program Object",
+                programObject);
         }
 
     }
@@ -335,8 +336,12 @@ namespace Ogre {
         GLenum glErr = glGetError();
         if(glErr != GL_NO_ERROR)
         {
-            reportGLSLError( glErr, "GLSLProgram::detachFromProgramObject",
-                "Error detaching " + mName + " shader object from GLSL Program Object", programObject );
+            reportGLSLError(
+                glErr,
+                "GLSLProgram::detachFromProgramObject",
+                "Error detaching " + name()
+                    + " shader object from GLSL Program Object",
+                programObject);
         }
         // attach child objects
         GLSLProgramContainerIterator childprogramcurrent = mAttachedGLSLPrograms.begin();

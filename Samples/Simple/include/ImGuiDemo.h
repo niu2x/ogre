@@ -46,7 +46,7 @@ public:
             OgreBites::SampleBrowser does this on behalf of the ImGuiDemo but custom applications will need to
             call this themselves.  See ApplicationContextBase::createDummyScene().
         */
-        mWindow->addListener(this);
+        mWindow->add_listener(this);
 
         mInputListenerChain = TouchAgnosticInputListenerChain(
             mWindow, {mTrayMgr.get(), mContext->getImGuiInputListener(), mCameraMan.get()});
@@ -67,6 +67,6 @@ public:
     void cleanupContent() override
     {
         OverlayManager::getSingleton().destroy("ImGuiOverlay");
-        mWindow->removeListener(this);
+        mWindow->remove_listener(this);
     }
 };

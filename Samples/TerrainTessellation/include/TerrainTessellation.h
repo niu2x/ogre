@@ -103,15 +103,13 @@ public:
 
     void checkBoxToggled(CheckBox* box)
     {
-        if (box->getName() == "Wire")
-        {
+        if (box->name() == "Wire") {
             if( mCamera->getPolygonMode() == PM_WIREFRAME )
                 mCamera->setPolygonMode(PM_SOLID);
             else
                 mCamera->setPolygonMode(PM_WIREFRAME);
         }
-        if (box->getName() == "Tessellation")
-        {
+        if (box->name() == "Tessellation") {
             // disable tessellation
         }
         if (box == mFlyBox)
@@ -122,33 +120,27 @@ public:
 
     void sliderMoved(Slider* slider)
     {
-        if (slider->getName() == "tessellationAmount")
-        {
+        if (slider->name() == "tessellationAmount") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_tessellationAmount", slider->getValue() );
         }
-        if (slider->getName() == "ridgeOctaves")
-        {
+        if (slider->name() == "ridgeOctaves") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_ridgeOctaves", slider->getValue() );
         }
-        if (slider->getName() == "fBmOctaves")
-        {
+        if (slider->name() == "fBmOctaves") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_fBmOctaves", slider->getValue() );
         }
-        if (slider->getName() == "TwistOctaves")
-        {
+        if (slider->name() == "TwistOctaves") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_TwistOctaves", slider->getValue() );
         }
-        if (slider->getName() == "detailNoiseScale")
-        {
+        if (slider->name() == "detailNoiseScale") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_detailNoiseScale", slider->getValue() );
         }
-        if (slider->getName() == "targetTrianglesWidth")
-        {
+        if (slider->name() == "targetTrianglesWidth") {
             MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_targetTrianglesWidth", slider->getValue() );
         }

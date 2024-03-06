@@ -100,22 +100,15 @@ protected:
     
     void checkBoxToggled(CheckBox* box) override
     {
-        if (box->getName() == "SSAO")
-        {
+        if (box->name() == "SSAO") {
             mSystem->setSSAO(box->isChecked());
-        }
-        else if (box->getName() == "GlobalLight")
-        {
+        } else if (box->name() == "GlobalLight") {
             mMainLight->setVisible(box->isChecked());
-        }
-        else if (box->getName() == "Shadows")
-        {
+        } else if (box->name() == "Shadows") {
             mSceneMgr->setShadowTechnique(box->isChecked() ? 
                                           SHADOWTYPE_TEXTURE_ADDITIVE :
                                           SHADOWTYPE_NONE);
-        }
-        else if (box->getName() == "DeferredShading")
-        {
+        } else if (box->name() == "DeferredShading") {
             mSystem->setActive(box->isChecked());
         }
     }
@@ -359,8 +352,10 @@ protected:
         for(std::vector<Light*>::iterator i=lights.begin(); i!=lights.end(); ++i)
         {
             Light* light = *i;
-            ent = mSceneMgr->createEntity(light->getName()+"v", "PointLightMesh");
-            String matname = light->getName()+"m";
+            ent = mSceneMgr->createEntity(
+                light->name() + "v",
+                "PointLightMesh");
+            String matname = light->name() + "m";
             // Create coloured material
             MaterialPtr mat = MaterialManager::getSingleton().create(matname,
                                                                      ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);

@@ -89,7 +89,7 @@ void Sample_ShaderSystem::_shutdown()
 
 void Sample_ShaderSystem::checkBoxToggled(CheckBox* box)
 {
-    const String& cbName = box->getName();
+    const String& cbName = box->name();
 
     if (cbName == SPECULAR_BOX)
     {
@@ -158,24 +158,20 @@ void Sample_ShaderSystem::itemSelected(SelectMenu* menu)
 void Sample_ShaderSystem::buttonHit( OgreBites::Button* b )
 {
     // Case the shader cache should be flushed.
-    if (b->getName() == FLUSH_BUTTON_NAME)
-    {               
+    if (b->name() == FLUSH_BUTTON_NAME) {
         mShaderGenerator->flushShaderCache();
     }
 
     // Case the blend layer type modified.
-    else if (b->getName() == LAYERBLEND_BUTTON_NAME && mLayerBlendSubRS)
-    {   
+    else if (b->name() == LAYERBLEND_BUTTON_NAME && mLayerBlendSubRS) {
         changeTextureLayerBlendMode();
-        
     }
 }
 
 //--------------------------------------------------------------------------
 void Sample_ShaderSystem::sliderMoved(Slider* slider)
 {
-    if (slider->getName() == REFLECTIONMAP_POWER_SLIDER && mReflectionMapSubRS)
-    {
+    if (slider->name() == REFLECTIONMAP_POWER_SLIDER && mReflectionMapSubRS) {
         String luminance = std::to_string(slider->getValue());
 
         // Grab the instances set and update them with the new reflection power value.
@@ -188,10 +184,9 @@ void Sample_ShaderSystem::sliderMoved(Slider* slider)
         {
             inst->set_parameter("luminance", luminance);
         }
-    }   
+    }
 
-    if (slider->getName() == MODIFIER_VALUE_SLIDER)
-    {
+    if (slider->name() == MODIFIER_VALUE_SLIDER) {
         if (mLayeredBlendingEntity != NULL)
         {
             Ogre::Real val = mModifierValueSlider->getValue();
@@ -322,9 +317,12 @@ void Sample_ShaderSystem::setupContent()
     childNode->attachObject(entity);
 
     // OpenGL ES 2.0 does not support texture atlases. But ES 3.0 does!
-    if (Root::getSingletonPtr()->getRenderSystem()->getName().find("OpenGL ES 2") == String::npos
-            || Root::getSingletonPtr()->getRenderSystem()->getNativeShadingLanguageVersion() >= 300)
-    {
+    if (Root::getSingletonPtr()->getRenderSystem()->name().find("OpenGL ES 2")
+            == String::npos
+        || Root::getSingletonPtr()
+                ->getRenderSystem()
+                ->getNativeShadingLanguageVersion()
+            >= 300) {
         RTShader::RenderState* pMainRenderState =
             RTShader::ShaderGenerator::getSingleton().createOrRetrieveRenderState(MSN_SHADERGEN).first;
         pMainRenderState->addTemplateSubRenderState(
@@ -587,8 +585,7 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
             else if (mCurLightingModel == SSLM_NormalMapLightingObjectSpace)
             {
                 // Apply normal map only on main entity.
-                if (entity->getName() == MAIN_ENTITY_NAME)
-                {
+                if (entity->name() == MAIN_ENTITY_NAME) {
                     RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState(RTShader::SRS_NORMALMAP);
 
                     normalMapSubRS->set_parameter("normalmap_space", "object_space");
@@ -598,19 +595,17 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 }
 
                 // It is secondary entity -> use simple per pixel lighting.
-                else
-                {
+                else {
                     RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState(RTShader::SRS_PER_PIXEL_LIGHTING);
                     renderState->addTemplateSubRenderState(perPixelLightModel);
-                }               
+                }
             }
 
             if (mCurLightingModel == SSLM_NormalMapLightingTangentSpace ||
                 mCurLightingModel == SSLM_CookTorranceLighting || mCurLightingModel == SSLM_ImageBasedLighting)
             {
                 // Apply normal map only on main entity.
-                if (entity->getName() == MAIN_ENTITY_NAME)
-                {
+                if (entity->name() == MAIN_ENTITY_NAME) {
                     RTShader::SubRenderState* normalMapSubRS = mShaderGenerator->createSubRenderState(RTShader::SRS_NORMALMAP);
 
                     normalMapSubRS->set_parameter("normalmap_space", "tangent_space");
@@ -621,8 +616,7 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
                 }
 
                 // It is secondary entity -> use simple per pixel lighting.
-                else
-                {
+                else {
                     RTShader::SubRenderState* perPixelLightModel = mShaderGenerator->createSubRenderState(RTShader::SRS_PER_PIXEL_LIGHTING);
                     renderState->addTemplateSubRenderState(perPixelLightModel);
                 }

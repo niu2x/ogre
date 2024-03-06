@@ -93,7 +93,7 @@ class _OgreSampleClassExport Sample_FacialAnimation : public SdkSample
         for (unsigned int i = 0; i < mManualKeyFrame->getPoseReferences().size(); i++)
         {
             String sliderName = "Pose" + StringConverter::to_string(i);
-            String poseName = mHeadMesh->getPoseList()[i]->getName();
+            String poseName = mHeadMesh->getPoseList()[i]->name();
 
             if (poseName.find("Expression") != std::string::npos)
                 mExpressions.push_back(mTrayMgr->createLongSlider(TL_NONE, sliderName, poseName.substr(11), 200, 80, 44, 0, 1, 11));
@@ -143,7 +143,9 @@ class _OgreSampleClassExport Sample_FacialAnimation : public SdkSample
     void sliderMoved(OgreBites::Slider * slider) override
     {
         // update the pose reference controlled by this slider
-        mManualKeyFrame->updatePoseReference(StringConverter::parse_int32(slider->getName().substr(4)), slider->getValue());
+        mManualKeyFrame->updatePoseReference(
+            StringConverter::parse_int32(slider->name().substr(4)),
+            slider->getValue());
         // dirty animation state since we're fudging this manually
         mManualAnimState->getParent()->_notifyDirty();
     }

@@ -72,7 +72,7 @@ public:
             case MODE_EDIT_HEIGHT:
             {
                 // we need point coords
-                Real terrainSize = (terrain->getSize() - 1);
+                Real terrainSize = (terrain->size() - 1);
                 int startx = (tsPos.x - mBrushSizeTerrainSpace) * terrainSize;
                 int starty = (tsPos.y - mBrushSizeTerrainSpace) * terrainSize;
                 int endx = (tsPos.x + mBrushSizeTerrainSpace) * terrainSize;

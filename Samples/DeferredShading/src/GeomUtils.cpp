@@ -61,12 +61,16 @@ void GeomUtils::createSphere(VertexData*& vertexData, IndexData*& indexData
     VertexDeclaration* vertexDecl = vertexData->vertexDeclaration;
     size_t currOffset = 0;
     // positions
-    currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION).getSize();
+    currOffset
+        += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION)
+               .size();
 
     if (bNormals)
     {
         // normals
-        currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL).getSize();
+        currOffset
+            += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL)
+                   .size();
     }
     // two dimensional texture coordinates
     if (bTexCoords)

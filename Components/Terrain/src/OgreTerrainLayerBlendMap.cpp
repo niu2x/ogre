@@ -188,7 +188,8 @@ namespace Ogre
             // make sure composite map is updated
             // mDirtyBox is in image space, convert to terrain units
             Rect compositeMapRect;
-            float blendToTerrain = (float)mParent->getSize() / (float)mBuffer->getWidth();
+            float blendToTerrain
+                = (float)mParent->size() / (float)mBuffer->getWidth();
             compositeMapRect.left = (mDirtyBox.left * blendToTerrain);
             compositeMapRect.right = (mDirtyBox.right * blendToTerrain + 1);
             compositeMapRect.top = ((mBuffer->getHeight() - mDirtyBox.bottom) * blendToTerrain);

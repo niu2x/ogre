@@ -27,13 +27,13 @@ public:
     void compositorInstanceCreated(Ogre::CompositorInstance* newInstance) override
     {
         Ogre::CompositorInstance::Listener* listener = createListener(newInstance);
-        newInstance->addListener(listener);
+        newInstance->add_listener(listener);
         mListeners[newInstance] = listener;
     }
 
     void compositorInstanceDestroyed(Ogre::CompositorInstance* destroyedInstance) override
     {
-        destroyedInstance->removeListener(mListeners[destroyedInstance]);
+        destroyedInstance->remove_listener(mListeners[destroyedInstance]);
         delete mListeners[destroyedInstance];
         mListeners.erase(destroyedInstance);
     }

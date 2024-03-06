@@ -270,7 +270,10 @@ void TextureAtlasSampler::updateGpuProgramsParams(Renderable* rend, const Pass* 
                     buffer[i*4 + 2] = (float)Ogre::Math::Log2((*(mAtlasTableDatas[j]))[i].width * texSize.x);
                     buffer[i*4 + 3] = (float)Ogre::Math::Log2((*(mAtlasTableDatas[j]))[i].height * texSize.y);
                 }
-                vsGpuParams->setNamedConstant(mVSTextureTable[j]->getName(), (const float*)(&(buffer[0])), (mAtlasTableDatas[j])->size()); 
+                vsGpuParams->setNamedConstant(
+                    mVSTextureTable[j]->name(),
+                    (const float*)(&(buffer[0])),
+                    (mAtlasTableDatas[j])->size());
             }
         }
     }

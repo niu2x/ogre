@@ -60,11 +60,8 @@ namespace OgreBites
         {
         }
 
-        const Ogre::String& getName() const override
-        {
-            return mName;
-        }
-        
+        const Ogre::String& name() const override { return mName; }
+
         void install() override {}
         void uninstall() override {}
         void initialise() override {}

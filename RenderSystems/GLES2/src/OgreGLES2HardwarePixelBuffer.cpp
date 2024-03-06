@@ -85,28 +85,21 @@ namespace Ogre {
                         "GLES2HardwarePixelBuffer::blitToMemory");
         }
 
-        if (srcBox.getOrigin() == Vector3i(0, 0 ,0) &&
-            srcBox.getSize() == getSize() &&
-            dst.getSize() == getSize() &&
-            GLES2PixelUtil::getGLInternalFormat(dst.format) != 0)
-        {
+        if (srcBox.getOrigin() == Vector3i(0, 0, 0) && srcBox.size() == size()
+            && dst.size() == size()
+            && GLES2PixelUtil::getGLInternalFormat(dst.format) != 0) {
             // The direct case: the user wants the entire texture in a format supported by GL
             // so we don't need an intermediate buffer
             download(dst);
-        }
-        else
-        {
+        } else {
             // Use buffer for intermediate copy
             allocateBuffer();
             // Download entire buffer
             download(mBuffer);
-            if(srcBox.getSize() != dst.getSize())
-            {
+            if (srcBox.size() != dst.size()) {
                 // We need scaling
                 Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
-            }
-            else
-            {
+            } else {
                 // Just copy the bit that we need
                 PixelUtil::bulkPixelConversion(mBuffer.getSubVolume(srcBox), dst);
             }
@@ -298,7 +291,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------  
     void GLES2TextureBuffer::download(const PixelBox &data)
     {
-        if(data.getSize() != getSize())
+        if (data.size() != size())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "only download of entire buffer is supported by GL ES",
                         "GLES2TextureBuffer::download");
 
@@ -433,9 +426,7 @@ namespace Ogre {
         // Fall back to normal GLHardwarePixelBuffer::blitFromMemory in case 
         // the source dimensions match the destination ones, in which case no scaling is needed
         // FIXME: always uses software path, as blitFromTexture is not implemented
-        if(true ||
-           (src.getSize() == dstBox.getSize()))
-        {
+        if (true || (src.size() == dstBox.size())) {
             _blitFromMemory(src, dstBox);
             return;
         }
@@ -451,7 +442,7 @@ namespace Ogre {
             src.getWidth(), src.getHeight(), src.getDepth(), MIP_UNLIMITED, src.format);
 
         // Upload data to 0,0,0 in temporary texture
-        Box tempTarget(src.getSize());
+        Box tempTarget(src.size());
         tex->getBuffer()->blitFromMemory(src);
 
         // Blit from texture

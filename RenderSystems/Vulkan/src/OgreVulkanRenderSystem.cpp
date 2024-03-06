@@ -333,7 +333,7 @@ namespace Ogre
         mPipelineCache.clear();
     }
     //-------------------------------------------------------------------------
-    const String &VulkanRenderSystem::getName( void ) const
+    const String& VulkanRenderSystem::name(void) const
     {
         static String strName( "Vulkan Rendering Subsystem" );
         return strName;

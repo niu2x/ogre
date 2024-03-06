@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _BspLevel_H__
 
 #include "OgreBspPrerequisites.h"
-#include "OgreResource.h"
+#include "resource.h"
 #include "OgreStaticFaceGroup.h"
 #include "OgreSceneManager.h"
 #include "OgreBspNode.h"

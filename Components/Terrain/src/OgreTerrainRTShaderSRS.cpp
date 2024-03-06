@@ -38,7 +38,7 @@ void TerrainTransform::updateParams()
 
     mPointTrans->setGpuParameter(mTerrain->getPointTransform());
 
-    float baseUVScale = 1.0f / (mTerrain->getSize() - 1);
+    float baseUVScale = 1.0f / (mTerrain->size() - 1);
     mBaseUVScale->setGpuParameter(baseUVScale);
 }
 

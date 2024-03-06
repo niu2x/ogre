@@ -175,7 +175,7 @@ namespace Ogre {
             OGRE_DELETE mGLSupport;
     }
 
-    const String& GL3PlusRenderSystem::getName(void) const
+    const String& GL3PlusRenderSystem::name(void) const
     {
         static String strName("OpenGL 3+ Rendering Subsystem");
         return strName;

@@ -61,16 +61,14 @@ public:
 
     void checkBoxToggled(CheckBox* box) override
     {
-        if (StringUtil::starts_with(box->getName(), "Light", false))
-        {
+        if (StringUtil::starts_with(box->name(), "Light", false)) {
             // get the light pivot that corresponds to this checkbox
-            SceneNode* pivot = box->getName() == "Light1" ? mLightPivot1 : mLightPivot2;
+            SceneNode* pivot
+                = box->name() == "Light1" ? mLightPivot1 : mLightPivot2;
 
             // toggle visibility of light and billboard set
             pivot->setVisible(box->isChecked());
-        }
-        else if (box->getName() == "MoveLights")
-        {
+        } else if (box->name() == "MoveLights") {
             mMoveLights = !mMoveLights;
         }
     }
@@ -140,7 +138,7 @@ protected:
             // mesh->buildTangentVectors(VES_TANGENT, src, dest, true, true);
 
             // create an entity from the mesh and set the first available material
-            Entity* ent = mSceneMgr->createEntity(mesh->getName(), mesh->getName());
+            Entity* ent = mSceneMgr->createEntity(mesh->name(), mesh->name());
             ent->setMaterialName(p.second.front());
         }
     }

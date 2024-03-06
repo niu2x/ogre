@@ -55,7 +55,7 @@ void CameraMan::setStyle(CameraStyle style)
 {
     if (mStyle != CS_ORBIT && style == CS_ORBIT)
     {
-        setTarget(mTarget ? mTarget : mCamera->getCreator()->getRootSceneNode());
+        setTarget(mTarget ? mTarget : mCamera->creator()->getRootSceneNode());
         // fix the yaw axis if requested
         mCamera->setFixedYawAxis(mYawSpace == Ogre::Node::TS_PARENT);
         manualStop();

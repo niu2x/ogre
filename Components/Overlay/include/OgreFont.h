@@ -28,7 +28,7 @@ THE SOFTWARE
 #define _Font_H__
 
 #include "OgreOverlayPrerequisites.h"
-#include "OgreResource.h"
+#include "resource.h"
 #include "OgreCommon.h"
 
 #include "colour_value.h"

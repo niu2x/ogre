@@ -51,7 +51,7 @@ SegmentedDynamicLightManager::~SegmentedDynamicLightManager()
     setSceneManager(NULL);
     if (mLightTexture.get())
     {
-        TextureManager::getSingleton().remove(mLightTexture->getHandle());
+        TextureManager::getSingleton().remove(mLightTexture->handle());
     }
 }
 
@@ -82,11 +82,12 @@ void SegmentedDynamicLightManager::setSceneManager(SceneManager* i_Manager)
 { 
     if (mManager != i_Manager)
     {
-        if (mManager) mManager->removeListener(this);
+        if (mManager)
+            mManager->remove_listener(this);
         mManager = i_Manager;
         if (mManager) 
         {
-            mManager->addListener(this);
+            mManager->add_listener(this);
             initTexture();
         }
     }

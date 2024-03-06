@@ -89,8 +89,7 @@ namespace OgreBites
                     // try to find the required plugin in the current installed plugins
                     for (Ogre::Root::PluginInstanceList::iterator k = ip.begin(); k != ip.end(); k++)
                     {
-                        if ((*k)->getName() == *j)
-                        {
+                        if ((*k)->name() == *j) {
                             found = true;
                             break;
                         }

@@ -125,8 +125,8 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DSurface9 *sur
         }
     }
 
-    if (isNewBuffer && mOwnerTexture->isLoaded() && mOwnerTexture->isManuallyLoaded())
-    {
+    if (isNewBuffer && mOwnerTexture->is_loaded()
+        && mOwnerTexture->isManuallyLoaded()) {
         DeviceToBufferResourcesIterator it = mMapDeviceToBufferResources.begin();
 
         while (it != mMapDeviceToBufferResources.end())
@@ -145,8 +145,8 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DSurface9 *sur
                 OGRE_FREE(dstBox.data, MEMCATEGORY_RESOURCE);
                 break;
             }
-            ++it;           
-        }               
+            ++it;
+        }
     }
 }
 //-----------------------------------------------------------------------------

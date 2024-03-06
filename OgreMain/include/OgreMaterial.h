@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreResource.h"
+#include "resource.h"
 #include "OgreCommon.h"
 #include "colour_value.h"
 #include "blend_mode.h"

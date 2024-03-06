@@ -158,7 +158,7 @@ void Sample_Compositor::registerCompositors(void)
     while (resourceIterator.hasMoreElements())
     {
         Ogre::ResourcePtr resource = resourceIterator.getNext();
-        const Ogre::String& compositorName = resource->getName();
+        const Ogre::String& compositorName = resource->name();
 
         // Don't add blacklisted compositor to view
         if (blacklisted(compositorName))
@@ -288,8 +288,7 @@ void Sample_Compositor::setupControls(void)
 
 void Sample_Compositor::checkBoxToggled(OgreBites::CheckBox * box)
 {
-    if (Ogre::StringUtil::starts_with(box->getName(), "Compositor_", false))
-    {
+    if (Ogre::StringUtil::starts_with(box->name(), "Compositor_", false)) {
         String compositorName = box->getCaption();
 
         String activeTex = mDebugTextureSelectMenu->getSelectedItem();

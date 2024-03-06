@@ -170,7 +170,7 @@ namespace Ogre
         uint16 numLodLevels = mTerrain->getNumLodLevels();
         mLodInfoTable = OGRE_ALLOC_T(LodInfo, numLodLevels, MEMCATEGORY_GENERAL);
 
-        uint16 size = mTerrain->getSize();
+        uint16 size = mTerrain->size();
         uint16 depth = mTerrain->mTreeDepth;
         uint16 prevdepth = depth;
         uint16 last = 0;
@@ -318,8 +318,8 @@ namespace Ogre
         uint16 numLodLevels = terrain->getNumLodLevels();
 
         LodsData lods;
-        separateData(terrain->mHeightData, terrain->getSize(), numLodLevels, lods);
-        separateData(terrain->mDeltaData, terrain->getSize(), numLodLevels, lods);
+        separateData(terrain->mHeightData, terrain->size(), numLodLevels, lods);
+        separateData(terrain->mDeltaData, terrain->size(), numLodLevels, lods);
 
         for (int level = numLodLevels - 1; level >=0; level--)
         {
@@ -384,7 +384,7 @@ namespace Ogre
         unsigned int inc = 1 << lodLevel;
         unsigned int prev = 1 << (lodLevel + 1);
         uint16 numLodLevels = mTerrain->getNumLodLevels();
-        uint16 size = mTerrain->getSize();
+        uint16 size = mTerrain->size();
 
         const float* heightDataPtr = data;
         const float* deltaDataPtr = data+dataSize/2;

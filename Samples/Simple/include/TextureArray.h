@@ -70,7 +70,9 @@ protected:
         
         // create a quad that uses our material 
         int quadSize = 100;
-        textureArrayObject->begin(texArrayMat->getName(), RenderOperation::OT_TRIANGLE_LIST);
+        textureArrayObject->begin(
+            texArrayMat->name(),
+            RenderOperation::OT_TRIANGLE_LIST);
         // triangle 0 of the quad
         textureArrayObject->position(0, 0, 0);
         textureArrayObject->textureCoord(0, 0, 0);

@@ -195,9 +195,17 @@ void Button::setState(const ButtonState &bs)
     mState = bs;
 }
 
-TextBox::TextBox(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width, Ogre::Real height)
+TextBox::TextBox(
+    const Ogre::String& p_name,
+    const Ogre::DisplayString& caption,
+    Ogre::Real width,
+    Ogre::Real height)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate("SdkTrays/TextBox", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/TextBox",
+            "BorderPanel",
+            p_name);
     mElement->setWidth(width);
     mElement->setHeight(height);
     Ogre::OverlayContainer* container = (Ogre::OverlayContainer*)mElement;
@@ -749,9 +757,16 @@ void SelectMenu::retract()
     mSmallBox->setBorderMaterialName("SdkTrays/MiniTextBox");
 }
 
-Label::Label(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width)
+Label::Label(
+    const Ogre::String& p_name,
+    const Ogre::DisplayString& caption,
+    Ogre::Real width)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate("SdkTrays/Label", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/Label",
+            "BorderPanel",
+            p_name);
     mTextArea = (Ogre::TextAreaOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(name() + "/LabelCaption");
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mTextArea->setCharHeight(mTextArea->getCharHeight() - 3);
@@ -770,9 +785,13 @@ void Label::_cursorPressed(const Ogre::Vector2 &cursorPos)
     if (mListener && isCursorOver(mElement, cursorPos, 3)) mListener->labelHit(this);
 }
 
-Separator::Separator(const Ogre::String &name, Ogre::Real width)
+Separator::Separator(const Ogre::String& p_name, Ogre::Real width)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate("SdkTrays/Separator", "Panel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/Separator",
+            "Panel",
+            p_name);
     if (width <= 0) mFitToTray = true;
     else
     {
@@ -781,17 +800,28 @@ Separator::Separator(const Ogre::String &name, Ogre::Real width)
     }
 }
 
-Slider::Slider(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width, Ogre::Real trackWidth, Ogre::Real valueBoxWidth, Ogre::Real minValue, Ogre::Real maxValue, unsigned int snaps)
-    : mDragOffset(0.0f)
-    , mValue(0.0f)
-    , mMinValue(0.0f)
-    , mMaxValue(0.0f)
-    , mInterval(0.0f)
+Slider::Slider(
+    const Ogre::String& p_name,
+    const Ogre::DisplayString& caption,
+    Ogre::Real width,
+    Ogre::Real trackWidth,
+    Ogre::Real valueBoxWidth,
+    Ogre::Real minValue,
+    Ogre::Real maxValue,
+    unsigned int snaps)
+: mDragOffset(0.0f)
+, mValue(0.0f)
+, mMinValue(0.0f)
+, mMaxValue(0.0f)
+, mInterval(0.0f)
 {
     mDragging = false;
     mFitToContents = false;
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
-            ("SdkTrays/Slider", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/Slider",
+            "BorderPanel",
+            p_name);
     mElement->setWidth(width);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
     mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/SliderCaption");
@@ -917,13 +947,20 @@ void Slider::_cursorMoved(const Ogre::Vector2 &cursorPos, float wheelDelta)
     }
 }
 
-ParamsPanel::ParamsPanel(const Ogre::String &name, Ogre::Real width, unsigned int lines)
+ParamsPanel::ParamsPanel(
+    const Ogre::String& p_name,
+    Ogre::Real width,
+    unsigned int lines)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
-            ("SdkTrays/ParamsPanel", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/ParamsPanel",
+            "BorderPanel",
+            p_name);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
     mNamesArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/ParamsPanelNames");
     mValuesArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/ParamsPanelValues");
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mNamesArea->setCharHeight(mNamesArea->getCharHeight() - 3);
     mValuesArea->setCharHeight(mValuesArea->getCharHeight() - 3);
@@ -1016,12 +1053,18 @@ void ParamsPanel::updateText()
     mValuesArea->setCaption(valuesDS);
 }
 
-CheckBox::CheckBox(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width)
+CheckBox::CheckBox(
+    const Ogre::String& p_name,
+    const Ogre::DisplayString& caption,
+    Ogre::Real width)
 {
     mCursorOver = false;
     mFitToContents = width <= 0;
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
-            ("SdkTrays/CheckBox", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/CheckBox",
+            "BorderPanel",
+            p_name);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
     mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/CheckBoxCaption");
     mSquare = (Ogre::BorderPanelOverlayElement*)c->getChild(name() + "/CheckBoxSquare");
@@ -1091,11 +1134,18 @@ DecorWidget::DecorWidget(const Ogre::String &name, const Ogre::String &templateN
     mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(templateName, "", name);
 }
 
-ProgressBar::ProgressBar(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width, Ogre::Real commentBoxWidth)
-    : mProgress(0.0f)
+ProgressBar::ProgressBar(
+    const Ogre::String& p_name,
+    const Ogre::DisplayString& caption,
+    Ogre::Real width,
+    Ogre::Real commentBoxWidth)
+: mProgress(0.0f)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
-            ("SdkTrays/ProgressBar", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+            "SdkTrays/ProgressBar",
+            "BorderPanel",
+            p_name);
     mElement->setWidth(width);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
     mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/ProgressCaption");

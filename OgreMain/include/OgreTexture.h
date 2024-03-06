@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreHardwareBuffer.h"
-#include "OgreResource.h"
+#include "resource.h"
 #include "OgreImage.h"
 #include "OgreHeaderPrefix.h"
 

@@ -101,7 +101,8 @@ namespace Ogre {
         mRenderSystem->_getStateCacheManager()->bindGLTexture( texTarget, mTextureID );
 
         if (mRenderSystem->getCapabilities()->hasCapability(RSC_DEBUG))
-            OGRE_CHECK_GL_ERROR(glObjectLabel(GL_TEXTURE, mTextureID, -1, mName.c_str()));
+            OGRE_CHECK_GL_ERROR(
+                glObjectLabel(GL_TEXTURE, mTextureID, -1, name().c_str()));
 
         mRenderSystem->_getStateCacheManager()->setTexParameteri(texTarget, GL_TEXTURE_BASE_LEVEL, 0);
         mRenderSystem->_getStateCacheManager()->setTexParameteri(texTarget, GL_TEXTURE_MAX_LEVEL, mNumMipmaps);

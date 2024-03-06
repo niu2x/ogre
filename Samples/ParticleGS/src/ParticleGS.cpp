@@ -82,13 +82,30 @@ struct FireworkParticle
         // Define input / feedback variables.
         size_t offset = 0;
         // Position
-        offset += vertexDecl->addElement(0, offset, VET_FLOAT3, VES_POSITION).getSize();
+        offset += vertexDecl->addElement(0, offset, VET_FLOAT3, VES_POSITION)
+                      .size();
         // Timer
-        offset += vertexDecl->addElement(0, offset, VET_FLOAT1, VES_TEXTURE_COORDINATES, 0).getSize();
+        offset += vertexDecl
+                      ->addElement(
+                          0,
+                          offset,
+                          VET_FLOAT1,
+                          VES_TEXTURE_COORDINATES,
+                          0)
+                      .size();
         // Type
-        offset += vertexDecl->addElement(0, offset, VET_FLOAT1, VES_TEXTURE_COORDINATES, 1).getSize();
+        offset += vertexDecl
+                      ->addElement(
+                          0,
+                          offset,
+                          VET_FLOAT1,
+                          VES_TEXTURE_COORDINATES,
+                          1)
+                      .size();
         // Velocity
-        vertexDecl->addElement(0, offset, VET_FLOAT3, VES_TEXTURE_COORDINATES, 2).getSize();
+        vertexDecl
+            ->addElement(0, offset, VET_FLOAT3, VES_TEXTURE_COORDINATES, 2)
+            .size();
 
         // Bind the two together.
         r2vb->setSourceRenderable(particleSystemSeed->getSections()[0]);

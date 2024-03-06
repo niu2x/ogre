@@ -236,7 +236,7 @@ namespace Ogre
         /// @copydoc RenderSystem::detachRenderTarget
         virtual RenderTarget * detachRenderTarget(const String &name);
 
-        const String& getName(void) const;
+        const String& name(void) const;
 
         void getCustomAttribute(const String& name, void* pData);
         // Low-level overridden members

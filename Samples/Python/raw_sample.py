@@ -15,7 +15,7 @@ class SGResolver(Ogre.MaterialManager_Listener):
         if not succ:
             return None
 
-        self.shadergen.validateMaterial(sname, mat.getName(), mat.getGroup())
+        self.shadergen.validateMaterial(sname, mat.name(), mat.group())
 
         return mat.getTechnique(1)
 
@@ -41,7 +41,7 @@ def main():
     shadergen = Ogre.RTShader.ShaderGenerator.getSingleton()
 
     sgres = SGResolver(shadergen)
-    Ogre.MaterialManager.getSingleton().addListener(sgres)
+    Ogre.MaterialManager.getSingleton().add_listener(sgres)
 
     rgm.initialiseAllResourceGroups()
 

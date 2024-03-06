@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __Skeleton_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreResource.h"
+#include "resource.h"
 #include "string_vector.h"
 #include "OgreAnimation.h"
 #include "OgreHeaderPrefix.h"

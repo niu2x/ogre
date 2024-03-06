@@ -252,7 +252,7 @@ namespace OgreBites
             Pass* p = debugMat->getTechnique(0)->getPass(0);
             p->removeAllTextureUnitStates();
             p->setLightingEnabled(false);
-            TextureUnitState *t = p->createTextureUnitState(tex->getName());
+            TextureUnitState* t = p->createTextureUnitState(tex->name());
             t->setTextureAddressingMode(TextureUnitState::TAM_CLAMP);
 
             // create template
