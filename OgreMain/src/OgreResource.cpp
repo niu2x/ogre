@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 namespace Ogre 
 {
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 Resource::Resource(
     ResourceManager* creator,
     const String& name,
@@ -38,382 +38,350 @@ Resource::Resource(
     const String& group,
     bool isManual,
     ManualResourceLoader* loader)
-: mCreator(creator)
-, mName(name)
-, mGroup(group)
-, mHandle(handle)
-, mLoadingState(LoadingState::UNLOADED)
-, mIsBackgroundLoaded(false)
-, mIsManual(isManual)
-, mSize(0)
-, mLoader(loader)
-, mStateCount(0)
+: creator_(creator)
+, name_(name)
+, group_(group)
+, handle_(handle)
+, loading_state_(LoadingState::UNLOADED)
+, is_background_loaded_(false)
+, is_manual_(isManual)
+, size_(0)
+, loader_(loader)
+, state_count_(0)
 {
 }
-    //-----------------------------------------------------------------------
-    Resource::~Resource() 
-    { 
-    }
-    Resource& Resource::operator=(const Resource& rhs)
-    {
-        mName = rhs.mName;
-        mGroup = rhs.mGroup;
-        mCreator = rhs.mCreator;
-        mIsManual = rhs.mIsManual;
-        mLoader = rhs.mLoader;
-        mHandle = rhs.mHandle;
-        mSize = rhs.mSize;
+//-----------------------------------------------------------------------
+Resource::~Resource() { }
 
-        mLoadingState.store(rhs.mLoadingState.load());
-        mIsBackgroundLoaded = rhs.mIsBackgroundLoaded;
+Resource& Resource::operator=(const Resource& rhs)
+{
+    name_ = rhs.name_;
+    group_ = rhs.group_;
+    creator_ = rhs.creator_;
+    is_manual_ = rhs.is_manual_;
+    loader_ = rhs.loader_;
+    handle_ = rhs.handle_;
+    size_ = rhs.size_;
 
-        return *this;
+    loading_state_.store(rhs.loading_state_.load());
+    is_background_loaded_ = rhs.is_background_loaded_;
+
+    return *this;
+}
+//-----------------------------------------------------------------------
+void Resource::escalateLoading()
+{
+    // Just call load as if this is the background thread, locking on
+    // load status will prevent race conditions
+    load(true);
+    _fireloading_complete();
+}
+//-----------------------------------------------------------------------
+void Resource::prepare(bool background)
+{
+    // quick check that avoids any synchronisation
+    LoadingState old = loading_state_.load();
+
+    if (old != LoadingState::UNLOADED && old != LoadingState::PREPARING)
+        return;
+
+    // atomically do slower check to make absolutely sure,
+    // and set the load state to PREPARING
+    old = LoadingState::UNLOADED;
+    if (!loading_state_.compare_exchange_strong(old, LoadingState::PREPARING)) {
+        while (loading_state_.load() == LoadingState::PREPARING) { }
+
+        LoadingState state = loading_state_.load();
+        if (state != LoadingState::PREPARED && state != LoadingState::LOADING
+            && state != LoadingState::LOADED) {
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "Another thread failed in resource operation",
+                "Resource::prepare");
+        }
+        return;
     }
-    //-----------------------------------------------------------------------
-    void Resource::escalateLoading()
-    {
-        // Just call load as if this is the background thread, locking on
-        // load status will prevent race conditions
-        load(true);
-        _fireloading_complete();
+
+    // Scope lock for actual loading
+    try {
+
+        if (is_manual_) {
+            if (loader_) {
+                loader_->prepareResource(this);
+            } else {
+                // Warn that this resource is not reloadable
+                LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+                    << "Note: " << creator_->getResourceType() << " instance '"
+                    << name_ << "' was defined as manually "
+                    << "loaded, but no manual loader was provided. This "
+                       "Resource "
+                    << "will be lost if it has to be reloaded.";
+            }
+        } else {
+            if (group_
+                == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME) {
+                // Derive resource group
+                changeGroupOwnership(ResourceGroupManager::getSingleton()
+                                         .findGroupContainingResource(name_));
+            }
+            prepare_impl();
+        }
+    } catch (...) {
+        loading_state_.store(LoadingState::UNLOADED);
+
+        unload_impl();
+
+        throw;
     }
-    //-----------------------------------------------------------------------
-    void Resource::prepare(bool background)
-    {
+
+    loading_state_.store(LoadingState::PREPARED);
+
+    // Since we don't distinguish between GPU and CPU RAM, this
+    // seems pointless
+    // if(creator_)
+    //  creator_->_notifyResourcePrepared(this);
+
+    // Fire events (if not background)
+    if (!background)
+        _fire_preparing_complete();
+}
+//---------------------------------------------------------------------
+void Resource::load(bool background)
+{
+    // Early-out without lock (mitigate perf cost of ensuring loaded)
+    // Don't load if:
+    // 1. We're already loaded
+    // 2. Another thread is loading right now
+    // 3. We're marked for background loading and this is not the background
+    //    loading thread we're being called by
+
+    if (is_background_loaded_ && !background)
+        return;
+
+    // This next section is to deal with cases where 2 threads are fighting over
+    // who gets to prepare / load - this will only usually happen if loading is
+    // escalated
+    bool keep_checking = true;
+    LoadingState old = LoadingState::UNLOADED;
+    while (keep_checking) {
         // quick check that avoids any synchronisation
-        LoadingState old = mLoadingState.load();
-        if (old != LoadingState::UNLOADED && old != LoadingState::PREPARING)
+        old = loading_state_.load();
+
+        if (old == LoadingState::PREPARING) {
+            while (loading_state_.load() == LoadingState::PREPARING) { }
+            old = loading_state_.load();
+        }
+
+        if (old != LoadingState::UNLOADED && old != LoadingState::PREPARED
+            && old != LoadingState::LOADING)
             return;
 
         // atomically do slower check to make absolutely sure,
-        // and set the load state to PREPARING
-        old = LoadingState::UNLOADED;
-        if (!mLoadingState.compare_exchange_strong(
+        // and set the load state to LOADING
+        if (old == LoadingState::LOADING
+            || !loading_state_.compare_exchange_strong(
                 old,
-                LoadingState::PREPARING)) {
-            while (mLoadingState.load() == LoadingState::PREPARING) { }
+                LoadingState::LOADING)) {
+            while (loading_state_.load() == LoadingState::LOADING) { }
 
-            LoadingState state = mLoadingState.load();
-            if (state != LoadingState::PREPARED
-                && state != LoadingState::LOADING
-                && state != LoadingState::LOADED) {
-                OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Another thread failed in resource operation",
-                    "Resource::prepare");
+            LoadingState state = loading_state_.load();
+            if (state == LoadingState::PREPARED
+                || state == LoadingState::PREPARING) {
+                // another thread is preparing, loop around
+                continue;
+            } else if (state != LoadingState::LOADED) {
+                OGRE_EXCEPT(
+                    Exception::ERR_INVALIDPARAMS,
+                    "Another thread failed in resource operation",
+                    "Resource::load");
             }
             return;
         }
-
-        // Scope lock for actual loading
-        try
-        {
-
-                    
-
-            if (mIsManual)
-            {
-                if (mLoader)
-                {
-                    mLoader->prepareResource(this);
-                }
-                else
-                {
-                    // Warn that this resource is not reloadable
-                    LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL) 
-                        << "Note: " << mCreator->getResourceType()
-                        << " instance '" << mName << "' was defined as manually "
-                        << "loaded, but no manual loader was provided. This Resource "
-                        << "will be lost if it has to be reloaded.";
-                }
-            }
-            else
-            {
-                if (mGroup == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME)
-                {
-                    // Derive resource group
-                    changeGroupOwnership(
-                        ResourceGroupManager::getSingleton()
-                        .findGroupContainingResource(mName));
-                }
-                prepareImpl();
-            }
-        }
-        catch (...)
-        {
-            mLoadingState.store(LoadingState::UNLOADED);
-
-            unloadImpl();
-
-            throw;
-        }
-
-        mLoadingState.store(LoadingState::PREPARED);
-
-        // Since we don't distinguish between GPU and CPU RAM, this
-        // seems pointless
-        //if(mCreator)
-        //  mCreator->_notifyResourcePrepared(this);
-
-        // Fire events (if not background)
-        if (!background)
-            _firepreparing_complete();
+        keep_checking = false;
     }
-    //---------------------------------------------------------------------
-    void Resource::load(bool background)
-    {
-        // Early-out without lock (mitigate perf cost of ensuring loaded)
-        // Don't load if:
-        // 1. We're already loaded
-        // 2. Another thread is loading right now
-        // 3. We're marked for background loading and this is not the background
-        //    loading thread we're being called by
 
-        if (mIsBackgroundLoaded && !background) return;
+    // Scope lock for actual loading
+    try {
 
-        // This next section is to deal with cases where 2 threads are fighting over
-        // who gets to prepare / load - this will only usually happen if loading is escalated
-        bool keepChecking = true;
-        LoadingState old = LoadingState::UNLOADED;
-        while (keepChecking)
-        {
-            // quick check that avoids any synchronisation
-            old = mLoadingState.load();
+        if (is_manual_) {
+            if (old == LoadingState::UNLOADED && loader_)
+                loader_->prepareResource(this);
 
-            if (old == LoadingState::PREPARING) {
-                while (mLoadingState.load() == LoadingState::PREPARING) { }
-                old = mLoadingState.load();
-            }
+            pre_load_impl();
 
-            if (old != LoadingState::UNLOADED && old != LoadingState::PREPARED
-                && old != LoadingState::LOADING)
-                return;
-
-            // atomically do slower check to make absolutely sure,
-            // and set the load state to LOADING
-            if (old == LoadingState::LOADING
-                || !mLoadingState.compare_exchange_strong(
-                    old,
-                    LoadingState::LOADING)) {
-                while (mLoadingState.load() == LoadingState::LOADING) { }
-
-                LoadingState state = mLoadingState.load();
-                if (state == LoadingState::PREPARED
-                    || state == LoadingState::PREPARING) {
-                    // another thread is preparing, loop around
-                    continue;
-                } else if (state != LoadingState::LOADED) {
-                    OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Another thread failed in resource operation",
-                        "Resource::load");
-                }
-                return;
-            }
-            keepChecking = false;
-        }
-
-        // Scope lock for actual loading
-        try
-        {
-
-                    
-
-
-
-            if (mIsManual)
-            {
-                if (old == LoadingState::UNLOADED && mLoader)
-                    mLoader->prepareResource(this);
-
-                preLoadImpl();
-
-                // Load from manual loader
-                if (mLoader)
-                {
-                    mLoader->loadResource(this);
-                }
-                else
-                {
-                    // Warn that this resource is not reloadable
-                    LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL) 
-                        << "Note: " << mCreator->getResourceType()
-                        << " instance '" << mName << "' was defined as manually "
-                        << "loaded, but no manual loader was provided. This Resource "
-                        << "will be lost if it has to be reloaded.";
-                }
-                postLoadImpl();
-            }
-            else
-            {
-
-                if (old == LoadingState::UNLOADED)
-                    prepareImpl();
-
-                preLoadImpl();
-
-                if (mGroup == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME)
-                {
-                    // Derive resource group
-                    changeGroupOwnership(
-                        ResourceGroupManager::getSingleton()
-                        .findGroupContainingResource(mName));
-                }
-
-                loadImpl();
-
-                postLoadImpl();
-            }
-
-            // Calculate resource size
-            mSize = calculateSize();
-
-        }
-        catch (...)
-        {
-            // Reset loading in-progress flag, in case failed for some reason.
-            // We reset it to UNLOADED because the only other case is when
-            // old == PREPARED in which case the loadImpl should wipe out
-            // any prepared data since it might be invalid.
-            mLoadingState.store(LoadingState::UNLOADED);
-
-            unloadImpl();
-
-            // Re-throw
-            throw;
-        }
-
-        mLoadingState.store(LoadingState::LOADED);
-        _dirtyState();
-
-        // Notify manager
-        if(mCreator)
-            mCreator->_notifyResourceLoaded(this);
-
-        // Fire events, if not background
-        if (!background)
-            _fireloading_complete();
-    }
-    //---------------------------------------------------------------------
-    size_t Resource::calculateSize(void) const
-    {
-        size_t memSize = 0; // sizeof(*this) should be called by deriving classes
-        memSize += mName.size() * sizeof(char);
-        memSize += mGroup.size() * sizeof(char);
-        memSize += mOrigin.size() * sizeof(char);
-        memSize += sizeof(void*) * mListenerList.size();
-
-        return memSize;
-    }
-    //---------------------------------------------------------------------
-    void Resource::_dirtyState()
-    {
-        // don't worry about threading here, count only ever increases so 
-        // doesn't matter if we get a lost increment (one is enough)
-        ++mStateCount;  
-    }
-    //-----------------------------------------------------------------------
-    void Resource::changeGroupOwnership(const String& newGroup)
-    {
-        if (mGroup != newGroup)
-        {
-            String oldGroup = mGroup;
-            mGroup = newGroup;
-            ResourceGroupManager::getSingleton()
-                ._notifyResourceGroupChanged(oldGroup, this);
-        }
-    }
-    //-----------------------------------------------------------------------
-    void Resource::unload(void) 
-    { 
-        // Early-out without lock (mitigate perf cost of ensuring unloaded)
-        LoadingState old = mLoadingState.load();
-        if (old != LoadingState::LOADED && old != LoadingState::PREPARED)
-            return;
-
-        if (!mLoadingState.compare_exchange_strong(
-                old,
-                LoadingState::UNLOADING))
-            return;
-
-        // Scope lock for actual unload
-        {
-
-            if (old == LoadingState::PREPARED) {
-                unprepareImpl();
+            // Load from manual loader
+            if (loader_) {
+                loader_->loadResource(this);
             } else {
-                preUnloadImpl();
-                unloadImpl();
-                postUnloadImpl();
+                // Warn that this resource is not reloadable
+                LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+                    << "Note: " << creator_->getResourceType() << " instance '"
+                    << name_ << "' was defined as manually "
+                    << "loaded, but no manual loader was provided. This "
+                       "Resource "
+                    << "will be lost if it has to be reloaded.";
             }
+            post_load_impl();
+        } else {
+
+            if (old == LoadingState::UNLOADED)
+                prepare_impl();
+
+            pre_load_impl();
+
+            if (group_
+                == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME) {
+                // Derive resource group
+                changeGroupOwnership(ResourceGroupManager::getSingleton()
+                                         .findGroupContainingResource(name_));
+            }
+
+            load_impl();
+
+            post_load_impl();
         }
 
-        mLoadingState.store(LoadingState::UNLOADED);
+        // Calculate resource size
+        size_ = calculate_size();
 
-        // Notify manager
-        // Note if we have gone from PREPARED to UNLOADED, then we haven't actually
-        // unloaded, i.e. there is no memory freed on the GPU.
-        if (old == LoadingState::LOADED && mCreator)
-            mCreator->_notifyResourceUnloaded(this);
+    } catch (...) {
+        // Reset loading in-progress flag, in case failed for some reason.
+        // We reset it to UNLOADED because the only other case is when
+        // old == PREPARED in which case the loadImpl should wipe out
+        // any prepared data since it might be invalid.
+        loading_state_.store(LoadingState::UNLOADED);
 
-        _fireUnloading_complete();
+        unload_impl();
+
+        // Re-throw
+        throw;
     }
-    //-----------------------------------------------------------------------
-    void Resource::reload(LoadingFlags flags)
+
+    loading_state_.store(LoadingState::LOADED);
+    _dirty_state();
+
+    // Notify manager
+    if (creator_)
+        creator_->_notifyResourceLoaded(this);
+
+    // Fire events, if not background
+    if (!background)
+        _fire_loading_complete();
+}
+//---------------------------------------------------------------------
+size_t Resource::calculate_size(void) const
+{
+    size_t mem_size = 0; // sizeof(*this) should be called by deriving classes
+    mem_size += name_.size() * sizeof(char);
+    mem_size += group_.size() * sizeof(char);
+    mem_size += origin_.size() * sizeof(char);
+    mem_size += sizeof(void*) * listenrs_.size();
+
+    return mem_size;
+}
+//---------------------------------------------------------------------
+void Resource::_dirty_state()
+{
+    // don't worry about threading here, count only ever increases so
+    // doesn't matter if we get a lost increment (one is enough)
+    ++state_count_;
+}
+//-----------------------------------------------------------------------
+void Resource::change_group_ownership(const String& new_group)
+{
+    if (group_ != new_group) {
+        String old_group = group_;
+        group_ = new_group;
+        ResourceGroupManager::getSingleton()._notifyResourceGroupChanged(
+            old_group,
+            this);
+    }
+}
+//-----------------------------------------------------------------------
+void Resource::unload(void)
+{
+    // Early-out without lock (mitigate perf cost of ensuring unloaded)
+    LoadingState old = loading_state_.load();
+    if (old != LoadingState::LOADED && old != LoadingState::PREPARED)
+        return;
+
+    if (!loading_state_.compare_exchange_strong(old, LoadingState::UNLOADING))
+        return;
+
+    // Scope lock for actual unload
     {
 
-        if (mLoadingState.load() == LoadingState::LOADED) {
-            unload();
-            load();
+        if (old == LoadingState::PREPARED) {
+            unprepare_impl();
+        } else {
+            pre_unload_impl();
+            unload_impl();
+            post_unload_impl();
         }
     }
-    //-----------------------------------------------------------------------
-    void Resource::touch(void) 
-    {
-        // make sure loaded
+
+    loading_state_.store(LoadingState::UNLOADED);
+
+    // Notify manager
+    // Note if we have gone from PREPARED to UNLOADED, then we haven't actually
+    // unloaded, i.e. there is no memory freed on the GPU.
+    if (old == LoadingState::LOADED && creator_)
+        creator_->_notifyResourceUnloaded(this);
+
+    _fire_unloading_complete();
+}
+//-----------------------------------------------------------------------
+void Resource::reload(LoadingFlags flags)
+{
+
+    if (loading_state_.load() == LoadingState::LOADED) {
+        unload();
         load();
+    }
+}
+//-----------------------------------------------------------------------
+void Resource::touch(void)
+{
+    // make sure loaded
+    load();
 
-        if(mCreator)
-            mCreator->_notifyResourceTouched(this);
-    }
-    //-----------------------------------------------------------------------
-    void Resource::addListener(Resource::Listener* lis)
-    {
-            
-        mListenerList.insert(lis);
-    }
-    //-----------------------------------------------------------------------
-    void Resource::removeListener(Resource::Listener* lis)
-    {
-        // O(n) but not called very often
-            
-        mListenerList.erase(lis);
-    }
-    //-----------------------------------------------------------------------
-    void Resource::_fireloading_complete(bool unused)
-    {
-        // Lock the listener list
-        
-        for (auto& l : mListenerList)
-        {
-            l->loading_complete(this);
-        }
-    }
-    //-----------------------------------------------------------------------
-    void Resource::_firepreparing_complete(bool unused)
-    {
-        // Lock the listener list
-        
-        for (auto& l : mListenerList)
-        {
-            l->preparing_complete(this);
-        }
-    }
-    //-----------------------------------------------------------------------
-    void Resource::_fireUnloading_complete(void)
-    {
-        // Lock the listener list
-        
-        for (auto& l : mListenerList)
-        {
-            l->unloading_complete(this);
-        }
-    }
+    if (creator_)
+        creator_->_notifyResourceTouched(this);
+}
+//-----------------------------------------------------------------------
+void Resource::addListener(Resource::Listener* lis) { listenrs_.insert(lis); }
+//-----------------------------------------------------------------------
+void Resource::removeListener(Resource::Listener* lis)
+{
+    // O(n) but not called very often
 
+    listenrs_.erase(lis);
+}
+//-----------------------------------------------------------------------
+void Resource::_fireloading_complete(bool unused)
+{
+    // Lock the listener list
+
+    for (auto& l : listenrs_) {
+        l->loading_complete(this);
+    }
+}
+//-----------------------------------------------------------------------
+void Resource::_firepreparing_complete(bool unused)
+{
+    // Lock the listener list
+
+    for (auto& l : listenrs_) {
+        l->preparing_complete(this);
+    }
+}
+//-----------------------------------------------------------------------
+void Resource::_fireUnloading_complete(void)
+{
+    // Lock the listener list
+
+    for (auto& l : listenrs_) {
+        l->unloading_complete(this);
+    }
+}
 }
