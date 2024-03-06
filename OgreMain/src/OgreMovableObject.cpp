@@ -329,7 +329,7 @@ namespace Ogre {
             SceneNode* sn = static_cast<SceneNode*>(mParentNode);
 
             // Make sure we only update this only if need.
-            ulong frame = sn->getCreator()->_getLightsDirtyCounter();
+            ulong frame = sn->creator()->_getLightsDirtyCounter();
             if (mLightListUpdated != frame)
             {
                 mLightListUpdated = frame;

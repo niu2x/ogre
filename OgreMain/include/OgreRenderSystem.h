@@ -174,7 +174,7 @@ namespace Ogre
 
         /** Returns the name of the rendering system.
         */
-        virtual const String& getName(void) const = 0;
+        virtual const String& name(void) const = 0;
 
         /** Returns the details of this API's configuration options
 
@@ -1003,10 +1003,10 @@ namespace Ogre
         may wish to know when it happens. 
         @see RenderSystem::getRenderSystemEvents
         */
-        void addListener(Listener* l);
+        void add_listener(Listener* l);
         /** Remove a listener to the custom events that this render system can raise.
         */
-        void removeListener(Listener* l);
+        void remove_listener(Listener* l);
 
         /** Gets a list of the rendersystem specific events that this rendersystem
         can raise.

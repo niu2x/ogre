@@ -277,12 +277,12 @@ namespace Ogre {
         /** Register a listener to this Serializer.
         @see MaterialSerializer::Listener
         */
-        void addListener(Listener* listener);
+        void add_listener(Listener* listener);
 
         /** Remove a listener from this Serializer.
         @see MaterialSerializer::Listener
         */
-        void removeListener(Listener* listener);
+        void remove_listener(Listener* listener);
 
     private:
         String mBuffer;

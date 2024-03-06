@@ -62,7 +62,7 @@ namespace Ogre {
         virtual ~ParticleEmitterFactory();
 
         /** Returns the name of the factory, the name which identifies the particle emitter type this factory creates. */
-        virtual String getName() const = 0;
+        virtual String name() const = 0;
 
         /** Creates a new emitter instance.
 

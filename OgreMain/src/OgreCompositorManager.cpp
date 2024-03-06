@@ -223,7 +223,8 @@ TexturePtr CompositorManager::getPooledTexture(const String& name,
 
     if (scope == CompositionTechnique::TS_CHAIN)
     {
-        StringPair pair = std::make_pair(inst->getCompositor()->getName(), localName);
+        StringPair pair
+            = std::make_pair(inst->getCompositor()->name(), localName);
         TextureDefMap& defMap = mChainTexturesByDef[pair];
         TextureDefMap::iterator it = defMap.find(def);
         if (it != defMap.end())
@@ -388,7 +389,7 @@ void CompositorManager::freePooledTextures(bool onlyIfUnreferenced)
                 // until this routine is called again after the material no longer references the texture
                 if (j->use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
                 {
-                    TextureManager::getSingleton().remove((*j)->getHandle());
+                    TextureManager::getSingleton().remove((*j)->handle());
                     j = texList.erase(j);
                 }
                 else
@@ -403,7 +404,7 @@ void CompositorManager::freePooledTextures(bool onlyIfUnreferenced)
                 const TexturePtr& tex = j->second;
                 if (tex.use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
                 {
-                    TextureManager::getSingleton().remove(tex->getHandle());
+                    TextureManager::getSingleton().remove(tex->handle());
                     texMap.erase(j++);
                 }
                 else
@@ -512,8 +513,8 @@ void CompositorManager::_relocateChain( Viewport* sourceVP, Viewport* destVP )
         Ogre::RenderTarget *dstTarget = destVP->getTarget();
         if (srcTarget != dstTarget)
         {
-            srcTarget->removeListener(chain);
-            dstTarget->addListener(chain);
+            srcTarget->remove_listener(chain);
+            dstTarget->add_listener(chain);
         }
         chain->_notifyViewport(destVP);
         mChains.erase(sourceVP);

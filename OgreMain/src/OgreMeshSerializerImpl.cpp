@@ -686,8 +686,10 @@ namespace Ogre {
         if (vType == _DETAIL_SWAP_RB)
         {
             LogManager::getSingleton().stream(LogMsgLevel::WARNING)
-                << "Warning: VET_COLOUR_ARGB element type is deprecated and incurs conversion on load. "
-                << "Use OgreMeshUpgrader on '" << pMesh->getName() << "' as soon as possible.";
+                << "Warning: VET_COLOUR_ARGB element type is deprecated and "
+                   "incurs conversion on load. "
+                << "Use OgreMeshUpgrader on '" << pMesh->name()
+                << "' as soon as possible.";
         }
 
     }
@@ -888,13 +890,17 @@ namespace Ogre {
         String materialName = readString(stream);
         if(listener)
             listener->processMaterialName(pMesh, &materialName);
-        if (auto material = MaterialManager::getSingleton().getByName(materialName, pMesh->getGroup()))
-        {
+        if (auto material = MaterialManager::getSingleton().getByName(
+                materialName,
+                pMesh->group())) {
             sm->setMaterial(material);
-        }
-        else
-        {
-            logMaterialNotFound(materialName, pMesh->getGroup(), "SubMesh of", pMesh->getName(), LogMsgLevel::WARNING);
+        } else {
+            logMaterialNotFound(
+                materialName,
+                pMesh->group(),
+                "SubMesh of",
+                pMesh->name(),
+                LogMsgLevel::WARNING);
         }
 
         // bool useSharedVertices
@@ -1116,7 +1122,7 @@ namespace Ogre {
         const LodStrategy *strategy = pMesh->getLodStrategy();
         exportedLodCount = pMesh->getNumLodLevels();
         writeChunkHeader(M_MESH_LOD_LEVEL, calcLodLevelSize(pMesh));
-        writeString(strategy->getName()); // string strategyName;
+        writeString(strategy->name()); // string strategyName;
         writeShorts(&exportedLodCount, 1); // unsigned short numLevels;
 
         pushInnerChunk(mStream);
@@ -1204,7 +1210,8 @@ namespace Ogre {
     {
         exportedLodCount = pMesh->getNumLodLevels();
         size_t size = MSTREAM_OVERHEAD_SIZE; // Header
-        size += calcStringSize(pMesh->getLodStrategy()->getName()); // string strategyName;
+        size += calcStringSize(
+            pMesh->getLodStrategy()->name()); // string strategyName;
         size += sizeof(unsigned short); // unsigned short numLevels;
         //size += sizeof(bool); // bool manual; <== this is removed in v1_9
 
@@ -1359,8 +1366,9 @@ namespace Ogre {
                 }
                 break;
             default:
-                OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                    "Invalid Lod Usage type in " + pMesh->getName(),
+                OGRE_EXCEPT(
+                    Exception::ERR_INVALIDPARAMS,
+                    "Invalid Lod Usage type in " + pMesh->name(),
                     "MeshSerializerImpl::readMeshLodInfo");
             }
         }
@@ -1399,8 +1407,9 @@ namespace Ogre {
                 readMeshLodUsageGenerated(stream, pMesh, lodID, usage);
                 break;
             default:
-                OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                "Invalid Lod Usage type in " + pMesh->getName(),
+                OGRE_EXCEPT(
+                    Exception::ERR_INVALIDPARAMS,
+                    "Invalid Lod Usage type in " + pMesh->name(),
                     "MeshSerializerImpl::readMeshLodInfo");
             }
             usage.manualMesh.reset(); // will trigger load later with manual Lod
@@ -1944,7 +1953,7 @@ namespace Ogre {
     size_t MeshSerializerImpl::calcAnimationSize(const Animation* anim)
     {
         size_t size = MSTREAM_OVERHEAD_SIZE;
-        size += calcStringSize(anim->getName());
+        size += calcStringSize(anim->name());
 
         // float length
         size += sizeof(float);
@@ -2041,7 +2050,7 @@ namespace Ogre {
     {
         size_t size = MSTREAM_OVERHEAD_SIZE;
 
-        size += calcStringSize(pose->getName());
+        size += calcStringSize(pose->name());
         // unsigned short target
         size += sizeof(uint16);
         // bool includesNormals
@@ -2088,7 +2097,7 @@ namespace Ogre {
         writeChunkHeader(M_POSE, calcPoseSize(pose));
 
         // char* name (may be blank)
-        writeString(pose->getName());
+        writeString(pose->name());
 
         // unsigned short target
         ushort val = pose->getTarget();
@@ -2127,7 +2136,8 @@ namespace Ogre {
         for (unsigned short a = 0; a < pMesh->getNumAnimations(); ++a)
         {
             Animation* anim = pMesh->getAnimation(a);
-            LogManager::getSingleton().log_message("Exporting animation " + anim->getName());
+            LogManager::getSingleton().log_message(
+                "Exporting animation " + anim->name());
             writeAnimation(anim);
             LogManager::getSingleton().log_message("Animation exported.");
         }
@@ -2138,7 +2148,7 @@ namespace Ogre {
     {
         writeChunkHeader(M_ANIMATION, calcAnimationSize(anim));
         // char* name
-        writeString(anim->getName());
+        writeString(anim->name());
         // float length
         float len = anim->getLength();
         writeFloats(&len, 1);
@@ -2176,7 +2186,7 @@ namespace Ogre {
         uint16 animType = (uint16)track->getAnimationType();
         writeShorts(&animType, 1);
         // unsigned short target
-        uint16 target = track->getHandle();
+        uint16 target = track->handle();
         writeShorts(&target, 1);
         pushInnerChunk(mStream);
         {
@@ -2615,7 +2625,8 @@ namespace Ogre {
         }
         exportedLodCount = pMesh->getNumLodLevels();
         size_t size = MSTREAM_OVERHEAD_SIZE; // Header
-        size += calcStringSize(compatibleLodStrategyName(pMesh->getLodStrategy()->getName())); // string strategyName;
+        size += calcStringSize(compatibleLodStrategyName(
+            pMesh->getLodStrategy()->name())); // string strategyName;
         size += sizeof(unsigned short); // unsigned short numLevels;
         size += sizeof(bool); // bool manual; <== this is removed in v1_9
 
@@ -2688,7 +2699,8 @@ namespace Ogre {
             writeChunkHeader(M_MESH_LOD_LEVEL, calcLodLevelSize(pMesh));
 
             // string strategyName;
-            writeString(compatibleLodStrategyName(pMesh->getLodStrategy()->getName()));
+            writeString(
+                compatibleLodStrategyName(pMesh->getLodStrategy()->name()));
             // unsigned short numLevels;
             writeShorts(&exportedLodCount, 1);
             // bool manual;  (true for manual alternate meshes, false for generated)
@@ -2812,8 +2824,10 @@ namespace Ogre {
                 unsigned long streamID = readChunk(stream);
                 if (streamID != M_MESH_LOD_GENERATED)
                 {
-                    OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                        "Missing M_MESH_LOD_GENERATED stream in " + pMesh->getName(),
+                    OGRE_EXCEPT(
+                        Exception::ERR_ITEM_NOT_FOUND,
+                        "Missing M_MESH_LOD_GENERATED stream in "
+                            + pMesh->name(),
                         "MeshSerializerImpl::readMeshLodUsageGenerated");
                 }
 
@@ -2855,8 +2869,9 @@ namespace Ogre {
         streamID = readChunk(stream);
         if (streamID != M_MESH_LOD_MANUAL)
         {
-            OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                "Missing M_MESH_LOD_MANUAL stream in " + pMesh->getName(),
+            OGRE_EXCEPT(
+                Exception::ERR_ITEM_NOT_FOUND,
+                "Missing M_MESH_LOD_MANUAL stream in " + pMesh->name(),
                 "MeshSerializerImpl::readMeshLodUsageManual");
         }
 
@@ -2890,8 +2905,9 @@ namespace Ogre {
             uint16 streamID = readChunk(stream);
             if (streamID != M_MESH_LOD_USAGE)
             {
-                OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->getName(),
+                OGRE_EXCEPT(
+                    Exception::ERR_ITEM_NOT_FOUND,
+                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->name(),
                     "MeshSerializerImpl::readMeshLodInfo");
             }
             float usageValue;
@@ -2903,8 +2919,9 @@ namespace Ogre {
                 streamID = readChunk(stream);
                 if (streamID != M_MESH_LOD_MANUAL)
                 {
-                    OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                        "Missing M_MESH_LOD_MANUAL stream in " + pMesh->getName(),
+                    OGRE_EXCEPT(
+                        Exception::ERR_ITEM_NOT_FOUND,
+                        "Missing M_MESH_LOD_MANUAL stream in " + pMesh->name(),
                         "MeshSerializerImpl::readMeshLodUsageManual");
                 }
 
@@ -2918,8 +2935,10 @@ namespace Ogre {
                     streamID = readChunk(stream);
                     if (streamID != M_MESH_LOD_GENERATED)
                     {
-                        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                            "Missing M_MESH_LOD_GENERATED stream in " + pMesh->getName(),
+                        OGRE_EXCEPT(
+                            Exception::ERR_ITEM_NOT_FOUND,
+                            "Missing M_MESH_LOD_GENERATED stream in "
+                                + pMesh->name(),
                             "MeshSerializerImpl::readMeshLodUsageGenerated");
                     }
 
@@ -2970,8 +2989,9 @@ namespace Ogre {
             streamID = readChunk(stream);
             if (streamID != M_MESH_LOD_USAGE)
             {
-                OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->getName(),
+                OGRE_EXCEPT(
+                    Exception::ERR_ITEM_NOT_FOUND,
+                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->name(),
                     "MeshSerializerImpl::readMeshLodInfo");
             }
             // Read depth
@@ -3057,7 +3077,7 @@ namespace Ogre {
         writeChunkHeader(M_POSE, calcPoseSize(pose));
 
         // char* name (may be blank)
-        writeString(pose->getName());
+        writeString(pose->name());
 
         // unsigned short target
         ushort val = pose->getTarget();
@@ -3129,7 +3149,7 @@ namespace Ogre {
     {
         size_t size = MSTREAM_OVERHEAD_SIZE;
 
-        size += calcStringSize(pose->getName());
+        size += calcStringSize(pose->name());
         // unsigned short target
         size += sizeof(uint16);
 
@@ -3181,7 +3201,8 @@ namespace Ogre {
         }
         exportedLodCount = pMesh->getNumLodLevels();
         size_t size = MSTREAM_OVERHEAD_SIZE; // Header
-        //size += calcStringSize(pMesh->getLodStrategy()->getName()); // string strategyName; <== missing in v1_4
+        // size += calcStringSize(pMesh->getLodStrategy()->name()); // string
+        // strategyName; <== missing in v1_4
         size += sizeof(unsigned short); // unsigned short numLevels;
         size += sizeof(bool); // bool manual; <== this is removed in v1_9
 
@@ -3216,7 +3237,7 @@ namespace Ogre {
 
             // Details
             // string strategyName;
-            //writeString(pMesh->getLodStrategy()->getName()); <== missing in v1_4
+            // writeString(pMesh->getLodStrategy()->name()); <== missing in v1_4
             // unsigned short numLevels;
             writeShorts(&exportedLodCount, 1);
             // bool manual;  (true for manual alternate meshes, false for generated)
@@ -3281,8 +3302,9 @@ namespace Ogre {
             uint16 streamID = readChunk(stream);
             if (streamID != M_MESH_LOD_USAGE)
             {
-                OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->getName(),
+                OGRE_EXCEPT(
+                    Exception::ERR_ITEM_NOT_FOUND,
+                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->name(),
                     "MeshSerializerImpl::readMeshLodInfo");
             }
             float usageValue;
@@ -3294,8 +3316,9 @@ namespace Ogre {
                 streamID = readChunk(stream);
                 if (streamID != M_MESH_LOD_MANUAL)
                 {
-                    OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                        "Missing M_MESH_LOD_MANUAL stream in " + pMesh->getName(),
+                    OGRE_EXCEPT(
+                        Exception::ERR_ITEM_NOT_FOUND,
+                        "Missing M_MESH_LOD_MANUAL stream in " + pMesh->name(),
                         "MeshSerializerImpl::readMeshLodUsageManual");
                 }
 
@@ -3309,8 +3332,10 @@ namespace Ogre {
                     streamID = readChunk(stream);
                     if (streamID != M_MESH_LOD_GENERATED)
                     {
-                        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                            "Missing M_MESH_LOD_GENERATED stream in " + pMesh->getName(),
+                        OGRE_EXCEPT(
+                            Exception::ERR_ITEM_NOT_FOUND,
+                            "Missing M_MESH_LOD_GENERATED stream in "
+                                + pMesh->name(),
                             "MeshSerializerImpl::readMeshLodUsageGenerated");
                     }
 
@@ -3357,8 +3382,9 @@ namespace Ogre {
             streamID = readChunk(stream);
             if (streamID != M_MESH_LOD_USAGE)
             {
-                OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
-                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->getName(),
+                OGRE_EXCEPT(
+                    Exception::ERR_ITEM_NOT_FOUND,
+                    "Missing M_MESH_LOD_USAGE stream in " + pMesh->name(),
                     "MeshSerializerImpl::readMeshLodInfo");
             }
             // Read depth

@@ -137,13 +137,13 @@ namespace Ogre {
 
     protected:
         /// @copydoc Resource::loadImpl
-        void loadImpl(void) override;
+        void load_impl(void) override;
 
         /// @copydoc Resource::unloadImpl
-        void unloadImpl(void) override;
+        void unload_impl(void) override;
         /// @copydoc Resource::calculateSize
-        size_t calculateSize(void) const override;
-        
+        size_t calculate_size(void) const override;
+
         /** Check supportedness of techniques.
          */
         void compile();

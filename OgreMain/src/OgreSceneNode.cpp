@@ -93,9 +93,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     struct MovableObjectNameExists {
         const String& name;
-        bool operator()(const MovableObject* mo) {
-            return mo->getName() == name;
-        }
+        bool operator()(const MovableObject* mo) { return mo->name() == name; }
     };
     void SceneNode::attachObject(MovableObject* obj)
     {
@@ -104,11 +102,13 @@ namespace Ogre {
         obj->_notifyAttached(this);
 
         // Also add to name index
-        MovableObjectNameExists pred = {obj->getName()};
+        MovableObjectNameExists pred = { obj->name() };
         ObjectMap::iterator it = std::find_if(mObjectsByName.begin(), mObjectsByName.end(), pred);
         if (it != mObjectsByName.end())
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
-                        "An object named '" + obj->getName() + "' already attached to this SceneNode");
+            OGRE_EXCEPT(
+                Exception::ERR_DUPLICATE_ITEM,
+                "An object named '" + obj->name()
+                    + "' already attached to this SceneNode");
         mObjectsByName.push_back(obj);
 
         // Make sure bounds get updated (must go right to the top)
@@ -198,7 +198,7 @@ namespace Ogre {
     {
         while (!getAttachedObjects().empty()) {
             auto obj = getAttachedObjects().front();
-            getCreator()->destroyMovableObject(obj);
+            creator()->destroyMovableObject(obj);
         }
         needUpdate();
     }
@@ -290,8 +290,7 @@ namespace Ogre {
         SceneNode* pChild = static_cast<SceneNode*>(removeChild(name));
         pChild->removeAndDestroyAllChildren();
 
-        pChild->getCreator()->destroySceneNode(name);
-
+        pChild->creator()->destroySceneNode(name);
     }
     //-----------------------------------------------------------------------
     void SceneNode::removeAndDestroyChild(unsigned short index)
@@ -299,7 +298,7 @@ namespace Ogre {
         SceneNode* pChild = static_cast<SceneNode*>(removeChild(index));
         pChild->removeAndDestroyAllChildren();
 
-        pChild->getCreator()->destroySceneNode(pChild);
+        pChild->creator()->destroySceneNode(pChild);
     }
     //-----------------------------------------------------------------------
     void SceneNode::removeAndDestroyChild(SceneNode* child)
@@ -316,7 +315,7 @@ namespace Ogre {
         while(!getChildren().empty()) {
             SceneNode* sn = static_cast<SceneNode*>(getChildren().front());
             sn->removeAndDestroyAllChildren();
-            sn->getCreator()->destroySceneNode(sn);
+            sn->creator()->destroySceneNode(sn);
         }
 
         mChildren.clear();
@@ -328,15 +327,14 @@ namespace Ogre {
         pChild->destroyAllChildrenAndObjects();
 
         removeChild(name);
-        pChild->getCreator()->destroySceneNode(name);
-
+        pChild->creator()->destroySceneNode(name);
     }
 
     void SceneNode::destroyChildAndObjects(unsigned short index) {
         SceneNode* pChild = static_cast<SceneNode*>(removeChild(index));
         pChild->destroyAllChildrenAndObjects();
 
-        pChild->getCreator()->destroySceneNode(pChild);
+        pChild->creator()->destroySceneNode(pChild);
     }
 
     void SceneNode::destroyChildAndObjects(SceneNode * child)
@@ -358,7 +356,7 @@ namespace Ogre {
             child->destroyAllChildrenAndObjects();
 
             //destroy child
-            child->getCreator()->destroySceneNode(child);
+            child->creator()->destroySceneNode(child);
         }
         mChildren.clear();
         needUpdate();

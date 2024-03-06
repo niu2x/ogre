@@ -92,7 +92,7 @@ namespace Ogre {
         virtual ~RenderTarget();
 
         /// Retrieve target's name.
-        virtual const String& getName(void) const;
+        virtual const String& name(void) const;
 
         /// Retrieve information about the render target.
         void getMetrics(unsigned int& width, unsigned int& height);
@@ -258,11 +258,11 @@ namespace Ogre {
             'normal' system rendering.
         @par NB this should not be used for frame-based scene updates, use Root::addFrameListener for that.
         */
-        virtual void addListener(RenderTargetListener* listener);
+        virtual void add_listener(RenderTargetListener* listener);
         /** same as addListener, but force the position in the vector, so we can control the call order */
         virtual void insertListener(RenderTargetListener* listener, const unsigned int pos = 0);
         /** Removes a RenderTargetListener previously registered using addListener. */
-        virtual void removeListener(RenderTargetListener* listener);
+        virtual void remove_listener(RenderTargetListener* listener);
         /** Removes all listeners from this instance. */
         virtual void removeAllListeners(void);
 

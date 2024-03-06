@@ -78,16 +78,16 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addEmitterFactory(ParticleEmitterFactory* factory)
     {
-        
-        String name = factory->getName();
+
+        String name = factory->name();
         mEmitterFactories[name] = factory;
         LogManager::getSingleton().log_message("Particle Emitter Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addAffectorFactory(ParticleAffectorFactory* factory)
     {
-        
-        String name = factory->getName();
+
+        String name = factory->name();
         mAffectorFactories[name] = factory;
         LogManager::getSingleton().log_message("Particle Affector Type '" + name + "' registered");
     }

@@ -74,10 +74,9 @@ namespace Ogre {
             subdivision). */
         void setSubdivision(Real factor);
     private:
-        void loadImpl(void) override;
+        void load_impl(void) override;
         /// Overridden from Resource - do nothing (no disk caching)
-        void prepareImpl(void) override {}
-
+        void prepare_impl() override { }
     };
     /** @} */
     /** @} */

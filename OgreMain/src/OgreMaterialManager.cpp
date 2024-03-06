@@ -195,12 +195,15 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void MaterialManager::addListener(Listener* l, const Ogre::String& schemeName)
+    void
+    MaterialManager::add_listener(Listener* l, const Ogre::String& schemeName)
     {
         mListenerMap[schemeName].push_back(l);
     }
     //---------------------------------------------------------------------
-    void MaterialManager::removeListener(Listener* l, const Ogre::String& schemeName)
+    void MaterialManager::remove_listener(
+        Listener* l,
+        const Ogre::String& schemeName)
     {
         mListenerMap[schemeName].remove(l);
     }

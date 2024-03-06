@@ -46,7 +46,7 @@ namespace Ogre {
         if (format == PF_UNKNOWN)
             return;
 
-        size_t size = calculateSize(0, 1,  width, height, depth, mFormat);
+        size_t size = calculate_size(0, 1, width, height, depth, mFormat);
 
         if (size == 0)
             return;
@@ -59,7 +59,13 @@ namespace Ogre {
     void Image::create(PixelFormat format, uint32 width, uint32 height, uint32 depth, uint32 numFaces,
                        uint32 numMipMaps)
     {
-        size_t size = calculateSize(numMipMaps, numFaces, width, height, depth, format);
+        size_t size = calculate_size(
+            numMipMaps,
+            numFaces,
+            width,
+            height,
+            depth,
+            format);
         if (!mAutoDelete || !mBuffer || mBufSize != size)
         {
             freeMemory();
@@ -123,7 +129,7 @@ namespace Ogre {
         OgreAssert(mBuffer, "No image data loaded");
         if(col == ColourValue::ZERO)
         {
-            memset(mBuffer, 0, getSize());
+            memset(mBuffer, 0, size());
             return;
         }
 
@@ -219,7 +225,13 @@ namespace Ogre {
             mFlags |= IF_CUBEMAP;
         OgreAssert(numFaces == 6 || numFaces == 1, "Invalid number of faces");
 
-        mBufSize = calculateSize(numMipMaps, numFaces, uWidth, uHeight, depth, eFormat);
+        mBufSize = calculate_size(
+            numMipMaps,
+            numFaces,
+            uWidth,
+            uHeight,
+            depth,
+            eFormat);
         mBuffer = pData;
         mAutoDelete = autoDelete;
 
@@ -231,7 +243,13 @@ namespace Ogre {
                               PixelFormat eFormat, uint32 numFaces, uint32 numMipMaps)
     {
 
-        size_t size = calculateSize(numMipMaps, numFaces, uWidth, uHeight, uDepth, eFormat);
+        size_t size = calculate_size(
+            numMipMaps,
+            numFaces,
+            uWidth,
+            uHeight,
+            uDepth,
+            eFormat);
         OgreAssert(size == stream->size(), "Wrong stream size");
 
         uchar *buffer = OGRE_ALLOC_T(uchar, size, MEMCATEGORY_GENERAL);
@@ -529,8 +547,13 @@ namespace Ogre {
         return src;
     }
     //-----------------------------------------------------------------------------
-    size_t Image::calculateSize(uint32 mipmaps, uint32 faces, uint32 width, uint32 height, uint32 depth,
-                                PixelFormat format)
+    size_t Image::calculate_size(
+        uint32 mipmaps,
+        uint32 faces,
+        uint32 width,
+        uint32 height,
+        uint32 depth,
+        PixelFormat format)
     {
         size_t size = 0;
         for(uint32 mip=0; mip<=mipmaps; ++mip)

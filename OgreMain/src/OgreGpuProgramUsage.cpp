@@ -50,7 +50,7 @@ namespace Ogre
     GpuProgramUsage::~GpuProgramUsage()
     {
         if (mProgram)
-            mProgram->removeListener(this);
+            mProgram->remove_listener(this);
     }
     //-----------------------------------------------------------------------------
 
@@ -100,7 +100,7 @@ namespace Ogre
     {
         if (mProgram)
         {
-            mProgram->removeListener(this);
+            mProgram->remove_listener(this);
             mRecreateParams = true;
         }
 
@@ -113,37 +113,37 @@ namespace Ogre
         }
 
         // Listen in on reload events so we can regenerate params
-        mProgram->addListener(this);
+        mProgram->add_listener(this);
     }
     //-----------------------------------------------------------------------------
-    size_t GpuProgramUsage::calculateSize(void) const
+    size_t GpuProgramUsage::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
 
         // Tally up passes
         if(mProgram)
-            memSize += mProgram->calculateSize();
+            memSize += mProgram->calculate_size();
         if(mParameters)
-            memSize += mParameters->calculateSize();
+            memSize += mParameters->calculate_size();
 
         return memSize;
     }
     //-----------------------------------------------------------------------------
     void GpuProgramUsage::_load(void)
     {
-        if (!mProgram->isLoaded())
+        if (!mProgram->is_loaded())
             mProgram->load();
 
         // check type
-        if (mProgram->isLoaded() && mProgram->getType() != mType)
-        {
+        if (mProgram->is_loaded() && mProgram->getType() != mType) {
             String myType = GpuProgram::getProgramTypeName(mType);
             String yourType = GpuProgram::getProgramTypeName(mProgram->getType());
 
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
-                mProgram->getName() + " is a " + yourType + " program, but you are assigning it to a " 
-                + myType + " program slot. This is invalid");
-
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                mProgram->name() + " is a " + yourType
+                    + " program, but you are assigning it to a " + myType
+                    + " program slot. This is invalid");
         }
     }
     //-----------------------------------------------------------------------------

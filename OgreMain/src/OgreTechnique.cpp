@@ -55,14 +55,14 @@ namespace Ogre {
         return mIsSupported;
     }
     //-----------------------------------------------------------------------------
-    size_t Technique::calculateSize(void) const
+    size_t Technique::calculate_size(void) const
     {
         size_t memSize = 0;
 
         // Tally up passes
         for (auto *p : mPasses)
         {
-            memSize += p->calculateSize();
+            memSize += p->calculate_size();
         }
         return memSize;
     }
@@ -202,9 +202,11 @@ namespace Ogre {
                     GpuProgramPtr program = currPass->getGpuProgram(programType);
                     if (!program->isSupported())
                     {
-                        compileErrors << "Pass " << passNum <<
-                            ": " << GpuProgram::getProgramTypeName(programType) + " program " << program->getName()
-                            << " cannot be used - ";
+                        compileErrors
+                            << "Pass " << passNum << ": "
+                            << GpuProgram::getProgramTypeName(programType)
+                                + " program "
+                            << program->name() << " cannot be used - ";
                         if (program->hasCompileError() && program->getSource().empty())
                             compileErrors << "resource not found";
                         else if (program->hasCompileError())
@@ -307,7 +309,7 @@ namespace Ogre {
     {
         // iterate through techniques to find a match
         for (Pass *p : mPasses) {
-            if (p->getName() == name )
+            if (p->name() == name)
                 return p;
         }
 
@@ -562,10 +564,10 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------------
-    bool Technique::isLoaded(void) const
+    bool Technique::is_loaded(void) const
     {
         // Only supported technique will be loaded
-        return mParent->isLoaded() && mIsSupported;
+        return mParent->is_loaded() && mIsSupported;
     }
     //-----------------------------------------------------------------------
     #define ALL_PASSES(fncall) for(auto p : mPasses) p->fncall
@@ -987,7 +989,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& Technique::getResourceGroup(void) const
     {
-        return mParent->getGroup();
+        return mParent->group();
     }
     //-----------------------------------------------------------------------
     Ogre::MaterialPtr  Technique::getShadowCasterMaterial() const
@@ -1007,7 +1009,7 @@ namespace Ogre {
             // shadow caster material should never receive shadows
             val->setReceiveShadows(false); // should we warn if this is not set?
             mShadowCasterMaterial = val;
-            mShadowCasterMaterialName = val->getName();
+            mShadowCasterMaterialName = val->name();
         }
     }
     //-----------------------------------------------------------------------
@@ -1033,7 +1035,7 @@ namespace Ogre {
         else
         {
             mShadowReceiverMaterial = val;
-            mShadowReceiverMaterialName = val->getName();
+            mShadowReceiverMaterialName = val->name();
         }
     }
     //-----------------------------------------------------------------------

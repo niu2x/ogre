@@ -144,7 +144,7 @@ namespace Ogre
         virtual ~AnimationTrack();
 
         /** Get the handle associated with this track. */
-        unsigned short getHandle(void) const { return mHandle; }
+        unsigned short handle(void) const { return mHandle; }
 
         /** Returns the number of keyframes in this animation. */
         size_t getNumKeyFrames(void) const { return mKeyFrames.size(); }

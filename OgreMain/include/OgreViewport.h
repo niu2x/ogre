@@ -336,25 +336,28 @@ namespace Ogre {
         uint getVisibilityMask(void) const { return mVisibilityMask; }
 
         /// Add a listener to this viewport
-        void addListener(Listener* l);
+        void add_listener(Listener* l);
         /// Remove a listener to this viewport
-        void removeListener(Listener* l);
-		
-		/** Sets the draw buffer type for the next frame.
+        void remove_listener(Listener* l);
 
-			Specifies the particular buffer that will be
-			targeted by the render target. Should be used if
-			the render target supports quad buffer stereo. If
-			the render target does not support stereo (ie. left
-			and right), then only back and front will be used.
-		@param
-			colourBuffer Specifies the particular buffer that will be
-			targeted by the render target.
-		*/
-		void setDrawBuffer(ColourBufferType colourBuffer) { mColourBuffer = colourBuffer; }
+        /** Sets the draw buffer type for the next frame.
 
-		/** Returns the current colour buffer type for this viewport.*/
-		ColourBufferType getDrawBuffer() const { return mColourBuffer; }
+            Specifies the particular buffer that will be
+            targeted by the render target. Should be used if
+            the render target supports quad buffer stereo. If
+            the render target does not support stereo (ie. left
+            and right), then only back and front will be used.
+        @param
+            colourBuffer Specifies the particular buffer that will be
+            targeted by the render target.
+        */
+        void setDrawBuffer(ColourBufferType colourBuffer)
+        {
+            mColourBuffer = colourBuffer;
+        }
+
+        /** Returns the current colour buffer type for this viewport.*/
+        ColourBufferType getDrawBuffer() const { return mColourBuffer; }
 
     private:
         Camera* mCamera;

@@ -286,9 +286,10 @@ namespace Ogre {
     {
         if (child->mParent)
         {
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                "Node '" + child->getName() + "' already was a child of '" +
-                child->mParent->getName() + "'.",
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "Node '" + child->name() + "' already was a child of '"
+                    + child->mParent->name() + "'.",
                 "Node::addChild");
         }
 
@@ -611,9 +612,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     struct NodeNameExists {
         const String& name;
-        bool operator()(const Node* mo) {
-            return mo->getName() == name;
-        }
+        bool operator()(const Node* mo) { return mo->name() == name; }
     };
     Node* Node::getChild(const String& name) const
     {

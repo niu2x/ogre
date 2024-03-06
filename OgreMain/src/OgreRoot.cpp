@@ -135,7 +135,7 @@ namespace Ogre {
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
         mAndroidLogger.reset(new AndroidLogListener());
-        mLogManager->get_default_log()->addListener(mAndroidLogger.get());
+        mLogManager->get_default_log()->add_listener(mAndroidLogger.get());
 #endif
 
         mDynLibManager = std::make_unique<DynLibManager>();
@@ -266,7 +266,7 @@ namespace Ogre {
         StringInterface::clean();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-        mLogManager->get_default_log()->removeListener(mAndroidLogger.get());
+        mLogManager->get_default_log()->remove_listener(mAndroidLogger.get());
 #endif
     }
 
@@ -299,7 +299,7 @@ namespace Ogre {
 
         if (mActiveRenderer)
         {
-            of << "Render System=" << mActiveRenderer->getName() << std::endl;
+            of << "Render System=" << mActiveRenderer->name() << std::endl;
         }
         else
         {
@@ -309,7 +309,7 @@ namespace Ogre {
         for (auto *rs : getAvailableRenderers())
         {
             of << std::endl;
-            of << "[" << rs->getName() << "]" << std::endl;
+            of << "[" << rs->name() << "]" << std::endl;
             const ConfigOptionMap& opts = rs->getConfigOptions();
             for (ConfigOptionMap::const_iterator pOpt = opts.begin(); pOpt != opts.end(); ++pOpt)
             {
@@ -475,7 +475,7 @@ namespace Ogre {
 
         for (auto *rs : getAvailableRenderers())
         {
-            if (rs->getName() == name)
+            if (rs->name() == name)
                 return rs;
         }
 
@@ -1011,7 +1011,7 @@ namespace Ogre {
     RenderTarget* Root::detachRenderTarget(RenderTarget* target)
     {
         OgreAssert(mActiveRenderer, "Cannot detach target");
-        return mActiveRenderer->detachRenderTarget( target->getName() );
+        return mActiveRenderer->detachRenderTarget(target->name());
     }
     //-----------------------------------------------------------------------
     RenderTarget* Root::detachRenderTarget(const String &name)
@@ -1040,7 +1040,8 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Root::installPlugin(Plugin* plugin)
     {
-        LogManager::getSingleton().log_message("Installing plugin: " + plugin->getName());
+        LogManager::getSingleton().log_message(
+            "Installing plugin: " + plugin->name());
 
         mPlugins.push_back(plugin);
         plugin->install();
@@ -1056,7 +1057,8 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Root::uninstallPlugin(Plugin* plugin)
     {
-        LogManager::getSingleton().log_message("Uninstalling plugin: " + plugin->getName());
+        LogManager::getSingleton().log_message(
+            "Uninstalling plugin: " + plugin->name());
         PluginInstanceList::iterator i =
             std::find(mPlugins.begin(), mPlugins.end(), plugin);
         if (i != mPlugins.end())
@@ -1104,8 +1106,7 @@ namespace Ogre {
 
         for (i = mPluginLibs.begin(); i != mPluginLibs.end(); ++i)
         {
-            if ((*i)->getName() == pluginName)
-            {
+            if ((*i)->name() == pluginName) {
                 // Call plugin shutdown
                                 #ifdef __GNUC__
                                 __extension__
@@ -1118,7 +1119,6 @@ namespace Ogre {
                 mPluginLibs.erase(i);
                 return;
             }
-
         }
 #endif
     }

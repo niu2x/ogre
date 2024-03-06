@@ -139,8 +139,8 @@ namespace Ogre {
         if (mCurrentRenderSystem)
             inst->_setDestinationRenderSystem(mCurrentRenderSystem);
 
-        mInstances[inst->getName()] = inst;
-        
+        mInstances[inst->name()] = inst;
+
         return inst;
         
 
@@ -151,7 +151,7 @@ namespace Ogre {
         OgreAssert(sm, "Cannot destroy a null SceneManager");
 
         // Erase instance from map
-        mInstances.erase(sm->getName());
+        mInstances.erase(sm->name());
 
         // Find factory to destroy
         for(auto& fp : mFactories)

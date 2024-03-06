@@ -82,7 +82,7 @@ namespace Ogre {
         */
         void unload();
         /// Get the name of the library
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         /**
             Returns the address of the given symbol from the loaded library.

@@ -133,11 +133,11 @@ namespace Ogre
     uint32 GpuProgram::_getHash(uint32 seed) const
     {
         // include filename as same source can be used with different defines & entry points
-        uint32 hash = FastHash(mName.c_str(), mName.size(), seed);
+        uint32 hash = FastHash(name().c_str(), name().size(), seed);
         return FastHash(mSource.c_str(), mSource.size(), hash);
     }
 
-    size_t GpuProgram::calculateSize(void) const
+    size_t GpuProgram::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
         memSize += mManualNamedConstantsFile.size() * sizeof(char);
@@ -147,19 +147,21 @@ namespace Ogre
 
         size_t paramsSize = 0;
         if(mDefaultParams)
-            paramsSize += mDefaultParams->calculateSize();
+            paramsSize += mDefaultParams->calculate_size();
         if(mConstantDefs)
-            paramsSize += mConstantDefs->calculateSize();
+            paramsSize += mConstantDefs->calculate_size();
 
         return memSize + paramsSize;
     }
     //-----------------------------------------------------------------------------
-    void GpuProgram::prepareImpl()
+    void GpuProgram::prepare_impl()
     {
         if (!mLoadFromFile)
             return;
 
-        mSource = ResourceGroupManager::getSingleton().openResource(mFilename, mGroup, this)->as_string();
+        mSource = ResourceGroupManager::getSingleton()
+                      .openResource(mFilename, group(), this)
+                      ->as_string();
     }
 
     void GpuProgram::safePrepare()
@@ -176,13 +178,14 @@ namespace Ogre
         {
             // will already have been logged
             LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
-                << "Program '" << mName << "' is not supported: " << e.description();
+                << "Program '" << name()
+                << "' is not supported: " << e.description();
 
             mCompileError = true;
         }
     }
 
-    void GpuProgram::loadImpl(void)
+    void GpuProgram::load_impl(void)
     {
         if(mCompileError)
             return;
@@ -200,12 +203,13 @@ namespace Ogre
         {
             // will already have been logged
             LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
-                << "Program '" << mName << "' is not supported: " << e.description();
+                << "Program '" << name()
+                << "' is not supported: " << e.description();
 
             mCompileError = true;
         }
     }
-    void GpuProgram::postLoadImpl()
+    void GpuProgram::post_load_impl()
     {
         if (!mDefaultParams || mCompileError)
             return;
@@ -320,17 +324,19 @@ namespace Ogre
             try 
             {
                 GpuNamedConstants namedConstants;
-                DataStreamPtr stream = 
-                    ResourceGroupManager::getSingleton().openResource(
-                    mManualNamedConstantsFile, mGroup, this);
+                DataStreamPtr stream
+                    = ResourceGroupManager::getSingleton().openResource(
+                        mManualNamedConstantsFile,
+                        group(),
+                        this);
                 namedConstants.load(stream);
                 setManualNamedConstants(namedConstants);
             }
             catch(const Exception& e)
             {
-                LogManager::getSingleton().stream() <<
-                    "Unable to load manual named constants for GpuProgram " << mName <<
-                    ": " << e.description();
+                LogManager::getSingleton().stream()
+                    << "Unable to load manual named constants for GpuProgram "
+                    << name() << ": " << e.description();
             }
             mLoadedManualNamedConstants = true;
         }

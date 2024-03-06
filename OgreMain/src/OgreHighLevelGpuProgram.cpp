@@ -77,7 +77,7 @@ namespace Ogre
     {
     }
     //---------------------------------------------------------------------------
-    void HighLevelGpuProgram::loadImpl()
+    void HighLevelGpuProgram::load_impl()
     {
         if (isSupported())
         {
@@ -95,11 +95,11 @@ namespace Ogre
         }
     }
     //---------------------------------------------------------------------------
-    void HighLevelGpuProgram::unloadImpl()
+    void HighLevelGpuProgram::unload_impl()
     {   
         if (mAssemblerProgram)
         {
-            mAssemblerProgram->getCreator()->remove(mAssemblerProgram);
+            mAssemblerProgram->creator()->remove(mAssemblerProgram);
             mAssemblerProgram.reset();
         }
 
@@ -136,11 +136,11 @@ namespace Ogre
             params->copyConstantsFrom(*(mDefaultParams.get()));
         return params;
     }
-    size_t HighLevelGpuProgram::calculateSize(void) const
+    size_t HighLevelGpuProgram::calculate_size(void) const
     {
-        size_t memSize = GpuProgram::calculateSize();
+        size_t memSize = GpuProgram::calculate_size();
         if(mAssemblerProgram)
-            memSize += mAssemblerProgram->calculateSize();
+            memSize += mAssemblerProgram->calculate_size();
 
         return memSize;
     }
@@ -234,7 +234,7 @@ namespace Ogre
     {
         if (!mHighLevelLoaded)
         {
-            GpuProgram::loadImpl();
+            GpuProgram::load_impl();
             mHighLevelLoaded = !mCompileError;
         }
     }
@@ -347,8 +347,11 @@ namespace Ogre
             String filename(inSource.substr(startIt+1, endIt-startIt-1));
 
             // open included file
-            DataStreamPtr resource = ResourceGroupManager::getSingleton().
-                openResource(filename, resourceBeingLoaded->getGroup(), resourceBeingLoaded);
+            DataStreamPtr resource
+                = ResourceGroupManager::getSingleton().openResource(
+                    filename,
+                    resourceBeingLoaded->group(),
+                    resourceBeingLoaded);
 
             // replace entire include directive line
             // copy up to just before include

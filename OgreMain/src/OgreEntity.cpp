@@ -97,19 +97,18 @@ namespace Ogre {
         if (mInitialised)
             return;
 
-        if (mMesh->isBackgroundLoaded() && !mMesh->isLoaded())
-        {
+        if (mMesh->is_background_loaded() && !mMesh->is_loaded()) {
             // register for a callback when mesh is finished loading
             // do this before asking for load to happen to avoid race
-            mMesh->addListener(this);
+            mMesh->add_listener(this);
         }
-        
+
         // On-demand load
         mMesh->load();
         // If loading failed, or deferred loading isn't done yet, defer
         // Will get a callback in the case of deferred loading
         // Skeletons are cascade-loaded so no issues there
-        if (!mMesh->isLoaded())
+        if (!mMesh->is_loaded())
             return;
 
         // Is mesh skeletally animated?
@@ -183,7 +182,7 @@ namespace Ogre {
         }
 
         mInitialised = true;
-        mMeshStateCount = mMesh->getStateCount();
+        mMeshStateCount = mMesh->state_count();
     }
     //-----------------------------------------------------------------------
     void Entity::_deinitialise(void)
@@ -265,7 +264,7 @@ namespace Ogre {
     {
         _deinitialise();
         // Unregister our listener
-        mMesh->removeListener(this);
+        mMesh->remove_listener(this);
     }
     //-----------------------------------------------------------------------
     void Entity::_releaseManualHardwareResources()
@@ -297,7 +296,7 @@ namespace Ogre {
     Entity* Entity::clone( const String& newName) const
     {
         OgreAssert(mManager, "Cannot clone an Entity that wasn't created through a SceneManager");
-        Entity* newEnt = mManager->createEntity(newName, getMesh()->getName() );
+        Entity* newEnt = mManager->createEntity(newName, getMesh()->name());
 
         if (mInitialised)
         {
@@ -424,8 +423,7 @@ namespace Ogre {
     void Entity::setUpdateBoundingBoxFromSkeleton(bool update)
     {
         mUpdateBoundingBoxFromSkeleton = update;
-        if (mMesh->isLoaded() && mMesh->getBoneBoundingRadius() == Real(0))
-        {
+        if (mMesh->is_loaded() && mMesh->getBoneBoundingRadius() == Real(0)) {
             mMesh->_computeBoneBoundingRadius();
         }
     }
@@ -433,8 +431,7 @@ namespace Ogre {
     const AxisAlignedBox& Entity::getBoundingBox(void) const
     {
         // Get from Mesh
-        if (mMesh->isLoaded())
-        {
+        if (mMesh->is_loaded()) {
             if ( mUpdateBoundingBoxFromSkeleton && hasSkeleton() )
             {
                 // get from skeleton
@@ -507,9 +504,7 @@ namespace Ogre {
                 mFullBoundingBox.merge(getChildObjectsBoundingBox());
             }
             // Don't scale here, this is taken into account when world BBox calculation is done
-        }
-        else
-        {
+        } else {
             mFullBoundingBox.set_null();
         }
 
@@ -569,8 +564,7 @@ namespace Ogre {
             return;
 
         // Check mesh state count, will be incremented if reloaded
-        if (mMesh->getStateCount() != mMeshStateCount)
-        {
+        if (mMesh->state_count() != mMeshStateCount) {
             // force reinitialise
             _initialise(true);
         }
@@ -662,8 +656,7 @@ namespace Ogre {
 
                     //The child is connected to a tagpoint which is connected to a bone
                     Bone* bone = static_cast<Bone*>(child->getParentNode()->getParent());
-                    if (!displayEntity->getSkeleton()->hasBone(bone->getName()))
-                    {
+                    if (!displayEntity->getSkeleton()->hasBone(bone->name())) {
                         //Current LOD entity does not have the bone that the
                         //child is connected to. Do not display.
                         visible = false;
@@ -1395,19 +1388,19 @@ namespace Ogre {
 
     struct MovableObjectNameExists {
         const String& name;
-        bool operator()(const MovableObject* mo) {
-            return mo->getName() == name;
-        }
+        bool operator()(const MovableObject* mo) { return mo->name() == name; }
     };
 
     TagPoint* Entity::attachObjectToBone(const String &boneName, MovableObject *pMovable, const Quaternion &offsetOrientation, const Vector3 &offsetPosition)
     {
-        MovableObjectNameExists pred = {pMovable->getName()};
+        MovableObjectNameExists pred = { pMovable->name() };
         auto it = std::find_if(mChildObjectList.begin(), mChildObjectList.end(), pred);
         if (it != mChildObjectList.end())
         {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
-                "An object with the name " + pMovable->getName() + " already attached",
+            OGRE_EXCEPT(
+                Exception::ERR_DUPLICATE_ITEM,
+                "An object with the name " + pMovable->name()
+                    + " already attached",
                 "Entity::attachObjectToBone");
         }
         OgreAssert(!pMovable->isAttached(), "Object already attached to a sceneNode or a Bone");
@@ -1436,8 +1429,12 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Entity::attachObjectImpl(MovableObject *pObject, TagPoint *pAttachingPoint)
     {
-        assert(std::find_if(mChildObjectList.begin(), mChildObjectList.end(),
-                            MovableObjectNameExists{pObject->getName()}) == mChildObjectList.end());
+        assert(
+            std::find_if(
+                mChildObjectList.begin(),
+                mChildObjectList.end(),
+                MovableObjectNameExists { pObject->name() })
+            == mChildObjectList.end());
 
         mChildObjectList.push_back(pObject);
         pObject->_notifyAttached(pAttachingPoint, true);
@@ -1728,8 +1725,7 @@ namespace Ogre {
                "Only 16-bit indexes supported for now");
 
         // Check mesh state count, will be incremented if reloaded
-        if (mMesh->getStateCount() != mMeshStateCount)
-        {
+        if (mMesh->state_count() != mMeshStateCount) {
             // force reinitialise
             _initialise(true);
         }
@@ -2307,7 +2303,8 @@ namespace Ogre {
         if (!normElem)
         {
             posNormalShareBuffer = false;
-            posNormalExtraData = posElem->getSize() != srcPositionBuffer->getVertexSize();
+            posNormalExtraData
+                = posElem->size() != srcPositionBuffer->getVertexSize();
         }
         else
         {
@@ -2315,7 +2312,8 @@ namespace Ogre {
             if (normBindIndex == posBindIndex)
             {
                 posNormalShareBuffer = true;
-                posNormalExtraData = (posElem->getSize() + normElem->getSize()) != srcPositionBuffer->getVertexSize();
+                posNormalExtraData = (posElem->size() + normElem->size())
+                    != srcPositionBuffer->getVertexSize();
             }
             else
             {

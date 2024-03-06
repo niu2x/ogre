@@ -1047,7 +1047,7 @@ namespace Ogre {
 
 
         /** Return the instance name of this SceneManager. */
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         /** Retrieve the type name of this scene manager.
 
@@ -2919,10 +2919,10 @@ namespace Ogre {
 
         /** Add a listener which will get called back on scene manager events.
         */
-        void addListener(Listener* s);
+        void add_listener(Listener* s);
         /** Remove a listener
         */
-        void removeListener(Listener* s);
+        void remove_listener(Listener* s);
 
         /** Add a listener which will get called back on shadow texture events.
         */

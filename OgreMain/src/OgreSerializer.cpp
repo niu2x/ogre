@@ -123,7 +123,8 @@ namespace Ogre {
         if (!mChunkSizeStack.empty()){
             size_t pos = mStream->tell();
             if (pos != static_cast<size_t>(mChunkSizeStack.back()) && mReportChunkErrors){
-                LogManager::getSingleton().log_message("Corrupted chunk detected! Stream name: '" + mStream->getName()
+                LogManager::getSingleton().log_message(
+                    "Corrupted chunk detected! Stream name: '" + mStream->name()
                     + "' Chunk id: " + StringConverter::to_string(id));
             }
             mChunkSizeStack.back() = pos + size;
@@ -270,7 +271,9 @@ namespace Ogre {
 #if OGRE_SERIALIZER_VALIDATE_CHUNKSIZE
         if (!mChunkSizeStack.empty() && !stream->eof()){
             if (pos != static_cast<size_t>(mChunkSizeStack.back()) && mReportChunkErrors){
-                LogManager::getSingleton().log_message("Corrupted chunk detected! Stream name: '" + stream->getName() + "' Chunk id: " + StringConverter::to_string(id));
+                LogManager::getSingleton().log_message(
+                    "Corrupted chunk detected! Stream name: '" + stream->name()
+                    + "' Chunk id: " + StringConverter::to_string(id));
             }
             mChunkSizeStack.back() = pos + mCurrentstreamLen;
         }
@@ -392,7 +395,8 @@ namespace Ogre {
         if (!mChunkSizeStack.empty()){
             size_t pos = stream->tell();
             if (pos != static_cast<size_t>(mChunkSizeStack.back()) && !stream->eof() && mReportChunkErrors){
-                LogManager::getSingleton().log_message("Corrupted chunk detected! Stream name: " + stream->getName());
+                LogManager::getSingleton().log_message(
+                    "Corrupted chunk detected! Stream name: " + stream->name());
             }
 
             mChunkSizeStack.pop_back();

@@ -650,7 +650,7 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
         for (auto& shadowTex : mShadowTextures)
         {
             // Camera names are local to SM
-            String camName = shadowTex->getName() + "Cam";
+            String camName = shadowTex->name() + "Cam";
 
             RenderTexture *shadowRTT = shadowTex->getBuffer()->getRenderTarget();
 

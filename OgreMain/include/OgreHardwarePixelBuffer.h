@@ -154,7 +154,10 @@ namespace Ogre {
             @param src      PixelBox containing the source pixels and format in memory
             @note Only call this function when the buffer is unlocked. 
         */
-        void blitFromMemory(const PixelBox& src) { blitFromMemory(src, Box(getSize())); }
+        void blitFromMemory(const PixelBox& src)
+        {
+            blitFromMemory(src, Box(size()));
+        }
 
         /** Copies a region of this pixelbuffer to normal memory.
             @param srcBox   Box describing the source region of this buffer
@@ -170,7 +173,10 @@ namespace Ogre {
             @param dst      PixelBox describing the destination pixels and format in memory
             @note Only call this function when the buffer is unlocked. 
         */
-        void blitToMemory(const PixelBox& dst) { blitToMemory(Box(getSize()), dst); }
+        void blitToMemory(const PixelBox& dst)
+        {
+            blitToMemory(Box(size()), dst);
+        }
 
         /** Get a render target for this PixelBuffer, or a slice of it. The texture this
             was acquired from must have TU_RENDERTARGET set
@@ -187,7 +193,10 @@ namespace Ogre {
         /// Gets the depth of this buffer
         uint32 getDepth() const { return mDepth; }
         /// size (width, height, depth) of the pixel buffer
-        Vector3i getSize() const { return Vector3i(getWidth(), getHeight(), getDepth()); }
+        Vector3i size() const
+        {
+            return Vector3i(getWidth(), getHeight(), getDepth());
+        }
         /// Gets the native pixel format of this buffer
         PixelFormat getFormat() const { return mFormat; }
     };

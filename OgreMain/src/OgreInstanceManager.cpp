@@ -91,8 +91,9 @@ namespace Ogre
                                                                 uint16 flags )
     {
         //Get the material
-        MaterialPtr mat = MaterialManager::getSingleton().getByName( materialName,
-                                                                    mMeshReference->getGroup() );
+        MaterialPtr mat = MaterialManager::getSingleton().getByName(
+            materialName,
+            mMeshReference->group());
         InstanceBatch *batch = 0;
 
         //Base material couldn't be found
@@ -172,8 +173,9 @@ namespace Ogre
         idxMap = idxMap.empty() ? mMeshReference->sharedBlendIndexToBoneIndexMap : idxMap;
 
         //Get the material
-        MaterialPtr mat = MaterialManager::getSingleton().getByName( materialName,
-                                                                    mMeshReference->getGroup() );
+        MaterialPtr mat = MaterialManager::getSingleton().getByName(
+            materialName,
+            mMeshReference->group());
 
         //Get the array of batches grouped by this material
         InstanceBatchVec &materialInstanceBatch = mInstanceBatches[materialName];

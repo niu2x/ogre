@@ -57,8 +57,8 @@ namespace Ogre {
             defined by this class. Subclasses are not allowed to define
             constructors with other parameters; other settings must be
             settable through accessor methods before loading.</li>
-        <li>The loadImpl() and unloadImpl() methods - mSize must be set 
-            after loadImpl()</li>
+        <li>The load_impl() and unload_impl() methods - mSize must be set
+            after load_impl()</li>
         <li>StringInterface ParamCommand and ParamDictionary setups
             in order to allow setting of core parameters (prior to load)
             through a generic interface.</li>
@@ -192,7 +192,7 @@ namespace Ogre {
         before the resource has been marked as fully unloaded.
         @note Mutex will have already been acquired by the unloading thread.
         */
-        virtual void post_unload_ompl(void) { }
+        virtual void post_unload_impl(void) { }
 
         /** Internal implementation of the meat of the 'prepare' action, only called if this
             resource is not being loaded from a ManualResourceLoader.
@@ -268,6 +268,8 @@ namespace Ogre {
         */
         virtual void load(bool backgroundThread = false);
 
+        ManualResourceLoader* loader() { return loader_; }
+
         /** Reloads the resource, if it is already loaded.
 
             Calls unload() and then load() again, if the resource is already
@@ -292,6 +294,8 @@ namespace Ogre {
         */
         size_t size(void) const { return size_; }
 
+        void set_size(size_t s) { size_ = s; }
+
         /** 'Touches' the resource to indicate it has been used.
         */
         virtual void touch(void);
@@ -300,7 +304,11 @@ namespace Ogre {
         */
         const String& name(void) const { return name_; }
 
+        void set_name(const String& n) { name_ = n; }
+
         ResourceHandle handle(void) const { return handle_; }
+
+        void set_handle(ResourceHandle x) { handle_ = x; }
 
         /** Returns true if the Resource has been prepared, false otherwise.
         */
@@ -330,14 +338,17 @@ namespace Ogre {
         */
         LoadingState loading_state() const { return loading_state_.load(); }
 
-        /** Returns whether this Resource has been earmarked for background loading.
+        void set_loading_state(LoadingState s) { loading_state_.store(s); }
 
-            This option only makes sense when you have built Ogre with 
+        /** Returns whether this Resource has been earmarked for background
+           loading.
+
+            This option only makes sense when you have built Ogre with
             thread support (OGRE_THREAD_SUPPORT). If a resource has been marked
             for background loading, then it won't load on demand like normal
             when load() is called. Instead, it will ignore request to load()
             except if the caller indicates it is the background loader. Any
-            other users of this resource should check isLoaded(), and if that
+            other users of this resource should check is_loaded(), and if that
             returns false, don't use the resource and come back later.
         */
         bool is_background_loaded(void) const { return is_background_loaded_; }
@@ -361,20 +372,22 @@ namespace Ogre {
             If the resource is already being loaded but just hasn't quite finished
             then this method will simply wait until the background load is complete.
         */
-        virtual void escalateLoading();
+        virtual void escalate_loading();
 
         /** Register a listener on this resource.
             @see Resource::Listener
         */
-        virtual void addListener(Listener* lis);
+        virtual void add_listener(Listener* lis);
 
         /** Remove a listener on this resource.
             @see Resource::Listener
         */
-        virtual void removeListener(Listener* lis);
+        virtual void remove_listener(Listener* lis);
 
         /// Gets the group which this resource is a member of
         const String& group(void) const { return group_; }
+
+        void set_group(const String& g) { group_ = g; }
 
         /** Change the resource group ownership of a Resource.
 
@@ -386,16 +399,16 @@ namespace Ogre {
         virtual void change_group_ownership(const String& new_group);
 
         /// Gets the manager which created this resource
-        ResourceManager* creator(void) { return creator_; }
+        ResourceManager* creator(void) const { return creator_; }
         /** Get the origin of this resource, e.g. a script file name.
 
             This property will only contain something if the creator of
             this resource chose to populate it. Script loaders are advised
             to populate it.
         */
-        const String& getOrigin(void) const { return mOrigin; }
+        const String& origin(void) const { return origin_; }
         /// Notify this resource of it's origin
-        void _notifyOrigin(const String& origin) { mOrigin = origin; }
+        void _notify_origin(const String& origin) { origin_ = origin; }
 
         /** Returns the number of times this resource has changed state, which 
             generally means the number of times it has been loaded. Objects that 
@@ -404,7 +417,7 @@ namespace Ogre {
             know whether it needs rebuilding. This is a nice way of monitoring
             changes without having a tightly-bound callback.
         */
-        virtual size_t getStateCount() const { return mStateCount; }
+        virtual size_t state_count() const { return state_count_; }
 
         /** Manually mark the state of this resource as having been changed.
 

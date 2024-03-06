@@ -393,9 +393,10 @@ namespace {
 
             if( image->getFormat() == PF_B8G8R8 )
             {
-                PixelBox src( image->getSize() / 3, 1, 1, PF_B8G8R8, image->getData() );
-                tmpData = new char[image->getSize()];
-                PixelBox dst( image->getSize() / 3, 1, 1, PF_R8G8B8, tmpData );
+                PixelBox
+                    src(image->size() / 3, 1, 1, PF_B8G8R8, image->getData());
+                tmpData = new char[image->size()];
+                PixelBox dst(image->size() / 3, 1, 1, PF_R8G8B8, tmpData);
 
                 PixelUtil::bulkPixelConversion( src, dst );
 
@@ -410,7 +411,7 @@ namespace {
                 of.write((const char *)&ddsMagic, sizeof(uint32));
                 of.write((const char *)&ddsHeader, DDS_HEADER_SIZE);
                 // XXX flipEndian on each pixel chunk written unless isFloat32r ?
-                of.write(dataPtr, image->getSize());
+                of.write(dataPtr, image->size());
                 of.close();
             }
             catch(...)

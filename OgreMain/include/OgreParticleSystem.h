@@ -434,7 +434,7 @@ namespace Ogre {
         */
         const String& getOrigin(void) const { return mOrigin; }
         /// Notify this particle system of it's origin
-        void _notifyOrigin(const String& origin) { mOrigin = origin; }
+        void _notify_origin(const String& origin) { mOrigin = origin; }
 
         /** @copydoc MovableObject::setRenderQueueGroup */
         void setRenderQueueGroup(uint8 queueID) override;

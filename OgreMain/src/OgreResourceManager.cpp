@@ -113,16 +113,16 @@ namespace Ogre {
             
 
             std::pair<ResourceMap::iterator, bool> result;
-        if(ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(res->getGroup()))
-        {
-            result = mResources.emplace(res->getName(), res);
-        }
-        else
-        {
-            // we will create the group if it doesn't exists in our list
-            auto resgroup = mResourcesWithGroup.emplace(res->getGroup(), ResourceMap()).first;
-            result = resgroup->second.emplace(res->getName(), res);
-        }
+            if (ResourceGroupManager::getSingleton()
+                    .isResourceGroupInGlobalPool(res->group())) {
+                result = mResources.emplace(res->name(), res);
+            } else {
+                // we will create the group if it doesn't exists in our list
+                auto resgroup
+                    = mResourcesWithGroup.emplace(res->group(), ResourceMap())
+                          .first;
+                result = resgroup->second.emplace(res->name(), res);
+            }
 
         // Attempt to resolve the collision
         ResourceLoadingListener* listener = ResourceGroupManager::getSingleton().getLoadingListener();
@@ -136,30 +136,37 @@ namespace Ogre {
             }
 
             // Try to do the addition again, no seconds attempts to resolve collisions are allowed
-            if(ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(res->getGroup()))
-            {
-                result = mResources.emplace(res->getName(), res);
-            }
-            else
-            {
-                auto resgroup = mResourcesWithGroup.emplace(res->getGroup(), ResourceMap()).first;
-                result = resgroup->second.emplace(res->getName(), res);
+            if (ResourceGroupManager::getSingleton()
+                    .isResourceGroupInGlobalPool(res->group())) {
+                result = mResources.emplace(res->name(), res);
+            } else {
+                auto resgroup
+                    = mResourcesWithGroup.emplace(res->group(), ResourceMap())
+                          .first;
+                result = resgroup->second.emplace(res->name(), res);
             }
         }
 
         if (!result.second)
         {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the name " + res->getName() +
-                " already exists.", "ResourceManager::add");
+            OGRE_EXCEPT(
+                Exception::ERR_DUPLICATE_ITEM,
+                getResourceType() + " with the name " + res->name()
+                    + " already exists.",
+                "ResourceManager::add");
         }
 
         // Insert the handle
-        std::pair<ResourceHandleMap::iterator, bool> resultHandle = mResourcesByHandle.emplace(res->getHandle(), res);
+        std::pair<ResourceHandleMap::iterator, bool> resultHandle
+            = mResourcesByHandle.emplace(res->handle(), res);
         if (!resultHandle.second)
         {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, getResourceType()+" with the handle " +
-                StringConverter::to_string((long) (res->getHandle())) +
-                " already exists.", "ResourceManager::add");
+            OGRE_EXCEPT(
+                Exception::ERR_DUPLICATE_ITEM,
+                getResourceType() + " with the handle "
+                    + StringConverter::to_string((long)(res->handle()))
+                    + " already exists.",
+                "ResourceManager::add");
         }
     }
     //-----------------------------------------------------------------------
@@ -168,25 +175,27 @@ namespace Ogre {
         OgreAssert(res, "attempting to remove nullptr");
 
 #if OGRE_RESOURCEMANAGER_STRICT
-        if (res->getCreator() != this)
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Resource '" + res->getName() + "' was not created by the '" +
-                                                          getResourceType() + "' ResourceManager");
+        if (res->creator() != this)
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "Resource '" + res->name() + "' was not created by the '"
+                    + getResourceType() + "' ResourceManager");
 #endif
 
-        if(ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(res->getGroup()))
-        {
-            ResourceMap::iterator nameIt = mResources.find(res->getName());
+        if (ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(
+                res->group())) {
+            ResourceMap::iterator nameIt = mResources.find(res->name());
             if (nameIt != mResources.end())
             {
                 mResources.erase(nameIt);
             }
-        }
-        else
-        {
-            ResourceWithGroupMap::iterator groupIt = mResourcesWithGroup.find(res->getGroup());
+        } else {
+            ResourceWithGroupMap::iterator groupIt
+                = mResourcesWithGroup.find(res->group());
             if (groupIt != mResourcesWithGroup.end())
             {
-                ResourceMap::iterator nameIt = groupIt->second.find(res->getName());
+                ResourceMap::iterator nameIt
+                    = groupIt->second.find(res->name());
                 if (nameIt != groupIt->second.end())
                 {
                     groupIt->second.erase(nameIt);
@@ -199,7 +208,8 @@ namespace Ogre {
             }
         }
 
-        ResourceHandleMap::iterator handleIt = mResourcesByHandle.find(res->getHandle());
+        ResourceHandleMap::iterator handleIt
+            = mResourcesByHandle.find(res->handle());
         if (handleIt != mResourcesByHandle.end())
         {
             mResourcesByHandle.erase(handleIt);
@@ -263,8 +273,7 @@ namespace Ogre {
             if (!unreferencedOnly || r.second.use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS)
             {
                 Resource* res = r.second.get();
-                if (!reloadableOnly || res->isReloadable())
-                {
+                if (!reloadableOnly || res->reloadable()) {
                     res->unload();
                 }
             }
@@ -284,8 +293,7 @@ namespace Ogre {
             if (!unreferencedOnly || r.second.use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS)
             {
                 Resource* res = r.second.get();
-                if (!reloadableOnly || res->isReloadable())
-                {
+                if (!reloadableOnly || res->reloadable()) {
                     res->reload(flags);
                 }
             }
@@ -351,9 +359,8 @@ namespace Ogre {
             if (i->second.use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS)
             {
                 Resource* res = (i++)->second.get();
-                if (!reloadableOnly || res->isReloadable())
-                {
-                    remove(res->getHandle());
+                if (!reloadableOnly || res->reloadable()) {
+                    remove(res->handle());
                 }
             }
             else {
@@ -446,8 +453,7 @@ namespace Ogre {
                 if (i->second.use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS)
                 {
                     Resource* res = i->second.get();
-                    if (res->isReloadable())
-                    {
+                    if (res->reloadable()) {
                         res->unload();
                     }
                 }
@@ -462,13 +468,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceManager::_notifyResourceLoaded(Resource* res)
     {
-        mMemoryUsage += res->getSize();
+        mMemoryUsage += res->size();
         checkUsage();
     }
     //-----------------------------------------------------------------------
     void ResourceManager::_notifyResourceUnloaded(Resource* res)
     {
-        mMemoryUsage -= res->getSize();
+        mMemoryUsage -= res->size();
     }
     //---------------------------------------------------------------------
     ResourceManager::ResourcePool* ResourceManager::getResourcePool(const String& name)
@@ -489,9 +495,7 @@ namespace Ogre {
     {
         OgreAssert(pool, "Cannot destroy a null ResourcePool");
 
-        
-
-        ResourcePoolMap::iterator i = mResourcePoolMap.find(pool->getName());
+        ResourcePoolMap::iterator i = mResourcePoolMap.find(pool->name());
         if (i != mResourcePoolMap.end())
             mResourcePoolMap.erase(i);
 
@@ -534,17 +538,14 @@ namespace Ogre {
         clear();
     }
     //---------------------------------------------------------------------
-    const String& ResourceManager::ResourcePool::getName() const
-    {
-        return mName;
-    }
+    const String& ResourceManager::ResourcePool::name() const { return mName; }
     //---------------------------------------------------------------------
     void ResourceManager::ResourcePool::clear()
     {
             
         for (auto & i : mItems)
         {
-            i->getCreator()->remove(i->getHandle());
+            i->creator()->remove(i->handle());
         }
         mItems.clear();
     }

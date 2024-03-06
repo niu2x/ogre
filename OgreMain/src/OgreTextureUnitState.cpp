@@ -199,8 +199,7 @@ namespace Ogre {
         }
 
         // Load immediately if Material loaded
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             _load();
         }
 
@@ -217,7 +216,7 @@ namespace Ogre {
     {
         // Return name of current frame
         if (mCurrentFrame < mFramePtrs.size() && mFramePtrs[mCurrentFrame])
-            return mFramePtrs[mCurrentFrame]->getName();
+            return mFramePtrs[mCurrentFrame]->name();
         else
             return BLANKSTRING;
     }
@@ -263,8 +262,7 @@ namespace Ogre {
         mCurrentFrame = 0;
 
         // Load immediately ?
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             _load(); // reload
         }
         // Tell parent to recalculate hash
@@ -297,8 +295,7 @@ namespace Ogre {
 
         mFramePtrs[frameNumber] = retrieveTexture(name);
 
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             _load(); // reload
         }
         // Tell parent to recalculate hash
@@ -317,8 +314,7 @@ namespace Ogre {
         mFramePtrs.push_back(retrieveTexture(name));
 
         // Load immediately if Material loaded
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             _load();
         }
         // Tell parent to recalculate hash
@@ -335,8 +331,7 @@ namespace Ogre {
         OgreAssert(frameNumber < mFramePtrs.size(), "out of range");
         mFramePtrs.erase(mFramePtrs.begin() + frameNumber);
 
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             _load();
         }
         // Tell parent to recalculate hash
@@ -382,8 +377,7 @@ namespace Ogre {
         }
 
         // Load immediately if Material loaded
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             _load();
         }
         // Tell parent to recalculate hash
@@ -461,7 +455,7 @@ namespace Ogre {
     {
         OgreAssert(frameNumber < mFramePtrs.size(), "out of range");
 
-        return mFramePtrs[0] ? mFramePtrs[frameNumber]->getName() : BLANKSTRING;
+        return mFramePtrs[0] ? mFramePtrs[frameNumber]->name() : BLANKSTRING;
     }
     //-----------------------------------------------------------------------
     void TextureUnitState::setDesiredFormat(PixelFormat desiredFormat)
@@ -634,8 +628,7 @@ namespace Ogre {
             }
         }
 
-        if (isLoaded())
-        {
+        if (is_loaded()) {
             // Create controller
             createEffectController(effect);
         }
@@ -1015,7 +1008,8 @@ namespace Ogre {
         if(err.empty())
             return true;
 
-        String msg = err+", but '"+tex->getName()+"' is not. Texture layer will be blank";
+        String msg = err + ", but '" + tex->name()
+            + "' is not. Texture layer will be blank";
         LogManager::getSingleton().log_error(msg);
         mTextureLoadFailed = true;
         return false;
@@ -1033,8 +1027,8 @@ namespace Ogre {
         }
         catch (Exception& e)
         {
-            String msg = "preparing texture '" + tex->getName() +
-                         "'. Texture layer will be blank: " + e.description();
+            String msg = "preparing texture '" + tex->name()
+                + "'. Texture layer will be blank: " + e.description();
             LogManager::getSingleton().log_error(msg);
             mTextureLoadFailed = true;
         }
@@ -1056,8 +1050,8 @@ namespace Ogre {
         }
         catch (Exception& e)
         {
-            String msg = "loading texture '" + tex->getName() +
-                         "'. Texture layer will be blank: " + e.description();
+            String msg = "loading texture '" + tex->name()
+                + "'. Texture layer will be blank: " + e.description();
             LogManager::getSingleton().log_error(msg);
             mTextureLoadFailed = true;
         }
@@ -1178,9 +1172,9 @@ namespace Ogre {
             mFramePtrs[0].reset();
     }
     //-----------------------------------------------------------------------------
-    bool TextureUnitState::isLoaded(void) const
+    bool TextureUnitState::is_loaded(void) const
     {
-        return mParent->isLoaded();
+        return mParent->is_loaded();
     }
     //-----------------------------------------------------------------------
     void TextureUnitState::_notifyNeedsRecompile(void)
@@ -1222,7 +1216,7 @@ namespace Ogre {
         mCompositorRefMrtIndex = mrtIndex; 
     }
     //-----------------------------------------------------------------------
-    size_t TextureUnitState::calculateSize(void) const
+    size_t TextureUnitState::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
         memSize += mFramePtrs.size() * sizeof(TexturePtr);

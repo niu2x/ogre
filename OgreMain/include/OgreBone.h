@@ -77,7 +77,7 @@ namespace Ogre
             const Vector3& translate = Vector3::zero, const Quaternion& rotate = Quaternion::IDENTITY);
 
         /** Gets the numeric handle for this bone (unique within the skeleton). */
-        unsigned short getHandle(void) const;
+        unsigned short handle(void) const;
 
         /** Sets the current position / orientation to be the 'binding pose' ie the layout in which 
             bones were originally bound to a mesh.
@@ -92,17 +92,17 @@ namespace Ogre
         */
         void reset(void);
 
-        /** Sets whether or not this bone is manually controlled. 
+        /** Sets whether or not this bone is manually controlled.
 
-            Manually controlled bones can be altered by the application at runtime, 
-            and their positions will not be reset by the animation routines. Note 
-            that you should also make sure that there are no AnimationTrack objects
-            referencing this bone, or if there are, you should disable them using
-            pAnimation->destroyTrack(pBone->getHandle());
+            Manually controlled bones can be altered by the application at
+        runtime, and their positions will not be reset by the animation
+        routines. Note that you should also make sure that there are no
+        AnimationTrack objects referencing this bone, or if there are, you
+        should disable them using pAnimation->destroyTrack(pBone->handle());
         @par
-            You can also use AnimationState::setBlendMask to mask out animation from 
-            chosen tracks if you want to prevent application of a scripted animation 
-            to a bone without altering the Animation definition.
+            You can also use AnimationState::setBlendMask to mask out animation
+        from chosen tracks if you want to prevent application of a scripted
+        animation to a bone without altering the Animation definition.
         */
         void setManuallyControlled(bool manuallyControlled);
 

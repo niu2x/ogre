@@ -176,7 +176,7 @@ namespace Ogre {
         /** Notify the object of it's creator (internal use only) */
         virtual void _notifyCreator(MovableObjectFactory* fact) { mCreator = fact; }
         /** Get the creator of this object, if any (internal use only) */
-        MovableObjectFactory*  _getCreator(void) const { return mCreator; }
+        MovableObjectFactory* _creator(void) const { return mCreator; }
         /** Notify the object of it's manager (internal use only) */
         virtual void _notifyManager(SceneManager* man) { mManager = man; }
         /** Get the manager of this object, if any (internal use only) */
@@ -199,7 +199,7 @@ namespace Ogre {
         virtual void _restoreManualHardwareResources() {}
 
         /** Returns the name of this object. */
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         /** Returns the type name of this object. */
         virtual const String& getMovableType(void) const = 0;

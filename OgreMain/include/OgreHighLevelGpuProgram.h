@@ -100,9 +100,9 @@ namespace Ogre {
         virtual void buildConstantDefinitions() = 0;
 
         /** @copydoc Resource::loadImpl */
-        void loadImpl() override;
+        void load_impl() override;
         /** @copydoc Resource::unloadImpl */
-        void unloadImpl() override;
+        void unload_impl() override;
 
         void setupBaseParamDictionary() override;
     public:
@@ -129,7 +129,7 @@ namespace Ogre {
         */
         const GpuNamedConstants& getConstantDefinitions() override;
 
-        size_t calculateSize(void) const override;
+        size_t calculate_size(void) const override;
 
         /** Sets the preprocessor defines used to compile the program. */
         void setPreprocessorDefines(const String& defines) { mPreprocessorDefines = defines; }

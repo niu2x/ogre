@@ -90,8 +90,8 @@ namespace Ogre {
     //--------------------------------------------------------------------------    
     void Texture::loadImage( const Image &img )
     {
-        OgreAssert(img.getSize(), "cannot load empty image");
-        LoadingState old = mLoadingState.load();
+        OgreAssert(img.size(), "cannot load empty image");
+        LoadingState old = loading_state();
 
         // Scope lock for actual loading
         try
@@ -101,14 +101,14 @@ namespace Ogre {
         catch (...)
         {
             // Reset loading in-progress flag in case failed for some reason
-            mLoadingState.store(old);
+            set_loading_state(old);
             // Re-throw
             throw;
         }
 
         // Notify manager
-        if(getCreator())
-            getCreator()->_notifyResourceLoaded(this);
+        if (creator())
+            creator()->_notifyResourceLoaded(this);
 
         // No deferred loading events since this method is not called in background
     }
@@ -155,7 +155,7 @@ namespace Ogre {
         mTreatLuminanceAsAlpha = asAlpha;
     }
     //--------------------------------------------------------------------------
-    size_t Texture::calculateSize(void) const
+    size_t Texture::calculate_size(void) const
     {
         return getNumFaces() * PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);
     }
@@ -227,10 +227,10 @@ namespace Ogre {
         if (TextureManager::getSingleton().getVerbose()) {
             // Say what we're doing
             Log::Stream str = LogManager::getSingleton().stream();
-            str << "Texture '" << mName << "': Loading " << faces << " faces"
-                << "(" << PixelUtil::getFormatName(images[0]->getFormat()) << ","
-                << images[0]->getWidth() << "x" << images[0]->getHeight() << "x"
-                << images[0]->getDepth() << ")";
+            str << "Texture '" << name() << "': Loading " << faces << " faces"
+                << "(" << PixelUtil::getFormatName(images[0]->getFormat())
+                << "," << images[0]->getWidth() << "x" << images[0]->getHeight()
+                << "x" << images[0]->getDepth() << ")";
             if (!(mMipmapsHardwareGenerated && mNumMipmaps == 0))
             {
                 str << " with " << mNumMipmaps;
@@ -293,7 +293,11 @@ namespace Ogre {
                     PixelBox corrected = tmp.getPixelBox();
                     PixelUtil::bulkPixelConversion(src, corrected);
 
-                    Image::applyGamma(corrected.data, mGamma, tmp.getSize(), tmp.getBPP());
+                    Image::applyGamma(
+                        corrected.data,
+                        mGamma,
+                        tmp.size(),
+                        tmp.getBPP());
 
                     // Destination: entire texture. blitFromMemory does the scaling to
                     // a power of two for us when needed
@@ -309,8 +313,9 @@ namespace Ogre {
             }
         }
         // Update size (the final size, not including temp space)
-        mSize = getNumFaces() * PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);
-
+        set_size(
+            getNumFaces()
+            * PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat));
     }
     //-----------------------------------------------------------------------------
     uint32 Texture::getMaxMipmaps() const {
@@ -328,13 +333,13 @@ namespace Ogre {
             mInternalResourcesCreated = true;
 
             // this is also public API, so update state accordingly
-            if(!isLoading())
-            {
-                if(mIsManual && mLoader)
-                    mLoader->loadResource(this);
+            if (!is_loading()) {
+                auto my_loader = loader();
+                if (is_manually_loaded() && my_loader)
+                    my_loader->loadResource(this);
 
-                mLoadingState.store(LoadingState::LOADED);
-                _fireloading_complete();
+                set_loading_state(LoadingState::LOADED);
+                _fire_loading_complete();
             }
         }
     }
@@ -348,17 +353,14 @@ namespace Ogre {
             mInternalResourcesCreated = false;
 
             // this is also public API, so update state accordingly
-            if (mLoadingState.load() != LoadingState::UNLOADING) {
-                mLoadingState.store(LoadingState::UNLOADED);
-                _fireUnloading_complete();
+            if (loading_state() != LoadingState::UNLOADING) {
+                set_loading_state(LoadingState::UNLOADED);
+                _fire_unloading_complete();
             }
         }
     }
     //-----------------------------------------------------------------------------
-    void Texture::unloadImpl(void)
-    {
-        freeInternalResources();
-    }
+    void Texture::unload_impl(void) { freeInternalResources(); }
     //-----------------------------------------------------------------------------   
     void Texture::copyToTexture( TexturePtr& target )
     {
@@ -406,7 +408,8 @@ namespace Ogre {
 
     void Texture::readImage(LoadedImages& imgs, const String& name, const String& ext, bool haveNPOT)
     {
-        DataStreamPtr dstream = ResourceGroupManager::getSingleton().openResource(name, mGroup, this);
+        DataStreamPtr dstream = ResourceGroupManager::getSingleton()
+                                    .openResource(name, group(), this);
 
         imgs.push_back(Image());
         Image& img = imgs.back();
@@ -422,7 +425,7 @@ namespace Ogre {
             img.resize(w, h);
     }
 
-    void Texture::prepareImpl(void)
+    void Texture::prepare_impl()
     {
         if (mUsage & TU_RENDERTARGET)
             return;
@@ -434,7 +437,7 @@ namespace Ogre {
                         (renderCaps->getNonPOW2TexturesLimited() && mNumMipmaps == 0);
 
         String baseName, ext;
-        StringUtil::split_base_filename(mName, &baseName, &ext);
+        StringUtil::split_base_filename(name(), &baseName, &ext);
 
         LoadedImages loadedImages;
 
@@ -442,7 +445,7 @@ namespace Ogre {
         {
             if(mLayerNames.empty())
             {
-                readImage(loadedImages, mName, ext, haveNPOT);
+                readImage(loadedImages, name(), ext, haveNPOT);
 
                 // If this is a volumetric texture set the texture type flag accordingly.
                 // If this is a cube map, set the texture type flag accordingly.
@@ -498,12 +501,9 @@ namespace Ogre {
         std::swap(mLoadedImages, loadedImages);
     }
 
-    void Texture::unprepareImpl()
-    {
-        mLoadedImages.clear();
-    }
+    void Texture::unprepare_impl() { mLoadedImages.clear(); }
 
-    void Texture::loadImpl()
+    void Texture::load_impl()
     {
         if (mUsage & TU_RENDERTARGET)
         {

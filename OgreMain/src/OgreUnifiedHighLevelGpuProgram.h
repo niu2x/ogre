@@ -72,14 +72,15 @@ namespace Ogre {
         void unloadHighLevelImpl(void);
         void loadFromSource(void) override;
 
-        void unloadImpl() override { resetCompileError(); }
+        void unload_impl() override { resetCompileError(); }
+
     public:
         /** Constructor, should be used only by factory classes. */
         UnifiedHighLevelGpuProgram(ResourceManager* creator, const String& name, ResourceHandle handle,
             const String& group, bool isManual = false, ManualResourceLoader* loader = 0);
         ~UnifiedHighLevelGpuProgram();
 
-        size_t calculateSize(void) const override;
+        size_t calculate_size(void) const override;
 
         /** Adds a new delegate program to the list.
 
@@ -136,19 +137,18 @@ namespace Ogre {
 
         void load(bool backgroundThread = false) override;
         void reload(LoadingFlags flags = LF_DEFAULT) override;
-        bool isReloadable(void) const;
-        bool isLoaded(void) const;
-        bool isLoading() const;
-        LoadingState getLoadingState() const;
+        bool reloadable(void) const;
+        bool is_loaded(void) const;
+        bool is_loading() const;
+        LoadingState loading_state() const;
         void unload(void) override;
-        size_t getSize(void) const;
+        size_t size(void) const;
         void touch(void) override;
-        bool isBackgroundLoaded(void) const;
+        bool is_background_loaded(void) const;
         void setBackgroundLoaded(bool bl);
-        void escalateLoading() override;
-        void addListener(Listener* lis) override;
-        void removeListener(Listener* lis) override;
-
+        void escalate_loading() override;
+        void add_listener(Listener* lis) override;
+        void remove_listener(Listener* lis) override;
     };
 
     /** Factory class for Unified programs. */

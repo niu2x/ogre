@@ -87,7 +87,7 @@ namespace Ogre {
         {
             Animation* pAnim = pSkeleton->getAnimation(i);
             LogManager::getSingleton().stream()
-                << "Exporting animation: " << pAnim->getName();
+                << "Exporting animation: " << pAnim->name();
             writeAnimation(pSkeleton, pAnim, ver);
             LogManager::getSingleton().log_message("Animation exported.");
 
@@ -196,11 +196,11 @@ namespace Ogre {
         for (i = 0; i < numBones; ++i)
         {
             Bone* pBone = pSkel->getBone(i);
-            unsigned short handle = pBone->getHandle();
+            unsigned short handle = pBone->handle();
             Bone* pParent = static_cast<Bone*>(pBone->getParent());
             if (pParent != NULL) 
             {
-                writeBoneParent(pSkel, handle, pParent->getHandle());             
+                writeBoneParent(pSkel, handle, pParent->handle());
             }
         }
     }
@@ -209,12 +209,12 @@ namespace Ogre {
     {
         writeChunkHeader(SKELETON_BONE, calcBoneSize(pSkel, pBone));
 
-        unsigned short handle = pBone->getHandle();
+        unsigned short handle = pBone->handle();
         // char* name
-        writeString(pBone->getName());
+        writeString(pBone->name());
 #if OGRE_SERIALIZER_VALIDATE_CHUNKSIZE
         // Hack to fix chunk size validation:
-        mChunkSizeStack.back() += calcStringSize(pBone->getName());
+        mChunkSizeStack.back() += calcStringSize(pBone->name());
 #endif
         // unsigned short handle            : handle of the bone, should be contiguous & start at 0
         writeShorts(&handle, 1);
@@ -247,7 +247,7 @@ namespace Ogre {
         writeChunkHeader(SKELETON_ANIMATION, calcAnimationSize(pSkel, anim, ver));
 
         // char* name                       : Name of the animation
-        writeString(anim->getName());
+        writeString(anim->name());
         // float length                      : Length of the animation in seconds
         float len = anim->getLength();
         writeFloats(&len, 1);
@@ -291,7 +291,7 @@ namespace Ogre {
 
         // unsigned short boneIndex     : Index of bone to apply to
         Bone* bone = static_cast<Bone*>(track->getAssociatedNode());
-        unsigned short boneid = bone->getHandle();
+        unsigned short boneid = bone->handle();
         writeShorts(&boneid, 1);
         pushInnerChunk(mStream);
         // Write all keyframes
@@ -342,8 +342,9 @@ namespace Ogre {
         size_t size = SSTREAM_OVERHEAD_SIZE;
 
         // TODO: Add this for next skeleton format!
-        // Currently it is broken, because to determine that we have scale, it will compare chunk size.
-        //size += calcStringSize(pBone->getName());
+        // Currently it is broken, because to determine that we have scale, it
+        // will compare chunk size.
+        // size += calcStringSize(pBone->name());
 
         // handle
         size += sizeof(unsigned short);
@@ -375,7 +376,7 @@ namespace Ogre {
         size_t size = SSTREAM_OVERHEAD_SIZE;
 
         // Name, including terminator
-        size += calcStringSize(pAnim->getName());
+        size += calcStringSize(pAnim->name());
         // length
         size += sizeof(float);
 

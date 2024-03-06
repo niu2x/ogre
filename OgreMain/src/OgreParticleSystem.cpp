@@ -528,7 +528,8 @@ namespace Ogre {
                 {
                     // For now, it can only be an emitted emitter
                     pParticleEmitter = static_cast<ParticleEmitter*>(*i);
-                    std::list<ParticleEmitter*>* fee = findFreeEmittedEmitter(pParticleEmitter->getName());
+                    std::list<ParticleEmitter*>* fee
+                        = findFreeEmittedEmitter(pParticleEmitter->name());
                     fee->push_back(pParticleEmitter);
 
                     // Also erase from mActiveEmittedEmitters
@@ -1038,7 +1039,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& ParticleSystem::getMaterialName(void) const
     {
-        return mMaterial->getName();
+        return mMaterial->name();
     }
     //-----------------------------------------------------------------------
     void ParticleSystem::clear()
@@ -1289,8 +1290,8 @@ namespace Ogre {
         // Determine whether the emitter itself will be emitted and set the 'mEmitted' attribute
         for (ParticleEmitter* emitter : mEmitters)
         {
-            if (mEmittedEmitterPool.find(emitter->getName()) != mEmittedEmitterPool.end())
-            {
+            if (mEmittedEmitterPool.find(emitter->name())
+                != mEmittedEmitterPool.end()) {
                 emitter->setEmitted(true);
             }
         }
@@ -1316,8 +1317,7 @@ namespace Ogre {
             // Search the correct emitter in the mEmitters vector
             for (ParticleEmitter* emitter : mEmitters)
             {
-                if (name == emitter->getName())
-                {
+                if (name == emitter->name()) {
                     // Found the right emitter, clone each emitter a number of times
                     size_t oldSize = e.size();
                     for (size_t t = oldSize; t < maxNumberOfEmitters; ++t)
@@ -1422,7 +1422,8 @@ namespace Ogre {
         ActiveEmittedEmitterList::iterator itActiveEmit;
         for (itActiveEmit = mActiveEmittedEmitters.begin(); itActiveEmit != mActiveEmittedEmitters.end(); ++itActiveEmit)
         {
-            std::list<ParticleEmitter*>* fee = findFreeEmittedEmitter ((*itActiveEmit)->getName());
+            std::list<ParticleEmitter*>* fee
+                = findFreeEmittedEmitter((*itActiveEmit)->name());
             if (fee)
                 fee->push_back(*itActiveEmit);
         }

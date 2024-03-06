@@ -204,7 +204,7 @@ namespace Ogre {
 
         // Calculate total size from number of mipmaps, faces and size
         image->create(format, header.width, header.height, 1, 1, header.numMipmaps);
-        stream->read(image->getData(), image->getSize());
+        stream->read(image->getData(), image->size());
     }
     //---------------------------------------------------------------------    
     void PVRTCCodec::decodeV3(const DataStreamPtr& stream, Image* image)

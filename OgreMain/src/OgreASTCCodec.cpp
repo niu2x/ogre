@@ -266,7 +266,7 @@ namespace Ogre {
 		// Always one face, cubemaps are not currently supported
         // Always 1 mip level per file
         image->create(format, xsize, ysize, zsize, 1, 0);
-        stream->read(image->getData(), image->getSize());
+        stream->read(image->getData(), image->size());
     }
     //---------------------------------------------------------------------    
     String ASTCCodec::getType() const 

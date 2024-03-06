@@ -36,7 +36,7 @@ namespace Ogre {
         Mesh* msh = static_cast<Mesh*>(res);
 
         // attempt to create a prefab mesh
-        const String& resourceName = msh->getName();
+        const String& resourceName = msh->name();
         if(resourceName == "Prefab_Plane")
         {
             createPlane(msh);
@@ -57,7 +57,9 @@ namespace Ogre {
         auto any = msh->getUserObjectBindings().getUserAny("_MeshBuildParams");
 
         if (!any.has_value())
-            OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No prefab parameters in " + res->getName());
+            OGRE_EXCEPT(
+                Exception::ERR_ITEM_NOT_FOUND,
+                "No prefab parameters in " + res->name());
 
         auto params = std::any_cast<MeshBuildParams>(any);
 
@@ -108,9 +110,15 @@ namespace Ogre {
 
         //! [vertex_decl]
         size_t offset = 0;
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).getSize();
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL).getSize();
-        offset += decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0).getSize();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).size();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL).size();
+        offset += decl->addElement(
+                          0,
+                          offset,
+                          VET_FLOAT2,
+                          VES_TEXTURE_COORDINATES,
+                          0)
+                      .size();
         //! [vertex_decl]
 
         //! [vertex_buffer]
@@ -242,9 +250,15 @@ namespace Ogre {
         VertexBufferBinding* bind = mesh->sharedVertexData->vertexBufferBinding;
 
         size_t offset = 0;
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).getSize();
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL).getSize();
-        offset += decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0).getSize();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).size();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL).size();
+        offset += decl->addElement(
+                          0,
+                          offset,
+                          VET_FLOAT2,
+                          VES_TEXTURE_COORDINATES,
+                          0)
+                      .size();
 
         HardwareVertexBufferSharedPtr vbuf = 
             HardwareBufferManager::getSingleton().createVertexBuffer(
@@ -310,9 +324,20 @@ namespace Ogre {
         // define the vertex format
         VertexDeclaration* vertexDecl = vertexData->vertexDeclaration;
         size_t currOffset = 0;
-        currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION).getSize();
-        currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL).getSize();
-        currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0).getSize();
+        currOffset
+            += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION)
+                   .size();
+        currOffset
+            += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL)
+                   .size();
+        currOffset += vertexDecl
+                          ->addElement(
+                              0,
+                              currOffset,
+                              VET_FLOAT2,
+                              VES_TEXTURE_COORDINATES,
+                              0)
+                          .size();
 
         // allocate the vertex buffer
         vertexData->vertexCount = (NUM_RINGS + 1) * (NUM_SEGMENTS+1);
@@ -475,17 +500,28 @@ namespace Ogre {
         VertexDeclaration* vertexDecl = vertexData->vertexDeclaration;
         size_t currOffset = 0;
         // We always need positions
-        currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION).getSize();
+        currOffset
+            += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION)
+                   .size();
         // Optional normals
         if(params.normals)
         {
-            currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL).getSize();
+            currOffset
+                += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL)
+                       .size();
         }
 
         for (unsigned short i = 0; i < params.numTexCoordSets; ++i)
         {
             // Assumes 2D texture coords
-            currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT2, VES_TEXTURE_COORDINATES, i).getSize();
+            currOffset += vertexDecl
+                              ->addElement(
+                                  0,
+                                  currOffset,
+                                  VET_FLOAT2,
+                                  VES_TEXTURE_COORDINATES,
+                                  i)
+                              .size();
         }
 
         vertexData->vertexCount = (params.xsegments + 1) * (params.ysegments + 1);
@@ -607,15 +643,21 @@ namespace Ogre {
         pMesh->sharedVertexData->vertexCount = (params.xsegments + 1) * (params.ysegments + 1);
 
         size_t offset = 0;
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).getSize();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).size();
         if (params.normals)
         {
-            offset += decl->addElement(0, 0, VET_FLOAT3, VES_NORMAL).getSize();
+            offset += decl->addElement(0, 0, VET_FLOAT3, VES_NORMAL).size();
         }
 
         for (unsigned short i = 0; i < params.numTexCoordSets; ++i)
         {
-            offset += decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, i).getSize();
+            offset += decl->addElement(
+                              0,
+                              offset,
+                              VET_FLOAT2,
+                              VES_TEXTURE_COORDINATES,
+                              i)
+                          .size();
         }
 
 
@@ -745,17 +787,28 @@ namespace Ogre {
         VertexDeclaration* vertexDecl = vertexData->vertexDeclaration;
         size_t currOffset = 0;
         // We always need positions
-        currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION).getSize();
+        currOffset
+            += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_POSITION)
+                   .size();
         // Optional normals
         if(params.normals)
         {
-            currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL).getSize();
+            currOffset
+                += vertexDecl->addElement(0, currOffset, VET_FLOAT3, VES_NORMAL)
+                       .size();
         }
 
         for (unsigned short i = 0; i < params.numTexCoordSets; ++i)
         {
             // Assumes 2D texture coords
-            currOffset += vertexDecl->addElement(0, currOffset, VET_FLOAT2, VES_TEXTURE_COORDINATES, i).getSize();
+            currOffset += vertexDecl
+                              ->addElement(
+                                  0,
+                                  currOffset,
+                                  VET_FLOAT2,
+                                  VES_TEXTURE_COORDINATES,
+                                  i)
+                              .size();
         }
 
         vertexData->vertexCount = (params.xsegments + 1) * (params.ySegmentsToKeep + 1);

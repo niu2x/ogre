@@ -78,11 +78,7 @@ namespace Ogre {
 
     }
 
-    const String& RenderTarget::getName(void) const
-    {
-        return mName;
-    }
-
+    const String& RenderTarget::name(void) const { return mName; }
 
     void RenderTarget::getMetrics(unsigned int& width, unsigned int& height)
     {
@@ -322,7 +318,7 @@ namespace Ogre {
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Attribute not found. " + name, " RenderTarget::getCustomAttribute");
     }
     //-----------------------------------------------------------------------
-    void RenderTarget::addListener(RenderTargetListener* listener)
+    void RenderTarget::add_listener(RenderTargetListener* listener)
     {
         if (std::find(mListeners.begin(), mListeners.end(), listener) == mListeners.end())
             mListeners.push_back(listener);
@@ -337,7 +333,7 @@ namespace Ogre {
             mListeners.insert(mListeners.begin() + pos, listener);
     }
     //-----------------------------------------------------------------------
-    void RenderTarget::removeListener(RenderTargetListener* listener)
+    void RenderTarget::remove_listener(RenderTargetListener* listener)
     {
         RenderTargetListenerList::iterator i = std::find(mListeners.begin(), mListeners.end(), listener);
         if (i != mListeners.end())
@@ -528,7 +524,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void RenderTarget::update(bool swap)
     {
-        OgreProfileBeginGPUEvent(getName());
+        OgreProfileBeginGPUEvent(name());
         // call implementation
         updateImpl();
 
@@ -538,6 +534,6 @@ namespace Ogre {
             // Swap buffers
             swapBuffers();
         }
-        OgreProfileEndGPUEvent(getName());
+        OgreProfileEndGPUEvent(name());
     }
 }

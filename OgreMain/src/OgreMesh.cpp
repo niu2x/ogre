@@ -75,7 +75,10 @@ namespace Ogre {
     {
         if (!HardwareBufferManager::getSingletonPtr()) // LogManager might be also gone already
         {
-            printf("ERROR: '%s' is being destroyed after HardwareBufferManager. This is a bug in user code.\n", mName.c_str());
+            printf(
+                "ERROR: '%s' is being destroyed after HardwareBufferManager. "
+                "This is a bug in user code.\n",
+                name().c_str());
             OgreAssertDbg(false,  "Mesh destroyed after HardwareBufferManager"); // assert in debug mode
             return; // try not to crash
         }
@@ -96,8 +99,8 @@ namespace Ogre {
 
         mSubMeshList.push_back(sub);
 
-        if (isLoaded())
-            _dirtyState();
+        if (is_loaded())
+            _dirty_state();
 
         return sub;
     }
@@ -142,9 +145,8 @@ namespace Ogre {
             this->buildEdgeList();
         }
 
-        if (isLoaded())
-            _dirtyState();
-        
+        if (is_loaded())
+            _dirty_state();
     }
     //-----------------------------------------------------------------------
     void Mesh::destroySubMesh(const String& name)
@@ -172,7 +174,7 @@ namespace Ogre {
         return getSubMesh(index);
     }
     //-----------------------------------------------------------------------
-    void Mesh::postLoadImpl(void)
+    void Mesh::post_load_impl(void)
     {
         // Prepare for shadow volumes?
         if (MeshManager::getSingleton().getPrepareAllMeshesForShadowVolumes())
@@ -199,25 +201,25 @@ namespace Ogre {
 #endif
     }
     //-----------------------------------------------------------------------
-    void Mesh::prepareImpl()
+    void Mesh::prepare_impl()
     {
         // Load from specified 'name'
-        if (getCreator()->getVerbose())
-            LogManager::getSingleton().log_message("Mesh: Loading "+mName+".");
+        if (creator()->getVerbose())
+            LogManager::getSingleton().log_message(
+                "Mesh: Loading " + name() + ".");
 
-        mFreshFromDisk =
-            ResourceGroupManager::getSingleton().openResource(
-                mName, mGroup, this);
- 
+        mFreshFromDisk = ResourceGroupManager::getSingleton().openResource(
+            name(),
+            group(),
+            this);
+
         // fully prebuffer into host RAM
-        mFreshFromDisk = DataStreamPtr(OGRE_NEW MemoryDataStream(mName, mFreshFromDisk.get()));
+        mFreshFromDisk = DataStreamPtr(
+            OGRE_NEW MemoryDataStream(name(), mFreshFromDisk.get()));
     }
     //-----------------------------------------------------------------------
-    void Mesh::unprepareImpl()
-    {
-        mFreshFromDisk.reset();
-    }
-    void Mesh::loadImpl()
+    void Mesh::unprepare_impl() { mFreshFromDisk.reset(); }
+    void Mesh::load_impl()
     {
         // If the only copy is local on the stack, it will be cleaned
         // up reliably in case of exceptions, etc
@@ -225,22 +227,25 @@ namespace Ogre {
         mFreshFromDisk.reset();
 
         if (!data) {
-            OGRE_EXCEPT(Exception::ERR_INVALID_STATE,
-                        "Data doesn't appear to have been prepared in " + mName,
-                        "Mesh::loadImpl()");
+            OGRE_EXCEPT(
+                Exception::ERR_INVALID_STATE,
+                "Data doesn't appear to have been prepared in " + name(),
+                "Mesh::load_impl()");
         }
 
         String baseName, strExt;
-        StringUtil::split_base_filename(mName, &baseName, &strExt);
+        StringUtil::split_base_filename(name(), &baseName, &strExt);
         auto codec = Codec::getCodec(strExt);
         if (!codec)
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "No codec found to load " + mName);
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "No codec found to load " + name());
 
         codec->decode(data, this);
     }
 
     //-----------------------------------------------------------------------
-    void Mesh::unloadImpl()
+    void Mesh::unload_impl()
     {
         // Teardown submeshes
         for (auto & i : mSubMeshList)
@@ -298,7 +303,7 @@ namespace Ogre {
         //  the MeshManager
 
         // New Mesh is assumed to be manually defined rather than loaded since you're cloning it for a reason
-        String theGroup = newGroup.empty() ? this->getGroup() : newGroup;
+        String theGroup = newGroup.empty() ? this->group() : newGroup;
         MeshPtr newMesh = MeshManager::getSingleton().createManual(newName, theGroup);
 
         if(!newMesh) // interception by collision handler
@@ -365,8 +370,8 @@ namespace Ogre {
         // Clone vertex animation
         for (auto & i : mAnimationsList)
         {
-            Animation *newAnim = i.second->clone(i.second->getName());
-            newMesh->mAnimationsList[i.second->getName()] = newAnim;
+            Animation* newAnim = i.second->clone(i.second->name());
+            newMesh->mAnimationsList[i.second->name()] = newAnim;
         }
         // Clone pose list
         for (auto & i : mPoseList)
@@ -493,22 +498,26 @@ namespace Ogre {
             {
                 // Load skeleton
                 try {
-                    mSkeleton = static_pointer_cast<Skeleton>(SkeletonManager::getSingleton().load(skelName, mGroup));
+                    mSkeleton = static_pointer_cast<Skeleton>(
+                        SkeletonManager::getSingleton().load(
+                            skelName,
+                            group()));
                 }
                 catch (...)
                 {
                     mSkeleton.reset();
                     // Log this error
                     String msg = "Unable to load skeleton '";
-                    msg += skelName + "' for Mesh '" + mName + "'. This Mesh will not be animated.";
+                    msg += skelName + "' for Mesh '" + name()
+                        + "'. This Mesh will not be animated.";
                     LogManager::getSingleton().log_error(msg);
 
                 }
 
 
             }
-            if (isLoaded())
-                _dirtyState();
+            if (is_loaded())
+                _dirty_state();
         }
     }
     //-----------------------------------------------------------------------
@@ -544,12 +553,12 @@ namespace Ogre {
             // We can have the same named animation in both skeletal and vertex
             // with a shared animation state affecting both, for combined effects
             // The animations should be the same length if this feature is used!
-            if (!animSet->hasAnimationState(i.second->getName()))
-            {
-                animSet->createAnimationState(i.second->getName(), 0.0,
+            if (!animSet->hasAnimationState(i.second->name())) {
+                animSet->createAnimationState(
+                    i.second->name(),
+                    0.0,
                     i.second->getLength());
             }
-
         }
 
     }
@@ -566,7 +575,7 @@ namespace Ogre {
         {
             // Create animation at time index 0, default params mean this has weight 1 and is disabled
             auto anim = i.second;
-            const String& animName = anim->getName();
+            const String& animName = anim->name();
             if (!animSet->hasAnimationState(animName))
             {
                 animSet->createAnimationState(animName, 0.0, anim->getLength());
@@ -666,13 +675,18 @@ namespace Ogre {
         if (maxBones > OGRE_MAX_BLEND_WEIGHTS)
         {
             // Warn that we've reduced bone assignments
-            LogManager::getSingleton().log_warning("the mesh '" + mName + "' "
-                "includes vertices with more than " +
-                StringConverter::to_string(OGRE_MAX_BLEND_WEIGHTS) + " bone assignments. "
-                "The lowest weighted assignments beyond this limit have been removed, so "
-                "your animation may look slightly different. To eliminate this, reduce "
-                "the number of bone assignments per vertex on your mesh to " +
-                StringConverter::to_string(OGRE_MAX_BLEND_WEIGHTS) + ".");
+            LogManager::getSingleton().log_warning(
+                "the mesh '" + name()
+                + "' "
+                  "includes vertices with more than "
+                + StringConverter::to_string(OGRE_MAX_BLEND_WEIGHTS)
+                + " bone assignments. "
+                  "The lowest weighted assignments beyond this limit have been "
+                  "removed, so "
+                  "your animation may look slightly different. To eliminate "
+                  "this, reduce "
+                  "the number of bone assignments per vertex on your mesh to "
+                + StringConverter::to_string(OGRE_MAX_BLEND_WEIGHTS) + ".");
             // we've adjusted them down to the max
             maxBones = OGRE_MAX_BLEND_WEIGHTS;
 
@@ -681,11 +695,16 @@ namespace Ogre {
         if (existsNonSkinnedVertices)
         {
             // Warn that we've non-skinned vertices
-            LogManager::getSingleton().log_warning("the mesh '" + mName + "' "
-                "includes vertices without bone assignments. Those vertices will "
-                "transform to wrong position when skeletal animation enabled. "
-                "To eliminate this, assign at least one bone assignment per vertex "
-                "on your mesh.");
+            LogManager::getSingleton().log_warning(
+                "the mesh '" + name()
+                + "' "
+                  "includes vertices without bone assignments. Those vertices "
+                  "will "
+                  "transform to wrong position when skeletal animation "
+                  "enabled. "
+                  "To eliminate this, assign at least one bone assignment per "
+                  "vertex "
+                  "on your mesh.");
         }
 
         return maxBones;
@@ -1033,7 +1052,7 @@ namespace Ogre {
                     for (uint16 iChild = 0; iChild < bone->numChildren(); ++iChild)
                     {
                         Bone* child = static_cast<Bone*>( bone->getChild( iChild ) );
-                        boneChildren[ iBone ].push_back( child->getHandle() );
+                        boneChildren[iBone].push_back(child->handle());
                     }
                 }
             }
@@ -1077,7 +1096,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     const String& Mesh::getSkeletonName(void) const
     {
-        return mSkeleton ? mSkeleton->getName() : BLANKSTRING;
+        return mSkeleton ? mSkeleton->name() : BLANKSTRING;
     }
     //---------------------------------------------------------------------
     const MeshLodUsage& Mesh::getLodLevel(ushort index) const
@@ -1088,10 +1107,10 @@ namespace Ogre {
         {
             // Load the mesh now
             try {
-                mMeshLodUsageList[index].manualMesh =
-                    MeshManager::getSingleton().load(
+                mMeshLodUsageList[index].manualMesh
+                    = MeshManager::getSingleton().load(
                         mMeshLodUsageList[index].manualName,
-                        getGroup());
+                        group());
                 // get the edge data, if required
                 if (!mMeshLodUsageList[index].edgeData)
                 {
@@ -1293,10 +1312,9 @@ namespace Ogre {
                 VertexElementType newType   = VertexElement::multiplyTypeCount( baseType0,
                                                                                 totalTypeCount );
 
-                if( ( uv0->getOffset() + uv0->getSize() == uv1->getOffset() ||
-                      uv1->getOffset() + uv1->getSize() == uv0->getOffset() ) &&
-                    uv0->getSource() == uv1->getSource() )
-                {
+                if ((uv0->getOffset() + uv0->size() == uv1->getOffset()
+                     || uv1->getOffset() + uv1->size() == uv0->getOffset())
+                    && uv0->getSource() == uv1->getSource()) {
                     //Special case where they adjacent, just change the declaration & we're done.
                     size_t newOffset        = std::min( uv0->getOffset(), uv1->getOffset() );
                     unsigned short newIdx   = std::min( uv0->getIndex(), uv1->getIndex() );
@@ -1649,8 +1667,10 @@ namespace Ogre {
                 #if OGRE_DEBUG_MODE
                     // Override default log
                     Log* log = LogManager::getSingleton().create_log(
-                        mName + "_lod" + StringConverter::to_string(lodIndex) +
-                        "_prepshadow.log", false, false);
+                        name() + "_lod" + StringConverter::to_string(lodIndex)
+                            + "_prepshadow.log",
+                        false,
+                        false);
                     usage.edgeData->log(log);
                     // clean up log & close file handle
                     LogManager::getSingleton().destroy_log(log);
@@ -1701,8 +1721,9 @@ namespace Ogre {
 #if OGRE_DEBUG_MODE
         // Override default log
         Log* log = LogManager::getSingleton().create_log(
-            mName + "_lod0"+
-            "_prepshadow.log", false, false);
+            name() + "_lod0" + "_prepshadow.log",
+            false,
+            false);
         mMeshLodUsageList[0].edgeData->log(log);
         // clean up log & close file handle
         LogManager::getSingleton().destroy_log(log);
@@ -1866,19 +1887,26 @@ namespace Ogre {
         unsigned short numWeightsPerVertex = VertexElement::getTypeCount(srcElemBlendWeights->getType());
 
         // Lock destination buffers for writing
-        HardwareBufferLockGuard destPosLock(destPosBuf,
-            (destNormBuf != destPosBuf && destPosBuf->getVertexSize() == destElemPos->getSize()) ||
-            (destNormBuf == destPosBuf && destPosBuf->getVertexSize() == destElemPos->getSize() + destElemNorm->getSize()) ?
-            HardwareBuffer::HBL_DISCARD : HardwareBuffer::HBL_NORMAL);
+        HardwareBufferLockGuard destPosLock(
+            destPosBuf,
+            (destNormBuf != destPosBuf
+             && destPosBuf->getVertexSize() == destElemPos->size())
+                    || (destNormBuf == destPosBuf
+                        && destPosBuf->getVertexSize()
+                            == destElemPos->size() + destElemNorm->size())
+                ? HardwareBuffer::HBL_DISCARD
+                : HardwareBuffer::HBL_NORMAL);
         destElemPos->baseVertexPointerToElement(destPosLock.pData, &pDestPos);
         HardwareBufferLockGuard destNormLock;
         if (includeNormals)
         {
             if (destNormBuf != destPosBuf)
             {
-                destNormLock.lock(destNormBuf, destNormBuf->getVertexSize() == destElemNorm->getSize()
-                                                   ? HardwareBuffer::HBL_DISCARD
-                                                   : HardwareBuffer::HBL_NORMAL);
+                destNormLock.lock(
+                    destNormBuf,
+                    destNormBuf->getVertexSize() == destElemNorm->size()
+                        ? HardwareBuffer::HBL_DISCARD
+                        : HardwareBuffer::HBL_NORMAL);
             }
             destElemNorm->baseVertexPointerToElement(destNormLock.pData ? destNormLock.pData : destPosLock.pData, &pDestNorm);
         }
@@ -1936,9 +1964,13 @@ namespace Ogre {
         HardwareVertexBufferSharedPtr destBuf =
             targetVertexData->vertexBufferBinding->getBuffer(
                 posElem->getSource());
-        assert((posElem->getSize() == destBuf->getVertexSize()
-                || (morphNormals && posElem->getSize() + normElem->getSize() == destBuf->getVertexSize())) &&
-            "Positions (or positions & normals) must be in a buffer on their own for morphing");
+        assert(
+            (posElem->size() == destBuf->getVertexSize()
+             || (morphNormals
+                 && posElem->size() + normElem->size()
+                     == destBuf->getVertexSize()))
+            && "Positions (or positions & normals) must be in a buffer on "
+               "their own for morphing");
         HardwareBufferLockGuard destLock(destBuf, HardwareBuffer::HBL_DISCARD);
         float* pdst = static_cast<float*>(destLock.pData);
 
@@ -2010,7 +2042,7 @@ namespace Ogre {
         }
     }
     //---------------------------------------------------------------------
-    size_t Mesh::calculateSize(void) const
+    size_t Mesh::calculate_size(void) const
     {
         // calculate GPU size
         size_t ret = 0;
@@ -2104,10 +2136,13 @@ namespace Ogre {
                         mSharedVertexDataAnimationType != track->getAnimationType())
                     {
                         // Mixing of morph and pose animation on same data is not allowed
-                        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
+                        OGRE_EXCEPT(
+                            Exception::ERR_INVALIDPARAMS,
                             "Animation tracks for shared vertex data on mesh "
-                            + mName + " try to mix vertex animation types, which is "
-                            "not allowed.",
+                                + name()
+                                + " try to mix vertex animation types, which "
+                                  "is "
+                                  "not allowed.",
                             "Mesh::_determineAnimationTypes");
                     }
                     mSharedVertexDataAnimationType = track->getAnimationType();
@@ -2125,11 +2160,14 @@ namespace Ogre {
                         sm->mVertexAnimationType != track->getAnimationType())
                     {
                         // Mixing of morph and pose animation on same data is not allowed
-                        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
+                        OGRE_EXCEPT(
+                            Exception::ERR_INVALIDPARAMS,
                             "Animation tracks for dedicated vertex data "
-                            + StringConverter::to_string(handle-1) + " on mesh "
-                            + mName + " try to mix vertex animation types, which is "
-                            "not allowed.",
+                                + StringConverter::to_string(handle - 1)
+                                + " on mesh " + name()
+                                + " try to mix vertex animation types, which "
+                                  "is "
+                                  "not allowed.",
                             "Mesh::_determineAnimationTypes");
                     }
                     sm->mVertexAnimationType = track->getAnimationType();
@@ -2269,11 +2307,11 @@ namespace Ogre {
     {
         for (auto i : mPoseList)
         {
-            if (i->getName() == name)
+            if (i->name() == name)
                 return i;
         }
         StringStream str;
-        str << "No pose called " << name << " found in Mesh " << mName;
+        str << "No pose called " << name << " found in Mesh " << this->name();
         OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
             str.str(),
             "Mesh::getPose");
@@ -2294,15 +2332,14 @@ namespace Ogre {
     {
         for (PoseList::iterator i = mPoseList.begin(); i != mPoseList.end(); ++i)
         {
-            if ((*i)->getName() == name)
-            {
+            if ((*i)->name() == name) {
                 OGRE_DELETE *i;
                 mPoseList.erase(i);
                 return;
             }
         }
         StringStream str;
-        str << "No pose called " << name << " found in Mesh " << mName;
+        str << "No pose called " << name << " found in Mesh " << this->name();
         OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
             str.str(),
             "Mesh::removePose");

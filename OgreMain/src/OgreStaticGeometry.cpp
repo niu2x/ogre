@@ -275,9 +275,10 @@ namespace Ogre {
         // Validate
         if (msh->hasManualLodLevel())
         {
-            LogManager::getSingleton().log_warning("(StaticGeometry): Manual LOD is not supported. "
-                                                  "Using only highest LOD level for mesh " +
-                                                  msh->getName());
+            LogManager::getSingleton().log_warning(
+                "(StaticGeometry): Manual LOD is not supported. "
+                "Using only highest LOD level for mesh "
+                + msh->name());
         }
 
         AxisAlignedBox sharedWorldBounds;
@@ -490,8 +491,8 @@ namespace Ogre {
     //--------------------------------------------------------------------------
     void StaticGeometry::addSceneNode(const SceneNode* node)
     {
-        if(node->getCreator()->getRootSceneNode()->_getFullTransform() != Affine3::identity)
-        {
+        if (node->creator()->getRootSceneNode()->_getFullTransform()
+            != Affine3::identity) {
             // otherwise it is applied twice
             LogManager::getSingleton().log_error("StaticGeometry - Root SceneNode transform must be IDENTITY");
         }
@@ -975,8 +976,8 @@ namespace Ogre {
         }
         // Locate a material bucket
         MaterialBucket* mbucket = 0;
-        MaterialBucketMap::iterator m =
-            mMaterialBucketMap.find(qmesh->material->getName());
+        MaterialBucketMap::iterator m
+            = mMaterialBucketMap.find(qmesh->material->name());
         if (m != mMaterialBucketMap.end())
         {
             mbucket = m->second;
@@ -984,7 +985,7 @@ namespace Ogre {
         else
         {
             mbucket = OGRE_NEW MaterialBucket(this, qmesh->material);
-            mMaterialBucketMap[qmesh->material->getName()] = mbucket;
+            mMaterialBucketMap[qmesh->material->name()] = mbucket;
         }
         mbucket->assign(q);
     }
@@ -1307,9 +1308,12 @@ namespace Ogre {
                 && "Blend indices and weights should be in the same buffer");
             // Get the source
             ushort source = blendIndices->getSource();
-            assert(blendIndices->getSize() + blendWeights->getSize() ==
-                mVertexData->vertexBufferBinding->getBuffer(source)->getVertexSize()
-                && "Blend indices and blend buffers should have buffer to themselves!");
+            assert(
+                blendIndices->size() + blendWeights->size()
+                    == mVertexData->vertexBufferBinding->getBuffer(source)
+                           ->getVertexSize()
+                && "Blend indices and blend buffers should have buffer to "
+                   "themselves!");
             // Unset the buffer
             mVertexData->vertexBufferBinding->unsetBinding(source);
             // Remove the elements

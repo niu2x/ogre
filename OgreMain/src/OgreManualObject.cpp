@@ -205,8 +205,9 @@ ManualObject::ManualObject(const String& name)
         // defining declaration
         ushort idx = s == VES_TEXTURE_COORDINATES ? mTexCoordIndex : 0;
         mDeclSize += mCurrentSection->getRenderOperation()
-                         ->vertexData->vertexDeclaration->addElement(0, mDeclSize, t, s, idx)
-                         .getSize();
+                         ->vertexData->vertexDeclaration
+                         ->addElement(0, mDeclSize, t, s, idx)
+                         .size();
     }
     //-----------------------------------------------------------------------------
     size_t ManualObject::getCurrentVertexCount() const
@@ -644,8 +645,8 @@ ManualObject::ManualObject(const String& name)
         : mParent(parent), mMaterial(mat), m32BitIndices(false)
     {
         assert(mMaterial);
-        mMaterialName = mMaterial->getName();
-        mGroupName = mMaterial->getGroup();
+        mMaterialName = mMaterial->name();
+        mGroupName = mMaterial->group();
 
         mRenderOperation.operationType = opType;
         mRenderOperation.useIndexes = false;
@@ -689,8 +690,8 @@ ManualObject::ManualObject(const String& name)
     {
         assert(mat);
         mMaterial = mat;
-        mMaterialName = mat->getName();
-        mGroupName = mat->getGroup();
+        mMaterialName = mat->name();
+        mGroupName = mat->group();
     }
     //-----------------------------------------------------------------------------
     void ManualObject::ManualObjectSection::getRenderOperation(RenderOperation& op)

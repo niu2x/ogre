@@ -122,7 +122,7 @@ namespace Ogre
         /** Gets the program being used. */
         const GpuProgramPtr& getProgram() const { return mProgram; }
         /** Gets the program being used. */
-        const String& getProgramName(void) const { return mProgram->getName(); }
+        const String& getProgramName(void) const { return mProgram->name(); }
 
         /** Sets the program parameters that should be used; because parameters can be
             shared between multiple usages for efficiency, this method is here for you
@@ -139,7 +139,7 @@ namespace Ogre
         /// Unload this usage 
         void _unload(void);
 
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
 
         // Resource Listener
         void unloading_complete(Resource* prog) override;

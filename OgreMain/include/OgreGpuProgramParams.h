@@ -329,7 +329,7 @@ namespace Ogre {
          */
         void load(DataStreamPtr& stream);
 
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
     };
 
     /// Simple class for loading / saving GpuNamedConstants
@@ -423,7 +423,7 @@ namespace Ogre {
         GpuSharedParameters(const String& name);
 
         /// Get the name of this shared parameter set.
-        const String& getName() { return mName; }
+        const String& name() { return mName; }
 
         /** Add a new constant definition to this shared set of parameters.
 
@@ -449,7 +449,7 @@ namespace Ogre {
         /** Calculate the expected size of the shared parameter buffer based
             on constant definition data types.
         */
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
 
         /** True if this parameter set is dirty (values have been modified,
             but the render system has not updated them yet).
@@ -575,7 +575,7 @@ namespace Ogre {
         void _copySharedParamsToTargetParams() const;
 
         /// Get the name of the shared parameter set
-        const String& getName() const { return mSharedParams->getName(); }
+        const String& name() const { return mSharedParams->name(); }
 
         GpuSharedParametersPtr getSharedParams() const { return mSharedParams; }
         GpuProgramParameters* getTargetParams() const { return mParams; }
@@ -1826,7 +1826,7 @@ namespace Ogre {
         void _updateSharedParams();
         /// @}
 
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
     };
 
     /** @} */

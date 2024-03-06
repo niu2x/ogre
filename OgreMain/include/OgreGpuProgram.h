@@ -127,11 +127,11 @@ namespace Ogre {
     // catches errors during prepare
     void safePrepare();
 
-    void prepareImpl() override;
+    void prepare_impl() override;
 
-    void loadImpl(void) override;
+    void load_impl(void) override;
 
-    void postLoadImpl() override;
+    void post_load_impl() override;
 
     /// Create the internal params logical & named mapping structures
     void createParameterMappingStructures(bool recreateIfExists = true);
@@ -355,7 +355,7 @@ namespace Ogre {
     */
     virtual const GpuNamedConstants& getConstantDefinitions() { return *mConstantDefs.get(); }
 
-    size_t calculateSize(void) const override;
+    size_t calculate_size(void) const override;
 
     /// internal method to get the microcode cache id
     uint32 _getHash(uint32 seed = 0) const;

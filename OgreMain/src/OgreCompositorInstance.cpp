@@ -334,8 +334,11 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             {
                 /// XXX We could support repeating the last queue, with some effort
                 LogManager::getSingleton().log_error(StringUtil::format(
-                    "Compositor '%s': cannot use first_render_queue %d after last_render_queue %d",
-                    mCompositor->getName().c_str(), pass->getFirstRenderQueue(), finalState.currentQueueGroupID - 1));
+                    "Compositor '%s': cannot use first_render_queue %d after "
+                    "last_render_queue %d",
+                    mCompositor->name().c_str(),
+                    pass->getFirstRenderQueue(),
+                    finalState.currentQueueGroupID - 1));
             }
 
             RSSetSchemeOperation* setSchemeOperation = 0;
@@ -377,21 +380,24 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(!srcmat)
             {
                 /// No material -- warn user
-                LogManager::getSingleton().log_warning("in compilation of Compositor "
-                    +mCompositor->getName()+": No material defined for composition pass");
+                LogManager::getSingleton().log_warning(
+                    "in compilation of Compositor " + mCompositor->name()
+                    + ": No material defined for composition pass");
                 break;
             }
             srcmat->load();
             if(srcmat->getSupportedTechniques().empty())
             {
                 /// No supported techniques -- warn user
-                LogManager::getSingleton().log_warning("in compilation of Compositor "
-                    +mCompositor->getName()+": material "+srcmat->getName()+" has no supported techniques");
+                LogManager::getSingleton().log_warning(
+                    "in compilation of Compositor " + mCompositor->name()
+                    + ": material " + srcmat->name()
+                    + " has no supported techniques");
                 break;
             }
             srctech = srcmat->getBestTechnique(0);
             /// Create local material
-            MaterialPtr localMat = createLocalMaterial(srcmat->getName());
+            MaterialPtr localMat = createLocalMaterial(srcmat->name());
             /// Copy and adapt passes from source material
             for(auto *srcpass : srctech->getPasses())
             {
@@ -402,8 +408,9 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
                 if (isCompute && !targetpass->hasGpuProgram(GPT_COMPUTE_PROGRAM))
                 {
                     LogManager::getSingleton().log_error(
-                        "in compilation of Compositor " + mCompositor->getName() + ": material " +
-                        srcmat->getName() + " has no compute program");
+                        "in compilation of Compositor " + mCompositor->name()
+                        + ": material " + srcmat->name()
+                        + " has no compute program");
                     continue;
                 }
 
@@ -420,9 +427,12 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
                         else
                         {
                             /// Texture unit not there
-                            LogManager::getSingleton().log_warning("in compilation of Compositor "
-                                +mCompositor->getName()+": material "+srcmat->getName()+" texture unit "
-                                +StringConverter::to_string(x)+" out of bounds");
+                            LogManager::getSingleton().log_warning(
+                                "in compilation of Compositor "
+                                + mCompositor->name() + ": material "
+                                + srcmat->name() + " texture unit "
+                                + StringConverter::to_string(x)
+                                + " out of bounds");
                         }
                     }
                 }
@@ -564,7 +574,7 @@ CompositorChain *CompositorInstance::getChain()
 const String& CompositorInstance::getTextureInstanceName(const String& name, 
                                                          size_t mrtIndex)
 {
-    return getSourceForTex(name, mrtIndex)->getName();
+    return getSourceForTex(name, mrtIndex)->name();
 }
 //---------------------------------------------------------------------
 const TexturePtr& CompositorInstance::getTextureInstance(const String& name, size_t mrtIndex)
@@ -688,8 +698,10 @@ void CompositorInstance::createResources(bool forResizeOnly)
             /// Make the tetxure
             if (def->formatList.size() > 1)
             {
-                String MRTbaseName = "mrt/c" + StringConverter::to_string(dummyCounter++) + 
-                "/" + def->name + "/" + mChain->getViewport()->getTarget()->getName();
+                String MRTbaseName = "mrt/c"
+                    + StringConverter::to_string(dummyCounter++) + "/"
+                    + def->name + "/"
+                    + mChain->getViewport()->getTarget()->name();
                 MultiRenderTarget* mrt = 
                 Root::getSingleton().getRenderSystem()->createMultiRenderTarget(MRTbaseName);
                 mLocalMRTs[def->name] = mrt;
@@ -733,9 +745,11 @@ void CompositorInstance::createResources(bool forResizeOnly)
             }
             else
             {
-                String texName =  "c" + StringConverter::to_string(dummyCounter++) + 
-                "/" + def->name + "/" + mChain->getViewport()->getTarget()->getName();
-                
+                String texName = "c"
+                    + StringConverter::to_string(dummyCounter++) + "/"
+                    + def->name + "/"
+                    + mChain->getViewport()->getTarget()->name();
+
                 // space in the name mixup the cegui in the compositor demo
                 // this is an auto generated name - so no spaces can't hart us.
                 std::replace( texName.begin(), texName.end(), ' ', '_' ); 
@@ -942,7 +956,9 @@ void CompositorInstance::freeResources(bool forResizeOnly, bool clearReserveText
                     if (def->scope != CompositionTechnique::TS_GLOBAL) 
                     {
                         // remove MRT if not global
-                        Root::getSingleton().getRenderSystem()->destroyRenderTarget(mrti->second->getName());
+                        Root::getSingleton()
+                            .getRenderSystem()
+                            ->destroyRenderTarget(mrti->second->name());
                     }
                     
                     mLocalMRTs.erase(mrti);
@@ -1051,8 +1067,8 @@ RenderTarget *CompositorInstance::getTargetForTex(const String &name, int slice)
                 bool beforeMe = true;
                 for (CompositorInstance* nextCompInst : mChain->getCompositorInstances())
                 {
-                    if (nextCompInst->getCompositor()->getName() == texDef->refCompName)
-                    {
+                    if (nextCompInst->getCompositor()->name()
+                        == texDef->refCompName) {
                         refCompInst = nextCompInst;
                         break;
                     }
@@ -1104,8 +1120,8 @@ const TexturePtr &CompositorInstance::getSourceForTex(const String &name, size_t
                 bool beforeMe = true;
                 for (CompositorInstance* nextCompInst : mChain->getCompositorInstances())
                 {
-                    if (nextCompInst->getCompositor()->getName() == texDef->refCompName)
-                    {
+                    if (nextCompInst->getCompositor()->name()
+                        == texDef->refCompName) {
                         refCompInst = nextCompInst;
                         break;
                     }
@@ -1165,13 +1181,13 @@ void CompositorInstance::queueRenderSystemOp(TargetOperation &finalState, Render
     mChain->_queuedOperation(op);
 }
 //-----------------------------------------------------------------------
-void CompositorInstance::addListener(Listener *l)
+void CompositorInstance::add_listener(Listener* l)
 {
     if (std::find(mListeners.begin(), mListeners.end(), l) == mListeners.end())
         mListeners.push_back(l);
 }
 //-----------------------------------------------------------------------
-void CompositorInstance::removeListener(Listener *l)
+void CompositorInstance::remove_listener(Listener* l)
 {
     Listeners::iterator i = std::find(mListeners.begin(), mListeners.end(), l);
     if (i != mListeners.end())

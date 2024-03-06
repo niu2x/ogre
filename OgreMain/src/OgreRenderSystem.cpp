@@ -292,8 +292,7 @@ namespace Ogre {
                         "Custom render capabilities must be set before the RenderSystem is initialised");
         }
 
-        if (capabilities->getRenderSystemName() != getName())
-        {
+        if (capabilities->getRenderSystemName() != name()) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                         "Trying to use RenderSystemCapabilities that were created for a different RenderSystem");
         }
@@ -355,7 +354,7 @@ namespace Ogre {
     {
         assert( target.getPriority() < OGRE_NUM_RENDERTARGET_GROUPS );
 
-        mRenderTargets.emplace(target.getName(), &target);
+        mRenderTargets.emplace(target.name(), &target);
         mPrioritisedRenderTargets.emplace(target.getPriority(), &target);
     }
 
@@ -527,8 +526,10 @@ namespace Ogre {
                                      " it says it's incompatible with that RT" );
             }
             else
-                LogManager::getSingleton().log_warning( "Couldn't create a suited DepthBuffer"
-                                                       "for RT: " + renderTarget->getName());
+                LogManager::getSingleton().log_warning(
+                    "Couldn't create a suited DepthBuffer"
+                    "for RT: "
+                    + renderTarget->name());
         }
     }
     //-----------------------------------------------------------------------
@@ -727,12 +728,12 @@ namespace Ogre {
         return msSharedEventListener;
     }
     //-----------------------------------------------------------------------
-    void RenderSystem::addListener(Listener* l)
+    void RenderSystem::add_listener(Listener* l)
     {
         mEventListeners.push_back(l);
     }
     //-----------------------------------------------------------------------
-    void RenderSystem::removeListener(Listener* l)
+    void RenderSystem::remove_listener(Listener* l)
     {
         mEventListeners.remove(l);
     }

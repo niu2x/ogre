@@ -352,7 +352,7 @@ namespace {
     }
     void EmbeddedZipArchiveFactory::destroyInstance(Archive* ptr)
     {
-        removeEmbbeddedFile(ptr->getName());
+        removeEmbbeddedFile(ptr->name());
         ZipArchiveFactory::destroyInstance(ptr);
     }
     //-----------------------------------------------------------------------

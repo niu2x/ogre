@@ -64,8 +64,9 @@ namespace Ogre
     {
         //Use a static name generator to ensure this name stays unique (which may not happen
         //otherwise due to reparenting when defragmenting)
-        mName = batchOwner->getName() + "/InstancedEntity_" + StringConverter::to_string(mInstanceId) + "/"+
-                msNameGenerator.generate();
+        mName = batchOwner->name() + "/InstancedEntity_"
+            + StringConverter::to_string(mInstanceId) + "/"
+            + msNameGenerator.generate();
 
         if (sharedTransformEntity)
         {

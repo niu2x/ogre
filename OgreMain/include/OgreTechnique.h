@@ -163,7 +163,7 @@ namespace Ogre {
         String _compile(bool autoManageTextureUnits);
         /// Internal method for checking hardware support
         bool checkHardwareSupport(bool autoManageTextureUnits, StringStream& compileErrors);
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
 
         typedef VectorIterator<Passes> PassIterator;
         typedef VectorIterator<IlluminationPassList> IlluminationPassIterator;
@@ -257,7 +257,7 @@ namespace Ogre {
         void _unload(void);
 
         /// Is this loaded?
-        bool isLoaded(void) const;
+        bool is_loaded(void) const;
 
         /** Tells the technique that it needs recompilation. */
         void _notifyNeedsRecompile(void);
@@ -611,7 +611,7 @@ namespace Ogre {
         */
         void setName(const String& name);
         /// Gets the name of the technique
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         typedef ConstVectorIterator<GPUVendorRuleList> GPUVendorRuleIterator;
         typedef ConstVectorIterator<GPUDeviceNameRuleList> GPUDeviceNameRuleIterator;

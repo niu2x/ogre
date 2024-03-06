@@ -92,7 +92,7 @@ Compositor::TechniqueIterator Compositor::getSupportedTechniqueIterator(void)
     return TechniqueIterator(mSupportedTechniques.begin(), mSupportedTechniques.end());
 }
 //-----------------------------------------------------------------------
-void Compositor::loadImpl(void)
+void Compositor::load_impl(void)
 {
     // compile if required
     if (mCompilationRequired)
@@ -101,15 +101,9 @@ void Compositor::loadImpl(void)
     createGlobalTextures();
 }
 //-----------------------------------------------------------------------
-void Compositor::unloadImpl(void)
-{
-    freeGlobalTextures();
-}
+void Compositor::unload_impl(void) { freeGlobalTextures(); }
 //-----------------------------------------------------------------------
-size_t Compositor::calculateSize(void) const
-{
-    return 0;
-}
+size_t Compositor::calculate_size(void) const { return 0; }
 
 //-----------------------------------------------------------------------
 void Compositor::compile()
@@ -127,7 +121,8 @@ void Compositor::compile()
     }
 
     if (mSupportedTechniques.empty())
-        LogManager::getSingleton().log_error("Compositor '" + getName() + "' has no supported techniques");
+        LogManager::getSingleton().log_error(
+            "Compositor '" + name() + "' has no supported techniques");
 
     mCompilationRequired = false;
 }
@@ -192,8 +187,9 @@ void Compositor::createGlobalTextures()
             RenderTarget* rendTarget;
             if (def->formatList.size() > 1)
             {
-                String MRTbaseName = "mrt/c" + StringConverter::to_string(dummyCounter++) + 
-                    "/" + mName + "/" + def->name;
+                String MRTbaseName = "mrt/c"
+                    + StringConverter::to_string(dummyCounter++) + "/" + name()
+                    + "/" + def->name;
                 MultiRenderTarget* mrt = 
                     Root::getSingleton().getRenderSystem()->createMultiRenderTarget(MRTbaseName);
                 mGlobalMRTs[def->name] = mrt;
@@ -227,9 +223,10 @@ void Compositor::createGlobalTextures()
             }
             else
             {
-                String texName =  "c" + StringConverter::to_string(dummyCounter++) + 
-                    "/" + mName + "/" + def->name;
-                
+                String texName = "c"
+                    + StringConverter::to_string(dummyCounter++) + "/" + name()
+                    + "/" + def->name;
+
                 // space in the name mixup the cegui in the compositor demo
                 // this is an auto generated name - so no spaces can't hart us.
                 std::replace( texName.begin(), texName.end(), ' ', '_' ); 
@@ -294,7 +291,8 @@ void Compositor::freeGlobalTextures()
     while (mrti != mGlobalMRTs.end())
     {
         // remove MRT
-        Root::getSingleton().getRenderSystem()->destroyRenderTarget(mrti->second->getName());
+        Root::getSingleton().getRenderSystem()->destroyRenderTarget(
+            mrti->second->name());
         ++mrti;
     }
     mGlobalMRTs.clear();
@@ -303,7 +301,7 @@ void Compositor::freeGlobalTextures()
 //-----------------------------------------------------------------------
 const String& Compositor::getTextureInstanceName(const String& name, size_t mrtIndex)
 {
-    return getTextureInstance(name, mrtIndex)->getName();
+    return getTextureInstance(name, mrtIndex)->name();
 }
 //-----------------------------------------------------------------------       
 const TexturePtr& Compositor::getTextureInstance(const String& name, size_t mrtIndex)

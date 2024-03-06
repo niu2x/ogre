@@ -582,13 +582,13 @@ namespace Ogre {
         return mUpdateDisplayFrequency;
     }
     //-----------------------------------------------------------------------
-    void Profiler::addListener(ProfileSessionListener* listener)
+    void Profiler::add_listener(ProfileSessionListener* listener)
     {
         if (std::find(mListeners.begin(), mListeners.end(), listener) == mListeners.end())
             mListeners.push_back(listener);
     }
     //-----------------------------------------------------------------------
-    void Profiler::removeListener(ProfileSessionListener* listener)
+    void Profiler::remove_listener(ProfileSessionListener* listener)
     {
         TProfileSessionListener::iterator i = std::find(mListeners.begin(), mListeners.end(), listener);
         if (i != mListeners.end())

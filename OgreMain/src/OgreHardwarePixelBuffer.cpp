@@ -57,7 +57,8 @@ namespace Ogre
             for (auto rt : mSliceTRT)
             {
                 if (rt)
-                    Root::getSingleton().getRenderSystem()->destroyRenderTarget(rt->getName());
+                    Root::getSingleton().getRenderSystem()->destroyRenderTarget(
+                        rt->name());
             }
         }
     }
@@ -139,7 +140,7 @@ namespace Ogre
     //-----------------------------------------------------------------------------       
     void HardwarePixelBuffer::blit(const HardwarePixelBufferSharedPtr &src)
     {
-        blit(src, Box(src->getSize()), Box(getSize()));
+        blit(src, Box(src->size()), Box(size()));
     }
     //-----------------------------------------------------------------------------    
     void HardwarePixelBuffer::readData(size_t offset, size_t length, void* pDest)

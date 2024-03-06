@@ -55,7 +55,7 @@ namespace Ogre{
             {
                 for (auto tus : p->getTextureUnitStates())
                 {
-                    auto aliasIt = aliasList.find(tus->getName());
+                    auto aliasIt = aliasList.find(tus->name());
                     if (aliasIt == aliasList.end())
                         continue;
 
@@ -1052,7 +1052,7 @@ namespace Ogre{
 
         mMaterial->removeAllTechniques();
         obj->context = mMaterial;
-        mMaterial->_notifyOrigin(obj->file);
+        mMaterial->_notify_origin(obj->file);
 
         bool bval;
         String sval;
@@ -2295,8 +2295,10 @@ namespace Ogre{
         {
             auto src_mat = pass->getParent()->getParent();
             // only first pass of this will be used. The caster material is technique specific.
-            caster_mat = src_mat->clone(
-                StringUtil::format("%s/%p/CasterFallback", src_mat->getName().c_str(), pass->getParent()));
+            caster_mat = src_mat->clone(StringUtil::format(
+                "%s/%p/CasterFallback",
+                src_mat->name().c_str(),
+                pass->getParent()));
             pass->getParent()->setShadowCasterMaterial(caster_mat);
         }
         auto caster_pass = caster_mat->getTechnique(0)->getPass(0);
@@ -2323,7 +2325,8 @@ namespace Ogre{
         {
             auto src_mat = pass->getParent()->getParent();
             // only first pass of this will be used
-            receiver_mat = src_mat->clone(src_mat->getName()+"/ReceiverFallback");
+            receiver_mat
+                = src_mat->clone(src_mat->name() + "/ReceiverFallback");
             pass->getParent()->setShadowReceiverMaterial(receiver_mat);
         }
         auto receiver_pass = receiver_mat->getTechnique(0)->getPass(0);
@@ -3422,7 +3425,9 @@ namespace Ogre{
             }
         }
 
-        ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->createDefinedTexture(material->getName(), material->getGroup());
+        ExternalTextureSourceManager::getSingleton()
+            .getCurrentPlugIn()
+            ->createDefinedTexture(material->name(), material->group());
     }
 
     /**************************************************************************
@@ -3587,7 +3592,7 @@ namespace Ogre{
         prog->setPoseAnimationIncluded(0);
         prog->setSkeletalAnimationIncluded(false);
         prog->setVertexTextureFetchRequired(false);
-        prog->_notifyOrigin(obj->file);
+        prog->_notify_origin(obj->file);
 
         // special case for Cg
         if(!profiles.empty())
@@ -4313,7 +4318,7 @@ namespace Ogre{
             return;
         }
 
-        mSystem->_notifyOrigin(obj->file);
+        mSystem->_notify_origin(obj->file);
 
         mSystem->removeAllEmitters();
         mSystem->removeAllAffectors();
@@ -4546,7 +4551,7 @@ namespace Ogre{
 
         // Prepare the compositor
         mCompositor->removeAllTechniques();
-        mCompositor->_notifyOrigin(obj->file);
+        mCompositor->_notify_origin(obj->file);
         obj->context = mCompositor;
 
         for(auto & i : obj->children)

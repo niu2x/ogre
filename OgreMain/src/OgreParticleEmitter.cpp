@@ -202,10 +202,7 @@ namespace Ogre
         mColourRangeEnd = colourEnd;
     }
     //-----------------------------------------------------------------------
-    const String& ParticleEmitter::getName(void) const
-    {
-        return mName;
-    }
+    const String& ParticleEmitter::name(void) const { return mName; }
     //-----------------------------------------------------------------------
     void ParticleEmitter::setName(const String& newName)
     {

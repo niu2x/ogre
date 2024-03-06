@@ -293,12 +293,12 @@ namespace Ogre {
             programmatically set up.
         @see CompositorInstance::Listener
         */
-        void addListener(Listener *l);
+        void add_listener(Listener* l);
 
         /** Remove a listener.
         @see CompositorInstance::Listener
         */
-        void removeListener(Listener *l);
+        void remove_listener(Listener* l);
 
         /** Notify listeners of a material compilation.
         */

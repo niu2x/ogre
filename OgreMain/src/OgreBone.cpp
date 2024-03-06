@@ -108,10 +108,7 @@ namespace Ogre {
         m.make_transform(locTranslate, locScale, locRotate);
     }
     //---------------------------------------------------------------------
-    unsigned short Bone::getHandle(void) const
-    {
-        return mHandle;
-    }
+    unsigned short Bone::handle(void) const { return mHandle; }
     //---------------------------------------------------------------------
     void Bone::needUpdate(bool forceParentUpdate)
     {

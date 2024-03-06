@@ -215,7 +215,7 @@ namespace Ogre
         ser.importNamedConstants(stream, this);
     }
     //-----------------------------------------------------------------------------
-    size_t GpuNamedConstants::calculateSize(void) const
+    size_t GpuNamedConstants::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
         // Tally up constant defs
@@ -328,7 +328,7 @@ namespace Ogre
 
     }
     //-----------------------------------------------------------------------------
-    size_t GpuSharedParameters::calculateSize(void) const
+    size_t GpuSharedParameters::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
 
@@ -794,7 +794,7 @@ namespace Ogre
 
     }
     //-----------------------------------------------------------------------------
-    size_t GpuProgramParameters::calculateSize(void) const
+    size_t GpuProgramParameters::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
 
@@ -2519,8 +2519,7 @@ namespace Ogre
             // Copy shared param sets
             for (const auto& usage : source.mSharedParamSets)
             {
-                if (!isUsingSharedParameters(usage.getName()))
-                {
+                if (!isUsingSharedParameters(usage.name())) {
                     addSharedParameters(usage.getSharedParams());
                 }
             }
@@ -2576,8 +2575,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void GpuProgramParameters::addSharedParameters(GpuSharedParametersPtr sharedParams)
     {
-        if (!isUsingSharedParameters(sharedParams->getName()))
-        {
+        if (!isUsingSharedParameters(sharedParams->name())) {
             mSharedParamSets.push_back(GpuSharedParametersUsage(sharedParams, this));
         }
     }
@@ -2591,7 +2589,7 @@ namespace Ogre
     {
         for (const auto& mSharedParamSet : mSharedParamSets)
         {
-            if (mSharedParamSet.getName() == sharedParamsName)
+            if (mSharedParamSet.name() == sharedParamsName)
                 return true;
         }
         return false;
@@ -2602,8 +2600,7 @@ namespace Ogre
         for (GpuSharedParamUsageList::iterator i = mSharedParamSets.begin();
              i != mSharedParamSets.end(); ++i)
         {
-            if (i->getName() == sharedParamsName)
-            {
+            if (i->name() == sharedParamsName) {
                 mSharedParamSets.erase(i);
                 break;
             }

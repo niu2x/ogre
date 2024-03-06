@@ -202,7 +202,7 @@ namespace Ogre {
         /// Gets the index of this element, only applicable for repeating elements
         unsigned short getIndex(void) const { return mIndex; }
         /// Gets the size of this element in bytes
-        size_t getSize(void) const;
+        size_t size(void) const;
         /// Utility method for helping to calculate offsets
         static size_t getTypeSize(VertexElementType etype);
         /// Utility method which returns the count of values in a given type (result for colors may be counter-intuitive)

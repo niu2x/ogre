@@ -247,7 +247,10 @@ namespace Ogre {
         void setFaceCamera( bool faceCamera, const Vector3 &normalVector=Vector3::unit_x );
 
         /// Get the material name in use
-        virtual const String& getMaterialName(void) const { return mMaterial->getName(); }
+        virtual const String& getMaterialName(void) const
+        {
+            return mMaterial->name();
+        }
         /// Set the material name to use for rendering
         virtual void setMaterialName( const String& name, const String& groupName = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME );
 

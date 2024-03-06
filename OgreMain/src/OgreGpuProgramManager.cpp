@@ -44,7 +44,7 @@ namespace {
         /** Internal load implementation, must be implemented by subclasses.
         */
         void loadFromSource(void) override {}
-        void unloadImpl() override {}
+        void unload_impl() override { }
 
     public:
         NullProgram(ResourceManager* creator,
@@ -56,7 +56,7 @@ namespace {
         bool isSupported(void) const override { return false; }
         /// Overridden from GpuProgram
         const String& getLanguage(void) const override { return sNullLang; }
-        size_t calculateSize(void) const override { return 0; }
+        size_t calculate_size(void) const override { return 0; }
 
         /// Overridden from StringInterface
         bool set_parameter(const String& name, const String& value)
@@ -298,7 +298,7 @@ namespace {
         // Use the current render system
         RenderSystem* rs = Root::getSingleton().getRenderSystem();
 
-        return rs->getName() + "_" + name;
+        return rs->name() + "_" + name;
     }
     //---------------------------------------------------------------------
     bool GpuProgramManager::isMicrocodeAvailableInCache( uint32 id ) const

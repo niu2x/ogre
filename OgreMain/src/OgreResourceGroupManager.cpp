@@ -191,13 +191,10 @@ namespace Ogre {
 
                 // Did the resource change group? if so, our iterator will have
                 // been invalidated
-                if (res->getGroup() != name)
-                {
+                if (res->group() != name) {
                     l = oi.second.begin();
                     std::advance(l, n);
-                }
-                else
-                {
+                } else {
                     ++l;
                 }
             }
@@ -255,13 +252,10 @@ namespace Ogre {
 
                 // Did the resource change group? if so, our iterator will have
                 // been invalidated
-                if (res->getGroup() != name)
-                {
+                if (res->group() != name) {
                     l = oi.second.begin();
                     std::advance(l, n);
-                }
-                else
-                {
+                } else {
                     ++l;
                 }
             }
@@ -292,8 +286,7 @@ namespace Ogre {
             for (auto& l : oi.second)
             {
                 Resource* resource = l.get();
-                if (!reloadableOnly || resource->isReloadable())
-                {
+                if (!reloadableOnly || resource->reloadable()) {
                     resource->unload();
                 }
             }
@@ -327,8 +320,7 @@ namespace Ogre {
                 if (l.use_count() == RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS)
                 {
                     Resource* resource = l.get();
-                    if (!reloadableOnly || resource->isReloadable())
-                    {
+                    if (!reloadableOnly || resource->reloadable()) {
                         resource->unload();
                     }
                 }
@@ -402,7 +394,7 @@ namespace Ogre {
         for (auto& li : grp->locationList)
         {
             Archive* pArch = li.archive;
-            if (pArch->getName() == name)
+            if (pArch->name() == name)
                 // Delete indexes
                 return true;
         }
@@ -453,8 +445,7 @@ namespace Ogre {
         for (auto li = grp->locationList.begin(); li != liend; ++li)
         {
             Archive* pArch = li->archive;
-            if (pArch->getName() == name)
-            {
+            if (pArch->name() == name) {
                 grp->removeFromIndex(pArch);
                 grp->locationList.erase(li);
                 ArchiveManager::getSingleton().unload(pArch);
@@ -538,7 +529,7 @@ namespace Ogre {
             std::pair<Archive*, ResourceGroup*> ret = resourceExistsInAnyGroupImpl(resourceName);
 
             if(ret.second && resourceBeingLoaded && !grp->inGlobalPool) {
-                resourceBeingLoaded->changeGroupOwnership(ret.second->name);
+                resourceBeingLoaded->change_group_ownership(ret.second->name);
             }
 
             pArch = ret.first;
@@ -602,9 +593,12 @@ namespace Ogre {
         {
             Archive* arch = li.archive;
 
-            if (!arch->isReadOnly() && 
-                (locationPattern.empty() || StringUtil::match(arch->getName(), locationPattern, false)))
-            {
+            if (!arch->isReadOnly()
+                && (locationPattern.empty()
+                    || StringUtil::match(
+                        arch->name(),
+                        locationPattern,
+                        false))) {
                 if (!overwrite && arch->exists(filename))
                     OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 
                         "Cannot overwrite existing file " + filename, 
@@ -635,9 +629,12 @@ namespace Ogre {
         {
             Archive* arch = li.archive;
 
-            if (!arch->isReadOnly() && 
-                (locationPattern.empty() || StringUtil::match(arch->getName(), locationPattern, false)))
-            {
+            if (!arch->isReadOnly()
+                && (locationPattern.empty()
+                    || StringUtil::match(
+                        arch->name(),
+                        locationPattern,
+                        false))) {
                 if (arch->exists(filename))
                 {
                     arch->remove(filename);
@@ -660,9 +657,12 @@ namespace Ogre {
         {
             Archive* arch = li.archive;
 
-            if (!arch->isReadOnly() && 
-                (locationPattern.empty() || StringUtil::match(arch->getName(), locationPattern, false)))
-            {
+            if (!arch->isReadOnly()
+                && (locationPattern.empty()
+                    || StringUtil::match(
+                        arch->name(),
+                        locationPattern,
+                        false))) {
                 StringVectorPtr matchingFiles = arch->find(filePattern);
                 for (auto& f : *matchingFiles)
                 {
@@ -867,15 +867,12 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_notifyResourceCreated(ResourcePtr& res) const
     {
-        if (mCurrentGroup && res->getGroup() == mCurrentGroup->name)
-        {
+        if (mCurrentGroup && res->group() == mCurrentGroup->name) {
             // Use current group (batch loading)
             addCreatedResource(res, *mCurrentGroup);
-        }
-        else
-        {
+        } else {
             // Find group
-            ResourceGroup* grp = getResourceGroup(res->getGroup());
+            ResourceGroup* grp = getResourceGroup(res->group());
             if (grp)
             {
                 addCreatedResource(res, *grp);
@@ -889,35 +886,31 @@ namespace Ogre {
     {
         fireResourceRemove(res);
 
-        if (mCurrentGroup && res->getGroup() == mCurrentGroup->name)
-        {
+        if (mCurrentGroup && res->group() == mCurrentGroup->name) {
             // Do nothing - we're batch unloading so list will be cleared
-        }
-        else
-        {
+        } else {
             // Find group
-            ResourceGroup* grp = getResourceGroup(res->getGroup());
+            ResourceGroup* grp = getResourceGroup(res->group());
             if (grp)
             {
                              // lock group mutex
-                ResourceGroup::LoadResourceOrderMap::iterator i = 
-                    grp->loadResourceOrderMap.find(
-                        res->getCreator()->getLoadingOrder());
-                if (i != grp->loadResourceOrderMap.end())
-                {
-                    // Iterate over the resource list and remove
-                    LoadUnloadResourceList& resList = i->second;
-                    for (LoadUnloadResourceList::iterator l = resList.begin();
-                        l != resList.end(); ++ l)
-                    {
-                        if ((*l).get() == res.get())
-                        {
-                            // this is the one
-                            resList.erase(l);
-                            break;
-                        }
-                    }
-                }
+                             ResourceGroup::LoadResourceOrderMap::iterator i
+                                 = grp->loadResourceOrderMap.find(
+                                     res->creator()->getLoadingOrder());
+                             if (i != grp->loadResourceOrderMap.end()) {
+                                 // Iterate over the resource list and remove
+                                 LoadUnloadResourceList& resList = i->second;
+                                 for (LoadUnloadResourceList::iterator l
+                                      = resList.begin();
+                                      l != resList.end();
+                                      ++l) {
+                                     if ((*l).get() == res.get()) {
+                                         // this is the one
+                                         resList.erase(l);
+                                         break;
+                                     }
+                                 }
+                             }
             }
         }
     }
@@ -934,27 +927,26 @@ namespace Ogre {
         {
                      // lock group mutex
 
-            Real order = res->getCreator()->getLoadingOrder();
-            ResourceGroup::LoadResourceOrderMap::iterator i = 
-                grp->loadResourceOrderMap.find(order);
-            assert(i != grp->loadResourceOrderMap.end());
-            LoadUnloadResourceList& loadList = i->second;
-            for (LoadUnloadResourceList::iterator l = loadList.begin();
-                l != loadList.end(); ++l)
-            {
-                if ((*l).get() == res)
-                {
-                    resPtr = *l;
-                    loadList.erase(l);
-                    break;
-                }
-            }
+                     Real order = res->creator()->getLoadingOrder();
+                     ResourceGroup::LoadResourceOrderMap::iterator i
+                         = grp->loadResourceOrderMap.find(order);
+                     assert(i != grp->loadResourceOrderMap.end());
+                     LoadUnloadResourceList& loadList = i->second;
+                     for (LoadUnloadResourceList::iterator l = loadList.begin();
+                          l != loadList.end();
+                          ++l) {
+                         if ((*l).get() == res) {
+                             resPtr = *l;
+                             loadList.erase(l);
+                             break;
+                         }
+                     }
         }
 
         if (resPtr)
         {
             // New group
-            ResourceGroup* newGrp = getResourceGroup(res->getGroup());
+            ResourceGroup* newGrp = getResourceGroup(res->group());
 
             addCreatedResource(resPtr, *newGrp);
         }
@@ -975,7 +967,7 @@ namespace Ogre {
                 std::vector<ResourcePtr> arDel;
                 arDel.reserve(oi.second.size());
                 for (const auto& iter : oi.second) {
-                    if (iter->getCreator() == manager)
+                    if (iter->creator() == manager)
                         arDel.emplace_back(iter);
                 }
 
@@ -994,8 +986,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::addCreatedResource(ResourcePtr& res, ResourceGroup& grp) const
     {
-            
-        Real order = res->getCreator()->getLoadingOrder();
+
+        Real order = res->creator()->getLoadingOrder();
 
         ResourceGroup::LoadResourceOrderMap::iterator i = grp.loadResourceOrderMap.find(order);
         LoadUnloadResourceList& loadList =
@@ -1053,7 +1045,7 @@ namespace Ogre {
             // Iterate over resources
             for (auto& k : j.second)
             {
-                k->getCreator()->remove(k);
+                k->creator()->remove(k);
             }
         }
         grp->loadResourceOrderMap.clear();
@@ -1422,7 +1414,7 @@ namespace Ogre {
         // Iterate over the archives
         for (auto& i : grp->locationList)
         {
-            vec->push_back(i.archive->getName());
+            vec->push_back(i.archive->name());
         }
 
         return vec;
@@ -1439,7 +1431,7 @@ namespace Ogre {
         // Iterate over the archives
         for (auto& i : grp->locationList)
         {
-            String location = i.archive->getName();
+            String location = i.archive->name();
             // Search for the pattern
             if(StringUtil::match(location, pattern))
             {

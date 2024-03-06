@@ -57,7 +57,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& SubMesh::getMaterialName() const
     {
-        return mMaterial ? mMaterial->getName() : BLANKSTRING;
+        return mMaterial ? mMaterial->name() : BLANKSTRING;
     }
     //-----------------------------------------------------------------------
     void SubMesh::_getRenderOperation(RenderOperation& ro, ushort lodIndex)

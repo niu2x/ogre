@@ -658,7 +658,7 @@ namespace Ogre {
     /* Convert pixels from one format to another */
     void PixelUtil::bulkPixelConversion(const PixelBox &src, const PixelBox &dst)
     {
-        OgreAssert(src.getSize() == dst.getSize(), "");
+        OgreAssert(src.size() == dst.size(), "");
 
         // Check for compressed formats, we don't support decompression, compression or recoding
         if(PixelUtil::isCompressed(src.format) || PixelUtil::isCompressed(dst.format))

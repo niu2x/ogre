@@ -80,7 +80,7 @@ namespace Ogre {
         auto vertexSize = srcBuf->getVertexSize();
         auto numVerts = srcBuf->getNumVertices();
 
-        auto elemSize = elem->getSize();
+        auto elemSize = elem->size();
         auto elemOffset = elem->getOffset();
 
         auto postVertexOffset = elemOffset + elemSize;
@@ -112,7 +112,7 @@ namespace Ogre {
 
     static void updateVertexDeclaration(VertexDeclaration* decl, const VertexElement* elem, VertexElementType newType, uint16 newSource)
     {
-        auto elemSize = elem->getSize();
+        auto elemSize = elem->size();
         auto oldElemOffset = elem->getOffset();
         auto newElemOffset = oldElemOffset;
 
@@ -252,7 +252,8 @@ namespace Ogre {
         auto vbuf = vertexBufferBinding->getBuffer(elem->getSource());
 
         size_t newElemSize = VertexElement::getTypeSize(dstType);
-        size_t newVertexSize = vbuf->getVertexSize() - elem->getSize() + newElemSize;
+        size_t newVertexSize
+            = vbuf->getVertexSize() - elem->size() + newElemSize;
         auto newVBuf = vbuf->getManager()->createVertexBuffer(newVertexSize, vbuf->getNumVertices(), vbuf->getUsage(),
                                                               vbuf->hasShadowBuffer());
 
@@ -319,10 +320,11 @@ namespace Ogre {
         // We need to create another buffer to contain the remaining elements
         // Most drivers don't like gaps in the declaration, and in any case it's waste
         HardwareVertexBufferPtr newRemainderBuffer;
-        if (vbuf->getVertexSize() > posElem->getSize())
-        {
+        if (vbuf->getVertexSize() > posElem->size()) {
             newRemainderBuffer = vbuf->getManager()->createVertexBuffer(
-                vbuf->getVertexSize() - posElem->getSize(), vbuf->getNumVertices(), vbuf->getUsage(),
+                vbuf->getVertexSize() - posElem->size(),
+                vbuf->getNumVertices(),
+                vbuf->getUsage(),
                 vbuf->hasShadowBuffer());
         }
         // Allocate new position buffer, will be FLOAT3 and 2x the size
@@ -340,7 +342,13 @@ namespace Ogre {
         {
             // Basically we just memcpy the vertex excluding the position
             HardwareBufferLockGuard destRemLock(newRemainderBuffer, HardwareBuffer::HBL_DISCARD);
-            spliceElement(posElem, vbuf, (uint8*)destRemLock.pData, (uint8*)pDest, posElem->getSize(), copy_float3);
+            spliceElement(
+                posElem,
+                vbuf,
+                (uint8*)destRemLock.pData,
+                (uint8*)pDest,
+                posElem->size(),
+                copy_float3);
         }
         else
         {
@@ -468,7 +476,10 @@ namespace Ogre {
                 auto newBufferNo = newElem.getSource();
                 auto pSrc = oldBufferLocks[oldBufferNo] + v * oldBufferVertexSizes[oldBufferNo];
                 auto pDst = newBufferLocks[newBufferNo] + v * newBufferVertexSizes[newBufferNo];
-                memcpy(pDst + newElem.getOffset(), pSrc + oldElem->getOffset(), newElem.getSize());
+                memcpy(
+                    pDst + newElem.getOffset(),
+                    pSrc + oldElem->getOffset(),
+                    newElem.size());
             }
         }
 

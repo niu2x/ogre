@@ -505,7 +505,7 @@ namespace Ogre {
         /** Sets the name of the material to be used for this billboard set.
         @return The name of the material that is used for this set.
         */
-        const String& getMaterialName(void) const { return mMaterial->getName(); }
+        const String& getMaterialName(void) const { return mMaterial->name(); }
 
         void _notifyCurrentCamera(Camera* cam) override;
 

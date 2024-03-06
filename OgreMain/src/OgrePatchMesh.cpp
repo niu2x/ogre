@@ -79,7 +79,7 @@ namespace Ogre {
         
     }
     //-----------------------------------------------------------------------
-    void PatchMesh::loadImpl(void)
+    void PatchMesh::load_impl(void)
     {
         SubMesh* sm = this->createSubMesh();
         sm->createVertexData();

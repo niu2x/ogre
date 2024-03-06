@@ -444,7 +444,7 @@ namespace Ogre {
         protected:
             void createInternalResourcesImpl() override {}
             void freeInternalResourcesImpl() override {}
-            void loadImpl() override {}
+            void load_impl() override { }
         };
 
         Resource* createImpl(const String& name, ResourceHandle handle, const String& group, bool,

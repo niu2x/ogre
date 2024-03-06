@@ -117,13 +117,10 @@ namespace Ogre {
     void SkeletonInstance::cloneBoneAndChildren(Bone* source, Bone* parent)
     {
         Bone* newBone;
-        if (source->getName().empty())
-        {
-            newBone = createBone(source->getHandle());
-        }
-        else
-        {
-            newBone = createBone(source->getName(), source->getHandle());
+        if (source->name().empty()) {
+            newBone = createBone(source->handle());
+        } else {
+            newBone = createBone(source->name(), source->handle());
         }
         if (parent == NULL)
         {
@@ -144,7 +141,7 @@ namespace Ogre {
         }
     }
     //-------------------------------------------------------------------------
-    void SkeletonInstance::prepareImpl(void)
+    void SkeletonInstance::prepare_impl()
     {
         mNextAutoHandle = mSkeleton->mNextAutoHandle;
         mNextTagPointAutoHandle = 0;
@@ -161,9 +158,9 @@ namespace Ogre {
         setBindingPose();
     }
     //-------------------------------------------------------------------------
-    void SkeletonInstance::unprepareImpl(void)
+    void SkeletonInstance::unprepare_impl()
     {
-        Skeleton::unprepareImpl();
+        Skeleton::unprepare_impl();
 
         // destroy TagPoints
         for (TagPointList::const_iterator it = mActiveTagPoints.begin(); it != mActiveTagPoints.end(); ++it)
@@ -229,22 +226,22 @@ namespace Ogre {
         }
     }
     //-------------------------------------------------------------------------
-    const String& SkeletonInstance::getName(void) const
+    const String& SkeletonInstance::name(void) const
     {
         // delegate
-        return mSkeleton->getName();
+        return mSkeleton->name();
     }
     //-------------------------------------------------------------------------
-    ResourceHandle SkeletonInstance::getHandle(void) const
+    ResourceHandle SkeletonInstance::handle(void) const
     {
         // delegate
-        return mSkeleton->getHandle();
+        return mSkeleton->handle();
     }
     //-------------------------------------------------------------------------
-    const String& SkeletonInstance::getGroup(void) const
+    const String& SkeletonInstance::group(void) const
     {
         // delegate
-        return mSkeleton->getGroup();
+        return mSkeleton->group();
     }
 
 }

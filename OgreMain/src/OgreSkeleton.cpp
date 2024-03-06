@@ -64,14 +64,16 @@ namespace Ogre {
         unload(); 
     }
     //---------------------------------------------------------------------
-    void Skeleton::prepareImpl(void)
+    void Skeleton::prepare_impl()
     {
         SkeletonSerializer serializer;
 
-        if (getCreator()->getVerbose())
-            LogManager::getSingleton().stream() << "Skeleton: Loading " << mName;
+        if (creator()->getVerbose())
+            LogManager::getSingleton().stream()
+                << "Skeleton: Loading " << name();
 
-        DataStreamPtr stream = ResourceGroupManager::getSingleton().openResource(mName, mGroup, this);
+        DataStreamPtr stream = ResourceGroupManager::getSingleton()
+                                   .openResource(name(), group(), this);
 
         serializer.importSkeleton(stream, this);
 
@@ -79,11 +81,13 @@ namespace Ogre {
         for (auto& s : mLinkedSkeletonAnimSourceList)
         {
             s.pSkeleton = static_pointer_cast<Skeleton>(
-                SkeletonManager::getSingleton().prepare(s.skeletonName, mGroup));
+                SkeletonManager::getSingleton().prepare(
+                    s.skeletonName,
+                    group()));
         }
     }
     //---------------------------------------------------------------------
-    void Skeleton::unprepareImpl(void)
+    void Skeleton::unprepare_impl()
     {
         // destroy bones
         for (auto *b : mBoneList)
@@ -130,13 +134,13 @@ namespace Ogre {
                 "Skeleton::createBone" );
         }
         Bone* ret = OGRE_NEW Bone(handle, this);
-        assert(mBoneListByName.find(ret->getName()) == mBoneListByName.end());
+        assert(mBoneListByName.find(ret->name()) == mBoneListByName.end());
         if (mBoneList.size() <= handle)
         {
             mBoneList.resize(handle+1);
         }
         mBoneList[handle] = ret;
-        mBoneListByName[ret->getName()] = ret;
+        mBoneListByName[ret->name()] = ret;
         return ret;
 
     }
@@ -362,7 +366,7 @@ namespace Ogre {
         {
             Animation* anim = a.second;
             // Create animation at time index 0, default params mean this has weight 1 and is disabled
-            const String& animName = anim->getName();
+            const String& animName = anim->name();
             animSet->createAnimationState(animName, 0.0, anim->getLength());
         }
 
@@ -383,7 +387,7 @@ namespace Ogre {
         {
             Animation* anim = a.second;
             // Create animation at time index 0, default params mean this has weight 1 and is disabled
-            const String& animName = anim->getName();
+            const String& animName = anim->name();
             if (!animSet->hasAnimationState(animName))
             {
                 animSet->createAnimationState(animName, 0.0, anim->getLength());
@@ -513,13 +517,14 @@ namespace Ogre {
         Radian angle;
         Vector3 axis;
 
-        o << "-= Debug output of skeleton " << s.mName << " =-" << std::endl << std::endl;
+        o << "-= Debug output of skeleton " << s.name() << " =-" << std::endl
+          << std::endl;
         o << "== Bones ==" << std::endl;
         o << "Number of bones: " << (unsigned int)s.mBoneList.size() << std::endl;
         
         for (auto *b : s.mBoneList)
         {
-            o << "-- Bone " << b->getHandle() << " --" << std::endl;
+            o << "-- Bone " << b->handle() << " --" << std::endl;
             o << "Position: " << b->getPosition();
             q = b->getOrientation();
             o << "Rotation: " << q;
@@ -534,14 +539,17 @@ namespace Ogre {
         {
             Animation* anim = a.second;
 
-            o << "-- Animation '" << anim->getName() << "' (length " << anim->getLength() << ") --" << std::endl;
+            o << "-- Animation '" << anim->name() << "' (length "
+              << anim->getLength() << ") --" << std::endl;
             o << "Number of tracks: " << anim->getNumNodeTracks() << std::endl;
 
             for (unsigned short ti = 0; ti < anim->getNumNodeTracks(); ++ti)
             {
                 NodeAnimationTrack* track = anim->getNodeTrack(ti);
                 o << "  -- AnimationTrack " << ti << " --" << std::endl;
-                o << "  Affects bone: " << static_cast<Bone*>(track->getAssociatedNode())->getHandle() << std::endl;
+                o << "  Affects bone: "
+                  << static_cast<Bone*>(track->getAssociatedNode())->handle()
+                  << std::endl;
                 o << "  Number of keyframes: " << track->getNumKeyFrames() << std::endl;
 
                 for (unsigned short ki = 0; ki < track->getNumKeyFrames(); ++ki)
@@ -637,22 +645,18 @@ namespace Ogre {
                 return; // don't bother
         }
 
-        if (isPrepared() || isLoaded())
-        {
+        if (is_prepared() || is_loaded()) {
             // Load immediately
             SkeletonPtr skelPtr = static_pointer_cast<Skeleton>(
-                SkeletonManager::getSingleton().prepare(skelName, mGroup));
+                SkeletonManager::getSingleton().prepare(skelName, group()));
             mLinkedSkeletonAnimSourceList.push_back(
                 LinkedSkeletonAnimationSource(skelName, scale, skelPtr));
 
-        }
-        else
-        {
+        } else {
             // Load later
             mLinkedSkeletonAnimSourceList.push_back(
                 LinkedSkeletonAnimationSource(skelName, scale));
         }
-
     }
     //---------------------------------------------------------------------
     void Skeleton::removeAllLinkedSkeletonAnimationSources(void)
@@ -706,14 +710,16 @@ namespace Ogre {
                 // Check both bones have identical parent, or both are root bone.
                 const Bone* srcParent = static_cast<Bone*>(srcBone->getParent());
                 Bone* destParent = static_cast<Bone*>(destBone->getParent());
-                if ((srcParent || destParent) &&
-                    (!srcParent || !destParent ||
-                     boneHandleMap[srcParent->getHandle()] != destParent->getHandle()))
-                {
-                    OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
+                if ((srcParent || destParent)
+                    && (!srcParent || !destParent
+                        || boneHandleMap[srcParent->handle()]
+                            != destParent->handle())) {
+                    OGRE_EXCEPT(
+                        Exception::ERR_INVALIDPARAMS,
                         "Source skeleton incompatible with this skeleton: "
-                        "difference hierarchy between bone '" + srcBone->getName() +
-                        "' and '" + destBone->getName() + "'.",
+                        "difference hierarchy between bone '"
+                            + srcBone->name() + "' and '" + destBone->name()
+                            + "'.",
                         "Skeleton::_mergeSkeletonAnimations");
                 }
             }
@@ -735,7 +741,8 @@ namespace Ogre {
                 // The bone is missing in target skeleton?
                 if (dstHandle >= numDstBones)
                 {
-                    Bone* dstBone = this->createBone(srcBone->getName(), dstHandle);
+                    Bone* dstBone
+                        = this->createBone(srcBone->name(), dstHandle);
                     // Sets initial transform
                     dstBone->setPosition(srcBone->getInitialPosition());
                     dstBone->setOrientation(srcBone->getInitialOrientation());
@@ -756,7 +763,8 @@ namespace Ogre {
                     const Bone* srcParent = static_cast<Bone*>(srcBone->getParent());
                     if (srcParent)
                     {
-                        Bone* destParent = this->getBone(boneHandleMap[srcParent->getHandle()]);
+                        Bone* destParent
+                            = this->getBone(boneHandleMap[srcParent->handle()]);
                         Bone* dstBone = this->getBone(dstHandle);
                         destParent->addChild(dstBone);
                     }
@@ -864,7 +872,9 @@ namespace Ogre {
             }
 
             // Create target animation
-            Animation* dstAnimation = this->createAnimation(srcAnimation->getName(), srcAnimation->getLength());
+            Animation* dstAnimation = this->createAnimation(
+                srcAnimation->name(),
+                srcAnimation->getLength());
 
             // Copy interpolation modes
             dstAnimation->setInterpolationMode(srcAnimation->getInterpolationMode());
@@ -948,15 +958,16 @@ namespace Ogre {
         for (ushort handle = 0; handle < numSrcBones; ++handle)
         {
             const Bone* srcBone = src->getBone(handle);
-            BoneListByName::const_iterator i = this->mBoneListByName.find(srcBone->getName());
+            BoneListByName::const_iterator i
+                = this->mBoneListByName.find(srcBone->name());
             if (i == mBoneListByName.end())
                 boneHandleMap[handle] = newBoneHandle++;
             else
-                boneHandleMap[handle] = i->second->getHandle();
+                boneHandleMap[handle] = i->second->handle();
         }
     }
 
-    size_t Skeleton::calculateSize(void) const
+    size_t Skeleton::calculate_size(void) const
     {
         size_t memSize = sizeof(*this);
         memSize += mBoneList.size() * sizeof(Bone);

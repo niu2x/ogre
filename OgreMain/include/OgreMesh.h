@@ -199,18 +199,18 @@ namespace Ogre {
             It also does not set up submeshes, etc.  You have to call load()
             to do that.
          */
-        void prepareImpl(void) override;
+        void prepare_impl() override;
         /** Destroys data cached by prepareImpl.
          */
-        void unprepareImpl(void) override;
+        void unprepare_impl() override;
         /// @copydoc Resource::loadImpl
-        void loadImpl(void) override;
+        void load_impl(void) override;
         /// @copydoc Resource::postLoadImpl
-        void postLoadImpl(void) override;
+        void post_load_impl(void) override;
         /// @copydoc Resource::unloadImpl
-        void unloadImpl(void) override;
+        void unload_impl(void) override;
         /// @copydoc Resource::calculateSize
-        size_t calculateSize(void) const override;
+        size_t calculate_size(void) const override;
 
         void mergeAdjacentTexcoords( unsigned short finalTexCoordSet,
                                      unsigned short texCoordSetToDestroy, VertexData *vertexData );

@@ -51,7 +51,8 @@ void SceneManager::SkyRenderer::setEnabled(bool enable)
 {
     if(enable == mEnabled) return;
     mEnabled = enable;
-    enable ? mSceneManager->addListener(this) : mSceneManager->removeListener(this);
+    enable ? mSceneManager->add_listener(this)
+           : mSceneManager->remove_listener(this);
 }
 
 void SceneManager::SkyPlaneRenderer::setSkyPlane(
@@ -299,9 +300,9 @@ void SceneManager::SkyDomeRenderer::setSkyDome(
             MovableObjectFactory* factory = Root::getSingleton().getMovableObjectFactory(MOT_ENTITY);
 
             NameValuePairList params;
-            params["mesh"] = planeMesh->getName();
+            params["mesh"] = planeMesh->name();
             mSkyDomeEntity[i] = static_cast<Entity*>(factory->createInstance(entName, mSceneManager, &params));
-            mSkyDomeEntity[i]->setMaterialName(m->getName(), groupName);
+            mSkyDomeEntity[i]->setMaterialName(m->name(), groupName);
             mSkyDomeEntity[i]->setCastShadows(false);
             mSkyDomeEntity[i]->setRenderQueueGroup(renderQueue);
 
@@ -381,7 +382,7 @@ MeshPtr SceneManager::SkyDomeRenderer::createSkydomePlane(
     if(planeMesh)
     {
         // destroy existing
-        mm.remove(planeMesh->getHandle());
+        mm.remove(planeMesh->handle());
     }
     // Create new
     Real planeSize = distance * 2;

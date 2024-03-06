@@ -286,10 +286,7 @@ namespace Ogre {
         destroyAllVertexTracks();
     }
     //---------------------------------------------------------------------
-    const String& Animation::getName(void) const
-    {
-        return mName;
-    }
+    const String& Animation::name(void) const { return mName; }
     //---------------------------------------------------------------------
     void Animation::apply(Real timePos, Real weight, Real scale)
     {
@@ -354,7 +351,11 @@ namespace Ogre {
         for (auto& t : mNodeTrackList)
         {
             Bone* b = skel->getBone(t.first);
-            t.second->applyToNode(b, timeIndex, (*blendMask)[b->getHandle()] * weight, scale);
+            t.second->applyToNode(
+                b,
+                timeIndex,
+                (*blendMask)[b->handle()] * weight,
+                scale);
         }
     }
     //---------------------------------------------------------------------
@@ -697,8 +698,8 @@ namespace Ogre {
                     if (baseAnim == this)
                         baseTrack = track;
                     else
-                        baseTrack = baseAnim->getNodeTrack(track->getHandle());
-                    
+                        baseTrack = baseAnim->getNodeTrack(track->handle());
+
                     TransformKeyFrame kf(baseTrack, mBaseKeyFrameTime);
                     baseTrack->getInterpolatedKeyFrame(baseAnim->_getTimeIndex(mBaseKeyFrameTime), &kf);
                     track->_applyBaseKeyFrame(&kf);
@@ -714,8 +715,9 @@ namespace Ogre {
                         if (baseAnim == this)
                             baseTrack = track;
                         else
-                            baseTrack = baseAnim->getVertexTrack(track->getHandle());
-                        
+                            baseTrack
+                                = baseAnim->getVertexTrack(track->handle());
+
                         VertexPoseKeyFrame kf(baseTrack, mBaseKeyFrameTime);
                         baseTrack->getInterpolatedKeyFrame(baseAnim->_getTimeIndex(mBaseKeyFrameTime), &kf);
                         track->_applyBaseKeyFrame(&kf);

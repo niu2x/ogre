@@ -277,7 +277,7 @@ namespace Ogre {
         /// Operator = overload
         Pass& operator=(const Pass& oth);
 
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
 
         /// Gets the index of this Pass in the parent Technique
         unsigned short getIndex(void) const { return mIndex; }
@@ -288,7 +288,7 @@ namespace Ogre {
         */
         void setName(const String& name) { mName = name; }
         /// Get the name of the pass
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         /// @name Surface properties
         /// @{
@@ -1317,7 +1317,7 @@ namespace Ogre {
         /** Internal method for unloading this pass. */
         void _unload(void);
         /// Is this loaded?
-        bool isLoaded(void) const;
+        bool is_loaded(void) const;
 
         /** Gets the 'hash' of this pass, ie a precomputed number to use for sorting
 

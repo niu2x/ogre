@@ -573,7 +573,10 @@ namespace Ogre {
             /// origin (top, left, front) of the box
             Vector3i getOrigin() const { return Vector3i(left, top, front); }
             /// size (width, height, depth) of the box
-            Vector3i getSize() const { return Vector3i(getWidth(), getHeight(), getDepth()); }
+            Vector3i size() const
+            {
+                return Vector3i(getWidth(), getHeight(), getDepth());
+            }
         };
 
     

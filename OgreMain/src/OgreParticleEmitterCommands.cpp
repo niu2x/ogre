@@ -249,8 +249,7 @@ namespace Ogre {
         //-----------------------------------------------------------------------
         String CmdName::get(const void* target) const
         {
-            return 
-                static_cast<const ParticleEmitter*>(target)->getName();
+            return static_cast<const ParticleEmitter*>(target)->name();
         }
         void CmdName::set(void* target, const String& val)
         {

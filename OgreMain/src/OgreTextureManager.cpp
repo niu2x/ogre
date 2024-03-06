@@ -227,14 +227,11 @@ namespace Ogre {
             {
                 Texture* texture = static_cast<Texture*>(r.second.get());
                 // Reload loaded and reloadable texture only
-                if (texture->isLoaded() && texture->isReloadable())
-                {
+                if (texture->is_loaded() && texture->reloadable()) {
                     texture->unload();
                     texture->setDesiredIntegerBitDepth(bits);
                     texture->load();
-                }
-                else
-                {
+                } else {
                     texture->setDesiredIntegerBitDepth(bits);
                 }
             }
@@ -257,14 +254,11 @@ namespace Ogre {
             {
                 Texture* texture = static_cast<Texture*>(r.second.get());
                 // Reload loaded and reloadable texture only
-                if (texture->isLoaded() && texture->isReloadable())
-                {
+                if (texture->is_loaded() && texture->reloadable()) {
                     texture->unload();
                     texture->setDesiredFloatBitDepth(bits);
                     texture->load();
-                }
-                else
-                {
+                } else {
                     texture->setDesiredFloatBitDepth(bits);
                 }
             }
@@ -288,14 +282,11 @@ namespace Ogre {
             {
                 Texture* texture = static_cast<Texture*>(r.second.get());
                 // Reload loaded and reloadable texture only
-                if (texture->isLoaded() && texture->isReloadable())
-                {
+                if (texture->is_loaded() && texture->reloadable()) {
                     texture->unload();
                     texture->setDesiredBitDepths(integerBits, floatBits);
                     texture->load();
-                }
-                else
-                {
+                } else {
                     texture->setDesiredBitDepths(integerBits, floatBits);
                 }
             }

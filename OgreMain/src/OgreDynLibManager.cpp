@@ -66,7 +66,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void DynLibManager::unload(DynLib* lib)
     {
-        DynLibList::iterator i = mLibList.find(lib->getName());
+        DynLibList::iterator i = mLibList.find(lib->name());
         if (i != mLibList.end())
         {
             mLibList.erase(i);

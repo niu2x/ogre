@@ -104,7 +104,7 @@ namespace Ogre {
         virtual ~Archive() {}
 
         /// Get the name of this archive
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         /// Returns whether this archive is case sensitive in the way it matches files
         virtual bool isCaseSensitive(void) const = 0;

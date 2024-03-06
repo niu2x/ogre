@@ -164,7 +164,7 @@ namespace Ogre
             // any old references
             if ((*i).use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
             {
-                TextureManager::getSingleton().remove((*i)->getHandle());
+                TextureManager::getSingleton().remove((*i)->handle());
                 i = mTextureList.erase(i);
             }
             else
@@ -179,7 +179,7 @@ namespace Ogre
             // any old references
             if ((*i).use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
             {
-                TextureManager::getSingleton().remove((*i)->getHandle());
+                TextureManager::getSingleton().remove((*i)->handle());
                 i = mNullTextureList.erase(i);
             }
             else
@@ -194,7 +194,7 @@ namespace Ogre
     {
         for (auto & i : mTextureList)
         {
-            TextureManager::getSingleton().remove(i->getHandle());
+            TextureManager::getSingleton().remove(i->handle());
         }
         mTextureList.clear();
 

@@ -89,8 +89,10 @@ namespace Ogre
         }
         if (n->getListener())
         {
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
-                mName + " cannot monitor node " + n->getName() + " since it already has a listener.",
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                mName + " cannot monitor node " + n->name()
+                    + " since it already has a listener.",
                 "RibbonTrail::addNode");
         }
 

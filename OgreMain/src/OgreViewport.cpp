@@ -52,10 +52,10 @@ namespace Ogre {
     {           
 #if OGRE_PLATFORM != OGRE_PLATFORM_ANDROID
         LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-            << "Creating viewport on target '" << target->getName() << "'"
-            << ", rendering from camera '" << (cam != 0 ? cam->getName() : "NULL") << "'"
-            << ", relative dimensions " << mRelRect
-            << " Z-order: " << ZOrder;
+            << "Creating viewport on target '" << target->name() << "'"
+            << ", rendering from camera '" << (cam != 0 ? cam->name() : "NULL")
+            << "'"
+            << ", relative dimensions " << mRelRect << " Z-order: " << ZOrder;
 #endif
             
         // Set the default material scheme
@@ -115,7 +115,8 @@ namespace Ogre {
         }
 
         LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-            << "Viewport for camera '" << (mCamera ? mCamera->getName() : "NULL") << "'"
+            << "Viewport for camera '" << (mCamera ? mCamera->name() : "NULL")
+            << "'"
             << ", actual dimensions " << mActRect;
 
         mUpdated = true;
@@ -209,13 +210,13 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void Viewport::addListener(Listener* l)
+    void Viewport::add_listener(Listener* l)
     {
         if (std::find(mListeners.begin(), mListeners.end(), l) == mListeners.end())
             mListeners.push_back(l);
     }
     //-----------------------------------------------------------------------
-    void Viewport::removeListener(Listener* l)
+    void Viewport::remove_listener(Listener* l)
     {
         ListenerList::iterator i = std::find(mListeners.begin(), mListeners.end(), l);
         if (i != mListeners.end())

@@ -69,12 +69,12 @@ Resource& Resource::operator=(const Resource& rhs)
     return *this;
 }
 //-----------------------------------------------------------------------
-void Resource::escalateLoading()
+void Resource::escalate_loading()
 {
     // Just call load as if this is the background thread, locking on
     // load status will prevent race conditions
     load(true);
-    _fireloading_complete();
+    _fire_loading_complete();
 }
 //-----------------------------------------------------------------------
 void Resource::prepare(bool background)
@@ -121,8 +121,8 @@ void Resource::prepare(bool background)
             if (group_
                 == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME) {
                 // Derive resource group
-                changeGroupOwnership(ResourceGroupManager::getSingleton()
-                                         .findGroupContainingResource(name_));
+                change_group_ownership(ResourceGroupManager::getSingleton()
+                                           .findGroupContainingResource(name_));
             }
             prepare_impl();
         }
@@ -232,8 +232,8 @@ void Resource::load(bool background)
             if (group_
                 == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME) {
                 // Derive resource group
-                changeGroupOwnership(ResourceGroupManager::getSingleton()
-                                         .findGroupContainingResource(name_));
+                change_group_ownership(ResourceGroupManager::getSingleton()
+                                           .findGroupContainingResource(name_));
             }
 
             load_impl();
@@ -275,7 +275,7 @@ size_t Resource::calculate_size(void) const
     mem_size += name_.size() * sizeof(char);
     mem_size += group_.size() * sizeof(char);
     mem_size += origin_.size() * sizeof(char);
-    mem_size += sizeof(void*) * listenrs_.size();
+    mem_size += sizeof(void*) * listeners_.size();
 
     return mem_size;
 }
@@ -349,38 +349,38 @@ void Resource::touch(void)
         creator_->_notifyResourceTouched(this);
 }
 //-----------------------------------------------------------------------
-void Resource::addListener(Resource::Listener* lis) { listenrs_.insert(lis); }
+void Resource::add_listener(Resource::Listener* lis) { listeners_.insert(lis); }
 //-----------------------------------------------------------------------
-void Resource::removeListener(Resource::Listener* lis)
+void Resource::remove_listener(Resource::Listener* lis)
 {
     // O(n) but not called very often
 
-    listenrs_.erase(lis);
+    listeners_.erase(lis);
 }
 //-----------------------------------------------------------------------
-void Resource::_fireloading_complete(bool unused)
+void Resource::_fire_loading_complete(bool unused)
 {
     // Lock the listener list
 
-    for (auto& l : listenrs_) {
+    for (auto& l : listeners_) {
         l->loading_complete(this);
     }
 }
 //-----------------------------------------------------------------------
-void Resource::_firepreparing_complete(bool unused)
+void Resource::_fire_preparing_complete(bool unused)
 {
     // Lock the listener list
 
-    for (auto& l : listenrs_) {
+    for (auto& l : listeners_) {
         l->preparing_complete(this);
     }
 }
 //-----------------------------------------------------------------------
-void Resource::_fireUnloading_complete(void)
+void Resource::_fire_unloading_complete(void)
 {
     // Lock the listener list
 
-    for (auto& l : listenrs_) {
+    for (auto& l : listeners_) {
         l->unloading_complete(this);
     }
 }

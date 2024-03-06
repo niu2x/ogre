@@ -95,7 +95,7 @@ mGpuParamsDirty((uint16)GPV_ALL)
     setShadowTextureCount(1);
 
     mDebugDrawer = std::make_unique<DefaultDebugDrawer>();
-    addListener(mDebugDrawer.get());
+    add_listener(mDebugDrawer.get());
 
     // create the auto param data source instance
     mAutoParamDataSource.reset(createAutoParamDataSource());
@@ -215,7 +215,7 @@ bool SceneManager::hasCamera(const String& name) const
 void SceneManager::destroyCamera(Camera *cam)
 {
     OgreAssert(cam, "Cannot destroy a null Camera");
-    destroyCamera(cam->getName());
+    destroyCamera(cam->name());
 }
 
 //-----------------------------------------------------------------------
@@ -361,7 +361,7 @@ Entity* SceneManager::createEntity(
 //---------------------------------------------------------------------
 Entity* SceneManager::createEntity(const String& entityName, const MeshPtr& pMesh)
 {
-    return createEntity(entityName, pMesh->getName(), pMesh->getGroup());
+    return createEntity(entityName, pMesh->name(), pMesh->group());
 }
 //---------------------------------------------------------------------
 Entity* SceneManager::createEntity(const String& meshName)
@@ -587,8 +587,8 @@ void SceneManager::_destroySceneNode(SceneNodeList::iterator i)
     {
         parentNode->removeChild(*i);
     }
-    if(!(*i)->getName().empty())
-        mNamedNodes.erase((*i)->getName());
+    if (!(*i)->name().empty())
+        mNamedNodes.erase((*i)->name());
     OGRE_DELETE *i;
     if (std::next(i) != mSceneNodes.end())
     {
@@ -672,12 +672,14 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
     }
     else if (!mDestRenderSystem->getCapabilities()->hasCapability(RSC_FIXED_FUNCTION))
     {
-        OGRE_EXCEPT(Exception::ERR_INVALID_STATE,
-                    "RenderSystem does not support FixedFunction, "
-                    "but technique of '" +
-                        pass->getParent()->getParent()->getName() +
-                        "' has no Vertex Shader. Use the RTSS or write custom shaders.",
-                    "SceneManager::_setPass");
+        OGRE_EXCEPT(
+            Exception::ERR_INVALID_STATE,
+            "RenderSystem does not support FixedFunction, "
+            "but technique of '"
+                + pass->getParent()->getParent()->name()
+                + "' has no Vertex Shader. Use the RTSS or write custom "
+                  "shaders.",
+            "SceneManager::_setPass");
     }
     else
     {
@@ -720,12 +722,14 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
     else if (!mDestRenderSystem->getCapabilities()->hasCapability(RSC_FIXED_FUNCTION) &&
              !pass->hasGeometryProgram())
     {
-        OGRE_EXCEPT(Exception::ERR_INVALID_STATE,
-                    "RenderSystem does not support FixedFunction, "
-                    "but technique of '" +
-                        pass->getParent()->getParent()->getName() +
-                        "' has no Fragment Shader. Use the RTSS or write custom shaders.",
-                    "SceneManager::_setPass");
+        OGRE_EXCEPT(
+            Exception::ERR_INVALID_STATE,
+            "RenderSystem does not support FixedFunction, "
+            "but technique of '"
+                + pass->getParent()->getParent()->name()
+                + "' has no Fragment Shader. Use the RTSS or write custom "
+                  "shaders.",
+            "SceneManager::_setPass");
     }
     else
     {
@@ -823,9 +827,12 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
         {
             CompositorChain* currentChain = _getActiveCompositorChain();
             if (!currentChain)
-                OGRE_EXCEPT(Exception::ERR_INVALID_STATE,
-                            "TextureUnitState references a compositor, but current viewport of '" +
-                                mCurrentViewport->getTarget()->getName() + "' does not have a CompositorChain");
+                OGRE_EXCEPT(
+                    Exception::ERR_INVALID_STATE,
+                    "TextureUnitState references a compositor, but current "
+                    "viewport of '"
+                        + mCurrentViewport->getTarget()->name()
+                        + "' does not have a CompositorChain");
             auto compName = pTex->getReferencedCompositorName();
             CompositorInstance* refComp = currentChain->getCompositor(compName);
             if (!refComp)
@@ -906,7 +913,7 @@ void SceneManager::prepareRenderQueue(void)
 void SceneManager::_renderScene(Camera* camera, Viewport* vp, bool includeOverlays)
 {
     assert(camera);
-    OgreProfileGroup(camera->getName(), OGREPROF_GENERAL);
+    OgreProfileGroup(camera->name(), OGREPROF_GENERAL);
 
     auto prevSceneManager = Root::getSingleton()._getCurrentSceneManager();
     Root::getSingleton()._setCurrentSceneManager(this);
@@ -1269,8 +1276,7 @@ void SceneManager::renderVisibleObjectsDefaultSequence(void)
         do // for repeating queues
         {
             // Fire queue started event
-            if (fireRenderQueueStarted(qId, mCameraInProgress->getName()))
-            {
+            if (fireRenderQueueStarted(qId, mCameraInProgress->name())) {
                 // Someone requested we skip this queue
                 break;
             }
@@ -1278,13 +1284,10 @@ void SceneManager::renderVisibleObjectsDefaultSequence(void)
             _renderQueueGroupObjects(pGroup, QueuedRenderableCollection::OM_PASS_GROUP);
 
             // Fire queue ended event
-            if (fireRenderQueueEnded(qId, mCameraInProgress->getName()))
-            {
+            if (fireRenderQueueEnded(qId, mCameraInProgress->name())) {
                 // Someone requested we repeat this queue
                 repeatQueue = true;
-            }
-            else
-            {
+            } else {
                 repeatQueue = false;
             }
         } while (repeatQueue);
@@ -1303,7 +1306,7 @@ void SceneManager::SceneMgrQueuedRenderableVisitor::visit(const Pass* p, Rendera
 
     // Set pass, store the actual one used
     mUsedPass = targetSceneMgr->_setPass(p);
-    OgreProfileBeginGPUEvent(mUsedPass->getParent()->getParent()->getName());
+    OgreProfileBeginGPUEvent(mUsedPass->getParent()->getParent()->name());
 
     SubMesh* lastsm = 0;
     RenderableList instances;
@@ -1353,7 +1356,7 @@ void SceneManager::SceneMgrQueuedRenderableVisitor::visit(const Pass* p, Rendera
     if (!instances.empty())
         targetSceneMgr->renderInstancedObject(instances, mUsedPass, scissoring, autoLights, manualLightList);
 
-    OgreProfileEndGPUEvent(mUsedPass->getParent()->getParent()->getName());
+    OgreProfileEndGPUEvent(mUsedPass->getParent()->getParent()->name());
 }
 //-----------------------------------------------------------------------
 void SceneManager::SceneMgrQueuedRenderableVisitor::visit(RenderablePass* rp)
@@ -1369,10 +1372,10 @@ void SceneManager::SceneMgrQueuedRenderableVisitor::visit(RenderablePass* rp)
     if (targetSceneMgr->validateRenderableForRendering(rp->pass, rp->renderable))
     {
         mUsedPass = targetSceneMgr->_setPass(rp->pass);
-        OgreProfileBeginGPUEvent(mUsedPass->getParent()->getParent()->getName());
+        OgreProfileBeginGPUEvent(mUsedPass->getParent()->getParent()->name());
         targetSceneMgr->renderSingleObject(rp->renderable, mUsedPass, scissoring, 
             autoLights, manualLightList);
-        OgreProfileEndGPUEvent(mUsedPass->getParent()->getParent()->getName());
+        OgreProfileEndGPUEvent(mUsedPass->getParent()->getParent()->name());
     }
 }
 //-----------------------------------------------------------------------
@@ -2285,13 +2288,13 @@ void SceneManager::removeRenderObjectListener(RenderObjectListener* delListener)
         }
     }
 }
-void SceneManager::addListener(Listener* newListener)
+void SceneManager::add_listener(Listener* newListener)
 {
     if (std::find(mListeners.begin(), mListeners.end(), newListener) == mListeners.end())
         mListeners.push_back(newListener);
 }
 //---------------------------------------------------------------------
-void SceneManager::removeListener(Listener* delListener)
+void SceneManager::remove_listener(Listener* delListener)
 {
     ListenerList::iterator i = std::find(mListeners.begin(), mListeners.end(), delListener);
     if (i != mListeners.end())
@@ -2934,7 +2937,7 @@ const SceneManager::StaticGeometryMap* SceneManager:: getStaticGeometryCollectio
 //---------------------------------------------------------------------
 void SceneManager::destroyStaticGeometry(StaticGeometry* geom)
 {
-    destroyStaticGeometry(geom->getName());
+    destroyStaticGeometry(geom->name());
 }
 //---------------------------------------------------------------------
 void SceneManager::destroyStaticGeometry(const String& name)
@@ -3013,7 +3016,7 @@ void SceneManager::destroyInstanceManager( const String &name )
 //---------------------------------------------------------------------
 void SceneManager::destroyInstanceManager( InstanceManager *instanceManager )
 {
-    destroyInstanceManager( instanceManager->getName() );
+    destroyInstanceManager(instanceManager->name());
 }
 //---------------------------------------------------------------------
 void SceneManager::destroyAllInstanceManagers(void)
@@ -3362,16 +3365,15 @@ SceneManager::getMovableObjectIterator(const String& typeName)
 void SceneManager::destroyMovableObject(MovableObject* m)
 {
     OgreAssert(m, "Cannot destroy a null MovableObject");
-    destroyMovableObject(m->getName(), m->getMovableType());
+    destroyMovableObject(m->name(), m->getMovableType());
 }
 //---------------------------------------------------------------------
 void SceneManager::injectMovableObject(MovableObject* m)
 {
     MovableObjectCollection* objectMap = getMovableObjectCollection(m->getMovableType());
     {
-            
 
-        objectMap->map[m->getName()] = m;
+        objectMap->map[m->name()] = m;
     }
 }
 //---------------------------------------------------------------------
@@ -3392,7 +3394,7 @@ void SceneManager::extractMovableObject(const String& name, const String& typeNa
 //---------------------------------------------------------------------
 void SceneManager::extractMovableObject(MovableObject* m)
 {
-    extractMovableObject(m->getName(), m->getMovableType());
+    extractMovableObject(m->name(), m->getMovableType());
 }
 //---------------------------------------------------------------------
 void SceneManager::extractAllMovableObjectsByType(const String& typeName)

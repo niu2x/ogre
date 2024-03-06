@@ -350,7 +350,7 @@ namespace Ogre {
 
         /** Returns the size of the data buffer in bytes
         */
-        size_t getSize() const { return mBufSize; }
+        size_t size() const { return mBufSize; }
 
         /** Returns the number of mipmaps contained in the image.
         */
@@ -441,7 +441,13 @@ namespace Ogre {
         void resize(ushort width, ushort height, Filter filter = FILTER_BILINEAR);
         
         /// Static function to calculate size in bytes from the number of mipmaps, faces and the dimensions
-        static size_t calculateSize(uint32 mipmaps, uint32 faces, uint32 width, uint32 height, uint32 depth, PixelFormat format);
+        static size_t calculate_size(
+            uint32 mipmaps,
+            uint32 faces,
+            uint32 width,
+            uint32 height,
+            uint32 depth,
+            PixelFormat format);
 
         /// Static function to get an image type string from a stream via magic numbers
         OGRE_DEPRECATED static String getFileExtFromMagic(DataStreamPtr stream);

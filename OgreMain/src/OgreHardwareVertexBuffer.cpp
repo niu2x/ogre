@@ -105,10 +105,7 @@ namespace Ogre {
     {
     }
     //-----------------------------------------------------------------------------
-    size_t VertexElement::getSize(void) const
-    {
-        return getTypeSize(mType);
-    }
+    size_t VertexElement::size(void) const { return getTypeSize(mType); }
     //-----------------------------------------------------------------------------
     size_t VertexElement::getTypeSize(VertexElementType etype)
     {
@@ -471,8 +468,7 @@ namespace Ogre {
         {
             if (e.getSource() == source)
             {
-                sz += e.getSize();
-
+                sz += e.size();
             }
         }
         return sz;
@@ -623,7 +619,7 @@ namespace Ogre {
             }
             else
             {
-                offset += elem.getSize();
+                offset += elem.size();
             }
             ++c;
         }

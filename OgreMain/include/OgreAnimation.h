@@ -120,7 +120,7 @@ namespace Ogre {
         virtual ~Animation();
 
         /** Gets the name of this animation. */
-        const String& getName(void) const;
+        const String& name(void) const;
 
         /** Gets the total length of the animation. */
         Real getLength(void) const;

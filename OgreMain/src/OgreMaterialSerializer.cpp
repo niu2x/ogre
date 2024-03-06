@@ -128,7 +128,7 @@ namespace Ogre
         }
         else
         {
-            outMaterialName = pMat->getName();
+            outMaterialName = pMat->name();
         }
 
         LogManager::getSingleton().log_message("MaterialSerializer : writing material " + outMaterialName + " to queue.", LogMsgLevel::NORMAL);
@@ -216,8 +216,8 @@ namespace Ogre
         // Technique header
         writeAttribute(1, "technique");
         // only output technique name if it exists.
-        if (!pTech->getName().empty())
-            writeValue(quoteWord(pTech->getName()));
+        if (!pTech->name().empty())
+            writeValue(quoteWord(pTech->name()));
 
         beginSection(1);
         {
@@ -243,13 +243,14 @@ namespace Ogre
             if (pTech->getShadowCasterMaterial())
             {
                 writeAttribute(2, "shadow_caster_material");
-                writeValue(quoteWord(pTech->getShadowCasterMaterial()->getName()));
+                writeValue(quoteWord(pTech->getShadowCasterMaterial()->name()));
             }
             // ShadowReceiverMaterial name
             if (pTech->getShadowReceiverMaterial())
             {
                 writeAttribute(2, "shadow_receiver_material");
-                writeValue(quoteWord(pTech->getShadowReceiverMaterial()->getName()));
+                writeValue(
+                    quoteWord(pTech->getShadowReceiverMaterial()->name()));
             }
             // GPU vendor rules
             Technique::GPUVendorRuleList::const_iterator vrit;
@@ -304,8 +305,8 @@ namespace Ogre
         
         writeAttribute(2, "pass");
         // only output pass name if its not the default name
-        if (pPass->getName() != StringConverter::to_string(pPass->getIndex()))
-            writeValue(quoteWord(pPass->getName()));
+        if (pPass->name() != StringConverter::to_string(pPass->getIndex()))
+            writeValue(quoteWord(pPass->name()));
 
         beginSection(2);
         {
@@ -832,8 +833,10 @@ namespace Ogre
         mBuffer += "\n";
         writeAttribute(3, "texture_unit");
         // only write out name if its not equal to the default name
-        if (pTex->getName() != StringConverter::to_string(pTex->getParent()->getTextureUnitStateIndex(pTex)))
-            writeValue(quoteWord(pTex->getName()));
+        if (pTex->name()
+            != StringConverter::to_string(
+                pTex->getParent()->getTextureUnitStateIndex(pTex)))
+            writeValue(quoteWord(pTex->name()));
 
         beginSection(3);
         {
@@ -842,8 +845,8 @@ namespace Ogre
 
             OGRE_IGNORE_DEPRECATED_BEGIN
             // texture_alias
-            if (!pTex->getTextureNameAlias().empty() && pTex->getTextureNameAlias() != pTex->getName())
-            {
+            if (!pTex->getTextureNameAlias().empty()
+                && pTex->getTextureNameAlias() != pTex->name()) {
                 writeAttribute(4, "texture_alias");
                 writeValue(quoteWord(pTex->getTextureNameAlias()));
             }
@@ -1454,7 +1457,7 @@ namespace Ogre
 
         mBuffer += "\n";
         writeAttribute(3, attrib);
-        writeValue(quoteWord(program->getName()));
+        writeValue(quoteWord(program->name()));
         beginSection(3);
         {
             // write out parameters
@@ -1474,7 +1477,7 @@ namespace Ogre
         endSection(3);
 
         // add to GpuProgram container
-        mGpuProgramDefinitionContainer.insert(program->getName());
+        mGpuProgramDefinitionContainer.insert(program->name());
 
         // Fire post section write event.
         fireGpuProgramRefEvent(MSE_POST_WRITE, skipWriting, attrib, program, params, NULL);     
@@ -1788,7 +1791,7 @@ namespace Ogre
             writeAttribute(0, program->parameter("type"), false);
 
             // write program name
-            writeValue( quoteWord(program->getName()), false);
+            writeValue(quoteWord(program->name()), false);
             // write program language
             const String language = program->getLanguage();
             writeValue( language, false );
@@ -1849,13 +1852,13 @@ namespace Ogre
     }
 
     //---------------------------------------------------------------------
-    void MaterialSerializer::addListener(Listener* listener)
+    void MaterialSerializer::add_listener(Listener* listener)
     {
         mListeners.push_back(listener);
     }
 
     //---------------------------------------------------------------------
-    void MaterialSerializer::removeListener(Listener* listener)
+    void MaterialSerializer::remove_listener(Listener* listener)
     {
         ListenerList::iterator i = std::find(mListeners.begin(), mListeners.end(), listener);
         if (i != mListeners.end())

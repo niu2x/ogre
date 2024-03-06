@@ -472,7 +472,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Camera::_renderScene(Viewport *vp)
     {
-        OgreProfileBeginGPUEvent(getName());
+        OgreProfileBeginGPUEvent(name());
 
         //update the pixel display ratio
         if (mProjType == Ogre::PT_PERSPECTIVE)
@@ -502,16 +502,16 @@ namespace Ogre {
         {
             i->cameraPostRenderScene(this);
         }
-        OgreProfileEndGPUEvent(getName());
+        OgreProfileEndGPUEvent(name());
     }
     //---------------------------------------------------------------------
-    void Camera::addListener(Listener* l)
+    void Camera::add_listener(Listener* l)
     {
         if (std::find(mListeners.begin(), mListeners.end(), l) == mListeners.end())
             mListeners.push_back(l);
     }
     //---------------------------------------------------------------------
-    void Camera::removeListener(Listener* l)
+    void Camera::remove_listener(Listener* l)
     {
         ListenerList::iterator i = std::find(mListeners.begin(), mListeners.end(), l);
         if (i != mListeners.end())

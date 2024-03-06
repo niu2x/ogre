@@ -133,17 +133,18 @@ namespace Ogre {
         */
         void clearBestTechniqueList(void);
 
-        void prepareImpl(void) override;
-        void unprepareImpl(void) override;
-        void loadImpl(void) override;
+        void prepare_impl() override;
+        void unprepare_impl() override;
+        void load_impl(void) override;
 
         /** Unloads the material, frees resources etc.
         @see
         Resource
         */
-        void unloadImpl(void) override;
+        void unload_impl(void) override;
         /// @copydoc Resource::calculateSize
-        size_t calculateSize(void) const override;
+        size_t calculate_size(void) const override;
+
     public:
 
         /** Constructor - use resource manager's create method rather than this.

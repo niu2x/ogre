@@ -56,7 +56,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String& SubEntity::getMaterialName(void) const
     {
-        return mMaterialPtr ? mMaterialPtr->getName() : BLANKSTRING;
+        return mMaterialPtr ? mMaterialPtr->name() : BLANKSTRING;
     }
     //-----------------------------------------------------------------------
     void SubEntity::setMaterialName( const String& name, const String& groupName /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */)
@@ -65,7 +65,11 @@ namespace Ogre {
 
         if( !material )
         {
-            logMaterialNotFound(name, groupName, "SubEntity of", mParentEntity->getName());
+            logMaterialNotFound(
+                name,
+                groupName,
+                "SubEntity of",
+                mParentEntity->name());
             material = MaterialManager::getSingleton().getDefaultMaterial();
         }
 
@@ -78,9 +82,11 @@ namespace Ogre {
         
         if (!mMaterialPtr)
         {
-            LogManager::getSingleton().log_error("Can't assign nullptr material "
-                "to SubEntity of '" + mParentEntity->getName() + "'. Falling back to default");
-            
+            LogManager::getSingleton().log_error(
+                "Can't assign nullptr material "
+                "to SubEntity of '"
+                + mParentEntity->name() + "'. Falling back to default");
+
             mMaterialPtr = MaterialManager::getSingleton().getDefaultMaterial();
         }
         

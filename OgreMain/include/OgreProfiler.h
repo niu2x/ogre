@@ -346,7 +346,7 @@ namespace Ogre {
             @param listener
                 A valid listener derived class
             */
-            void addListener(ProfileSessionListener* listener);
+            void add_listener(ProfileSessionListener* listener);
 
             /**
 
@@ -354,7 +354,7 @@ namespace Ogre {
             @param listener
                 A valid listener derived class
             */
-            void removeListener(ProfileSessionListener* listener);
+            void remove_listener(ProfileSessionListener* listener);
 
             /// @copydoc Singleton::getSingleton()
             static Profiler& getSingleton(void);

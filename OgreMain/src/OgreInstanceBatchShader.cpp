@@ -91,11 +91,15 @@ namespace Ogre
                         if((retVal < 3 && entry->paramType == GpuProgramParameters::ACT_WORLD_MATRIX_ARRAY_3x4) ||
                             (retVal < 2 && entry->paramType == GpuProgramParameters::ACT_WORLD_DUALQUATERNION_ARRAY_2x4))
                         {
-                            LogManager::getSingleton().log_warning( "InstanceBatchShader: Mesh '" +
-                                        mMeshReference->getName() + "' using material '" +
-                                        mMaterial->getName() + "'. The amount of possible "
-                                        "instances per batch is very low. Performance benefits will "
-                                        "be minimal, if any. It might be even slower!");
+                            LogManager::getSingleton().log_warning(
+                                "InstanceBatchShader: Mesh '"
+                                + mMeshReference->name() + "' using material '"
+                                + mMaterial->name()
+                                + "'. The amount of possible "
+                                  "instances per batch is very low. "
+                                  "Performance benefits will "
+                                  "be minimal, if any. It might be even "
+                                  "slower!");
                         }
 
                         return retVal;
@@ -103,8 +107,10 @@ namespace Ogre
                 }
             }
 
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                        "Material '" + mMaterial->getName() + "' does not support hardware skinning");
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "Material '" + mMaterial->name()
+                    + "' does not support hardware skinning");
         }
 
         //Reaching here the material is just unsupported.
@@ -291,7 +297,10 @@ namespace Ogre
                         *(thisBuf + vl.getOffset() + 3) = *(baseBuf + vl.getOffset() + 3) + j * numBones;
                             break;
                         default:
-                            memcpy( thisBuf + vl.getOffset(), baseBuf + vl.getOffset(), vl.getSize() );
+                            memcpy(
+                                thisBuf + vl.getOffset(),
+                                baseBuf + vl.getOffset(),
+                                vl.size());
                             break;
                         }
                     }

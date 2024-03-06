@@ -155,7 +155,7 @@ namespace Ogre
                          size_t instancesPerBatch, unsigned short subMeshIdx, bool useBoneMatrixLookup = false);
         ~InstanceManager();
 
-        const String& getName() const { return mName; }
+        const String& name() const { return mName; }
 
         SceneManager* getSceneManager() const { return mSceneManager; }
 

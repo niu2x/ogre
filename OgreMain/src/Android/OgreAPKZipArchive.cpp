@@ -26,7 +26,7 @@ namespace Ogre{
     }
     void APKZipArchiveFactory::destroyInstance(Archive* ptr)
     {
-        AAsset_close(mOpenAssets[ptr->getName()]);
+        AAsset_close(mOpenAssets[ptr->name()]);
         EmbeddedZipArchiveFactory::destroyInstance(ptr);
     }
 }

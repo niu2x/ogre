@@ -212,7 +212,7 @@ namespace Ogre {
         // ETC has no support for mipmaps - malideveloper.com has a example
         // where the load mipmap levels from different external files
         image->create(format, width, height);
-        stream->read(image->getData(), image->getSize());
+        stream->read(image->getData(), image->size());
     }
     //---------------------------------------------------------------------
     void ETCCodec::decodeKTX(const DataStreamPtr& stream, Image* image)
@@ -332,7 +332,7 @@ namespace Ogre {
         uchar* destPtr = image->getData();
         uint32 mipOffset = 0;
         uint32 numFaces = header.numberOfFaces;
-        size_t size = image->getSize();
+        size_t size = image->size();
         for (uint32 level = 0; level < header.numberOfMipmapLevels; ++level)
         {
             uint32 imageSize = 0;

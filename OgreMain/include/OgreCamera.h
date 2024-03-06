@@ -205,9 +205,9 @@ namespace Ogre {
         virtual ~Camera();
 
         /// Add a listener to this camera
-        virtual void addListener(Listener* l);
+        virtual void add_listener(Listener* l);
         /// Remove a listener to this camera
-        virtual void removeListener(Listener* l);
+        virtual void remove_listener(Listener* l);
 
         /** Returns a pointer to the SceneManager this camera is rendering through.
         */

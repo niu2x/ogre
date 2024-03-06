@@ -117,7 +117,7 @@ namespace Ogre
             if( technique->getShadowCasterMaterial() )
             {
                 const MaterialPtr &casterMat    = technique->getShadowCasterMaterial();
-                const String &casterName        = casterMat->getName();
+                const String& casterName = casterMat->name();
 
                 //Was this material already cloned?
                 MatMap::const_iterator itor = clonedMaterials.find(casterName);
@@ -207,9 +207,10 @@ namespace Ogre
             {
                 for(auto *texUnit : pass->getTextureUnitStates())
                 {
-                    if( texUnit->getName() == "InstancingVTF" )
-                    {
-                        texUnit->setTextureName( mMatrixTexture->getName(), textureType );
+                    if (texUnit->name() == "InstancingVTF") {
+                        texUnit->setTextureName(
+                            mMatrixTexture->name(),
+                            textureType);
                         texUnit->setTextureFiltering( TFO_NONE );
                     }
                 }
@@ -277,9 +278,14 @@ namespace Ogre
         TextureType texType = TEX_TYPE_2D;
 
         mMatrixTexture = TextureManager::getSingleton().createManual(
-                                        mName + "/VTF", mMeshReference->getGroup(), texType,
-                                        (uint)texWidth, (uint)texHeight,
-                                        0, PF_FLOAT32_RGBA, TU_DYNAMIC_WRITE_ONLY_DISCARDABLE );
+            mName + "/VTF",
+            mMeshReference->group(),
+            texType,
+            (uint)texWidth,
+            (uint)texHeight,
+            0,
+            PF_FLOAT32_RGBA,
+            TU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 
         OgreAssert(mMatrixTexture->getFormat() == PF_FLOAT32_RGBA, "float texture support required");
         //Set our cloned material to use this custom texture!
@@ -470,8 +476,9 @@ namespace Ogre
         if( veWeights )
         {
             //One weight is recommended for VTF
-            mWeightCount = (forceOneWeight() || useOneWeight()) ?
-                                1 : veWeights->getSize() / sizeof(float);
+            mWeightCount = (forceOneWeight() || useOneWeight())
+                ? 1
+                : veWeights->size() / sizeof(float);
         }
         else
         {
@@ -594,19 +601,38 @@ namespace Ogre
 
         for(size_t i = 0; i < mWeightCount; i += maxFloatsPerVector / mRowLength)
         {
-            offset += thisVertexData->vertexDeclaration->addElement( newSource, offset, VET_FLOAT4, VES_TEXTURE_COORDINATES,
-                thisVertexData->vertexDeclaration->
-                getNextFreeTextureCoordinate() ).getSize();
-            offset += thisVertexData->vertexDeclaration->addElement( newSource, offset, VET_FLOAT4, VES_TEXTURE_COORDINATES,
-                thisVertexData->vertexDeclaration->
-                getNextFreeTextureCoordinate() ).getSize();
+            offset += thisVertexData->vertexDeclaration
+                          ->addElement(
+                              newSource,
+                              offset,
+                              VET_FLOAT4,
+                              VES_TEXTURE_COORDINATES,
+                              thisVertexData->vertexDeclaration
+                                  ->getNextFreeTextureCoordinate())
+                          .size();
+            offset += thisVertexData->vertexDeclaration
+                          ->addElement(
+                              newSource,
+                              offset,
+                              VET_FLOAT4,
+                              VES_TEXTURE_COORDINATES,
+                              thisVertexData->vertexDeclaration
+                                  ->getNextFreeTextureCoordinate())
+                          .size();
         }
 
         //Add the weights (supports up to four, which is Ogre's limit)
         if(mWeightCount > 1)
         {
-            thisVertexData->vertexDeclaration->addElement(newSource, offset, VET_FLOAT4, VES_BLEND_WEIGHTS,
-                                        thisVertexData->vertexDeclaration->getNextFreeTextureCoordinate() ).getSize();
+            thisVertexData->vertexDeclaration
+                ->addElement(
+                    newSource,
+                    offset,
+                    VET_FLOAT4,
+                    VES_BLEND_WEIGHTS,
+                    thisVertexData->vertexDeclaration
+                        ->getNextFreeTextureCoordinate())
+                .size();
         }
 
         //Create our own vertex buffer

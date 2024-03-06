@@ -1030,7 +1030,7 @@ namespace Ogre {
         void _unload(void);
 
         /// Is this loaded?
-        bool isLoaded(void) const;
+        bool is_loaded(void) const;
         /** Tells the class that it needs recompilation. */
         void _notifyNeedsRecompile(void);
 
@@ -1041,12 +1041,15 @@ namespace Ogre {
         */
         void setName(const String& name);
         /// Get the name of the Texture Unit State.
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
         /// @deprecated use setName()
         OGRE_DEPRECATED void setTextureNameAlias(const String& name) { setName(name); }
-        /// @deprecated use getName()
-        OGRE_DEPRECATED const String& getTextureNameAlias(void) const { return getName();}
+        /// @deprecated use name()
+        OGRE_DEPRECATED const String& getTextureNameAlias(void) const
+        {
+            return name();
+        }
 
         /** Notify this object that its parent has changed. */
         void _notifyParent(Pass* parent);
@@ -1061,7 +1064,7 @@ namespace Ogre {
         /** Set the texture pointer for a given frame (internal use only!). */
         void _setTexturePtr(const TexturePtr& texptr, size_t frame);
 
-        size_t calculateSize(void) const;
+        size_t calculate_size(void) const;
 
         /** Gets the animation controller (as created because of setAnimatedTexture)
             if it exists.

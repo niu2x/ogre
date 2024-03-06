@@ -502,7 +502,7 @@ namespace Ogre {
         virtual Real getMaxRepeatDelay(void) const;
 
         /** Returns the name of the emitter */
-        const String &getName(void) const;
+        const String& name(void) const;
 
         /** Sets the name of the emitter */
         virtual void setName(const String& newName);

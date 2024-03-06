@@ -79,7 +79,8 @@ namespace Ogre
         //Blend weights may not be present because HW_VTF does not require to be skeletally animated
         const VertexElement *veWeights = baseVertexData->vertexDeclaration->findElementBySemantic( VES_BLEND_WEIGHTS );
         if( veWeights )
-            mWeightCount = forceOneWeight() ? 1 : veWeights->getSize() / sizeof(float);
+            mWeightCount
+                = forceOneWeight() ? 1 : veWeights->size() / sizeof(float);
         else
             mWeightCount = 1;
 
@@ -144,15 +145,28 @@ namespace Ogre
         //Can fit two dual quaternions in every float4, but only one 3x4 matrix
         for(size_t i = 0; i < mWeightCount; i += maxFloatsPerVector / mRowLength)
         {
-            offset += thisVertexData->vertexDeclaration->addElement( newSource, offset, VET_FLOAT4, VES_TEXTURE_COORDINATES,
-                                        thisVertexData->vertexDeclaration->getNextFreeTextureCoordinate() ).getSize();
+            offset += thisVertexData->vertexDeclaration
+                          ->addElement(
+                              newSource,
+                              offset,
+                              VET_FLOAT4,
+                              VES_TEXTURE_COORDINATES,
+                              thisVertexData->vertexDeclaration
+                                  ->getNextFreeTextureCoordinate())
+                          .size();
         }
 
         //Add the weights (supports up to four, which is Ogre's limit)
         if(mWeightCount > 1)
         {
-            thisVertexData->vertexDeclaration->addElement(newSource, offset, VET_FLOAT4, VES_BLEND_WEIGHTS,
-                                        0 ).getSize();
+            thisVertexData->vertexDeclaration
+                ->addElement(
+                    newSource,
+                    offset,
+                    VET_FLOAT4,
+                    VES_BLEND_WEIGHTS,
+                    0)
+                .size();
         }
         
         //Create our own vertex buffer
@@ -219,17 +233,46 @@ namespace Ogre
 
         //Now create the instance buffer that will be incremented per instance, contains UV offsets
         newSource = thisVertexData->vertexDeclaration->getMaxSource() + 1;
-        offset = thisVertexData->vertexDeclaration->addElement( newSource, 0, VET_FLOAT2, VES_TEXTURE_COORDINATES,thisVertexData->vertexDeclaration->getNextFreeTextureCoordinate() ).getSize();
+        offset = thisVertexData->vertexDeclaration
+                     ->addElement(
+                         newSource,
+                         0,
+                         VET_FLOAT2,
+                         VES_TEXTURE_COORDINATES,
+                         thisVertexData->vertexDeclaration
+                             ->getNextFreeTextureCoordinate())
+                     .size();
         if (useBoneMatrixLookup())
         {
             //if using bone matrix lookup we will need to add 3 more float4 to contain the matrix. containing
             //the personal world transform of each entity.
-            offset += thisVertexData->vertexDeclaration->addElement( newSource, offset, VET_FLOAT4, VES_TEXTURE_COORDINATES,
-                thisVertexData->vertexDeclaration->getNextFreeTextureCoordinate() ).getSize();
-            offset += thisVertexData->vertexDeclaration->addElement( newSource, offset, VET_FLOAT4, VES_TEXTURE_COORDINATES,
-                thisVertexData->vertexDeclaration->getNextFreeTextureCoordinate() ).getSize();
-            thisVertexData->vertexDeclaration->addElement( newSource, offset, VET_FLOAT4, VES_TEXTURE_COORDINATES,
-                thisVertexData->vertexDeclaration->getNextFreeTextureCoordinate() ).getSize();
+            offset += thisVertexData->vertexDeclaration
+                          ->addElement(
+                              newSource,
+                              offset,
+                              VET_FLOAT4,
+                              VES_TEXTURE_COORDINATES,
+                              thisVertexData->vertexDeclaration
+                                  ->getNextFreeTextureCoordinate())
+                          .size();
+            offset += thisVertexData->vertexDeclaration
+                          ->addElement(
+                              newSource,
+                              offset,
+                              VET_FLOAT4,
+                              VES_TEXTURE_COORDINATES,
+                              thisVertexData->vertexDeclaration
+                                  ->getNextFreeTextureCoordinate())
+                          .size();
+            thisVertexData->vertexDeclaration
+                ->addElement(
+                    newSource,
+                    offset,
+                    VET_FLOAT4,
+                    VES_TEXTURE_COORDINATES,
+                    thisVertexData->vertexDeclaration
+                        ->getNextFreeTextureCoordinate())
+                .size();
             //Add two floats of padding here? or earlier?
             //If not using bone matrix lookup, is it ok that it is 8 bytes since divides evenly into 16
 

@@ -253,7 +253,10 @@ namespace Ogre {
             virtual ~MaterialBucket();
             LODBucket* getParent(void) { return mParent; }
             /// Get the material name
-            const String& getMaterialName(void) const { return mMaterial->getName(); }
+            const String& getMaterialName(void) const
+            {
+                return mMaterial->name();
+            }
             /// Assign geometry to this bucket
             void assign(QueuedGeometry* qsm);
             /// Build
@@ -538,7 +541,7 @@ namespace Ogre {
         virtual ~StaticGeometry();
 
         /// Get the name of this object
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
         /** Adds an Entity to the static geometry.
 
             This method takes an existing Entity and adds its details to the 

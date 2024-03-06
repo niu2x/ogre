@@ -112,11 +112,11 @@ namespace Ogre {
         void _refreshAnimationState(AnimationStateSet* animSet) override;
 
         /// @copydoc Resource::getName
-        const String& getName(void) const;
+        const String& name(void) const;
         /// @copydoc Resource::getHandle
-        ResourceHandle getHandle(void) const;
+        ResourceHandle handle(void) const;
         /// @copydoc Resource::getGroup
-        const String& getGroup(void) const;
+        const String& group(void) const;
 
     private:
         /// Pointer back to master Skeleton
@@ -147,9 +147,8 @@ namespace Ogre {
         unsigned short mNextTagPointAutoHandle;
 
         void cloneBoneAndChildren(Bone* source, Bone* parent);
-        void prepareImpl(void) override;
-        void unprepareImpl(void) override;
-
+        void prepare_impl() override;
+        void unprepare_impl() override;
     };
     /** @} */
     /** @} */

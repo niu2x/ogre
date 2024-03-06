@@ -45,10 +45,10 @@ CompositorChain::CompositorChain(Viewport *vp):
 {
     assert(vp);
     mOldClearEveryFrameBuffers = vp->getClearBuffers();
-    vp->addListener(this);
+    vp->add_listener(this);
 
     createOriginalScene();
-    vp->getTarget()->addListener(this);
+    vp->getTarget()->add_listener(this);
 }
 //-----------------------------------------------------------------------
 CompositorChain::~CompositorChain()
@@ -62,8 +62,8 @@ void CompositorChain::destroyResources(void)
 
     if (mViewport)
     {
-        mViewport->getTarget()->removeListener(this);
-        mViewport->removeListener(this);
+        mViewport->getTarget()->remove_listener(this);
+        mViewport->remove_listener(this);
         removeAllCompositors();
         destroyOriginalScene();
 
@@ -212,8 +212,7 @@ size_t CompositorChain::getCompositorPosition(const String& name) const
 {
     for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
     {
-        if ((*it)->getCompositor()->getName() == name) 
-        {
+        if ((*it)->getCompositor()->name() == name) {
             return std::distance(mInstances.begin(), it);
         }
     }
@@ -546,19 +545,19 @@ void CompositorChain::_notifyViewport(Viewport* vp)
 {
     if (vp != mViewport)
     {
-        if (mViewport != NULL) 
-            mViewport->removeListener(this);
+        if (mViewport != NULL)
+            mViewport->remove_listener(this);
 
-        if (vp != NULL) 
-            vp->addListener(this);
-        
+        if (vp != NULL)
+            vp->add_listener(this);
+
         if (!vp || !mViewport || vp->getTarget() != mViewport->getTarget())
         {
             if(mViewport)
-                mViewport->getTarget()->removeListener(this);
+                mViewport->getTarget()->remove_listener(this);
 
             if(vp)
-                vp->getTarget()->addListener(this);
+                vp->getTarget()->add_listener(this);
         }
         mOurListener.notifyViewport(vp);
         mViewport = vp;

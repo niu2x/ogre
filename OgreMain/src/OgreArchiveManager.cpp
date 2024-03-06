@@ -75,10 +75,7 @@ namespace Ogre {
         return pArch;
     }
     //-----------------------------------------------------------------------
-    void ArchiveManager::unload(Archive* arch)
-    {
-        unload(arch->getName());
-    }
+    void ArchiveManager::unload(Archive* arch) { unload(arch->name()); }
     //-----------------------------------------------------------------------
     void ArchiveManager::unload(const String& filename)
     {

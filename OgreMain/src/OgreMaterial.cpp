@@ -100,14 +100,14 @@ namespace Ogre {
         mCompilationRequired = rhs.mCompilationRequired;
         // illumination passes are not compiled right away so
         // mIsLoaded state should still be the same as the original material
-        assert(isLoaded() == rhs.isLoaded());
+        assert(is_loaded() == rhs.is_loaded());
 
         return *this;
     }
 
 
     //-----------------------------------------------------------------------
-    void Material::prepareImpl(void)
+    void Material::prepare_impl()
     {
         // compile if required
         if (mCompilationRequired)
@@ -119,7 +119,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void Material::unprepareImpl(void)
+    void Material::unprepare_impl()
     {
         // Load all supported techniques
         for (auto *t : mSupportedTechniques)
@@ -128,7 +128,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void Material::loadImpl(void)
+    void Material::load_impl(void)
     {
         // Load all supported techniques
         for (auto *t : mSupportedTechniques)
@@ -138,7 +138,7 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    void Material::unloadImpl(void)
+    void Material::unload_impl(void)
     {
         // Unload all supported techniques
         for (auto *t : mSupportedTechniques)
@@ -147,14 +147,14 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    size_t Material::calculateSize(void) const
+    size_t Material::calculate_size(void) const
     {
-        size_t memSize = sizeof(*this) + Resource::calculateSize();
+        size_t memSize = sizeof(*this) + Resource::calculate_size();
 
         // Tally up techniques
         for (auto t : mTechniques)
         {
-            memSize += t->calculateSize();
+            memSize += t->calculate_size();
         }
 
         memSize += mUnsupportedReasons.size() * sizeof(char);
@@ -164,31 +164,33 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     MaterialPtr Material::clone(const String& newName, const String& newGroup) const
     {
-        MaterialPtr newMat =
-            MaterialManager::getSingleton().create(newName, newGroup.empty() ? mGroup : newGroup);
+        MaterialPtr newMat = MaterialManager::getSingleton().create(
+            newName,
+            newGroup.empty() ? group() : newGroup);
 
         if(!newMat) // interception by collision handler
             return newMat;
 
         // Keep handle (see below, copy overrides everything)
-        ResourceHandle newHandle = newMat->getHandle();
+        ResourceHandle newHandle = newMat->handle();
         // Assign values from this
         *newMat = *this;
         // Restore new group if required, will have been overridden by operator
         if (!newGroup.empty())
         {
-            newMat->mGroup = newGroup;
+            newMat->set_group(newGroup);
         }
         
         // Correct the name & handle, they get copied too
-        newMat->mName = newName;
-        newMat->mHandle = newHandle;
+        newMat->set_name(newName);
+        newMat->set_handle(newHandle);
 
         //if we're cloning from a loaded material, notify the creator or otherwise size won't be right
-        if (newMat->getLoadingState() == LoadingState::LOADED) {
+        if (newMat->loading_state() == LoadingState::LOADED) {
             // Notify manager
-            if (mCreator)
-                mCreator->_notifyResourceLoaded(newMat.get());
+            auto my_creator = creator();
+            if (my_creator)
+                my_creator->_notifyResourceLoaded(newMat.get());
         }
 
         return newMat;
@@ -197,15 +199,15 @@ namespace Ogre {
     void Material::copyDetailsTo(MaterialPtr& mat) const
     {
         // Keep handle (see below, copy overrides everything)
-        ResourceHandle savedHandle = mat->mHandle;
-        String savedName = mat->mName;
-        String savedGroup = mat->mGroup;
+        ResourceHandle savedHandle = mat->handle();
+        String savedName = mat->name();
+        String savedGroup = mat->group();
         // Assign values from this
         *mat = *this;
         // Correct the name & handle, they get copied too
-        mat->mName = savedName;
-        mat->mHandle = savedHandle;
-        mat->mGroup = savedGroup;
+        mat->set_name(savedName);
+        mat->set_handle(savedHandle);
+        mat->set_group(savedGroup);
     }
     //-----------------------------------------------------------------------
     void Material::applyDefaults(void)
@@ -215,14 +217,14 @@ namespace Ogre {
         if (defaults)
         {
             // save name & handle
-            String savedName = mName;
-            String savedGroup = mGroup;
-            ResourceHandle savedHandle = mHandle;
+            String savedName = name();
+            String savedGroup = group();
+            ResourceHandle savedHandle = handle();
             *this = *defaults;
             // restore name & handle
-            mName = savedName;
-            mHandle = savedHandle;
-            mGroup = savedGroup;
+            set_name(savedName);
+            set_handle(savedHandle);
+            set_group(savedGroup);
         }
         mCompilationRequired = true;
 
@@ -242,8 +244,7 @@ namespace Ogre {
         // iterate through techniques to find a match
         for (auto *t : mTechniques)
         {
-            if (t->getName() == name)
-            {
+            if (t->name() == name) {
                 foundTechnique = t;
                 break;
             }
@@ -407,9 +408,9 @@ namespace Ogre {
             {
                 // Log informational
                 StringStream str;
-                str << "Material " << mName << " Technique " << techNo;
-                if (!t->getName().empty())
-                    str << "(" << t->getName() << ")";
+                str << "Material " << name() << " Technique " << techNo;
+                if (!t->name().empty())
+                    str << "(" << t->name() << ")";
                 str << " is not supported. " << compileMessages;
                 LogManager::getSingleton().log_message(str.str(), LogMsgLevel::TRIVIAL);
                 mUnsupportedReasons += compileMessages;
@@ -423,8 +424,9 @@ namespace Ogre {
         if (mSupportedTechniques.empty())
         {
             LogManager::getSingleton().stream(LogMsgLevel::WARNING)
-                << "Warning: material " << mName << " has no supportable "
-                << "Techniques and will be blank. Explanation: \n" << mUnsupportedReasons;
+                << "Warning: material " << name() << " has no supportable "
+                << "Techniques and will be blank. Explanation: \n"
+                << mUnsupportedReasons;
         }
     }
     //-----------------------------------------------------------------------
@@ -529,7 +531,7 @@ namespace Ogre {
     {
         mCompilationRequired = true;
         // Also need to unload to ensure we loaded any new items
-        if (isLoaded()) // needed to stop this being called in 'loading' state
+        if (is_loaded()) // needed to stop this being called in 'loading' state
             unload();
     }
     // --------------------------------------------------------------------

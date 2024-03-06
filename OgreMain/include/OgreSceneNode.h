@@ -247,7 +247,7 @@ namespace Ogre {
             This method returns the SceneManager which created this node.
             This can be useful for destroying this node.
         */
-        SceneManager* getCreator(void) const { return mCreator; }
+        SceneManager* creator(void) const { return mCreator; }
 
         /** This method removes and destroys the named child and all of its children.
 

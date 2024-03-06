@@ -275,17 +275,17 @@ namespace Ogre {
         return *this;
     }
     //-----------------------------------------------------------------------------
-    size_t Pass::calculateSize(void) const
+    size_t Pass::calculate_size(void) const
     {
         size_t memSize = 0;
 
         // Tally up TU states
         for (auto *t : mTextureUnitStates)
         {
-            memSize += t->calculateSize();
+            memSize += t->calculate_size();
         }
         for(const auto& u : mProgramUsage)
-            memSize += u ? u->calculateSize() : 0;
+            memSize += u ? u->calculate_size() : 0;
 
         return memSize;
     }
@@ -381,8 +381,7 @@ namespace Ogre {
         // Notify state
         state->_notifyParent(this);
         // if texture unit state name is empty then give it a default name based on its index
-        if (state->getName().empty())
-        {
+        if (state->name().empty()) {
             // its the last entry in the container so its index is size - 1
             size_t idx = mTextureUnitStates.size() - 1;
 
@@ -404,8 +403,7 @@ namespace Ogre {
         // iterate through TUS Container to find a match
         for (auto *t : mTextureUnitStates)
         {
-            if (t->getName() == name)
-            {
+            if (t->name() == name) {
                 foundTUS = t;
                 break;
             }
@@ -940,10 +938,7 @@ namespace Ogre {
         return getGpuProgramParameters(GPT_COMPUTE_PROGRAM);
     }
     //-----------------------------------------------------------------------
-    bool Pass::isLoaded(void) const
-    {
-        return mParent->isLoaded();
-    }
+    bool Pass::is_loaded(void) const { return mParent->is_loaded(); }
     //-----------------------------------------------------------------------
     void Pass::_recalculateHash(void)
     {
@@ -964,15 +959,12 @@ namespace Ogre {
             return;
 
         Material* mat = mParent->getParent();
-        if (mat->isLoading() || mat->isLoaded())
-        {
-            
+        if (mat->is_loading() || mat->is_loaded()) {
+
             // Mark this hash as for follow up
             msDirtyHashList.insert(this);
             mHashDirtyQueued = false;
-        }
-        else
-        {
+        } else {
             mHashDirtyQueued = true;
         }
     }
