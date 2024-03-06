@@ -94,7 +94,7 @@ namespace Ogre {
 
         // Have to call this here reather than in Resource destructor
         // since calling virtual methods in base destructors causes crash
-        if (isLoaded())
+        if (is_loaded())
         {
             unload();
         }

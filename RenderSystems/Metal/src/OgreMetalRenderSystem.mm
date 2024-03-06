@@ -107,7 +107,7 @@ namespace Ogre
         mTextureManager = 0;
     }
     //-------------------------------------------------------------------------
-    const String& MetalRenderSystem::getName(void) const
+    const String& MetalRenderSystem::name(void) const
     {
         static String strName("Metal Rendering Subsystem");
         return strName;
