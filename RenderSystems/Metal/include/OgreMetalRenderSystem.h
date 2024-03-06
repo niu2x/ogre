@@ -98,7 +98,7 @@ namespace Ogre
 
         virtual void shutdown(void);
 
-        virtual const String& getName(void) const;
+        virtual const String& name(void) const;
         virtual void setConfigOption(const String &name, const String &value) {}
 
         virtual HardwareOcclusionQuery* createHardwareOcclusionQuery(void);
