@@ -98,7 +98,7 @@ void Exporter::exportCSLModel(Mesh* pMesh, CSLModel* XSIModel)
 void Exporter::exportSubMesh(Mesh *pMesh, CSLMesh* XSIMesh)
 {
     SubMesh* sm = 0;
-    sm = pMesh->createSubMesh(XSIMesh->GetName());
+    sm = pMesh->createSubMesh(XSIMesh->name());
     
     // HACK:  No materials exporter yet, I hard coded this, wrong as hell, but did it anyway
     // For now, I'm just creating the materials file manually.
@@ -248,7 +248,7 @@ void Exporter::exportSubMesh(Mesh *pMesh, CSLMesh* XSIMesh)
         env = envelopes[e];
         for (int g = 0; g < boneCount; ++g) 
         {
-            if (boneArray[g] == env->GetDeformer()->GetName()) 
+            if (boneArray[g] == env->GetDeformer()->name()) 
                 boneIdx = g;
             else
                 continue;
@@ -432,8 +432,8 @@ void Exporter::recurseBones(Skeleton* pSkel, CSLModel* XSIModel)
     if ((XSIModel->GetPrimitiveType() == CSLTemplate::SI_NULL_OBJECT) &&
         ((XSIModel->ParentModel()->GetPrimitiveType() == CSLTemplate::SI_NULL_OBJECT) || (!root)))
     {
-        boneArray[boneCount] = XSIModel->GetName();
-        Bone* ogreBone = pSkel->createBone(XSIModel->GetName(), boneCount);
+        boneArray[boneCount] = XSIModel->name();
+        Bone* ogreBone = pSkel->createBone(XSIModel->name(), boneCount);
         root = true;
         vec3d = XSIModel->Transform()->GetScale();
         ogreBone->setScale(vec3d.GetX(), vec3d.GetY(), vec3d.GetZ());
@@ -458,7 +458,7 @@ void Exporter::recurseBones(Skeleton* pSkel, CSLModel* XSIModel)
                 
         if ((boneCount > 1) && (XSIModel->ParentModel()->GetPrimitiveType() == CSLTemplate::SI_NULL_OBJECT))
         {
-            pSkel->getBone(XSIModel->ParentModel()->GetName())->addChild(ogreBone);
+            pSkel->getBone(XSIModel->ParentModel()->name())->addChild(ogreBone);
         }
     }           
             

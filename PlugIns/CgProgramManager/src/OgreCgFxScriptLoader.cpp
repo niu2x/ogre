@@ -2725,9 +2725,9 @@ namespace Ogre {
     {
         String streamAsString = stream->as_string();
 
-        MaterialPtr ogreMaterial = MaterialManager::getSingleton().create(stream->getName(), groupName);
+        MaterialPtr ogreMaterial = MaterialManager::getSingleton().create(stream->name(), groupName);
 
-        String sourceToUse = HighLevelGpuProgram::_resolveIncludes(streamAsString, ogreMaterial.get(), stream->getName(), true);
+        String sourceToUse = HighLevelGpuProgram::_resolveIncludes(streamAsString, ogreMaterial.get(), stream->name(), true);
 
         CGeffect cgEffect = cgCreateEffect(mCgContext, sourceToUse.c_str(), NULL);
         checkForCgError("CgFxScriptLoader::parseScript",
@@ -2861,13 +2861,13 @@ namespace Ogre {
 
         // The name is all the path to this shader combined with the entry point and profile so it will be unique.
         StringStream programName;
-        programName << ogrePass->getParent()->getParent()->getName() << "|"; // Material
+        programName << ogrePass->getParent()->getParent()->name() << "|"; // Material
         programName << entry << "|"; // entry
         programName << profile << "|"; // profile
         programName << (ogrePass->getParent()->getParent()->getNumTechniques() - 1) << "-"; // Technique number
-        programName << ogrePass->getParent()->getName() << "|"; // Technique
+        programName << ogrePass->getParent()->name() << "|"; // Technique
         programName << (ogrePass->getParent()->getNumPasses() - 1) << "-"; // Pass number
-        programName << ogrePass->getName(); // Pass
+        programName << ogrePass->name(); // Pass
 
         String ProgramNameAsString = programName.str();
 
@@ -2895,13 +2895,13 @@ namespace Ogre {
             switch(ogreProgramType)
             {
             case GPT_VERTEX_PROGRAM:
-                ogrePass->setVertexProgram(ogreProgram->getName());
+                ogrePass->setVertexProgram(ogreProgram->name());
                 break;
             case GPT_FRAGMENT_PROGRAM:
-                ogrePass->setFragmentProgram(ogreProgram->getName());
+                ogrePass->setFragmentProgram(ogreProgram->name());
                 break;
             case GPT_GEOMETRY_PROGRAM:
-                ogrePass->setGeometryProgram(ogreProgram->getName());
+                ogrePass->setGeometryProgram(ogreProgram->name());
                 break;
             case GPT_DOMAIN_PROGRAM:
             case GPT_COMPUTE_PROGRAM:

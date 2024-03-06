@@ -149,7 +149,7 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().log_message("Error from GLSL Optimiser, disabling optimisation for program: " + gpuProgram->getName());
+                LogManager::getSingleton().log_message("Error from GLSL Optimiser, disabling optimisation for program: " + gpuProgram->name());
                 gpuProgram->getGLSLProgram()->set_parameter("use_optimiser", "false");
                 //LogManager::getSingleton().log_message(String(glslopt_get_log(shader)));
                 //LogManager::getSingleton().log_message("Original Shader");

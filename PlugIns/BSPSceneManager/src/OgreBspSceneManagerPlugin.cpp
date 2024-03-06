@@ -42,7 +42,7 @@ namespace {
         {
             auto group = ResourceGroupManager::getSingleton().getWorldResourceGroupName();
             auto rootNode = std::any_cast<SceneNode*>(output);
-            BspSceneManager* mgr = dynamic_cast<BspSceneManager*>(rootNode->getCreator());
+            BspSceneManager* mgr = dynamic_cast<BspSceneManager*>(rootNode->creator());
 
             OgreAssert(mgr, "only loading into a BspSceneManager supported");
             OgreAssert(mgr->getRootSceneNode() == rootNode, "BspCodec only supports loading into RootSceneNode");
@@ -61,7 +61,7 @@ namespace {
     BspSceneManagerPlugin::BspSceneManagerPlugin() : mBspFactory(0) {}
     BspSceneManagerPlugin::~BspSceneManagerPlugin() {}
     //---------------------------------------------------------------------
-    const String& BspSceneManagerPlugin::getName() const
+    const String& BspSceneManagerPlugin::name() const
     {
         return sPluginName;
     }

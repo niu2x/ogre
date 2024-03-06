@@ -161,9 +161,9 @@ namespace Ogre
         ser.write(&mAABB);
         // SceneManager type & name
         ser.write(&mSceneMgr->getTypeName());
-        ser.write(&mSceneMgr->getName());
+        ser.write(&mSceneMgr->name());
         // Page Strategy Name
-        ser.write(&mStrategy->getName());
+        ser.write(&mStrategy->name());
         // Page Strategy Data
         mStrategyData->save(ser);
 
@@ -383,7 +383,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     std::ostream& operator <<( std::ostream& o, const PagedWorldSection& p )
     {
-        o << "PagedWorldSection(" << p.getName() << ", world:" << p.getWorld()->getName() << ")";
+        o << "PagedWorldSection(" << p.name() << ", world:" << p.getWorld()->name() << ")";
         return o;
     }
 

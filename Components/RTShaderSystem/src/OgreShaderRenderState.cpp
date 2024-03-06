@@ -164,7 +164,7 @@ void TargetRenderState::acquirePrograms(Pass* pass)
 
     bool hasError = false;
     bool logProgramNames = !ShaderGenerator::getSingleton().getShaderCachePath().empty();
-    const char* matName = pass->getParent()->getParent()->getName().c_str();
+    const char* matName = pass->getParent()->getParent()->name().c_str();
 
     for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
     {
@@ -173,7 +173,7 @@ void TargetRenderState::acquirePrograms(Pass* pass)
         if (logProgramNames)
         {
             LogManager::getSingleton().log_message(StringUtil::format(
-                "RTSS: using %s for Pass %d of '%s'", prog->getName().c_str(), pass->getIndex(), matName));
+                "RTSS: using %s for Pass %d of '%s'", prog->name().c_str(), pass->getIndex(), matName));
         }
 
         // Bind the created GPU programs to the target pass.

@@ -509,7 +509,7 @@ namespace OgreMayaExporter
                     {
                         pBlendShape = new BlendShape();
                         pBlendShape->load(kObject);
-                        std::cout << "Found blend shape deformer " << pBlendShape->getName().asChar() << " for mesh " 
+                        std::cout << "Found blend shape deformer " << pBlendShape->name().asChar() << " for mesh " 
                             << mesh.name().asChar() << "\n"; 
                     }   
                 }

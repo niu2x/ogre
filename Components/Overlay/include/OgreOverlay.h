@@ -114,7 +114,7 @@ namespace Ogre {
         OverlayContainer* getChild(const String& name);
 
         /** Gets the name of this overlay. */
-        const String& getName(void) const;
+        const String& name(void) const;
         
         /** Alters the Z-order of this overlay. 
 
@@ -270,7 +270,7 @@ namespace Ogre {
         */
         const String& getOrigin(void) const { return mOrigin; }
         /// Notify this overlay of it's origin
-        void _notifyOrigin(const String& origin) { mOrigin = origin; }
+        void _notify_origin(const String& origin) { mOrigin = origin; }
 
 
     };

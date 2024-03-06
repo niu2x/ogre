@@ -45,7 +45,7 @@ namespace Ogre {
     protected:
 
     public:
-        String getName() const override { return "HollowEllipsoid"; }
+        String name() const override { return "HollowEllipsoid"; }
 
         ParticleEmitter* createEmitter(ParticleSystem* psys) override { return new HollowEllipsoidEmitter(psys); }
     };

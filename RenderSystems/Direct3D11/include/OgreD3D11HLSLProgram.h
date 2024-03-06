@@ -85,7 +85,7 @@ namespace Ogre {
         void createLowLevelImpl(void) override {}
         /// Internal unload implementation, must be implemented by subclasses
         void unloadHighLevelImpl(void) override;
-        void unprepareImpl() override;
+        void unprepare_impl() override;
 
         static void populateDef(D3D11_SHADER_TYPE_DESC& d3dDesc, GpuConstantDefinition& def);
 
@@ -203,7 +203,7 @@ namespace Ogre {
         */
         void loadFromSource(void);
 
-        void prepareImpl();
+        void prepare_impl();
 
         void reinterpretGSForStreamOut(void);
         bool mReinterpretingGS;

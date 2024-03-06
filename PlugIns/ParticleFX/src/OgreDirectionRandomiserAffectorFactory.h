@@ -37,7 +37,7 @@ namespace Ogre {
     /** Factory class for DirectionRandomiserAffector. */
     class DirectionRandomiserAffectorFactory : public ParticleAffectorFactory
     {
-        String getName() const override { return "DirectionRandomiser"; }
+        String name() const override { return "DirectionRandomiser"; }
 
         ParticleAffector* createAffector(ParticleSystem* psys) override
         {

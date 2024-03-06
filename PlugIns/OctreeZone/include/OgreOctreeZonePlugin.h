@@ -50,7 +50,7 @@ namespace Ogre
         OctreeZonePlugin();
 
         /// @copydoc Plugin::getName
-        const String& getName() const override;
+        const String& name() const override;
 
         /// @copydoc Plugin::install
         void install() override;

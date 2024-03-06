@@ -43,14 +43,14 @@ void DrawRenderingSettings(String& rsName)
     OgreAssert(root, "Root must be created");
 
     if(rsName.empty())
-        rsName = root->getRenderSystem()->getName();
+        rsName = root->getRenderSystem()->name();
 
     if(ImGui::BeginCombo("Render System", rsName.c_str()))
     {
         for(const auto& it : root->getAvailableRenderers())
         {
-            if(ImGui::Selectable(it->getName().c_str(), it->getName() == rsName))
-                rsName = it->getName();
+            if(ImGui::Selectable(it->name().c_str(), it->name() == rsName))
+                rsName = it->name();
         }
         ImGui::EndCombo();
     }
@@ -128,7 +128,7 @@ ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
 
     OgreAssert(font->getType() == FT_TRUETYPE, "font must be of FT_TRUETYPE");
     DataStreamPtr dataStreamPtr =
-        ResourceGroupManager::getSingleton().openResource(font->getSource(), font->getGroup());
+        ResourceGroupManager::getSingleton().openResource(font->getSource(), font->group());
     MemoryDataStream ttfchunk(dataStreamPtr, false); // transfer ownership to imgui
 
     // convert codepoint ranges for imgui

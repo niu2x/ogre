@@ -102,7 +102,7 @@ namespace Ogre
             {
                 OGRE_EXCEPT(
                     Exception::ERR_DUPLICATE_ITEM,
-                    "A portal with the name " + newPortal->getName() + " already exists",
+                    "A portal with the name " + newPortal->name() + " already exists",
                     "PCZone::_addPortal" );
             }
 
@@ -136,7 +136,7 @@ namespace Ogre
             {
                 OGRE_EXCEPT(
                     Exception::ERR_DUPLICATE_ITEM,
-                    "An anti portal with the name " + newAntiPortal->getName() + " already exists",
+                    "An anti portal with the name " + newAntiPortal->name() + " already exists",
                     "PCZone::_addAntiPortal" );
             }
 

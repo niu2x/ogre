@@ -126,7 +126,7 @@ namespace Ogre
         for (DeformerMap::iterator i = deformers.begin(); i != deformers.end(); ++i)
         {
             DeformerEntry* deformer = i->second;
-            String name = XSItoOgre(deformer->obj.GetName());
+            String name = XSItoOgre(deformer->obj.name());
             StringUtil::lower_case(&name);
             mLowerCaseDeformerMap[name] = deformer;
         }
@@ -142,7 +142,7 @@ namespace Ogre
         {
             DeformerEntry* deformer = i->second;
             deformerList.push_back(deformer);
-            LogOgreAndXSI(deformer->obj.GetName());
+            LogOgreAndXSI(deformer->obj.name());
         }
 
         /* XSI allows you to use any object at all as a bone, not just chain elements.
@@ -223,7 +223,7 @@ namespace Ogre
         DeformerMap& deformers, std::list<DeformerEntry*>& deformerList)
     {
         X3DObject parent(child->obj.GetParent());
-        String childName = XSItoOgre(child->obj.GetName());
+        String childName = XSItoOgre(child->obj.name());
 
         if (child->obj == mXsiSceneRoot /* safety check for start node */)
             return;
@@ -248,7 +248,7 @@ namespace Ogre
         else
         {
 
-            String parentName = XSItoOgre(parent.GetName());
+            String parentName = XSItoOgre(parent.name());
             // Otherwise, check to see if the parent is in the deformer list
             DeformerEntry* parentDeformer = getDeformer(parentName, deformers);
             if (!parentDeformer)
@@ -257,8 +257,8 @@ namespace Ogre
                 parentDeformer = new DeformerEntry(deformers.size(), parent);
                 deformers[parentName] = parentDeformer;
                 deformerList.push_back(parentDeformer);
-                LogOgreAndXSI(CString(L"Added ") + parent.GetName() + 
-                    CString(L" as a parent of ") + child->obj.GetName() );
+                LogOgreAndXSI(CString(L"Added ") + parent.name() + 
+                    CString(L" as a parent of ") + child->obj.name() );
             }
 
             // Link child entry with parent (not bone yet)
@@ -292,7 +292,7 @@ namespace Ogre
         // if we weren't static, create bone
         if (!deformer->pBone)
         {
-            String name = XSItoOgre(deformer->obj.GetName());
+            String name = XSItoOgre(deformer->obj.name());
             deformer->pBone = pSkeleton->createBone(name, deformer->boneID);
             MATH::CTransformation trans; 
 

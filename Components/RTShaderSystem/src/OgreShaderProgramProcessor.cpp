@@ -79,7 +79,7 @@ void ProgramProcessor::bindAutoParameters(Program* pCpuProgram, GpuProgramPtr pG
 
     for (const auto& p : pCpuProgram->parameters())
     {
-        const GpuConstantDefinition* gpuConstDef = pGpuParams->_findNamedConstantDefinition(p->getName());
+        const GpuConstantDefinition* gpuConstDef = pGpuParams->_findNamedConstantDefinition(p->name());
 
         if (gpuConstDef != NULL)
         {
@@ -88,14 +88,14 @@ void ProgramProcessor::bindAutoParameters(Program* pCpuProgram, GpuProgramPtr pG
             {
                 if (p->isAutoConstantRealParameter())
                 {
-                    pGpuParams->setNamedAutoConstantReal(p->getName(),
+                    pGpuParams->setNamedAutoConstantReal(p->name(),
                         p->getAutoConstantType(),
                         p->getAutoConstantRealData());
 
                 }
                 else if (p->isAutoConstantIntParameter())
                 {
-                    pGpuParams->setNamedAutoConstant(p->getName(),
+                    pGpuParams->setNamedAutoConstant(p->name(),
                         p->getAutoConstantType(),
                         p->getAutoConstantIntData());
                 }
@@ -141,7 +141,7 @@ void ProgramProcessor::bindTextureSamplers(Program* pCpuProgram, GpuProgramPtr p
         {
             // The optimizer may remove some unnecessary parameters, so we should ignore them
             pGpuParams->setIgnoreMissingParams(true);
-            pGpuParams->setNamedConstant(pCurParam->getName(), pCurParam->getIndex());
+            pGpuParams->setNamedConstant(pCurParam->name(), pCurParam->getIndex());
         }
     }
 }
@@ -647,7 +647,7 @@ void ProgramProcessor::generateLocalSplitParameters(Function* func, GpuProgramTy
     // Create the local parameters + map from source to local.
     for (const auto& srcParameter : splitParams)
     {
-        ParameterPtr localParameter = func->resolveLocalParameter(srcParameter->getType(), "lsplit_" + srcParameter->getName());
+        ParameterPtr localParameter = func->resolveLocalParameter(srcParameter->getType(), "lsplit_" + srcParameter->name());
 
         localParamsMap[srcParameter.get()] = localParameter;
     }

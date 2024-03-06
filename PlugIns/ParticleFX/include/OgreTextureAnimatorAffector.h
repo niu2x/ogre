@@ -64,7 +64,7 @@ namespace Ogre {
     /** Factory class for TextureAnimatorAffector. */
     class TextureAnimatorAffectorFactory : public ParticleAffectorFactory
     {
-        String getName() const override { return "TextureAnimator"; }
+        String name() const override { return "TextureAnimator"; }
 
         ParticleAffector* createAffector(ParticleSystem* psys) override { return new TextureAnimatorAffector(psys); }
     };

@@ -56,7 +56,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D11Texture::notifyDeviceLost(D3D11Device* device)
     {
-        unloadImpl();
+        unload_impl();
     }
     //---------------------------------------------------------------------
     void D3D11Texture::notifyDeviceRestored(D3D11Device* device)
@@ -162,7 +162,7 @@ namespace Ogre
             this->_create3DTex();
             break;
         default:
-            this->unloadImpl();
+            this->unload_impl();
             OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Unknown texture type", "D3D11Texture::createInternalResources" );
         }
     }
@@ -193,7 +193,7 @@ namespace Ogre
         // check result and except if failed
         if (FAILED(hr) || mDevice.isError())
         {
-            this->unloadImpl();
+            this->unload_impl();
 			String errorDescription = mDevice.getErrorDescription(hr);
 			OGRE_EXCEPT_EX(Exception::ERR_RENDERINGAPI_ERROR, hr,
 				"Error creating texture\nError Description:" + errorDescription,
@@ -291,7 +291,7 @@ namespace Ogre
         // check result and except if failed
         if (FAILED(hr) || mDevice.isError())
         {
-            this->unloadImpl();
+            this->unload_impl();
             String errorDescription = mDevice.getErrorDescription(hr);
 			OGRE_EXCEPT_EX(Exception::ERR_RENDERINGAPI_ERROR, hr,
                 "Error creating texture\nError Description:" + errorDescription, 
@@ -410,7 +410,7 @@ namespace Ogre
         // check result and except if failed
         if (FAILED(hr) || mDevice.isError())
         {
-            this->unloadImpl();
+            this->unload_impl();
             String errorDescription = mDevice.getErrorDescription(hr);
 			OGRE_EXCEPT_EX(Exception::ERR_RENDERINGAPI_ERROR, hr,
                 "Error creating texture\nError Description:" + errorDescription, 

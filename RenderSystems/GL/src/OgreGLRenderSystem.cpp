@@ -166,7 +166,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().log_message(getName() + " created.");
+        LogManager::getSingleton().log_message(name() + " created.");
 
         mRenderAttribsBound.reserve(100);
         mRenderInstanceAttribsBound.reserve(100);
@@ -379,7 +379,7 @@ namespace Ogre {
         rsc->setDriverVersion(mDriverVersion);
         const char* deviceName = (const char*)glGetString(GL_RENDERER);
         rsc->setDeviceName(deviceName);
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
         rsc->setVendor(mVendor);
 
         if (mEnableFixedPipeline)

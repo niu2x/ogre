@@ -141,7 +141,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().log_message(getName() + " created.");
+        LogManager::getSingleton().log_message(name() + " created.");
 
         // Get our GLSupport
         mGLSupport = getGLSupport();
@@ -227,7 +227,7 @@ namespace Ogre {
             rsc->setDeviceName(deviceName);
         }
 
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
         rsc->setVendor(mVendor);
 
         // Check for hardware mipmapping support.

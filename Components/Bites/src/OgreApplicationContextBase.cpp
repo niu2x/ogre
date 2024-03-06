@@ -102,7 +102,7 @@ bool ApplicationContextBase::initialiseRTShaderSystem()
         // Create and register the material manager listener if it doesn't exist yet.
         if (!mMaterialMgrListener) {
             mMaterialMgrListener = new SGTechniqueResolverListener(mShaderGenerator);
-            Ogre::MaterialManager::getSingleton().addListener(mMaterialMgrListener);
+            Ogre::MaterialManager::getSingleton().add_listener(mMaterialMgrListener);
         }
 
         return true;
@@ -148,7 +148,7 @@ void ApplicationContextBase::destroyRTShaderSystem()
     // Unregister the material manager listener.
     if (mMaterialMgrListener != NULL)
     {
-        Ogre::MaterialManager::getSingleton().removeListener(mMaterialMgrListener);
+        Ogre::MaterialManager::getSingleton().remove_listener(mMaterialMgrListener);
         delete mMaterialMgrListener;
         mMaterialMgrListener = NULL;
     }
@@ -389,7 +389,7 @@ void ApplicationContextBase::destroyWindow(const Ogre::String& name)
 {
     for (auto it = mWindows.begin(); it != mWindows.end(); ++it)
     {
-        if (it->render->getName() != name)
+        if (it->render->name() != name)
             continue;
         _destroyWindow(*it);
         mWindows.erase(it);

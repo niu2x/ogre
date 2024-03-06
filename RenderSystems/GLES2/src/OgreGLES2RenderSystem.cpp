@@ -162,7 +162,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().log_message(getName() + " created.");
+        LogManager::getSingleton().log_message(name() + " created.");
 
         mRenderAttribsBound.reserve(100);
         mRenderInstanceAttribsBound.reserve(100);
@@ -241,7 +241,7 @@ namespace Ogre {
             rsc->setDeviceName(deviceName);
         }
 
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
         rsc->setVendor(mVendor);
 
         // Multitexturing support and set number of texture units

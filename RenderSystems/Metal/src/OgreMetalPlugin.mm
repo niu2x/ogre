@@ -43,7 +43,7 @@ namespace Ogre
     {
     }
     //---------------------------------------------------------------------
-    const String& MetalPlugin::getName() const
+    const String& MetalPlugin::name() const
     {
         return sPluginName;
     }

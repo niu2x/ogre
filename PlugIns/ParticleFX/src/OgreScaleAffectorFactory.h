@@ -37,7 +37,7 @@ namespace Ogre {
     /** Factory class for ScaleAffector. */
     class ScaleAffectorFactory : public ParticleAffectorFactory
     {
-        String getName() const override { return "Scaler"; }
+        String name() const override { return "Scaler"; }
 
         ParticleAffector* createAffector(ParticleSystem* psys) override { return new ScaleAffector(psys); }
     };

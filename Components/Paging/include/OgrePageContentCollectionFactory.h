@@ -50,7 +50,7 @@ namespace Ogre
         PageContentCollectionFactory() {}
         virtual ~PageContentCollectionFactory() {}
 
-        virtual const String& getName() const = 0;
+        virtual const String& name() const = 0;
         virtual PageContentCollection* createInstance() = 0;
         virtual void destroyInstance(PageContentCollection*) = 0;
     };

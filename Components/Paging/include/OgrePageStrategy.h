@@ -84,7 +84,7 @@ namespace Ogre
 
         virtual ~PageStrategy() {}
 
-        const String& getName() const { return mName; }
+        const String& name() const { return mName; }
         PageManager* getManager() const { return mManager; }
 
         /// Called when the frame starts

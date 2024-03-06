@@ -582,7 +582,7 @@ void ShaderGenerator::addSceneManager(SceneManager* sceneMgr)
     if (!mSceneManagerListener)
         mSceneManagerListener.reset(new SGSceneManagerListener(this));
 
-    sceneMgr->addListener(mSceneManagerListener.get());
+    sceneMgr->add_listener(mSceneManagerListener.get());
 
     // Update the active scene manager.
     if (mActiveSceneMgr == NULL)
@@ -598,7 +598,7 @@ void ShaderGenerator::removeSceneManager(SceneManager* sceneMgr)
     if (itFind != mSceneManagerMap.end())
     {
         (*itFind)->removeRenderObjectListener(mRenderObjectListener.get());
-        (*itFind)->removeListener(mSceneManagerListener.get());
+        (*itFind)->remove_listener(mSceneManagerListener.get());
 
         mSceneManagerMap.erase(itFind);
 
@@ -732,8 +732,8 @@ bool ShaderGenerator::createShaderBasedTechnique(const Technique* srcTechnique, 
 
     // Update group name in case it is AUTODETECT_RESOURCE_GROUP_NAME
     Material* srcMat = srcTechnique->getParent();
-    const String& materialName = srcMat->getName();
-    const String& trueGroupName = srcMat->getGroup();
+    const String& materialName = srcMat->name();
+    const String& trueGroupName = srcMat->group();
 
     SGMaterialIterator itMatEntry = findMaterialEntryIt(materialName, trueGroupName);
 
@@ -799,7 +799,7 @@ bool ShaderGenerator::removeShaderBasedTechnique(const Technique* srcTech, const
 
     // Find the material entry.
     Material* srcMat = srcTech->getParent();
-    SGMaterialIterator itMatEntry = findMaterialEntryIt(srcMat->getName(), srcMat->getGroup());
+    SGMaterialIterator itMatEntry = findMaterialEntryIt(srcMat->name(), srcMat->group());
 
     // Case material not found.
     if (itMatEntry == mMaterialEntriesMap.end())
@@ -872,7 +872,7 @@ bool ShaderGenerator::cloneShaderBasedTechniques(Material& srcMat, Material& dst
 {
     if(&srcMat == &dstMat) return true; // nothing to do
 
-    SGMaterialIterator itSrcMatEntry = findMaterialEntryIt(srcMat.getName(), srcMat.getGroup());
+    SGMaterialIterator itSrcMatEntry = findMaterialEntryIt(srcMat.name(), srcMat.group());
 
     //remove any techniques in the destination material so the new techniques may be copied
     removeAllShaderBasedTechniques(dstMat);
@@ -1282,7 +1282,7 @@ ShaderGenerator::SGPassList ShaderGenerator::createSGPassList(Material* mat) con
 {
     SGPassList passList;
 
-    SGMaterialConstIterator itMatEntry = findMaterialEntryIt(mat->getName(), mat->getGroup());
+    SGMaterialConstIterator itMatEntry = findMaterialEntryIt(mat->name(), mat->group());
 
     // Check if material is managed.
     if (itMatEntry == mMaterialEntriesMap.end())
@@ -1628,8 +1628,8 @@ RenderState* ShaderGenerator::SGScheme::getRenderState(const String& materialNam
     for (auto *t : mTechniqueEntries)
     {
         Material* curMat = t->getSourceTechnique()->getParent();
-        if ((curMat->getName() == materialName) &&
-            ((doAutoDetect == true) || (curMat->getGroup() == groupName)))
+        if ((curMat->name() == materialName) &&
+            ((doAutoDetect == true) || (curMat->group() == groupName)))
         {
             return t->getRenderState(passIndex);
         }

@@ -70,7 +70,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void OverlayContainer::addChildImpl(OverlayElement* elem)
     {
-        String name = elem->getName();
+        String name = elem->name();
         ChildMap::iterator i = mChildren.find(name);
         if (i != mChildren.end())
         {
@@ -110,7 +110,7 @@ namespace Ogre {
         */
 
         // Now add to specific map too
-        mChildContainers.emplace(cont->getName(), cont);
+        mChildContainers.emplace(cont->name(), cont);
 
     }
     //---------------------------------------------------------------------
@@ -340,7 +340,7 @@ namespace Ogre {
                      OverlayElement* newChildElement =
                          OverlayManager::getSingleton().createOverlayElement(
                             oldChildElement->getTypeName(),
-                            mName+"/"+oldChildElement->getName());
+                            mName+"/"+oldChildElement->name());
                      newChildElement->copyFromTemplate(oldChildElement);
                      addChild(newChildElement);
                  }

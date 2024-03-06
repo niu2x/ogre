@@ -299,7 +299,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     const String& OverlayElement::getMaterialName(void) const
     {
-        return mMaterial ? mMaterial->getName() : BLANKSTRING;
+        return mMaterial ? mMaterial->name() : BLANKSTRING;
     }
     //---------------------------------------------------------------------
     void OverlayElement::setMaterial(const MaterialPtr& mat)
@@ -315,8 +315,8 @@ namespace Ogre {
         if (dstPass->getLightingEnabled() || dstPass->getDepthCheckEnabled())
         {
             LogManager::getSingleton().log_warning(
-                "force-disabling 'lighting' and 'depth_check' of Material " + mat->getName() +
-                " for use with OverlayElement " + getName());
+                "force-disabling 'lighting' and 'depth_check' of Material " + mat->name() +
+                " for use with OverlayElement " + name());
         }
 
         // Set some prerequisites to be sure

@@ -90,7 +90,7 @@ namespace Ogre
 
             //            if (getGLSupport()->checkExtension("GL_KHR_debug") || gl3wIsSupported(4, 3))
             //                glObjectLabel(GL_PROGRAM_PIPELINE, mGLProgramPipelineHandle, 0,
-            //                                 (mVertexShader->getName() + "/" + mFragmentShader->getName()).c_str());
+            //                                 (mVertexShader->name() + "/" + mFragmentShader->name()).c_str());
         }
 
     void GLSLSeparableProgram::activate(void)

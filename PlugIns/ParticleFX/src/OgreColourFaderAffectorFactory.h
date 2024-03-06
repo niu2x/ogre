@@ -37,7 +37,7 @@ namespace Ogre {
     /** Factory class for ColourFaderAffector. */
     class ColourFaderAffectorFactory : public ParticleAffectorFactory
     {
-        String getName() const override { return "ColourFader"; }
+        String name() const override { return "ColourFader"; }
 
         ParticleAffector* createAffector(ParticleSystem* psys) override { return new ColourFaderAffector(psys); }
     };

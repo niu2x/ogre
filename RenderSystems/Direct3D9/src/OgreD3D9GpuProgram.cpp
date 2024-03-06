@@ -310,7 +310,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------------
-    void D3D9GpuProgram::unloadImpl(void)
+    void D3D9GpuProgram::unload_impl(void)
     {
         D3D9_DEVICE_ACCESS_CRITICAL_SECTION
 

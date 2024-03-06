@@ -82,7 +82,7 @@ namespace Ogre
             if(mShaders[GPT_VERTEX_PROGRAM] && mShaders[GPT_FRAGMENT_PROGRAM] && Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_DEBUG))
             {
                 glLabelObjectEXT(GL_PROGRAM_PIPELINE_OBJECT_EXT, mGLProgramHandle, 0,
-                             (mShaders[GPT_VERTEX_PROGRAM]->getName() + "/" + mShaders[GPT_FRAGMENT_PROGRAM]->getName()).c_str());
+                             (mShaders[GPT_VERTEX_PROGRAM]->name() + "/" + mShaders[GPT_FRAGMENT_PROGRAM]->name()).c_str());
             }
         }
     }

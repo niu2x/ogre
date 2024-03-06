@@ -115,7 +115,7 @@ namespace Ogre {
 
         String getResourceLogName() const;
 
-        void prepareImpl(void) override;
+        void prepare_impl(void) override;
 
         /// Attached Shader names
         String mAttachedShaderNames;

@@ -191,7 +191,7 @@ namespace Ogre {
         virtual void _restoreManualHardwareResources() {}
 
         /** Gets the name of this overlay. */
-        const String& getName(void) const { return mName; }
+        const String& name(void) const { return mName; }
 
 
         /** Shows this element if it was hidden. */

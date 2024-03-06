@@ -56,7 +56,7 @@ namespace Ogre
             for(size_t zoffset=0; zoffset<mDepth; ++zoffset)
             {
                 String name;
-                name = "rtt/"+StringConverter::to_string((size_t)this) + "/" + mParent->getName();
+                name = "rtt/"+StringConverter::to_string((size_t)this) + "/" + mParent->name();
 
                 RenderTexture *trt = new VulkanRenderTexture(name, this, zoffset, mParent, mFace);
                 mSliceTRT.push_back(trt);
@@ -249,7 +249,7 @@ namespace Ogre
         allocInfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
         OGRE_VK_CHECK(vmaCreateImage(device->getAllocator(), &imageInfo, &allocInfo, &mFinalTextureName, &mAllocation, 0));
 
-        String textureName = getName();
+        String textureName = name();
         setObjectName( device->mDevice, (uint64_t)mFinalTextureName,
                        VK_DEBUG_REPORT_OBJECT_TYPE_IMAGE_EXT, textureName.c_str() );
 
@@ -700,7 +700,7 @@ namespace Ogre
         OGRE_VK_CHECK(
             vmaCreateImage(device->getAllocator(), &imageInfo, &allocInfo, &mMsaaTextureName, &mMsaaAllocation, 0));
 
-        String textureName = getName() + "/MsaaImplicit";
+        String textureName = name() + "/MsaaImplicit";
         setObjectName(device->mDevice, (uint64_t)mMsaaTextureName, VK_DEBUG_REPORT_OBJECT_TYPE_IMAGE_EXT,
                       textureName.c_str());
 

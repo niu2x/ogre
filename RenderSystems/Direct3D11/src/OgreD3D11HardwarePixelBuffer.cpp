@@ -76,7 +76,7 @@ namespace Ogre {
             for(size_t zoffset=0; zoffset<mDepth; ++zoffset)
             {
                 String name;
-                name = "rtt/"+StringConverter::to_string((size_t)this) + "/" + parentTexture->getName();
+                name = "rtt/"+StringConverter::to_string((size_t)this) + "/" + parentTexture->name();
 
                 RenderTexture *trt = new D3D11RenderTexture(name, this, zoffset, mDevice);
                 mSliceTRT.push_back(trt);

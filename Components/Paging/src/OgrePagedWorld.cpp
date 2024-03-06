@@ -115,7 +115,7 @@ namespace Ogre
             // declaration
             ser.writeChunkBegin(CHUNK_SECTIONDECLARATION_ID);
             ser.write(&sec->getType());
-            ser.write(&sec->getName());
+            ser.write(&sec->name());
             ser.writeChunkEnd(CHUNK_SECTIONDECLARATION_ID);
             // data
             s.second->save(ser);
@@ -198,7 +198,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void PagedWorld::destroySection(PagedWorldSection* sec)
     {
-        destroySection(sec->getName());
+        destroySection(sec->name());
     }
     //---------------------------------------------------------------------
     void PagedWorld::destroyAllSections()
@@ -310,7 +310,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     std::ostream& operator <<( std::ostream& o, const PagedWorld& p )
     {
-        o << "PagedWorld(" << p.getName() << ")";
+        o << "PagedWorld(" << p.name() << ")";
         return o;
     }
 

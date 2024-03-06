@@ -385,7 +385,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
     mNodeDerivedTransformByName.clear();
 
     String basename, extension;
-    StringUtil::split_base_filename(mesh->getName(), &basename, &extension);
+    StringUtil::split_base_filename(mesh->name(), &basename, &extension);
 
     grabNodeNamesFromNode(scene, scene->mRootNode);
     grabBoneNamesFromNode(scene, scene->mRootNode);
@@ -415,7 +415,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
     {
         const aiTexture* tex = scene->mTextures[i];
         auto texname =
-            StringUtil::format("%s%s.%s", mesh->getName().c_str(), tex->mFilename.C_Str(), tex->achFormatHint);
+            StringUtil::format("%s%s.%s", mesh->name().c_str(), tex->mFilename.C_Str(), tex->achFormatHint);
         if (TextureManager::getSingleton().resourceExists(texname, mesh->getGroup()))
             continue;
 
@@ -450,11 +450,11 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
 
         if (!mQuietMode)
         {
-            LogManager::getSingleton().log_message("Root bone: " + mSkeleton->getRootBones()[0]->getName());
+            LogManager::getSingleton().log_message("Root bone: " + mSkeleton->getRootBones()[0]->name());
         }
 
         skeletonPtr = mSkeleton;
-        mesh->setSkeletonName(mSkeleton->getName());
+        mesh->setSkeletonName(mSkeleton->name());
     }
 
     for (auto sm : mesh->getSubMeshes())
@@ -604,7 +604,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
             defBonePoseInv.make_inverse_transform(bone->getPosition(), bone->getScale(),
                                                 bone->getOrientation());
 
-            NodeAnimationTrack* track = animation->createNodeTrack(bone->getHandle(), bone);
+            NodeAnimationTrack* track = animation->createNodeTrack(bone->handle(), bone);
 
             // Ogre needs translate rotate and scale for each keyframe in the track
             KeyframesMap keyframes;
@@ -672,7 +672,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
                     keyframe = track->createNodeKeyFrame(Real(it->first));
 
                     // weirdness with the root bone, But this seems to work
-                    if (mSkeleton->getRootBones()[0]->getName() == boneName)
+                    if (mSkeleton->getRootBones()[0]->name() == boneName)
                     {
                         trans = transCopy - bone->getPosition();
                     }
@@ -1113,7 +1113,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
     VertexDeclaration* declaration = submesh->vertexData->vertexDeclaration;
     static const unsigned short source = 0;
     size_t offset = 0;
-    offset += declaration->addElement(source, offset, VET_FLOAT3, VES_POSITION).getSize();
+    offset += declaration->addElement(source, offset, VET_FLOAT3, VES_POSITION).size();
 
     if (!mQuietMode)
     {
@@ -1125,7 +1125,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
         {
             LogManager::getSingleton().log_message(StringUtil::format("%d normals", mesh->mNumVertices));
         }
-        offset += declaration->addElement(source, offset, VET_FLOAT3, VES_NORMAL).getSize();
+        offset += declaration->addElement(source, offset, VET_FLOAT3, VES_NORMAL).size();
     }
 
     if (uv)
@@ -1134,7 +1134,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
         {
             LogManager::getSingleton().log_message(StringUtil::format("%d uvs", mesh->mNumVertices));
         }
-        offset += declaration->addElement(source, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES).getSize();
+        offset += declaration->addElement(source, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES).size();
     }
 
     if (tang)
@@ -1143,7 +1143,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
         {
             LogManager::getSingleton().log_message(StringUtil::format("%d tangents", mesh->mNumVertices));
         }
-        offset += declaration->addElement(source, offset, VET_FLOAT3, VES_TANGENT).getSize();
+        offset += declaration->addElement(source, offset, VET_FLOAT3, VES_TANGENT).size();
     }
 
     if (col)
@@ -1153,7 +1153,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
         {
             LogManager::getSingleton().log_message(StringUtil::format("%d colours", mesh->mNumVertices));
         }
-        offset += declaration->addElement(source, offset, VET_UBYTE4_NORM, VES_DIFFUSE).getSize();
+        offset += declaration->addElement(source, offset, VET_UBYTE4_NORM, VES_DIFFUSE).size();
     }
 
     // Finally we set a material to the submesh
@@ -1243,7 +1243,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
                     VertexBoneAssignment vba;
                     vba.vertexIndex = aiWeight.mVertexId;
-                    vba.boneIndex = mSkeleton->getBone(bname)->getHandle();
+                    vba.boneIndex = mSkeleton->getBone(bname)->handle();
                     vba.weight = aiWeight.mWeight;
 
                     submesh->addBoneAssignment(vba);
@@ -1324,7 +1324,7 @@ void AssimpLoader::loadDataFromNode(const aiScene* mScene, const aiNode* pNode, 
 
             // Create a material instance for the mesh.
             const aiMaterial* pAIMaterial = mScene->mMaterials[pAIMesh->mMaterialIndex];
-            MaterialPtr matptr = createMaterial(pAIMaterial, mesh->getGroup(), mesh->getName(), mScene, !mQuietMode);
+            MaterialPtr matptr = createMaterial(pAIMaterial, mesh->getGroup(), mesh->name(), mScene, !mQuietMode);
             createSubMesh(pNode->mName.data, idx, pNode, pAIMesh, matptr, mesh, mAAB);
         }
 
@@ -1397,7 +1397,7 @@ struct AssimpCodec : public Codec
     }
 };
 
-const String& AssimpPlugin::getName() const
+const String& AssimpPlugin::name() const
 {
     static String name = "Assimp";
     return name;

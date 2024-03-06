@@ -80,7 +80,7 @@ namespace Ogre
 
         virtual bool prepareImpl(PageData* dataToPopulate);
         virtual bool prepareImpl(StreamSerialiser& str, PageData* dataToPopulate);
-        virtual void loadImpl();
+        virtual void load_impl();
 
         String generateFilename() const;
 

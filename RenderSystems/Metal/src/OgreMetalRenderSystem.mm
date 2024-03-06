@@ -121,7 +121,7 @@ namespace Ogre
     RenderSystemCapabilities* MetalRenderSystem::createRenderSystemCapabilities(void) const
     {
         RenderSystemCapabilities* rsc = new RenderSystemCapabilities();
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
 
         rsc->setDeviceName(mActiveDevice->mDevice.name.UTF8String);
 

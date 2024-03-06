@@ -127,9 +127,9 @@ namespace Ogre
         /// Internal method for loading from ttf
         void createTextureFromFont(void);
 
-        void loadImpl() override;
-        void unloadImpl() override;
-        size_t calculateSize(void) const override { return 0; } // permanent resource is in the texture
+        void load_impl() override;
+        void unload_impl() override;
+        size_t calculate_size(void) const override { return 0; } // permanent resource is in the texture
     public:
 
         /** Constructor.
@@ -255,7 +255,7 @@ namespace Ogre
                 if (i == mCodePointMap.end())
                 {
                     OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, StringUtil::format(
-                        "Code point %d and fallback 63 not found in font %s", id, mName.c_str()));
+                        "Code point %d and fallback 63 not found in font %s", id, name().c_str()));
                 }
             }
             return i->second;

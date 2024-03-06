@@ -443,7 +443,7 @@ namespace OgreMayaExporter
     }
 
     // Get blend shape deformer name
-    MString BlendShape::getName()
+    MString BlendShape::name()
     {
         return m_pBlendShapeFn->name();
     }

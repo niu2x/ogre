@@ -1018,9 +1018,9 @@ namespace Ogre {
 
         miss++;
         cache[tail++] = index;
-        tail %= size;
+        tail %= size_;
 
-        if (buffersize < size) buffersize++;
+        if (buffersize < size_) buffersize++;
 
         return false;
     }

@@ -66,7 +66,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     const String TerrainPaging::SectionFactory::FACTORY_NAME("Terrain");
 
-    const String& TerrainPaging::SectionFactory::getName() const
+    const String& TerrainPaging::SectionFactory::name() const
     {
         return FACTORY_NAME;
     }

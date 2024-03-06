@@ -6041,7 +6041,7 @@ public:
     VkDeviceSize GetAlignment() const { return m_Alignment; }
     VkDeviceSize GetSize() const { return m_Size; }
     void* GetUserData() const { return m_pUserData; }
-    const char* GetName() const { return m_pName; }
+    const char* name() const { return m_pName; }
     VmaSuballocationType GetSuballocationType() const { return (VmaSuballocationType)m_SuballocationType; }
 
     VmaDeviceMemoryBlock* GetBlock() const { VMA_ASSERT(m_Type == ALLOCATION_TYPE_BLOCK); return m_BlockAllocation.m_Block; }
@@ -6441,7 +6441,7 @@ void VmaBlockMetadata::DebugLogAllocation(VkDeviceSize offset, VkDeviceSize size
         VmaAllocation allocation = reinterpret_cast<VmaAllocation>(userData);
 
         userData = allocation->GetUserData();
-        const char* name = allocation->GetName();
+        const char* name = allocation->name();
 
 #if VMA_STATS_STRING_ENABLED
         VMA_DEBUG_LOG("UNFREED ALLOCATION; Offset: %llu; Size: %llu; UserData: %p; Name: %s; Type: %s; Usage: %u",
@@ -11126,7 +11126,7 @@ public:
     uint32_t GetId() const { return m_Id; }
     void SetId(uint32_t id) { VMA_ASSERT(m_Id == 0); m_Id = id; }
 
-    const char* GetName() const { return m_Name; }
+    const char* name() const { return m_Name; }
     void SetName(const char* pName);
 
 #if VMA_STATS_STRING_ENABLED
@@ -15283,7 +15283,7 @@ void VmaAllocator_T::GetAllocationInfo(VmaAllocation hAllocation, VmaAllocationI
     pAllocationInfo->size = hAllocation->GetSize();
     pAllocationInfo->pMappedData = hAllocation->GetMappedData();
     pAllocationInfo->pUserData = hAllocation->GetUserData();
-    pAllocationInfo->pName = hAllocation->GetName();
+    pAllocationInfo->pName = hAllocation->name();
 }
 
 VkResult VmaAllocator_T::CreatePool(const VmaPoolCreateInfo* pCreateInfo, VmaPool* pPool)
@@ -16013,10 +16013,10 @@ void VmaAllocator_T::PrintDetailedMap(VmaJsonWriter& json)
                             json.WriteString("Name");
                             json.BeginString();
                             json.ContinueString_Size(index++);
-                            if (pool->GetName())
+                            if (pool->name())
                             {
                                 json.ContinueString(" - ");
-                                json.ContinueString(pool->GetName());
+                                json.ContinueString(pool->name());
                             }
                             json.EndString();
 
@@ -16535,7 +16535,7 @@ VMA_CALL_PRE void VMA_CALL_POST vmaGetPoolName(
 
     VMA_DEBUG_GLOBAL_MUTEX_LOCK
 
-    *ppName = pool->GetName();
+    *ppName = pool->name();
 }
 
 VMA_CALL_PRE void VMA_CALL_POST vmaSetPoolName(

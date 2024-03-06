@@ -143,7 +143,7 @@ namespace Ogre
             : mName(name), mDesc(desc), mType(pType) {}
 
         /// Get the name of the property
-        const String& getName() const { return mName; }
+        const String& name() const { return mName; }
 
         /// Get the description of the property
         const String& description() const { return mDesc; }
@@ -194,7 +194,7 @@ namespace Ogre
         virtual ~PropertyBase() {}
 
         /// Get the name of the property
-        const String& getName() const { return mDef->getName(); }
+        const String& name() const { return mDef->name(); }
 
         /// Get the description of the property
         const String& description() const { return mDef->description(); }

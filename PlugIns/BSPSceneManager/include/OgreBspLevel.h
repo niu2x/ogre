@@ -144,11 +144,11 @@ namespace Ogre {
         bool cacheGeometry(const std::vector<StaticFaceGroup*>& materialFaceGroup);
 
         /** @copydoc Resource::loadImpl. */
-        void loadImpl(void) override;
+        void load_impl(void) override;
         /** @copydoc Resource::unloadImpl. */
-        void unloadImpl(void) override;
-        /** @copydoc Resource::calculateSize. */
-        size_t calculateSize(void) const override;
+        void unload_impl(void) override;
+        /** @copydoc Resource::calculate_size. */
+        size_t calculate_size(void) const override;
         /** Pointer to the root node of the BSP tree;
             This pointer actually has a dual purpose; to avoid allocating lots of small chunks of
             memory, the BspLevel actually allocates all nodes required through this pointer. So this

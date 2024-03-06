@@ -37,7 +37,7 @@ namespace Ogre {
     /** Factory class for DeflectorPlaneAffector. */
     class DeflectorPlaneAffectorFactory : public ParticleAffectorFactory
     {
-        String getName() const override { return "DeflectorPlane"; }
+        String name() const override { return "DeflectorPlane"; }
 
         ParticleAffector* createAffector(ParticleSystem* psys) override { return new DeflectorPlaneAffector(psys); }
     };

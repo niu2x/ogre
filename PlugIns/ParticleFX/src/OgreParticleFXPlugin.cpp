@@ -56,7 +56,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& ParticleFXPlugin::getName() const
+    const String& ParticleFXPlugin::name() const
     {
         return sPluginName;
     }

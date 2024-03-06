@@ -139,7 +139,7 @@ namespace Ogre {
             VertexDeclaration* decl = mRenderOp.vertexData->vertexDeclaration;
             size_t offset = 0;
             // Positions
-            offset += decl->addElement(POS_TEX_BINDING, offset, VET_FLOAT3, VES_POSITION).getSize();
+            offset += decl->addElement(POS_TEX_BINDING, offset, VET_FLOAT3, VES_POSITION).size();
             // Texcoords
             decl->addElement(POS_TEX_BINDING, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0);
             // Colours - store these in a separate buffer because they change less often
@@ -443,7 +443,7 @@ namespace Ogre {
     }
     const String& TextAreaOverlayElement::getFontName() const
     {
-        return mFont->getName();
+        return mFont->name();
     }
 
     void TextAreaOverlayElement::setCharHeight( Real height )
@@ -730,7 +730,7 @@ namespace Ogre {
     //
     String CmdFontName::get( const void* target ) const
     {
-        return static_cast< const TextAreaOverlayElement* >( target )->getFont()->getName();
+        return static_cast< const TextAreaOverlayElement* >( target )->getFont()->name();
     }
     void CmdFontName::set( void* target, const String& val )
     {

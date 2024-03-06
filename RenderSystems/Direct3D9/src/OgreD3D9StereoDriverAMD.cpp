@@ -58,7 +58,7 @@ namespace Ogre
 	bool D3D9StereoDriverAMD::addRenderWindow(D3D9RenderWindow* renderWindow)
 	{
 	    // Add the window to the existing map
-		mRenderWindowMap[renderWindow->getName()] = renderWindow;
+		mRenderWindowMap[renderWindow->name()] = renderWindow;
 		renderWindow->addListener(this);
 		
 		return false;

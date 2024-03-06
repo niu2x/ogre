@@ -277,7 +277,7 @@ void printLodConfig(const LodConfig& lodConfig)
 {
     auto logMgr = LogManager::getSingletonPtr();
     logMgr->log_message("LOD config summary:");
-    logMgr->log_message(" - lodConfig.strategy=" + lodConfig.strategy->getName());
+    logMgr->log_message(" - lodConfig.strategy=" + lodConfig.strategy->name());
     String reductionMethod("Unknown");
     if (lodConfig.levels[0].reductionMethod == LodLevel::VRM_PROPORTIONAL) {
         reductionMethod = "VRM_PROPORTIONAL";
@@ -409,7 +409,7 @@ struct MeshResourceCreator : public MeshSerializerListener
 		}
         else {
             // create material because we do not load any .material files
-            MaterialManager::getSingleton().createOrRetrieve(*name, mesh->getGroup());
+            MaterialManager::getSingleton().createOrRetrieve(*name, mesh->group());
         }
     }
 
@@ -421,7 +421,7 @@ struct MeshResourceCreator : public MeshSerializerListener
         }
 
         // create skeleton because we do not load any .skeleton files
-        SkeletonManager::getSingleton().createOrRetrieve(*name, mesh->getGroup(), true);
+        SkeletonManager::getSingleton().createOrRetrieve(*name, mesh->group(), true);
     }
     void processMeshCompleted(Mesh *mesh) override {}
 };

@@ -44,7 +44,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& CgPlugin::getName() const
+    const String& CgPlugin::name() const
     {
         return sPluginName;
     }

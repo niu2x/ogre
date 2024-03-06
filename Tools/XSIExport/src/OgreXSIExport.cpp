@@ -142,7 +142,7 @@ CStatus XSILoadPlugin( XSI::PluginRegistrar& registrar )
 
 #ifdef _DEBUG
     Application app;
-    app.log_message( registrar.GetName() + L" has been loaded.");
+    app.log_message( registrar.name() + L" has been loaded.");
 #endif
 
     return XSI::CStatus::OK;    
@@ -156,7 +156,7 @@ XSI::CStatus XSIUnloadPlugin( const XSI::PluginRegistrar& registrar )
 {
 #ifdef _DEBUG
     Application app;
-    app.log_message(registrar.GetName() + L" has been unloaded.");
+    app.log_message(registrar.name() + L" has been unloaded.");
 #endif
 
     return XSI::CStatus::OK;
@@ -172,7 +172,7 @@ XSI::CStatus OgreMeshExportCommand_Init( const XSI::CRef& context )
     Command cmd(ctx.GetSource());
 
     Application app;
-    app.log_message( L"Defining: " + cmd.GetName() );
+    app.log_message( L"Defining: " + cmd.name() );
 
     ArgumentArray args = cmd.GetArguments();
 
@@ -1024,7 +1024,7 @@ void findAnimations(XSI::Model& model, Ogre::AnimationList& animList)
             {
                 XSI::TimeControl timeControl = clip.GetTimeControl();
                 Ogre::AnimationEntry anim;
-                anim.animationName = XSItoOgre(clip.GetName());
+                anim.animationName = XSItoOgre(clip.name());
                 anim.startFrame = timeControl.GetStartOffset();
                 long length = (1.0 / timeControl.GetScale()) * 
                     (timeControl.GetClipOut() - timeControl.GetClipIn() + 1);
@@ -1147,7 +1147,7 @@ CStatus OgreMeshExportOptions_PPGEvent( const CRef& io_Ctx )
             CString val;
             for (int i = 0; i < sel.GetCount(); ++i)
             {
-                CString thisName = SIObject(sel[i]).GetName();
+                CString thisName = SIObject(sel[i]).name();
                 val += thisName;
                 theObjectName += thisName;
                 if (i < sel.GetCount() - 1)
@@ -1345,7 +1345,7 @@ CString GetUserSelectedObject()
     CStringArray nameArray(cRefArray.GetCount());
     for ( long i=0; i < cRefArray.GetCount(); i++ )
     {
-        nameArray[i] = SIObject(cRefArray[i]).GetName();
+        nameArray[i] = SIObject(cRefArray[i]).name();
     }
     //todo qsort the nameArray
 

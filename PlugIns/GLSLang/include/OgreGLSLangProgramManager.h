@@ -60,7 +60,7 @@ public:
 class _OgreGLSLangProgramManagerExport GLSLangPlugin : public Plugin
 {
 public:
-    const String& getName() const override;
+    const String& name() const override;
 
     void install() override;
 

@@ -269,8 +269,8 @@ try
 
     Ogre::MaterialPtr material = matMap[app];
     if (material && app) {
-        log.log_message("Using material " + material->getName());
-        sub->setMaterialName(material->getName());
+        log.log_message("Using material " + material->name());
+        sub->setMaterialName(material->name());
     } else {
         String matName;
         const String *mn;

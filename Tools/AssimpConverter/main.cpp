@@ -217,7 +217,7 @@ int main(int numargs, char** args)
         if (skeleton)
         {
             SkeletonSerializer binSer;
-            binSer.exportSkeleton(skeleton.get(), path + skeleton->getName());
+            binSer.exportSkeleton(skeleton.get(), path + skeleton->name());
         }
 
         // serialise the materials

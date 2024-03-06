@@ -131,7 +131,7 @@ namespace Ogre
         if (!mCompositeMapRTT)
         {
             mCompositeMapRTT = TextureManager::getSingleton().createManual(
-                mCompositeMapSM->getName() + "/compRTT", mat->getGroup(),
+                mCompositeMapSM->name() + "/compRTT", mat->group(),
                 TEX_TYPE_2D, static_cast<uint>(size), static_cast<uint>(size), 0,
                 PF_BYTE_RGBA, TU_RENDERTARGET).get();
             RenderTarget* rtt = mCompositeMapRTT->getBuffer()->getRenderTarget();

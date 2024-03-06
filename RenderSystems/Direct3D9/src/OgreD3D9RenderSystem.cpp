@@ -75,7 +75,7 @@ namespace Ogre
         ,mStereoDriver (NULL)
 #endif
     {
-        LogManager::getSingleton().log_message( "D3D9 : " + getName() + " created." );
+        LogManager::getSingleton().log_message( "D3D9 : " + name() + " created." );
 
         // update singleton access pointer.
         msD3D9RenderSystem = this;
@@ -286,12 +286,12 @@ namespace Ogre
         mStereoDriver = NULL;
 #endif
 
-        LogManager::getSingleton().log_message( "D3D9 : " + getName() + " destroyed." );
+        LogManager::getSingleton().log_message( "D3D9 : " + name() + " destroyed." );
 
         msD3D9RenderSystem = NULL;
     }
     //---------------------------------------------------------------------
-    const String& D3D9RenderSystem::getName() const
+    const String& D3D9RenderSystem::name() const
     {
         static String strName( "Direct3D9 Rendering Subsystem");
         return strName;
@@ -825,7 +825,7 @@ namespace Ogre
         rsc->setCategoryRelevant(CAPS_CATEGORY_D3D9, true);
         rsc->setDriverVersion(mDriverVersion);
         rsc->setDeviceName(mActiveD3DDriver->DriverDescription());
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
 
         if(mEnableFixedPipeline)
         {
@@ -1439,7 +1439,7 @@ namespace Ogre
         D3D9RenderWindowList::iterator sw;
         for (sw = mRenderWindows.begin(); sw != mRenderWindows.end(); ++sw)
         {
-            if ((*sw)->getName() == name)
+            if ((*sw)->name() == name)
             {                   
                 mRenderWindows.erase(sw);
                 break;
@@ -1662,7 +1662,7 @@ namespace Ogre
                 hr = getActiveD3D9Device()->SetTexture(static_cast<DWORD>(stage), pTex);
                 if( hr != S_OK )
                 {
-                    String str = "Unable to set texture '" + tex->getName() + "' in D3D9";
+                    String str = "Unable to set texture '" + tex->name() + "' in D3D9";
                     OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, str, "D3D9RenderSystem::_setTexture" );
                 }
 
@@ -1685,7 +1685,7 @@ namespace Ogre
                     HRESULT hr = getActiveD3D9Device()->SetTexture(D3DVERTEXTEXTURESAMPLER0 + static_cast<DWORD>(stage), pTex);
                     if( hr != S_OK )
                     {
-                        String str = "Unable to set vertex texture '" + tex->getName() + "' in D3D9";
+                        String str = "Unable to set vertex texture '" + tex->name() + "' in D3D9";
                         OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, str);
                     }
                 }
@@ -2511,7 +2511,7 @@ namespace Ogre
         {
             OGRE_EXCEPT( Exception::ERR_RENDERINGAPI_ERROR,
                      "Failed to retrieve Surface Description from BackBuffer. RenderTarget: " +
-                                                                            renderTarget->getName(),
+                                                                            renderTarget->name(),
                      "D3D9RenderSystem::_createDepthBufferFor" );
         }
 

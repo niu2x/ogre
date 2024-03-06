@@ -113,8 +113,8 @@ void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const Ab
                 
                 if (subRenderState)
                 {
-                    addSubRenderState(subRenderState, dstTechniqueSchemeName, material->getName(), 
-                        material->getGroup(), pass->getIndex());
+                    addSubRenderState(subRenderState, dstTechniqueSchemeName, material->name(), 
+                        material->group(), pass->getIndex());
                 }
                 else
                 {
@@ -196,7 +196,7 @@ void SGScriptTranslator::translatePass(ScriptCompiler* compiler, const AbstractN
                     SubRenderState* subRenderState = ShaderGenerator::getSingleton().createSubRenderState(compiler, prop, pass, this);
                     if (subRenderState)
                     {
-                        addSubRenderState(subRenderState, dstTechniqueSchemeName, material->getName(), material->getGroup(), pass->getIndex());
+                        addSubRenderState(subRenderState, dstTechniqueSchemeName, material->name(), material->group(), pass->getIndex());
                     }
                     else
                     {

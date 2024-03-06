@@ -999,8 +999,8 @@ namespace Ogre
     void OctreeZone::setZoneGeometry(const String &filename, PCZSceneNode * parentNode)
     {
         String entityName, nodeName;
-        entityName = this->getName() + "_entity";
-        nodeName = this->getName() + "_Node";
+        entityName = this->name() + "_entity";
+        nodeName = this->name() + "_Node";
         Entity *ent = mPCZSM->createEntity(entityName , filename );
         // create a node for the entity
         PCZSceneNode * node;

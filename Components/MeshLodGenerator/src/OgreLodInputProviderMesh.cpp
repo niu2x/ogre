@@ -52,7 +52,7 @@ namespace Ogre
         const VertexElement* elemPos = vertexData->vertexDeclaration->findElementBySemantic(VES_POSITION);
 
         // Only float supported.
-        OgreAssert(elemPos->getSize() == 12, "");
+        OgreAssert(elemPos->size() == 12, "");
 
         HardwareVertexBufferSharedPtr vbuf = vertexData->vertexBufferBinding->getBuffer(elemPos->getSource());
 
@@ -141,7 +141,7 @@ namespace Ogre
 
     const String & LodInputProviderMesh::getMeshName()
     {
-        return mMesh->getName();
+        return mMesh->name();
     }
     size_t LodInputProviderMesh::getMeshSharedVertexCount()
     {

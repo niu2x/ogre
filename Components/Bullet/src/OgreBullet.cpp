@@ -673,7 +673,7 @@ void VertexIndexToShape::addMesh(const MeshPtr& mesh, const Affine3& transform)
     mTransform = transform;
 
     if (mesh->hasSkeleton())
-        LogManager::getSingleton().log_warning("Mesh " + mesh->getName() + " has a skeleton but added non animated");
+        LogManager::getSingleton().log_warning("Mesh " + mesh->name() + " has a skeleton but added non animated");
 
     if (mesh->sharedVertexData)
     {

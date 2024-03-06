@@ -44,7 +44,7 @@ namespace Ogre {
     protected:
 
     public:
-        String getName() const override { return "Point"; }
+        String name() const override { return "Point"; }
 
         ParticleEmitter* createEmitter(ParticleSystem* psys) override { return new PointEmitter(psys); }
     };

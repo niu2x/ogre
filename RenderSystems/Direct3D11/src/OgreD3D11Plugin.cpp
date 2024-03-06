@@ -38,7 +38,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& D3D11Plugin::getName() const
+    const String& D3D11Plugin::name() const
     {
         return sPluginName;
     }

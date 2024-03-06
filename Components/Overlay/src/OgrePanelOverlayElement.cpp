@@ -324,7 +324,7 @@ namespace Ogre {
                 {
                     offset += decl->addElement(TEXCOORD_BINDING, offset, VET_FLOAT2,
                                                VES_TEXTURE_COORDINATES, ushort(i))
-                                  .getSize();
+                                  .size();
                 }
             }
 

@@ -996,7 +996,7 @@ void D3D9HardwarePixelBuffer::destroyRenderTexture()
 {
     if (!mSliceTRT.empty())
     {
-        Root::getSingleton().getRenderSystem()->destroyRenderTarget(mSliceTRT[0]->getName());
+        Root::getSingleton().getRenderSystem()->destroyRenderTarget(mSliceTRT[0]->name());
         mSliceTRT.clear();
     }
 }

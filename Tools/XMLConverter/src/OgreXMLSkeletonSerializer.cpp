@@ -230,7 +230,7 @@ namespace Ogre {
             bone = skel->getBone(boneName);
             parent = skel->getBone(parentName);
             parent ->addChild(bone) ;
-            //LogManager::getSingleton().log_message("XMLSkeletonSerialiser: lien: " + parent->getName() + "->" + bone->getName().c_str();
+            //LogManager::getSingleton().log_message("XMLSkeletonSerialiser: lien: " + parent->name() + "->" + bone->name().c_str();
             
         }
     }
@@ -268,7 +268,7 @@ namespace Ogre {
             {
                 String boneName = trackElem.attribute("bone").value();
                 Bone * bone = skel->getBone(boneName);
-                unsigned short handle = bone->getHandle();
+                unsigned short handle = bone->handle();
 
                 //LogManager::getSingleton().log_message("Track sur le bone: " + boneName );
 
@@ -402,7 +402,7 @@ namespace Ogre {
         for (unsigned short i = 0; i < numAnims; ++i)
         {
             Animation* pAnim = pSkeleton->getAnimation(i);
-            msg = "Exporting animation: " + pAnim->getName();
+            msg = "Exporting animation: " + pAnim->name();
             LogManager::getSingleton().log_message(msg);
             writeAnimation(animsNode, pAnim);
             LogManager::getSingleton().log_message("Animation exported.");
@@ -456,12 +456,12 @@ namespace Ogre {
         for (i = 0; i < numBones; ++i)
         {
             Bone* pBone = pSkel->getBone(i);
-            String name = pBone->getName() ;
+            String name = pBone->name() ;
 
             if ((pBone->getParent())!=NULL) // root bone
             {
                 Bone* pParent = (Bone*)pBone->getParent();
-                writeBoneParent(hierElem, name, pParent->getName());
+                writeBoneParent(hierElem, name, pParent->name());
             }
         }
 
@@ -473,8 +473,8 @@ namespace Ogre {
         pugi::xml_node boneElem = bonesElement.append_child("bone");
 
         // Bone name & handle
-        boneElem.append_attribute("id") = StringConverter::to_string(pBone->getHandle()).c_str();
-        boneElem.append_attribute("name") = pBone->getName().c_str();
+        boneElem.append_attribute("id") = StringConverter::to_string(pBone->handle()).c_str();
+        boneElem.append_attribute("name") = pBone->name().c_str();
 
         // Position
         pugi::xml_node subNode = boneElem.append_child("position");
@@ -534,7 +534,7 @@ namespace Ogre {
     {
         pugi::xml_node animNode = animsNode.append_child("animation");
 
-        animNode.append_attribute("name") = anim->getName().c_str();
+        animNode.append_attribute("name") = anim->name().c_str();
         animNode.append_attribute("length") = StringConverter::to_string(anim->getLength()).c_str();
         
         // Optional base keyframe information
@@ -562,8 +562,8 @@ namespace Ogre {
 
         // unsigned short boneIndex     : Index of bone to apply to
         Bone* bone = (Bone*)track->getAssociatedNode();
-        //unsigned short boneid = bone->getHandle();
-        String boneName = bone->getName();
+        //unsigned short boneid = bone->handle();
+        String boneName = bone->name();
         trackNode.append_attribute("bone") = boneName.c_str();
 
         // Write all keyframes

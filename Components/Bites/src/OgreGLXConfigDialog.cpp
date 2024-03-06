@@ -168,7 +168,7 @@ private:
     /* Callbacks that set a setting */
     static void renderSystemHandler(Widget w, RendererCallbackData *cdata, XtPointer callData) {
         // Set selected renderer its name
-            XtVaSetValues(cdata->optionmenu, XtNlabel, cdata->renderer->getName().c_str(), 0, NULL);
+            XtVaSetValues(cdata->optionmenu, XtNlabel, cdata->renderer->name().c_str(), 0, NULL);
         // Notify Configurator (and Ogre)
         cdata->parent->SetRenderer(cdata->renderer);
     }
@@ -259,7 +259,7 @@ bool GLXConfigurator::CreateWindow() {
 
     const char *curRenderName = " Select One "; // Name of current renderer, or hint to select one
     if(mRenderer)
-        curRenderName = mRenderer->getName().c_str();
+        curRenderName = mRenderer->name().c_str();
     Widget mb1 = XtVaCreateManagedWidget("Menu", menuButtonWidgetClass, box, XtNlabel,curRenderName,
         XtNresize, false,
         XtNresizable, false,
@@ -283,7 +283,7 @@ bool GLXConfigurator::CreateWindow() {
         mRendererCallbackData.push_back(RendererCallbackData(this, *pRend, mb1));
 
         Widget entry = XtVaCreateManagedWidget("menuentry", smeBSBObjectClass, menu,
-            XtNlabel, (*pRend)->getName().c_str(),
+            XtNlabel, (*pRend)->name().c_str(),
             0, NULL);
         XtAddCallback(entry, XtNcallback, (XtCallbackProc)&GLXConfigurator::renderSystemHandler, &mRendererCallbackData.back());
     }

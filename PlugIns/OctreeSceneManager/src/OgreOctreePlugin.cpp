@@ -40,7 +40,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& OctreePlugin::getName() const
+    const String& OctreePlugin::name() const
     {
         return sPluginName;
     }

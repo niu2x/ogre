@@ -48,13 +48,13 @@ namespace Ogre {
     {
         if(mLoadFromFile)
             return "'" + mFilename + "'";
-        return "'"+mName+"'";
+        return "'"+name()+"'";
     }
 
     //-----------------------------------------------------------------------
-    void GLSLShaderCommon::prepareImpl()
+    void GLSLShaderCommon::prepare_impl()
     {
-        HighLevelGpuProgram::prepareImpl(); // loads source
+        HighLevelGpuProgram::prepare_impl(); // loads source
 
         if(mSource.empty())
             return; // nothing to do
@@ -98,7 +98,7 @@ namespace Ogre {
         char *out = cpp.Parse (src, src_len, out_size);
         if (!out || !out_size)
             // Failed to preprocess, break out
-            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to preprocess shader " + mName);
+            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Failed to preprocess shader " + name());
 
         mSource = String (out, out_size);
         if (out < src || out > src + src_len)

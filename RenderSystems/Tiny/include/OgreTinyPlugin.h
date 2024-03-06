@@ -16,7 +16,7 @@ class _OgreTinyExport TinyPlugin : public Plugin
 public:
     TinyPlugin();
 
-    const String& getName() const override;
+    const String& name() const override;
 
     void install() override;
     void initialise() override;

@@ -14,7 +14,7 @@ const String sPluginName = "Tiny RenderSystem";
 
 TinyPlugin::TinyPlugin() : mRenderSystem(0) {}
 
-const String& TinyPlugin::getName() const
+const String& TinyPlugin::name() const
 {
     return sPluginName;
 }

@@ -225,18 +225,18 @@ namespace Ogre
     void LodConfigSerializer::writeLodBasicInfo()
     {
         writeChunkHeader(LCCID_BASIC_INFO, calcLodBasicInfoSize());
-        writeString(mLodConfig->mesh->getGroup());
-        writeString(mLodConfig->mesh->getName());
-        writeString(mLodConfig->strategy->getName());
+        writeString(mLodConfig->mesh->group());
+        writeString(mLodConfig->mesh->name());
+        writeString(mLodConfig->strategy->name());
     }
 
     size_t LodConfigSerializer::calcLodBasicInfoSize()
     {
         size_t size = calcChunkHeaderSize();
 
-        size += calcStringSize(mLodConfig->mesh->getGroup());
-        size += calcStringSize(mLodConfig->mesh->getName());
-        size += calcStringSize(mLodConfig->strategy->getName());
+        size += calcStringSize(mLodConfig->mesh->group());
+        size += calcStringSize(mLodConfig->mesh->name());
+        size += calcStringSize(mLodConfig->strategy->name());
 
         return size;
     }

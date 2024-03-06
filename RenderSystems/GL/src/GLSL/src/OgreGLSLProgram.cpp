@@ -264,7 +264,7 @@ namespace Ogre {
         for (auto childShader : mAttachedGLSLPrograms)
         {
             GLSLLinkProgramManager::getSingleton().extractUniformsFromGLSL(
-                childShader->getSource(), *mConstantDefs, childShader->getName());
+                childShader->getSource(), *mConstantDefs, childShader->name());
 
         }
     }

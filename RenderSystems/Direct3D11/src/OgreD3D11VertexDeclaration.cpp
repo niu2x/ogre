@@ -90,7 +90,7 @@ namespace Ogre {
                     OGRE_EXCEPT(
                         Exception::ERR_RENDERINGAPI_ERROR,
                         StringUtil::format("Vertex Shader %s consumes semantic %s%d but no such VertexElement provided",
-                                           boundVertexProgram->getName().c_str(), inputDesc.SemanticName,
+                                           boundVertexProgram->name().c_str(), inputDesc.SemanticName,
                                            inputDesc.SemanticIndex));
                 }
 
@@ -154,7 +154,7 @@ namespace Ogre {
             if (FAILED(hr)|| mlpD3DDevice.isError())
             {
 				String errorDescription = mlpD3DDevice.getErrorDescription(hr);
-                errorDescription += "\nBound shader name: " + boundVertexProgram->getName();
+                errorDescription += "\nBound shader name: " + boundVertexProgram->name();
 
 				OGRE_EXCEPT_EX(Exception::ERR_RENDERINGAPI_ERROR, hr,
 					"Unable to set D3D11 vertex declaration" + errorDescription,

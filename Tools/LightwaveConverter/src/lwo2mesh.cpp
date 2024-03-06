@@ -307,7 +307,7 @@ Skeleton *Lwo2MeshWriter::doExportSkeleton(const String &skelName, int l)
     return ogreskel;
 */
     if (ogreskel)
-        Ogre::SkeletonManager::getSingleton().remove(ogreskel->getHandle());
+        Ogre::SkeletonManager::getSingleton().remove(ogreskel->handle());
 
     return NULL;
 }
@@ -754,7 +754,7 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
 
         ogreMesh->unload();
 
-        Ogre::MeshManager::getSingleton().remove(ogreMesh->getHandle());
+        Ogre::MeshManager::getSingleton().remove(ogreMesh->handle());
         if (flags[ExportSkeleton] && skeleton) delete skeleton;
 
         if (!SeparateLayers) break;

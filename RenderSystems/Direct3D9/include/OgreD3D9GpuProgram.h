@@ -98,7 +98,7 @@ namespace Ogre {
         /** Loads this program to specified device */
         void loadImpl(IDirect3DDevice9* d3d9Device);
         /** Overridden from GpuProgram */
-        void unloadImpl(void);
+        void unload_impl(void);
         /** Overridden from GpuProgram */
         void loadFromSource(void);
         /** Loads this program from source to specified device */

@@ -86,7 +86,7 @@ namespace Ogre {
             for(uint32 zoffset=0; zoffset<mDepth; ++zoffset)
             {
                 String name;
-                name = "rtt/" + StringConverter::to_string((size_t)this) + "/" + parent->getName();
+                name = "rtt/" + StringConverter::to_string((size_t)this) + "/" + parent->name();
                 GLSurfaceDesc surface;
                 surface.buffer = this;
                 surface.zoffset = zoffset;

@@ -250,7 +250,7 @@ namespace Ogre
         virtual RenderTarget * detachRenderTarget(const String &name);
 
         String getErrorDescription( long errorNumber ) const;
-        const String& getName() const;
+        const String& name() const;
 
         // Low-level overridden members
         /**

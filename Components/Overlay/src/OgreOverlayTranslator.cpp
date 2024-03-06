@@ -50,7 +50,7 @@ void FontTranslator::translate(ScriptCompiler* compiler, const AbstractNodePtr& 
     String& name = obj->cls == "font" ? obj->name : obj->cls;
 
     FontPtr font = FontManager::getSingleton().create(name, compiler->getResourceGroup());
-    font->_notifyOrigin(obj->file);
+    font->_notify_origin(obj->file);
 
     for (auto& c : obj->children)
     {
@@ -242,7 +242,7 @@ void OverlayTranslator::translate(ScriptCompiler* compiler, const AbstractNodePt
 
     String& name = obj->cls == "overlay" ? obj->name : obj->cls;
     Overlay* overlay = OverlayManager::getSingleton().create(name);
-    overlay->_notifyOrigin(obj->file);
+    overlay->_notify_origin(obj->file);
 
     obj->context = overlay;
 

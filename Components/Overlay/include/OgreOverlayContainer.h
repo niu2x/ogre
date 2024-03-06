@@ -87,7 +87,7 @@ namespace Ogre {
         void initialise(void) override;
 
         void _addChild(OverlayElement* elem);
-        void _removeChild(OverlayElement* elem) { _removeChild(elem->getName()); }
+        void _removeChild(OverlayElement* elem) { _removeChild(elem->name()); }
         void _removeChild(const String& name);
 
         /** Gets all the children of this object. */

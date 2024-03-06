@@ -80,7 +80,7 @@ void GLGpuNvparseProgram::bindProgramParameters(GpuProgramParametersSharedPtr pa
         glCombinerStageParameterfvNV(combinerStage, pname, floatList + i);
     }
 }
-void GLGpuNvparseProgram::unloadImpl(void)
+void GLGpuNvparseProgram::unload_impl(void)
 {
     glDeleteLists(mProgramID,1);
 }

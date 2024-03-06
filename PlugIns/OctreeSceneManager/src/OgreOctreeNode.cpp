@@ -61,7 +61,7 @@ OctreeNode::~OctreeNode()
 {}
 void OctreeNode::_removeNodeAndChildren( )
 {
-    static_cast< OctreeSceneManager * > ( getCreator() ) -> _removeOctreeNode( this );
+    static_cast< OctreeSceneManager * > ( creator() ) -> _removeOctreeNode( this );
     //remove all the children nodes as well from the octree.
     ChildNodeMap::iterator it = mChildren.begin();
     while( it != mChildren.end() )
@@ -124,7 +124,7 @@ void OctreeNode::_updateBounds( void )
     // enough to leave it's current node, we'll update it.
     if ( !_getWorldAABB().is_null() && isInSceneGraph() )
     {
-        static_cast < OctreeSceneManager * > ( getCreator() ) -> _updateOctreeNode( this );
+        static_cast < OctreeSceneManager * > ( creator() ) -> _updateOctreeNode( this );
     }
 
 }

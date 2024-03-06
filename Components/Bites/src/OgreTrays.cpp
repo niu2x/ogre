@@ -45,7 +45,7 @@ void Widget::nukeOverlayElement(Ogre::OverlayElement *element)
     if (element)
     {
         Ogre::OverlayContainer* parent = element->getParent();
-        if (parent) parent->removeChild(element->getName());
+        if (parent) parent->removeChild(element->name());
         Ogre::OverlayManager::getSingleton().destroyOverlayElement(element);
     }
 }
@@ -120,7 +120,7 @@ Button::Button(const Ogre::String &name, const Ogre::DisplayString &caption, Ogr
 {
     mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate("SdkTrays/Button", "BorderPanel", name);
     mBP = (Ogre::BorderPanelOverlayElement*)mElement;
-    mTextArea = (Ogre::TextAreaOverlayElement*)mBP->getChild(mBP->getName() + "/ButtonCaption");
+    mTextArea = (Ogre::TextAreaOverlayElement*)mBP->getChild(mBP->name() + "/ButtonCaption");
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mTextArea->setCharHeight(mTextArea->getCharHeight() - 3);
 #endif
@@ -201,13 +201,13 @@ TextBox::TextBox(const Ogre::String &name, const Ogre::DisplayString &caption, O
     mElement->setWidth(width);
     mElement->setHeight(height);
     Ogre::OverlayContainer* container = (Ogre::OverlayContainer*)mElement;
-    mTextArea = (Ogre::TextAreaOverlayElement*)container->getChild(getName() + "/TextBoxText");
-    mCaptionBar = (Ogre::BorderPanelOverlayElement*)container->getChild(getName() + "/TextBoxCaptionBar");
+    mTextArea = (Ogre::TextAreaOverlayElement*)container->getChild(name() + "/TextBoxText");
+    mCaptionBar = (Ogre::BorderPanelOverlayElement*)container->getChild(name() + "/TextBoxCaptionBar");
     mCaptionBar->setWidth(width - 4);
-    mCaptionTextArea = (Ogre::TextAreaOverlayElement*)mCaptionBar->getChild(mCaptionBar->getName() + "/TextBoxCaption");
+    mCaptionTextArea = (Ogre::TextAreaOverlayElement*)mCaptionBar->getChild(mCaptionBar->name() + "/TextBoxCaption");
     setCaption(caption);
-    mScrollTrack = (Ogre::BorderPanelOverlayElement*)container->getChild(getName() + "/TextBoxScrollTrack");
-    mScrollHandle = (Ogre::PanelOverlayElement*)mScrollTrack->getChild(mScrollTrack->getName() + "/TextBoxScrollHandle");
+    mScrollTrack = (Ogre::BorderPanelOverlayElement*)container->getChild(name() + "/TextBoxScrollTrack");
+    mScrollHandle = (Ogre::PanelOverlayElement*)mScrollTrack->getChild(mScrollTrack->name() + "/TextBoxScrollHandle");
     mScrollHandle->hide();
     mDragging = false;
     mScrollPercentage = 0;
@@ -418,8 +418,8 @@ SelectMenu::SelectMenu(const Ogre::String &name, const Ogre::DisplayString &capt
     mExpandedBox = (Ogre::BorderPanelOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(name + "/MenuExpandedBox");
     mExpandedBox->setWidth(mSmallBox->getWidth() + 10);
     mExpandedBox->hide();
-    mScrollTrack = (Ogre::BorderPanelOverlayElement*)mExpandedBox->getChild(mExpandedBox->getName() + "/MenuScrollTrack");
-    mScrollHandle = (Ogre::PanelOverlayElement*)mScrollTrack->getChild(mScrollTrack->getName() + "/MenuScrollHandle");
+    mScrollTrack = (Ogre::BorderPanelOverlayElement*)mExpandedBox->getChild(mExpandedBox->name() + "/MenuScrollTrack");
+    mScrollHandle = (Ogre::PanelOverlayElement*)mScrollTrack->getChild(mScrollTrack->name() + "/MenuScrollHandle");
 
     setCaption(caption);
 }
@@ -457,7 +457,7 @@ void SelectMenu::setItems(const Ogre::StringVector &items)
         Ogre::BorderPanelOverlayElement* e =
                 (Ogre::BorderPanelOverlayElement*)Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
                 ("SdkTrays/SelectMenuItem", "BorderPanel",
-                 mExpandedBox->getName() + "/Item" + Ogre::StringConverter::to_string(i + 1));
+                 mExpandedBox->name() + "/Item" + Ogre::StringConverter::to_string(i + 1));
 
         e->setTop(6 + i * (mSmallBox->getHeight() - 8));
         e->setWidth(mExpandedBox->getWidth() - 32);
@@ -484,7 +484,7 @@ void SelectMenu::removeItem(const Ogre::DisplayString &item)
 void SelectMenu::removeItem(size_t index)
 {
     if(index >= mItems.size()){
-        Ogre::String desc = "Menu \"" + getName() + "\" contains no item at position " +
+        Ogre::String desc = "Menu \"" + name() + "\" contains no item at position " +
                 Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "SelectMenu::removeItem");
     }
@@ -521,7 +521,7 @@ void SelectMenu::selectItem(size_t index, bool notifyListener)
 {
     if (index >= mItems.size())
     {
-        Ogre::String desc = "Menu \"" + getName() + "\" contains no item at position " +
+        Ogre::String desc = "Menu \"" + name() + "\" contains no item at position " +
                 Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "SelectMenu::selectItem");
     }
@@ -552,7 +552,7 @@ void SelectMenu::selectItem(const Ogre::DisplayString &item, bool notifyListener
         }
     }
 
-    Ogre::String desc = "Menu \"" + getName() + "\" contains no item \"" + item + "\".";
+    Ogre::String desc = "Menu \"" + name() + "\" contains no item \"" + item + "\".";
     OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "SelectMenu::selectItem");
 }
 
@@ -560,7 +560,7 @@ Ogre::DisplayString SelectMenu::getSelectedItem()
 {
     if (mSelectionIndex == -1)
     {
-        Ogre::String desc = "Menu \"" + getName() + "\" has no item selected.";
+        Ogre::String desc = "Menu \"" + name() + "\" has no item selected.";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "SelectMenu::getSelectedItem");
         return "";
     }
@@ -721,7 +721,7 @@ void SelectMenu::setDisplayIndex(unsigned int index)
     for (int i = 0; i < (int)mItemElements.size(); i++)
     {
         Ogre::BorderPanelOverlayElement *ie = mItemElements[i];
-        Ogre::TextAreaOverlayElement *ta = (Ogre::TextAreaOverlayElement*)ie->getChild(ie->getName() + "/MenuItemText");
+        Ogre::TextAreaOverlayElement *ta = (Ogre::TextAreaOverlayElement*)ie->getChild(ie->name() + "/MenuItemText");
 
         fitCaptionToArea(mItems[mDisplayIndex + i], ta, ie->getWidth() - 2 * ta->getLeft());
 
@@ -752,7 +752,7 @@ void SelectMenu::retract()
 Label::Label(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width)
 {
     mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate("SdkTrays/Label", "BorderPanel", name);
-    mTextArea = (Ogre::TextAreaOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(getName() + "/LabelCaption");
+    mTextArea = (Ogre::TextAreaOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(name() + "/LabelCaption");
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mTextArea->setCharHeight(mTextArea->getCharHeight() - 3);
 #endif
@@ -794,13 +794,13 @@ Slider::Slider(const Ogre::String &name, const Ogre::DisplayString &caption, Ogr
             ("SdkTrays/Slider", "BorderPanel", name);
     mElement->setWidth(width);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
-    mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(getName() + "/SliderCaption");
-    Ogre::OverlayContainer* valueBox = (Ogre::OverlayContainer*)c->getChild(getName() + "/SliderValueBox");
+    mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/SliderCaption");
+    Ogre::OverlayContainer* valueBox = (Ogre::OverlayContainer*)c->getChild(name() + "/SliderValueBox");
     valueBox->setWidth(valueBoxWidth);
     valueBox->setLeft(-(valueBoxWidth + 5));
-    mValueTextArea = (Ogre::TextAreaOverlayElement*)valueBox->getChild(valueBox->getName() + "/SliderValueText");
-    mTrack = (Ogre::BorderPanelOverlayElement*)c->getChild(getName() + "/SliderTrack");
-    mHandle = (Ogre::PanelOverlayElement*)mTrack->getChild(mTrack->getName() + "/SliderHandle");
+    mValueTextArea = (Ogre::TextAreaOverlayElement*)valueBox->getChild(valueBox->name() + "/SliderValueText");
+    mTrack = (Ogre::BorderPanelOverlayElement*)c->getChild(name() + "/SliderTrack");
+    mHandle = (Ogre::PanelOverlayElement*)mTrack->getChild(mTrack->name() + "/SliderHandle");
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mTextArea->setCharHeight(mTextArea->getCharHeight() - 3);
     mValueTextArea->setCharHeight(mValueTextArea->getCharHeight() - 3);
@@ -922,8 +922,8 @@ ParamsPanel::ParamsPanel(const Ogre::String &name, Ogre::Real width, unsigned in
     mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
             ("SdkTrays/ParamsPanel", "BorderPanel", name);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
-    mNamesArea = (Ogre::TextAreaOverlayElement*)c->getChild(getName() + "/ParamsPanelNames");
-    mValuesArea = (Ogre::TextAreaOverlayElement*)c->getChild(getName() + "/ParamsPanelValues");
+    mNamesArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/ParamsPanelNames");
+    mValuesArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/ParamsPanelValues");
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mNamesArea->setCharHeight(mNamesArea->getCharHeight() - 3);
     mValuesArea->setCharHeight(mValuesArea->getCharHeight() - 3);
@@ -960,7 +960,7 @@ void ParamsPanel::setParamValue(const Ogre::DisplayString &paramName, const Ogre
         }
     }
 
-    Ogre::String desc = "ParamsPanel \"" + getName() + "\" has no parameter \"" + paramName + "\".";
+    Ogre::String desc = "ParamsPanel \"" + name() + "\" has no parameter \"" + paramName + "\".";
     OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "ParamsPanel::setParamValue");
 }
 
@@ -968,7 +968,7 @@ void ParamsPanel::setParamValue(unsigned int index, const Ogre::DisplayString &p
 {
     if (index >= mNames.size())
     {
-        Ogre::String desc = "ParamsPanel \"" + getName() + "\" has no parameter at position " +
+        Ogre::String desc = "ParamsPanel \"" + name() + "\" has no parameter at position " +
                 Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "ParamsPanel::setParamValue");
     }
@@ -984,7 +984,7 @@ Ogre::DisplayString ParamsPanel::getParamValue(const Ogre::DisplayString &paramN
         if (mNames[i] == paramName) return mValues[i];
     }
 
-    Ogre::String desc = "ParamsPanel \"" + getName() + "\" has no parameter \"" + paramName + "\".";
+    Ogre::String desc = "ParamsPanel \"" + name() + "\" has no parameter \"" + paramName + "\".";
     OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "ParamsPanel::getParamValue");
     return "";
 }
@@ -993,7 +993,7 @@ Ogre::DisplayString ParamsPanel::getParamValue(unsigned int index)
 {
     if (index >= mNames.size())
     {
-        Ogre::String desc = "ParamsPanel \"" + getName() + "\" has no parameter at position " +
+        Ogre::String desc = "ParamsPanel \"" + name() + "\" has no parameter at position " +
                 Ogre::StringConverter::to_string(index) + ".";
         OGRE_EXCEPT(Ogre::Exception::ERR_ITEM_NOT_FOUND, desc, "ParamsPanel::getParamValue");
     }
@@ -1023,9 +1023,9 @@ CheckBox::CheckBox(const Ogre::String &name, const Ogre::DisplayString &caption,
     mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
             ("SdkTrays/CheckBox", "BorderPanel", name);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
-    mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(getName() + "/CheckBoxCaption");
-    mSquare = (Ogre::BorderPanelOverlayElement*)c->getChild(getName() + "/CheckBoxSquare");
-    mX = mSquare->getChild(mSquare->getName() + "/CheckBoxX");
+    mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/CheckBoxCaption");
+    mSquare = (Ogre::BorderPanelOverlayElement*)c->getChild(name() + "/CheckBoxSquare");
+    mX = mSquare->getChild(mSquare->name() + "/CheckBoxX");
     mX->hide();
     mElement->setWidth(width);
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
@@ -1098,14 +1098,14 @@ ProgressBar::ProgressBar(const Ogre::String &name, const Ogre::DisplayString &ca
             ("SdkTrays/ProgressBar", "BorderPanel", name);
     mElement->setWidth(width);
     Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)mElement;
-    mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(getName() + "/ProgressCaption");
-    Ogre::OverlayContainer* commentBox = (Ogre::OverlayContainer*)c->getChild(getName() + "/ProgressCommentBox");
+    mTextArea = (Ogre::TextAreaOverlayElement*)c->getChild(name() + "/ProgressCaption");
+    Ogre::OverlayContainer* commentBox = (Ogre::OverlayContainer*)c->getChild(name() + "/ProgressCommentBox");
     commentBox->setWidth(commentBoxWidth);
     commentBox->setLeft(-(commentBoxWidth + 5));
-    mCommentTextArea = (Ogre::TextAreaOverlayElement*)commentBox->getChild(commentBox->getName() + "/ProgressCommentText");
-    mMeter = c->getChild(getName() + "/ProgressMeter");
+    mCommentTextArea = (Ogre::TextAreaOverlayElement*)commentBox->getChild(commentBox->name() + "/ProgressCommentText");
+    mMeter = c->getChild(name() + "/ProgressMeter");
     mMeter->setWidth(width - 10);
-    mFill = ((Ogre::OverlayContainer*)mMeter)->getChild(mMeter->getName() + "/ProgressFill");
+    mFill = ((Ogre::OverlayContainer*)mMeter)->getChild(mMeter->name() + "/ProgressFill");
     setCaption(caption);
 }
 
@@ -1785,7 +1785,7 @@ Widget *TrayManager::getWidget(TrayLocation trayLoc, const Ogre::String &name)
 {
     for (unsigned int i = 0; i < mWidgets[trayLoc].size(); i++)
     {
-        if (mWidgets[trayLoc][i]->getName() == name) return mWidgets[trayLoc][i];
+        if (mWidgets[trayLoc][i]->name() == name) return mWidgets[trayLoc][i];
     }
     return 0;
 }
@@ -1796,7 +1796,7 @@ Widget *TrayManager::getWidget(const Ogre::String &name)
     {
         for (unsigned int j = 0; j < mWidgets[i].size(); j++)
         {
-            if (mWidgets[i][j]->getName() == name) return mWidgets[i][j];
+            if (mWidgets[i][j]->name() == name) return mWidgets[i][j];
         }
     }
     return 0;
@@ -1832,7 +1832,7 @@ void TrayManager::destroyWidget(Widget *widget)
     else if (widget == mStatsPanel) mStatsPanel = 0;
     else if (widget == mFpsLabel) mFpsLabel = 0;
 
-    mTrays[widget->getTrayLocation()]->removeChild(widget->getName());
+    mTrays[widget->getTrayLocation()]->removeChild(widget->name());
 
     WidgetList& wList = mWidgets[widget->getTrayLocation()];
     WidgetList::iterator it = std::find(wList.begin(), wList.end(), widget);
@@ -1871,7 +1871,7 @@ void TrayManager::moveWidgetToTray(Widget *widget, TrayLocation trayLoc, size_t 
     if (it != wList.end())
     {
         wList.erase(it);
-        mTrays[widget->getTrayLocation()]->removeChild(widget->getName());
+        mTrays[widget->getTrayLocation()]->removeChild(widget->name());
     }
 
     // insert widget into new tray at given position, or at the end if unspecified or invalid
@@ -2174,17 +2174,17 @@ void TrayManager::setExpandedMenu(SelectMenu *m)
     if (!mExpandedMenu && m)
     {
         Ogre::OverlayContainer* c = (Ogre::OverlayContainer*)m->getOverlayElement();
-        Ogre::OverlayContainer* eb = (Ogre::OverlayContainer*)c->getChild(m->getName() + "/MenuExpandedBox");
+        Ogre::OverlayContainer* eb = (Ogre::OverlayContainer*)c->getChild(m->name() + "/MenuExpandedBox");
         eb->_update();
         eb->setPosition
                 ((unsigned int)(eb->_getDerivedLeft() * Ogre::OverlayManager::getSingleton().getViewportWidth()),
                  (unsigned int)(eb->_getDerivedTop() * Ogre::OverlayManager::getSingleton().getViewportHeight()));
-        c->removeChild(eb->getName());
+        c->removeChild(eb->name());
         mPriorityLayer->add2D(eb);
     }
     else if(mExpandedMenu && !m)
     {
-        Ogre::OverlayContainer* eb = mPriorityLayer->getChild(mExpandedMenu->getName() + "/MenuExpandedBox");
+        Ogre::OverlayContainer* eb = mPriorityLayer->getChild(mExpandedMenu->name() + "/MenuExpandedBox");
         mPriorityLayer->remove2D(eb);
         ((Ogre::OverlayContainer*)mExpandedMenu->getOverlayElement())->addChild(eb);
     }

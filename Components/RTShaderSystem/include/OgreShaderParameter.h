@@ -206,7 +206,7 @@ public:
     virtual ~Parameter() {};
 
     /** Get the name of this parameter. */
-    const String& getName() const { return mName; }
+    const String& name() const { return mName; }
 
     /// internal function for aliasing to GLSL builtins e.g. gl_Position
     void _rename(const String& newName, bool onlyLocal = false)

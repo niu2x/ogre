@@ -134,7 +134,7 @@ namespace Ogre
 		, surfaceContentLostToken()
 #endif
     {
-        LogManager::getSingleton().log_message( "D3D11: " + getName() + " created." );
+        LogManager::getSingleton().log_message( "D3D11: " + name() + " created." );
 
         mRenderSystemWasInited = false;
         mSwitchingFullscreenCounter = 0;
@@ -210,10 +210,10 @@ namespace Ogre
         OGRE_DELETE stereoBridge;
 #endif
 
-        LogManager::getSingleton().log_message( "D3D11: " + getName() + " destroyed." );
+        LogManager::getSingleton().log_message( "D3D11: " + name() + " destroyed." );
     }
     //---------------------------------------------------------------------
-    const String& D3D11RenderSystem::getName() const
+    const String& D3D11RenderSystem::name() const
     {
         static String strName( "Direct3D11 Rendering Subsystem");
         return strName;
@@ -783,7 +783,7 @@ namespace Ogre
         RenderSystemCapabilities* rsc = new RenderSystemCapabilities();
         rsc->setDriverVersion(mDriverVersion);
         rsc->setDeviceName(mActiveD3DDriver.DriverDescription());
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
 		
         // Does NOT support fixed-function!
         //rsc->setCapability(RSC_FIXED_FUNCTION);
@@ -1208,7 +1208,7 @@ namespace Ogre
     void D3D11RenderSystem::detachRenderTargetImpl(const String& name)
     {
         // Check in specialized lists
-		if (mPrimaryWindow != NULL && mPrimaryWindow->getName() == name)
+		if (mPrimaryWindow != NULL && mPrimaryWindow->name() == name)
         {
             // We're destroying the primary window, so reset device and window
 			mPrimaryWindow = NULL;
@@ -1219,7 +1219,7 @@ namespace Ogre
             SecondaryWindowList::iterator sw;
             for (sw = mSecondaryWindows.begin(); sw != mSecondaryWindows.end(); ++sw)
             {
-                if ((*sw)->getName() == name)
+                if ((*sw)->name() == name)
                 {
                     mSecondaryWindows.erase(sw);
                     break;
@@ -2179,12 +2179,12 @@ namespace Ogre
                         errorDescription.append(op.useIndexes ? " indexed" : "").append(numberOfInstances > 1 ? " instanced" : "");
                     errorDescription.append("\nError Description:").append(mDevice.getErrorDescription());
                     errorDescription.append("\nActive OGRE shaders:")
-                        .append(mBoundVertexProgram ? ("\nVS = " + mBoundVertexProgram->getName()).c_str() : "")
-                        .append(mBoundTessellationHullProgram ? ("\nHS = " + mBoundTessellationHullProgram->getName()).c_str() : "")
-                        .append(mBoundTessellationDomainProgram ? ("\nDS = " + mBoundTessellationDomainProgram->getName()).c_str() : "")
-                        .append(mBoundGeometryProgram ? ("\nGS = " + mBoundGeometryProgram->getName()).c_str() : "")
-                        .append(mBoundFragmentProgram ? ("\nFS = " + mBoundFragmentProgram->getName()).c_str() : "")
-                        .append(mBoundComputeProgram ? ("\nCS = " + mBoundComputeProgram->getName()).c_str() : "");
+                        .append(mBoundVertexProgram ? ("\nVS = " + mBoundVertexProgram->name()).c_str() : "")
+                        .append(mBoundTessellationHullProgram ? ("\nHS = " + mBoundTessellationHullProgram->name()).c_str() : "")
+                        .append(mBoundTessellationDomainProgram ? ("\nDS = " + mBoundTessellationDomainProgram->name()).c_str() : "")
+                        .append(mBoundGeometryProgram ? ("\nGS = " + mBoundGeometryProgram->name()).c_str() : "")
+                        .append(mBoundFragmentProgram ? ("\nFS = " + mBoundFragmentProgram->name()).c_str() : "")
+                        .append(mBoundComputeProgram ? ("\nCS = " + mBoundComputeProgram->name()).c_str() : "");
 
                     OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, errorDescription, "D3D11RenderSystem::_render");
                 }

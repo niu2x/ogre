@@ -446,7 +446,7 @@ GpuProgram* GLSLangProgramFactory::create(ResourceManager* creator, const String
 {
     return OGRE_NEW GLSLangProgram(creator, name, handle, group, isManual, loader);
 }
-const String& GLSLangPlugin::getName() const
+const String& GLSLangPlugin::name() const
 {
     static String sPluginName = "GLSLang Program Manager";
     return sPluginName;

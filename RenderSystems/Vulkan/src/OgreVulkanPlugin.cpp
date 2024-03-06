@@ -36,7 +36,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     VulkanPlugin::VulkanPlugin() : mRenderSystem( 0 ) {}
     //---------------------------------------------------------------------
-    const String &VulkanPlugin::getName() const { return sPluginName; }
+    const String &VulkanPlugin::name() const { return sPluginName; }
     //---------------------------------------------------------------------
     void VulkanPlugin::install()
     {

@@ -350,7 +350,7 @@ namespace Ogre
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 	void D3D11RenderWindowBase::_validateStereo()
 	{
-		mStereoEnabled = D3D11StereoDriverBridge::getSingleton().isStereoEnabled(this->getName());
+		mStereoEnabled = D3D11StereoDriverBridge::getSingleton().isStereoEnabled(this->name());
 	}
 #endif
 #pragma endregion

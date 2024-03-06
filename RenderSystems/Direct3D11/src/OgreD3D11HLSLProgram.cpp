@@ -57,9 +57,9 @@ namespace Ogre {
             loadFromSource();
     }
     //-----------------------------------------------------------------------
-    void D3D11HLSLProgram::prepareImpl()
+    void D3D11HLSLProgram::prepare_impl()
     {
-        HighLevelGpuProgram::prepareImpl();
+        HighLevelGpuProgram::prepare_impl();
 
         mSyntaxCode = getCompatibleTarget();
 
@@ -874,7 +874,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void D3D11HLSLProgram::unprepareImpl(void)
+    void D3D11HLSLProgram::unprepare_impl(void)
     {
         for(unsigned int i = 0 ; i < mSerStrings.size() ; i++)
         {
@@ -895,7 +895,7 @@ namespace Ogre {
         mComputeShader.Reset();
         mDefaultBuffer.reset();
 
-        unprepareImpl();
+        unprepare_impl();
         mD3d11ShaderInputParameters.clear();
         mD3d11ShaderOutputParameters.clear();
         mD3d11ShaderBufferDescs.clear();
@@ -1336,7 +1336,7 @@ namespace Ogre {
         assert(mGeometryShader);
         unloadHighLevel();
         mReinterpretingGS = true;
-        prepareImpl();
+        prepare_impl();
         loadHighLevel();
         mReinterpretingGS = false;
     }
@@ -1530,7 +1530,7 @@ namespace Ogre {
             if(const auto& buf = usage.getSharedParams()->_getHardwareBuffer())
             {
                 // hardware baked cbuffer
-                auto it = mBufferInfoMap.find(usage.getName());
+                auto it = mBufferInfoMap.find(usage.name());
                 if(it == mBufferInfoMap.end())
                     continue; // TODO: error?
 

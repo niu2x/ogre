@@ -95,7 +95,7 @@ namespace Ogre
 
     void LodInputBuffer::fillBuffer( Ogre::MeshPtr mesh )
     {
-        meshName = mesh->getName();
+        meshName = mesh->name();
         boundingSphereRadius = mesh->getBoundingSphereRadius();
         bool sharedVerticesAdded = false;
         size_t submeshCount = mesh->getNumSubMeshes();

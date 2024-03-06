@@ -66,10 +66,10 @@ GpuProgramType Program::getType() const
 //-----------------------------------------------------------------------------
 void Program::add_parameter(UniformParameterPtr parameter)
 {
-    if (getParameterByName(parameter->getName()).get() != NULL)
+    if (getParameterByName(parameter->name()).get() != NULL)
     {
         OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
-            "Parameter <" + parameter->getName() + "> already declared in program.",
+            "Parameter <" + parameter->name() + "> already declared in program.",
             "Program::addParameter" );
     }
 
@@ -276,7 +276,7 @@ UniformParameterPtr Program::getParameterByName(const String& name)
 
     for (it = mParameters.begin(); it != mParameters.end(); ++it)
     {
-        if ((*it)->getName() == name)
+        if ((*it)->name() == name)
         {
             return *it;
         }

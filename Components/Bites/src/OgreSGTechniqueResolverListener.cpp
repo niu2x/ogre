@@ -49,7 +49,7 @@ bool SGTechniqueResolverListener::afterIlluminationPassesCreated(Ogre::Technique
     {
         Ogre::Material* mat = tech->getParent();
         mShaderGenerator->validateMaterialIlluminationPasses(tech->getSchemeName(),
-                                                             mat->getName(), mat->getGroup());
+                                                             mat->name(), mat->group());
         return true;
     }
     return false;
@@ -61,7 +61,7 @@ bool SGTechniqueResolverListener::beforeIlluminationPassesCleared(Ogre::Techniqu
     {
         Ogre::Material* mat = tech->getParent();
         mShaderGenerator->invalidateMaterialIlluminationPasses(tech->getSchemeName(),
-                                                               mat->getName(), mat->getGroup());
+                                                               mat->name(), mat->group());
         return true;
     }
     return false;

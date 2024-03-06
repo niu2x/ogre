@@ -349,7 +349,7 @@ namespace Ogre
                     vkTexture->mCurrLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL )
                 {
                     OGRE_EXCEPT( Exception::ERR_INVALID_STATE,
-                                 "Texture " + vkTexture->getName() +
+                                 "Texture " + vkTexture->name() +
                                      " is already in CopySrc or CopyDst layout, externally set. Perhaps "
                                      "you need to call RenderSystem::flushTextureCopyOperations",
                                  "VulkanQueue::prepareForUpload" );
@@ -509,7 +509,7 @@ namespace Ogre
                     vkTexture->mCurrLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL )
                 {
                     OGRE_EXCEPT( Exception::ERR_INVALID_STATE,
-                                 "Texture " + vkTexture->getName() +
+                                 "Texture " + vkTexture->name() +
                                      " is already in CopySrc or CopyDst layout, externally set. Perhaps "
                                      "you need to call RenderSystem::flushTextureCopyOperations",
                                  "VulkanQueue::prepareForDownload" );

@@ -59,7 +59,7 @@ namespace OgreMayaExporter
         //load a blend shape animation track
         Track loadTrack(float start,float stop,float rate,ParamList& params,int targetIndex,int startPoseId);
         // Get blend shape deformer name
-        MString getName();
+        MString name();
         // Get blend shape poses
         stdext::hash_map<int, poseGroup>& getPoseGroups();
         // Set maya blend shape deformer envelope

@@ -69,7 +69,7 @@ namespace Ogre
         Root::getSingleton().removeFrameListener(&mEventRouter);
         for (auto c : mCameraList)
         {
-            c->removeListener(&mEventRouter);
+            c->remove_listener(&mEventRouter);
         }
         mCameraList.clear();
         
@@ -131,7 +131,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void PageManager::destroyWorld(PagedWorld* world)
     {
-        destroyWorld(world->getName());
+        destroyWorld(world->name());
     }
     //---------------------------------------------------------------------
     PagedWorld* PageManager::loadWorld(const String& filename, const String& name)
@@ -178,12 +178,12 @@ namespace Ogre
     void PageManager::addStrategy(PageStrategy* strategy)
     {
         // note - deliberately allowing overriding
-        mStrategies[strategy->getName()] = strategy;
+        mStrategies[strategy->name()] = strategy;
     }
     //---------------------------------------------------------------------
     void PageManager::removeStrategy(PageStrategy* strategy)
     {
-        StrategyMap::iterator i = mStrategies.find(strategy->getName());
+        StrategyMap::iterator i = mStrategies.find(strategy->name());
         if (i != mStrategies.end() && i->second == strategy)
         {
             mStrategies.erase(i);
@@ -208,12 +208,12 @@ namespace Ogre
     void PageManager::addContentCollectionFactory(PageContentCollectionFactory* f)
     {
         // note - deliberately allowing overriding
-        mContentCollectionFactories[f->getName()] = f;
+        mContentCollectionFactories[f->name()] = f;
     }
     //---------------------------------------------------------------------
     void PageManager::removeContentCollectionFactory(PageContentCollectionFactory* f)
     {
-        ContentCollectionFactoryMap::iterator i = mContentCollectionFactories.find(f->getName());
+        ContentCollectionFactoryMap::iterator i = mContentCollectionFactories.find(f->name());
         if (i != mContentCollectionFactories.end() && i->second == f)
         {
             mContentCollectionFactories.erase(i);
@@ -258,12 +258,12 @@ namespace Ogre
     void PageManager::addContentFactory(PageContentFactory* f)
     {
         // note - deliberately allowing overriding
-        mContentFactories[f->getName()] = f;
+        mContentFactories[f->name()] = f;
     }
     //---------------------------------------------------------------------
     void PageManager::removeContentFactory(PageContentFactory* f)
     {
-        ContentFactoryMap::iterator i = mContentFactories.find(f->getName());
+        ContentFactoryMap::iterator i = mContentFactories.find(f->name());
         if (i != mContentFactories.end() && i->second == f)
         {
             mContentFactories.erase(i);
@@ -308,12 +308,12 @@ namespace Ogre
     void PageManager::addWorldSectionFactory(PagedWorldSectionFactory* f)
     {
         // note - deliberately allowing overriding
-        mWorldSectionFactories[f->getName()] = f;
+        mWorldSectionFactories[f->name()] = f;
     }
     //---------------------------------------------------------------------
     void PageManager::removeWorldSectionFactory(PagedWorldSectionFactory* f)
     {
-        WorldSectionFactoryMap::iterator i = mWorldSectionFactories.find(f->getName());
+        WorldSectionFactoryMap::iterator i = mWorldSectionFactories.find(f->name());
         if (i != mWorldSectionFactories.end() && i->second == f)
         {
             mWorldSectionFactories.erase(i);
@@ -365,7 +365,7 @@ namespace Ogre
         {
             // use default implementation
             StringStream nameStr;
-            nameStr << section->getWorld()->getName() << "_" << section->getName() 
+            nameStr << section->getWorld()->name() << "_" << section->name() 
                 << "_" << pageID << ".page";
             DataStreamPtr stream = ResourceGroupManager::getSingleton().openResource(nameStr.str());
 
@@ -386,7 +386,7 @@ namespace Ogre
         {
             // use default implementation
             StringStream nameStr;
-            nameStr << section->getWorld()->getName() << "_" << section->getName() 
+            nameStr << section->getWorld()->name() << "_" << section->name() 
                 << "_" << pageID << ".page";
             
             // create file, overwrite if necessary
@@ -481,7 +481,7 @@ namespace Ogre
         if (std::find(mCameraList.begin(), mCameraList.end(), c) == mCameraList.end())
         {
             mCameraList.push_back(c);
-            c->addListener(&mEventRouter);
+            c->add_listener(&mEventRouter);
         }
     }
     //---------------------------------------------------------------------
@@ -490,7 +490,7 @@ namespace Ogre
         CameraList::iterator i = std::find(mCameraList.begin(), mCameraList.end(), c);
         if (i != mCameraList.end())
         {
-            c->removeListener(&mEventRouter);
+            c->remove_listener(&mEventRouter);
             mCameraList.erase(i);
         }
     }

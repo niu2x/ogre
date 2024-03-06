@@ -352,7 +352,7 @@ namespace Ogre
     void UnifiedHighLevelGpuProgram::setBackgroundLoaded(bool bl)
     {
         if (_getDelegate())
-            _getDelegate()->setBackgroundLoaded(bl);
+            _getDelegate()->set_background_loaded(bl);
     }
     //-----------------------------------------------------------------------
     void UnifiedHighLevelGpuProgram::escalate_loading()

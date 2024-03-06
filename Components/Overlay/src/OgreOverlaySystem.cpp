@@ -106,7 +106,7 @@ namespace Ogre {
         if (auto prof = Profiler::getSingletonPtr())
         {
             mProfileListener = new Ogre::OverlayProfileSessionListener();
-            prof->addListener(mProfileListener);
+            prof->add_listener(mProfileListener);
         }
     }
     //---------------------------------------------------------------------
@@ -117,7 +117,7 @@ namespace Ogre {
 
         if (auto prof = Profiler::getSingletonPtr())
         {
-            prof->removeListener(mProfileListener);
+            prof->remove_listener(mProfileListener);
             delete mProfileListener;
         }
 

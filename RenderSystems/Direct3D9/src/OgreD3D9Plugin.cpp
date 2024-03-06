@@ -39,7 +39,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& D3D9Plugin::getName() const
+    const String& D3D9Plugin::name() const
     {
         return sPluginName;
     }

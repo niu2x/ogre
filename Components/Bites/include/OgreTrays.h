@@ -146,9 +146,9 @@ namespace OgreBites
             return mElement;
         }
 
-        const Ogre::String& getName()
+        const Ogre::String& name()
         {
-            return mElement->getName();
+            return mElement->name();
         }
 
         TrayLocation getTrayLocation()
@@ -774,7 +774,7 @@ namespace OgreBites
         Ogre::Overlay* getCursorLayer() { return mCursorLayer; }
         Ogre::OverlayContainer* getBackdropContainer() { return mBackdrop; }
         Ogre::OverlayContainer* getCursorContainer() { return mCursor; }
-        Ogre::OverlayElement* getCursorImage() { return mCursor->getChild(mCursor->getName() + "/CursorImage"); }
+        Ogre::OverlayElement* getCursorImage() { return mCursor->getChild(mCursor->name() + "/CursorImage"); }
 
         void setListener(TrayListener* listener)
         {
@@ -1109,7 +1109,7 @@ namespace OgreBites
 
         void resourceLoadStarted(const Ogre::ResourcePtr& resource) override
         {
-            mLoadBar->setComment(resource->getName());
+            mLoadBar->setComment(resource->name());
             windowUpdate();
         }
 

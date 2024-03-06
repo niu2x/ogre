@@ -113,7 +113,7 @@ namespace Ogre
             while (!container->getChildren().empty())
             {
                 OverlayElement* element = container->getChildren().cbegin()->second;
-                container->removeChild(element->getName());
+                container->removeChild(element->name());
                 OverlayManager::getSingleton().destroyOverlayElement(element);
             }
         }

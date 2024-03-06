@@ -38,7 +38,7 @@ namespace Ogre {
     {
     }
 
-    const String& GLES2Plugin::getName() const
+    const String& GLES2Plugin::name() const
     {
         return sPluginName;
     }

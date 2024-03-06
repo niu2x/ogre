@@ -237,7 +237,7 @@ namespace Ogre
             if(!pres.pageData->collectionsToAdd.empty())
                 std::swap(mContentCollections, pres.pageData->collectionsToAdd);
 
-            loadImpl();
+            load_impl();
         }
 
         OGRE_DELETE pres.pageData;
@@ -265,7 +265,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    void Page::loadImpl()
+    void Page::load_impl()
     {
         mParent->_loadProceduralPage(this);
 
@@ -409,8 +409,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     std::ostream& operator <<( std::ostream& o, const Page& p )
     {
-        o << "Page(ID:" << p.getID() << ", section:" << p.getParentSection()->getName()
-            << ", world:" << p.getParentSection()->getWorld()->getName() << ")";
+        o << "Page(ID:" << p.getID() << ", section:" << p.getParentSection()->name()
+            << ", world:" << p.getParentSection()->getWorld()->name() << ")";
         return o;
     }
     //---------------------------------------------------------------------
@@ -418,7 +418,7 @@ namespace Ogre
     {
         StringStream str;
         if (mParent)
-            str << mParent->getWorld()->getName() << "_" <<    mParent->getName();
+            str << mParent->getWorld()->name() << "_" <<    mParent->name();
 
         str    << std::setw(8) << std::setfill('0') << std::hex << mID << ".page";
 

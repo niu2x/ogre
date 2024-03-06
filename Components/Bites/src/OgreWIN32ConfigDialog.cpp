@@ -113,7 +113,7 @@ namespace OgreBites
                 hwndDlgItem = GetDlgItem(hDlg, IDC_CBO_RENDERSYSTEM);
 
                 SendMessage(hwndDlgItem, CB_ADDSTRING, 0,
-                    (LPARAM)(char*)(*pRend)->getName().c_str());
+                    (LPARAM)(char*)(*pRend)->name().c_str());
 
                 if (*pRend == dlg->mImpl->mSelectedRenderSystem)
                 {

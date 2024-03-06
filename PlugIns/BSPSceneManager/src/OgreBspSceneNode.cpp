@@ -49,7 +49,7 @@ namespace Ogre {
             // Check membership of attached objects
             for (auto mov : getAttachedObjects())
             {
-                static_cast<BspSceneManager*>(getCreator())->_notifyObjectMoved(
+                static_cast<BspSceneManager*>(creator())->_notifyObjectMoved(
                     mov, this->_getDerivedPosition());
             }
         }
@@ -59,7 +59,7 @@ namespace Ogre {
     MovableObject* BspSceneNode::detachObject(unsigned short index)
     {
         MovableObject* ret = SceneNode::detachObject(index);
-        static_cast<BspSceneManager*>(getCreator())->_notifyObjectDetached(ret);
+        static_cast<BspSceneManager*>(creator())->_notifyObjectDetached(ret);
         return ret;
         
     }
@@ -67,7 +67,7 @@ namespace Ogre {
     MovableObject* BspSceneNode::detachObject(const String& name)
     {
         MovableObject* ret = SceneNode::detachObject(name);
-        static_cast<BspSceneManager*>(getCreator())->_notifyObjectDetached(ret);
+        static_cast<BspSceneManager*>(creator())->_notifyObjectDetached(ret);
         return ret;
     }
     //-------------------------------------------------------------------------
@@ -75,7 +75,7 @@ namespace Ogre {
     {
         for (auto o : getAttachedObjects())
         {
-            static_cast<BspSceneManager*>(getCreator())
+            static_cast<BspSceneManager*>(creator())
                 ->_notifyObjectDetached(o);
         }
         SceneNode::detachAllObjects();
@@ -90,12 +90,12 @@ namespace Ogre {
                 if (!inGraph)
                 {
                     // Equivalent to detaching
-                    static_cast<BspSceneManager*>(getCreator())->_notifyObjectDetached(o);
+                    static_cast<BspSceneManager*>(creator())->_notifyObjectDetached(o);
                 }
                 else
                 {
                     // move deals with re-adding
-                    static_cast<BspSceneManager*>(getCreator())
+                    static_cast<BspSceneManager*>(creator())
                         ->_notifyObjectMoved(o, this->_getDerivedPosition());
                 }
             }

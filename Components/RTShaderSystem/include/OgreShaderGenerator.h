@@ -205,7 +205,7 @@ public:
     /// @overload
     RenderState* getRenderState(const String& schemeName, const Material& mat, uint16 passIndex = 0)
     {
-        return getRenderState(schemeName, mat.getName(), mat.getGroup(), passIndex);
+        return getRenderState(schemeName, mat.name(), mat.group(), passIndex);
     }
 
     /** 
@@ -270,7 +270,7 @@ public:
     /// @overload
     bool hasShaderBasedTechnique(const Material& mat, const String& srcTechniqueSchemeName, const String& dstTechniqueSchemeName) const
     {
-        return hasShaderBasedTechnique(mat.getName(), mat.getGroup(), srcTechniqueSchemeName, dstTechniqueSchemeName);
+        return hasShaderBasedTechnique(mat.name(), mat.group(), srcTechniqueSchemeName, dstTechniqueSchemeName);
     }
 
     /**
@@ -307,7 +307,7 @@ public:
     /// @overload
     bool removeAllShaderBasedTechniques(const Material& mat)
     {
-        return removeAllShaderBasedTechniques(mat.getName(), mat.getGroup());
+        return removeAllShaderBasedTechniques(mat.name(), mat.group());
     }
 
     /** 
@@ -357,7 +357,7 @@ public:
     /// @overload
     void invalidateMaterial(const String& schemeName, const Material& mat)
     {
-        invalidateMaterial(schemeName, mat.getName(), mat.getGroup());
+        invalidateMaterial(schemeName, mat.name(), mat.group());
     }
 
     /** 
@@ -372,7 +372,7 @@ public:
     /// @overload
     void validateMaterial(const String& schemeName, const Material& mat)
     {
-        validateMaterial(schemeName, mat.getName(), mat.getGroup());
+        validateMaterial(schemeName, mat.name(), mat.group());
     }
 
 	/**

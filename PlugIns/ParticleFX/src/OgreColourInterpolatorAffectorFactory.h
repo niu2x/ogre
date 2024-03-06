@@ -37,7 +37,7 @@ namespace Ogre {
     /** Factory class for ColourInterpolatorAffector. */
     class ColourInterpolatorAffectorFactory : public ParticleAffectorFactory
     {
-        String getName() const override { return "ColourInterpolator"; }
+        String name() const override { return "ColourInterpolator"; }
 
         ParticleAffector* createAffector(ParticleSystem* psys) override { return new ColourInterpolatorAffector(psys); }
     };

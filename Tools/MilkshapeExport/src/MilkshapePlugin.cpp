@@ -611,9 +611,9 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     serializer.exportMesh(ogreMesh.get(), szFile);
     logMgr.log_message("Export successful");
 
-    Ogre::MeshManager::getSingleton().remove(ogreMesh->getHandle());
+    Ogre::MeshManager::getSingleton().remove(ogreMesh->handle());
     if (pSkel)
-        Ogre::SkeletonManager::getSingleton().remove(pSkel->getHandle());
+        Ogre::SkeletonManager::getSingleton().remove(pSkel->handle());
 
     if (exportMaterials && msModel_GetMaterialCount(pModel) > 0)
     {

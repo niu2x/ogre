@@ -48,7 +48,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& OctreeZonePlugin::getName() const
+    const String& OctreeZonePlugin::name() const
     {
         return sPluginName;
     }

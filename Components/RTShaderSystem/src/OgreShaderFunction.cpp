@@ -426,7 +426,7 @@ void Function::addInputParameter(ParameterPtr parameter)
     if (_getParameterBySemantic(mInputParameters, parameter->getSemantic(), parameter->getIndex()).get() != NULL)
     {
         OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
-            "Parameter <" + parameter->getName() + "> has equal semantic parameter");
+            "Parameter <" + parameter->name() + "> has equal semantic parameter");
     }
 
     add_parameter(mInputParameters, parameter);
@@ -439,7 +439,7 @@ void Function::addOutputParameter(ParameterPtr parameter)
     if (_getParameterBySemantic(mOutputParameters, parameter->getSemantic(), parameter->getIndex()).get() != NULL)
     {
         OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
-            "Parameter <" + parameter->getName() + "> has equal semantic parameter");
+            "Parameter <" + parameter->name() + "> has equal semantic parameter");
     }
 
     add_parameter(mOutputParameters, parameter);
@@ -473,17 +473,17 @@ void Function::add_parameter(ShaderParameterList& parameterList, ParameterPtr pa
 
 {
     // Check that parameter with the same name doest exist in input parameters list.
-    if (_getParameterByName(mInputParameters, parameter->getName()).get() != NULL)
+    if (_getParameterByName(mInputParameters, parameter->name()).get() != NULL)
     {
         OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
-            "Parameter <" + parameter->getName() + "> already declared");
+            "Parameter <" + parameter->name() + "> already declared");
     }
 
     // Check that parameter with the same name doest exist in output parameters list.
-    if (_getParameterByName(mOutputParameters, parameter->getName()).get() != NULL)
+    if (_getParameterByName(mOutputParameters, parameter->name()).get() != NULL)
     {
         OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
-            "Parameter <" + parameter->getName() + "> already declared");
+            "Parameter <" + parameter->name() + "> already declared");
     }
 
 
@@ -512,7 +512,7 @@ ParameterPtr Function::_getParameterByName( const ShaderParameterList& parameter
 {
     for (const auto& p : parameterList)
     {
-        if (p->getName() == name)
+        if (p->name() == name)
             return p;
     }
 

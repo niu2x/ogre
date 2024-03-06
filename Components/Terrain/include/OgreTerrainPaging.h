@@ -114,7 +114,7 @@ namespace Ogre
         {
         public:
             static const String FACTORY_NAME;
-            const String& getName() const override;
+            const String& name() const override;
             PagedWorldSection* createInstance(const String& name, PagedWorld* parent, SceneManager* sm) override;
             void destroyInstance(PagedWorldSection*) override;
 

@@ -40,7 +40,7 @@ namespace Ogre
 
     }
 
-    const String& GL3PlusPlugin::getName() const
+    const String& GL3PlusPlugin::name() const
     {
         return sPluginName;
     }

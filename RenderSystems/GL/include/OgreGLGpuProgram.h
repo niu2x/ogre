@@ -81,7 +81,7 @@ namespace Ogre {
     protected:
         void loadFromSource(void) override;
         /// @copydoc Resource::unloadImpl
-        void unloadImpl(void) override;
+        void unload_impl(void) override;
 
     };
 

@@ -78,7 +78,7 @@ namespace Ogre
                       mName.c_str());
     }
     //---------------------------------------------------------------------------
-    void VulkanProgram::unloadImpl()
+    void VulkanProgram::unload_impl()
     {
         vkDestroyShaderModule( mDevice->mDevice, mShaderModule, 0 );
         mShaderModule = VK_NULL_HANDLE;

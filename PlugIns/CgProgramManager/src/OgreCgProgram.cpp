@@ -734,13 +734,13 @@ namespace Ogre {
 		// processed source file. We can get them from there.
 		// We'll also get rid of those comments to trim down source code size.
 #if OGRE_DEBUG_MODE || 1
-		LogManager::getSingleton().stream() << "Cg high level output for " << getName() << ":\n" << hlSource;
+		LogManager::getSingleton().stream() << "Cg high level output for " << name() << ":\n" << hlSource;
 #endif
 		hlSource = HighLevelOutputFixer(hlSource, mParametersMap, mSamplerRegisterMap,
 			mSelectedCgProfile == CG_PROFILE_GLSLV || mSelectedCgProfile == CG_PROFILE_GLSLF ||
 			mSelectedCgProfile == CG_PROFILE_GLSLG).output;
 #if OGRE_DEBUG_MODE || 1
-		LogManager::getSingleton().stream() << "Cleaned high level output for " << getName() << ":\n" << hlSource;
+		LogManager::getSingleton().stream() << "Cleaned high level output for " << name() << ":\n" << hlSource;
 #endif
 	}
 
@@ -861,12 +861,12 @@ namespace Ogre {
 			HighLevelGpuProgram::resetCompileError();
 	}
 	//-----------------------------------------------------------------------
-	size_t CgProgram::getSize() const
+	size_t CgProgram::size() const
 	{
 		if (mDelegate)
-			return mDelegate->getSize();
+			return mDelegate->size();
 		else
-			return HighLevelGpuProgram::getSize();
+			return HighLevelGpuProgram::size();
 	}
 	//-----------------------------------------------------------------------
 	void CgProgram::touch()
@@ -883,7 +883,7 @@ namespace Ogre {
 	{
         if (mDelegate)
         {
-            mDelegate->getCreator()->remove(mDelegate);
+            mDelegate->creator()->remove(mDelegate);
             mDelegate.reset();
         }
 	}

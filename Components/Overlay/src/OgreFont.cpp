@@ -249,11 +249,11 @@ namespace Ogre
     }
 
     //---------------------------------------------------------------------
-    void Font::loadImpl()
+    void Font::load_impl()
     {
         // Create a new material
         mMaterial =  MaterialManager::getSingleton().create(
-            "Fonts/" + mName,  mGroup);
+            "Fonts/" + name(),  group());
 
         if (!mMaterial)
         {
@@ -268,7 +268,7 @@ namespace Ogre
         else
         {
             // Manually load since we need to load to get alpha
-            mTexture = TextureManager::getSingleton().load(mSource, mGroup, TEX_TYPE_2D, 0);
+            mTexture = TextureManager::getSingleton().load(mSource, group(), TEX_TYPE_2D, 0);
         }
 
         // Make sure material is aware of colour per vertex.
@@ -303,7 +303,7 @@ namespace Ogre
         }
     }
     //---------------------------------------------------------------------
-    void Font::unloadImpl()
+    void Font::unload_impl()
     {
         if (mMaterial)
         {
@@ -322,7 +322,7 @@ namespace Ogre
     {
         // Just create the texture here, and point it at ourselves for when
         // it wants to (re)load for real
-        mTexture = TextureManager::getSingleton().create(mName + "Texture", mGroup, true, this);
+        mTexture = TextureManager::getSingleton().create(name() + "Texture", group(), true, this);
         mTexture->setTextureType(TEX_TYPE_2D);
         mTexture->setNumMipmaps(0);
         mTexture->load();
@@ -334,7 +334,7 @@ namespace Ogre
         // original DataStream in a MemoryDataStream
         DataStreamPtr dataStreamPtr =
             ResourceGroupManager::getSingleton().openResource(
-                mSource, mGroup, this);
+                mSource, group(), this);
         MemoryDataStream ttfchunk(dataStreamPtr);
 
         // If codepoints not supplied, assume ASCII

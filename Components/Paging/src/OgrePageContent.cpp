@@ -55,7 +55,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     const String& PageContent::getType() const
     {
-        return mCreator->getName();
+        return mCreator->name();
     }
     //---------------------------------------------------------------------
     void PageContent::_notifyAttached(PageContentCollection* parent)

@@ -81,14 +81,14 @@ namespace Ogre {
     }
 
     //-----------------------------------------------------------------------
-    void BspLevel::loadImpl()
+    void BspLevel::load_impl()
     {
         mSkyEnabled = false;
 
         // Use Quake3 file loader
         Quake3Level q3;
         DataStreamPtr stream = 
-            ResourceGroupManager::getSingleton().openResource(mName, 
+            ResourceGroupManager::getSingleton().openResource(name(), 
                 ResourceGroupManager::getSingleton().getWorldResourceGroupName());
 
         q3.loadFromStream(stream);
@@ -122,7 +122,7 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    void BspLevel::unloadImpl()
+    void BspLevel::unload_impl()
     {
         if (mRenderOp.vertexData)
             OGRE_DELETE mRenderOp.vertexData;
@@ -225,10 +225,10 @@ namespace Ogre {
         /// Create vertex declaration
         VertexDeclaration* decl = mRenderOp.vertexData->vertexDeclaration;
         size_t offset = 0;
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).getSize();
-        offset += decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL).getSize();
-        offset += decl->addElement(0, offset, VET_COLOUR, VES_DIFFUSE).getSize();
-        offset += decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0).getSize();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).size();
+        offset += decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL).size();
+        offset += decl->addElement(0, offset, VET_COLOUR, VES_DIFFUSE).size();
+        offset += decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0).size();
         decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 1);
 
         // Build initial patches - we need to know how big the vertex buffer needs to be
@@ -362,7 +362,7 @@ namespace Ogre {
                     if (pShad->skyDome)
                     {
                         mSkyEnabled = true;
-                        mSkyMaterial = shadMat->getName();
+                        mSkyMaterial = shadMat->name();
                         mSkyCurvature = 20 - (pShad->cloudHeight / 256 * 18);
                     }
                 }
@@ -410,7 +410,7 @@ namespace Ogre {
 
                 }
             }
-            matHandle = shadMat->getHandle();
+            matHandle = shadMat->handle();
             shadMat->load();
 
             // Copy face data
@@ -1074,7 +1074,7 @@ namespace Ogre {
         dest->lightmap[1]  = src->lightmap[1];
     }
     //-----------------------------------------------------------------------
-    size_t BspLevel::calculateSize(void) const
+    size_t BspLevel::calculate_size(void) const
     {
         return 0; // TODO
     }

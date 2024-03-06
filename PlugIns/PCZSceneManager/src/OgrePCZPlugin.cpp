@@ -50,7 +50,7 @@ namespace Ogre
     {
     }
     //---------------------------------------------------------------------
-    const String& PCZPlugin::getName() const
+    const String& PCZPlugin::name() const
     {
         return sPluginName;
     }

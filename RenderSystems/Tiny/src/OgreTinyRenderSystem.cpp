@@ -27,7 +27,7 @@ namespace Ogre {
     TinyRenderSystem::TinyRenderSystem()
         : mHardwareBufferManager(0)
     {
-        LogManager::getSingleton().log_message(getName() + " created.");
+        LogManager::getSingleton().log_message(name() + " created.");
 
         initConfigOptions();
 
@@ -97,7 +97,7 @@ namespace Ogre {
 
         rsc->setDriverVersion(mDriverVersion);
 
-        rsc->setRenderSystemName(getName());
+        rsc->setRenderSystemName(name());
         rsc->setNumTextureUnits(1);
 
         rsc->setCapability(RSC_FIXED_FUNCTION);

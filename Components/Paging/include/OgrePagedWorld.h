@@ -72,7 +72,7 @@ namespace Ogre
         PagedWorld(const String& name, PageManager* manager);
         virtual ~PagedWorld();
 
-        const String& getName() const { return mName; }
+        const String& name() const { return mName; }
         /// Get the manager of this world
         PageManager* getManager() const { return mManager; }
 

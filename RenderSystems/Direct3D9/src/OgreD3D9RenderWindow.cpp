@@ -952,7 +952,7 @@ namespace Ogre
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 	void D3D9RenderWindow::_validateStereo()
 	{
-		mStereoEnabled = D3D9StereoDriverBridge::getSingleton().isStereoEnabled(this->getName());
+		mStereoEnabled = D3D9StereoDriverBridge::getSingleton().isStereoEnabled(this->name());
 	}
 #endif
 	//---------------------------------------------------------------------

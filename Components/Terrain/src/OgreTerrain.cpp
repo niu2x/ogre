@@ -193,7 +193,7 @@ namespace Ogre
 
     {
         mRootNode = sm->getRootSceneNode()->createChildSceneNode();
-        sm->addListener(this);
+        sm->add_listener(this);
 
         // generate a material name, it's important for the terrain material
         // name to be consistent & unique no matter what generator is being used
@@ -218,7 +218,7 @@ namespace Ogre
         if (mSceneMgr)
         {
             mSceneMgr->destroySceneNode(mRootNode);
-            mSceneMgr->removeListener(this);
+            mSceneMgr->remove_listener(this);
         }
     }
     //---------------------------------------------------------------------
@@ -3454,7 +3454,7 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Invalid texture index", "Terrain::getBlendTextureName");
         
-        return mBlendTextureList[textureIndex]->getName();
+        return mBlendTextureList[textureIndex]->name();
     }
     //---------------------------------------------------------------------
     void Terrain::setGlobalColourMapEnabled(bool enabled, uint16 sz)

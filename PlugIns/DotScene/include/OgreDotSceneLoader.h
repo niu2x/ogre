@@ -81,7 +81,7 @@ protected:
 
 class _OgreDotScenePluginExport DotScenePlugin : public Plugin
 {
-    const String& getName() const override;
+    const String& name() const override;
 
     void install() override {}
     void initialise() override;

@@ -247,7 +247,7 @@ void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* functio
         const ParameterPtr& pParam = *itParam;
         auto paramContent = pParam->getContent();
         auto paramSemantic = pParam->getSemantic();
-        const String& paramName = pParam->getName();
+        const String& paramName = pParam->name();
 
         if (gpuType == GPT_FRAGMENT_PROGRAM)
         {
@@ -305,7 +305,7 @@ void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* functio
                 os << mGpuConstTypeMap[type];
             }
             os << "\t";
-            os << pParam->getName() << ", ";
+            os << pParam->name() << ", ";
             writeParameterSemantic(os, pParam);  // maps to location
             os << ")\n";
         }
@@ -348,7 +348,7 @@ void GLSLProgramWriter::writeOutParameters(std::ostream& os, Function* function,
                 continue;
             }
 
-            os << "OUT(vec4\t" << p->getName() << ", " << p->getIndex() << ")\n";
+            os << "OUT(vec4\t" << p->name() << ", " << p->getIndex() << ")\n";
         }
     }
 }

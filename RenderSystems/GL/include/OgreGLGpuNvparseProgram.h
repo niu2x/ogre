@@ -52,7 +52,7 @@ public:
 
 protected:
     /// @copydoc Resource::unload
-    void unloadImpl(void) override;
+    void unload_impl(void) override;
     void loadFromSource(void) override;
 };
 

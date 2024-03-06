@@ -139,7 +139,7 @@ void GLArbGpuProgram::bindProgramParameters(GpuProgramParametersSharedPtr params
     }
 }
 
-void GLArbGpuProgram::unloadImpl(void)
+void GLArbGpuProgram::unload_impl(void)
 {
     glDeleteProgramsARB(1, &mProgramID);
 }

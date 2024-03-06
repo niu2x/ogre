@@ -72,11 +72,11 @@ void ProgramWriter::writeParameter(std::ostream& os, const ParameterPtr& paramet
 {
     if (!parameter->getStructType().empty())
     {
-        os << parameter->getStructType() << '\t' << parameter->getName();
+        os << parameter->getStructType() << '\t' << parameter->name();
         return;
     }
 
-    os << mGpuConstTypeMap[parameter->getType()] << '\t' << parameter->getName();
+    os << mGpuConstTypeMap[parameter->getType()] << '\t' << parameter->name();
     if (parameter->isArray())
         os << '[' << parameter->getSize() << ']';
 }
@@ -113,7 +113,7 @@ void ProgramWriter::writeSamplerParameter(std::ostream& os, const UniformParamet
     default:
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "unsupported sampler type");
     }
-    os << parameter->getName() << ", " << parameter->getIndex() << ")";
+    os << parameter->name() << ", " << parameter->getIndex() << ")";
 }
 
 void ProgramWriter::writeParameterSemantic(std::ostream& os, const ParameterPtr& parameter)
@@ -151,11 +151,11 @@ void ProgramWriter::redirectGlobalWrites(std::ostream& os, FunctionAtom* func, c
         }
 
         // now we check if we already declared a redirector var
-        if (doLocalRename && mLocalRenames.find(param->getName()) == mLocalRenames.end())
+        if (doLocalRename && mLocalRenames.find(param->name()) == mLocalRenames.end())
         {
             // Declare the copy variable and assign the original
-            String newVar = "local_" + param->getName();
-            os << "\t" << mGpuConstTypeMap[param->getType()] << " " << newVar << " = " << param->getName() << ";"
+            String newVar = "local_" + param->name();
+            os << "\t" << mGpuConstTypeMap[param->getType()] << " " << newVar << " = " << param->name() << ";"
                 << std::endl;
 
             // From now on we replace it automatic

@@ -318,7 +318,7 @@ namespace Ogre {
     {
         if (!isManuallyLoaded())
         {
-            unloadImpl();
+            unload_impl();
         }
         else
         {

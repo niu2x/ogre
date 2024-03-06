@@ -96,7 +96,7 @@ namespace Ogre
         PageManager* getManager() const;
 
         /// Get the name of this section
-        virtual const String& getName() const { return mName; }
+        virtual const String& name() const { return mName; }
         /// Get the page strategy which this section is using
         virtual PageStrategy* getStrategy() const { return mStrategy; }
         /** Change the page strategy.
@@ -302,7 +302,7 @@ namespace Ogre
     {
     public:
         virtual ~PagedWorldSectionFactory() {}
-        virtual const String& getName() const = 0;
+        virtual const String& name() const = 0;
         virtual PagedWorldSection* createInstance(const String& name, PagedWorld* parent, SceneManager* sm) = 0;
         virtual void destroyInstance(PagedWorldSection*) = 0;
 

@@ -56,7 +56,7 @@ namespace Ogre
 
     private:
         void loadFromSource() override;
-        void unloadImpl() override;
+        void unload_impl() override;
 
         VulkanDevice *mDevice;
         VkShaderModule mShaderModule;

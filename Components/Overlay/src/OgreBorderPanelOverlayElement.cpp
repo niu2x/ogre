@@ -589,7 +589,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     const String& BorderPanelOverlayElement::getBorderMaterialName(void) const
     {
-        return mBorderMaterial ? mBorderMaterial->getName() : BLANKSTRING;
+        return mBorderMaterial ? mBorderMaterial->name() : BLANKSTRING;
     }
     //---------------------------------------------------------------------
     void BorderPanelOverlayElement::updatePositionGeometry(void)

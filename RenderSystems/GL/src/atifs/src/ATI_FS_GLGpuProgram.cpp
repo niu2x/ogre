@@ -89,7 +89,7 @@ void ATI_FS_GLGpuProgram::bindProgramParameters(GpuProgramParametersSharedPtr pa
 
 }
 
-void ATI_FS_GLGpuProgram::unloadImpl(void)
+void ATI_FS_GLGpuProgram::unload_impl(void)
 {
     glDeleteFragmentShaderATI(mProgramID);
 }

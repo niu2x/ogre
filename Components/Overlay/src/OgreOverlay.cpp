@@ -63,7 +63,7 @@ namespace Ogre {
         }
     }
     //---------------------------------------------------------------------
-    const String& Overlay::getName(void) const
+    const String& Overlay::name(void) const
     {
         return mName;
     }
@@ -185,7 +185,7 @@ namespace Ogre {
     {
         for (auto *e : m2DElements)
         {
-            if (e->getName() == name)
+            if (e->name() == name)
                 return e;
         }
         return NULL;

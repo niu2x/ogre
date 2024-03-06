@@ -437,7 +437,7 @@ namespace Ogre
     RenderSystemCapabilities *VulkanRenderSystem::createRenderSystemCapabilities( void ) const
     {
         RenderSystemCapabilities *rsc = new RenderSystemCapabilities();
-        rsc->setRenderSystemName( getName() );
+        rsc->setRenderSystemName( name() );
 
         // We would like to save the device properties for the device capabilities limits.
         // These limits are needed for buffers' binding alignments.

@@ -260,7 +260,7 @@ namespace OgreBites {
         const RenderSystemList& renderers = Root::getSingleton().getAvailableRenderers();
         for (RenderSystemList::const_iterator pRend = renderers.begin(); pRend != renderers.end(); ++pRend)
         {
-            NSString *renderSystemName = [[NSString alloc] initWithCString:(*pRend)->getName().c_str() encoding:NSASCIIStringEncoding];
+            NSString *renderSystemName = [[NSString alloc] initWithCString:(*pRend)->name().c_str() encoding:NSASCIIStringEncoding];
             [mRenderSystemsPopUp addItemWithTitle:renderSystemName];
         }
 

@@ -130,7 +130,7 @@ String GLSLProgramCommon::getCombinedName()
     {
         if (s)
         {
-            ss << s->getName() << "\n";
+            ss << s->name() << "\n";
         }
     }
 

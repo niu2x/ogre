@@ -169,7 +169,7 @@ namespace Ogre
         while (it != mPortals.end())
         {
             p = *it;
-            if (p->getName() == portalName)
+            if (p->name() == portalName)
             {
                 thePortal = p;
                 // erase entry in the master list
@@ -240,7 +240,7 @@ namespace Ogre
         while (it != mAntiPortals.end())
         {
             p = *it;
-            if (p->getName() == portalName)
+            if (p->name() == portalName)
             {
                 thePortal = p;
                 // erase entry in the master list
@@ -1031,7 +1031,7 @@ namespace Ogre
                             if (portal2)
                             {
                                 // found a match!
-                                Ogre::LogManager::getSingletonPtr()->log_message("Connecting portal "+portal->getName()+" to portal "+portal2->getName());
+                                Ogre::LogManager::getSingletonPtr()->log_message("Connecting portal "+portal->name()+" to portal "+portal2->name());
                                 foundMatch = true;
                                 portal->setTargetZone(zone2);
                                 portal->setTargetPortal(portal2);
@@ -1045,7 +1045,7 @@ namespace Ogre
                     {
                         // error, didn't find a matching portal!
                         OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
-                            "Could not find matching portal for portal " + portal->getName(), 
+                            "Could not find matching portal for portal " + portal->name(), 
                             "PCZSceneManager::connectPortalsToTargetZonesByLocation");
 
                     }

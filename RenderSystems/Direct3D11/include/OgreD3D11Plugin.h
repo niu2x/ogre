@@ -42,7 +42,7 @@ namespace Ogre
 
 
         /// @copydoc Plugin::getName
-        const String& getName() const;
+        const String& name() const;
 
         /// @copydoc Plugin::install
         void install();

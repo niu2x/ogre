@@ -41,9 +41,9 @@ namespace Ogre {
     D3D9HLSLProgram::CmdBackwardsCompatibility D3D9HLSLProgram::msCmdBackwardsCompatibility;
 
     //-----------------------------------------------------------------------
-    void D3D9HLSLProgram::prepareImpl()
+    void D3D9HLSLProgram::prepare_impl()
     {
-        HighLevelGpuProgram::prepareImpl();
+        HighLevelGpuProgram::prepare_impl();
 
         mSyntaxCode = getTarget();
         uint32 seed = FastHash(mSyntaxCode.c_str(), mSyntaxCode.length());

@@ -867,11 +867,11 @@ namespace Ogre {
             size_t offset = 0;
             if (StringConverter::parse_bool(vbElem.attribute("positions").value()))
             {
-                offset += decl->addElement(bufCount, offset, VET_FLOAT3, VES_POSITION).getSize();
+                offset += decl->addElement(bufCount, offset, VET_FLOAT3, VES_POSITION).size();
             }
             if (StringConverter::parse_bool(vbElem.attribute("normals").value()))
             {
-                offset += decl->addElement(bufCount, offset, VET_FLOAT3, VES_NORMAL).getSize();
+                offset += decl->addElement(bufCount, offset, VET_FLOAT3, VES_NORMAL).size();
             }
             if (StringConverter::parse_bool(vbElem.attribute("tangents").value()))
             {
@@ -880,20 +880,20 @@ namespace Ogre {
                 if (dims == 4)
                     tangentType = VET_FLOAT4;
 
-                offset += decl->addElement(bufCount, offset, tangentType, VES_TANGENT).getSize();
+                offset += decl->addElement(bufCount, offset, tangentType, VES_TANGENT).size();
             }
             if (StringConverter::parse_bool(vbElem.attribute("binormals").value()))
             {
-                offset += decl->addElement(bufCount, offset, VET_FLOAT3, VES_BINORMAL).getSize();
+                offset += decl->addElement(bufCount, offset, VET_FLOAT3, VES_BINORMAL).size();
             }
             if (StringConverter::parse_bool(vbElem.attribute("colours_diffuse").value()))
             {
-                offset += decl->addElement(bufCount, offset, mColourElementType, VES_DIFFUSE).getSize();
+                offset += decl->addElement(bufCount, offset, mColourElementType, VES_DIFFUSE).size();
             }
             if (StringConverter::parse_bool(vbElem.attribute("colours_specular").value()))
             {
                 // Add element
-                offset += decl->addElement(bufCount, offset, mColourElementType, VES_SPECULAR).getSize();
+                offset += decl->addElement(bufCount, offset, mColourElementType, VES_SPECULAR).size();
             }
             if (StringConverter::parse_int32(vbElem.attribute("texture_coords").value()))
             {
@@ -948,7 +948,7 @@ namespace Ogre {
                         }
                     }
                     offset += decl->addElement(bufCount, offset, vtype,
-                        VES_TEXTURE_COORDINATES, totalTexCoords++).getSize();
+                        VES_TEXTURE_COORDINATES, totalTexCoords++).size();
                 }
             } 
 
@@ -1252,7 +1252,7 @@ namespace Ogre {
     {
         String name = mSkelNode.attribute("name").value();
         // create dummy, because we do not load external resources
-        auto skel = SkeletonManager::getSingleton().create(name, mMesh->getGroup());
+        auto skel = SkeletonManager::getSingleton().create(name, mMesh->group());
         mMesh->_notifySkeleton(skel);
     }
     //---------------------------------------------------------------------
@@ -1313,7 +1313,7 @@ namespace Ogre {
         const LodStrategy *strategy = pMesh->getLodStrategy();
         unsigned short numLvls = pMesh->getNumLodLevels();
         bool manual = pMesh->hasManualLodLevel();
-        lodNode.append_attribute("strategy") = strategy->getName().c_str();
+        lodNode.append_attribute("strategy") = strategy->name().c_str();
         lodNode.append_attribute("numlevels") = StringConverter::to_string(numLvls).c_str();
         lodNode.append_attribute("manual") = StringConverter::to_string(manual).c_str();
 
@@ -1962,7 +1962,7 @@ namespace Ogre {
                 poseNode.append_attribute("index") =
                     StringConverter::to_string(target - 1).c_str();
             }
-            poseNode.append_attribute("name") = pose->getName().c_str();
+            poseNode.append_attribute("name") = pose->name().c_str();
             
             bool includesNormals = !pose->getNormals().empty();
             auto nit = pose->getNormals().begin();
@@ -2010,7 +2010,7 @@ namespace Ogre {
 
             pugi::xml_node animNode =
                 animationsNode.append_child("animation");
-            animNode.append_attribute("name") = anim->getName().c_str();
+            animNode.append_attribute("name") = anim->name().c_str();
             animNode.append_attribute("length") =
                 StringConverter::to_string(anim->getLength()).c_str();
 

@@ -200,7 +200,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void GLSLESCgProgram::loadFromSource( void )
     {
-        GLSLESProgram::prepareImpl(); // loads + preprocesses source
+        GLSLESProgram::prepare_impl(); // loads + preprocesses source
 
         // check if syntax is supported
         if (!isSyntaxSupported()) 

@@ -137,7 +137,7 @@ DotSceneLoader::~DotSceneLoader() {}
 void DotSceneLoader::load(DataStreamPtr& stream, const String& groupName, SceneNode* rootNode)
 {
     m_sGroupName = groupName;
-    mSceneMgr = rootNode->getCreator();
+    mSceneMgr = rootNode->creator();
 
     pugi::xml_document XMLDoc; // character type defaults to char
 
@@ -872,7 +872,7 @@ void DotSceneLoader::processUserData(pugi::xml_node& XMLNode, UserObjectBindings
 
 void DotSceneLoader::processNodeAnimations(pugi::xml_node& XMLNode, SceneNode* pParent)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Node Animations for SceneNode: " + pParent->getName(), LogMsgLevel::TRIVIAL);
+    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Node Animations for SceneNode: " + pParent->name(), LogMsgLevel::TRIVIAL);
 
     // Process node animations (*)
     for (auto pElement : XMLNode.children("animation"))
@@ -969,7 +969,7 @@ void DotSceneLoader::exportScene(SceneNode* rootNode, const String& outFileName)
                           .c_str());
     auto scene = XMLDoc.append_child("scene");
     scene.append_attribute("formatVersion") = "1.1";
-    scene.append_attribute("sceneManager") = rootNode->getCreator()->getTypeName().c_str();
+    scene.append_attribute("sceneManager") = rootNode->creator()->getTypeName().c_str();
 
     auto nodes = scene.append_child("nodes");
 
@@ -999,8 +999,8 @@ static void write(pugi::xml_node& node, const ColourValue& c)
 void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
 {
     auto nodeXML = parentXML.append_child("node");
-    if(!n->getName().empty())
-        nodeXML.append_attribute("name") = n->getName().c_str();
+    if(!n->name().empty())
+        nodeXML.append_attribute("name") = n->name().c_str();
 
     auto pos = nodeXML.append_child("position");
     write(pos, n->getPosition());
@@ -1019,7 +1019,7 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
         if(auto c = dynamic_cast<Camera*>(mo))
         {
             auto camera = nodeXML.append_child("camera");
-            camera.append_attribute("name") = c->getName().c_str();
+            camera.append_attribute("name") = c->name().c_str();
             auto clipping = camera.append_child("clipping");
             clipping.append_attribute("near") = StringConverter::to_string(c->getNearClipDistance()).c_str();
             clipping.append_attribute("far") = StringConverter::to_string(c->getFarClipDistance()).c_str();
@@ -1029,7 +1029,7 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
         if (auto l = dynamic_cast<Light*>(mo))
         {
             auto light = nodeXML.append_child("light");
-            light.append_attribute("name") = l->getName().c_str();
+            light.append_attribute("name") = l->name().c_str();
             light.append_attribute("castShadows") = StringConverter::to_string(l->getCastShadows()).c_str();
 
             if(!l->isVisible())
@@ -1081,8 +1081,8 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
         if(auto e = dynamic_cast<Entity*>(mo))
         {
             auto entity = nodeXML.append_child("entity");
-            entity.append_attribute("name") = e->getName().c_str();
-            entity.append_attribute("meshFile") = e->getMesh()->getName().c_str();
+            entity.append_attribute("name") = e->name().c_str();
+            entity.append_attribute("meshFile") = e->getMesh()->name().c_str();
 
             if(!e->isVisible())
                 entity.append_attribute("visible") = "false";
@@ -1090,7 +1090,7 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
             // Heuristic: assume first submesh is representative
             auto sub0mat = e->getSubEntity(0)->getMaterial();
             if(sub0mat != e->getMesh()->getSubMesh(0)->getMaterial())
-                entity.append_attribute("material") = sub0mat->getName().c_str();
+                entity.append_attribute("material") = sub0mat->name().c_str();
             continue;
         }
 
@@ -1103,7 +1103,7 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
         writeNode(nodeXML, static_cast<SceneNode*>(c));
 }
 
-const Ogre::String& DotScenePlugin::getName() const {
+const Ogre::String& DotScenePlugin::name() const {
     static Ogre::String name = "DotScene Loader";
     return name;
 }

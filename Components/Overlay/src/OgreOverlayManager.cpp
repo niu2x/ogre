@@ -139,10 +139,10 @@ namespace Ogre {
 
     void OverlayManager::addOverlay(Overlay* overlay)
     {
-        bool succ = mOverlayMap.emplace(overlay->getName(), overlay).second;
+        bool succ = mOverlayMap.emplace(overlay->name(), overlay).second;
         if(succ) return;
         OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
-                    "Overlay with name '" + overlay->getName() + "' already exists!");
+                    "Overlay with name '" + overlay->name() + "' already exists!");
     }
     //---------------------------------------------------------------------
     void OverlayManager::destroy(const String& name)
@@ -343,7 +343,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void OverlayManager::destroyOverlayElement(OverlayElement* pInstance,bool)
     {
-        destroyOverlayElement(pInstance->getName());
+        destroyOverlayElement(pInstance->name());
     }
     //---------------------------------------------------------------------
     void OverlayManager::destroyOverlayElement(const String& instanceName,bool)
@@ -381,7 +381,7 @@ namespace Ogre {
             if (fi == mFactories.end())
             {
                 OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "Cannot locate factory for element "
-                    + element->getName(),
+                    + element->name(),
                     "OverlayManager::destroyAllOverlayElements");
             }
 
@@ -389,7 +389,7 @@ namespace Ogre {
             OverlayContainer* parent;
             if ((parent = element->getParent()) != 0)
             {
-                parent->_removeChild(element->getName());
+                parent->_removeChild(element->name());
             }
 
             // children of containers will be auto-removed when container is destroyed.

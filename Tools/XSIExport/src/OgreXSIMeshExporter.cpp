@@ -369,7 +369,7 @@ namespace Ogre {
             CFloatArray uvValues;
             uvProp.GetValues(uvValues);
 
-            String textureProjectionName = XSItoOgre(uvProp.GetName());
+            String textureProjectionName = XSItoOgre(uvProp.name());
             mTextureProjectionMap[textureProjectionName] = i;
 
             int usedDims = 0;
@@ -484,20 +484,20 @@ namespace Ogre {
                 for (LONG c = 0; c < polygonClusters.GetCount(); ++ c)
                 {
                     XSI::Cluster cluster = XSI::Cluster(polygonClusters[c]);
-                    if (cluster.GetMaterial().GetName() == m.GetName())
+                    if (cluster.GetMaterial().name() == m.name())
                     {
                         LONG out_clusterIndex;
                         cluster.FindIndex(polygonIndex, out_clusterIndex);
                         if (out_clusterIndex != -1)
                         {
-                            SubMeshName = cluster.GetName();
+                            SubMeshName = cluster.name();
                             break;
                         }
                     }
                 }
 
                 currentProto = materialToProtoSubMesh[materialIndex] = createOrRetrieveProtoSubMesh(
-                    mMaterialPrefix + XSItoOgre(m.GetName()),
+                    mMaterialPrefix + XSItoOgre(m.name()),
                     XSItoOgre(SubMeshName),
                     textureCoordDimensions,
                     hasVertexColours);
@@ -654,7 +654,7 @@ namespace Ogre {
                 {
                     X3DObject deformer(deformers[d]);
                     // Has this deformer been allocated a boneID already?
-                    String deformerName = XSItoOgre(deformer.GetName());
+                    String deformerName = XSItoOgre(deformer.name());
                     DeformerMap::iterator di = 
                         mXsiDeformerMap.find(deformerName);
                     DeformerEntry* deformerEntry;
@@ -764,7 +764,7 @@ namespace Ogre {
         for (int i = 0; i < shapeKeys.GetCount(); ++ i)
         {
             ShapeKey shapeKey = shapeKeys[i];
-            LogOgreAndXSI("Found shape key " + XSItoOgre(shapeKey.GetName()));
+            LogOgreAndXSI("Found shape key " + XSItoOgre(shapeKey.name()));
 
             // Locate ProtoSubMeshes which use this mesh
             for (MaterialProtoSubMeshMap::iterator mi = mMaterialProtoSubmeshMap.begin();
@@ -783,7 +783,7 @@ namespace Ogre {
 
                         // Create a new pose, target is implied by proto, final
                         // index to be determined later including merging
-                        Pose pose(0, XSItoOgre(shapeKey.GetName()));
+                        Pose pose(0, XSItoOgre(shapeKey.name()));
 
                         CBitArray affectedPoints;
                         CFloatArray shapeValues;
@@ -1225,7 +1225,7 @@ namespace Ogre {
         for (std::list<Pose>::iterator pi = proto->poseList.begin();
             pi != proto->poseList.end(); ++pi, ++sk)
         {
-            Pose* pose = pMesh->createPose(targetIndex, pi->getName());
+            Pose* pose = pMesh->createPose(targetIndex, pi->name());
             Pose::VertexOffsetIterator vertIt = 
                 pi->getVertexOffsetIterator();
             while (vertIt.hasMoreElements())
@@ -1276,7 +1276,7 @@ namespace Ogre {
                 "XsiMeshExporter::exportX3DObject");
         }
         // Log a message in script window
-        CString name = x3dObj.GetName() ;
+        CString name = x3dObj.name() ;
         LogOgreAndXSI(L"-- Traversing " +  name) ;
 
 
@@ -1304,7 +1304,7 @@ namespace Ogre {
                     // add it to the list
                     PolygonMesh pmesh(geom);
                     mXsiPolygonMeshList.insert(
-                        new PolygonMeshEntry(x3dObj.GetName(), x3dObj.GetKinematics().GetGlobal().GetTransform(), pmesh.GetGeometryAccessor(siConstructionModeSecondaryShape, siCatmullClark, subd)));
+                        new PolygonMeshEntry(x3dObj.name(), x3dObj.GetKinematics().GetGlobal().GetTransform(), pmesh.GetGeometryAccessor(siConstructionModeSecondaryShape, siCatmullClark, subd)));
 
                     LogOgreAndXSI(L"-- Queueing " +  name) ;
                 }

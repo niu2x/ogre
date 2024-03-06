@@ -97,7 +97,7 @@ namespace Ogre
 		logErrorMessage(nvStatus);
 
 		// Add the stereo handle to the existing map
-		mStereoMap[stereoHandle.renderWindow->getName()] = stereoHandle;
+		mStereoMap[stereoHandle.renderWindow->name()] = stereoHandle;
 
 		return true;
 	}
