@@ -375,9 +375,13 @@ namespace Ogre {
             ManualResourceLoader* loader = 0, const NameValuePairList* loadParams = 0,
             bool backgroundThread = false);
 
-        const StringVector& getScriptPatterns(void) const override { return mScriptPatterns; }
-        void parseScript(DataStreamPtr& stream, const String& groupName) override;
-        Real getLoadingOrder(void) const override { return mLoadOrder; }
+        const StringVector& script_patterns(void) const override
+        {
+            return mScriptPatterns;
+        }
+        void
+        parse_script(DataStreamPtr& stream, const String& groupName) override;
+        Real loading_order(void) const override { return mLoadOrder; }
 
         /** Gets a string identifying the type of resource this manager handles. */
         const String& getResourceType(void) const { return mResourceType; }

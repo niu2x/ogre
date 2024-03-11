@@ -1590,18 +1590,20 @@ namespace Ogre
         mScriptPatterns.push_back(pattern);
     }
     //-----------------------------------------------------------------------
-    const StringVector& ScriptCompilerManager::getScriptPatterns(void) const
+    const StringVector& ScriptCompilerManager::script_patterns(void) const
     {
         return mScriptPatterns;
     }
     //-----------------------------------------------------------------------
-    Real ScriptCompilerManager::getLoadingOrder(void) const
+    Real ScriptCompilerManager::loading_order(void) const
     {
         /// Load relatively early, before most script loaders run
         return 90.0f;
     }
     //-----------------------------------------------------------------------
-    void ScriptCompilerManager::parseScript(DataStreamPtr& stream, const String& groupName)
+    void ScriptCompilerManager::parse_script(
+        DataStreamPtr& stream,
+        const String& groupName)
     {
         ConcreteNodeListPtr nodes =
             ScriptParser::parse(ScriptLexer::tokenize(stream->as_string(), stream->name()), stream->name());

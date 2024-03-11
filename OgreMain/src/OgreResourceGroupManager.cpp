@@ -724,16 +724,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_registerScriptLoader(ScriptLoader* su)
     {
-            
 
-        mScriptLoaderOrderMap.emplace(su->getLoadingOrder(), su);
+        mScriptLoaderOrderMap.emplace(su->loading_order(), su);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_unregisterScriptLoader(ScriptLoader* su)
     {
-            
 
-        Real order = su->getLoadingOrder();
+        Real order = su->loading_order();
         ScriptLoaderOrderMap::iterator oi = mScriptLoaderOrderMap.find(order);
         while (oi != mScriptLoaderOrderMap.end() && oi->first == order)
         {
@@ -756,7 +754,7 @@ namespace Ogre {
         for (auto& oi : mScriptLoaderOrderMap)
         {
             ScriptLoader* su = oi.second;
-            const StringVector& patterns = su->getScriptPatterns();
+            const StringVector& patterns = su->script_patterns();
 
             // Search for matches in the patterns
             for (const auto& p : patterns)
@@ -788,7 +786,7 @@ namespace Ogre {
             scriptLoaderFileList.push_back(LoaderFileListPair(su, FileInfoList()));
 
             // Get all the patterns and search them
-            const StringVector& patterns = su->getScriptPatterns();
+            const StringVector& patterns = su->script_patterns();
             for (const auto& pattern : patterns)
             {
                 FileInfoListPtr fileList = findResourceFileInfo(grp->name, pattern);
@@ -829,10 +827,10 @@ namespace Ogre {
                         if(fii.archive->getType() == "FileSystem" && stream->size() <= 1024 * 1024)
                         {
                             DataStreamPtr cachedCopy(OGRE_NEW MemoryDataStream(stream->name(), stream.get()));
-                            su->parseScript(cachedCopy, grp->name);
+                            su->parse_script(cachedCopy, grp->name);
                         }
                         else
-                            su->parseScript(stream, grp->name);
+                            su->parse_script(stream, grp->name);
                     }
                 }
                 fireScriptEnded(fii.filename, skipScript);
@@ -855,12 +853,13 @@ namespace Ogre {
             ResourcePtr res = mgr->createResource(dcl.resourceName, grp->name,
                 dcl.loader != 0, dcl.loader, &dcl.parameters);
             // Add resource to load list
-            ResourceGroup::LoadResourceOrderMap::iterator li = 
-                grp->loadResourceOrderMap.find(mgr->getLoadingOrder());
+            ResourceGroup::LoadResourceOrderMap::iterator li
+                = grp->loadResourceOrderMap.find(mgr->loading_order());
 
             if (li == grp->loadResourceOrderMap.end())
             {
-                grp->loadResourceOrderMap[mgr->getLoadingOrder()] = LoadUnloadResourceList();
+                grp->loadResourceOrderMap[mgr->loading_order()]
+                    = LoadUnloadResourceList();
             }
         }
     }
@@ -896,7 +895,7 @@ namespace Ogre {
                              // lock group mutex
                              ResourceGroup::LoadResourceOrderMap::iterator i
                                  = grp->loadResourceOrderMap.find(
-                                     res->creator()->getLoadingOrder());
+                                     res->creator()->loading_order());
                              if (i != grp->loadResourceOrderMap.end()) {
                                  // Iterate over the resource list and remove
                                  LoadUnloadResourceList& resList = i->second;
@@ -927,7 +926,7 @@ namespace Ogre {
         {
                      // lock group mutex
 
-                     Real order = res->creator()->getLoadingOrder();
+                     Real order = res->creator()->loading_order();
                      ResourceGroup::LoadResourceOrderMap::iterator i
                          = grp->loadResourceOrderMap.find(order);
                      assert(i != grp->loadResourceOrderMap.end());
@@ -987,7 +986,7 @@ namespace Ogre {
     void ResourceGroupManager::addCreatedResource(ResourcePtr& res, ResourceGroup& grp) const
     {
 
-        Real order = res->creator()->getLoadingOrder();
+        Real order = res->creator()->loading_order();
 
         ResourceGroup::LoadResourceOrderMap::iterator i = grp.loadResourceOrderMap.find(order);
         LoadUnloadResourceList& loadList =

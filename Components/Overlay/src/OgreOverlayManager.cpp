@@ -90,12 +90,12 @@ namespace Ogre {
             e.second->_restoreManualHardwareResources();
     }
     //---------------------------------------------------------------------
-    const StringVector& OverlayManager::getScriptPatterns(void) const
+    const StringVector& OverlayManager::script_patterns(void) const
     {
         return mScriptPatterns;
     }
     //---------------------------------------------------------------------
-    Real OverlayManager::getLoadingOrder(void) const
+    Real OverlayManager::loading_order(void) const
     {
         // Load late
         return 1100.0f;
@@ -192,7 +192,8 @@ namespace Ogre {
     {
         return OverlayMapIterator(mOverlayMap.begin(), mOverlayMap.end());
     }
-    void OverlayManager::parseScript(DataStreamPtr& stream, const String& groupName)
+    void
+    OverlayManager::parse_script(DataStreamPtr& stream, const String& groupName)
     {
         // skip scripts that were already loaded as we lack proper re-loading support
         if(!stream->name().empty() && !mLoadedScripts.emplace(stream->name()).second)
@@ -202,7 +203,7 @@ namespace Ogre {
             return;
         }
 
-        ScriptCompilerManager::getSingleton().parseScript(stream, groupName);
+        ScriptCompilerManager::getSingleton().parse_script(stream, groupName);
     }
     //---------------------------------------------------------------------
     void OverlayManager::_queueOverlaysForRendering(Camera* cam,

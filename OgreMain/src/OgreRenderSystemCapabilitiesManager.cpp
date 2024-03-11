@@ -105,7 +105,7 @@ namespace Ogre {
         for (auto& f : *files)
         {
             DataStreamPtr stream = arch->open(f);
-            mSerializer->parseScript(stream);
+            mSerializer->parse_script(stream);
             stream->close();
         }
     }

@@ -56,36 +56,35 @@ namespace Ogre {
         point the parseScript method will be called with each file which matches a 
         the pattern returned from getScriptPatterns.
     */
-    class _OgreExport ScriptLoader
-    {
-    public:
-        virtual ~ScriptLoader() {}
-        /** Gets the file patterns which should be used to find scripts for this
-            class.
+class ScriptLoader {
+public:
+    virtual ~ScriptLoader() { }
+    /** Gets the file patterns which should be used to find scripts for this
+        class.
 
-            This method is called when a resource group is loaded if you use 
-            ResourceGroupManager::_registerScriptLoader.
-        @return
-            A list of file patterns, in the order they should be searched in.
-        */
-        virtual const StringVector& getScriptPatterns(void) const = 0;
+        This method is called when a resource group is loaded if you use
+        ResourceGroupManager::_registerScriptLoader.
+    @return
+        A list of file patterns, in the order they should be searched in.
+    */
+    virtual const StringVector& script_patterns(void) const = 0;
 
-        /** Parse a script file.
-        @param stream Weak reference to a data stream which is the source of the script
-        @param groupName The name of a resource group which should be used if any resources
-            are created during the parse of this script.
-        */
-        virtual void parseScript(DataStreamPtr& stream, const String& groupName) = 0;
+    /** Parse a script file.
+    @param stream Weak reference to a data stream which is the source of the
+    script
+    @param groupName The name of a resource group which should be used if any
+    resources are created during the parse of this script.
+    */
+    virtual void parse_script(DataStreamPtr& stream, const String& group) = 0;
 
-        /** Gets the loading order for scripts of this type.
+    /** Gets the loading order for scripts of this type.
 
-            There are dependencies between some kinds of scripts, and this value enumerates that.
-            Higher values load later during bulk loading tasks.
-        @return The loading order
-        */
-        virtual Real getLoadingOrder(void) const  = 0;
-
-    };
+        There are dependencies between some kinds of scripts, and this value
+    enumerates that. Higher values load later during bulk loading tasks.
+    @return The loading order
+    */
+    virtual Real loading_order(void) const = 0;
+};
 
     /** @} */
     /** @} */

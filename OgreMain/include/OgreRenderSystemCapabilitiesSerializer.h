@@ -59,7 +59,7 @@ namespace Ogre {
         /** Parses a RenderSystemCapabilities script file passed as a stream.
             Adds it to RenderSystemCapabilitiesManager::_addRenderSystemCapabilities
         */
-        void parseScript(DataStreamPtr& stream);
+        void parse_script(DataStreamPtr& stream);
 
     private:
         void write(const RenderSystemCapabilities* caps, const String &name, std::ostream &file);

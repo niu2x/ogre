@@ -439,11 +439,12 @@ namespace Ogre
         /// Adds a script extension that can be handled (e.g. *.material, *.pu, etc.)
         void addScriptPattern(const String &pattern);
         /// @copydoc ScriptLoader::getScriptPatterns
-        const StringVector& getScriptPatterns(void) const override;
+        const StringVector& script_patterns(void) const override;
         /// @copydoc ScriptLoader::parseScript
-        void parseScript(DataStreamPtr& stream, const String& groupName) override;
+        void
+        parse_script(DataStreamPtr& stream, const String& groupName) override;
         /// @copydoc ScriptLoader::getLoadingOrder
-        Real getLoadingOrder(void) const override;
+        Real loading_order(void) const override;
 
         /// @copydoc Singleton::getSingleton()
         static ScriptCompilerManager& getSingleton(void);

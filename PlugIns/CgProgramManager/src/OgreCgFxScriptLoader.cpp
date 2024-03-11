@@ -2709,19 +2709,21 @@ namespace Ogre {
         return mCgContext;
     }
     //---------------------------------------------------------------------
-    const StringVector& CgFxScriptLoader::getScriptPatterns(void) const
+    const StringVector& CgFxScriptLoader::script_patterns(void) const
     {
         return mScriptPatterns;
     }
     //---------------------------------------------------------------------
-    Real CgFxScriptLoader::getLoadingOrder(void) const
+    Real CgFxScriptLoader::loading_order(void) const
     {
         // before the normal material manager - so a normal material can inherits from a cgfx material
         return 99.0f;
 
     }
     //---------------------------------------------------------------------
-    void CgFxScriptLoader::parseScript( DataStreamPtr& stream, const String& groupName )
+    void CgFxScriptLoader::parse_script(
+        DataStreamPtr& stream,
+        const String& groupName)
     {
         String streamAsString = stream->as_string();
 

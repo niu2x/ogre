@@ -63,15 +63,12 @@ namespace Ogre {
         ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
     }
     //-----------------------------------------------------------------------
-    const StringVector& Quake3ShaderManager::getScriptPatterns(void) const
+    const StringVector& Quake3ShaderManager::script_patterns(void) const
     {
         return mScriptPatterns;
     }
     //-----------------------------------------------------------------------
-    Real Quake3ShaderManager::getLoadingOrder(void) const
-    {
-        return 110.0f;
-    }
+    Real Quake3ShaderManager::loading_order(void) const { return 110.0f; }
     //-----------------------------------------------------------------------
     void Quake3ShaderManager::clear(void)
     {
@@ -92,7 +89,9 @@ namespace Ogre {
         return i->second;
     }
     //-----------------------------------------------------------------------
-    void Quake3ShaderManager::parseScript(DataStreamPtr& stream, const String& group)
+    void Quake3ShaderManager::parse_script(
+        DataStreamPtr& stream,
+        const String& group)
     {
         String line;
         Quake3Shader* pShader;

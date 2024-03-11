@@ -122,7 +122,7 @@ namespace Ogre
     }
 
     //-----------------------------------------------------------------------
-    void RenderSystemCapabilitiesSerializer::parseScript(DataStreamPtr& stream)
+    void RenderSystemCapabilitiesSerializer::parse_script(DataStreamPtr& stream)
     {
         // reset parsing data to NULL
         mCurrentLineNumber = 0;

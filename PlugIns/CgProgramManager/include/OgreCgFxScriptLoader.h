@@ -1463,7 +1463,7 @@ namespace Ogre {
         CgStateListenerVector mCgStateListenerVector;
         CgStateListenerVector mCgSamplerStateListenerVector;
 
-        StringVector mScriptPatterns; // for getScriptPatterns(void)
+        StringVector mScriptPatterns; // for script_patterns(void)
 
         CGcontext mCgContext;
         CGcontext getCgContext() const;
@@ -1499,12 +1499,13 @@ namespace Ogre {
         virtual ~CgFxScriptLoader();
 
         /// @copydoc ScriptLoader::getScriptPatterns
-        const StringVector& getScriptPatterns(void) const override;
+        const StringVector& script_patterns(void) const override;
         /// @copydoc ScriptLoader::parseScript
-        void parseScript( DataStreamPtr& stream, const String& groupName ) override;
+        void
+        parse_script(DataStreamPtr& stream, const String& groupName) override;
 
         /// @copydoc ScriptLoader::getLoadingOrder
-        Real getLoadingOrder(void) const override;
+        Real loading_order(void) const override;
 
         /// @copydoc Singleton::getSingleton()
         static CgFxScriptLoader& getSingleton(void);
