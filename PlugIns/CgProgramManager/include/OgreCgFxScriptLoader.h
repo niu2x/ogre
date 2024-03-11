@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreSingleton.h"
 #include "string_vector.h"
-#include "OgreScriptLoader.h"
+#include "script_loader.h"
 #include "OgreCgPrerequisites.h"
 #include "OgreTexture.h"
 #include "OgreTextureUnitState.h"

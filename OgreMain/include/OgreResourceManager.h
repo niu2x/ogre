@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreResourceGroupManager.h"
 #include "OgreCommon.h"
 #include "string_vector.h"
-#include "OgreScriptLoader.h"
+#include "script_loader.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

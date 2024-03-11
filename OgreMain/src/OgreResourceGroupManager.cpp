@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "OgreScriptLoader.h"
+#include "script_loader.h"
 
 namespace Ogre {
 

@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 
 #include "OgreSingleton.h"
-#include "OgreScriptLoader.h"
+#include "script_loader.h"
 #include "OgreGpuProgram.h"
 #include "any.h"
 #include "threading/thread_header.h"

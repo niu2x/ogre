@@ -35,27 +35,28 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-    /** \addtogroup Core
-    *  @{
-    */
-    /** \defgroup Script Script
-    *  @{
-    */
-    /** Abstract class defining the interface used by classes which wish 
-        to perform script loading to define instances of whatever they manage.
+/** \addtogroup Core
+ *  @{
+ */
+/** \defgroup Script Script
+ *  @{
+ */
+/** Abstract class defining the interface used by classes which wish
+    to perform script loading to define instances of whatever they manage.
 
-        Typically classes of this type wish to either parse individual script files
-        on demand, or be called with a group of files matching a certain pattern
-        at the appropriate time. Normally this will coincide with resource loading,
-        although the script use does not necessarily have to be a ResourceManager
-        (which subclasses from this class), it may be simply a script loader which 
-        manages non-resources but needs to be synchronised at the same loading points.
-    @par
-        Subclasses should add themselves to the ResourceGroupManager as a script loader
-        if they wish to be called at the point a resource group is loaded, at which 
-        point the parseScript method will be called with each file which matches a 
-        the pattern returned from getScriptPatterns.
-    */
+    Typically classes of this type wish to either parse individual script files
+    on demand, or be called with a group of files matching a certain pattern
+    at the appropriate time. Normally this will coincide with resource loading,
+    although the script use does not necessarily have to be a ResourceManager
+    (which subclasses from this class), it may be simply a script loader which
+    manages non-resources but needs to be synchronised at the same loading
+points.
+@par
+    Subclasses should add themselves to the ResourceGroupManager as a script
+loader if they wish to be called at the point a resource group is loaded, at
+which point the parseScript method will be called with each file which matches a
+    the pattern returned from getScriptPatterns.
+*/
 class ScriptLoader {
 public:
     virtual ~ScriptLoader() { }
@@ -86,10 +87,10 @@ public:
     virtual Real loading_order(void) const = 0;
 };
 
-    /** @} */
-    /** @} */
+/** @} */
+/** @} */
 
-}
+} // namespace Ogre
 
 #include "OgreHeaderSuffix.h"
 
