@@ -232,7 +232,7 @@ int main(int numargs, char** args)
         shadergen.setTargetLanguage("glsl"); // must be valid, but otherwise arbitrary
         shadergen.getRenderState(MSN_SHADERGEN)->setLightCountAutoUpdate(false);
         shadergen.validateScheme(MSN_SHADERGEN);
-        ms.addListener(shadergen.getMaterialSerializerListener());
+        ms.add_listener(shadergen.getMaterialSerializerListener());
 #endif
         for (const String& name : exportNames)
             ms.queueForExport(MaterialManager::getSingleton().getByName(name));

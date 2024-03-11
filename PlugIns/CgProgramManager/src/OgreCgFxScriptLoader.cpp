@@ -2871,12 +2871,12 @@ namespace Ogre {
 
         String ProgramNameAsString = programName.str();
 
-        HighLevelGpuProgramPtr ogreProgram =
-            HighLevelGpuProgramManager::getSingleton().
-            createProgram(ProgramNameAsString,
-            ogrePass->getParent()->getParent()->getGroup(),
-            "cg",
-            ogreProgramType);
+        HighLevelGpuProgramPtr ogreProgram
+            = HighLevelGpuProgramManager::getSingleton().createProgram(
+                ProgramNameAsString,
+                ogrePass->getParent()->getParent()->group(),
+                "cg",
+                ogreProgramType);
 
         ogreProgram->setSource(source);
         ogreProgram->set_parameter("entry_point", entry);

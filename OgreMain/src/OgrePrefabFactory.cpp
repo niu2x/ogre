@@ -31,40 +31,34 @@ THE SOFTWARE.
 
 namespace Ogre {
     //-----------------------------------------------------------------------
-    void PrefabFactory::loadResource(Resource* res)
-    {
-        Mesh* msh = static_cast<Mesh*>(res);
+void PrefabFactory::load_resource(Resource* res)
+{
+    Mesh* msh = static_cast<Mesh*>(res);
 
-        // attempt to create a prefab mesh
-        const String& resourceName = msh->name();
-        if(resourceName == "Prefab_Plane")
-        {
-            createPlane(msh);
-            return;
-        }
-        else if(resourceName == "Prefab_Cube")
-        {
-            createCube(msh);
-            return;
-        }
-        else if(resourceName == "Prefab_Sphere")
-        {
-            createSphere(msh);
-            return;
-        }
+    // attempt to create a prefab mesh
+    const String& resourceName = msh->name();
+    if (resourceName == "Prefab_Plane") {
+        createPlane(msh);
+        return;
+    } else if (resourceName == "Prefab_Cube") {
+        createCube(msh);
+        return;
+    } else if (resourceName == "Prefab_Sphere") {
+        createSphere(msh);
+        return;
+    }
 
-        // the mesh was not a prefab.. grab build parameters
-        auto any = msh->getUserObjectBindings().getUserAny("_MeshBuildParams");
+    // the mesh was not a prefab.. grab build parameters
+    auto any = msh->getUserObjectBindings().getUserAny("_MeshBuildParams");
 
-        if (!any.has_value())
-            OGRE_EXCEPT(
-                Exception::ERR_ITEM_NOT_FOUND,
-                "No prefab parameters in " + res->name());
+    if (!any.has_value())
+        OGRE_EXCEPT(
+            Exception::ERR_ITEM_NOT_FOUND,
+            "No prefab parameters in " + res->name());
 
-        auto params = std::any_cast<MeshBuildParams>(any);
+    auto params = std::any_cast<MeshBuildParams>(any);
 
-        switch(params.type)
-        {
+    switch (params.type) {
         case MBT_PLANE:
             loadManualPlane(msh, params);
             return;

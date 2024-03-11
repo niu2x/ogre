@@ -84,7 +84,7 @@ namespace Ogre {
 
             @param res The mesh that the potential prefab will be created in.
         */
-        void loadResource(Resource* res) override;
+        void load_resource(Resource* res) override;
 
     private:
         /// Creates a plane as a submesh of the given mesh

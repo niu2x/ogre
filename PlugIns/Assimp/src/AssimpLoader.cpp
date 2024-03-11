@@ -344,7 +344,7 @@ bool AssimpLoader::load(const DataStreamPtr& source, Mesh* mesh, SkeletonPtr& sk
                         const Options& options)
 {
     Assimp::Importer importer;
-    importer.SetIOHandler(new OgreIOSystem(source, mesh->getGroup()));
+    importer.SetIOHandler(new OgreIOSystem(source, mesh->group()));
     _load(source->name().c_str(), importer, mesh, skeletonPtr, options);
     return true;
 }
@@ -416,7 +416,9 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
         const aiTexture* tex = scene->mTextures[i];
         auto texname =
             StringUtil::format("%s%s.%s", mesh->name().c_str(), tex->mFilename.C_Str(), tex->achFormatHint);
-        if (TextureManager::getSingleton().resourceExists(texname, mesh->getGroup()))
+        if (TextureManager::getSingleton().resourceExists(
+                texname,
+                mesh->group()))
             continue;
 
         Image img;
@@ -438,7 +440,7 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
             img.loadDynamicImage((uchar*)tex->pcData, tex->mWidth, tex->mHeight, PF_A8R8G8B8);
         }
 
-        TextureManager::getSingleton().loadImage(texname, mesh->getGroup(), img);
+        TextureManager::getSingleton().loadImage(texname, mesh->group(), img);
     }
 
     loadDataFromNode(scene, scene->mRootNode, mesh);
@@ -1324,7 +1326,12 @@ void AssimpLoader::loadDataFromNode(const aiScene* mScene, const aiNode* pNode, 
 
             // Create a material instance for the mesh.
             const aiMaterial* pAIMaterial = mScene->mMaterials[pAIMesh->mMaterialIndex];
-            MaterialPtr matptr = createMaterial(pAIMaterial, mesh->getGroup(), mesh->name(), mScene, !mQuietMode);
+            MaterialPtr matptr = createMaterial(
+                pAIMaterial,
+                mesh->group(),
+                mesh->name(),
+                mScene,
+                !mQuietMode);
             createSubMesh(pNode->mName.data, idx, pNode, pAIMesh, matptr, mesh, mAAB);
         }
 

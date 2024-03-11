@@ -336,7 +336,7 @@ namespace Ogre {
             if (!is_loading()) {
                 auto my_loader = loader();
                 if (is_manually_loaded() && my_loader)
-                    my_loader->loadResource(this);
+                    my_loader->load_resource(this);
 
                 set_loading_state(LoadingState::LOADED);
                 _fire_loading_complete();

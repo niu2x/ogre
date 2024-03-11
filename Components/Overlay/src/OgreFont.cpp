@@ -328,7 +328,7 @@ namespace Ogre
         mTexture->load();
     }
     //---------------------------------------------------------------------
-    void Font::loadResource(Resource* res)
+    void Font::load_resource(Resource* res)
     {
         // Locate ttf file, load it pre-buffered into memory by wrapping the
         // original DataStream in a MemoryDataStream

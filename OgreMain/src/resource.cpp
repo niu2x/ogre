@@ -106,7 +106,7 @@ void Resource::prepare(bool background)
 
         if (is_manual_) {
             if (loader_) {
-                loader_->prepareResource(this);
+                loader_->prepare_resource(this);
             } else {
                 // Warn that this resource is not reloadable
                 LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
@@ -204,13 +204,13 @@ void Resource::load(bool background)
 
         if (is_manual_) {
             if (old == LoadingState::UNLOADED && loader_)
-                loader_->prepareResource(this);
+                loader_->prepare_resource(this);
 
             pre_load_impl();
 
             // Load from manual loader
             if (loader_) {
-                loader_->loadResource(this);
+                loader_->load_resource(this);
             } else {
                 // Warn that this resource is not reloadable
                 LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)

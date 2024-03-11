@@ -334,7 +334,7 @@ namespace Ogre
         /** Implementation of ManualResourceLoader::loadResource, called
             when the Texture that this font creates needs to (re)load.
         */
-        void loadResource(Resource* resource) override;
+        void load_resource(Resource* resource) override;
 
         /** Manually set the material used for this font.
 

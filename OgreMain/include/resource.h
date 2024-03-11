@@ -481,7 +481,7 @@ public:
     so that if need be it can be called upon to re-load the resource
     at any time.
 */
-class _OgreExport ManualResourceLoader {
+class ManualResourceLoader {
 public:
     ManualResourceLoader() { }
     virtual ~ManualResourceLoader() { }
@@ -495,12 +495,12 @@ public:
      * this callback.  Do that stuff in #loadResource.
     @param resource The resource which wishes to prepare
     */
-    virtual void prepareResource(Resource* resource) { (void)resource; }
+    virtual void prepare_resource(Resource* resource) { (void)resource; }
 
     /** Called when a resource wishes to load instead of Resource::loadImpl
     @param resource The resource which wishes to load
     */
-    virtual void loadResource(Resource* resource) = 0;
+    virtual void load_resource(Resource* resource) = 0;
 };
 /** @} */
 /** @} */
