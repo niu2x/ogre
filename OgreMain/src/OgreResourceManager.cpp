@@ -530,7 +530,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     //---------------------------------------------------------------------
     ResourceManager::ResourcePool::ResourcePool(const String& name)
-        : mName(name)
+    : name_(name)
     {
 
     }
@@ -540,16 +540,15 @@ namespace Ogre {
         clear();
     }
     //---------------------------------------------------------------------
-    const String& ResourceManager::ResourcePool::name() const { return mName; }
+    const String& ResourceManager::ResourcePool::name() const { return name_; }
     //---------------------------------------------------------------------
     void ResourceManager::ResourcePool::clear()
     {
-            
-        for (auto & i : mItems)
-        {
+        for (auto& i : *items()) {
             i->creator()->remove(i->handle());
         }
-        mItems.clear();
+
+        Pool<ResourcePtr>::clear();
     }
 }
 

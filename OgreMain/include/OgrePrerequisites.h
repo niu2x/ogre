@@ -301,7 +301,7 @@ namespace Ogre {
     typedef SharedPtr<Mesh> MeshPtr;
     typedef SharedPtr<PatchMesh> PatchMeshPtr;
     typedef SharedPtr<RenderToVertexBuffer> RenderToVertexBufferPtr;
-    typedef SharedPtr<Resource> ResourcePtr;
+    using ResourcePtr = SharedPtr<Resource>;
     typedef SharedPtr<ShadowCameraSetup> ShadowCameraSetupPtr;
     typedef SharedPtr<Skeleton> SkeletonPtr;
     typedef SharedPtr<Texture> TexturePtr;
