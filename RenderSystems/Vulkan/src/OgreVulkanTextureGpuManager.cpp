@@ -109,7 +109,7 @@ namespace Ogre
         return std::make_shared<VulkanSampler>(mDevice->mDevice);
     }
     //-----------------------------------------------------------------------------------
-    Resource* VulkanTextureGpuManager::createImpl(const String& name, ResourceHandle handle,
+    Resource* VulkanTextureGpuManager::create_impl(const String& name, ResourceHandle handle,
                                                   const String& group, bool isManual,
                                                   ManualResourceLoader* loader,
                                                   const NameValuePairList* createParams)

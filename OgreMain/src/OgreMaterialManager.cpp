@@ -76,7 +76,7 @@ namespace Ogre {
         ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
     }
     //-----------------------------------------------------------------------
-    Resource* MaterialManager::createImpl(const String& name, ResourceHandle handle,
+    Resource* MaterialManager::create_impl(const String& name, ResourceHandle handle,
         const String& group, bool isManual, ManualResourceLoader* loader,
     const NameValuePairList* params)
     {

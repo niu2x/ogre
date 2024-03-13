@@ -66,7 +66,7 @@ namespace Ogre
         ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
     }
     //-----------------------------------------------------------------------
-    Resource* SkeletonManager::createImpl(const String& name, ResourceHandle handle, 
+    Resource* SkeletonManager::create_impl(const String& name, ResourceHandle handle, 
         const String& group, bool isManual, ManualResourceLoader* loader, 
         const NameValuePairList* createParams)
     {

@@ -66,7 +66,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    Resource* FontManager::createImpl(const String& name, ResourceHandle handle, 
+    Resource* FontManager::create_impl(const String& name, ResourceHandle handle, 
         const String& group, bool isManual, ManualResourceLoader* loader,
         const NameValuePairList* params)
     {

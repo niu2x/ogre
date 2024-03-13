@@ -82,7 +82,7 @@ namespace Ogre
         ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
     }
 
-    Resource* MetalTextureManager::createImpl(const String& name,
+    Resource* MetalTextureManager::create_impl(const String& name,
         ResourceHandle handle, const String& group, bool isManual,
         ManualResourceLoader* loader, const NameValuePairList* createParams)
     {

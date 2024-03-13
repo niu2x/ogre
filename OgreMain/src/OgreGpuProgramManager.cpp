@@ -86,7 +86,7 @@ namespace {
     };
 }
 
-    Resource* GpuProgramManager::createImpl(const String& name, ResourceHandle handle, const String& group,
+    Resource* GpuProgramManager::create_impl(const String& name, ResourceHandle handle, const String& group,
                                             bool isManual, ManualResourceLoader* loader,
                                             const NameValuePairList* params)
     {
@@ -186,12 +186,12 @@ namespace {
                                             const String& syntaxCode, bool isManual,
                                             ManualResourceLoader* loader)
     {
-        auto prg = getFactory(syntaxCode)->create(this, name, getNextHandle(), group, isManual, loader);
+        auto prg = getFactory(syntaxCode)->create(this, name, generate_next_handle(), group, isManual, loader);
         prg->setType(gptype);
         prg->setSyntaxCode(syntaxCode);
 
         ResourcePtr ret(prg);
-        addImpl(ret);
+        add_impl(ret);
         // Tell resource group manager
         if(ret)
             ResourceGroupManager::getSingleton()._notifyResourceCreated(ret);

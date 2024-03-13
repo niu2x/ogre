@@ -90,7 +90,7 @@ private:
     @note
         If OGRE_THREAD_SUPPORT is 1, this class is thread-safe.
     */
-class _OgreExport ResourceManager : public ScriptLoader {
+class ResourceManager : public ScriptLoader {
 public:
     ResourceManager();
     virtual ~ResourceManager();
@@ -452,7 +452,7 @@ public:
 
 protected:
     /** Allocates the next handle. */
-    ResourceHandle getNextHandle(void);
+    ResourceHandle generate_next_handle(void);
 
     /** Create a new resource instance compatible with this manager (no custom
         parameters are populated at this point).
@@ -476,7 +476,7 @@ protected:
         to differentiate which concrete class is created.
 
     */
-    virtual Resource* createImpl(
+    virtual Resource* create_impl(
         const String& name,
         ResourceHandle handle,
         const String& group,
@@ -485,9 +485,9 @@ protected:
         const NameValuePairList* createParams)
         = 0;
     /** Add a newly created resource to the manager (note weak reference) */
-    virtual void addImpl(ResourcePtr& res);
+    virtual void add_impl(ResourcePtr& res);
     /** Remove a resource from this manager; remove it from the lists. */
-    virtual void removeImpl(const ResourcePtr& res);
+    virtual void remove_impl(const ResourcePtr& res);
     /** Checks memory usage and pages out if required. This is automatically
      * done after a new resource is loaded.
      */

@@ -134,7 +134,7 @@ namespace Ogre {
         /// Default settings
         MaterialPtr mDefaultSettings;
 
-        Resource* createImpl(const String& name, ResourceHandle handle, 
+        Resource* create_impl(const String& name, ResourceHandle handle, 
             const String& group, bool isManual, ManualResourceLoader* loader,
             const NameValuePairList* params) override;
 

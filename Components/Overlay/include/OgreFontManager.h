@@ -80,7 +80,7 @@ namespace Ogre
     private:
 
         /// Internal methods
-        Resource* createImpl(
+        Resource* create_impl(
             const String& name,
             ResourceHandle handle,
             const String& group,

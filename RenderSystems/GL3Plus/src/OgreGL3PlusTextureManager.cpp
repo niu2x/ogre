@@ -177,7 +177,7 @@ namespace Ogre {
         ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
     }
 
-    Resource* GL3PlusTextureManager::createImpl(const String& name, ResourceHandle handle,
+    Resource* GL3PlusTextureManager::create_impl(const String& name, ResourceHandle handle,
                                                 const String& group, bool isManual,
                                                 ManualResourceLoader* loader,
                                                 const NameValuePairList* createParams)

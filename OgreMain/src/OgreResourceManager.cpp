@@ -50,18 +50,27 @@ namespace Ogre {
         ScriptCompilerManager::getSingleton().parse_script(stream, groupName);
     }
     //-----------------------------------------------------------------------
-    ResourcePtr ResourceManager::createResource(const String& name, const String& group,
-        bool isManual, ManualResourceLoader* loader, const NameValuePairList* params)
+    ResourcePtr ResourceManager::createResource(
+        const String& name,
+        const String& group,
+        bool is_manual,
+        ManualResourceLoader* loader,
+        const NameValuePairList* params)
     {
         OgreAssert(!name.empty(), "resource name must not be empty");
 
         // Call creation implementation
-        ResourcePtr ret = ResourcePtr(
-            createImpl(name, getNextHandle(), group, isManual, loader, params));
+        ResourcePtr ret = ResourcePtr(create_impl(
+            name,
+            generate_next_handle(),
+            group,
+            is_manual,
+            loader,
+            params));
         if (params)
             ret->set_parameter_list(*params);
 
-        addImpl(ret);
+        add_impl(ret);
         // Tell resource group manager
         if(ret)
             ResourceGroupManager::getSingleton()._notifyResourceCreated(ret);
@@ -110,21 +119,20 @@ namespace Ogre {
         return r;
     }
     //-----------------------------------------------------------------------
-    void ResourceManager::addImpl( ResourcePtr& res )
+    void ResourceManager::add_impl(ResourcePtr& res)
     {
-            
 
-            std::pair<ResourceMap::iterator, bool> result;
-            if (ResourceGroupManager::getSingleton()
-                    .isResourceGroupInGlobalPool(res->group())) {
-                result = mResources.emplace(res->name(), res);
-            } else {
-                // we will create the group if it doesn't exists in our list
-                auto resgroup
-                    = mResourcesWithGroup.emplace(res->group(), ResourceMap())
-                          .first;
-                result = resgroup->second.emplace(res->name(), res);
-            }
+        std::pair<ResourceMap::iterator, bool> result;
+        if (ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(
+                res->group())) {
+            result = mResources.emplace(res->name(), res);
+        } else {
+            // we will create the group if it doesn't exists in our list
+            auto resgroup
+                = mResourcesWithGroup.emplace(res->group(), ResourceMap())
+                      .first;
+            result = resgroup->second.emplace(res->name(), res);
+        }
 
         // Attempt to resolve the collision
         ResourceLoadingListener* listener = ResourceGroupManager::getSingleton().getLoadingListener();
@@ -172,7 +180,7 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    void ResourceManager::removeImpl(const ResourcePtr& res )
+    void ResourceManager::remove_impl(const ResourcePtr& res)
     {
         OgreAssert(res, "attempting to remove nullptr");
 
@@ -304,7 +312,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceManager::remove(const ResourcePtr& res)
     {
-        removeImpl(res);
+        remove_impl(res);
     }
     //-----------------------------------------------------------------------
     void ResourceManager::remove(const String& name, const String& group)
@@ -319,7 +327,7 @@ namespace Ogre {
 
         if (res)
         {
-            removeImpl(res);
+            remove_impl(res);
         }
     }
     //-----------------------------------------------------------------------
@@ -333,7 +341,7 @@ namespace Ogre {
 
         if (res)
         {
-            removeImpl(res);
+            remove_impl(res);
         }
     }
     //-----------------------------------------------------------------------
@@ -434,9 +442,8 @@ namespace Ogre {
         return it == mResourcesByHandle.end() ? ResourcePtr() : it->second;
     }
     //-----------------------------------------------------------------------
-    ResourceHandle ResourceManager::getNextHandle(void)
+    ResourceHandle ResourceManager::generate_next_handle(void)
     {
-        // This is an atomic operation and hence needs no locking
         return mNextHandle++;
     }
     //-----------------------------------------------------------------------

@@ -72,7 +72,7 @@ namespace Ogre
 
         SamplerPtr _createSamplerImpl() override;
 
-        Resource* createImpl(const String& name, ResourceHandle handle, const String& group, bool isManual,
+        Resource* create_impl(const String& name, ResourceHandle handle, const String& group, bool isManual,
                              ManualResourceLoader* loader, const NameValuePairList* createParams) override;
 
         PixelFormat getNativeFormat(TextureType ttype, PixelFormat format, int usage) override;

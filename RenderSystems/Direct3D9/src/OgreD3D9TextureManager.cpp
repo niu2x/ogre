@@ -51,7 +51,7 @@ namespace Ogre
 
     }
 
-    Resource* D3D9TextureManager::createImpl(const String& name, 
+    Resource* D3D9TextureManager::create_impl(const String& name, 
         ResourceHandle handle, const String& group, bool isManual, 
         ManualResourceLoader* loader, const NameValuePairList* createParams)
     {

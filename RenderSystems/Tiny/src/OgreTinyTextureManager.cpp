@@ -23,7 +23,7 @@ TinyTextureManager::~TinyTextureManager()
     ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
 }
 
-Resource* TinyTextureManager::createImpl(const String& name, ResourceHandle handle, const String& group,
+Resource* TinyTextureManager::create_impl(const String& name, ResourceHandle handle, const String& group,
                                          bool isManual, ManualResourceLoader* loader,
                                          const NameValuePairList* createParams)
 {

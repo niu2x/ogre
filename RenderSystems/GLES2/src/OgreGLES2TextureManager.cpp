@@ -47,7 +47,7 @@ namespace Ogre {
         ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
     }
 
-    Resource* GLES2TextureManager::createImpl(const String& name, ResourceHandle handle, 
+    Resource* GLES2TextureManager::create_impl(const String& name, ResourceHandle handle, 
                                            const String& group, bool isManual,
                                            ManualResourceLoader* loader,
                                            const NameValuePairList* createParams)

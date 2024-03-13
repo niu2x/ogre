@@ -72,7 +72,7 @@ CompositorManager::~CompositorManager()
     ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
 }
 //-----------------------------------------------------------------------
-Resource* CompositorManager::createImpl(const String& name, ResourceHandle handle,
+Resource* CompositorManager::create_impl(const String& name, ResourceHandle handle,
     const String& group, bool isManual, ManualResourceLoader* loader,
     const NameValuePairList* params)
 {

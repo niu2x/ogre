@@ -3,5 +3,4 @@ build:
 
 .PHONY: build
 
-
-# /home/niu2x/project/ogre/Samples,/home/niu2x/project/ogre/OgreMain, /home/niu2x/project/ogre/PlugIns, /home/niu2x/project/ogre/RenderSystem, /home/niu2x/project/ogre/Components
+# /home/niu2x/project/ogre/Samples,/home/niu2x/project/ogre/OgreMain, /home/niu2x/project/ogre/PlugIns, /home/niu2x/project/ogre/RenderSystems, /home/niu2x/project/ogre/Components

@@ -447,7 +447,7 @@ namespace Ogre {
             void load_impl() override { }
         };
 
-        Resource* createImpl(const String& name, ResourceHandle handle, const String& group, bool,
+        Resource* create_impl(const String& name, ResourceHandle handle, const String& group, bool,
                              ManualResourceLoader*, const NameValuePairList*) override
         {
             return new NullTexture(this, name, handle, group);

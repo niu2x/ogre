@@ -98,7 +98,7 @@ namespace Ogre {
         static String addRenderSystemToName( const String &  name );
 
         /// Generic create method
-        Resource* createImpl(const String& name, ResourceHandle handle,
+        Resource* create_impl(const String& name, ResourceHandle handle,
             const String& group, bool isManual, ManualResourceLoader* loader,
             const NameValuePairList* createParams) override;
     public:

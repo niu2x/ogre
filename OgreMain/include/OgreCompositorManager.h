@@ -184,7 +184,7 @@ namespace Ogre {
         static CompositorManager* getSingletonPtr(void);
     
     private:
-        Resource* createImpl(const String& name, ResourceHandle handle,
+        Resource* create_impl(const String& name, ResourceHandle handle,
             const String& group, bool isManual, ManualResourceLoader* loader,
             const NameValuePairList* params) override;
 

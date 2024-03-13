@@ -51,7 +51,7 @@ namespace Ogre
         MetalDevice *mDevice;
 
         /// @copydoc ResourceManager::createImpl
-        virtual Resource* createImpl(const String& name, ResourceHandle handle,
+        virtual Resource* create_impl(const String& name, ResourceHandle handle,
             const String& group, bool isManual, ManualResourceLoader* loader,
             const NameValuePairList* createParams);
 

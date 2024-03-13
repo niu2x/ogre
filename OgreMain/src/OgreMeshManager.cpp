@@ -307,13 +307,13 @@ namespace Ogre
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, "A mesh called " + name + 
                 " already exists!", "MeshManager::createBezierPatch");
         }
-        PatchMesh* pm = OGRE_NEW PatchMesh(this, name, getNextHandle(), groupName);
+        PatchMesh* pm = OGRE_NEW PatchMesh(this, name, generate_next_handle(), groupName);
         pm->define(controlPointBuffer, declaration, width, height,
             uMaxSubdivisionLevel, vMaxSubdivisionLevel, visibleSide, vbUsage, ibUsage,
             vbUseShadow, ibUseShadow);
         pm->load();
         ResourcePtr res(pm);
-        addImpl(res);
+        add_impl(res);
 
         return static_pointer_cast<PatchMesh>(res);
     }
@@ -358,7 +358,7 @@ namespace Ogre
         mBoundsPaddingFactor = paddingFactor;
     }
     //-----------------------------------------------------------------------
-    Resource* MeshManager::createImpl(const String& name, ResourceHandle handle, 
+    Resource* MeshManager::create_impl(const String& name, ResourceHandle handle, 
         const String& group, bool isManual, ManualResourceLoader* loader, 
         const NameValuePairList* createParams)
     {

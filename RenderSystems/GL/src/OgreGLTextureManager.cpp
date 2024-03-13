@@ -49,7 +49,7 @@ namespace Ogre {
         ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
     }
     //-----------------------------------------------------------------------------
-    Resource* GLTextureManager::createImpl(const String& name, ResourceHandle handle, 
+    Resource* GLTextureManager::create_impl(const String& name, ResourceHandle handle, 
         const String& group, bool isManual, ManualResourceLoader* loader, 
         const NameValuePairList* createParams)
     {
