@@ -63,130 +63,148 @@ namespace Ogre {
     */
 
     /// Default resource group name
-    _OgreExport extern const char* const RGN_DEFAULT;
-    /// Internal resource group name (should be used by OGRE internal only)
-    _OgreExport extern const char* const RGN_INTERNAL;
-    /// Special resource group name which causes resource group to be automatically determined based on searching for the resource in all groups.
-    _OgreExport extern const char* const RGN_AUTODETECT;
+extern const char* const RGN_DEFAULT;
+/// Internal resource group name (should be used by OGRE internal only)
+extern const char* const RGN_INTERNAL;
+/// Special resource group name which causes resource group to be automatically
+/// determined based on searching for the resource in all groups.
+extern const char* const RGN_AUTODETECT;
 
-    /** This class defines an interface which is called back during
-        resource group loading to indicate the progress of the load. 
+/** This class defines an interface which is called back during
+    resource group loading to indicate the progress of the load.
 
-        Resource group loading is in 2 phases - creating resources from 
-        declarations (which includes parsing scripts), and loading
-        resources. Note that you don't necessarily have to have both; it
-        is quite possible to just parse all the scripts for a group (see
-        ResourceGroupManager::initialiseResourceGroup, but not to 
-        load the resource group. 
-        The sequence of events is (* signifies a repeating item):
-        <ul>
-        <li>resourceGroupScriptingStarted</li>
-        <li>scriptParseStarted (*)</li>
-        <li>scriptParseEnded (*)</li>
-        <li>resourceGroupScriptingEnded</li>
-        <li>resourceGroupLoadStarted</li>
-        <li>resourceLoadStarted (*)</li>
-        <li>resourceLoadEnded (*)</li>
-        <li>customStageStarted (*)</li>
-        <li>customStageEnded (*)</li>
-        <li>resourceGroupLoadEnded</li>
-        <li>resourceGroupPrepareStarted</li>
-        <li>resourcePrepareStarted (*)</li>
-        <li>resourcePrepareEnded (*)</li>
-        <li>resourceGroupPrepareEnded</li>
-        </ul>
+    Resource group loading is in 2 phases - creating resources from
+    declarations (which includes parsing scripts), and loading
+    resources. Note that you don't necessarily have to have both; it
+    is quite possible to just parse all the scripts for a group (see
+    ResourceGroupManager::initialiseResourceGroup, but not to
+    load the resource group.
+    The sequence of events is (* signifies a repeating item):
+    <ul>
+    <li>resourceGroupScriptingStarted</li>
+    <li>scriptParseStarted (*)</li>
+    <li>scriptParseEnded (*)</li>
+    <li>resourceGroupScriptingEnded</li>
+    <li>resourceGroupLoadStarted</li>
+    <li>resourceLoadStarted (*)</li>
+    <li>resourceLoadEnded (*)</li>
+    <li>customStageStarted (*)</li>
+    <li>customStageEnded (*)</li>
+    <li>resourceGroupLoadEnded</li>
+    <li>resourceGroupPrepareStarted</li>
+    <li>resourcePrepareStarted (*)</li>
+    <li>resourcePrepareEnded (*)</li>
+    <li>resourceGroupPrepareEnded</li>
+    </ul>
+@note
+    If OGRE_THREAD_SUPPORT is 1, this class is thread-safe.
+
+*/
+class ResourceGroupListener {
+public:
+    virtual ~ResourceGroupListener() { }
+
+    /** This event is fired when a resource group begins parsing scripts.
     @note
-        If OGRE_THREAD_SUPPORT is 1, this class is thread-safe.
-
+        Remember that if you are loading resources through
+    ResourceBackgroundQueue, these callbacks will occur in the background
+    thread, so you should not perform any thread-unsafe actions in this callback
+    if that's the case (check the group name / script name).
+    @param groupName The name of the group
+    @param scriptCount The number of scripts which will be parsed
     */
-    class _OgreExport ResourceGroupListener
+    virtual void
+    resourceGroupScriptingStarted(const String& groupName, size_t scriptCount)
     {
-    public:
-        virtual ~ResourceGroupListener() {}
+    }
+    /** This event is fired when a script is about to be parsed.
+        @param scriptName Name of the to be parsed
+        @param skipThisScript A boolean passed by reference which is by default
+       set to false. If the event sets this to true, the script will be skipped
+       and not parsed. Note that in this case the scriptParseEnded event will
+       not be raised for this script.
+    */
+    virtual void
+    scriptParseStarted(const String& scriptName, bool& skipThisScript)
+    {
+    }
 
-        /** This event is fired when a resource group begins parsing scripts.
-        @note
-            Remember that if you are loading resources through ResourceBackgroundQueue,
-            these callbacks will occur in the background thread, so you should
-            not perform any thread-unsafe actions in this callback if that's the
-            case (check the group name / script name).
-        @param groupName The name of the group 
-        @param scriptCount The number of scripts which will be parsed
-        */
-        virtual void resourceGroupScriptingStarted(const String& groupName, size_t scriptCount) {}
-        /** This event is fired when a script is about to be parsed.
-            @param scriptName Name of the to be parsed
-            @param skipThisScript A boolean passed by reference which is by default set to 
-            false. If the event sets this to true, the script will be skipped and not
-            parsed. Note that in this case the scriptParseEnded event will not be raised
-            for this script.
-        */
-        virtual void scriptParseStarted(const String& scriptName, bool& skipThisScript) {}
+    /** This event is fired when the script has been fully parsed.
+     */
+    virtual void scriptParseEnded(const String& scriptName, bool skipped) { }
+    /** This event is fired when a resource group finished parsing scripts. */
+    virtual void resourceGroupScriptingEnded(const String& groupName) { }
 
-        /** This event is fired when the script has been fully parsed.
-        */
-        virtual void scriptParseEnded(const String& scriptName, bool skipped) {}
-        /** This event is fired when a resource group finished parsing scripts. */
-        virtual void resourceGroupScriptingEnded(const String& groupName) {}
+    /** This event is fired  when a resource group begins preparing.
+    @param groupName The name of the group being prepared
+    @param resourceCount The number of resources which will be prepared,
+    including a number of stages required to prepare any linked world geometry
+    */
+    virtual void
+    resourceGroupPrepareStarted(const String& groupName, size_t resourceCount)
+    {
+        (void)groupName;
+        (void)resourceCount;
+    }
 
-        /** This event is fired  when a resource group begins preparing.
-        @param groupName The name of the group being prepared
-        @param resourceCount The number of resources which will be prepared, including
-            a number of stages required to prepare any linked world geometry
-        */
-        virtual void resourceGroupPrepareStarted(const String& groupName, size_t resourceCount)
-                { (void)groupName; (void)resourceCount; }
+    /** This event is fired when a declared resource is about to be prepared.
+    @param resource Weak reference to the resource prepared.
+    */
+    virtual void resourcePrepareStarted(const ResourcePtr& resource)
+    {
+        (void)resource;
+    }
 
-        /** This event is fired when a declared resource is about to be prepared. 
-        @param resource Weak reference to the resource prepared.
-        */
-        virtual void resourcePrepareStarted(const ResourcePtr& resource)
-                { (void)resource; }
+    /** This event is fired when the resource has been prepared.
+     */
+    virtual void resourcePrepareEnded(void) { }
+    /** This event is fired when a resource group finished preparing. */
+    virtual void resourceGroupPrepareEnded(const String& groupName)
+    {
+        (void)groupName;
+    }
 
-        /** This event is fired when the resource has been prepared. 
-        */
-        virtual void resourcePrepareEnded(void) {}
-        /** This event is fired when a resource group finished preparing. */
-        virtual void resourceGroupPrepareEnded(const String& groupName)
-        { (void)groupName; }
-
-        /** This event is fired  when a resource group begins loading.
-        @param groupName The name of the group being loaded
-        @param resourceCount The number of resources which will be loaded, including
-            a number of custom stages required to load anything else
-        */
-        virtual void resourceGroupLoadStarted(const String& groupName, size_t resourceCount) {}
-        /** This event is fired when a declared resource is about to be loaded. 
-        @param resource Weak reference to the resource loaded.
-        */
-        virtual void resourceLoadStarted(const ResourcePtr& resource) {}
-        /** This event is fired when the resource has been loaded. 
-        */
-        virtual void resourceLoadEnded(void) {}
-        /** This event is fired when a custom loading stage
-            is about to start. The number of stages required will have been 
-            included in the resourceCount passed in resourceGroupLoadStarted.
-        @param description Text description of what is about to be done
-        */
-        virtual void customStageStarted(const String& description){}
-        /** This event is fired when a custom loading stage
-            has been completed. The number of stages required will have been 
-            included in the resourceCount passed in resourceGroupLoadStarted.
-        */
-        virtual void customStageEnded(void) {}
-        /** This event is fired when a resource group finished loading. */
-        virtual void resourceGroupLoadEnded(const String& groupName) {}
-        /** This event is fired when a resource was just created.
-        @param resource Weak reference to the resource created.
-        */
-        virtual void resourceCreated(const ResourcePtr& resource)
-        { (void)resource; }
-        /** This event is fired when a resource is about to be removed.
-        @param resource Weak reference to the resource removed.
-        */
-        virtual void resourceRemove(const ResourcePtr& resource)
-        { (void)resource; }
-    };
+    /** This event is fired  when a resource group begins loading.
+    @param groupName The name of the group being loaded
+    @param resourceCount The number of resources which will be loaded, including
+        a number of custom stages required to load anything else
+    */
+    virtual void
+    resourceGroupLoadStarted(const String& groupName, size_t resourceCount)
+    {
+    }
+    /** This event is fired when a declared resource is about to be loaded.
+    @param resource Weak reference to the resource loaded.
+    */
+    virtual void resourceLoadStarted(const ResourcePtr& resource) { }
+    /** This event is fired when the resource has been loaded.
+     */
+    virtual void resourceLoadEnded(void) { }
+    /** This event is fired when a custom loading stage
+        is about to start. The number of stages required will have been
+        included in the resourceCount passed in resourceGroupLoadStarted.
+    @param description Text description of what is about to be done
+    */
+    virtual void customStageStarted(const String& description) { }
+    /** This event is fired when a custom loading stage
+        has been completed. The number of stages required will have been
+        included in the resourceCount passed in resourceGroupLoadStarted.
+    */
+    virtual void customStageEnded(void) { }
+    /** This event is fired when a resource group finished loading. */
+    virtual void resourceGroupLoadEnded(const String& groupName) { }
+    /** This event is fired when a resource was just created.
+    @param resource Weak reference to the resource created.
+    */
+    virtual void resourceCreated(const ResourcePtr& resource)
+    {
+        (void)resource;
+    }
+    /** This event is fired when a resource is about to be removed.
+    @param resource Weak reference to the resource removed.
+    */
+    virtual void resourceRemove(const ResourcePtr& resource) { (void)resource; }
+};
 
     /**
     This class allows users to override resource loading behavior.
@@ -252,9 +270,9 @@ namespace Ogre {
             NameValuePairList parameters;
         };
         /// List of resource declarations
-        typedef std::list<ResourceDeclaration> ResourceDeclarationList;
-        typedef std::map<String, ResourceManager*> ResourceManagerMap;
-        typedef MapIterator<ResourceManagerMap> ResourceManagerIterator;
+        using ResourceDeclarationList = std::list<ResourceDeclaration>;
+        using ResourceManagerMap = std::map<String, ResourceManager*>;
+        using ResourceManagerIterator = MapIterator<ResourceManagerMap>;
         /// Resource location entry
         struct ResourceLocation
         {
@@ -264,7 +282,7 @@ namespace Ogre {
             bool recursive;
         };
         /// List of possible file locations
-        typedef std::vector<ResourceLocation> LocationList;
+        using LocationList = std::vector<ResourceLocation>;
 
     private:
         /// Map of resource types (strings) to ResourceManagers, used to notify them to load / unload group contents
