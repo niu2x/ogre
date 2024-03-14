@@ -124,7 +124,8 @@ public:
 
 private:
     SubRenderState* createInstanceImpl() override;
-    LayeredBlending* createOrRetrieveSubRenderState(SGScriptTranslator* translator);
+    LayeredBlending*
+    create_or_retrieveSubRenderState(SGScriptTranslator* translator);
 };
 
 class FFPTexturingFactory : public SubRenderStateFactory

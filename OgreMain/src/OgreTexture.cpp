@@ -108,7 +108,7 @@ namespace Ogre {
 
         // Notify manager
         if (creator())
-            creator()->_notifyResourceLoaded(this);
+            creator()->_notify_resource_loaded(this);
 
         // No deferred loading events since this method is not called in background
     }
@@ -223,8 +223,8 @@ namespace Ogre {
         // in this texture. If so, clamp it.
         if(faces > getNumFaces())
             faces = getNumFaces();
-        
-        if (TextureManager::getSingleton().getVerbose()) {
+
+        if (TextureManager::getSingleton().verbose()) {
             // Say what we're doing
             Log::Stream str = LogManager::getSingleton().stream();
             str << "Texture '" << name() << "': Loading " << faces << " faces"
@@ -256,7 +256,7 @@ namespace Ogre {
             str << " Internal format is " << PixelUtil::getFormatName(buf->getFormat()) << ","
                 << buf->getWidth() << "x" << buf->getHeight() << "x" << buf->getDepth() << ".";
         }
-        
+
         // Main loading loop
         // imageMips == 0 if the image has no custom mipmaps, otherwise contains the number of custom mips
         for(uint32 mip = 0; mip <= std::min(mNumMipmaps, imageMips); ++mip)

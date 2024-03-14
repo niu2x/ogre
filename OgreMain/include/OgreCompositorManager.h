@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __CompositorManager_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreResourceManager.h"
+#include "resource_manager"
 #include "OgreRenderSystem.h"
 #include "OgreCompositionTechnique.h"
 #include "OgreHeaderPrefix.h"
@@ -115,7 +115,7 @@ namespace Ogre {
         Renderable *_getTexturedRectangle2D();
 
         /** Overridden from ResourceManager since we have to clean up chains too. */
-        void removeAll(void) override;
+        void remove_all(void) override;
 
         /** Internal method for forcing all active compositors to recreate their resources. */
         void _reconstructAllCompositorResources();

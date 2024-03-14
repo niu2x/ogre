@@ -29,7 +29,7 @@ THE SOFTWARE
 
 #include "OgreOverlayPrerequisites.h"
 #include "OgreSingleton.h"
-#include "OgreResourceManager.h"
+#include "resource_manager"
 #include "OgreFont.h"
 
 namespace Ogre

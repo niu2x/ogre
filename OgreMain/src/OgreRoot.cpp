@@ -953,8 +953,11 @@ namespace Ogre {
         {
             try
             {
-                stream = ResourceGroupManager::getSingleton().createResource(
-                    filename, groupName, overwrite, locationPattern);
+                stream = ResourceGroupManager::getSingleton().create_resource(
+                    filename,
+                    groupName,
+                    overwrite,
+                    locationPattern);
             }
             catch (...) {}
 

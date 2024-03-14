@@ -34,8 +34,10 @@ public:
 
     void _shutdown() override
     {
-        RTShader::RenderState* pMainRenderState = 
-            RTShader::ShaderGenerator::getSingleton().createOrRetrieveRenderState(MSN_SHADERGEN).first;
+        RTShader::RenderState* pMainRenderState
+            = RTShader::ShaderGenerator::getSingleton()
+                  .create_or_retrieveRenderState(MSN_SHADERGEN)
+                  .first;
         pMainRenderState->resetToBuiltinSubRenderStates();
         
         if (mSRSTextureFogFactory)
@@ -109,8 +111,8 @@ protected:
     {
         RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::getSingletonPtr();
 
-        RTShader::RenderState* pMainRenderState = 
-            mGen->createOrRetrieveRenderState(MSN_SHADERGEN).first;
+        RTShader::RenderState* pMainRenderState
+            = mGen->create_or_retrieveRenderState(MSN_SHADERGEN).first;
         pMainRenderState->resetToBuiltinSubRenderStates();
 
         mSRSTextureFogFactory = new RTShaderSRSTexturedFogFactory;

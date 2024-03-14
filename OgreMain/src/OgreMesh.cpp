@@ -204,7 +204,7 @@ namespace Ogre {
     void Mesh::prepare_impl()
     {
         // Load from specified 'name'
-        if (creator()->getVerbose())
+        if (creator()->verbose())
             LogManager::getSingleton().log_message(
                 "Mesh: Loading " + name() + ".");
 

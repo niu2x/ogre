@@ -121,15 +121,16 @@ namespace {
     //-----------------------------------------------------------------------
     GpuProgramPtr GpuProgramManager::getByName(const String& name, const String& group) const
     {
-        return static_pointer_cast<GpuProgram>(getResourceByName(name, group));
+        return static_pointer_cast<GpuProgram>(
+            get_resource_by_name(name, group));
     }
     //---------------------------------------------------------------------------
     GpuProgramManager::GpuProgramManager()
+    : ResourceManager("GpuProgram")
     {
         // Loading order
-        mLoadOrder = 50.0f;
+        set_load_order(50.0f);
         // Resource type
-        mResourceType = "GpuProgram";
         mSaveMicrocodesToCache = false;
         mCacheDirty = false;
 
@@ -138,12 +139,15 @@ namespace {
         mUnifiedFactory = std::make_unique<UnifiedHighLevelGpuProgramFactory>();
         addFactory(mUnifiedFactory.get());
 
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::getSingleton()._registerResourceManager(
+            resource_type(),
+            this);
     }
     //---------------------------------------------------------------------------
     GpuProgramManager::~GpuProgramManager()
     {
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+            resource_type());
     }
     //---------------------------------------------------------------------------
     GpuProgramPtr GpuProgramManager::load(const String& name,

@@ -314,7 +314,8 @@ public:
     * create a new instance if not found 
     @param translator The translator instance holding existing scripts.
     */
-    virtual SubRenderState* createOrRetrieveInstance(SGScriptTranslator* translator);
+    virtual SubRenderState*
+    create_or_retrieveInstance(SGScriptTranslator* translator);
 
     /** Destroy the given instance. 
     @param subRenderState The instance to destroy.

@@ -100,10 +100,7 @@ namespace Ogre
     {
     }
     //-----------------------------------------------------------------------------------
-    VulkanTextureGpuManager::~VulkanTextureGpuManager()
-    {
-        removeAll();
-    }
+    VulkanTextureGpuManager::~VulkanTextureGpuManager() { remove_all(); }
     SamplerPtr VulkanTextureGpuManager::_createSamplerImpl()
     {
         return std::make_shared<VulkanSampler>(mDevice->mDevice);

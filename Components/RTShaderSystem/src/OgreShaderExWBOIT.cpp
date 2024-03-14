@@ -87,7 +87,7 @@ SubRenderState* WBOITFactory::createInstance(ScriptCompiler* compiler, PropertyA
     if (!val)
         return NULL;
 
-    auto ret = static_cast<WBOIT*>(createOrRetrieveInstance(translator));
+    auto ret = static_cast<WBOIT*>(create_or_retrieveInstance(translator));
     return ret;
 }
 

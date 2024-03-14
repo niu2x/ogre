@@ -295,7 +295,7 @@ SubRenderState* HardwareSkinningFactory::createInstance(ScriptCompiler* compiler
         }
 
         //create and update the hardware skinning sub render state
-        SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+        SubRenderState* subRenderState = create_or_retrieveInstance(translator);
         subRenderState->set_parameter("type", skinningType);
 
         for(const auto& p : params)

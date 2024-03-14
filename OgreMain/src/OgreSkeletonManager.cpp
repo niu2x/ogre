@@ -42,28 +42,33 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     SkeletonManager::SkeletonManager()
+    : ResourceManager("Skeleton")
     {
-        mLoadOrder = 300.0f;
-        mResourceType = "Skeleton";
+        set_load_order(300.0f);
 
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::getSingleton()._registerResourceManager(
+            resource_type(),
+            this);
     }
     //-----------------------------------------------------------------------
     SkeletonPtr SkeletonManager::getByName(const String& name, const String& groupName) const
     {
-        return static_pointer_cast<Skeleton>(getResourceByName(name, groupName));
+        return static_pointer_cast<Skeleton>(
+            get_resource_by_name(name, groupName));
     }
     //-----------------------------------------------------------------------
     SkeletonPtr SkeletonManager::create (const String& name, const String& group,
                                     bool isManual, ManualResourceLoader* loader,
                                     const NameValuePairList* createParams)
     {
-        return static_pointer_cast<Skeleton>(createResource(name,group,isManual,loader,createParams));
+        return static_pointer_cast<Skeleton>(
+            create_resource(name, group, isManual, loader, createParams));
     }
     //-----------------------------------------------------------------------
     SkeletonManager::~SkeletonManager()
     {
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+            resource_type());
     }
     //-----------------------------------------------------------------------
     Resource* SkeletonManager::create_impl(const String& name, ResourceHandle handle, 

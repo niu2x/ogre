@@ -46,18 +46,17 @@ CompositorManager& CompositorManager::getSingleton(void)
 {  
     assert( msSingleton );  return ( *msSingleton );  
 }//-----------------------------------------------------------------------
-CompositorManager::CompositorManager():
-    mRectangle(0)
+CompositorManager::CompositorManager()
+: ResourceManager("Compositor")
+, mRectangle(0)
 {
     // Loading order (just after materials)
-    mLoadOrder = 110.0f;
-
-    // Resource type
-    mResourceType = "Compositor";
+    set_load_order(110.0f);
 
     // Register with resource group manager
-    ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
-
+    ResourceGroupManager::getSingleton()._registerResourceManager(
+        resource_type(),
+        this);
 }
 //-----------------------------------------------------------------------
 CompositorManager::~CompositorManager()
@@ -68,7 +67,8 @@ CompositorManager::~CompositorManager()
 
     // Resources cleared by superclass
     // Unregister with resource group manager
-    ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+    ResourceGroupManager::getSingleton()._unregisterResourceManager(
+        resource_type());
     ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
 }
 //-----------------------------------------------------------------------
@@ -83,12 +83,14 @@ CompositorPtr CompositorManager::create (const String& name, const String& group
                                 bool isManual, ManualResourceLoader* loader,
                                 const NameValuePairList* createParams)
 {
-    return static_pointer_cast<Compositor>(createResource(name,group,isManual,loader,createParams));
+    return static_pointer_cast<Compositor>(
+        create_resource(name, group, isManual, loader, createParams));
 }
 //-----------------------------------------------------------------------
 CompositorPtr CompositorManager::getByName(const String& name, const String& groupName) const
 {
-    return static_pointer_cast<Compositor>(getResourceByName(name, groupName));
+    return static_pointer_cast<Compositor>(
+        get_resource_by_name(name, groupName));
 }
 //-----------------------------------------------------------------------
 CompositorChain *CompositorManager::getCompositorChain(Viewport *vp)
@@ -121,10 +123,10 @@ void CompositorManager::removeCompositorChain(const Viewport *vp)
     }
 }
 //-----------------------------------------------------------------------
-void CompositorManager::removeAll(void)
+void CompositorManager::remove_all(void)
 {
     freeChains();
-    ResourceManager::removeAll();
+    ResourceManager::remove_all();
 }
 //-----------------------------------------------------------------------
 void CompositorManager::freeChains()

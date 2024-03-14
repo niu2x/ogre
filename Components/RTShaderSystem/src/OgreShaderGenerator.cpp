@@ -495,7 +495,7 @@ SubRenderState* ShaderGenerator::createSubRenderState(ScriptCompiler* compiler,
 //-----------------------------------------------------------------------------
 void ShaderGenerator::createScheme(const String& schemeName)
 {
-    createOrRetrieveScheme(schemeName);
+    create_or_retrieveScheme(schemeName);
 }
 
 //-----------------------------------------------------------------------------
@@ -521,14 +521,18 @@ bool ShaderGenerator::hasRenderState(const String& schemeName) const
 }
 
 //-----------------------------------------------------------------------------
-ShaderGenerator::RenderStateCreateOrRetrieveResult ShaderGenerator::createOrRetrieveRenderState(const String& schemeName)
+ShaderGenerator::RenderStatecreate_or_retrieveResult
+ShaderGenerator::create_or_retrieveRenderState(const String& schemeName)
 {
-    SchemeCreateOrRetrieveResult res = createOrRetrieveScheme(schemeName);
-    return RenderStateCreateOrRetrieveResult(res.first->getRenderState(),res.second);
+    Schemecreate_or_retrieveResult res = create_or_retrieveScheme(schemeName);
+    return RenderStatecreate_or_retrieveResult(
+        res.first->getRenderState(),
+        res.second);
 }
 
 //-----------------------------------------------------------------------------
-ShaderGenerator::SchemeCreateOrRetrieveResult ShaderGenerator::createOrRetrieveScheme(const String& schemeName)
+ShaderGenerator::Schemecreate_or_retrieveResult
+ShaderGenerator::create_or_retrieveScheme(const String& schemeName)
 {
     bool wasCreated = false;
     SGSchemeIterator itScheme = mSchemeEntriesMap.find(schemeName);
@@ -545,7 +549,7 @@ ShaderGenerator::SchemeCreateOrRetrieveResult ShaderGenerator::createOrRetrieveS
         schemeEntry = itScheme->second;
     }
 
-    return SchemeCreateOrRetrieveResult(schemeEntry, wasCreated);
+    return Schemecreate_or_retrieveResult(schemeEntry, wasCreated);
 }
 //-----------------------------------------------------------------------------
 RenderState* ShaderGenerator::getRenderState(const String& schemeName,
@@ -778,7 +782,8 @@ bool ShaderGenerator::createShaderBasedTechnique(const Technique* srcTechnique, 
     mTechniqueEntriesMap[techEntry] = techEntry;
 
     // Add to scheme.
-    SGScheme* schemeEntry = createOrRetrieveScheme(dstTechniqueSchemeName).first;
+    SGScheme* schemeEntry
+        = create_or_retrieveScheme(dstTechniqueSchemeName).first;
     schemeEntry->addTechniqueEntry(techEntry);
 
     return true;

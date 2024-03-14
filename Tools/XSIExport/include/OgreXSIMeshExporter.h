@@ -293,8 +293,10 @@ namespace Ogre {
             ShapeClipList& outClipList, std::set<long>& keyFrameList);
         /// Retrieve a ProtoSubMesh for the given material name 
         /// (creates if required, validates if re-using)
-        ProtoSubMesh* createOrRetrieveProtoSubMesh(const String& materialName,
-            const String& name, TextureCoordDimensionList& texCoordDims,
+        ProtoSubMesh* create_or_retrieveProtoSubMesh(
+            const String& materialName,
+            const String& name,
+            TextureCoordDimensionList& texCoordDims,
             bool hasVertexColours);
 
         /** Try to look up an existing vertex with the same information, or
@@ -318,8 +320,10 @@ namespace Ogre {
             value from this method can be used as an adjusted vertex index.
         @returns The index of the unique vertex
         */
-        size_t createOrRetrieveUniqueVertex(ProtoSubMesh* proto, 
-            size_t positionIndex, bool positionIndexIsOriginal,
+        size_t create_or_retrieveUniqueVertex(
+            ProtoSubMesh* proto,
+            size_t positionIndex,
+            bool positionIndexIsOriginal,
             const UniqueVertex& vertex);
 
         /** Templatised method for writing indexes */

@@ -376,7 +376,9 @@ struct MeshResourceCreator : public MeshSerializerListener
         }
 
         // create material because we do not load any .material files
-        MaterialManager::getSingleton().createOrRetrieve(*name, mesh->group());
+        MaterialManager::getSingleton().create_or_retrieve(
+            *name,
+            mesh->group());
     }
 
     void processSkeletonName(Mesh *mesh, String *name) override
@@ -389,7 +391,10 @@ struct MeshResourceCreator : public MeshSerializerListener
         }
 
         // create skeleton because we do not load any .skeleton files
-        SkeletonManager::getSingleton().createOrRetrieve(*name, mesh->group(), true);
+        SkeletonManager::getSingleton().create_or_retrieve(
+            *name,
+            mesh->group(),
+            true);
     }
     void processMeshCompleted(Mesh *mesh) override {}
 };

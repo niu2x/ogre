@@ -41,12 +41,12 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     TextureManager::TextureManager(void)
-         : mPreferredIntegerBitDepth(0)
-         , mPreferredFloatBitDepth(0)
-         , mDefaultNumMipmaps(MIP_UNLIMITED)
+    : ResourceManager("Texture")
+    , mPreferredIntegerBitDepth(0)
+    , mPreferredFloatBitDepth(0)
+    , mDefaultNumMipmaps(MIP_UNLIMITED)
     {
-        mResourceType = "Texture";
-        mLoadOrder = 75.0f;
+        set_load_order(75.0f);
 
         // Subclasses should register (when this is fully constructed)
     }
@@ -80,23 +80,39 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     TexturePtr TextureManager::getByName(const String& name, const String& groupName) const
     {
-        return static_pointer_cast<Texture>(getResourceByName(name, groupName));
+        return static_pointer_cast<Texture>(
+            get_resource_by_name(name, groupName));
     }
     //-----------------------------------------------------------------------
     TexturePtr TextureManager::create (const String& name, const String& group,
                                     bool isManual, ManualResourceLoader* loader,
                                     const NameValuePairList* createParams)
     {
-        return static_pointer_cast<Texture>(createResource(name,group,isManual,loader,createParams));
+        return static_pointer_cast<Texture>(
+            create_resource(name, group, isManual, loader, createParams));
     }
     //-----------------------------------------------------------------------
-    TextureManager::ResourceCreateOrRetrieveResult TextureManager::createOrRetrieve(
-            const String &name, const String& group, bool isManual, ManualResourceLoader* loader,
-            const NameValuePairList* createParams, TextureType texType, int numMipmaps, Real gamma,
-            bool isAlpha, PixelFormat desiredFormat, bool hwGamma)
+    TextureManager::Resourcecreate_or_retrieveResult
+    TextureManager::create_or_retrieve(
+        const String& name,
+        const String& group,
+        bool isManual,
+        ManualResourceLoader* loader,
+        const NameValuePairList* createParams,
+        TextureType texType,
+        int numMipmaps,
+        Real gamma,
+        bool isAlpha,
+        PixelFormat desiredFormat,
+        bool hwGamma)
     {
-        ResourceCreateOrRetrieveResult res =
-            Ogre::ResourceManager::createOrRetrieve(name, group, isManual, loader, createParams);
+        Resourcecreate_or_retrieveResult res
+            = Ogre::ResourceManager::create_or_retrieve(
+                name,
+                group,
+                isManual,
+                loader,
+                createParams);
         // Was it created?
         if(res.second)
         {
@@ -118,8 +134,18 @@ namespace Ogre {
                                        int numMipmaps, Real gamma, bool isAlpha,
                                        PixelFormat desiredFormat, bool hwGamma)
     {
-        ResourceCreateOrRetrieveResult res =
-            createOrRetrieve(name,group,false,0,0,texType,numMipmaps,gamma,isAlpha,desiredFormat,hwGamma);
+        Resourcecreate_or_retrieveResult res = create_or_retrieve(
+            name,
+            group,
+            false,
+            0,
+            0,
+            texType,
+            numMipmaps,
+            gamma,
+            isAlpha,
+            desiredFormat,
+            hwGamma);
         TexturePtr tex = static_pointer_cast<Texture>(res.first);
         tex->prepare();
         return tex;
@@ -129,8 +155,18 @@ namespace Ogre {
                                     int numMipmaps, Real gamma, bool isAlpha, PixelFormat desiredFormat,
                                     bool hwGamma)
     {
-        auto res = createOrRetrieve(name, group, false, 0, 0, texType, numMipmaps, gamma, isAlpha,
-                                    desiredFormat, hwGamma);
+        auto res = create_or_retrieve(
+            name,
+            group,
+            false,
+            0,
+            0,
+            texType,
+            numMipmaps,
+            gamma,
+            isAlpha,
+            desiredFormat,
+            hwGamma);
         TexturePtr tex = static_pointer_cast<Texture>(res.first);
         tex->load();
         return tex;
@@ -138,8 +174,18 @@ namespace Ogre {
     TexturePtr TextureManager::load(const String& name, const String& group, TextureType texType,
                                     int numMipmaps, Real gamma, PixelFormat desiredFormat, bool hwGamma)
     {
-        auto res = createOrRetrieve(name, group, false, 0, 0, texType, numMipmaps, gamma, false,
-                                    desiredFormat, hwGamma);
+        auto res = create_or_retrieve(
+            name,
+            group,
+            false,
+            0,
+            0,
+            texType,
+            numMipmaps,
+            gamma,
+            false,
+            desiredFormat,
+            hwGamma);
         TexturePtr tex = static_pointer_cast<Texture>(res.first);
         tex->load();
         return tex;
@@ -223,9 +269,9 @@ namespace Ogre {
         if (reloadTextures)
         {
             // Iterate through all textures
-            for (auto & r : mResources)
-            {
-                Texture* texture = static_cast<Texture*>(r.second.get());
+            for (auto iter = resources_begin(); iter != resources_end();
+                 iter++) {
+                Texture* texture = static_cast<Texture*>(iter->second.get());
                 // Reload loaded and reloadable texture only
                 if (texture->is_loaded() && texture->reloadable()) {
                     texture->unload();
@@ -250,9 +296,9 @@ namespace Ogre {
         if (reloadTextures)
         {
             // Iterate through all textures
-            for (auto & r : mResources)
-            {
-                Texture* texture = static_cast<Texture*>(r.second.get());
+            for (auto iter = resources_begin(); iter != resources_end();
+                 iter++) {
+                Texture* texture = static_cast<Texture*>(iter->second.get());
                 // Reload loaded and reloadable texture only
                 if (texture->is_loaded() && texture->reloadable()) {
                     texture->unload();
@@ -278,9 +324,9 @@ namespace Ogre {
         if (reloadTextures)
         {
             // Iterate through all textures
-            for (auto & r : mResources)
-            {
-                Texture* texture = static_cast<Texture*>(r.second.get());
+            for (auto iter = resources_begin(); iter != resources_end();
+                 iter++) {
+                Texture* texture = static_cast<Texture*>(iter->second.get());
                 // Reload loaded and reloadable texture only
                 if (texture->is_loaded() && texture->reloadable()) {
                     texture->unload();

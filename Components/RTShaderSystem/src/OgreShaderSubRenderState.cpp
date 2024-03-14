@@ -64,7 +64,8 @@ SubRenderState* SubRenderStateFactory::createInstance()
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* SubRenderStateFactory::createOrRetrieveInstance(SGScriptTranslator* translator)
+SubRenderState* SubRenderStateFactory::create_or_retrieveInstance(
+    SGScriptTranslator* translator)
 {
     //check if we already create a SRS 
     SubRenderState* subRenderState = translator->getGeneratedSubRenderState(getType());

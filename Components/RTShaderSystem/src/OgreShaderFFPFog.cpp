@@ -214,7 +214,8 @@ SubRenderState* FFPFogFactory::createInstance(ScriptCompiler* compiler,
         {
             if (prop->values.front()->getString() == "ffp")
             {
-                SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+                SubRenderState* subRenderState
+                    = create_or_retrieveInstance(translator);
                 AbstractNodeList::const_iterator it = prop->values.begin();
 
                 if(prop->values.size() >= 2)

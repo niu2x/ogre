@@ -168,13 +168,16 @@ namespace Ogre {
         : TextureManager(), mRenderSystem(renderSystem)
     {
         // Register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::getSingleton()._registerResourceManager(
+            resource_type(),
+            this);
     }
 
     GL3PlusTextureManager::~GL3PlusTextureManager()
     {
         // Unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+            resource_type());
     }
 
     Resource* GL3PlusTextureManager::create_impl(const String& name, ResourceHandle handle,

@@ -61,7 +61,8 @@ namespace Ogre {
         typedef std::map<IDirect3DDevice9*, BufferResources*>  DeviceToBufferResourcesMap;
         typedef DeviceToBufferResourcesMap::iterator            DeviceToBufferResourcesIterator;
 
-        BufferResources* createOrRetrieveResources(IDirect3DDevice9* d3d9Device);
+        BufferResources*
+        create_or_retrieveResources(IDirect3DDevice9* d3d9Device);
 
         /// Map between device to buffer resources.
         DeviceToBufferResourcesMap  mMapDeviceToBufferResources;
@@ -132,19 +133,19 @@ namespace Ogre {
         /// Accessor for surface
         IDirect3DSurface9* getSurface(IDirect3DDevice9* d3d9Device)
         {
-            return createOrRetrieveResources(d3d9Device)->surface;
+            return create_or_retrieveResources(d3d9Device)->surface;
         }
 
         /// Accessor for AA surface
         IDirect3DSurface9* getFSAASurface(IDirect3DDevice9* d3d9Device)
         {
-            return createOrRetrieveResources(d3d9Device)->fSAASurface;
+            return create_or_retrieveResources(d3d9Device)->fSAASurface;
         }
 
         /// For depth-only targets
         IDirect3DSurface9* getNullSurface(IDirect3DDevice9* d3d9Device)
         {
-            return createOrRetrieveResources(d3d9Device)->nullSurface;
+            return create_or_retrieveResources(d3d9Device)->nullSurface;
         }
 
         /// Release surfaces held by this pixel buffer.

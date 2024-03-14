@@ -41,26 +41,27 @@ namespace Ogre
         assert( msSingleton );  return ( *msSingleton );  
     }
     //---------------------------------------------------------------------
-    FontManager::FontManager() : ResourceManager()
+    FontManager::FontManager()
+    : ResourceManager("Font")
     {
         // Loading order
-        mLoadOrder = 200.0f;
+        set_load_order(200.0f);
         // Scripting is supported by this manager
-        mScriptPatterns.push_back("*.fontdef");
+        add_script_pattern("*.fontdef");
         // Register scripting with resource group manager
         ResourceGroupManager::getSingleton()._registerScriptLoader(this);
 
-        // Resource type
-        mResourceType = "Font";
-
         // Register with resource group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::getSingleton()._registerResourceManager(
+            resource_type(),
+            this);
     }
     //---------------------------------------------------------------------
     FontManager::~FontManager()
     {
         // Unregister with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+            resource_type());
         // Unegister scripting with resource group manager
         ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
 
@@ -75,13 +76,14 @@ namespace Ogre
     //-----------------------------------------------------------------------
     FontPtr FontManager::getByName(const String& name, const String& groupName) const
     {
-        return static_pointer_cast<Font>(getResourceByName(name, groupName));
+        return static_pointer_cast<Font>(get_resource_by_name(name, groupName));
     }
     //---------------------------------------------------------------------
     FontPtr FontManager::create (const String& name, const String& group,
                                     bool isManual, ManualResourceLoader* loader,
                                     const NameValuePairList* createParams)
     {
-        return static_pointer_cast<Font>(createResource(name,group,isManual,loader,createParams));
+        return static_pointer_cast<Font>(
+            create_resource(name, group, isManual, loader, createParams));
     }
 }

@@ -704,7 +704,7 @@ SubRenderState* FFPTexturingFactory::createInstance(ScriptCompiler* compiler,
         {
             const String& value = prop->values.front()->getString();
 
-            auto inst = createOrRetrieveInstance(translator);
+            auto inst = create_or_retrieveInstance(translator);
 
             if (value == "ffp")
                 return inst;

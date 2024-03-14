@@ -134,7 +134,8 @@ SubRenderState* ImageBasedLightingFactory::createInstance(ScriptCompiler* compil
         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
         return NULL;
     }
-    auto ret = static_cast<ImageBasedLighting*>(createOrRetrieveInstance(translator));
+    auto ret = static_cast<ImageBasedLighting*>(
+        create_or_retrieveInstance(translator));
     ret->set_parameter("texture", (*it++)->getString());
 
     if (prop->values.size() < 4)

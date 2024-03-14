@@ -71,8 +71,10 @@ public:
     {
         delete SegmentedDynamicLightManager::getSingletonPtr();
 
-        RTShader::RenderState* pMainRenderState = 
-            RTShader::ShaderGenerator::getSingleton().createOrRetrieveRenderState(MSN_SHADERGEN).first;
+        RTShader::RenderState* pMainRenderState
+            = RTShader::ShaderGenerator::getSingleton()
+                  .create_or_retrieveRenderState(MSN_SHADERGEN)
+                  .first;
         pMainRenderState->resetToBuiltinSubRenderStates();
         
         if (mSRSSegLightFactory)
@@ -159,8 +161,8 @@ protected:
 
         RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::getSingletonPtr();
 
-        RTShader::RenderState* pMainRenderState = 
-            mGen->createOrRetrieveRenderState(MSN_SHADERGEN).first;
+        RTShader::RenderState* pMainRenderState
+            = mGen->create_or_retrieveRenderState(MSN_SHADERGEN).first;
         pMainRenderState->resetToBuiltinSubRenderStates();
 
         // If we are using segmented lighting, no auto light update required. (prevent constant invalidation)

@@ -363,7 +363,7 @@ SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
     {
         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line, "integrated_pssm4. Use shadow_mapping instead.");
 
-        SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+        SubRenderState* subRenderState = create_or_retrieveInstance(translator);
 
         auto it = prop->values.begin();
         auto itEnd = prop->values.end();
@@ -395,7 +395,7 @@ SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
 
     if (prop->name == "shadow_mapping")
     {
-        SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+        SubRenderState* subRenderState = create_or_retrieveInstance(translator);
 
         auto it = prop->values.begin();
         while(it != prop->values.end())

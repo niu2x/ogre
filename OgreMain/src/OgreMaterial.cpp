@@ -190,7 +190,7 @@ namespace Ogre {
             // Notify manager
             auto my_creator = creator();
             if (my_creator)
-                my_creator->_notifyResourceLoaded(newMat.get());
+                my_creator->_notify_resource_loaded(newMat.get());
         }
 
         return newMat;

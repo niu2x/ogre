@@ -73,8 +73,9 @@ namespace Ogre {
         /**
         * Get the state cache manager, creating it on demand
         */
-        template<class StateCacheManager>
-        StateCacheManager* createOrRetrieveStateCacheManager() {
+        template <class StateCacheManager>
+        StateCacheManager* create_or_retrieveStateCacheManager()
+        {
             if(!mStateCacheManager) {
                 StateCacheManager* stateCache = OGRE_NEW StateCacheManager;
                 stateCache->initializeCache();

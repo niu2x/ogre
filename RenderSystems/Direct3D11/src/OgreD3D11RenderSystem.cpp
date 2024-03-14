@@ -1318,7 +1318,7 @@ namespace Ogre
         // recreate device depended resources
         notifyDeviceRestored(&mDevice);
 
-        MeshManager::getSingleton().reloadAll(Resource::LF_PRESERVE_STATE);
+        MeshManager::getSingleton().reload_all(Resource::LF_PRESERVE_STATE);
 
         for(auto& it : Root::getSingleton().getSceneManagers())
             it.second->_restoreManualHardwareResources();

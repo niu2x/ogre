@@ -967,7 +967,8 @@ void D3D9HardwarePixelBuffer::releaseSurfaces(IDirect3DDevice9* d3d9Device)
 }
 //-----------------------------------------------------------------------------
 D3D9HardwarePixelBuffer::BufferResources*
-D3D9HardwarePixelBuffer::createOrRetrieveResources(IDirect3DDevice9* d3d9Device)
+D3D9HardwarePixelBuffer::create_or_retrieveResources(
+    IDirect3DDevice9* d3d9Device)
 {
     BufferResources* bufferResources = getBufferResources(d3d9Device);
 

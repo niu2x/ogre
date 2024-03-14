@@ -80,7 +80,7 @@ namespace Ogre {
                             bool isManual = false, ManualResourceLoader* loader = 0,
                             const NameValuePairList* createParams = 0);
 
-        using ResourceManager::createOrRetrieve;
+        using ResourceManager::create_or_retrieve;
 
         /** Create a new mesh, or retrieve an existing one with the same
             name if it already exists.
@@ -94,14 +94,16 @@ namespace Ogre {
             @param indexBufferShadowed If true, the index buffers will be shadowed by system memory 
                 copies for faster read access
         */
-        ResourceCreateOrRetrieveResult createOrRetrieve(
+        Resourcecreate_or_retrieveResult create_or_retrieve(
             const String& name,
             const String& group,
-            bool isManual, ManualResourceLoader* loader,
+            bool isManual,
+            ManualResourceLoader* loader,
             const NameValuePairList* createParams,
             HardwareBuffer::Usage vertexBufferUsage,
             HardwareBuffer::Usage indexBufferUsage = HBU_GPU_ONLY,
-            bool vertexBufferShadowed = false, bool indexBufferShadowed = false);
+            bool vertexBufferShadowed = false,
+            bool indexBufferShadowed = false);
 
         /** Prepares a mesh for loading from a file.  This does the IO in advance of the call to load().
             @note

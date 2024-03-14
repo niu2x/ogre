@@ -438,9 +438,9 @@ SubRenderState* LayeredBlendingFactory::createInstance(ScriptCompiler* compiler,
 
         
         //get the layer blend sub-render state to work on
-        LayeredBlending* layeredBlendState =
-            createOrRetrieveSubRenderState(translator);
-        
+        LayeredBlending* layeredBlendState
+            = create_or_retrieveSubRenderState(translator);
+
         //update the layer sub render state
         unsigned short texIndex = texState->getParent()->getTextureUnitStateIndex(texState);
         layeredBlendState->setBlendMode(texIndex, prop->values.front()->getString());
@@ -486,7 +486,8 @@ SubRenderState* LayeredBlendingFactory::createInstance(ScriptCompiler* compiler,
         }
 
         //get the layer blend sub-render state to work on
-        LayeredBlending* layeredBlendState = createOrRetrieveSubRenderState(translator);
+        LayeredBlending* layeredBlendState
+            = create_or_retrieveSubRenderState(translator);
 
         //update the layer sub render state
         unsigned short texIndex = texState->getParent()->getTextureUnitStateIndex(texState);
@@ -538,7 +539,8 @@ SubRenderState* LayeredBlendingFactory::createInstanceImpl()
 }
 
 //-----------------------------------------------------------------------
-LayeredBlending* LayeredBlendingFactory::createOrRetrieveSubRenderState(SGScriptTranslator* translator)
+LayeredBlending* LayeredBlendingFactory::create_or_retrieveSubRenderState(
+    SGScriptTranslator* translator)
 {
     LayeredBlending* layeredBlendState;
     //check if we already create a blend srs
@@ -549,7 +551,7 @@ LayeredBlending* LayeredBlendingFactory::createOrRetrieveSubRenderState(SGScript
     }
     else
     {
-        SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+        SubRenderState* subRenderState = create_or_retrieveInstance(translator);
         layeredBlendState = static_cast<LayeredBlending*>(subRenderState);
     }
     return layeredBlendState;

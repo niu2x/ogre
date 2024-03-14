@@ -46,16 +46,16 @@ namespace Ogre {
     String MaterialManager::DEFAULT_SCHEME_NAME = MSN_DEFAULT;
     //-----------------------------------------------------------------------
     MaterialManager::MaterialManager()
+    : ResourceManager("Material")
     {
         // Loading order
-        mLoadOrder = 100.0f;
+        set_load_order(100.0f);
         // Scripting is supported by this manager
 
-        // Resource type
-        mResourceType = "Material";
-
         // Register with resource group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::getSingleton()._registerResourceManager(
+            resource_type(),
+            this);
 
         // Default scheme
         mActiveSchemeIndex = 0;
@@ -72,7 +72,8 @@ namespace Ogre {
 
         // Resources cleared by superclass
         // Unregister with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+            resource_type());
         ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
     }
     //-----------------------------------------------------------------------
@@ -87,12 +88,14 @@ namespace Ogre {
                                     bool isManual, ManualResourceLoader* loader,
                                     const NameValuePairList* createParams)
     {
-        return static_pointer_cast<Material>(createResource(name,group,isManual,loader,createParams));
+        return static_pointer_cast<Material>(
+            create_resource(name, group, isManual, loader, createParams));
     }
     //-----------------------------------------------------------------------
     MaterialPtr MaterialManager::getByName(const String& name, const String& groupName) const
     {
-        return static_pointer_cast<Material>(getResourceByName(name, groupName));
+        return static_pointer_cast<Material>(
+            get_resource_by_name(name, groupName));
     }
 
     MaterialPtr MaterialManager::getDefaultMaterial(bool useLighting) {

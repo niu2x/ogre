@@ -65,7 +65,9 @@ class Exporter {
         /* Function to start processing a polygon mesh. */
         void startPolygonMesh(size_t origPositionCount, size_t indexCount);
         /* Try to look up an existing vertex with the same information, or create new one. */
-        size_t createOrRetrieveUniqueVertex(size_t originalPositionIndex, const UniqueVertex& vertex);
+        size_t create_or_retrieveUniqueVertex(
+            size_t originalPositionIndex,
+            const UniqueVertex& vertex);
         /* Templatized method for writing indexes */
         template <typename T> void writeIndexes(T* buf);
         /* Create and fill a vertex buffer */

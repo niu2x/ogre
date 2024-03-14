@@ -1315,7 +1315,9 @@ namespace Ogre {
         }
         mCurrentContext->setCurrent();
 
-        mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GLES2StateCacheManager>();
+        mStateCacheManager
+            = mCurrentContext->create_or_retrieveStateCacheManager<
+                GLES2StateCacheManager>();
         _completeDeferredVaoFboDestruction();
 
         // Check if the context has already done one-time initialisation
@@ -1446,7 +1448,9 @@ namespace Ogre {
         // Setup GLSupport
         initialiseExtensions();
 
-        mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GLES2StateCacheManager>();
+        mStateCacheManager
+            = mCurrentContext->create_or_retrieveStateCacheManager<
+                GLES2StateCacheManager>();
 
         if(hasMinGLVersion(3, 0)) {
             gl2ext_to_gl3core();

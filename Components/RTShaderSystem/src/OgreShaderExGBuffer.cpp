@@ -240,7 +240,7 @@ SubRenderState* GBufferFactory::createInstance(ScriptCompiler* compiler, Propert
     if(it != prop->values.end())
         targets.push_back((*it++)->getString());
 
-    auto ret = static_cast<GBuffer*>(createOrRetrieveInstance(translator));
+    auto ret = static_cast<GBuffer*>(create_or_retrieveInstance(translator));
     ret->set_parameter("target_buffers", targets);
     return ret;
 }

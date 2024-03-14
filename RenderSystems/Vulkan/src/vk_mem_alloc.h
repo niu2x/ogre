@@ -5082,7 +5082,7 @@ public:
     // MyItem can be null - it means PushFront.
     void InsertAfter(ItemType* existingItem, ItemType* newItem);
     void Remove(ItemType* item);
-    void RemoveAll();
+    void remove_all();
 
 private:
     ItemType* m_Front = VMA_NULL;
@@ -5264,8 +5264,8 @@ void VmaIntrusiveLinkedList<ItemTypeTraits>::Remove(ItemType* item)
     --m_Count;
 }
 
-template<typename ItemTypeTraits>
-void VmaIntrusiveLinkedList<ItemTypeTraits>::RemoveAll()
+template <typename ItemTypeTraits>
+void VmaIntrusiveLinkedList<ItemTypeTraits>::remove_all()
 {
     if (!IsEmpty())
     {

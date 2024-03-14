@@ -68,7 +68,7 @@ namespace Ogre {
     {
         SkeletonSerializer serializer;
 
-        if (creator()->getVerbose())
+        if (creator()->verbose())
             LogManager::getSingleton().stream()
                 << "Skeleton: Loading " << name();
 

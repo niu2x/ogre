@@ -38,13 +38,16 @@ namespace Ogre {
         : TextureManager(), mRenderSystem(renderSystem)
     {
         // Register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::getSingleton()._registerResourceManager(
+            resource_type(),
+            this);
     }
 
     GLES2TextureManager::~GLES2TextureManager()
     {
         // Unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+            resource_type());
     }
 
     Resource* GLES2TextureManager::create_impl(const String& name, ResourceHandle handle, 

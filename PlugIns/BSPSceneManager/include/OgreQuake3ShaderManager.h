@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgreBspPrerequisites.h"
 #include "OgreSingleton.h"
-#include "OgreResourceManager.h"
+#include "resource_manager"
 #include "OgreQuake3Shader.h"
 #include "blend_mode.h"
 

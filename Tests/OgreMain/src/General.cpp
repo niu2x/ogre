@@ -527,9 +527,9 @@ TEST_F(HighLevelGpuProgramTest, resolveIncludes)
 
     // recursive inclusion
     String bar = "World";
-    rgm.createResource("bar.cg", RGN_DEFAULT)->write(bar.c_str(), bar.size());
+    rgm.create_resource("bar.cg", RGN_DEFAULT)->write(bar.c_str(), bar.size());
     String foo = "Hello\n#include <bar.cg>\n";
-    rgm.createResource("foo.cg", RGN_DEFAULT)->write(foo.c_str(), foo.size());
+    rgm.create_resource("foo.cg", RGN_DEFAULT)->write(foo.c_str(), foo.size());
     const char* src = "#include <foo.cg>";
 
     String res = HighLevelGpuProgram::_resolveIncludes(src, mat.get(), "main.cg", true);

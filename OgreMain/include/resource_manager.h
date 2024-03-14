@@ -39,8 +39,8 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-    /** Template class describing a simple pool of items.
-     */
+/** Template class describing a simple pool of items.
+ */
 template <typename T>
 class Pool {
 public:
@@ -79,20 +79,20 @@ private:
     ItemList items_;
 };
 
-    /** \addtogroup Core
-    *  @{
-    */
-    /** \addtogroup Resources
-    *  @{
-    */
-    /** Defines a generic resource handler.
-    @see @ref Resource-Management
-    @note
-        If OGRE_THREAD_SUPPORT is 1, this class is thread-safe.
-    */
+/** \addtogroup Core
+ *  @{
+ */
+/** \addtogroup Resources
+ *  @{
+ */
+/** Defines a generic resource handler.
+@see @ref Resource-Management
+@note
+    If OGRE_THREAD_SUPPORT is 1, this class is thread-safe.
+*/
 class ResourceManager : public ScriptLoader {
 public:
-    ResourceManager();
+    ResourceManager(const String& resource_type);
     virtual ~ResourceManager();
 
     /** Creates a new blank resource, but does not immediately load it.
@@ -110,14 +110,14 @@ public:
     @param createParams If any parameters are required to create an instance,
         they should be supplied here as name / value pairs
     */
-    ResourcePtr createResource(
+    ResourcePtr create_resource(
         const String& name,
         const String& group,
         bool isManual = false,
         ManualResourceLoader* loader = 0,
         const NameValuePairList* createParams = 0);
 
-    using ResourceCreateOrRetrieveResult = std::pair<ResourcePtr, bool>;
+    using Resourcecreate_or_retrieveResult = std::pair<ResourcePtr, bool>;
     /** Create a new resource, or retrieve an existing one with the same
         name if it already exists.
 
@@ -130,7 +130,7 @@ public:
     @return A pair, the first element being the pointer, and the second being
         an indicator specifying whether the resource was newly created.
     */
-    ResourceCreateOrRetrieveResult createOrRetrieve(
+    Resourcecreate_or_retrieveResult create_or_retrieve(
         const String& name,
         const String& group,
         bool isManual = false,
@@ -144,14 +144,14 @@ public:
        room for the new one. This unloading is not permanent and the Resource is
        not destroyed; it simply needs to be reloaded when next used.
     */
-    void setMemoryBudget(size_t bytes);
+    void set_memory_budget(size_t bytes);
 
     /** Get the limit on the amount of memory this resource handler may use.
      */
-    size_t getMemoryBudget(void) const;
+    size_t memory_budget(void) const;
 
     /** Gets the current memory usage, in bytes. */
-    size_t getMemoryUsage(void) const { return mMemoryUsage.load(); }
+    size_t memory_usage(void) const { return memory_usage_.load(); }
 
     /** Unloads a single resource by name.
 
@@ -182,9 +182,9 @@ public:
         manually later.
         @see Resource::isReloadable for resource is reloadable.
     */
-    void unloadAll(bool reloadableOnly = true)
+    void unload_all(bool reloadableOnly = true)
     {
-        unloadAll(
+        unload_all(
             reloadableOnly ? Resource::LF_DEFAULT
                            : Resource::LF_INCLUDE_NON_RELOADABLE);
     }
@@ -200,16 +200,16 @@ public:
         manually later.
         @see Resource::isReloadable for resource is reloadable.
     */
-    void reloadAll(bool reloadableOnly = true)
+    void reload_all(bool reloadableOnly = true)
     {
-        reloadAll(
+        reload_all(
             reloadableOnly ? Resource::LF_DEFAULT
                            : Resource::LF_INCLUDE_NON_RELOADABLE);
     }
 
     /** Unload all resources which are not referenced by any other object.
 
-        This method behaves like unloadAll, except that it only unloads
+        This method behaves like unload_all, except that it only unloads
     resources which are not in use, ie not referenced by other objects. This
     allows you to free up some memory selectively whilst still keeping the group
     around (and the resources present, just not using much memory).
@@ -217,13 +217,13 @@ public:
         Some referenced resource may exists 'weak' pointer to their
     sub-components (e.g. Entity held pointer to SubMesh), in this case, unload
     or reload that resource will cause dangerous pointer access. Use this
-    function instead of unloadAll allows you avoid fail in those situations.
+    function instead of unload_all allows you avoid fail in those situations.
     @param reloadableOnly If true (the default), only unloads resources
         which can be subsequently automatically reloaded.
     */
     void unloadUnreferencedResources(bool reloadableOnly = true)
     {
-        unloadAll(
+        unload_all(
             reloadableOnly
                 ? Resource::LF_ONLY_UNREFERENCED
                 : Resource::LF_ONLY_UNREFERENCED_INCLUDE_NON_RELOADABLE);
@@ -232,19 +232,19 @@ public:
     /** Caused all currently loaded but not referenced by any other object
         resources to be reloaded.
 
-        This method behaves like reloadAll, except that it only reloads
+        This method behaves like reload_all, except that it only reloads
     resources which are not in use, i.e. not referenced by other objects.
     @par
         Some referenced resource may exists 'weak' pointer to their
     sub-components (e.g. Entity held pointer to SubMesh), in this case, unload
     or reload that resource will cause dangerous pointer access. Use this
-    function instead of reloadAll allows you avoid fail in those situations.
+    function instead of reload_all allows you avoid fail in those situations.
     @param reloadableOnly If true (the default), only reloads resources
         which can be subsequently automatically reloaded.
     */
-    void reloadUnreferencedResources(bool reloadableOnly = true)
+    void reload_unreferenced_resources(bool reloadableOnly = true)
     {
-        reloadAll(
+        reload_all(
             reloadableOnly
                 ? Resource::LF_ONLY_UNREFERENCED
                 : Resource::LF_ONLY_UNREFERENCED_INCLUDE_NON_RELOADABLE);
@@ -259,7 +259,7 @@ public:
         unreferenced resources.
         @see Resource::LoadingFlags for additional information.
     */
-    virtual void unloadAll(Resource::LoadingFlags flags);
+    virtual void unload_all(Resource::LoadingFlags flags);
 
     /** Caused all currently loaded resources to be reloaded.
 
@@ -270,7 +270,7 @@ public:
         preserving some selected resource states that could be used elsewhere.
         @see Resource::LoadingFlags for additional information.
     */
-    virtual void reloadAll(Resource::LoadingFlags flags);
+    virtual void reload_all(Resource::LoadingFlags flags);
 
     /** Remove a single resource.
 
@@ -311,7 +311,7 @@ public:
         destruction of resources, try making sure you release all your
         shared pointers before you shutdown OGRE.
     */
-    virtual void removeAll(void);
+    virtual void remove_all(void);
 
     /** Remove all resources which are not referenced by any other object.
 
@@ -332,7 +332,7 @@ public:
     /** Retrieves a pointer to a resource by name, or null if the resource does
      * not exist.
      */
-    virtual ResourcePtr getResourceByName(
+    virtual ResourcePtr get_resource_by_name(
         const String& name,
         const String& groupName OGRE_RESOURCE_GROUP_INIT) const;
 
@@ -346,7 +346,7 @@ public:
         const String& name,
         const String& group OGRE_RESOURCE_GROUP_INIT) const
     {
-        return getResourceByName(name, group).get() != 0;
+        return get_resource_by_name(name, group).get() != 0;
     }
     /// Returns whether a resource with the given handle exists in this manager
     bool resourceExists(ResourceHandle handle) const
@@ -357,17 +357,17 @@ public:
     /** Notify this manager that a resource which it manages has been
         'touched', i.e. used.
     */
-    virtual void _notifyResourceTouched(Resource* res);
+    virtual void _notify_resource_touched(Resource* res);
 
     /** Notify this manager that a resource which it manages has been
         loaded.
     */
-    virtual void _notifyResourceLoaded(Resource* res);
+    virtual void _notify_resource_loaded(Resource* res);
 
     /** Notify this manager that a resource which it manages has been
         unloaded.
     */
-    virtual void _notifyResourceUnloaded(Resource* res);
+    virtual void _notify_resource_unloaded(Resource* res);
 
     /** Generic prepare method, used to create a Resource specific to this
         ResourceManager without using one of the specialised 'prepare' methods
@@ -407,21 +407,26 @@ public:
 
     const StringVector& script_patterns(void) const override
     {
-        return mScriptPatterns;
+        return script_patterns_;
     }
+
+    void add_script_pattern(const String& v) { script_patterns_.push_back(v); }
+
     void parse_script(DataStreamPtr& stream, const String& groupName) override;
-    Real loading_order(void) const override { return mLoadOrder; }
+    Real loading_order(void) const override { return load_order_; }
+
+    void set_load_order(Real order) { load_order_ = order; }
 
     /** Gets a string identifying the type of resource this manager handles. */
-    const String& getResourceType(void) const { return mResourceType; }
+    const String& resource_type(void) const { return resource_type_; }
 
     /** Sets whether this manager and its resources habitually produce log
      * output */
-    void setVerbose(bool v) { mVerbose = v; }
+    void set_verbose(bool v) { verbose_ = v; }
 
     /** Gets whether this manager and its resources habitually produce log
      * output */
-    bool getVerbose(void) { return mVerbose; }
+    bool verbose(void) { return verbose_; }
 
     /** Definition of a pool of resources, which users can use to reuse similar
         resources many times without destroying and recreating them.
@@ -442,18 +447,18 @@ public:
     };
 
     /// Create a resource pool, or reuse one that already exists
-    ResourcePool* getResourcePool(const String& name);
+    ResourcePool* get_resource_pool(const String& name);
     /// Destroy a resource pool
-    void destroyResourcePool(ResourcePool* pool);
+    void destroy_resource_pool(ResourcePool* pool);
     /// Destroy a resource pool
-    void destroyResourcePool(const String& name);
+    void destroy_resource_pool(const String& name);
     /// destroy all pools
-    void destroyAllResourcePools();
+    void destroy_all_resource_pools();
 
-protected:
     /** Allocates the next handle. */
     ResourceHandle generate_next_handle(void);
 
+public:
     /** Create a new resource instance compatible with this manager (no custom
         parameters are populated at this point).
 
@@ -491,31 +496,35 @@ protected:
     /** Checks memory usage and pages out if required. This is automatically
      * done after a new resource is loaded.
      */
-    void checkUsage(void);
+    void check_usage(void);
+
+    auto resources_begin() { return resources_.begin(); }
+
+    auto resources_end() { return resources_.end(); }
 
 public:
     typedef std::unordered_map<String, ResourcePtr> ResourceMap;
     typedef std::unordered_map<String, ResourceMap> ResourceWithGroupMap;
     typedef std::map<ResourceHandle, ResourcePtr> ResourceHandleMap;
 
-protected:
-    ResourceHandleMap mResourcesByHandle;
-    ResourceMap mResources;
-    ResourceWithGroupMap mResourcesWithGroup;
-    size_t mMemoryBudget; /// In bytes
-    std::atomic<ResourceHandle> mNextHandle;
-    std::atomic<size_t> mMemoryUsage; /// In bytes
+private:
+    ResourceHandleMap resources_by_handle_;
+    ResourceMap resources_;
+    ResourceWithGroupMap resources_with_group_;
+    size_t memory_budget_; /// In bytes
+    std::atomic<ResourceHandle> next_handle_;
+    std::atomic<size_t> memory_usage_; /// In bytes
 
-    bool mVerbose;
+    bool verbose_;
 
     // IMPORTANT - all subclasses must populate the fields below
 
     /// Patterns to use to look for scripts if supported (e.g. *.overlay)
-    StringVector mScriptPatterns;
+    StringVector script_patterns_;
     /// Loading order relative to other managers, higher is later
-    Real mLoadOrder;
+    Real load_order_;
     /// String identifying the resource type this manager handles
-    String mResourceType;
+    String resource_type_;
 
 public:
     typedef MapIterator<ResourceHandleMap> ResourceMapIterator;
@@ -526,19 +535,19 @@ public:
     ResourceMapIterator getResourceIterator(void)
     {
         return ResourceMapIterator(
-            mResourcesByHandle.begin(),
-            mResourcesByHandle.end());
+            resources_by_handle_.begin(),
+            resources_by_handle_.end());
     }
 
-protected:
+private:
     typedef std::map<String, ResourcePool*> ResourcePoolMap;
-    ResourcePoolMap mResourcePoolMap;
+    ResourcePoolMap resource_pool_map_;
 };
 
-    /** @} */
-    /** @} */
+/** @} */
+/** @} */
 
-}
+} // namespace Ogre
 
 #include "OgreHeaderSuffix.h"
 

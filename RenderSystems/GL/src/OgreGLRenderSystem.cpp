@@ -1093,7 +1093,9 @@ namespace Ogre {
         // Get extension function pointers
         initialiseExtensions();
 
-        mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GLStateCacheManager>();
+        mStateCacheManager
+            = mCurrentContext
+                  ->create_or_retrieveStateCacheManager<GLStateCacheManager>();
 
         LogManager::getSingleton().log_message("***************************");
         LogManager::getSingleton().log_message("*** GL Renderer Started ***");
@@ -2669,7 +2671,9 @@ namespace Ogre {
         {
             mCurrentContext->setCurrent();
 
-            mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GLStateCacheManager>();
+            mStateCacheManager
+                = mCurrentContext->create_or_retrieveStateCacheManager<
+                    GLStateCacheManager>();
 
             // Check if the context has already done one-time initialisation
             if(!mCurrentContext->getInitialized())

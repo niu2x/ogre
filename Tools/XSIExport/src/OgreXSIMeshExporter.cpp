@@ -261,9 +261,12 @@ namespace Ogre {
         }
     }
     //-----------------------------------------------------------------------
-    XsiMeshExporter::ProtoSubMesh* XsiMeshExporter::createOrRetrieveProtoSubMesh(
-        const String& materialName, const String& name, 
-        TextureCoordDimensionList& texCoordDims, bool hasVertexColours)
+    XsiMeshExporter::ProtoSubMesh*
+    XsiMeshExporter::create_or_retrieveProtoSubMesh(
+        const String& materialName,
+        const String& name,
+        TextureCoordDimensionList& texCoordDims,
+        bool hasVertexColours)
     {
         bool createNew = true;
         ProtoSubMesh* ret = 0;
@@ -496,11 +499,12 @@ namespace Ogre {
                     }
                 }
 
-                currentProto = materialToProtoSubMesh[materialIndex] = createOrRetrieveProtoSubMesh(
-                    mMaterialPrefix + XSItoOgre(m.name()),
-                    XSItoOgre(SubMeshName),
-                    textureCoordDimensions,
-                    hasVertexColours);
+                currentProto = materialToProtoSubMesh[materialIndex]
+                    = create_or_retrieveProtoSubMesh(
+                        mMaterialPrefix + XSItoOgre(m.name()),
+                        XSItoOgre(SubMeshName),
+                        textureCoordDimensions,
+                        hasVertexColours);
             }
 
             // has this mesh been used in this proto before? if not set offset
@@ -562,8 +566,11 @@ namespace Ogre {
                 // per polymesh in teh same protosubmesh
                 posIndex += positionIndexOffset;
 
-                size_t index = createOrRetrieveUniqueVertex(
-                                    currentProto, posIndex, true, vertex);
+                size_t index = create_or_retrieveUniqueVertex(
+                    currentProto,
+                    posIndex,
+                    true,
+                    vertex);
                 currentProto->indices.push_back(index);
 
                 // bounds
@@ -1504,9 +1511,11 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    size_t XsiMeshExporter::createOrRetrieveUniqueVertex(
-        ProtoSubMesh* proto, size_t positionIndex, 
-        bool positionIndexIsOriginal, const UniqueVertex& vertex)
+    size_t XsiMeshExporter::create_or_retrieveUniqueVertex(
+        ProtoSubMesh* proto,
+        size_t positionIndex,
+        bool positionIndexIsOriginal,
+        const UniqueVertex& vertex)
     {
         size_t lookupIndex;
         if (positionIndexIsOriginal)
@@ -1552,8 +1561,11 @@ namespace Ogre {
             if (orig.nextIndex)
             {
                 // cascade to the next candidate (which is a real index, not an original)
-                return createOrRetrieveUniqueVertex(
-                        proto, orig.nextIndex, false, vertex);
+                return create_or_retrieveUniqueVertex(
+                    proto,
+                    orig.nextIndex,
+                    false,
+                    vertex);
             }
             else
             {

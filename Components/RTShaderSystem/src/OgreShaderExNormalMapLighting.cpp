@@ -220,7 +220,8 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
             if ((*it)->getString() == "normal_map")
             {
                 ++it;
-                SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+                SubRenderState* subRenderState
+                    = create_or_retrieveInstance(translator);
 
                 TextureUnitState* normalMapTexture = pass->createTextureUnitState();
                 uint16 texureIdx = pass->getNumTextureUnitStates() - 1;
@@ -286,7 +287,7 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
         // blacklist from FFP
         ShaderGenerator::_markNonFFP(texState);
 
-        SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+        SubRenderState* subRenderState = create_or_retrieveInstance(translator);
         subRenderState->set_parameter("texture_index", std::to_string(texureIdx));
 
         auto it = prop->values.begin();

@@ -930,7 +930,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
         matName += StringUtil::format("dummyMat%d", dummyMatCount++);
     }
 
-    auto status = omatMgr->createOrRetrieve(matName, group);
+    auto status = omatMgr->create_or_retrieve(matName, group);
     auto omat = static_pointer_cast<Material>(status.first);
 
     if (!status.second)

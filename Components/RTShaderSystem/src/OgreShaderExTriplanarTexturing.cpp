@@ -214,7 +214,8 @@ namespace RTShader {
         {
             if (prop->values.size() == 6)
             {
-                SubRenderState* subRenderState = createOrRetrieveInstance(translator);
+                SubRenderState* subRenderState
+                    = create_or_retrieveInstance(translator);
                 TriplanarTexturing* tpSubRenderState = static_cast<TriplanarTexturing*>(subRenderState);
                 
                 AbstractNodeList::const_iterator it = prop->values.begin();

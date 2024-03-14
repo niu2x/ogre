@@ -779,8 +779,11 @@ public:
             only locations which match that pattern (as determined by StringUtil::match)
             will be considered candidates for creation.
         */
-        DataStreamPtr createResource(const String& filename, const String& groupName = DEFAULT_RESOURCE_GROUP_NAME, 
-            bool overwrite = false, const String& locationPattern = BLANKSTRING);
+        DataStreamPtr create_resource(
+            const String& filename,
+            const String& groupName = DEFAULT_RESOURCE_GROUP_NAME,
+            bool overwrite = false,
+            const String& locationPattern = BLANKSTRING);
 
         /** Delete a single resource file.
         @param filename The name of the file to delete. 

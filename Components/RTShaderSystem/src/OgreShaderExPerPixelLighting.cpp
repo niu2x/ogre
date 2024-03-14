@@ -313,7 +313,7 @@ SubRenderState* PerPixelLightingFactory::createInstance(ScriptCompiler* compiler
     if((*it++)->getString() != "per_pixel")
         return NULL;
 
-    auto ret = createOrRetrieveInstance(translator);
+    auto ret = create_or_retrieveInstance(translator);
 
     // process the flags
     while(it != prop->values.end())

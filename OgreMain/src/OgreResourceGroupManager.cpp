@@ -582,8 +582,11 @@ namespace Ogre {
         
     }
     //---------------------------------------------------------------------
-    DataStreamPtr ResourceGroupManager::createResource(const String& filename, 
-        const String& groupName, bool overwrite, const String& locationPattern)
+    DataStreamPtr ResourceGroupManager::create_resource(
+        const String& filename,
+        const String& groupName,
+        bool overwrite,
+        const String& locationPattern)
     {
         ResourceGroup* grp = getResourceGroup(groupName, true);
         
@@ -850,8 +853,12 @@ namespace Ogre {
             // Retrieve the appropriate manager
             ResourceManager* mgr = _getResourceManager(dcl.resourceType);
             // Create the resource
-            ResourcePtr res = mgr->createResource(dcl.resourceName, grp->name,
-                dcl.loader != 0, dcl.loader, &dcl.parameters);
+            ResourcePtr res = mgr->create_resource(
+                dcl.resourceName,
+                grp->name,
+                dcl.loader != 0,
+                dcl.loader,
+                &dcl.parameters);
             // Add resource to load list
             ResourceGroup::LoadResourceOrderMap::iterator li
                 = grp->loadResourceOrderMap.find(mgr->loading_order());
@@ -1222,7 +1229,7 @@ namespace Ogre {
         iend = mResourceManagerMap.end();
         for (i = mResourceManagerMap.begin(); i != iend; ++i)
         {
-            i->second->removeAll();
+            i->second->remove_all();
         }
     }
     //-----------------------------------------------------------------------

@@ -983,8 +983,10 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     TexturePtr TextureUnitState::retrieveTexture(const String& name) {
-        TextureManager::ResourceCreateOrRetrieveResult res;
-        res = TextureManager::getSingleton().createOrRetrieve(name, mParent->getResourceGroup());
+        TextureManager::Resourcecreate_or_retrieveResult res;
+        res = TextureManager::getSingleton().create_or_retrieve(
+            name,
+            mParent->getResourceGroup());
         return static_pointer_cast<Texture>(res.first);
     }
     //-----------------------------------------------------------------------

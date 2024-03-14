@@ -1283,7 +1283,9 @@ namespace Ogre {
         }
         mCurrentContext->setCurrent();
 
-        mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GL3PlusStateCacheManager>();
+        mStateCacheManager
+            = mCurrentContext->create_or_retrieveStateCacheManager<
+                GL3PlusStateCacheManager>();
         _completeDeferredVaoFboDestruction();
 
         // Check if the context has already done one-time initialisation
@@ -1451,7 +1453,9 @@ namespace Ogre {
 
         OgreAssert(hasMinGLVersion(3, 3), "OpenGL 3.3 is not supported");
 
-        mStateCacheManager = mCurrentContext->createOrRetrieveStateCacheManager<GL3PlusStateCacheManager>();
+        mStateCacheManager
+            = mCurrentContext->create_or_retrieveStateCacheManager<
+                GL3PlusStateCacheManager>();
 
         LogManager::getSingleton().log_message("**************************************");
         LogManager::getSingleton().log_message("***   OpenGL 3+ Renderer Started   ***");
@@ -1571,7 +1575,7 @@ namespace Ogre {
         // while(resource.hasMoreElements())
         // {
         //     TextureManager::ResourceMapPtr resource_map = resource.getNext();
-        //     resource_map.getResourceType();
+        //     resource_map.resource_type();
         // }
 
         // //FIXME Either a new TextureShaderUsage enum needs to be introduced,

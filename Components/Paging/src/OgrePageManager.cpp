@@ -390,8 +390,11 @@ namespace Ogre
                 << "_" << pageID << ".page";
             
             // create file, overwrite if necessary
-            DataStreamPtr stream = ResourceGroupManager::getSingleton().createResource(
-                nameStr.str(), mPageResourceGroup, true);
+            DataStreamPtr stream
+                = ResourceGroupManager::getSingleton().create_resource(
+                    nameStr.str(),
+                    mPageResourceGroup,
+                    true);
 
             ser = OGRE_NEW StreamSerialiser(stream);
 
@@ -429,8 +432,11 @@ namespace Ogre
         {
             // use default implementation
             // create file, overwrite if necessary
-            DataStreamPtr stream = ResourceGroupManager::getSingleton().createResource(
-                filename, mPageResourceGroup, true);
+            DataStreamPtr stream
+                = ResourceGroupManager::getSingleton().create_resource(
+                    filename,
+                    mPageResourceGroup,
+                    true);
 
             ser = OGRE_NEW StreamSerialiser(stream);
 

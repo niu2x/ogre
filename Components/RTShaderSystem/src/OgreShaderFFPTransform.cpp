@@ -163,7 +163,7 @@ SubRenderState* FFPTransformFactory::createInstance(ScriptCompiler* compiler,
             if(++it != prop->values.end() && !SGScriptTranslator::getInt(*++it, &texCoordSlot))
                 return NULL;
 
-            auto ret = createOrRetrieveInstance(translator);
+            auto ret = create_or_retrieveInstance(translator);
             ret->set_parameter("instanced", std::to_string(texCoordSlot));
 
             return ret;

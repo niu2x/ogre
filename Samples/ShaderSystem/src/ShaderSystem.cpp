@@ -323,8 +323,10 @@ void Sample_ShaderSystem::setupContent()
                 ->getRenderSystem()
                 ->getNativeShadingLanguageVersion()
             >= 300) {
-        RTShader::RenderState* pMainRenderState =
-            RTShader::ShaderGenerator::getSingleton().createOrRetrieveRenderState(MSN_SHADERGEN).first;
+        RTShader::RenderState* pMainRenderState
+            = RTShader::ShaderGenerator::getSingleton()
+                  .create_or_retrieveRenderState(MSN_SHADERGEN)
+                  .first;
         pMainRenderState->addTemplateSubRenderState(
             mShaderGenerator->createSubRenderState<RTShader::TextureAtlasSampler>());
 

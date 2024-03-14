@@ -788,7 +788,7 @@ SubRenderState* RTShaderSRSSegmentedLightsFactory::createInstance(ScriptCompiler
         {
             if (prop->values.front()->getString() == "per_pixel")
             {
-                return createOrRetrieveInstance(translator);
+                return create_or_retrieveInstance(translator);
             }
         }       
     }

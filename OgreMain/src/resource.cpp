@@ -110,7 +110,7 @@ void Resource::prepare(bool background)
             } else {
                 // Warn that this resource is not reloadable
                 LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-                    << "Note: " << creator_->getResourceType() << " instance '"
+                    << "Note: " << creator_->resource_type() << " instance '"
                     << name_ << "' was defined as manually "
                     << "loaded, but no manual loader was provided. This "
                        "Resource "
@@ -214,7 +214,7 @@ void Resource::load(bool background)
             } else {
                 // Warn that this resource is not reloadable
                 LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-                    << "Note: " << creator_->getResourceType() << " instance '"
+                    << "Note: " << creator_->resource_type() << " instance '"
                     << name_ << "' was defined as manually "
                     << "loaded, but no manual loader was provided. This "
                        "Resource "
@@ -261,7 +261,7 @@ void Resource::load(bool background)
 
     // Notify manager
     if (creator_)
-        creator_->_notifyResourceLoaded(this);
+        creator_->_notify_resource_loaded(this);
 
     // Fire events, if not background
     if (!background)
@@ -325,7 +325,7 @@ void Resource::unload(void)
     // Note if we have gone from PREPARED to UNLOADED, then we haven't actually
     // unloaded, i.e. there is no memory freed on the GPU.
     if (old == LoadingState::LOADED && creator_)
-        creator_->_notifyResourceUnloaded(this);
+        creator_->_notify_resource_unloaded(this);
 
     _fire_unloading_complete();
 }
@@ -345,7 +345,7 @@ void Resource::touch(void)
     load();
 
     if (creator_)
-        creator_->_notifyResourceTouched(this);
+        creator_->_notify_resource_touched(this);
 }
 //-----------------------------------------------------------------------
 void Resource::add_listener(Resource::Listener* lis) { listeners_.insert(lis); }

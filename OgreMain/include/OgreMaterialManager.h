@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreSingleton.h"
-#include "OgreResourceManager.h"
+#include "resource_manager"
 #include "OgreHeaderPrefix.h"
 #include "OgreTextureUnitState.h"
 

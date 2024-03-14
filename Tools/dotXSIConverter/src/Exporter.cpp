@@ -152,7 +152,9 @@ void Exporter::exportSubMesh(Mesh *pMesh, CSLMesh* XSIMesh)
                         
             if (hasVertexColors)
                 vertex.color = triArray->GetColorIndicesPtr()[t*3+p];
-            size_t index = createOrRetrieveUniqueVertex(triArray->GetVertexIndicesPtr()[t*3+p], vertex);
+            size_t index = create_or_retrieveUniqueVertex(
+                triArray->GetVertexIndicesPtr()[t * 3 + p],
+                vertex);
             mIndices.push_back(index);
         }
     }
@@ -364,7 +366,9 @@ void Exporter::startPolygonMesh(size_t count, size_t indexCount)
 }
 
 //----------------------------------------------------------------------
-size_t Exporter::createOrRetrieveUniqueVertex(size_t originalPositionIndex, const UniqueVertex& vertex)
+size_t Exporter::create_or_retrieveUniqueVertex(
+    size_t originalPositionIndex,
+    const UniqueVertex& vertex)
 {
     UniqueVertex& orig = mUniqueVertices[originalPositionIndex];
 
@@ -384,7 +388,7 @@ size_t Exporter::createOrRetrieveUniqueVertex(size_t originalPositionIndex, cons
         if (orig.nextIndex)
         {
             // cascade
-            return createOrRetrieveUniqueVertex(orig.nextIndex, vertex);
+            return create_or_retrieveUniqueVertex(orig.nextIndex, vertex);
         }
         else
         {

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreResourceManager.h"
+#include "resource_manager"
 #include "OgreGpuProgram.h"
 #include "OgreSingleton.h"
 #include "OgreHeaderPrefix.h"

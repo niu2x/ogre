@@ -207,7 +207,7 @@ SubRenderState* CookTorranceLightingFactory::createInstance(ScriptCompiler* comp
         if ((*it++)->getString()!= "metal_roughness")
             return NULL;
 
-        auto subRenderState = createOrRetrieveInstance(translator);
+        auto subRenderState = create_or_retrieveInstance(translator);
 
         if(prop->values.size() < 3)
             return subRenderState;

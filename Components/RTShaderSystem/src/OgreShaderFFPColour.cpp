@@ -204,7 +204,7 @@ SubRenderState* FFPColourFactory::createInstance(ScriptCompiler* compiler,
         {
             if (prop->values.front()->getString() == "ffp")
             {
-                return createOrRetrieveInstance(translator);
+                return create_or_retrieveInstance(translator);
             }
         }       
     }

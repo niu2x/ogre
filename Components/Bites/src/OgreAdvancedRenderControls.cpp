@@ -137,7 +137,7 @@ bool AdvancedRenderControls::keyPressed(const KeyboardEvent& evt) {
         mDetailsPanel->setParamValue(10, newVal);
     } else if (key == SDLK_F5) // refresh all textures
     {
-        Ogre::TextureManager::getSingleton().reloadAll();
+        Ogre::TextureManager::getSingleton().reload_all();
     }
     else if (key == SDLK_F6)   // take a screenshot
     {

@@ -383,7 +383,7 @@ SubRenderState*	FFPLightingFactory::createInstance(ScriptCompiler* compiler,
     SubRenderState* ret = NULL;
     if ((*it++)->getString() == "ffp")
     {
-        ret = createOrRetrieveInstance(translator);
+        ret = create_or_retrieveInstance(translator);
     }
 
     if(ret && prop->values.size() >= 2)

@@ -177,14 +177,13 @@ public:
     */
     RenderState* getRenderState(const String& schemeName);
 
-
-    typedef std::pair<RenderState*, bool> RenderStateCreateOrRetrieveResult;
+    typedef std::pair<RenderState*, bool> RenderStatecreate_or_retrieveResult;
     /** 
     Returns a requested render state. If the render state does not exist this function creates it.
     @param schemeName The scheme name to retrieve.
     */
-    RenderStateCreateOrRetrieveResult createOrRetrieveRenderState(const String& schemeName);
-
+    RenderStatecreate_or_retrieveResult
+    create_or_retrieveRenderState(const String& schemeName);
 
     /** 
     Tells if a given render state exists
@@ -794,13 +793,13 @@ private:
     SGMaterialIterator findMaterialEntryIt(const String& materialName, const String& groupName);
     SGMaterialConstIterator findMaterialEntryIt(const String& materialName, const String& groupName) const;
 
-
-    typedef std::pair<SGScheme*, bool> SchemeCreateOrRetrieveResult;
+    typedef std::pair<SGScheme*, bool> Schemecreate_or_retrieveResult;
     /** 
     Returns a requested scheme. If the scheme does not exist this function creates it.
     @param schemeName The scheme name to retrieve.
     */
-    SchemeCreateOrRetrieveResult createOrRetrieveScheme(const String& schemeName);
+    Schemecreate_or_retrieveResult
+    create_or_retrieveScheme(const String& schemeName);
 
     /** Used to check if finalizing */
     bool getIsFinalizing() const;

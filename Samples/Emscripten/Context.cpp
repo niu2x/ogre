@@ -77,7 +77,8 @@ void Context::_mainLoop(void* target)
 
 void Context::unloadResource(Ogre::ResourceManager* resMgr, const Ogre::String& resourceName)
 {
-    Ogre::ResourcePtr rPtr = resMgr->getResourceByName(resourceName, "General");
+    Ogre::ResourcePtr rPtr
+        = resMgr->get_resource_by_name(resourceName, "General");
     if (!rPtr)
         return;
 

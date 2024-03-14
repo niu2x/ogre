@@ -71,7 +71,7 @@ namespace Ogre {
         const SamplerPtr& getSampler(const String& name) const;
 
         /// clear the list of named samplers
-        /// @copydetails removeAll()
+        /// @copydetails remove_all()
         void removeAllNamedSamplers() { mNamedSamplers.clear(); }
 
         /// Create a new texture
@@ -82,38 +82,49 @@ namespace Ogre {
         /// @copydoc ResourceManager::getResourceByName
         TexturePtr getByName(const String& name, const String& groupName OGRE_RESOURCE_GROUP_INIT) const;
 
-        using ResourceManager::createOrRetrieve;
+        using ResourceManager::create_or_retrieve;
 
-        /** @overload createOrRetrieve
-            
+        /** @overload create_or_retrieve
+
             @copydetails ResourceManager::createResource
 
             @param
-                texType The type of texture to load/create, defaults to normal 2D textures
+                texType The type of texture to load/create, defaults to normal
+           2D textures
             @param
-                numMipmaps The number of pre-filtered mipmaps to generate. If left to MIP_DEFAULT then
-                the TextureManager's default number of mipmaps will be used (see setDefaultNumMipmaps())
-                If set to MIP_UNLIMITED mipmaps will be generated until the lowest possible
+                numMipmaps The number of pre-filtered mipmaps to generate. If
+           left to MIP_DEFAULT then the TextureManager's default number of
+           mipmaps will be used (see setDefaultNumMipmaps()) If set to
+           MIP_UNLIMITED mipmaps will be generated until the lowest possible
                 level, 1x1x1.
             @param
-                gamma The gamma adjustment factor to apply to this texture (brightening/darkening)
-            @param 
-                isAlpha deprecated: same as specifying #PF_A8 for @c desiredFormat
-            @param 
+                gamma The gamma adjustment factor to apply to this texture
+           (brightening/darkening)
+            @param
+                isAlpha deprecated: same as specifying #PF_A8 for @c
+           desiredFormat
+            @param
                 desiredFormat The format you would like to have used instead of
                 the format being based on the contents of the texture
-            @param hwGammaCorrection Pass 'true' to enable hardware gamma correction
-                (sRGB) on this texture. The hardware will convert from gamma space
-                to linear space when reading from this texture. Only applicable for 
-                8-bits per channel textures, will be ignored for other types. Has the advantage
-                over pre-applied gamma that the texture precision is maintained.
+            @param hwGammaCorrection Pass 'true' to enable hardware gamma
+           correction (sRGB) on this texture. The hardware will convert from
+           gamma space to linear space when reading from this texture. Only
+           applicable for 8-bits per channel textures, will be ignored for other
+           types. Has the advantage over pre-applied gamma that the texture
+           precision is maintained.
         */
-        ResourceCreateOrRetrieveResult createOrRetrieve(
-            const String &name, const String& group, bool isManual,
-            ManualResourceLoader* loader, const NameValuePairList* createParams,
-            TextureType texType, int numMipmaps = MIP_DEFAULT,
-            Real gamma = 1.0f, bool isAlpha = false,
-            PixelFormat desiredFormat = PF_UNKNOWN, bool hwGammaCorrection = false);
+        Resourcecreate_or_retrieveResult create_or_retrieve(
+            const String& name,
+            const String& group,
+            bool isManual,
+            ManualResourceLoader* loader,
+            const NameValuePairList* createParams,
+            TextureType texType,
+            int numMipmaps = MIP_DEFAULT,
+            Real gamma = 1.0f,
+            bool isAlpha = false,
+            PixelFormat desiredFormat = PF_UNKNOWN,
+            bool hwGammaCorrection = false);
 
         /** Prepares to loads a texture from a file.
             @copydetails TextureManager::load
