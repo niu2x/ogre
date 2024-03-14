@@ -32,7 +32,7 @@ THE SOFTWARE
 #include "OgreHardwareVertexBuffer.h"
 #include "exception.h"
 #include "string_interface.h"
-#include "OgreFont.h"
+#include "font.h"
 #include "OgreFontManager.h"
 #include "OgreOverlayElement.h"
 

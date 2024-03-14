@@ -15,7 +15,7 @@
 #include <OgreFontManager.h>
 #include <OgreTechnique.h>
 #include <OgreTextureUnitState.h>
-#include <OgreFont.h>
+#include <font.h>
 #include <OgreRenderQueue.h>
 #include <OgreFrameListener.h>
 #include <OgreRoot.h>

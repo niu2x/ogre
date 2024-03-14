@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreOverlay.h"
 #include "OgreScriptTranslator.h"
-#include "OgreFont.h"
+#include "font.h"
 
 namespace Ogre
 {
