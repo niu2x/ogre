@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "resource_manager"
+#include "resource_manager.h"
 
 namespace Ogre {
 

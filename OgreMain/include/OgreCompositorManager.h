@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __CompositorManager_H__
 
 #include "OgrePrerequisites.h"
-#include "resource_manager"
+#include "resource_manager.h"
 #include "OgreRenderSystem.h"
 #include "OgreCompositionTechnique.h"
 #include "OgreHeaderPrefix.h"

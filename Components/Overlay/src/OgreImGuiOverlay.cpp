@@ -126,15 +126,16 @@ ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
                 name.c_str(),
                 group.c_str()));
 
-    OgreAssert(font->getType() == FT_TRUETYPE, "font must be of FT_TRUETYPE");
-    DataStreamPtr dataStreamPtr =
-        ResourceGroupManager::getSingleton().openResource(font->getSource(), font->group());
+    OgreAssert(font->type() == FT_TRUETYPE, "font must be of FT_TRUETYPE");
+    DataStreamPtr dataStreamPtr
+        = ResourceGroupManager::getSingleton().openResource(
+            font->source(),
+            font->group());
     MemoryDataStream ttfchunk(dataStreamPtr, false); // transfer ownership to imgui
 
     // convert codepoint ranges for imgui
     CodePointRange cprange;
-    for (const auto& r : font->getCodePointRangeList())
-    {
+    for (const auto& r : font->code_point_range_list()) {
         cprange.push_back(r.first);
         cprange.push_back(r.second);
     }
@@ -153,8 +154,12 @@ ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
 
     ImFontConfig cfg;
     strncpy(cfg.Name, name.c_str(), IM_ARRAYSIZE(cfg.Name) - 1);
-    return io.Fonts->AddFontFromMemoryTTF(ttfchunk.getPtr(), ttfchunk.size(), font->getTrueTypeSize() * vpScale, &cfg,
-                                          cprangePtr);
+    return io.Fonts->AddFontFromMemoryTTF(
+        ttfchunk.getPtr(),
+        ttfchunk.size(),
+        font->true_type_size() * vpScale,
+        &cfg,
+        cprangePtr);
 }
 
 void ImGuiOverlay::ImGUIRenderable::createFontTexture()

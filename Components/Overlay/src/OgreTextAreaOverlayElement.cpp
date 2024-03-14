@@ -268,7 +268,8 @@ namespace Ogre {
                     }
                     else 
                     {
-                        len += mFont->getGlyphInfo(character).advance * mCharHeight * 2.0f * mViewportAspectCoef;
+                        len += mFont->get_glyph_info(character).advance
+                            * mCharHeight * 2.0f * mViewportAspectCoef;
                     }
                 }
 
@@ -314,9 +315,9 @@ namespace Ogre {
                 continue;
             }
 
-            const auto& glyphInfo = mFont->getGlyphInfo(character);
-            Real horiz_height = glyphInfo.aspectRatio * mViewportAspectCoef ;
-            const Font::UVRect& uvRect = glyphInfo.uvRect;
+            const auto& glyphInfo = mFont->get_glyph_info(character);
+            Real horiz_height = glyphInfo.aspect_ratio * mViewportAspectCoef;
+            const Font::UVRect& uvRect = glyphInfo.uv_rect;
 
             if(uvRect.is_null())
             {
@@ -514,7 +515,7 @@ namespace Ogre {
         {
             mFont->load();
             // Ugly hack, but we need to override for lazy-load
-            *const_cast<MaterialPtr*>(&mMaterial) = mFont->getMaterial();
+            *const_cast<MaterialPtr*>(&mMaterial) = mFont->material();
             mMaterial->setDepthCheckEnabled(false);
         }
         return mMaterial;

@@ -378,209 +378,217 @@ namespace Ogre {
     /// Alias / Texture name pair (first = alias, second = texture name)
     typedef std::map<String, String> AliasTextureNamePairList;
 
-        template< typename T > struct TRect
+    template <typename T>
+    struct TRect {
+        T left, top, right, bottom;
+        TRect()
+        : left(0)
+        , top(0)
+        , right(0)
+        , bottom(0)
         {
-          T left, top, right, bottom;
-          TRect() : left(0), top(0), right(0), bottom(0) {}
-          TRect( T const & l, T const & t, T const & r, T const & b )
-            : left( l ), top( t ), right( r ), bottom( b )
-          {
-          }
-          TRect( TRect const & o )
-            : left( o.left ), top( o.top ), right( o.right ), bottom( o.bottom )
-          {
-          }
-          TRect & operator=( TRect const & o )
-          {
+        }
+        TRect(T const& l, T const& t, T const& r, T const& b)
+        : left(l)
+        , top(t)
+        , right(r)
+        , bottom(b)
+        {
+        }
+        TRect(TRect const& o)
+        : left(o.left)
+        , top(o.top)
+        , right(o.right)
+        , bottom(o.bottom)
+        {
+        }
+        TRect& operator=(TRect const& o)
+        {
             left = o.left;
             top = o.top;
             right = o.right;
             bottom = o.bottom;
             return *this;
-          }
-          T width() const
-          {
-            return right - left;
-          }
-          T height() const
-          {
-            return bottom - top;
-          }
-          bool is_null() const
-          {
-              return width() == 0 || height() == 0;
-          }
-          void set_null()
-          {
-              left = right = top = bottom = 0;
-          }
-          TRect & merge(const TRect& rhs)
-          {
-              assert(right >= left && bottom >= top);
-              assert(rhs.right >= rhs.left && rhs.bottom >= rhs.top);
-              if (is_null())
-              {
-                  *this = rhs;
-              }
-              else if (!rhs.is_null())
-              {
-                  left = std::min(left, rhs.left);
-                  right = std::max(right, rhs.right);
-                  top = std::min(top, rhs.top);
-                  bottom = std::max(bottom, rhs.bottom);
-              }
-
-              return *this;
-
-          }
-
-          /**
-           * Returns the intersection of the two rectangles.
-           *
-           * Note that the rectangles extend downwards. I.e. a valid box will
-           * have "right > left" and "bottom > top".
-           * @param rhs Another rectangle.
-           * @return The intersection of the two rectangles. Zero size if they don't intersect.
-           */
-          TRect intersect(const TRect& rhs) const
-          {
-              assert(right >= left && bottom >= top);
-              assert(rhs.right >= rhs.left && rhs.bottom >= rhs.top);
-              TRect ret;
-              if (is_null() || rhs.is_null())
-              {
-                  // empty
-                  return ret;
-              }
-              else
-              {
-                  ret.left = std::max(left, rhs.left);
-                  ret.right = std::min(right, rhs.right);
-                  ret.top = std::max(top, rhs.top);
-                  ret.bottom = std::min(bottom, rhs.bottom);
-              }
-
-              if (ret.left > ret.right || ret.top > ret.bottom)
-              {
-                  // no intersection, return empty
-                  ret.left = ret.top = ret.right = ret.bottom = 0;
-              }
-
-              return ret;
-
-          }
-          bool operator==(const TRect& rhs) const
-          {
-              return left == rhs.left && right == rhs.right && top == rhs.top && bottom == rhs.bottom;
-          }
-          bool operator!=(const TRect& rhs) const { return !(*this == rhs); }
-        };
-        template<typename T>
-        std::ostream& operator<<(std::ostream& o, const TRect<T>& r)
+        }
+        T width() const { return right - left; }
+        T height() const { return bottom - top; }
+        bool is_null() const { return width() == 0 || height() == 0; }
+        void set_null() { left = right = top = bottom = 0; }
+        TRect& merge(const TRect& rhs)
         {
-            o << "TRect<>(l:" << r.left << ", t:" << r.top << ", r:" << r.right << ", b:" << r.bottom << ")";
-            return o;
+            assert(right >= left && bottom >= top);
+            assert(rhs.right >= rhs.left && rhs.bottom >= rhs.top);
+            if (is_null()) {
+                *this = rhs;
+            } else if (!rhs.is_null()) {
+                left = std::min(left, rhs.left);
+                right = std::max(right, rhs.right);
+                top = std::min(top, rhs.top);
+                bottom = std::max(bottom, rhs.bottom);
+            }
+
+            return *this;
         }
 
-        /** Structure used to define a rectangle in a 2-D floating point space.
-        */
-        typedef TRect<float> FloatRect;
-
-        /** Structure used to define a rectangle in a 2-D floating point space, 
-            subject to double / single floating point settings.
-        */
-        typedef TRect<Real> RealRect;
-
-        /** Structure used to define a rectangle in a 2-D integer space.
-        */
-        typedef TRect< int32 > Rect;
-
-        /** Structure used to define a box in a 3-D integer space.
-            Note that the left, top, and front edges are included but the right,
-            bottom and back ones are not.
+        /**
+         * Returns the intersection of the two rectangles.
+         *
+         * Note that the rectangles extend downwards. I.e. a valid box will
+         * have "right > left" and "bottom > top".
+         * @param rhs Another rectangle.
+         * @return The intersection of the two rectangles. Zero size if they
+         * don't intersect.
          */
-        struct Box
+        TRect intersect(const TRect& rhs) const
         {
-            uint32 left, top, right, bottom, front, back;
-            /// Parameterless constructor for setting the members manually
-            Box()
-                : left(0), top(0), right(1), bottom(1), front(0), back(1)
-            {
-            }
-            /** Define a box from left, top, right and bottom coordinates
-                This box will have depth one (front=0 and back=1).
-                @param  l   x value of left edge
-                @param  t   y value of top edge
-                @param  r   x value of right edge
-                @param  b   y value of bottom edge
-                @note @copydetails Ogre::Box
-            */
-            Box( uint32 l, uint32 t, uint32 r, uint32 b ):
-                left(l),
-                top(t),   
-                right(r),
-                bottom(b),
-                front(0),
-                back(1)
-            {
-                assert(right >= left && bottom >= top && back >= front);
+            assert(right >= left && bottom >= top);
+            assert(rhs.right >= rhs.left && rhs.bottom >= rhs.top);
+            TRect ret;
+            if (is_null() || rhs.is_null()) {
+                // empty
+                return ret;
+            } else {
+                ret.left = std::max(left, rhs.left);
+                ret.right = std::min(right, rhs.right);
+                ret.top = std::max(top, rhs.top);
+                ret.bottom = std::min(bottom, rhs.bottom);
             }
 
-            /// @overload
-            template <typename T> explicit Box(const TRect<T>& r) : Box(r.left, r.top, r.right, r.bottom) {}
-
-            /** Define a box from left, top, front, right, bottom and back
-                coordinates.
-                @param  l   x value of left edge
-                @param  t   y value of top edge
-                @param  ff  z value of front edge
-                @param  r   x value of right edge
-                @param  b   y value of bottom edge
-                @param  bb  z value of back edge
-                @note @copydetails Ogre::Box
-            */
-            Box( uint32 l, uint32 t, uint32 ff, uint32 r, uint32 b, uint32 bb ):
-                left(l),
-                top(t),   
-                right(r),
-                bottom(b),
-                front(ff),
-                back(bb)
-            {
-                assert(right >= left && bottom >= top && back >= front);
+            if (ret.left > ret.right || ret.top > ret.bottom) {
+                // no intersection, return empty
+                ret.left = ret.top = ret.right = ret.bottom = 0;
             }
 
-            /// @overload
-            explicit Box(const Vector3i& size)
-                : left(0), top(0), right(size[0]), bottom(size[1]), front(0), back(size[2])
-            {
-            }
+            return ret;
+        }
+        bool operator==(const TRect& rhs) const
+        {
+            return left == rhs.left && right == rhs.right && top == rhs.top
+                && bottom == rhs.bottom;
+        }
+        bool operator!=(const TRect& rhs) const { return !(*this == rhs); }
+    };
 
-            /// Return true if the other box is a part of this one
-            bool contains(const Box &def) const
-            {
-                return (def.left >= left && def.top >= top && def.front >= front &&
-                    def.right <= right && def.bottom <= bottom && def.back <= back);
-            }
-            
-            /// Get the width of this box
-            uint32 getWidth() const { return right-left; }
-            /// Get the height of this box
-            uint32 getHeight() const { return bottom-top; }
-            /// Get the depth of this box
-            uint32 getDepth() const { return back-front; }
+    template <typename T>
+    std::ostream& operator<<(std::ostream& o, const TRect<T>& r)
+    {
+        o << "TRect<>(l:" << r.left << ", t:" << r.top << ", r:" << r.right
+          << ", b:" << r.bottom << ")";
+        return o;
+    }
 
-            /// origin (top, left, front) of the box
-            Vector3i getOrigin() const { return Vector3i(left, top, front); }
-            /// size (width, height, depth) of the box
-            Vector3i size() const
-            {
-                return Vector3i(getWidth(), getHeight(), getDepth());
-            }
-        };
+    /** Structure used to define a rectangle in a 2-D floating point space.
+     */
+    typedef TRect<float> FloatRect;
 
-    
-    
+    /** Structure used to define a rectangle in a 2-D floating point space,
+    subject to double / single floating point settings.
+    */
+    typedef TRect<Real> RealRect;
+
+    /** Structure used to define a rectangle in a 2-D integer space.
+     */
+    typedef TRect<int32> Rect;
+
+    /** Structure used to define a box in a 3-D integer space.
+        Note that the left, top, and front edges are included but the right,
+        bottom and back ones are not.
+     */
+    struct Box {
+        uint32 left, top, right, bottom, front, back;
+        /// Parameterless constructor for setting the members manually
+        Box()
+        : left(0)
+        , top(0)
+        , right(1)
+        , bottom(1)
+        , front(0)
+        , back(1)
+        {
+        }
+        /** Define a box from left, top, right and bottom coordinates
+            This box will have depth one (front=0 and back=1).
+            @param  l   x value of left edge
+            @param  t   y value of top edge
+            @param  r   x value of right edge
+            @param  b   y value of bottom edge
+            @note @copydetails Ogre::Box
+        */
+        Box(uint32 l, uint32 t, uint32 r, uint32 b)
+        : left(l)
+        , top(t)
+        , right(r)
+        , bottom(b)
+        , front(0)
+        , back(1)
+        {
+            assert(right >= left && bottom >= top && back >= front);
+        }
+
+        /// @overload
+        template <typename T>
+        explicit Box(const TRect<T>& r)
+        : Box(r.left, r.top, r.right, r.bottom)
+        {
+        }
+
+        /** Define a box from left, top, front, right, bottom and back
+            coordinates.
+            @param  l   x value of left edge
+            @param  t   y value of top edge
+            @param  ff  z value of front edge
+            @param  r   x value of right edge
+            @param  b   y value of bottom edge
+            @param  bb  z value of back edge
+            @note @copydetails Ogre::Box
+        */
+        Box(uint32 l, uint32 t, uint32 ff, uint32 r, uint32 b, uint32 bb)
+        : left(l)
+        , top(t)
+        , right(r)
+        , bottom(b)
+        , front(ff)
+        , back(bb)
+        {
+            assert(right >= left && bottom >= top && back >= front);
+        }
+
+        /// @overload
+        explicit Box(const Vector3i& size)
+        : left(0)
+        , top(0)
+        , right(size[0])
+        , bottom(size[1])
+        , front(0)
+        , back(size[2])
+        {
+        }
+
+        /// Return true if the other box is a part of this one
+        bool contains(const Box& def) const
+        {
+            return (
+                def.left >= left && def.top >= top && def.front >= front
+                && def.right <= right && def.bottom <= bottom
+                && def.back <= back);
+        }
+
+        /// Get the width of this box
+        uint32 getWidth() const { return right - left; }
+        /// Get the height of this box
+        uint32 getHeight() const { return bottom - top; }
+        /// Get the depth of this box
+        uint32 getDepth() const { return back - front; }
+
+        /// origin (top, left, front) of the box
+        Vector3i getOrigin() const { return Vector3i(left, top, front); }
+        /// size (width, height, depth) of the box
+        Vector3i size() const
+        {
+            return Vector3i(getWidth(), getHeight(), getDepth());
+        }
+    };
+
     /** Locate command-line options of the unary form '-blah' and of the
         binary form '-blah foo', passing back the index of the next non-option.
     @param numargs, argv The standard parameters passed to the main method

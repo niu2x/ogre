@@ -31,7 +31,7 @@
 #include "OgreApplicationContextBase.h"
 #include "OgreRoot.h"
 #include "OgreOverlaySystem.h"
-#include "resource_manager"
+#include "resource_manager.h"
 #include "OgreComponents.h"
 
 #include "OgreFileSystemLayer.h"

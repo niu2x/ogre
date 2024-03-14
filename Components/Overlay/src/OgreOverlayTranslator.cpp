@@ -92,8 +92,13 @@ void FontTranslator::parseAttribute(ScriptCompiler* compiler, FontPtr& pFont,
             // Direct character
             cp = val[0];
         }
-        pFont->setGlyphInfoFromTexCoords(
-            cp, FloatRect(coords[0], coords[1], coords[2], coords[3])); // assume image is square
+        pFont->set_glyph_info_from_tex_coords(
+            cp,
+            FloatRect(
+                coords[0],
+                coords[1],
+                coords[2],
+                coords[3])); // assume image is square
     }
     else if (attrib == "antialias_colour")
     {
@@ -103,7 +108,7 @@ void FontTranslator::parseAttribute(ScriptCompiler* compiler, FontPtr& pFont,
             compiler->addError(ScriptCompiler::CE_STRINGEXPECTED, prop->file, prop->line);
             return;
         }
-        pFont->setAntialiasColour(flag);
+        pFont->set_antialias_colour(flag);
         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line, attrib);
     }
     else if (attrib == "code_points")
@@ -121,9 +126,9 @@ void FontTranslator::parseAttribute(ScriptCompiler* compiler, FontPtr& pFont,
             StringVector itemVec = StringUtil::split(val, "-");
             if (succ && itemVec.size() == 2)
             {
-                pFont->addCodePointRange(
-                    Font::CodePointRange(StringConverter::parse_uint32(itemVec[0]),
-                                         StringConverter::parse_uint32(itemVec[1])));
+                pFont->add_code_point_range(Font::CodePointRange(
+                    StringConverter::parse_uint32(itemVec[0]),
+                    StringConverter::parse_uint32(itemVec[1])));
             }
         }
     }
