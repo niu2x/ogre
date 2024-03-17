@@ -97,7 +97,7 @@ namespace Ogre
         if( mMetalProgramFactory )
         {
             // Remove from manager safely
-            if( HighLevelGpuProgramManager::singleton_ptr(() )
+            if( HighLevelGpuProgramManager::singleton_ptr() )
                 HighLevelGpuProgramManager::singleton().removeFactory( mMetalProgramFactory );
             OGRE_DELETE mMetalProgramFactory;
             mMetalProgramFactory = 0;
