@@ -877,30 +877,34 @@ namespace Ogre
         mSwapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
         mSwapChainDesc.BufferDesc.RefreshRate.Denominator = 0;
 
-		mSwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		mSwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+        mSwapChainDesc.BufferDesc.ScanlineOrdering
+            = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+        mSwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-#if defined(_WIN32_WINNT_WIN8) && _WIN32_WINNT >= _WIN32_WINNT_WIN8
-		if(mUseFlipMode)
-		{
-			mSwapChainDesc.SampleDesc.Count = 1;
-			mSwapChainDesc.SampleDesc.Quality = 0;
-			mSwapChainDesc.BufferCount = 2;
-#if defined(_WIN32_WINNT_WIN10) // we want DXGI_SWAP_EFFECT_FLIP_DISCARD even if _WIN32_WINNT < _WIN32_WINNT_WIN10 but runtime is Win10
-			mSwapChainDesc.SwapEffect = IsWindows10OrGreater() ? DXGI_SWAP_EFFECT_FLIP_DISCARD : DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-#else
-			mSwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-#endif
-		}
-		else
-#endif	
-		{
-			assert(!mUseFlipMode);
-			mSwapChainDesc.SampleDesc.Count = mFSAAType.Count;
-			mSwapChainDesc.SampleDesc.Quality = mFSAAType.Quality;
-			mSwapChainDesc.BufferCount = 1;
-			mSwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-		}
+    #if defined(_WIN32_WINNT_WIN8) && _WIN32_WINNT >= _WIN32_WINNT_WIN8
+        if (mUseFlipMode) {
+            mSwapChainDesc.SampleDesc.Count = 1;
+            mSwapChainDesc.SampleDesc.Quality = 0;
+            mSwapChainDesc.BufferCount = 2;
+        #if defined(_WIN32_WINNT_WIN10) // we want DXGI_SWAP_EFFECT_FLIP_DISCARD
+                                        // even if _WIN32_WINNT <
+                                        // _WIN32_WINNT_WIN10 but runtime is
+                                        // Win10
+            mSwapChainDesc.SwapEffect = IsWindows10OrGreater()
+                ? DXGI_SWAP_EFFECT_FLIP_DISCARD
+                : DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+        #else
+            mSwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+        #endif
+        } else
+    #endif
+        {
+            assert(!mUseFlipMode);
+            mSwapChainDesc.SampleDesc.Count = mFSAAType.Count;
+            mSwapChainDesc.SampleDesc.Quality = mFSAAType.Quality;
+            mSwapChainDesc.BufferCount = 1;
+            mSwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        }
 
         mSwapChainDesc.BufferUsage          = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         mSwapChainDesc.OutputWindow         = mHWnd;
@@ -1204,10 +1208,9 @@ namespace Ogre
     {
         if (mHWnd && mpSwapChain && mIsFullScreen && state) {
             DXGI_SWAP_CHAIN_DESC dsc;
-			ZeroMemory(&dsc, sizeof(dsc));
-			mpSwapChain->GetDesc(&dsc);
-			if(dsc.Windowed)
-			{
+            ZeroMemory(&dsc, sizeof(dsc));
+            mpSwapChain->GetDesc(&dsc);
+            if (dsc.Windowed) {
                 D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(
                     Root::singleton().getRenderSystem());
                 rsys->addToSwitchingFullscreenCounter();

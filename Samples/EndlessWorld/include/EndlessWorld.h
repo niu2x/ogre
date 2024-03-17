@@ -114,11 +114,13 @@ public:
                 if (!t)
                     continue;
 
-                Vector3 pt = mCamera->getProjectionMatrix() * (mCamera->getViewMatrix() * t->getPosition());
-				Real x = (pt.x / 2) + 0.5f;
-				Real y = 1 - ((pt.y / 2) + 0.5f);
+                Vector3 pt = mCamera->getProjectionMatrix()
+                    * (mCamera->getViewMatrix() * t->getPosition());
+                Real x = (pt.x / 2) + 0.5f;
+                Real y = 1 - ((pt.y / 2) + 0.5f);
 
-				String lName = StringConverter::to_string(size_t(t))+"/"+"LodInfoLabel";
+                String lName = StringConverter::to_string(size_t(t)) + "/"
+                    + "LodInfoLabel";
 
                 OverlayElement* l
                     = OverlayManager::singleton().createOverlayElement(
@@ -140,7 +142,7 @@ public:
                 l->setColour(ColourValue(1.0, 0.0, 0.0));
 
                 mLodInfoOverlayContainer->addChild(l);
-				mLodStatusLabelList.push_back(l);
+                mLodStatusLabelList.push_back(l);
             }
         }
 
@@ -218,7 +220,8 @@ public:
         } else if (box == mAutoBox) {
             if (mTerrainGroup) {
                 auto strategy = mAutoBox->isChecked() ? BY_DISTANCE : NONE;
-                mTerrainGroup->setAutoUpdateLod(TerrainAutoUpdateLodFactory::getAutoUpdateLod(strategy));
+                mTerrainGroup->setAutoUpdateLod(
+                    TerrainAutoUpdateLodFactory::getAutoUpdateLod(strategy));
             }
         }
     }
@@ -373,27 +376,40 @@ protected:
         ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
         ln->attachObject(l);
 
-		mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
+        mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
 
-		mTerrainGroup = OGRE_NEW TerrainGroup(mSceneMgr, Terrain::ALIGN_X_Z, TERRAIN_SIZE, TERRAIN_WORLD_SIZE);
-		mTerrainGroup->setFilenameConvention(ENDLESS_TERRAIN_FILE_PREFIX, ENDLESS_TERRAIN_FILE_SUFFIX);
-		mTerrainGroup->setOrigin(mTerrainPos);
-		mTerrainGroup->setAutoUpdateLod(TerrainAutoUpdateLodFactory::getAutoUpdateLod(BY_DISTANCE));
+        mTerrainGroup = OGRE_NEW TerrainGroup(
+            mSceneMgr,
+            Terrain::ALIGN_X_Z,
+            TERRAIN_SIZE,
+            TERRAIN_WORLD_SIZE);
+        mTerrainGroup->setFilenameConvention(
+            ENDLESS_TERRAIN_FILE_PREFIX,
+            ENDLESS_TERRAIN_FILE_SUFFIX);
+        mTerrainGroup->setOrigin(mTerrainPos);
+        mTerrainGroup->setAutoUpdateLod(
+            TerrainAutoUpdateLodFactory::getAutoUpdateLod(BY_DISTANCE));
 
-		configureTerrainDefaults(l);
+        configureTerrainDefaults(l);
 
-		// Paging setup
-		mPageManager = OGRE_NEW PageManager();
-		// Since we're not loading any pages from .page files, we need a way just 
-		// to say we've loaded them without them actually being loaded
-		mPageManager->setPageProvider(&mDummyPageProvider);
-		mPageManager->addCamera(mCamera);
-		mPageManager->setDebugDisplayLevel(0);
-		mTerrainPaging = OGRE_NEW TerrainPaging(mPageManager);
-		mPagedWorld = mPageManager->createWorld();
-		mTerrainPagedWorldSection = mTerrainPaging->createWorldSection(mPagedWorld, mTerrainGroup, 400, 500, 
-			ENDLESS_PAGE_MIN_X, ENDLESS_PAGE_MIN_Y, 
-			ENDLESS_PAGE_MAX_X, ENDLESS_PAGE_MAX_Y);
+        // Paging setup
+        mPageManager = OGRE_NEW PageManager();
+        // Since we're not loading any pages from .page files, we need a way
+        // just to say we've loaded them without them actually being loaded
+        mPageManager->setPageProvider(&mDummyPageProvider);
+        mPageManager->addCamera(mCamera);
+        mPageManager->setDebugDisplayLevel(0);
+        mTerrainPaging = OGRE_NEW TerrainPaging(mPageManager);
+        mPagedWorld = mPageManager->createWorld();
+        mTerrainPagedWorldSection = mTerrainPaging->createWorldSection(
+            mPagedWorld,
+            mTerrainGroup,
+            400,
+            500,
+            ENDLESS_PAGE_MIN_X,
+            ENDLESS_PAGE_MIN_Y,
+            ENDLESS_PAGE_MAX_X,
+            ENDLESS_PAGE_MAX_Y);
 
 #if USE_PERLIN_DEFINER == 1
 		mPerlinNoiseTerrainGenerator = OGRE_NEW PerlinNoiseTerrainGenerator;
@@ -423,14 +439,13 @@ protected:
     }
 
     void _shutdown() override
-	{
-		if(mTerrainPaging)
-		{
-			OGRE_DELETE mTerrainPaging;
-			mPageManager->removeCamera(mCamera);
-			mPageManager->destroyWorld( mPagedWorld );
-			OGRE_DELETE mPageManager;
-		}
+    {
+        if (mTerrainPaging) {
+            OGRE_DELETE mTerrainPaging;
+            mPageManager->removeCamera(mCamera);
+            mPageManager->destroyWorld(mPagedWorld);
+            OGRE_DELETE mPageManager;
+        }
 
         if(mTerrainGlobals)
             OGRE_DELETE mTerrainGlobals;
@@ -452,7 +467,7 @@ protected:
         }
 
 		SdkSample::_shutdown();
-	}
+    }
 };
 
 #endif

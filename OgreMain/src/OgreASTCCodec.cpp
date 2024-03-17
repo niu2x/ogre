@@ -179,7 +179,7 @@ namespace Ogre {
         if (msInstance) {
             Codec::unregisterCodec(msInstance);
             OGRE_DELETE msInstance;
-			msInstance = 0;
+            msInstance = 0;
         }
     }
     //---------------------------------------------------------------------

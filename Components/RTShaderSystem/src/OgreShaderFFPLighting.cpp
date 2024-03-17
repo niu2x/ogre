@@ -322,7 +322,7 @@ uint16 ensureLtcLUTPresent(Pass* dstPass)
     tus->setNumMipmaps(0);
     tus->setSampler(ltcSampler);
 
-	return dstPass->getNumTextureUnitStates() - 2; // idx of first LUT
+    return dstPass->getNumTextureUnitStates() - 2; // idx of first LUT
 }
 
 //-----------------------------------------------------------------------

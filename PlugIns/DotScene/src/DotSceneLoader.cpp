@@ -667,10 +667,12 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
             if (!material.empty())
                 static_cast<Entity*>(pEntity)->setMaterialName(material);
 
-            // If the Entity belongs to a Static Geometry group then it doesn't get attached to a node
-			// * TODO * : Clean up nodes without attached entities or children nodes? (should be done afterwards if the hierarchy is being processed)
-			if (!staticGeometry.empty())
-			{
+            // If the Entity belongs to a Static Geometry group then it doesn't
+            // get attached to a node
+            // * TODO * : Clean up nodes without attached entities or children
+            // nodes? (should be done afterwards if the hierarchy is being
+            // processed)
+            if (!staticGeometry.empty()) {
                 LogManager::singleton().log_message(
                     "[DotSceneLoader] Adding entity: " + name
                         + " to Static Group: " + staticGeometry,
