@@ -114,6 +114,7 @@ namespace Ogre {
         // compile if required
         if (mCompilationRequired)
             compile();
+
         // Load all supported techniques
         for (auto *t : mSupportedTechniques)
         {
@@ -137,7 +138,6 @@ namespace Ogre {
         {
             t->_load();
         }
-
     }
     //-----------------------------------------------------------------------
     void Material::unload_impl(void)
@@ -147,6 +147,8 @@ namespace Ogre {
         {
             t->_unload();
         }
+
+        mCompilationRequired = true;
     }
     //-----------------------------------------------------------------------
     size_t Material::calculate_size(void) const

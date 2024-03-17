@@ -357,7 +357,7 @@ namespace {
         }
         
         StreamSerialiser serialiser(stream);
-        serialiser.writeChunkBegin(CACHE_CHUNK_ID, 2);
+        serialiser.writeChunkBegin(CACHE_CHUNK_ID, 3);
 
         // write the size of the array
         uint32 sizeOfArray = static_cast<uint32>(mMicrocodeCache.size());
@@ -397,9 +397,9 @@ namespace {
             return;
         }
 
-        if(chunk->id != CACHE_CHUNK_ID || chunk->version != 2)
-        {
+        if (chunk->id != CACHE_CHUNK_ID || chunk->version != 3) {
             LogManager::singleton().log_warning("Invalid Microcode Cache");
+            serialiser.readChunkEnd(CACHE_CHUNK_ID);
             return;
         }
         // write the size of the array

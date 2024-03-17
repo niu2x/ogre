@@ -43,14 +43,12 @@ class lwEnvelope
     float incoming( unsigned int key0, unsigned int key1 );
     
 public:
-    lwEnvelope()
-    {
-        name = nullptr;
-    }
+    lwEnvelope() { name = 0; }
 
     ~lwEnvelope()
     {
-        delete[] name;
+        if (name)
+            free(name);
         unsigned int i;
         for (i=0; i<keys.size(); delete keys[i++]);
         for (i=0; i<cfilters.size(); delete cfilters[i++]);
