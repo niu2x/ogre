@@ -117,15 +117,15 @@ namespace Ogre
     }
     PixelFormat VulkanTextureGpuManager::getNativeFormat(TextureType ttype, PixelFormat format, int usage)
     {
-        if( format == PF_R8G8B8 )
-            return PF_X8R8G8B8;
-        if( format == PF_B8G8R8 )
-            return PF_X8B8G8R8;
+        if (format == PixelFormat::R8G8B8)
+            return PixelFormat::X8R8G8B8;
+        if (format == PixelFormat::B8G8R8)
+            return PixelFormat::X8B8G8R8;
 
 #ifdef OGRE_VK_WORKAROUND_ADRENO_D32_FLOAT
         if( Workarounds::mAdrenoD32FloatBug && isRenderToTexture() )
         {
-            if( pixelFormat == PF_DEPTH32F )
+            if (pixelFormat == PixelFormat::DEPTH32F)
                 return PFG_D24_UNORM;
             else if( pixelFormat == PFG_D32_FLOAT_S8X24_UINT )
                 return PFG_D24_UNORM_S8_UINT;
@@ -135,7 +135,7 @@ namespace Ogre
         if (VulkanMappings::get(format))
             return format;
 
-        return PF_BYTE_RGBA;
+        return PixelFormat::BYTE_RGBA;
     }
     //-----------------------------------------------------------------------------------
     bool VulkanTextureGpuManager::checkSupport( PixelFormatGpu format, uint32 textureFlags ) const

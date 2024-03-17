@@ -39,7 +39,7 @@ material Compute/Compositor
             texture_unit
             {
                 // resolution must be 256x256. Contents will be overwritten
-                texture 10points.png 0 PF_BYTE_RGBA
+                texture 10points.png 0 PixelFormat::BYTE_RGBA
                 unordered_access_mip 0
             }
         }
@@ -55,7 +55,7 @@ material Compute/Show
             lighting off
             texture_unit
             {
-                texture 10points.png 0 PF_BYTE_RGBA
+                texture 10points.png 0 PixelFormat::BYTE_RGBA
                 filtering none
                 tex_address_mode clamp
             }

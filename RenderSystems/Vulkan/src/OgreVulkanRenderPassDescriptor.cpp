@@ -283,7 +283,7 @@ namespace Ogre
         {
             hasRenderWindow |= mColour[i]->isRenderWindowSpecific();
 
-            if( mColour[i]->getFormat() == PF_UNKNOWN )
+            if (mColour[i]->getFormat() == PixelFormat::UNKNOWN)
                 continue;
 
             OGRE_ASSERT_HIGH( dynamic_cast<VulkanTextureGpu *>( mColour[i] ) );

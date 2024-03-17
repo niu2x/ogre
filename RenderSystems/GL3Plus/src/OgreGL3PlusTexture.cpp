@@ -124,13 +124,9 @@ namespace Ogre {
             {
                 swizzleMask = SwizzleMask{GL_RED, GL_RED, GL_RED, GL_ONE};
             }
-        }
-        else if(mFormat == PF_A8)
-        {
+        } else if (mFormat == PixelFormat::A8) {
             swizzleMask = SwizzleMask{GL_ZERO, GL_ZERO, GL_ZERO, GL_RED};
-        }
-        else
-        {
+        } else {
             swizzleMask = SwizzleMask{GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA};
         }
         OGRE_CHECK_GL_ERROR(glTexParameteriv(texTarget, GL_TEXTURE_SWIZZLE_RGBA, swizzleMask.data()));
@@ -397,35 +393,43 @@ namespace Ogre {
             break;
         }
 
-        if (format == PF_UNKNOWN) format = mFormat;
+        if (format == PixelFormat::UNKNOWN)
+            format = mFormat;
         GLenum GlFormat = GL3PlusPixelUtil::getClosestGLImageInternalFormat(format);
         GLboolean isArrayTexture = mTextureType == TEX_TYPE_2D_ARRAY;
 
         // TODO
         // * add memory barrier
-        // * material script access (can have multiple instances for a single texture_unit)
-        //     shader_access <binding point> [<access>] [<mipmap level>] [<texture array layer>] [<format>]
-        //     shader_access 2 read_write 0 0 PF_UINT32_R
-        //   binding point - location to bind for shader access; for OpenGL this must be unique and is not related to texture binding point
-        //   access - give the shader read, write, or read_write privileges [default read_write]
-        //   mipmap level - texture mipmap level to use [default 0]
-        //   texture array layer - layer of texture array to use: 'all', or layer number (if not layered, just use 0) [default 0]
-        //   format - texture format to be read in shader; for OpenGL this may be different than bound texture format - not sure about DX11 [default same format as texture]
-        //   Note that for OpenGL the shader access (image) binding point 
-        //   must be specified, it is NOT the same as the texture binding point,
-        //   and it must be unique among textures in this pass.
-        // * enforce binding point uniqueness by checking against 
+        // * material script access (can have multiple instances for a single
+        // texture_unit)
+        //     shader_access <binding point> [<access>] [<mipmap level>]
+        //     [<texture array layer>] [<format>] shader_access 2 read_write 0 0
+        //     PixelFormat::UINT32_R
+        //   binding point - location to bind for shader access; for OpenGL this
+        //   must be unique and is not related to texture binding point access -
+        //   give the shader read, write, or read_write privileges [default
+        //   read_write] mipmap level - texture mipmap level to use [default 0]
+        //   texture array layer - layer of texture array to use: 'all', or
+        //   layer number (if not layered, just use 0) [default 0] format -
+        //   texture format to be read in shader; for OpenGL this may be
+        //   different than bound texture format - not sure about DX11 [default
+        //   same format as texture] Note that for OpenGL the shader access
+        //   (image) binding point must be specified, it is NOT the same as the
+        //   texture binding point, and it must be unique among textures in this
+        //   pass.
+        // * enforce binding point uniqueness by checking against
         //   image binding point allocation list in GL3PlusTextureManager
-        // * generalize for other render systems by introducing vitual method in Texture 
-        // for (image in mImages)
+        // * generalize for other render systems by introducing vitual method in
+        // Texture for (image in mImages)
         // {
         // OGRE_CHECK_GL_ERROR(
         //     glBindImageTexture(
-        //         mImageBind, mTextureID, 
-        //         mMipmapLevel, 
-        //         mLayered.find('all') != str::npos ? GL_TRUE : GL_FALSE, mLayer,
-        //         mImageAccess (READ, WRITE, READ_WRITE), 
-        //         toImageFormat(mFormatInShader))); //GL_RGBA8)); //GL_R32UI)); GL_READ_WRITE
+        //         mImageBind, mTextureID,
+        //         mMipmapLevel,
+        //         mLayered.find('all') != str::npos ? GL_TRUE : GL_FALSE,
+        //         mLayer, mImageAccess (READ, WRITE, READ_WRITE),
+        //         toImageFormat(mFormatInShader))); //GL_RGBA8)); //GL_R32UI));
+        //         GL_READ_WRITE
         if (mRenderSystem->hasMinGLVersion(4, 2) || mRenderSystem->checkExtension("GL_ARB_shader_image_load_store"))
         {
             OGRE_CHECK_GL_ERROR(glBindImageTexture(bindPoint, mTextureID, mipmapLevel, isArrayTexture, textureArrayIndex, GlAccess, GlFormat));

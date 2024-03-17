@@ -86,16 +86,16 @@ namespace Ogre {
 #endif
         switch(mFormat)
         {
-            case PCT_BYTE:
+            case PixelComponentType::BYTE:
                 bits=8; isFloat=false;
                 break;
-            case PCT_SHORT:
+            case PixelComponentType::SHORT:
                 bits=16; isFloat=false;
                 break;
-            case PCT_FLOAT16:
+            case PixelComponentType::FLOAT16:
                 bits=16; isFloat=true;
                 break;
-            case PCT_FLOAT32:
+            case PixelComponentType::FLOAT32:
                 bits=32; isFloat=true;
                 break;
             default: break;

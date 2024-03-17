@@ -65,8 +65,13 @@ namespace Ogre {
          *
          * allocates a buffer of given size if buffer pointer is NULL.
          */
-        Image(PixelFormat format = PF_UNKNOWN, uint32 width = 0, uint32 height = 0, uint32 depth = 1,
-              uchar* buffer = NULL, bool autoDelete = true);
+        Image(
+            PixelFormat format = PixelFormat::UNKNOWN,
+            uint32 width = 0,
+            uint32 height = 0,
+            uint32 depth = 1,
+            uchar* buffer = NULL,
+            bool autoDelete = true);
         /** Copy-constructor - copies all the data from the target image.
          */
         Image( const Image &img );
@@ -264,8 +269,11 @@ namespace Ogre {
         @param groupName The resource group from which to load the images
         @param format The destination format
         */
-        Image & loadTwoImagesAsRGBA(const String& rgbFilename, const String& alphaFilename,
-            const String& groupName, PixelFormat format = PF_BYTE_RGBA);
+        Image& loadTwoImagesAsRGBA(
+            const String& rgbFilename,
+            const String& alphaFilename,
+            const String& groupName,
+            PixelFormat format = PixelFormat::BYTE_RGBA);
 
         /** Utility method to combine 2 separate images into this one, with the first
         image source supplying the RGB channels, and the second image supplying the 
@@ -282,10 +290,12 @@ namespace Ogre {
             codec to use. Can be left blank if the stream data includes
             a header to identify the data.
         */
-        Image& loadTwoImagesAsRGBA(const DataStreamPtr& rgbStream, const DataStreamPtr& alphaStream,
-                                   PixelFormat format = PF_BYTE_RGBA,
-                                   const String& rgbType = BLANKSTRING,
-                                   const String& alphaType = BLANKSTRING);
+        Image& loadTwoImagesAsRGBA(
+            const DataStreamPtr& rgbStream,
+            const DataStreamPtr& alphaStream,
+            PixelFormat format = PixelFormat::BYTE_RGBA,
+            const String& rgbType = BLANKSTRING,
+            const String& alphaType = BLANKSTRING);
 
         /** Utility method to combine 2 separate images into this one, with the first
             image source supplying the RGB channels, and the second image supplying the 
@@ -296,9 +306,11 @@ namespace Ogre {
             converted to greyscale.
         @param format The destination format
         */
-        Image & combineTwoImagesAsRGBA(const Image& rgb, const Image& alpha, PixelFormat format = PF_BYTE_RGBA);
+        Image& combineTwoImagesAsRGBA(
+            const Image& rgb,
+            const Image& alpha,
+            PixelFormat format = PixelFormat::BYTE_RGBA);
 
-        
         /** Save the image as a file. 
 
             Saving and loading are implemented by back end (sometimes third 

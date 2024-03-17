@@ -176,39 +176,39 @@ namespace Ogre {
         //uint16 paddedHeight = (header.iPaddedHeightMSB << 8) | header.iPaddedHeightLSB;
         uint16 type = (header.iTextureTypeMSB << 8) | header.iTextureTypeLSB;
 
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
 
         // File version 2.0 supports ETC2 in addition to ETC1
         if(header.version[0] == '2' && header.version[1] == '0')
         {
             switch (type) {
                 case 0:
-                    format = PF_ETC1_RGB8;
+                    format = PixelFormat::ETC1_RGB8;
                     break;
 
                     // GL_COMPRESSED_RGB8_ETC2
                 case 1:
-                    format = PF_ETC2_RGB8;
+                    format = PixelFormat::ETC2_RGB8;
                     break;
 
                     // GL_COMPRESSED_RGBA8_ETC2_EAC
                 case 3:
-                    format = PF_ETC2_RGBA8;
+                    format = PixelFormat::ETC2_RGBA8;
                     break;
 
                     // GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
                 case 4:
-                    format = PF_ETC2_RGB8A1;
+                    format = PixelFormat::ETC2_RGB8A1;
                     break;
 
                     // Default case is ETC1
                 default:
-                    format = PF_ETC1_RGB8;
+                    format = PixelFormat::ETC1_RGB8;
                     break;
             }
         }
         else
-            format = PF_ETC1_RGB8;
+            format = PixelFormat::ETC1_RGB8;
 
         // ETC has no support for mipmaps - malideveloper.com has a example
         // where the load mipmap levels from different external files
@@ -229,96 +229,96 @@ namespace Ogre {
         if (header.endianness == KTX_ENDIAN_REF_REV)
             flipEndian(&header.glType, sizeof(uint32));
 
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
 
         switch(header.glInternalFormat)
         {
         case 37492: // GL_COMPRESSED_RGB8_ETC2
-            format = PF_ETC2_RGB8;
+            format = PixelFormat::ETC2_RGB8;
             break;
         case 37496:// GL_COMPRESSED_RGBA8_ETC2_EAC
-            format = PF_ETC2_RGBA8;
+            format = PixelFormat::ETC2_RGBA8;
             break;
         case 37494: // GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
-            format = PF_ETC2_RGB8A1;
+            format = PixelFormat::ETC2_RGB8A1;
             break;
         case 35986: // ATC_RGB
-            format = PF_ATC_RGB;
+            format = PixelFormat::ATC_RGB;
             break;
         case 35987: // ATC_RGB_Explicit
-            format = PF_ATC_RGBA_EXPLICIT_ALPHA;
+            format = PixelFormat::ATC_RGBA_EXPLICIT_ALPHA;
             break;
         case 34798: // ATC_RGB_Interpolated
-            format = PF_ATC_RGBA_INTERPOLATED_ALPHA;
+            format = PixelFormat::ATC_RGBA_INTERPOLATED_ALPHA;
             break;
         case 33777: // DXT 1
-            format = PF_DXT1;
+            format = PixelFormat::DXT1;
             break;
         case 33778: // DXT 3
-            format = PF_DXT3;
+            format = PixelFormat::DXT3;
             break;
         case 33779: // DXT 5
-            format = PF_DXT5;
+            format = PixelFormat::DXT5;
             break;
          case 0x8c00: // COMPRESSED_RGB_PVRTC_4BPPV1_IMG
-            format = PF_PVRTC_RGB4;
-            break;
+             format = PixelFormat::PVRTC_RGB4;
+             break;
         case 0x8c01: // COMPRESSED_RGB_PVRTC_2BPPV1_IMG
-            format = PF_PVRTC_RGB2;
+            format = PixelFormat::PVRTC_RGB2;
             break;
         case 0x8c02: // COMPRESSED_RGBA_PVRTC_4BPPV1_IMG
-            format = PF_PVRTC_RGBA4;
+            format = PixelFormat::PVRTC_RGBA4;
             break;
         case 0x8c03: // COMPRESSED_RGBA_PVRTC_2BPPV1_IMG
-            format = PF_PVRTC_RGBA2;
+            format = PixelFormat::PVRTC_RGBA2;
             break;
         case 0x93B0: // COMPRESSED_RGBA_ASTC_4x4_KHR
-            format = PF_ASTC_RGBA_4X4_LDR;
+            format = PixelFormat::ASTC_RGBA_4X4_LDR;
             break;
         case 0x93B1: // COMPRESSED_RGBA_ASTC_5x4_KHR
-            format = PF_ASTC_RGBA_5X4_LDR;
+            format = PixelFormat::ASTC_RGBA_5X4_LDR;
             break;
         case 0x93B2: // COMPRESSED_RGBA_ASTC_5x5_KHR
-            format = PF_ASTC_RGBA_5X5_LDR;
+            format = PixelFormat::ASTC_RGBA_5X5_LDR;
             break;
         case 0x93B3: // COMPRESSED_RGBA_ASTC_6x5_KHR
-            format = PF_ASTC_RGBA_6X5_LDR;
+            format = PixelFormat::ASTC_RGBA_6X5_LDR;
             break;
         case 0x93B4: // COMPRESSED_RGBA_ASTC_6x6_KHR
-            format = PF_ASTC_RGBA_6X6_LDR;
+            format = PixelFormat::ASTC_RGBA_6X6_LDR;
             break;
         case 0x93B5: // COMPRESSED_RGBA_ASTC_8x5_KHR
-            format = PF_ASTC_RGBA_8X5_LDR;
+            format = PixelFormat::ASTC_RGBA_8X5_LDR;
             break;
         case 0x93B6: // COMPRESSED_RGBA_ASTC_8x6_KHR
-            format = PF_ASTC_RGBA_8X6_LDR;
+            format = PixelFormat::ASTC_RGBA_8X6_LDR;
             break;
         case 0x93B7: // COMPRESSED_RGBA_ASTC_8x8_KHR
-            format = PF_ASTC_RGBA_8X8_LDR;
+            format = PixelFormat::ASTC_RGBA_8X8_LDR;
             break;
         case 0x93B8: // COMPRESSED_RGBA_ASTC_10x5_KHR
-            format = PF_ASTC_RGBA_10X5_LDR;
+            format = PixelFormat::ASTC_RGBA_10X5_LDR;
             break;
         case 0x93B9: // COMPRESSED_RGBA_ASTC_10x6_KHR
-            format = PF_ASTC_RGBA_10X6_LDR;
+            format = PixelFormat::ASTC_RGBA_10X6_LDR;
             break;
         case 0x93BA: // COMPRESSED_RGBA_ASTC_10x8_KHR
-            format = PF_ASTC_RGBA_10X8_LDR;
+            format = PixelFormat::ASTC_RGBA_10X8_LDR;
             break;
         case 0x93BB: // COMPRESSED_RGBA_ASTC_10x10_KHR
-            format = PF_ASTC_RGBA_10X10_LDR;
+            format = PixelFormat::ASTC_RGBA_10X10_LDR;
             break;
         case 0x93BC: // COMPRESSED_RGBA_ASTC_12x10_KHR
-            format = PF_ASTC_RGBA_12X10_LDR;
+            format = PixelFormat::ASTC_RGBA_12X10_LDR;
             break;
         case 0x93BD: // COMPRESSED_RGBA_ASTC_12x12_KHR
-            format = PF_ASTC_RGBA_12X12_LDR;
+            format = PixelFormat::ASTC_RGBA_12X12_LDR;
             break;
         case 0x8D64: // GL_ETC1_RGB8_OES
-            format = PF_ETC1_RGB8;
+            format = PixelFormat::ETC1_RGB8;
             break;
         case 0x8C3A: // GL_R11F_G11F_B10F
-            format = PF_R11G11B10_FLOAT;
+            format = PixelFormat::R11G11B10_FLOAT;
             break;
         default:
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Unsupported glInternalFormat");

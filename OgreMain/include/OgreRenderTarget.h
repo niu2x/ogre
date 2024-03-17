@@ -321,8 +321,11 @@ namespace Ogre {
         /** Suggests a pixel format to use for extracting the data in this target, 
             when calling copyContentsToMemory.
         */
-        virtual PixelFormat suggestPixelFormat() const { return PF_BYTE_RGBA; }
-        
+        virtual PixelFormat suggestPixelFormat() const
+        {
+            return PixelFormat::BYTE_RGBA;
+        }
+
         /** Writes the current contents of the render target to the named file. */
         void writeContentsToFile(const String& filename);
 

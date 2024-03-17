@@ -16,7 +16,7 @@ TexturePtr RandomTools::generateRandomVelocityTexture()
         1,
         1,
         0,
-        PF_FLOAT32_RGBA,
+        PixelFormat::FLOAT32_RGBA,
         HBU_CPU_TO_GPU);
 
     HardwarePixelBufferSharedPtr pixelBuf = texPtr->getBuffer();
@@ -32,7 +32,7 @@ TexturePtr RandomTools::generateRandomVelocityTexture()
         randomData[i] = float( (rand() % 10000) - 5000 );
     }
 
-    // PixelBox pixelBox(1024, 1, 1, PF_FLOAT32_RGBA, &randomData[0]);
+    // PixelBox pixelBox(1024, 1, 1, PixelFormat::FLOAT32_RGBA, &randomData[0]);
     // pixelBuf->blitFromMemory(pixelBox);
 
     pixelBuf->unlock();

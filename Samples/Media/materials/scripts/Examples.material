@@ -879,7 +879,7 @@ material Examples/Aureola
                                 // FreeImage has a bug.  Either way
                                 // do not set texture type for now.
 
-                                //texture aureola.png PF_BYTE_LA
+                                //texture aureola.png PixelFormat::BYTE_LA
 				texture aureola.png
 				tex_address_mode clamp
 			}

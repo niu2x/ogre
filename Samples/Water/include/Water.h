@@ -39,7 +39,7 @@ using namespace OgreBites;
 
 static void prepareCircleMaterial()
 {
-    Image bmap(PF_L8, 256, 256);
+    Image bmap(PixelFormat::L8, 256, 256);
     bmap.setTo(ColourValue(0.5));
     for(int b=0;b<16;b++) {
         int x0 = b % 4 ;

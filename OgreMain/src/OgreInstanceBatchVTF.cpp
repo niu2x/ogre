@@ -285,10 +285,12 @@ namespace Ogre
             (uint)texWidth,
             (uint)texHeight,
             0,
-            PF_FLOAT32_RGBA,
+            PixelFormat::FLOAT32_RGBA,
             TU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 
-        OgreAssert(mMatrixTexture->getFormat() == PF_FLOAT32_RGBA, "float texture support required");
+        OgreAssert(
+            mMatrixTexture->getFormat() == PixelFormat::FLOAT32_RGBA,
+            "float texture support required");
         //Set our cloned material to use this custom texture!
         setupMaterialToUseVTF( texType, mMaterial );
     }
@@ -715,7 +717,8 @@ namespace Ogre
         //VTF must be supported
         if( capabilities->hasCapability( RSC_VERTEX_TEXTURE_FETCH ) )
         {
-            //TODO: Check PF_FLOAT32_RGBA is supported (should be, since it was the 1st one)
+            // TODO: Check PixelFormat::FLOAT32_RGBA is supported (should be,
+            // since it was the 1st one)
             const size_t numBones = std::max<size_t>( 1, baseSubMesh->blendIndexToBoneIndexMap.size() );
             retVal = c_maxTexWidth * c_maxTexHeight / mRowLength / numBones;
 

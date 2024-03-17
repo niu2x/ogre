@@ -181,9 +181,10 @@ void ImGuiOverlay::ImGUIRenderable::createFontTexture()
         height,
         1,
         1,
-        PF_BYTE_RGBA);
+        PixelFormat::BYTE_RGBA);
 
-    mFontTex->getBuffer()->blitFromMemory(PixelBox(Box(0, 0, width, height), PF_BYTE_RGBA, pixels));
+    mFontTex->getBuffer()->blitFromMemory(
+        PixelBox(Box(0, 0, width, height), PixelFormat::BYTE_RGBA, pixels));
 }
 void ImGuiOverlay::NewFrame()
 {

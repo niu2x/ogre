@@ -97,7 +97,10 @@ namespace Ogre {
             void setClosed(bool closed) { mClosed = closed; }
             void swapBuffers();
             void copyContentsToMemory(const Box& src, const PixelBox &dst, FrameBuffer buffer);
-            PixelFormat suggestPixelFormat() const { return PF_BYTE_RGBA; }
+            PixelFormat suggestPixelFormat() const
+            {
+                return PixelFormat::BYTE_RGBA;
+            }
 
             /**
 

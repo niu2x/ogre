@@ -99,7 +99,7 @@ namespace Ogre {
             size_t refcount;
         };
         /** Type to map each component type to a PBuffer */
-        PBRef mPBuffers[PCT_COUNT];
+        PBRef mPBuffers[(int)PixelComponentType::COUNT];
     };
 }
 

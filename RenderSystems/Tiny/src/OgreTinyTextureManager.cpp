@@ -35,6 +35,6 @@ Resource* TinyTextureManager::create_impl(const String& name, ResourceHandle han
 PixelFormat TinyTextureManager::getNativeFormat(TextureType ttype, PixelFormat format, int usage)
 {
     // only byte formats supported
-    return PF_BYTE_RGBA;
+    return PixelFormat::BYTE_RGBA;
 }
 } // namespace Ogre

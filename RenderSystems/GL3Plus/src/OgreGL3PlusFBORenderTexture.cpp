@@ -297,8 +297,7 @@ namespace Ogre {
         bool formatSupported;
         GLint params;
 
-        for(int x = 0; x < PF_COUNT; ++x)
-        {
+        for (int x = 0; x < (int)PixelFormat::COUNT; ++x) {
             mProps[x].valid = false;
 
             // Fetch GL format token
@@ -422,8 +421,7 @@ namespace Ogre {
         }
 
         String fmtstring = "";
-        for(size_t x = 0; x < PF_COUNT; ++x)
-        {
+        for (size_t x = 0; x < (int)PixelFormat::COUNT; ++x) {
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
@@ -433,7 +431,7 @@ namespace Ogre {
 
     void GL3PlusFBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)
     {
-        const FormatProperties &props = mProps[internalFormat];
+        const FormatProperties &props = mProps[(int)internalFormat];
         // Decide what stencil and depth formats to use
         // [best supported for internal format]
         size_t bestmode=0;

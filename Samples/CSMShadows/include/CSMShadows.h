@@ -144,7 +144,8 @@ private:
         mSceneMgr->addShadowTextureListener(mGpuConstants);
 
         for (int i = 0; i < NUM_CASCADES; i++)
-            mSceneMgr->setShadowTextureConfig(i, 1024, 1024, PF_FLOAT32_R);
+            mSceneMgr
+                ->setShadowTextureConfig(i, 1024, 1024, PixelFormat::FLOAT32_R);
 
         float farClip = 5000.0f;
 

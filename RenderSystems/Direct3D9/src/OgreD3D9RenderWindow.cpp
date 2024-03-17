@@ -794,7 +794,7 @@ namespace Ogre
 
     PixelFormat D3D9RenderWindow::suggestPixelFormat() const
     {
-        return mColourDepth == 16 ? PF_R5G6B5 : PF_X8R8G8B8;
+        return mColourDepth == 16 ? PixelFormat::R5G6B5 : PixelFormat::X8R8G8B8;
     }
 
     void D3D9RenderWindow::copyContentsToMemory(const Box& src, const PixelBox &dst, FrameBuffer buffer)

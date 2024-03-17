@@ -1325,8 +1325,9 @@ namespace Ogre
         D3DSURFACE_DESC bbSurfDesc;
         bbSurf->GetDesc(&bbSurfDesc);
 
-        for (uint ipf = static_cast<uint>(PF_L8); ipf < static_cast<uint>(PF_COUNT); ++ipf)
-        {
+        for (uint ipf = static_cast<uint>(PixelFormat::L8);
+             ipf < static_cast<uint>(PixelFormat::COUNT);
+             ++ipf) {
             PixelFormat pf = (PixelFormat)ipf;
             D3DFORMAT fmt = D3D9Mappings::_getPF(pf);
 
@@ -2212,7 +2213,9 @@ namespace Ogre
         if( enabled )
         {
             // If we have 16bit depth buffer enable w-buffering.
-            if((mActiveRenderTarget->suggestPixelFormat() == PF_R5G6B5) && mCurrentCapabilities->hasCapability(RSC_WBUFFER) )
+            if ((mActiveRenderTarget->suggestPixelFormat()
+                 == PixelFormat::R5G6B5)
+                && mCurrentCapabilities->hasCapability(RSC_WBUFFER))
                 hr = __SetRenderState( D3DRS_ZENABLE, D3DZB_USEW );
             else
                 hr = __SetRenderState( D3DRS_ZENABLE, D3DZB_TRUE );

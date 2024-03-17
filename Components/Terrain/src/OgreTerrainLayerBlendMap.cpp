@@ -46,7 +46,10 @@ namespace Ogre
         , mDirty(false)
         , mBuffer(buf)
     {
-        mData.create(PF_FLOAT32_R, mBuffer->getWidth(), mBuffer->getHeight());
+        mData.create(
+            PixelFormat::FLOAT32_R,
+            mBuffer->getWidth(),
+            mBuffer->getHeight());
 
         // we know which of RGBA we need to look at, now find it in the format
         // because we can't guarantee what precise format the RS gives us
@@ -208,7 +211,12 @@ namespace Ogre
         {
             // we need to rescale src to dst size first (also confvert format)
             void* tmpData = OGRE_MALLOC(dstBox.getWidth() * dstBox.getHeight(), MEMCATEGORY_GENERAL);
-            srcBox = OGRE_NEW PixelBox(dstBox.getWidth(), dstBox.getHeight(), 1, PF_L8, tmpData);
+            srcBox = OGRE_NEW PixelBox(
+                dstBox.getWidth(),
+                dstBox.getHeight(),
+                1,
+                PixelFormat::L8,
+                tmpData);
 
             Image::scale(src, *srcBox);
         }

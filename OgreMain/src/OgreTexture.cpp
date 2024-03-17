@@ -34,32 +34,37 @@ namespace Ogre {
     static const char* CUBEMAP_SUFFIXES[] = {"_rt", "_lf", "_up", "_dn", "_fr", "_bk"};
     static const char* CUBEMAP_SUFFIXES_ALT[] = {"_px", "_nx", "_py", "_ny", "_pz", "_nz"};
     //--------------------------------------------------------------------------
-    Texture::Texture(ResourceManager* creator, const String& name, 
-        ResourceHandle handle, const String& group, bool isManual, 
+    Texture::Texture(
+        ResourceManager* creator,
+        const String& name,
+        ResourceHandle handle,
+        const String& group,
+        bool isManual,
         ManualResourceLoader* loader)
-        : Resource(creator, name, handle, group, isManual, loader),
-            // init defaults; can be overridden before load()
-            mHeight(512),
-            mWidth(512),
-            mDepth(1),
-            mNumRequestedMipmaps(0),
-            mNumMipmaps(0),
-            mGamma(1.0f),
-            mFSAA(0),
-            mFormat(PF_UNKNOWN),
-            mUsage(TU_DEFAULT),
-            mSrcFormat(PF_UNKNOWN),
-            mSrcWidth(0),
-            mSrcHeight(0), 
-            mSrcDepth(0),
-            mTreatLuminanceAsAlpha(false),
-            mInternalResourcesCreated(false),
-            mMipmapsHardwareGenerated(false),
-            mHwGamma(false),
-            mTextureType(TEX_TYPE_2D),
-            mDesiredIntegerBitDepth(0),
-            mDesiredFloatBitDepth(0),
-            mDesiredFormat(PF_UNKNOWN)
+    : Resource(creator, name, handle, group, isManual, loader)
+    ,
+    // init defaults; can be overridden before load()
+    mHeight(512)
+    , mWidth(512)
+    , mDepth(1)
+    , mNumRequestedMipmaps(0)
+    , mNumMipmaps(0)
+    , mGamma(1.0f)
+    , mFSAA(0)
+    , mFormat(PixelFormat::UNKNOWN)
+    , mUsage(TU_DEFAULT)
+    , mSrcFormat(PixelFormat::UNKNOWN)
+    , mSrcWidth(0)
+    , mSrcHeight(0)
+    , mSrcDepth(0)
+    , mTreatLuminanceAsAlpha(false)
+    , mInternalResourcesCreated(false)
+    , mMipmapsHardwareGenerated(false)
+    , mHwGamma(false)
+    , mTextureType(TEX_TYPE_2D)
+    , mDesiredIntegerBitDepth(0)
+    , mDesiredFloatBitDepth(0)
+    , mDesiredFormat(PixelFormat::UNKNOWN)
     {
         if (create_param_dictionary("Texture"))
         {
@@ -177,16 +182,13 @@ namespace Ogre {
         if(!mLayerNames.empty() && mTextureType != TEX_TYPE_CUBE_MAP)
             mDepth = uint32(mLayerNames.size());
 
-        if(mTreatLuminanceAsAlpha && mSrcFormat == PF_L8)
-            mDesiredFormat = PF_A8;
+        if (mTreatLuminanceAsAlpha && mSrcFormat == PixelFormat::L8)
+            mDesiredFormat = PixelFormat::A8;
 
-        if (mDesiredFormat != PF_UNKNOWN)
-        {
+        if (mDesiredFormat != PixelFormat::UNKNOWN) {
             // If have desired format, use it
             mFormat = mDesiredFormat;
-        }
-        else
-        {
+        } else {
             // Get the format according with desired bit depth
             mFormat = PixelUtil::getFormatForBitDepths(mSrcFormat, mDesiredIntegerBitDepth, mDesiredFloatBitDepth);
         }

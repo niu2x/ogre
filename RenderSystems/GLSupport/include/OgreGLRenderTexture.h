@@ -135,7 +135,10 @@ namespace Ogre {
 
         /** Check if a certain format is usable as FBO rendertarget format
         */
-        bool checkFormat(PixelFormat format) { return mProps[format].valid; }
+        bool checkFormat(PixelFormat format)
+        {
+            return mProps[(int)format].valid;
+        }
 
         /** Bind a certain render target.
             @note only needed for FBO RTTs
@@ -183,7 +186,7 @@ namespace Ogre {
         };
         /** Properties for all internal formats defined by OGRE
          */
-        FormatProperties mProps[PF_COUNT];
+        FormatProperties mProps[(int)PixelFormat::COUNT];
 
         /** Stencil and depth renderbuffers of the same format are re-used between surfaces of the
             same size and format. This can save a lot of memory when a large amount of rendertargets

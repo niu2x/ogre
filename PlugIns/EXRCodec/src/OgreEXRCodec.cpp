@@ -78,8 +78,9 @@ void EXRCodec::decode(const DataStreamPtr& input, const Any& output) const
         const ChannelList &channels = file.header().channels();
         if(channels.findChannel("A"))
             components = 4;
-        
-        auto format = components==3 ? PF_FLOAT32_RGB : PF_FLOAT32_RGBA;
+
+        auto format = components == 3 ? PixelFormat::FLOAT32_RGB
+                                      : PixelFormat::FLOAT32_RGBA;
 
         // Allocate memory
         image->create(format, width, height);

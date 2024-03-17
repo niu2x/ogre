@@ -441,7 +441,11 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
         }
         else
         {
-            img.loadDynamicImage((uchar*)tex->pcData, tex->mWidth, tex->mHeight, PF_A8R8G8B8);
+            img.loadDynamicImage(
+                (uchar*)tex->pcData,
+                tex->mWidth,
+                tex->mHeight,
+                PixelFormat::A8R8G8B8);
         }
 
         TextureManager::singleton().loadImage(texname, mesh->group(), img);
@@ -1246,7 +1250,13 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
         if (col)
         {
-            PixelUtil::packColour(col->r, col->g, col->b, col->a, PF_BYTE_RGBA, vdata++);
+            PixelUtil::packColour(
+                col->r,
+                col->g,
+                col->b,
+                col->a,
+                PixelFormat::BYTE_RGBA,
+                vdata++);
             col++;
         }
     }

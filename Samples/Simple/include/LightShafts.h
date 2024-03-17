@@ -112,7 +112,7 @@ public:
         schemRenderState->addTemplateSubRenderState(subRenderState);
 #endif
         mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED);
-        mSceneMgr->setShadowTextureSettings(256, 1, PF_FLOAT32_R);
+        mSceneMgr->setShadowTextureSettings(256, 1, PixelFormat::FLOAT32_R);
         mSceneMgr->setShadowTextureSelfShadow( true );
         mSceneMgr->setShadowTextureCasterMaterial(
             MaterialManager::singleton().getByName("PSSM/shadow_caster"));

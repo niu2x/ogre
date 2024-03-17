@@ -81,33 +81,36 @@ namespace Ogre
         OGRE_VK_CHECK(
             vkGetPhysicalDeviceSurfaceFormatsKHR(mDevice->mPhysicalDevice, mSurfaceKHR, &numFormats, formats.data()));
 
-        PixelFormatGpu pixelFormat = PF_UNKNOWN;
-        for( size_t i = 0; i < numFormats && pixelFormat == PF_UNKNOWN; ++i )
-        {
+        PixelFormatGpu pixelFormat = PixelFormat::UNKNOWN;
+        for (size_t i = 0;
+             i < numFormats && pixelFormat == PixelFormat::UNKNOWN;
+             ++i) {
             switch( formats[i].format )
             {
             case VK_FORMAT_R8G8B8A8_SRGB:
                 if( hwGamma )
-                    pixelFormat = PF_A8B8G8R8;//_SRGB;
+                    pixelFormat = PixelFormat::A8B8G8R8; //_SRGB;
                 break;
             case VK_FORMAT_B8G8R8A8_SRGB:
                 if( hwGamma )
-                    pixelFormat = PF_A8R8G8B8;//_SRGB;
+                    pixelFormat = PixelFormat::A8R8G8B8; //_SRGB;
                 break;
             case VK_FORMAT_R8G8B8A8_UNORM:
                 if( !hwGamma )
-                    pixelFormat = PF_A8B8G8R8;
+                    pixelFormat = PixelFormat::A8B8G8R8;
                 break;
             case VK_FORMAT_B8G8R8A8_UNORM:
                 if( !hwGamma )
-                    pixelFormat = PF_A8R8G8B8;
+                    pixelFormat = PixelFormat::A8R8G8B8;
                 break;
             default:
                 continue;
             }
         }
 
-        OgreAssert(pixelFormat != PF_UNKNOWN, "No suitable surface format found");
+        OgreAssert(
+            pixelFormat != PixelFormat::UNKNOWN,
+            "No suitable surface format found");
         return pixelFormat;
     }
     //-------------------------------------------------------------------------
@@ -453,7 +456,7 @@ namespace Ogre
         mTexture->setFSAA(mFSAA, "");
 
         mDepthTexture = new VulkanTextureGpu(texMgr, "RenderWindow DepthBuffer", 0, "", true, 0);
-        mDepthTexture->setFormat(PF_DEPTH32);
+        mDepthTexture->setFormat(PixelFormat::DEPTH32);
         mDepthTexture->setFSAA(mFSAA, "");
 #if 0
         mStencilBuffer = 0;

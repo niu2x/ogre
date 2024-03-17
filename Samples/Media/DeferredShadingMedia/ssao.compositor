@@ -5,10 +5,10 @@ compositor DeferredShading/SSAO
 		compositor_logic SSAOLogic
 		
         texture_ref geom DeferredShading/GBuffer mrt_output
-        texture scene target_width target_height PF_BYTE_RGBA
-        texture ssao target_width_scaled 0.5 target_height_scaled 0.5 PF_BYTE_RGB
-        texture ssaoBlurX target_width target_height PF_BYTE_RGB
-        texture ssaoBlurY target_width target_height PF_BYTE_RGB
+        texture scene target_width target_height PixelFormat::BYTE_RGBA
+        texture ssao target_width_scaled 0.5 target_height_scaled 0.5 PixelFormat::BYTE_RGB
+        texture ssaoBlurX target_width target_height PixelFormat::BYTE_RGB
+        texture ssaoBlurY target_width target_height PixelFormat::BYTE_RGB
 
         // the scene we want to modulate
         target scene

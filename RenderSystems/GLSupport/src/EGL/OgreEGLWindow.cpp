@@ -148,7 +148,9 @@ namespace Ogre {
 
     PixelFormat EGLWindow::suggestPixelFormat() const
     {
-        return mGLSupport->getContextProfile() == GLNativeSupport::CONTEXT_ES ? PF_BYTE_RGBA : PF_BYTE_RGB;
+        return mGLSupport->getContextProfile() == GLNativeSupport::CONTEXT_ES
+            ? PixelFormat::BYTE_RGBA
+            : PixelFormat::BYTE_RGB;
     }
 
     void EGLWindow::create(const String& name, unsigned int width, unsigned int height, bool fullScreen,

@@ -10,9 +10,9 @@ compositor SSAO/GBuffer
         // use a better packing of variables in the mrt to (possibly) increase
         // performance!
         // ---------------------------------------------------------------------
-        texture mrt target_width target_height PF_FLOAT32_RGBA PF_FLOAT32_RGBA chain_scope
-        texture occlusion target_width target_height PF_FLOAT32_RGBA chain_scope
-		texture scene target_width target_height PF_BYTE_RGBA chain_scope
+        texture mrt target_width target_height PixelFormat::FLOAT32_RGBA PixelFormat::FLOAT32_RGBA chain_scope
+        texture occlusion target_width target_height PixelFormat::FLOAT32_RGBA chain_scope
+		texture scene target_width target_height PixelFormat::BYTE_RGBA chain_scope
 		
 		// the scene we want to modulate
         target scene
@@ -134,7 +134,7 @@ compositor SSAO/UnsharpMask //Unsharp mask the depth buffer [LCD2006]
 {
     technique
     {
-        texture blurred target_width target_height PF_FLOAT32_RGBA
+        texture blurred target_width target_height PixelFormat::FLOAT32_RGBA
         texture_ref occlusion SSAO/GBuffer occlusion
 
         target blurred

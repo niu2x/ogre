@@ -404,7 +404,8 @@ namespace Ogre
         if( capabilities->hasCapability( RSC_VERTEX_BUFFER_INSTANCE_DATA ) &&
             capabilities->hasCapability( RSC_VERTEX_TEXTURE_FETCH ) )
         {
-            //TODO: Check PF_FLOAT32_RGBA is supported (should be, since it was the 1st one)
+            // TODO: Check PixelFormat::FLOAT32_RGBA is supported (should be,
+            // since it was the 1st one)
             const size_t numBones = std::max<size_t>( 1, baseSubMesh->blendIndexToBoneIndexMap.size() );
 
             // mRowLength can only be 2 or 3

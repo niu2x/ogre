@@ -597,65 +597,65 @@ namespace Ogre
         switch(d3dPF)
         {
         case D3DFMT_A8:
-            return PF_A8;
+            return PixelFormat::A8;
         case D3DFMT_L8:
-            return PF_L8;
+            return PixelFormat::L8;
         case D3DFMT_L16:
-            return PF_L16;
+            return PixelFormat::L16;
         case D3DFMT_A8L8:
-            return PF_BYTE_LA;  // Assume little endian here
+            return PixelFormat::BYTE_LA; // Assume little endian here
         case D3DFMT_R3G3B2:
-            return PF_R3G3B2;
+            return PixelFormat::R3G3B2;
         case D3DFMT_A1R5G5B5:
-            return PF_A1R5G5B5;
+            return PixelFormat::A1R5G5B5;
         case D3DFMT_A4R4G4B4:
-            return PF_A4R4G4B4;
+            return PixelFormat::A4R4G4B4;
         case D3DFMT_R5G6B5:
-            return PF_R5G6B5;
+            return PixelFormat::R5G6B5;
         case D3DFMT_R8G8B8:
-            return PF_R8G8B8;
+            return PixelFormat::R8G8B8;
         case D3DFMT_X8R8G8B8:
-            return PF_X8R8G8B8;
+            return PixelFormat::X8R8G8B8;
         case D3DFMT_A8R8G8B8:
-            return PF_A8R8G8B8;
+            return PixelFormat::A8R8G8B8;
         case D3DFMT_X8B8G8R8:
-            return PF_X8B8G8R8;
+            return PixelFormat::X8B8G8R8;
         case D3DFMT_A8B8G8R8:
-            return PF_A8B8G8R8;
+            return PixelFormat::A8B8G8R8;
         case D3DFMT_A2R10G10B10:
-            return PF_A2R10G10B10;
+            return PixelFormat::A2R10G10B10;
         case D3DFMT_A2B10G10R10:
-           return PF_A2B10G10R10;
+            return PixelFormat::A2B10G10R10;
         case D3DFMT_R16F:
-            return PF_FLOAT16_R;
+            return PixelFormat::FLOAT16_R;
         case D3DFMT_A16B16G16R16F:
-            return PF_FLOAT16_RGBA;
+            return PixelFormat::FLOAT16_RGBA;
         case D3DFMT_R32F:
-            return PF_FLOAT32_R;
+            return PixelFormat::FLOAT32_R;
         case D3DFMT_G32R32F:
-            return PF_FLOAT32_GR;
+            return PixelFormat::FLOAT32_GR;
         case D3DFMT_A32B32G32R32F:
-            return PF_FLOAT32_RGBA;
+            return PixelFormat::FLOAT32_RGBA;
         case D3DFMT_G16R16F:
-            return PF_FLOAT16_GR;
+            return PixelFormat::FLOAT16_GR;
         case D3DFMT_A16B16G16R16:
-            return PF_SHORT_RGBA;
+            return PixelFormat::SHORT_RGBA;
         case D3DFMT_G16R16:
-            return PF_SHORT_GR;
+            return PixelFormat::SHORT_GR;
         case D3DFMT_DXT1:
-            return PF_DXT1;
+            return PixelFormat::DXT1;
         case D3DFMT_DXT2:
-            return PF_DXT2;
+            return PixelFormat::DXT2;
         case D3DFMT_DXT3:
-            return PF_DXT3;
+            return PixelFormat::DXT3;
         case D3DFMT_DXT4:
-            return PF_DXT4;
+            return PixelFormat::DXT4;
         case D3DFMT_DXT5:
-            return PF_DXT5;
+            return PixelFormat::DXT5;
         case D3DFMT_INTZ:
-            return PF_DEPTH16;
+            return PixelFormat::DEPTH16;
         default:
-            return PF_UNKNOWN;
+            return PixelFormat::UNKNOWN;
         }
     }
     /****************************************************************************************/
@@ -663,67 +663,67 @@ namespace Ogre
     {
         switch(ogrePF)
         {
-        case PF_L8:
-            return D3DFMT_L8;
-        case PF_L16:
-            return D3DFMT_L16;
-        case PF_A8:
-            return D3DFMT_A8;
-        case PF_BYTE_LA:
-            return D3DFMT_A8L8; // Assume little endian here
-        case PF_R3G3B2:
-            return D3DFMT_R3G3B2;
-        case PF_A1R5G5B5:
-            return D3DFMT_A1R5G5B5;
-        case PF_R5G6B5:
-            return D3DFMT_R5G6B5;
-        case PF_A4R4G4B4:
-            return D3DFMT_A4R4G4B4;
-        case PF_R8G8B8:
-            return D3DFMT_R8G8B8;
-        case PF_A8R8G8B8:
-            return D3DFMT_A8R8G8B8;
-        case PF_A8B8G8R8:
-            return D3DFMT_A8B8G8R8;
-        case PF_X8R8G8B8:
-            return D3DFMT_X8R8G8B8;
-        case PF_X8B8G8R8:
-            return D3DFMT_X8B8G8R8;
-        case PF_A2B10G10R10:
-            return D3DFMT_A2B10G10R10;
-        case PF_A2R10G10B10:
-            return D3DFMT_A2R10G10B10;
-        case PF_FLOAT16_R:
-            return D3DFMT_R16F;
-        case PF_FLOAT16_GR:
-            return D3DFMT_G16R16F;
-        case PF_FLOAT16_RGBA:
-            return D3DFMT_A16B16G16R16F;
-        case PF_FLOAT32_R:
-            return D3DFMT_R32F;
-        case PF_FLOAT32_GR:
-            return D3DFMT_G32R32F;
-        case PF_FLOAT32_RGBA:
-            return D3DFMT_A32B32G32R32F;
-        case PF_SHORT_RGBA:
-            return D3DFMT_A16B16G16R16;
-        case PF_SHORT_GR:
-            return D3DFMT_G16R16;
-        case PF_DXT1:
-            return D3DFMT_DXT1;
-        case PF_DXT2:
-            return D3DFMT_DXT2;
-        case PF_DXT3:
-            return D3DFMT_DXT3;
-        case PF_DXT4:
-            return D3DFMT_DXT4;
-        case PF_DXT5:
-            return D3DFMT_DXT5;
-        case PF_DEPTH16:
-            return D3DFMT_INTZ;
-        case PF_UNKNOWN:
-        default:
-            return D3DFMT_UNKNOWN;
+            case PixelFormat::L8:
+                return D3DFMT_L8;
+            case PixelFormat::L16:
+                return D3DFMT_L16;
+            case PixelFormat::A8:
+                return D3DFMT_A8;
+            case PixelFormat::BYTE_LA:
+                return D3DFMT_A8L8; // Assume little endian here
+            case PixelFormat::R3G3B2:
+                return D3DFMT_R3G3B2;
+            case PixelFormat::A1R5G5B5:
+                return D3DFMT_A1R5G5B5;
+            case PixelFormat::R5G6B5:
+                return D3DFMT_R5G6B5;
+            case PixelFormat::A4R4G4B4:
+                return D3DFMT_A4R4G4B4;
+            case PixelFormat::R8G8B8:
+                return D3DFMT_R8G8B8;
+            case PixelFormat::A8R8G8B8:
+                return D3DFMT_A8R8G8B8;
+            case PixelFormat::A8B8G8R8:
+                return D3DFMT_A8B8G8R8;
+            case PixelFormat::X8R8G8B8:
+                return D3DFMT_X8R8G8B8;
+            case PixelFormat::X8B8G8R8:
+                return D3DFMT_X8B8G8R8;
+            case PixelFormat::A2B10G10R10:
+                return D3DFMT_A2B10G10R10;
+            case PixelFormat::A2R10G10B10:
+                return D3DFMT_A2R10G10B10;
+            case PixelFormat::FLOAT16_R:
+                return D3DFMT_R16F;
+            case PixelFormat::FLOAT16_GR:
+                return D3DFMT_G16R16F;
+            case PixelFormat::FLOAT16_RGBA:
+                return D3DFMT_A16B16G16R16F;
+            case PixelFormat::FLOAT32_R:
+                return D3DFMT_R32F;
+            case PixelFormat::FLOAT32_GR:
+                return D3DFMT_G32R32F;
+            case PixelFormat::FLOAT32_RGBA:
+                return D3DFMT_A32B32G32R32F;
+            case PixelFormat::SHORT_RGBA:
+                return D3DFMT_A16B16G16R16;
+            case PixelFormat::SHORT_GR:
+                return D3DFMT_G16R16;
+            case PixelFormat::DXT1:
+                return D3DFMT_DXT1;
+            case PixelFormat::DXT2:
+                return D3DFMT_DXT2;
+            case PixelFormat::DXT3:
+                return D3DFMT_DXT3;
+            case PixelFormat::DXT4:
+                return D3DFMT_DXT4;
+            case PixelFormat::DXT5:
+                return D3DFMT_DXT5;
+            case PixelFormat::DEPTH16:
+                return D3DFMT_INTZ;
+            case PixelFormat::UNKNOWN:
+            default:
+                return D3DFMT_UNKNOWN;
         }
     }
     /****************************************************************************************/
@@ -735,26 +735,26 @@ namespace Ogre
         }
         switch(ogrePF)
         {
-        case PF_B5G6R5:
-            return PF_R5G6B5;
-        case PF_B8G8R8:
-            return PF_R8G8B8;
-        case PF_B8G8R8A8:
-            return PF_A8R8G8B8;
-        case PF_SHORT_RGB:
-            return PF_SHORT_RGBA;
-        case PF_FLOAT16_RGB:
-            return PF_FLOAT16_RGBA;
-        case PF_FLOAT32_RGB:
-            return PF_FLOAT32_RGBA;
-        case PF_DEPTH16:
-            return PF_L16;
-        case PF_DEPTH32:
-        case PF_DEPTH32F:
-            return PF_FLOAT32_R;
-        case PF_UNKNOWN:
-        default:
-            return PF_A8R8G8B8;
+            case PixelFormat::B5G6R5:
+                return PixelFormat::R5G6B5;
+            case PixelFormat::B8G8R8:
+                return PixelFormat::R8G8B8;
+            case PixelFormat::B8G8R8A8:
+                return PixelFormat::A8R8G8B8;
+            case PixelFormat::SHORT_RGB:
+                return PixelFormat::SHORT_RGBA;
+            case PixelFormat::FLOAT16_RGB:
+                return PixelFormat::FLOAT16_RGBA;
+            case PixelFormat::FLOAT32_RGB:
+                return PixelFormat::FLOAT32_RGBA;
+            case PixelFormat::DEPTH16:
+                return PixelFormat::L16;
+            case PixelFormat::DEPTH32:
+            case PixelFormat::DEPTH32F:
+                return PixelFormat::FLOAT32_R;
+            case PixelFormat::UNKNOWN:
+            default:
+                return PixelFormat::A8R8G8B8;
         }
     }
 

@@ -136,7 +136,7 @@ namespace Ogre
                                        static_cast<uint>(size),
                                        static_cast<uint>(size),
                                        0,
-                                       PF_BYTE_RGBA,
+                                       PixelFormat::BYTE_RGBA,
                                        TU_RENDERTARGET)
                                    .get();
             RenderTarget* rtt = mCompositeMapRTT->getBuffer()->getRenderTarget();

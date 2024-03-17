@@ -121,7 +121,7 @@ bool SegmentedDynamicLightManager::initTexture()
             mTextureWidth,
             mTextureHeight,
             0,
-            PF_FLOAT16_RGBA,
+            PixelFormat::FLOAT16_RGBA,
             TU_STATIC_WRITE_ONLY);
     }
     return mLightTexture.get() != NULL;
@@ -295,7 +295,13 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
     {
         //assign first row with number of indexes in the block
         float maxRow = (float)(mSegmentedLightGrid[j].size() - 1 + SDL_TEXTURE_DATA_ROWS);
-        PixelUtil::packColour(maxRow,0.0f,0.0f,0.0f,PF_FLOAT16_RGBA, pData);
+        PixelUtil::packColour(
+            maxRow,
+            0.0f,
+            0.0f,
+            0.0f,
+            PixelFormat::FLOAT16_RGBA,
+            pData);
         pData += 4 * SDL_LIGHT_DATA_SIZE;       
         remainBufWidth -= SDL_LIGHT_DATA_SIZE;
     }
@@ -328,41 +334,55 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                     spotAngle = (float)phi;
                     spotInvAngleRange = 1.0f / (float)(theta - phi);
                 }
-                    
+
                 PixelUtil::packColour(
                     (float)position.x,
                     (float)position.y,
                     (float)position.z,
                     inverseRange,
-                    PF_FLOAT16_RGBA, pData);
-                pData += 4;         
+                    PixelFormat::FLOAT16_RGBA,
+                    pData);
+                pData += 4;
 
                 PixelUtil::packColour(
                     (float)direction.x,
                     (float)direction.y,
                     (float)direction.z,
                     spotAngle,
-                    PF_FLOAT16_RGBA, pData);
-                pData += 4; 
+                    PixelFormat::FLOAT16_RGBA,
+                    pData);
+                pData += 4;
 
                 PixelUtil::packColour(
                     pLight->getDiffuseColour().r * spotIntensity,
                     pLight->getDiffuseColour().g * spotIntensity,
                     pLight->getDiffuseColour().b * spotIntensity,
                     spotInvAngleRange,
-                    PF_FLOAT16_RGBA, pData);
+                    PixelFormat::FLOAT16_RGBA,
+                    pData);
                 pData += 4;         
 
             }
             else
             {
                 //assign position zero with zero width
-                PixelUtil::packColour(0.0f,0.0f,0.0f,std::numeric_limits<float>::max(),
-                    PF_FLOAT16_RGBA, pData);
+                PixelUtil::packColour(
+                    0.0f,
+                    0.0f,
+                    0.0f,
+                    std::numeric_limits<float>::max(),
+                    PixelFormat::FLOAT16_RGBA,
+                    pData);
                 pData += 4;         
                 for(int d = 0 ; d < (SDL_LIGHT_DATA_SIZE - 1) ; ++d)
                 {
-                    PixelUtil::packColour(0.0f,0.0f,0.0f,0.0f,PF_FLOAT16_RGBA, pData);
+                    PixelUtil::packColour(
+                        0.0f,
+                        0.0f,
+                        0.0f,
+                        0.0f,
+                        PixelFormat::FLOAT16_RGBA,
+                        pData);
                     pData += 4;         
                 }
             }

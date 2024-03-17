@@ -55,16 +55,16 @@ namespace Ogre {
 
         switch (mFormat)
         {
-            case PCT_BYTE:
+            case PixelComponentType::BYTE:
                 bits = 8;
                 break;
 
-            case PCT_SHORT:
-            case PCT_FLOAT16:
+            case PixelComponentType::SHORT:
+            case PixelComponentType::FLOAT16:
                 bits = 16;
                 break;
 
-            case PCT_FLOAT32:
+            case PixelComponentType::FLOAT32:
                 bits = 32;
                 break;
 
@@ -72,8 +72,8 @@ namespace Ogre {
                 break;
         }
 
-        if (mFormat == PCT_FLOAT16 || mFormat == PCT_FLOAT32)
-        {
+        if (mFormat == PixelComponentType::FLOAT16
+            || mFormat == PixelComponentType::FLOAT32) {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED,
                         "No support for Floating point PBuffers",
                         "EGLRenderTexture::initEGLPBuffer");

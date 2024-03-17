@@ -42,12 +42,15 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-//-----------------------------------------------------------------------------  
+//-----------------------------------------------------------------------------
 
-D3D9HardwarePixelBuffer::D3D9HardwarePixelBuffer(HardwareBuffer::Usage usage, 
-                                                 D3D9Texture* ownerTexture):
-    HardwarePixelBuffer(0, 0, 0, PF_UNKNOWN, usage, false),
-    mDoMipmapGen(false), mHWMipmaps(false), mOwnerTexture(ownerTexture)
+D3D9HardwarePixelBuffer::D3D9HardwarePixelBuffer(
+    HardwareBuffer::Usage usage,
+    D3D9Texture* ownerTexture)
+: HardwarePixelBuffer(0, 0, 0, PixelFormat::UNKNOWN, usage, false)
+, mDoMipmapGen(false)
+, mHWMipmaps(false)
+, mOwnerTexture(ownerTexture)
 {   
 }
 D3D9HardwarePixelBuffer::~D3D9HardwarePixelBuffer()
@@ -673,13 +676,10 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
         }
 
         // D3D wants the width of one row of cells in bytes
-        if (converted.format == PF_DXT1)
-        {
+        if (converted.format == PixelFormat::DXT1) {
             // 64 bits (8 bytes) per 4x4 block
             rowWidth = (converted.rowPitch / 4) * 8;
-        }
-        else
-        {
+        } else {
             // 128 bits (16 bytes) per 4x4 block
             rowWidth = (converted.rowPitch / 4) * 16;
         }
@@ -714,13 +714,10 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
         if (PixelUtil::isCompressed(converted.format))
         {
             // D3D wants the width of one slice of cells in bytes
-            if (converted.format == PF_DXT1)
-            {
+            if (converted.format == PixelFormat::DXT1) {
                 // 64 bits (8 bytes) per 4x4 block
                 sliceWidth = (converted.slicePitch / 16) * 8;
-            }
-            else
-            {
+            } else {
                 // 128 bits (16 bytes) per 4x4 block
                 sliceWidth = (converted.slicePitch / 16) * 16;
             }

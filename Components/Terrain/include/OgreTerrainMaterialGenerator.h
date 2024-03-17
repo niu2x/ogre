@@ -56,7 +56,8 @@ namespace Ogre
         PixelFormat format;
 
         TerrainLayerSampler()
-            : alias(""), format(PF_UNKNOWN)
+        : alias("")
+        , format(PixelFormat::UNKNOWN)
         {
         }
 

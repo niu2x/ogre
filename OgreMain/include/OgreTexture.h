@@ -372,7 +372,7 @@ namespace Ogre {
         */
         void setDesiredBitDepths(ushort integerBits, ushort floatBits);
 
-        /// @deprecated use setFormat(PF_A8)
+        /// @deprecated use setFormat(PixelFormat::A8)
         OGRE_DEPRECATED void setTreatLuminanceAsAlpha(bool asAlpha);
 
         /** Return the number of faces this texture has. This will be 6 for a cubemap
@@ -431,9 +431,14 @@ namespace Ogre {
             @param textureArrayIndex The index of the texture array to use. If texture is not a texture array, set to 0.
             @param format Texture format to be read in by shader. For OpenGL this may be different than the bound texture format.
         */
-        virtual void createShaderAccessPoint(uint bindPoint, TextureAccess access = TA_READ_WRITE,
-                                        int mipmapLevel = 0, int textureArrayIndex = 0,
-                                        PixelFormat format = PF_UNKNOWN) {}
+        virtual void createShaderAccessPoint(
+            uint bindPoint,
+            TextureAccess access = TA_READ_WRITE,
+            int mipmapLevel = 0,
+            int textureArrayIndex = 0,
+            PixelFormat format = PixelFormat::UNKNOWN)
+        {
+        }
         /** Set image names to be loaded as layers (3d & texture array) or cubemap faces
          */
         void setLayerNames(const std::vector<String>& names)

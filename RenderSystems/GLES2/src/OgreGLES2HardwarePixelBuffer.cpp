@@ -320,8 +320,16 @@ namespace Ogre {
 
         // Construct a temp PixelBox that is RGBA because GL_RGBA/GL_UNSIGNED_BYTE is the only combination that is
         // guaranteed to work on all platforms.
-        size_t sizeInBytes = PixelUtil::getMemorySize(data.getWidth(), data.getHeight(), data.getDepth(), PF_A8B8G8R8);
-        PixelBox tempBox = PixelBox(data.getWidth(), data.getHeight(), data.getDepth(), PF_A8B8G8R8);
+        size_t sizeInBytes = PixelUtil::getMemorySize(
+            data.getWidth(),
+            data.getHeight(),
+            data.getDepth(),
+            PixelFormat::A8B8G8R8);
+        PixelBox tempBox = PixelBox(
+            data.getWidth(),
+            data.getHeight(),
+            data.getDepth(),
+            PixelFormat::A8B8G8R8);
         tempBox.data = new uint8[sizeInBytes];
 
         switch (mTarget)

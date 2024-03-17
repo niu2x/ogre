@@ -46,7 +46,7 @@ void Sample_VolumeTex::setupContent()
         64,
         64,
         0,
-        PF_BYTE_RGBA);
+        PixelFormat::BYTE_RGBA);
 
     // Set ambient light
     mSceneMgr->setAmbientLight(ColourValue(0.6, 0.6, 0.6));
@@ -169,8 +169,13 @@ void Sample_VolumeTex::generate()
                     if(val > vcut)
                         val = vcut;
 
-                    PixelUtil::packColour((float)x/pb.getWidth(), (float)y/pb.getHeight(), (float)z/pb.getDepth(), (1.0f-(val*vscale))*0.7f, PF_BYTE_RGBA, &pbptr[x]);
-
+                    PixelUtil::packColour(
+                        (float)x / pb.getWidth(),
+                        (float)y / pb.getHeight(),
+                        (float)z / pb.getDepth(),
+                        (1.0f - (val * vscale)) * 0.7f,
+                        PixelFormat::BYTE_RGBA,
+                        &pbptr[x]);
                 }
             }
             pbptr += pb.rowPitch;

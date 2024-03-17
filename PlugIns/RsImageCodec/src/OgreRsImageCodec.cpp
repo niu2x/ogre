@@ -84,21 +84,23 @@ DataStreamPtr RsImageCodec::encode(const Any& input) const
 
     switch (format)
     {
-    case PF_BYTE_L:
-        t = L8;
-        break;
-    case PF_BYTE_LA:
-        t = La8;
-        break;
-    case PF_BYTE_RGB:
-        t = Rgb8;
-        break;
-    case PF_BYTE_RGBA:
-        t = Rgba8;
-        break;
-    default:
-        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Unsupported image format");
-        break;
+        case PixelFormat::BYTE_L:
+            t = L8;
+            break;
+        case PixelFormat::BYTE_LA:
+            t = La8;
+            break;
+        case PixelFormat::BYTE_RGB:
+            t = Rgb8;
+            break;
+        case PixelFormat::BYTE_RGBA:
+            t = Rgba8;
+            break;
+        default:
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "Unsupported image format");
+            break;
     }
 
     size_t len;
@@ -150,29 +152,29 @@ void RsImageCodec::decode(const DataStreamPtr& input, const Any& output) const
         OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "Error decoding image");
     }
 
-    PixelFormat format = PF_UNKNOWN;
+    PixelFormat format = PixelFormat::UNKNOWN;
     switch (t)
     {
     case L8:
-        format = PF_BYTE_L;
+        format = PixelFormat::BYTE_L;
         break;
     case La8:
-        format = PF_BYTE_LA;
+        format = PixelFormat::BYTE_LA;
         break;
     case Rgb8:
-        format = PF_BYTE_RGB;
+        format = PixelFormat::BYTE_RGB;
         break;
     case Rgba8:
-        format = PF_BYTE_RGBA;
+        format = PixelFormat::BYTE_RGBA;
         break;
     case L16:
-        format = PF_L16;
+        format = PixelFormat::L16;
         break;
     case Rgb32F:
-        format = PF_FLOAT32_RGB;
+        format = PixelFormat::FLOAT32_RGB;
         break;
     case Rgba32F:
-        format = PF_FLOAT32_RGBA;
+        format = PixelFormat::FLOAT32_RGBA;
         break;
     default:
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Unsupported image format");

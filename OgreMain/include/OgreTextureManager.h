@@ -105,7 +105,7 @@ public:
             gamma The gamma adjustment factor to apply to this texture
        (brightening/darkening)
         @param
-            isAlpha deprecated: same as specifying #PF_A8 for @c
+            isAlpha deprecated: same as specifying #PixelFormat::A8 for @c
        desiredFormat
         @param
             desiredFormat The format you would like to have used instead of
@@ -127,12 +127,12 @@ public:
         int numMipmaps = MIP_DEFAULT,
         Real gamma = 1.0f,
         bool isAlpha = false,
-        PixelFormat desiredFormat = PF_UNKNOWN,
+        PixelFormat desiredFormat = PixelFormat::UNKNOWN,
         bool hwGammaCorrection = false);
 
     /** Prepares to loads a texture from a file.
         @copydetails TextureManager::load
-        @param isAlpha deprecated: same as specifying #PF_A8 for @c
+        @param isAlpha deprecated: same as specifying #PixelFormat::A8 for @c
        desiredFormat
     */
     TexturePtr prepare(
@@ -142,7 +142,7 @@ public:
         int numMipmaps = MIP_DEFAULT,
         Real gamma = 1.0f,
         bool isAlpha = false,
-        PixelFormat desiredFormat = PF_UNKNOWN,
+        PixelFormat desiredFormat = PixelFormat::UNKNOWN,
         bool hwGammaCorrection = false);
 
     /** Loads a texture from a file.
@@ -180,7 +180,7 @@ public:
         TextureType texType = TEX_TYPE_2D,
         int numMipmaps = MIP_DEFAULT,
         Real gamma = 1.0f,
-        PixelFormat desiredFormat = PF_UNKNOWN,
+        PixelFormat desiredFormat = PixelFormat::UNKNOWN,
         bool hwGammaCorrection = false);
     /// @deprecated
     OGRE_DEPRECATED TexturePtr load(
@@ -190,7 +190,7 @@ public:
         int numMipmaps,
         Real gamma,
         bool isAlpha,
-        PixelFormat desiredFormat = PF_UNKNOWN,
+        PixelFormat desiredFormat = PixelFormat::UNKNOWN,
         bool hwGammaCorrection = false);
 
     /** Loads a texture from an Image object.
@@ -208,7 +208,7 @@ public:
         int numMipmaps = MIP_DEFAULT,
         Real gamma = 1.0f,
         bool isAlpha = false,
-        PixelFormat desiredFormat = PF_UNKNOWN,
+        PixelFormat desiredFormat = PixelFormat::UNKNOWN,
         bool hwGammaCorrection = false);
 
     /** Loads a texture from a raw data stream.
@@ -559,7 +559,10 @@ protected:
 
     public:
         bool isHardwareFilteringSupported(TextureType, PixelFormat, int, bool) override { return false; }
-        PixelFormat getNativeFormat(TextureType, PixelFormat, int) override { return PF_UNKNOWN; }
+        PixelFormat getNativeFormat(TextureType, PixelFormat, int) override
+        {
+            return PixelFormat::UNKNOWN;
+        }
     };
     /** @} */
     /** @} */

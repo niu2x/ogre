@@ -100,7 +100,10 @@ namespace Ogre
         void copyContentsToMemory(const Box& src, const PixelBox &dst, FrameBuffer buffer = FB_AUTO) override;
 
         /// Irrelevant implementation since cannot copy
-        PixelFormat suggestPixelFormat() const override { return PF_UNKNOWN; }
+        PixelFormat suggestPixelFormat() const override
+        {
+            return PixelFormat::UNKNOWN;
+        }
 
         typedef std::vector<RenderTexture*> BoundSufaceList;
         /// Get a list of the surfaces which have been bound

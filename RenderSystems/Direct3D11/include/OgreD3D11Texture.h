@@ -64,9 +64,12 @@ namespace Ogre {
 
 		bool HasAutoMipMapGenerationEnabled() const { return mAutoMipMapGeneration; }
 
-        void createShaderAccessPoint(uint bindPoint, TextureAccess access = TA_READ_WRITE,
-                                        int mipmapLevel = 0, int textureArrayIndex = 0,
-                                        PixelFormat format = PF_UNKNOWN) override;
+        void createShaderAccessPoint(
+            uint bindPoint,
+            TextureAccess access = TA_READ_WRITE,
+            int mipmapLevel = 0,
+            int textureArrayIndex = 0,
+            PixelFormat format = PixelFormat::UNKNOWN) override;
 
         ID3D11UnorderedAccessView* getUavView() const { return mpUnorderedAccessView.Get(); }
 	protected:

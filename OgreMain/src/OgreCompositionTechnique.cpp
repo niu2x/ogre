@@ -163,7 +163,9 @@ bool CompositionTechnique::isSupported(bool acceptTextureDegradation)
             if(!accepted && acceptTextureDegradation)
             {
                 // Don't care about exact format so long as something is supported
-                accepted = texMgr.getNativeFormat(td->type, pfi, TU_RENDERTARGET) != PF_UNKNOWN;
+                accepted
+                    = texMgr.getNativeFormat(td->type, pfi, TU_RENDERTARGET)
+                    != PixelFormat::UNKNOWN;
             }
 
             if(!accepted)

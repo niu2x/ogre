@@ -83,7 +83,7 @@ def main(ctx):
         cont, img = cap.read()
         if not cont: break
 
-        im = Ogre.Image(Ogre.PF_BYTE_BGR, img.shape[1], img.shape[0], 1, img, False)
+        im = Ogre.Image(Ogre.PixelFormat::BYTE_BGR, img.shape[1], img.shape[0], 1, img, False)
         if bgtex.getBuffer():
             bgtex.getBuffer().blitFromMemory(im.getPixelBox())
         else:

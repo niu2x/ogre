@@ -69,7 +69,14 @@ namespace Ogre {
         unsigned int fsaa;
         uint16      depthBufferPoolId;
 
-        ShadowTextureConfig() : width(512), height(512), format(PF_BYTE_RGBA), fsaa(0), depthBufferPoolId(1) {}
+        ShadowTextureConfig()
+        : width(512)
+        , height(512)
+        , format(PixelFormat::BYTE_RGBA)
+        , fsaa(0)
+        , depthBufferPoolId(1)
+        {
+        }
     };
 
     typedef std::vector<ShadowTextureConfig> ShadowTextureConfigList;
@@ -2700,13 +2707,13 @@ namespace Ogre {
 
         /** Set the pixel format of the textures used for texture-based shadows.
 
-            By default, a colour texture is used (PF_X8R8G8B8) for texture shadows,
-            but if you want to use more advanced texture shadow types you can 
-            alter this. If you do, you will have to also call
+            By default, a colour texture is used (PixelFormat::X8R8G8B8) for
+        texture shadows, but if you want to use more advanced texture shadow
+        types you can alter this. If you do, you will have to also call
             setShadowTextureCasterMaterial and setShadowTextureReceiverMaterial
             to provide shader-based materials to use these customised shadow
             texture formats.
-        @note This is the simple form, see setShadowTextureConfig for the more 
+        @note This is the simple form, see setShadowTextureConfig for the more
             complex form.
         */
         void setShadowTexturePixelFormat(PixelFormat fmt)
@@ -2755,8 +2762,12 @@ namespace Ogre {
         @note This is the simple form, see setShadowTextureConfig for the more 
             complex form.
         */
-        void setShadowTextureSettings(uint16 size, uint16 count, PixelFormat fmt = PF_BYTE_RGBA,
-                                      uint16 fsaa = 0, uint16 depthBufferPoolId = 1)
+        void setShadowTextureSettings(
+            uint16 size,
+            uint16 count,
+            PixelFormat fmt = PixelFormat::BYTE_RGBA,
+            uint16 fsaa = 0,
+            uint16 depthBufferPoolId = 1)
         {
             mShadowRenderer.setShadowTextureSettings(size, count, fmt, fsaa, depthBufferPoolId);
         }

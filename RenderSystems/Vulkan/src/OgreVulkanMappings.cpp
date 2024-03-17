@@ -289,110 +289,110 @@ namespace Ogre
         // clang-format off
         switch( pf )
         {
-        case PF_FLOAT32_RGBA:          return VK_FORMAT_R32G32B32A32_SFLOAT;
-        case PF_R32G32B32A32_UINT:           return VK_FORMAT_R32G32B32A32_UINT;
-        case PF_R32G32B32A32_SINT:           return VK_FORMAT_R32G32B32A32_SINT;
-        case PF_FLOAT32_RGB:           return VK_FORMAT_R32G32B32_SFLOAT;
-        case PF_R32G32B32_UINT:            return VK_FORMAT_R32G32B32_UINT;
-        case PF_R32G32B32_SINT:            return VK_FORMAT_R32G32B32_SINT;
-        case PF_FLOAT16_RGBA:          return VK_FORMAT_R16G16B16A16_SFLOAT;
-        //case PF_R16G16B16A16_UNORM:          return VK_FORMAT_R16G16B16A16_UNORM;
-        case PF_R16G16B16A16_UINT:           return VK_FORMAT_R16G16B16A16_UINT;
-        case PF_R16G16B16A16_SNORM:          return VK_FORMAT_R16G16B16A16_SNORM;
-        case PF_R16G16B16A16_SINT:           return VK_FORMAT_R16G16B16A16_SINT;
-        //case PF_FLOAT32_RG:            return VK_FORMAT_R32G32_SFLOAT;
-        case PF_R32G32_UINT:             return VK_FORMAT_R32G32_UINT;
-        case PF_R32G32_SINT:             return VK_FORMAT_R32G32_SINT;
-        //case PF_D32_FLOAT_S8X24_UINT:  return VK_FORMAT_D32_SFLOAT_S8_UINT;
-        case PF_A2B10G10R10:     return VK_FORMAT_A2B10G10R10_UNORM_PACK32;
-        //case PF_R10G10B10A2_UINT:      return VK_FORMAT_A2B10G10R10_UINT_PACK32;
-        case PF_R11G11B10_FLOAT:       return VK_FORMAT_B10G11R11_UFLOAT_PACK32;
-        case PF_X8B8G8R8:
-        case PF_A8B8G8R8:           return hwGamma ? VK_FORMAT_R8G8B8A8_SRGB : VK_FORMAT_R8G8B8A8_UNORM;
-        //case PF_A8B8G8R8_UINT:            return VK_FORMAT_R8G8B8A8_UINT;
-        //case PF_A8B8G8R8_SNORM:           return VK_FORMAT_R8G8B8A8_SNORM;
-        //case PF_A8B8G8R8_SINT:            return VK_FORMAT_R8G8B8A8_SINT;
-        case PF_FLOAT16_GR:            return VK_FORMAT_R16G16_SFLOAT;
-        //case PF_R16G16_UNORM:            return VK_FORMAT_R16G16_UNORM;
-        case PF_R16G16_UINT:             return VK_FORMAT_R16G16_UINT;
-        case PF_R16G16_SNORM:            return VK_FORMAT_R16G16_SNORM;
-        case PF_R16G16_SINT:             return VK_FORMAT_R16G16_SINT;
-        case PF_DEPTH32:
-        case PF_DEPTH32F:              return VK_FORMAT_D32_SFLOAT;
-        case PF_FLOAT32_R:             return VK_FORMAT_R32_SFLOAT;
-        case PF_R32_UINT:              return VK_FORMAT_R32_UINT;
-        case PF_R32_SINT:              return VK_FORMAT_R32_SINT;
-        //case PF_D24_UNORM:             return VK_FORMAT_X8_D24_UNORM_PACK32;
-        case PF_DEPTH24_STENCIL8:            return VK_FORMAT_D32_SFLOAT_S8_UINT; // VK_FORMAT_D24_UNORM_S8_UINT not supported on AMD
-        case PF_BYTE_LA:
-        case PF_RG8:                   return VK_FORMAT_R8G8_UNORM;
-        case PF_R8G8_UINT:              return VK_FORMAT_R8G8_UINT;
-        case PF_R8G8_SNORM:             return VK_FORMAT_R8G8_SNORM;
-        case PF_R8G8_SINT:              return VK_FORMAT_R8G8_SINT;
-        case PF_FLOAT16_R:             return VK_FORMAT_R16_SFLOAT;
-        case PF_DEPTH16:             return VK_FORMAT_D16_UNORM;
-        //case PF_R16_UNORM:             return VK_FORMAT_R16_UNORM;
-        case PF_R16_UINT:              return VK_FORMAT_R16_UINT;
-        case PF_R16_SNORM:             return VK_FORMAT_R16_SNORM;
-        case PF_R16_SINT:              return VK_FORMAT_R16_SINT;
-        case PF_A8:
-        case PF_L8:
-        case PF_R8:                    return VK_FORMAT_R8_UNORM;
-        case PF_R8_UINT:               return VK_FORMAT_R8_UINT;
-        case PF_R8_SNORM:              return VK_FORMAT_R8_SNORM;
-        case PF_R8_SINT:               return VK_FORMAT_R8_SINT;
-        case PF_R9G9B9E5_SHAREDEXP:    return VK_FORMAT_E5B9G9R9_UFLOAT_PACK32;
-        case PF_DXT1:                  return hwGamma ? VK_FORMAT_BC1_RGBA_SRGB_BLOCK : VK_FORMAT_BC1_RGBA_UNORM_BLOCK;
-        case PF_DXT2:                  return hwGamma ? VK_FORMAT_BC1_RGBA_SRGB_BLOCK : VK_FORMAT_BC1_RGBA_UNORM_BLOCK;
-        case PF_DXT3:                  return hwGamma ? VK_FORMAT_BC2_SRGB_BLOCK : VK_FORMAT_BC2_UNORM_BLOCK;
-        case PF_DXT4:                  return hwGamma ? VK_FORMAT_BC2_SRGB_BLOCK : VK_FORMAT_BC2_UNORM_BLOCK;
-        case PF_DXT5:                  return hwGamma ? VK_FORMAT_BC3_SRGB_BLOCK : VK_FORMAT_BC3_UNORM_BLOCK;
+        case PixelFormat::FLOAT32_RGBA:          return VK_FORMAT_R32G32B32A32_SFLOAT;
+        case PixelFormat::R32G32B32A32_UINT:           return VK_FORMAT_R32G32B32A32_UINT;
+        case PixelFormat::R32G32B32A32_SINT:           return VK_FORMAT_R32G32B32A32_SINT;
+        case PixelFormat::FLOAT32_RGB:           return VK_FORMAT_R32G32B32_SFLOAT;
+        case PixelFormat::R32G32B32_UINT:            return VK_FORMAT_R32G32B32_UINT;
+        case PixelFormat::R32G32B32_SINT:            return VK_FORMAT_R32G32B32_SINT;
+        case PixelFormat::FLOAT16_RGBA:          return VK_FORMAT_R16G16B16A16_SFLOAT;
+        //case PixelFormat::R16G16B16A16_UNORM:          return VK_FORMAT_R16G16B16A16_UNORM;
+        case PixelFormat::R16G16B16A16_UINT:           return VK_FORMAT_R16G16B16A16_UINT;
+        case PixelFormat::R16G16B16A16_SNORM:          return VK_FORMAT_R16G16B16A16_SNORM;
+        case PixelFormat::R16G16B16A16_SINT:           return VK_FORMAT_R16G16B16A16_SINT;
+        //case PixelFormat::FLOAT32_RG:            return VK_FORMAT_R32G32_SFLOAT;
+        case PixelFormat::R32G32_UINT:             return VK_FORMAT_R32G32_UINT;
+        case PixelFormat::R32G32_SINT:             return VK_FORMAT_R32G32_SINT;
+        //case PixelFormat::D32_FLOAT_S8X24_UINT:  return VK_FORMAT_D32_SFLOAT_S8_UINT;
+        case PixelFormat::A2B10G10R10:     return VK_FORMAT_A2B10G10R10_UNORM_PACK32;
+        //case PixelFormat::R10G10B10A2_UINT:      return VK_FORMAT_A2B10G10R10_UINT_PACK32;
+        case PixelFormat::R11G11B10_FLOAT:       return VK_FORMAT_B10G11R11_UFLOAT_PACK32;
+        case PixelFormat::X8B8G8R8:
+        case PixelFormat::A8B8G8R8:           return hwGamma ? VK_FORMAT_R8G8B8A8_SRGB : VK_FORMAT_R8G8B8A8_UNORM;
+        //case PixelFormat::A8B8G8R8_UINT:            return VK_FORMAT_R8G8B8A8_UINT;
+        //case PixelFormat::A8B8G8R8_SNORM:           return VK_FORMAT_R8G8B8A8_SNORM;
+        //case PixelFormat::A8B8G8R8_SINT:            return VK_FORMAT_R8G8B8A8_SINT;
+        case PixelFormat::FLOAT16_GR:            return VK_FORMAT_R16G16_SFLOAT;
+        //case PixelFormat::R16G16_UNORM:            return VK_FORMAT_R16G16_UNORM;
+        case PixelFormat::R16G16_UINT:             return VK_FORMAT_R16G16_UINT;
+        case PixelFormat::R16G16_SNORM:            return VK_FORMAT_R16G16_SNORM;
+        case PixelFormat::R16G16_SINT:             return VK_FORMAT_R16G16_SINT;
+        case PixelFormat::DEPTH32:
+        case PixelFormat::DEPTH32F:              return VK_FORMAT_D32_SFLOAT;
+        case PixelFormat::FLOAT32_R:             return VK_FORMAT_R32_SFLOAT;
+        case PixelFormat::R32_UINT:              return VK_FORMAT_R32_UINT;
+        case PixelFormat::R32_SINT:              return VK_FORMAT_R32_SINT;
+        //case PixelFormat::D24_UNORM:             return VK_FORMAT_X8_D24_UNORM_PACK32;
+        case PixelFormat::DEPTH24_STENCIL8:            return VK_FORMAT_D32_SFLOAT_S8_UINT; // VK_FORMAT_D24_UNORM_S8_UINT not supported on AMD
+        case PixelFormat::BYTE_LA:
+        case PixelFormat::RG8:                   return VK_FORMAT_R8G8_UNORM;
+        case PixelFormat::R8G8_UINT:              return VK_FORMAT_R8G8_UINT;
+        case PixelFormat::R8G8_SNORM:             return VK_FORMAT_R8G8_SNORM;
+        case PixelFormat::R8G8_SINT:              return VK_FORMAT_R8G8_SINT;
+        case PixelFormat::FLOAT16_R:             return VK_FORMAT_R16_SFLOAT;
+        case PixelFormat::DEPTH16:             return VK_FORMAT_D16_UNORM;
+        //case PixelFormat::R16_UNORM:             return VK_FORMAT_R16_UNORM;
+        case PixelFormat::R16_UINT:              return VK_FORMAT_R16_UINT;
+        case PixelFormat::R16_SNORM:             return VK_FORMAT_R16_SNORM;
+        case PixelFormat::R16_SINT:              return VK_FORMAT_R16_SINT;
+        case PixelFormat::A8:
+        case PixelFormat::L8:
+        case PixelFormat::R8:                    return VK_FORMAT_R8_UNORM;
+        case PixelFormat::R8_UINT:               return VK_FORMAT_R8_UINT;
+        case PixelFormat::R8_SNORM:              return VK_FORMAT_R8_SNORM;
+        case PixelFormat::R8_SINT:               return VK_FORMAT_R8_SINT;
+        case PixelFormat::R9G9B9E5_SHAREDEXP:    return VK_FORMAT_E5B9G9R9_UFLOAT_PACK32;
+        case PixelFormat::DXT1:                  return hwGamma ? VK_FORMAT_BC1_RGBA_SRGB_BLOCK : VK_FORMAT_BC1_RGBA_UNORM_BLOCK;
+        case PixelFormat::DXT2:                  return hwGamma ? VK_FORMAT_BC1_RGBA_SRGB_BLOCK : VK_FORMAT_BC1_RGBA_UNORM_BLOCK;
+        case PixelFormat::DXT3:                  return hwGamma ? VK_FORMAT_BC2_SRGB_BLOCK : VK_FORMAT_BC2_UNORM_BLOCK;
+        case PixelFormat::DXT4:                  return hwGamma ? VK_FORMAT_BC2_SRGB_BLOCK : VK_FORMAT_BC2_UNORM_BLOCK;
+        case PixelFormat::DXT5:                  return hwGamma ? VK_FORMAT_BC3_SRGB_BLOCK : VK_FORMAT_BC3_UNORM_BLOCK;
 #if 0
-        case PF_R8G8_B8G8_UNORM:       return VK_FORMAT_B8G8R8G8_422_UNORM;
-        case PF_G8R8_G8B8_UNORM:       return VK_FORMAT_G8B8G8R8_422_UNORM;
+        case PixelFormat::R8G8_B8G8_UNORM:       return VK_FORMAT_B8G8R8G8_422_UNORM;
+        case PixelFormat::G8R8_G8B8_UNORM:       return VK_FORMAT_G8B8G8R8_422_UNORM;
 #endif
-        case PF_BC4_UNORM:             return VK_FORMAT_BC4_UNORM_BLOCK;
-        case PF_BC4_SNORM:             return VK_FORMAT_BC4_SNORM_BLOCK;
-        case PF_BC5_UNORM:             return VK_FORMAT_BC5_UNORM_BLOCK;
-        case PF_BC5_SNORM:             return VK_FORMAT_BC5_SNORM_BLOCK;
-        case PF_R5G6B5:                return VK_FORMAT_R5G6B5_UNORM_PACK16;
-        case PF_B5G6R5:                return VK_FORMAT_B5G6R5_UNORM_PACK16;
-        case PF_A1R5G5B5:              return VK_FORMAT_B5G5R5A1_UNORM_PACK16;
-        case PF_A8R8G8B8:              return hwGamma ? VK_FORMAT_B8G8R8A8_SRGB : VK_FORMAT_B8G8R8A8_UNORM;
-        case PF_X8R8G8B8:              return hwGamma ? VK_FORMAT_B8G8R8A8_SRGB : VK_FORMAT_B8G8R8A8_UNORM;
-        //case PF_R10G10B10_XR_BIAS_A2_UNORM:return VK_FORMAT_A2R10G10B10_USCALED_PACK32;
-        case PF_BC6H_UF16:             return VK_FORMAT_BC6H_UFLOAT_BLOCK;
-        case PF_BC6H_SF16:             return VK_FORMAT_BC6H_SFLOAT_BLOCK;
-        case PF_BC7_UNORM:             return VK_FORMAT_BC7_UNORM_BLOCK;
-        case PF_A4R4G4B4:              return VK_FORMAT_B4G4R4A4_UNORM_PACK16;
-        case PF_ETC1_RGB8:             return VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK;
-        case PF_ETC2_RGB8:             return VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK;
-        case PF_ETC2_RGBA8:            return VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK;
-        case PF_ETC2_RGB8A1:           return VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK;
+        case PixelFormat::BC4_UNORM:             return VK_FORMAT_BC4_UNORM_BLOCK;
+        case PixelFormat::BC4_SNORM:             return VK_FORMAT_BC4_SNORM_BLOCK;
+        case PixelFormat::BC5_UNORM:             return VK_FORMAT_BC5_UNORM_BLOCK;
+        case PixelFormat::BC5_SNORM:             return VK_FORMAT_BC5_SNORM_BLOCK;
+        case PixelFormat::R5G6B5:                return VK_FORMAT_R5G6B5_UNORM_PACK16;
+        case PixelFormat::B5G6R5:                return VK_FORMAT_B5G6R5_UNORM_PACK16;
+        case PixelFormat::A1R5G5B5:              return VK_FORMAT_B5G5R5A1_UNORM_PACK16;
+        case PixelFormat::A8R8G8B8:              return hwGamma ? VK_FORMAT_B8G8R8A8_SRGB : VK_FORMAT_B8G8R8A8_UNORM;
+        case PixelFormat::X8R8G8B8:              return hwGamma ? VK_FORMAT_B8G8R8A8_SRGB : VK_FORMAT_B8G8R8A8_UNORM;
+        //case PixelFormat::R10G10B10_XR_BIAS_A2_UNORM:return VK_FORMAT_A2R10G10B10_USCALED_PACK32;
+        case PixelFormat::BC6H_UF16:             return VK_FORMAT_BC6H_UFLOAT_BLOCK;
+        case PixelFormat::BC6H_SF16:             return VK_FORMAT_BC6H_SFLOAT_BLOCK;
+        case PixelFormat::BC7_UNORM:             return VK_FORMAT_BC7_UNORM_BLOCK;
+        case PixelFormat::A4R4G4B4:              return VK_FORMAT_B4G4R4A4_UNORM_PACK16;
+        case PixelFormat::ETC1_RGB8:             return VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK;
+        case PixelFormat::ETC2_RGB8:             return VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK;
+        case PixelFormat::ETC2_RGBA8:            return VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK;
+        case PixelFormat::ETC2_RGB8A1:           return VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK;
 #if 0
-        case PF_EAC_R11_UNORM:         return VK_FORMAT_EAC_R11_UNORM_BLOCK;
-        case PF_EAC_R11_SNORM:         return VK_FORMAT_EAC_R11_SNORM_BLOCK;
-        case PF_EAC_R11G11_UNORM:      return VK_FORMAT_EAC_R11G11_UNORM_BLOCK;
-        case PF_EAC_R11G11_SNORM:      return VK_FORMAT_EAC_R11G11_SNORM_BLOCK;
+        case PixelFormat::EAC_R11_UNORM:         return VK_FORMAT_EAC_R11_UNORM_BLOCK;
+        case PixelFormat::EAC_R11_SNORM:         return VK_FORMAT_EAC_R11_SNORM_BLOCK;
+        case PixelFormat::EAC_R11G11_UNORM:      return VK_FORMAT_EAC_R11G11_UNORM_BLOCK;
+        case PixelFormat::EAC_R11G11_SNORM:      return VK_FORMAT_EAC_R11G11_SNORM_BLOCK;
 #endif
 
-        case PF_ASTC_RGBA_4X4_LDR:   return VK_FORMAT_ASTC_4x4_UNORM_BLOCK;
-        case PF_ASTC_RGBA_5X4_LDR:   return VK_FORMAT_ASTC_5x4_UNORM_BLOCK;
-        case PF_ASTC_RGBA_5X5_LDR:   return VK_FORMAT_ASTC_5x5_UNORM_BLOCK;
-        case PF_ASTC_RGBA_6X5_LDR:   return VK_FORMAT_ASTC_6x5_UNORM_BLOCK;
-        case PF_ASTC_RGBA_6X6_LDR:   return VK_FORMAT_ASTC_6x6_UNORM_BLOCK;
-        case PF_ASTC_RGBA_8X5_LDR:   return VK_FORMAT_ASTC_8x5_UNORM_BLOCK;
-        case PF_ASTC_RGBA_8X6_LDR:   return VK_FORMAT_ASTC_8x6_UNORM_BLOCK;
-        case PF_ASTC_RGBA_8X8_LDR:   return VK_FORMAT_ASTC_8x8_UNORM_BLOCK;
-        case PF_ASTC_RGBA_10X5_LDR:  return VK_FORMAT_ASTC_10x5_UNORM_BLOCK;
-        case PF_ASTC_RGBA_10X6_LDR:  return VK_FORMAT_ASTC_10x6_UNORM_BLOCK;
-        case PF_ASTC_RGBA_10X8_LDR:  return VK_FORMAT_ASTC_10x8_UNORM_BLOCK;
-        case PF_ASTC_RGBA_10X10_LDR: return VK_FORMAT_ASTC_10x10_UNORM_BLOCK;
-        case PF_ASTC_RGBA_12X10_LDR: return VK_FORMAT_ASTC_12x10_UNORM_BLOCK;
-        case PF_ASTC_RGBA_12X12_LDR: return VK_FORMAT_ASTC_12x12_UNORM_BLOCK;
-        case PF_ATC_RGB:
-        case PF_ATC_RGBA_EXPLICIT_ALPHA:
-        case PF_ATC_RGBA_INTERPOLATED_ALPHA:
+        case PixelFormat::ASTC_RGBA_4X4_LDR:   return VK_FORMAT_ASTC_4x4_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_5X4_LDR:   return VK_FORMAT_ASTC_5x4_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_5X5_LDR:   return VK_FORMAT_ASTC_5x5_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_6X5_LDR:   return VK_FORMAT_ASTC_6x5_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_6X6_LDR:   return VK_FORMAT_ASTC_6x6_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_8X5_LDR:   return VK_FORMAT_ASTC_8x5_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_8X6_LDR:   return VK_FORMAT_ASTC_8x6_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_8X8_LDR:   return VK_FORMAT_ASTC_8x8_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_10X5_LDR:  return VK_FORMAT_ASTC_10x5_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_10X6_LDR:  return VK_FORMAT_ASTC_10x6_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_10X8_LDR:  return VK_FORMAT_ASTC_10x8_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_10X10_LDR: return VK_FORMAT_ASTC_10x10_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_12X10_LDR: return VK_FORMAT_ASTC_12x10_UNORM_BLOCK;
+        case PixelFormat::ASTC_RGBA_12X12_LDR: return VK_FORMAT_ASTC_12x12_UNORM_BLOCK;
+        case PixelFormat::ATC_RGB:
+        case PixelFormat::ATC_RGBA_EXPLICIT_ALPHA:
+        case PixelFormat::ATC_RGBA_INTERPOLATED_ALPHA:
         // PVRTC requires asking for extension VK_IMG_format_pvrtc before using
         // VK_FORMAT_PVRTC* family of enums.
         //
@@ -403,12 +403,12 @@ namespace Ogre
         //     the PowerVR GE8320 and it doesn't expose this extension.
         //
         // PVRTC on Vulkan is dead.
-        case PF_PVRTC_RGB2:
-        case PF_PVRTC_RGBA2:
-        case PF_PVRTC_RGB4:
-        case PF_PVRTC_RGBA4:
-        case PF_PVRTC2_2BPP:
-        case PF_PVRTC2_4BPP:
+        case PixelFormat::PVRTC_RGB2:
+        case PixelFormat::PVRTC_RGBA2:
+        case PixelFormat::PVRTC_RGB4:
+        case PixelFormat::PVRTC_RGBA4:
+        case PixelFormat::PVRTC2_2BPP:
+        case PixelFormat::PVRTC2_4BPP:
         default:
             return VK_FORMAT_UNDEFINED;
         }
@@ -418,7 +418,7 @@ namespace Ogre
     VkImageAspectFlags VulkanMappings::getImageAspect(PixelFormat pf, const bool bPreferDepthOverStencil)
     {
         int ret = PixelUtil::isDepth(pf) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
-        if (pf == PF_DEPTH24_STENCIL8)
+        if (pf == PixelFormat::DEPTH24_STENCIL8)
             ret |= VK_IMAGE_ASPECT_STENCIL_BIT;
         return ret;
     }

@@ -72,10 +72,11 @@ namespace Ogre {
         */
         static GLenum getClosestGLImageInternalFormat(PixelFormat format);
 
-        /** Function to get the closest matching OGRE format to an internal GL format. To be
-            precise, the format will be chosen that is most efficient to transfer to the card
-            without losing precision.
-            @remarks It is valid for this function to always return PF_A8R8G8B8.
+        /** Function to get the closest matching OGRE format to an internal GL
+           format. To be precise, the format will be chosen that is most
+           efficient to transfer to the card without losing precision.
+            @remarks It is valid for this function to always return
+           PixelFormat::A8R8G8B8.
         */
         static PixelFormat getClosestOGREFormat(GLenum format);
     };

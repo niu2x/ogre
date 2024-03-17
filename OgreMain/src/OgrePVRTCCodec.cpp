@@ -50,14 +50,13 @@ namespace Ogre {
         kPVRTextureFlagTypePVRTC_4
     };
 
-    enum
-    {
-        kPVRTC1_PF_2BPP_RGB,
-        kPVRTC1_PF_2BPP_RGBA,
-        kPVRTC1_PF_4BPP_RGB,
-        kPVRTC1_PF_4BPP_RGBA,
-        kPVRTC2_PF_2BPP,
-        kPVRTC2_PF_4BPP
+    enum {
+        kPVRTC1_PixelFormat::2BPP_RGB,
+        kPVRTC1_PixelFormat::2BPP_RGBA,
+        kPVRTC1_PixelFormat::4BPP_RGB,
+        kPVRTC1_PixelFormat::4BPP_RGBA,
+        kPVRTC2_PixelFormat::2BPP,
+        kPVRTC2_PixelFormat::4BPP
     };
 
     typedef struct _PVRTCTexHeaderV2
@@ -185,16 +184,18 @@ namespace Ogre {
         uint32 bitmaskAlpha = header.bitmaskAlpha;
         flipEndian(&bitmaskAlpha, sizeof(uint32));
 
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
         if (formatFlags == kPVRTextureFlagTypePVRTC_4 || formatFlags == kPVRTextureFlagTypePVRTC_2)
         {
             if (formatFlags == kPVRTextureFlagTypePVRTC_4)
             {
-                format = bitmaskAlpha ? PF_PVRTC_RGBA4 : PF_PVRTC_RGB4;
+                format = bitmaskAlpha ? PixelFormat::PVRTC_RGBA4
+                                      : PixelFormat::PVRTC_RGB4;
             }
             else if (formatFlags == kPVRTextureFlagTypePVRTC_2)
             {
-                format = bitmaskAlpha ? PF_PVRTC_RGBA2 : PF_PVRTC_RGB2;
+                format = bitmaskAlpha ? PixelFormat::PVRTC_RGBA2
+                                      : PixelFormat::PVRTC_RGB2;
             }
         }
         else
@@ -223,26 +224,26 @@ namespace Ogre {
         }
 
         // Identify the pixel format
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
         switch (header.pixelFormat)
         {
-            case kPVRTC1_PF_2BPP_RGB:
-                format = PF_PVRTC_RGB2;
+            case kPVRTC1_PixelFormat::2BPP_RGB:
+                format = PixelFormat::PVRTC_RGB2;
                 break;
-            case kPVRTC1_PF_2BPP_RGBA:
-                format = PF_PVRTC_RGBA2;
+            case kPVRTC1_PixelFormat::2BPP_RGBA:
+                format = PixelFormat::PVRTC_RGBA2;
                 break;
-            case kPVRTC1_PF_4BPP_RGB:
-                format = PF_PVRTC_RGB4;
+            case kPVRTC1_PixelFormat::4BPP_RGB:
+                format = PixelFormat::PVRTC_RGB4;
                 break;
-            case kPVRTC1_PF_4BPP_RGBA:
-                format = PF_PVRTC_RGBA4;
+            case kPVRTC1_PixelFormat::4BPP_RGBA:
+                format = PixelFormat::PVRTC_RGBA4;
                 break;
-            case kPVRTC2_PF_2BPP:
-                format = PF_PVRTC2_2BPP;
+            case kPVRTC2_PixelFormat::2BPP:
+                format = PixelFormat::PVRTC2_2BPP;
                 break;
-            case kPVRTC2_PF_4BPP:
-                format = PF_PVRTC2_4BPP;
+            case kPVRTC2_PixelFormat::4BPP:
+                format = PixelFormat::PVRTC2_4BPP;
                 break;
         }
 

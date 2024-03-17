@@ -317,14 +317,14 @@ namespace Ogre {
         memset(mProps, 0, sizeof(mProps));
 
         // TODO: Fix that probing all formats slows down startup not just on the web also on Android / iOS
-        mProps[PF_A8B8G8R8].valid = true;
+        mProps[PixelFormat::A8B8G8R8].valid = true;
         FormatProperties::Mode mode = {1, 0};
-        mProps[PF_A8B8G8R8].modes.push_back(mode);
+        mProps[PixelFormat::A8B8G8R8].modes.push_back(mode);
 
         if(hasGLES3)
         {
-            mProps[PF_DEPTH16].valid = true;
-            mProps[PF_DEPTH16].modes.push_back(mode);
+            mProps[PixelFormat::DEPTH16].valid = true;
+            mProps[PixelFormat::DEPTH16].modes.push_back(mode);
         }
         LogManager::singleton().log_message(
             "[GLES2] : detectFBOFormats is disabled on this platform (due "
@@ -336,8 +336,7 @@ namespace Ogre {
         const size_t depthCount = hasGLES3 ? DEPTHFORMAT_COUNT : DEPTHFORMAT_COUNT - 1; // 32_8 is not available on GLES2
         const uchar stencilStep = hasGLES3 ? 3 : 1; // 1 and 4 bit not available on GLES3
 
-        for(size_t x = 0; x < PF_COUNT; ++x)
-        {
+        for (size_t x = 0; x < (int)PixelFormat::COUNT; ++x) {
             mProps[x].valid = false;
 
             // Fetch GL format token
@@ -345,8 +344,9 @@ namespace Ogre {
             GLenum fmt = GLES2PixelUtil::getGLOriginFormat((PixelFormat)x);
             GLenum type = GLES2PixelUtil::getGLOriginDataType((PixelFormat)x);
 
-            // Note: letting PF_UNKNOWN pass here is for pure depth/ stencil formats
-            // however there are reports that this crashes some unspecified android devices
+            // Note: letting PixelFormat::UNKNOWN pass here is for pure depth/
+            // stencil formats however there are reports that this crashes some
+            // unspecified android devices
             if((internalFormat == GL_NONE || fmt == GL_NONE || type == GL_NONE) && (x != 0))
                 continue;
 
@@ -450,8 +450,7 @@ namespace Ogre {
         glGetError();
 #endif
         String fmtstring;
-        for(size_t x = 0; x < PF_COUNT; ++x)
-        {
+        for (size_t x = 0; x < (int)PixelFormat::COUNT; ++x) {
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
@@ -461,7 +460,7 @@ namespace Ogre {
 
     void GLES2FBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)
     {
-        const FormatProperties &props = mProps[internalFormat];
+        const FormatProperties &props = mProps[(int)internalFormat];
         if (props.modes.size() == 0 ) {
             *depthFormat = 0;
             *stencilFormat = 0;

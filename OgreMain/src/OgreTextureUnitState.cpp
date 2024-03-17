@@ -470,7 +470,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     PixelFormat TextureUnitState::getDesiredFormat(void) const
     {
-        return !mFramePtrs[0] ? PF_UNKNOWN : mFramePtrs[0]->getDesiredFormat();
+        return !mFramePtrs[0] ? PixelFormat::UNKNOWN
+                              : mFramePtrs[0]->getDesiredFormat();
     }
     //-----------------------------------------------------------------------
     void TextureUnitState::setNumMipmaps(int numMipmaps)

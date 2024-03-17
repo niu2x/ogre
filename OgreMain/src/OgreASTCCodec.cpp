@@ -51,37 +51,37 @@ namespace Ogre {
     {
         switch (fmt)
         {
-        case PF_ASTC_RGBA_4X4_LDR:
-            return 8.00;
-        case PF_ASTC_RGBA_5X4_LDR:
-            return 6.40;
-        case PF_ASTC_RGBA_5X5_LDR:
-            return 5.12;
-        case PF_ASTC_RGBA_6X5_LDR:
-            return 4.27;
-        case PF_ASTC_RGBA_6X6_LDR:
-            return 3.56;
-        case PF_ASTC_RGBA_8X5_LDR:
-            return 3.20;
-        case PF_ASTC_RGBA_8X6_LDR:
-            return 2.67;
-        case PF_ASTC_RGBA_8X8_LDR:
-            return 2.00;
-        case PF_ASTC_RGBA_10X5_LDR:
-            return 2.56;
-        case PF_ASTC_RGBA_10X6_LDR:
-            return 2.13;
-        case PF_ASTC_RGBA_10X8_LDR:
-            return 1.60;
-        case PF_ASTC_RGBA_10X10_LDR:
-            return 1.28;
-        case PF_ASTC_RGBA_12X10_LDR:
-            return 1.07;
-        case PF_ASTC_RGBA_12X12_LDR:
-            return 0.89;
+            case PixelFormat::ASTC_RGBA_4X4_LDR:
+                return 8.00;
+            case PixelFormat::ASTC_RGBA_5X4_LDR:
+                return 6.40;
+            case PixelFormat::ASTC_RGBA_5X5_LDR:
+                return 5.12;
+            case PixelFormat::ASTC_RGBA_6X5_LDR:
+                return 4.27;
+            case PixelFormat::ASTC_RGBA_6X6_LDR:
+                return 3.56;
+            case PixelFormat::ASTC_RGBA_8X5_LDR:
+                return 3.20;
+            case PixelFormat::ASTC_RGBA_8X6_LDR:
+                return 2.67;
+            case PixelFormat::ASTC_RGBA_8X8_LDR:
+                return 2.00;
+            case PixelFormat::ASTC_RGBA_10X5_LDR:
+                return 2.56;
+            case PixelFormat::ASTC_RGBA_10X6_LDR:
+                return 2.13;
+            case PixelFormat::ASTC_RGBA_10X8_LDR:
+                return 1.60;
+            case PixelFormat::ASTC_RGBA_10X10_LDR:
+                return 1.28;
+            case PixelFormat::ASTC_RGBA_12X10_LDR:
+                return 1.07;
+            case PixelFormat::ASTC_RGBA_12X12_LDR:
+                return 0.89;
 
-        default:
-            return 0;
+            default:
+                return 0;
         }
     }
 
@@ -208,7 +208,7 @@ namespace Ogre {
         int ysize = header.ysize[0] + 256 * header.ysize[1] + 65536 * header.ysize[2];
         int zsize = header.zsize[0] + 256 * header.zsize[1] + 65536 * header.zsize[2];
 
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
 
         // For 3D we calculate the bitrate then find the nearest 2D block size.
         if(zdim > 1)
@@ -219,48 +219,48 @@ namespace Ogre {
 
         if(xdim == 4)
         {
-            format = PF_ASTC_RGBA_4X4_LDR;
+            format = PixelFormat::ASTC_RGBA_4X4_LDR;
         }
         else if(xdim == 5)
         {
             if(ydim == 4)
-                format = PF_ASTC_RGBA_5X4_LDR;
+                format = PixelFormat::ASTC_RGBA_5X4_LDR;
             else if(ydim == 5)
-                format = PF_ASTC_RGBA_5X5_LDR;
+                format = PixelFormat::ASTC_RGBA_5X5_LDR;
         }
         else if(xdim == 6)
         {
             if(ydim == 5)
-                format = PF_ASTC_RGBA_6X5_LDR;
+                format = PixelFormat::ASTC_RGBA_6X5_LDR;
             else if(ydim == 6)
-                format = PF_ASTC_RGBA_6X6_LDR;
+                format = PixelFormat::ASTC_RGBA_6X6_LDR;
         }
         else if(xdim == 8)
         {
             if(ydim == 5)
-                format = PF_ASTC_RGBA_8X5_LDR;
+                format = PixelFormat::ASTC_RGBA_8X5_LDR;
             else if(ydim == 6)
-                format = PF_ASTC_RGBA_8X6_LDR;
+                format = PixelFormat::ASTC_RGBA_8X6_LDR;
             else if(ydim == 8)
-                format = PF_ASTC_RGBA_8X8_LDR;
+                format = PixelFormat::ASTC_RGBA_8X8_LDR;
         }
         else if(xdim == 10)
         {
             if(ydim == 5)
-                format = PF_ASTC_RGBA_10X5_LDR;
+                format = PixelFormat::ASTC_RGBA_10X5_LDR;
             else if(ydim == 6)
-                format = PF_ASTC_RGBA_10X6_LDR;
+                format = PixelFormat::ASTC_RGBA_10X6_LDR;
             else if(ydim == 8)
-                format = PF_ASTC_RGBA_10X8_LDR;
+                format = PixelFormat::ASTC_RGBA_10X8_LDR;
             else if(ydim == 10)
-                format = PF_ASTC_RGBA_10X10_LDR;
+                format = PixelFormat::ASTC_RGBA_10X10_LDR;
         }
         else if(xdim == 12)
         {
             if(ydim == 10)
-                format = PF_ASTC_RGBA_12X10_LDR;
+                format = PixelFormat::ASTC_RGBA_12X10_LDR;
             else if(ydim == 12)
-                format = PF_ASTC_RGBA_12X12_LDR;
+                format = PixelFormat::ASTC_RGBA_12X12_LDR;
         }
 
 		// Always one face, cubemaps are not currently supported

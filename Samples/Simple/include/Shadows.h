@@ -547,7 +547,7 @@ protected:
             switch(mat)
             {
             case MAT_STANDARD:
-                mSceneMgr->setShadowTexturePixelFormat(PF_BYTE_RGBA);
+                mSceneMgr->setShadowTexturePixelFormat(PixelFormat::BYTE_RGBA);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
 
                 mSceneMgr->setShadowTextureCasterMaterial(MaterialPtr());
@@ -558,7 +558,7 @@ protected:
                 break;
             case MAT_DEPTH_FLOAT:
                 mViewport->setMaterialScheme(MSN_SHADERGEN); // ensure RTSS is enabled
-                mSceneMgr->setShadowTexturePixelFormat(PF_DEPTH16);
+                mSceneMgr->setShadowTexturePixelFormat(PixelFormat::DEPTH16);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
                 themat = MaterialManager::singleton().getByName(
@@ -581,7 +581,7 @@ protected:
                 break;
             case MAT_DEPTH_FLOAT_PCF:
                 mViewport->setMaterialScheme(MSN_SHADERGEN); // ensure RTSS is enabled
-                mSceneMgr->setShadowTexturePixelFormat(PF_DEPTH16);
+                mSceneMgr->setShadowTexturePixelFormat(PixelFormat::DEPTH16);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
                 themat = MaterialManager::singleton().getByName(

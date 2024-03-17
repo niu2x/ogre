@@ -119,10 +119,10 @@ namespace Ogre {
 
         // Convert image data to ABGR format for STBI (unless it's already compatible)
         uchar* tempData = 0;
-        if(format != Ogre::PF_A8B8G8R8 && format != PF_B8G8R8 && format != PF_BYTE_LA && 
-            format != PF_L8 && format != PF_R8)
-        {   
-            format = Ogre::PF_A8B8G8R8;
+        if (format != Ogre::PixelFormat::A8B8G8R8
+            && format != PixelFormat::B8G8R8 && format != PixelFormat::BYTE_LA
+            && format != PixelFormat::L8 && format != PixelFormat::R8) {
+            format = Ogre::PixelFormat::A8B8G8R8;
             size_t tempDataSize = image->size();
             tempData = OGRE_ALLOC_T(unsigned char, tempDataSize, Ogre::MEMCATEGORY_GENERAL);
             Ogre::PixelBox pbOut(image->getPixelBox(), format, tempData);
@@ -181,20 +181,20 @@ namespace Ogre {
                 "STBIImageCodec::decode");
         }
 
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
         switch( components )
         {
             case 1:
-                format = PF_BYTE_L;
+                format = PixelFormat::BYTE_L;
                 break;
             case 2:
-                format = PF_BYTE_LA;
+                format = PixelFormat::BYTE_LA;
                 break;
             case 3:
-                format = PF_BYTE_RGB;
+                format = PixelFormat::BYTE_RGB;
                 break;
             case 4:
-                format = PF_BYTE_RGBA;
+                format = PixelFormat::BYTE_RGBA;
                 break;
             default:
                 stbi_image_free(pixelData);

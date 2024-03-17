@@ -587,9 +587,21 @@ protected:
             if (depthShadows)
             {
                 mSceneMgr->setShadowTextureCount(3);
-                mSceneMgr->setShadowTextureConfig(0, 2048, 2048, PF_DEPTH16);
-                mSceneMgr->setShadowTextureConfig(1, 1024, 1024, PF_DEPTH16);
-                mSceneMgr->setShadowTextureConfig(2, 1024, 1024, PF_DEPTH16);
+                mSceneMgr->setShadowTextureConfig(
+                    0,
+                    2048,
+                    2048,
+                    PixelFormat::DEPTH16);
+                mSceneMgr->setShadowTextureConfig(
+                    1,
+                    1024,
+                    1024,
+                    PixelFormat::DEPTH16);
+                mSceneMgr->setShadowTextureConfig(
+                    2,
+                    1024,
+                    1024,
+                    PixelFormat::DEPTH16);
                 mSceneMgr->setShadowTextureSelfShadow(true);
                 mSceneMgr->setShadowCasterRenderBackFaces(true);
 
@@ -605,9 +617,21 @@ protected:
             else
             {
                 mSceneMgr->setShadowTextureCount(3);
-                mSceneMgr->setShadowTextureConfig(0, 2048, 2048, PF_X8B8G8R8);
-                mSceneMgr->setShadowTextureConfig(1, 1024, 1024, PF_X8B8G8R8);
-                mSceneMgr->setShadowTextureConfig(2, 1024, 1024, PF_X8B8G8R8);
+                mSceneMgr->setShadowTextureConfig(
+                    0,
+                    2048,
+                    2048,
+                    PixelFormat::X8B8G8R8);
+                mSceneMgr->setShadowTextureConfig(
+                    1,
+                    1024,
+                    1024,
+                    PixelFormat::X8B8G8R8);
+                mSceneMgr->setShadowTextureConfig(
+                    2,
+                    1024,
+                    1024,
+                    PixelFormat::X8B8G8R8);
                 mSceneMgr->setShadowTextureSelfShadow(false);
                 mSceneMgr->setShadowCasterRenderBackFaces(false);
                 mSceneMgr->setShadowTextureCasterMaterial(MaterialPtr());

@@ -159,87 +159,88 @@ namespace Ogre {
 
         switch(determiningFormat)
         {
-        case PF_R5G6B5:
-        case PF_B5G6R5:
-        case PF_R8G8B8:
-        case PF_B8G8R8:
-        case PF_A8R8G8B8:
-        case PF_X8R8G8B8:
-        case PF_A8B8G8R8:
-        case PF_X8B8G8R8:
-        case PF_B8G8R8A8:
-        case PF_R8G8B8A8:
-        case PF_BYTE_LA:
-        case PF_R3G3B2:
-        case PF_A4R4G4B4:
-        case PF_A1R5G5B5:
-        case PF_A2R10G10B10:
-        case PF_A2B10G10R10:
-            // I'd like to be able to use r/g/b masks to get FreeImage to load the data
-            // in it's existing format, but that doesn't work, FreeImage needs to have
-            // data in RGB[A] (big endian) and BGR[A] (little endian), always.
-            if (PixelUtil::hasAlpha(determiningFormat))
-            {
+            case PixelFormat::R5G6B5:
+            case PixelFormat::B5G6R5:
+            case PixelFormat::R8G8B8:
+            case PixelFormat::B8G8R8:
+            case PixelFormat::A8R8G8B8:
+            case PixelFormat::X8R8G8B8:
+            case PixelFormat::A8B8G8R8:
+            case PixelFormat::X8B8G8R8:
+            case PixelFormat::B8G8R8A8:
+            case PixelFormat::R8G8B8A8:
+            case PixelFormat::BYTE_LA:
+            case PixelFormat::R3G3B2:
+            case PixelFormat::A4R4G4B4:
+            case PixelFormat::A1R5G5B5:
+            case PixelFormat::A2R10G10B10:
+            case PixelFormat::A2B10G10R10:
+                // I'd like to be able to use r/g/b masks to get FreeImage to
+                // load the data in it's existing format, but that doesn't work,
+                // FreeImage needs to have data in RGB[A] (big endian) and
+                // BGR[A] (little endian), always.
+                if (PixelUtil::hasAlpha(determiningFormat)) {
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-                requiredFormat = PF_BYTE_RGBA;
+                    requiredFormat = PixelFormat::BYTE_RGBA;
 #else
-                requiredFormat = PF_BYTE_BGRA;
+                    requiredFormat = PixelFormat::BYTE_BGRA;
 #endif
-            }
-            else
-            {
+                } else {
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-                requiredFormat = PF_BYTE_RGB;
+                    requiredFormat = PixelFormat::BYTE_RGB;
 #else
-                requiredFormat = PF_BYTE_BGR;
+                    requiredFormat = PixelFormat::BYTE_BGR;
 #endif
-            }
+                }
             // fall through
-        case PF_L8:
-        case PF_A8:
-            imageType = FIT_BITMAP;
-            break;
+            case PixelFormat::L8:
+            case PixelFormat::A8:
+                imageType = FIT_BITMAP;
+                break;
 
-        case PF_L16:
-            imageType = FIT_UINT16;
-            break;
+            case PixelFormat::L16:
+                imageType = FIT_UINT16;
+                break;
 
-        case PF_SHORT_GR:
-            requiredFormat = PF_SHORT_RGB;
-            // fall through
-        case PF_SHORT_RGB:
-            imageType = FIT_RGB16;
-            break;
+            case PixelFormat::SHORT_GR:
+                requiredFormat = PixelFormat::SHORT_RGB;
+                // fall through
+            case PixelFormat::SHORT_RGB:
+                imageType = FIT_RGB16;
+                break;
 
-        case PF_SHORT_RGBA:
-            imageType = FIT_RGBA16;
-            break;
+            case PixelFormat::SHORT_RGBA:
+                imageType = FIT_RGBA16;
+                break;
 
-        case PF_FLOAT16_R:
-            requiredFormat = PF_FLOAT32_R;
-            // fall through
-        case PF_FLOAT32_R:
-            imageType = FIT_FLOAT;
-            break;
+            case PixelFormat::FLOAT16_R:
+                requiredFormat = PixelFormat::FLOAT32_R;
+                // fall through
+            case PixelFormat::FLOAT32_R:
+                imageType = FIT_FLOAT;
+                break;
 
-        case PF_FLOAT16_GR:
-        case PF_FLOAT16_RGB:
-        case PF_FLOAT32_GR:
-            requiredFormat = PF_FLOAT32_RGB;
-            // fall through
-        case PF_FLOAT32_RGB:
-            imageType = FIT_RGBF;
-            break;
+            case PixelFormat::FLOAT16_GR:
+            case PixelFormat::FLOAT16_RGB:
+            case PixelFormat::FLOAT32_GR:
+                requiredFormat = PixelFormat::FLOAT32_RGB;
+                // fall through
+            case PixelFormat::FLOAT32_RGB:
+                imageType = FIT_RGBF;
+                break;
 
-        case PF_FLOAT16_RGBA:
-            requiredFormat = PF_FLOAT32_RGBA;
-            // fall through
-        case PF_FLOAT32_RGBA:
-            imageType = FIT_RGBAF;
-            break;
+            case PixelFormat::FLOAT16_RGBA:
+                requiredFormat = PixelFormat::FLOAT32_RGBA;
+                // fall through
+            case PixelFormat::FLOAT32_RGBA:
+                imageType = FIT_RGBAF;
+                break;
 
-        default:
-            OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "Invalid image format", "FreeImageCodec::encode");
+            default:
+                OGRE_EXCEPT(
+                    Exception::ERR_ITEM_NOT_FOUND,
+                    "Invalid image format",
+                    "FreeImageCodec::encode");
         };
 
         // Check support for this image type & bit depth
@@ -250,14 +251,14 @@ namespace Ogre {
             // Only deal with RGBA -> RGB for now
             switch (requiredFormat)
             {
-            case PF_BYTE_RGBA:
-                requiredFormat = PF_BYTE_RGB;
-                break;
-            case PF_BYTE_BGRA:
-                requiredFormat = PF_BYTE_BGR;
-                break;
-            default:
-                break;
+                case PixelFormat::BYTE_RGBA:
+                    requiredFormat = PixelFormat::BYTE_RGB;
+                    break;
+                case PixelFormat::BYTE_BGRA:
+                    requiredFormat = PixelFormat::BYTE_BGR;
+                    break;
+                default:
+                    break;
             };
 
         }
@@ -274,16 +275,16 @@ namespace Ogre {
             {
                 // drop to 24 bit (lose alpha)
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-                requiredFormat = PF_BYTE_RGB;
+                requiredFormat = PixelFormat::BYTE_RGB;
 #else
-                requiredFormat = PF_BYTE_BGR;
+                requiredFormat = PixelFormat::BYTE_BGR;
 #endif
                 bpp = 24;
             }
             else if (bpp == 128 && image->getHasAlpha() && FreeImage_FIFSupportsExportBPP((FREE_IMAGE_FORMAT)mFreeImageType, 96))
             {
                 // drop to 96-bit floating point
-                requiredFormat = PF_FLOAT32_RGB;
+                requiredFormat = PixelFormat::FLOAT32_RGB;
             }
         }
 
@@ -315,8 +316,8 @@ namespace Ogre {
                         "FreeImage_AllocateT failed - possibly out of memory. ");
         }
 
-        if (requiredFormat == PF_L8 || requiredFormat == PF_A8)
-        {
+        if (requiredFormat == PixelFormat::L8
+            || requiredFormat == PixelFormat::A8) {
             // Must explicitly tell FreeImage that this is greyscale by setting
             // a "grey" palette (otherwise it will save as a normal RGB
             // palettized image).
@@ -324,7 +325,7 @@ namespace Ogre {
             FreeImage_Unload(ret);
             ret = tmp;
         }
-        
+
         size_t dstPitch = FreeImage_GetPitch(ret);
         size_t srcPitch = image->getWidth() * PixelUtil::getNumElemBytes(requiredFormat);
 
@@ -404,7 +405,7 @@ namespace Ogre {
         }
 
         // Must derive format first, this may perform conversions
-        PixelFormat format = PF_UNKNOWN;
+        PixelFormat format = PixelFormat::UNKNOWN;
 
         FREE_IMAGE_TYPE imageType = FreeImage_GetImageType(fiBitmap);
         FREE_IMAGE_COLOR_TYPE colourType = FreeImage_GetColorType(fiBitmap);
@@ -463,36 +464,37 @@ namespace Ogre {
             switch(bpp)
             {
             case 8:
-                format = PF_L8;
+                format = PixelFormat::L8;
                 break;
             case 16:
                 // Determine 555 or 565 from green mask
                 // cannot be 16-bit greyscale since that's FIT_UINT16
                 if(FreeImage_GetGreenMask(fiBitmap) == FI16_565_GREEN_MASK)
                 {
-                    format = PF_R5G6B5;
+                    format = PixelFormat::R5G6B5;
                 }
                 else
                 {
                     // FreeImage doesn't support 4444 format so must be 1555
-                    format = PF_A1R5G5B5;
+                    format = PixelFormat::A1R5G5B5;
                 }
                 break;
             case 24:
                 // FreeImage differs per platform
-                //     PF_BYTE_BGR[A] for little endian (== PF_ARGB native)
-                //     PF_BYTE_RGB[A] for big endian (== PF_RGBA native)
+                //     PixelFormat::BYTE_BGR[A] for little endian (==
+                //     PixelFormat::ARGB native) PixelFormat::BYTE_RGB[A] for
+                //     big endian (== PixelFormat::RGBA native)
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-                format = PF_BYTE_RGB;
+                format = PixelFormat::BYTE_RGB;
 #else
-                format = PF_BYTE_BGR;
+                format = PixelFormat::BYTE_BGR;
 #endif
                 break;
             case 32:
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-                format = PF_BYTE_RGBA;
+                format = PixelFormat::BYTE_RGBA;
 #else
-                format = PF_BYTE_BGRA;
+                format = PixelFormat::BYTE_BGRA;
 #endif
                 break;
                 
@@ -502,23 +504,23 @@ namespace Ogre {
         case FIT_UINT16:
         case FIT_INT16:
             // 16-bit greyscale
-            format = PF_L16;
+            format = PixelFormat::L16;
             break;
         case FIT_FLOAT:
             // Single-component floating point data
-            format = PF_FLOAT32_R;
+            format = PixelFormat::FLOAT32_R;
             break;
         case FIT_RGB16:
-            format = PF_SHORT_RGB;
+            format = PixelFormat::SHORT_RGB;
             break;
         case FIT_RGBA16:
-            format = PF_SHORT_RGBA;
+            format = PixelFormat::SHORT_RGBA;
             break;
         case FIT_RGBF:
-            format = PF_FLOAT32_RGB;
+            format = PixelFormat::FLOAT32_RGB;
             break;
         case FIT_RGBAF:
-            format = PF_FLOAT32_RGBA;
+            format = PixelFormat::FLOAT32_RGBA;
             break;
             
             

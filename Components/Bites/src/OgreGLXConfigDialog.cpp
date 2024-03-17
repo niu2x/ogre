@@ -347,7 +347,12 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
 
         // Convert and copy image
         data = (unsigned char*)malloc(mWidth * mHeight * bpl); // Must be allocated with malloc
-        PixelBox dst(mWidth, mHeight, 1, bpl == 2 ? PF_B5G6R5 : PF_A8R8G8B8, data);
+        PixelBox dst(
+            mWidth,
+            mHeight,
+            1,
+            bpl == 2 ? PixelFormat::B5G6R5 : PixelFormat::A8R8G8B8,
+            data);
 
         memset(data, 0, dst.getConsecutiveSize());
         dst.bottom = src.bottom;

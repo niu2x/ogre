@@ -1498,8 +1498,7 @@ namespace Ogre
 
         PixelFormat format = Ogre::D3D9Mappings::_getPF(desc.Format);
 
-        if (format == PF_UNKNOWN)
-        {
+        if (format == PixelFormat::UNKNOWN) {
             SAFE_RELEASE(pTempSurf);
             OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR,
                 "Unsupported format", "D3D9Device::copyContentsToMemory");

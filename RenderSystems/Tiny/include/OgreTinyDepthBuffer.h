@@ -17,7 +17,7 @@ namespace Ogre
         TinyDepthBuffer(uint16 poolId, uint32 width, uint32 height, uint32 fsaa, bool manual)
             : DepthBuffer(poolId, width, height, fsaa, manual)
         {
-            mBuffer.create(PF_FLOAT32_R, width, height);
+            mBuffer.create(PixelFormat::FLOAT32_R, width, height);
         }
 
         Image* getImage() { return &mBuffer; }

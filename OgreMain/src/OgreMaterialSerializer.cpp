@@ -896,8 +896,7 @@ namespace Ogre
                     writeValue(StringConverter::to_string(pTex->getNumMipmaps()));
                 }
 
-                if (pTex->getDesiredFormat() != PF_UNKNOWN)
-                {
+                if (pTex->getDesiredFormat() != PixelFormat::UNKNOWN) {
                     writeValue(PixelUtil::getFormatName(pTex->getDesiredFormat()));
                 }
             }

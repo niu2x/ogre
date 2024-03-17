@@ -524,24 +524,32 @@ namespace Ogre
         {
             VkFormatProperties props;
 
-            vkGetPhysicalDeviceFormatProperties( mDevice->mPhysicalDevice,
-                                                 VulkanMappings::get( PF_DXT1 ), &props );
+            vkGetPhysicalDeviceFormatProperties(
+                mDevice->mPhysicalDevice,
+                VulkanMappings::get(PixelFormat::DXT1),
+                &props);
             if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
                 rsc->setCapability( RSC_TEXTURE_COMPRESSION_DXT );
 
-            vkGetPhysicalDeviceFormatProperties( mDevice->mPhysicalDevice,
-                                                 VulkanMappings::get( PF_BC4_UNORM ), &props );
+            vkGetPhysicalDeviceFormatProperties(
+                mDevice->mPhysicalDevice,
+                VulkanMappings::get(PixelFormat::BC4_UNORM),
+                &props);
             if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
                 rsc->setCapability( RSC_TEXTURE_COMPRESSION_BC4_BC5 );
 
-            vkGetPhysicalDeviceFormatProperties( mDevice->mPhysicalDevice,
-                                                 VulkanMappings::get( PF_BC6H_UF16 ), &props );
+            vkGetPhysicalDeviceFormatProperties(
+                mDevice->mPhysicalDevice,
+                VulkanMappings::get(PixelFormat::BC6H_UF16),
+                &props);
             if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
                 rsc->setCapability( RSC_TEXTURE_COMPRESSION_BC6H_BC7 );
 
             // Vulkan doesn't allow supporting ETC1 without ETC2
-            vkGetPhysicalDeviceFormatProperties( mDevice->mPhysicalDevice,
-                                                 VulkanMappings::get( PF_ETC2_RGB8 ), &props );
+            vkGetPhysicalDeviceFormatProperties(
+                mDevice->mPhysicalDevice,
+                VulkanMappings::get(PixelFormat::ETC2_RGB8),
+                &props);
             if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
             {
                 rsc->setCapability( RSC_TEXTURE_COMPRESSION_ETC1 );
@@ -549,7 +557,9 @@ namespace Ogre
             }
 
             vkGetPhysicalDeviceFormatProperties(
-                mDevice->mPhysicalDevice, VulkanMappings::get( PF_ASTC_RGBA_4X4_LDR ), &props );
+                mDevice->mPhysicalDevice,
+                VulkanMappings::get(PixelFormat::ASTC_RGBA_4X4_LDR),
+                &props);
             if( props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT )
                 rsc->setCapability( RSC_TEXTURE_COMPRESSION_ASTC );
         }

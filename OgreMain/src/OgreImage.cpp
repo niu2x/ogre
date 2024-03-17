@@ -43,7 +43,7 @@ namespace Ogre {
         mBuffer( NULL ),
         mAutoDelete( true )
     {
-        if (format == PF_UNKNOWN)
+        if (format == PixelFormat::UNKNOWN)
             return;
 
         size_t size = calculate_size(0, 1, width, height, depth, mFormat);
@@ -354,7 +354,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     bool Image::getHasAlpha(void) const
     {
-        return PixelUtil::getFlags(mFormat) & PFF_HASALPHA;
+        return PixelUtil::getFlags(mFormat) & PFF_HAS_ALPHA;
     }
     //-----------------------------------------------------------------------------
     void Image::applyGamma( uchar *buffer, Real gamma, size_t size, uchar bpp )
@@ -440,46 +440,64 @@ namespace Ogre {
         case FILTER_BILINEAR:
             switch (src.format) 
             {
-            case PF_L8: case PF_R8: case PF_A8: case PF_BYTE_LA:
-            case PF_R8G8B8: case PF_B8G8R8:
-            case PF_R8G8B8A8: case PF_B8G8R8A8:
-            case PF_A8B8G8R8: case PF_A8R8G8B8:
-            case PF_X8B8G8R8: case PF_X8R8G8B8:
-                if(src.format != scaled.format)
-                {
-                    // Allocate temp buffer of destination size in source format 
-                    buf.create(src.format, scaled.getWidth(), scaled.getHeight(), scaled.getDepth());
-                    temp = buf.getPixelBox();
-                }
-                // super-optimized: byte-oriented math, no conversion
-                switch (PixelUtil::getNumElemBytes(src.format)) 
-                {
-                case 1: LinearResampler_Byte<1>::scale(src, temp); break;
-                case 2: LinearResampler_Byte<2>::scale(src, temp); break;
-                case 3: LinearResampler_Byte<3>::scale(src, temp); break;
-                case 4: LinearResampler_Byte<4>::scale(src, temp); break;
-                default:
-                    // never reached
-                    assert(false);
-                }
-                if(temp.data != scaled.data)
-                {
-                    // Blit temp buffer
-                    PixelUtil::bulkPixelConversion(temp, scaled);
-                }
-                break;
-            case PF_FLOAT32_RGB:
-            case PF_FLOAT32_RGBA:
-                if (scaled.format == PF_FLOAT32_RGB || scaled.format == PF_FLOAT32_RGBA)
-                {
-                    // float32 to float32, avoid unpack/repack overhead
-                    LinearResampler_Float32::scale(src, scaled);
+                case PixelFormat::L8:
+                case PixelFormat::R8:
+                case PixelFormat::A8:
+                case PixelFormat::BYTE_LA:
+                case PixelFormat::R8G8B8:
+                case PixelFormat::B8G8R8:
+                case PixelFormat::R8G8B8A8:
+                case PixelFormat::B8G8R8A8:
+                case PixelFormat::A8B8G8R8:
+                case PixelFormat::A8R8G8B8:
+                case PixelFormat::X8B8G8R8:
+                case PixelFormat::X8R8G8B8:
+                    if (src.format != scaled.format) {
+                        // Allocate temp buffer of destination size in source
+                        // format
+                        buf.create(
+                            src.format,
+                            scaled.getWidth(),
+                            scaled.getHeight(),
+                            scaled.getDepth());
+                        temp = buf.getPixelBox();
+                    }
+                    // super-optimized: byte-oriented math, no conversion
+                    switch (PixelUtil::getNumElemBytes(src.format)) {
+                        case 1:
+                            LinearResampler_Byte<1>::scale(src, temp);
+                            break;
+                        case 2:
+                            LinearResampler_Byte<2>::scale(src, temp);
+                            break;
+                        case 3:
+                            LinearResampler_Byte<3>::scale(src, temp);
+                            break;
+                        case 4:
+                            LinearResampler_Byte<4>::scale(src, temp);
+                            break;
+                        default:
+                            // never reached
+                            assert(false);
+                    }
+                    if (temp.data != scaled.data) {
+                        // Blit temp buffer
+                        PixelUtil::bulkPixelConversion(temp, scaled);
+                    }
                     break;
-                }
-                // else, fall through
-            default:
-                // non-optimized: floating-point math, performs conversion but always works
-                LinearResampler::scale(src, scaled);
+                case PixelFormat::FLOAT32_RGB:
+                case PixelFormat::FLOAT32_RGBA:
+                    if (scaled.format == PixelFormat::FLOAT32_RGB
+                        || scaled.format == PixelFormat::FLOAT32_RGBA) {
+                        // float32 to float32, avoid unpack/repack overhead
+                        LinearResampler_Float32::scale(src, scaled);
+                        break;
+                    }
+                    // else, fall through
+                default:
+                    // non-optimized: floating-point math, performs conversion
+                    // but always works
+                    LinearResampler::scale(src, scaled);
             }
             break;
         }

@@ -904,7 +904,7 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
 
         // 3 textures per directional light
         mSceneMgr->setShadowTextureCountPerLightType(Ogre::Light::LT_DIRECTIONAL, 3);
-        mSceneMgr->setShadowTextureSettings(512, 3, PF_DEPTH16);
+        mSceneMgr->setShadowTextureSettings(512, 3, PixelFormat::DEPTH16);
         mSceneMgr->setShadowTextureSelfShadow(true);
 
         // Leave only directional light.

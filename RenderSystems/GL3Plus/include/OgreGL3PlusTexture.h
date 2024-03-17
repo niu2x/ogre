@@ -49,9 +49,13 @@ namespace Ogre {
         // Takes the OGRE texture type (1d/2d/3d/cube) and returns the appropriate GL one
         GLenum getGL3PlusTextureTarget(void) const;
 
-        void createShaderAccessPoint(uint bindPoint, TextureAccess access = TA_READ_WRITE,
-                                     int mipmapLevel = 0, int textureArrayIndex = 0,
-                                     PixelFormat format = PF_UNKNOWN) override;
+        void createShaderAccessPoint(
+            uint bindPoint,
+            TextureAccess access = TA_READ_WRITE,
+            int mipmapLevel = 0,
+            int textureArrayIndex = 0,
+            PixelFormat format = PixelFormat::UNKNOWN) override;
+
     protected:
         /// @copydoc Texture::createInternalResourcesImpl
         void createInternalResourcesImpl(void) override;

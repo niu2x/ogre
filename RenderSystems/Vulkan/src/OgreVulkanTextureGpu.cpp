@@ -200,7 +200,7 @@ namespace Ogre
     //-----------------------------------------------------------------------------------
     void VulkanTextureGpu::createInternalResourcesImpl( void )
     {
-        if( mFormat == PF_UNKNOWN )
+        if (mFormat == PixelFormat::UNKNOWN)
             return;  // Nothing to do
 
         // Adjust format if required.
@@ -603,9 +603,7 @@ namespace Ogre
                 imageViewCi.components = {VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_R,
                                           VK_COMPONENT_SWIZZLE_ONE};
             }
-        }
-        else if (mFormat == PF_A8)
-        {
+        } else if (mFormat == PixelFormat::A8) {
             imageViewCi.components = {VK_COMPONENT_SWIZZLE_ONE, VK_COMPONENT_SWIZZLE_ONE, VK_COMPONENT_SWIZZLE_ONE,
                                       VK_COMPONENT_SWIZZLE_R};
         }
@@ -749,7 +747,7 @@ namespace Ogre
             mDepthTexture = std::make_unique<VulkanTextureGpu>(texMgr, mName+"/Depth", 0, "", true, nullptr);
             mDepthTexture->setWidth(target->getWidth());
             mDepthTexture->setHeight(target->getHeight());
-            mDepthTexture->setFormat(PF_DEPTH32);
+            mDepthTexture->setFormat(PixelFormat::DEPTH32);
             mDepthTexture->createInternalResources();
             mDepthTexture->setFSAA(1, "");
         }

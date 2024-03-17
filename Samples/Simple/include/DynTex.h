@@ -93,7 +93,7 @@ protected:
             TEXTURE_SIZE,
             TEXTURE_SIZE,
             0,
-            PF_L8,
+            PixelFormat::L8,
             TU_DYNAMIC_WRITE_ONLY);
         MaterialManager::singleton()
             .getByName(
@@ -109,7 +109,12 @@ protected:
         // initialise the texture to have full luminance
         mConstantTexBuf.resize(mTexBuf->getSizeInBytes(), 0xff);
 
-        mBox = PixelBox(TEXTURE_SIZE, TEXTURE_SIZE, 1, PF_L8, mConstantTexBuf.data());
+        mBox = PixelBox(
+            TEXTURE_SIZE,
+            TEXTURE_SIZE,
+            1,
+            PixelFormat::L8,
+            mConstantTexBuf.data());
         mTexBuf->blitFromMemory(mBox);
 
         // create a penguin and attach him to our penguin node

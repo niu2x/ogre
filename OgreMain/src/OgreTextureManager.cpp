@@ -361,7 +361,7 @@ TextureManager& TextureManager::singleton(void)
     bool TextureManager::isHardwareFilteringSupported(TextureType ttype, PixelFormat format,
                                                       int usage, bool preciseFormatOnly)
     {
-        if (format == PF_UNKNOWN)
+        if (format == PixelFormat::UNKNOWN)
             return false;
 
         // Check native format
@@ -377,7 +377,7 @@ TextureManager& TextureManager::singleton(void)
             return mWarningTexture;
 
         // Generate warning texture
-        Image pixels(PF_R5G6B5, 8, 8);
+        Image pixels(PixelFormat::R5G6B5, 8, 8);
 
         // Yellow/black stripes
         const ColourValue black(0, 0, 0), yellow(1, 1, 0);

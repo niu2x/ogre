@@ -437,7 +437,7 @@ void Font::load_resource(Resource* res)
 
     Real textureAspect = (Real)finalWidth / (Real)finalHeight;
 
-    Image img(PF_BYTE_LA, finalWidth, finalHeight);
+    Image img(PixelFormat::BYTE_LA, finalWidth, finalHeight);
     // Reset content (transparent)
     img.setTo(ColourValue::ZERO);
 

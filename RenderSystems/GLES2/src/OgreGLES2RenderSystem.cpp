@@ -1743,8 +1743,7 @@ namespace Ogre {
         GLenum format = GLES2PixelUtil::getGLOriginFormat(dst.format);
         GLenum type = GLES2PixelUtil::getGLOriginDataType(dst.format);
 
-        if (dst.format != PF_BYTE_RGBA)
-        {
+        if (dst.format != PixelFormat::BYTE_RGBA) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                 "Unsupported format.",
                 "GLES2RenderSystem::_copyContentsToMemory" );

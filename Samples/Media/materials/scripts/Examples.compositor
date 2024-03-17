@@ -4,9 +4,9 @@ compositor Bloom
     technique
     {
         // Temporary textures
-        texture rt_output target_width target_height PF_BYTE_RGB
-        texture rt0 target_width_scaled 0.25 target_height_scaled 0.25 PF_BYTE_RGB
-        texture rt1 target_width_scaled 0.25 target_height_scaled 0.25 PF_BYTE_RGB
+        texture rt_output target_width target_height PixelFormat::BYTE_RGB
+        texture rt0 target_width_scaled 0.25 target_height_scaled 0.25 PixelFormat::BYTE_RGB
+        texture rt1 target_width_scaled 0.25 target_height_scaled 0.25 PixelFormat::BYTE_RGB
 
         target rt_output
         {
@@ -74,7 +74,7 @@ compositor Glass
 {
     technique
     {
-        texture rt0 target_width target_height PF_BYTE_RGB
+        texture rt0 target_width target_height PixelFormat::BYTE_RGB
 
         target rt0 { input previous }
 
@@ -97,7 +97,7 @@ compositor "Old TV"
 {
     technique
     {
-        texture rt0 target_width target_height PF_BYTE_RGB
+        texture rt0 target_width target_height PixelFormat::BYTE_RGB
 
         // render scene to a texture
         target rt0 { input previous }
@@ -125,7 +125,7 @@ compositor B&W
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -154,8 +154,8 @@ compositor DoF
    technique
    {
        // Temporary textures
-       texture scene target_width target_height PF_BYTE_RGBA PF_DEPTH16
-       texture blur target_width_scaled 0.25 target_height_scaled 0.25 PF_BYTE_RGBA
+       texture scene target_width target_height PixelFormat::BYTE_RGBA PixelFormat::DEPTH16
+       texture blur target_width_scaled 0.25 target_height_scaled 0.25 PixelFormat::BYTE_RGBA
 
        target scene
        {
@@ -196,7 +196,7 @@ compositor Embossed
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -225,7 +225,7 @@ compositor "Sharpen Edges"
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -254,7 +254,7 @@ compositor Invert
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -283,7 +283,7 @@ compositor Posterize
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -312,7 +312,7 @@ compositor Laplace
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -341,7 +341,7 @@ compositor Tiling
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -370,7 +370,7 @@ compositor "Old Movie"
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_A8B8G8R8
+        texture rt0 target_width target_height PixelFormat::A8B8G8R8
 
         target rt0
         {
@@ -403,18 +403,18 @@ compositor HDR
 		
         // Temporary textures
 		// Fullsize HDR render target, used as tone mapping source
-        texture rt_full target_width target_height PF_FLOAT16_RGB
+        texture rt_full target_width target_height PixelFormat::FLOAT16_RGB
 		// Targets used for luminance evaluation (3x3 downsample, point filtering)
-		texture rt_lum0 1 1 PF_FLOAT16_RGB
-		texture rt_lum1 4 4 PF_FLOAT16_RGB
-		texture rt_lum2 16 16 PF_FLOAT16_RGB
-		texture rt_lum3 64 64 PF_FLOAT16_RGB
-		texture rt_lum4 128 128 PF_FLOAT16_RGB
+		texture rt_lum0 1 1 PixelFormat::FLOAT16_RGB
+		texture rt_lum1 4 4 PixelFormat::FLOAT16_RGB
+		texture rt_lum2 16 16 PixelFormat::FLOAT16_RGB
+		texture rt_lum3 64 64 PixelFormat::FLOAT16_RGB
+		texture rt_lum4 128 128 PixelFormat::FLOAT16_RGB
 		// Bright-pass filtered target (tone mapped)
-		texture rt_brightpass 128 128 PF_BYTE_RGB
+		texture rt_brightpass 128 128 PixelFormat::BYTE_RGB
 		// Bloom filter targets
-		texture rt_bloom0 128 128 PF_BYTE_RGB
-		texture rt_bloom1 128 128 PF_BYTE_RGB
+		texture rt_bloom0 128 128 PixelFormat::BYTE_RGB
+		texture rt_bloom1 128 128 PixelFormat::BYTE_RGB
 
 
 		target rt_full
@@ -559,8 +559,8 @@ compositor "Gaussian Blur"
 		compositor_logic GaussianBlur
 		
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
-        texture rt1 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
+        texture rt1 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -603,7 +603,7 @@ compositor TestMRT
 	{
 		// temporary texture (MRT!)
 		// 4 sub-surfaces, all 32-bit
-		texture mrt0 target_width target_height PF_BYTE_RGBA PF_BYTE_RGBA PF_BYTE_RGBA PF_BYTE_RGBA
+		texture mrt0 target_width target_height PixelFormat::BYTE_RGBA PixelFormat::BYTE_RGBA PixelFormat::BYTE_RGBA PixelFormat::BYTE_RGBA
 
         target mrt0
         {
@@ -644,7 +644,7 @@ compositor "Radial Blur"
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -673,7 +673,7 @@ compositor ASCII
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
         target rt0
         {
             // Render output from previous compositor (or original scene)
@@ -701,7 +701,7 @@ compositor Halftone
     technique
     {
         // Temporary textures
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 
         target rt0
         {
@@ -729,7 +729,7 @@ compositor "Night Vision"
 {
     technique
     {
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 	
 	target rt0
 	{
@@ -754,7 +754,7 @@ compositor Dither
 {
     technique
     {
-        texture rt0 target_width target_height PF_BYTE_RGBA
+        texture rt0 target_width target_height PixelFormat::BYTE_RGBA
 	
 	target rt0
 	{
@@ -809,7 +809,7 @@ compositor CubeMap
 {
     technique
     {
-        texture tex 128 128 PF_BYTE_RGB cubic
+        texture tex 128 128 PixelFormat::BYTE_RGB cubic
         target tex 0 : CubeFace {}
         target tex 1 : CubeFace {}
         target tex 2 : CubeFace {}
@@ -828,8 +828,8 @@ compositor Fresnel
 {
     technique
     {
-        texture reflection 512 512 PF_BYTE_RGB
-        texture refraction 512 512 PF_BYTE_RGB
+        texture reflection 512 512 PixelFormat::BYTE_RGB
+        texture refraction 512 512 PixelFormat::BYTE_RGB
         target reflection
         {
             visibility_mask 0x00F // SURFACE objects
@@ -851,8 +851,8 @@ compositor WBOIT
 {
     technique
     {
-        texture opaque target_width target_height PF_BYTE_RGBA no_fsaa depth_pool 1
-        texture accum target_width target_height PF_FLOAT16_RGBA PF_FLOAT16_R no_fsaa depth_pool 1
+        texture opaque target_width target_height PixelFormat::BYTE_RGBA no_fsaa depth_pool 1
+        texture accum target_width target_height PixelFormat::FLOAT16_RGBA PixelFormat::FLOAT16_R no_fsaa depth_pool 1
 
         target opaque
         {

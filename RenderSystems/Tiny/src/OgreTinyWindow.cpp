@@ -39,7 +39,7 @@ void TinyWindow::resize(uint width, uint height)
 {
     mWidth = width;
     mHeight = height;
-    mBuffer.create(PF_BYTE_RGB, width, height);
+    mBuffer.create(PixelFormat::BYTE_RGB, width, height);
 }
 
 void TinyWindow::swapBuffers()
@@ -52,7 +52,8 @@ void TinyWindow::swapBuffers()
 
     SDL_LockSurface(surface);
 
-    auto format = surface->format->BytesPerPixel == 4 ? PF_BYTE_BGRA : PF_BYTE_BGR;
+    auto format = surface->format->BytesPerPixel == 4 ? PixelFormat::BYTE_BGRA
+                                                      : PixelFormat::BYTE_BGR;
 
     PixelBox dst(surface->w, surface->h, 1, format, surface->pixels);
     dst.rowPitch = surface->pitch/surface->format->BytesPerPixel;

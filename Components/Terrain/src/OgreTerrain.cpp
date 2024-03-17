@@ -369,7 +369,10 @@ namespace Ogre
                     "degraded");
             }
             stream.write(&mLayerBlendMapSizeActual);
-            Image tmp(PF_BYTE_RGBA, mLayerBlendMapSizeActual, mLayerBlendMapSizeActual);
+            Image tmp(
+                PixelFormat::BYTE_RGBA,
+                mLayerBlendMapSizeActual,
+                mLayerBlendMapSizeActual);
             for (const auto& tex : mBlendTextureList)
             {
                 // Must blit back in CPU format!
@@ -393,8 +396,8 @@ namespace Ogre
                     mCpuTerrainNormalMap.getData(),
                     mCpuTerrainNormalMap.size());
             } else {
-                Image tmp(PF_BYTE_RGB, mSize, mSize);
-				mTerrainNormalMap->getBuffer()->blitToMemory(tmp.getPixelBox());
+                Image tmp(PixelFormat::BYTE_RGB, mSize, mSize);
+                mTerrainNormalMap->getBuffer()->blitToMemory(tmp.getPixelBox());
                 stream.write(tmp.getData(), tmp.size());
             }
             stream.writeChunkEnd(TERRAINDERIVEDDATA_CHUNK_ID);
@@ -414,7 +417,10 @@ namespace Ogre
             }
             else
             {
-                Image tmp(PF_BYTE_RGB, mGlobalColourMapSize, mGlobalColourMapSize);
+                Image tmp(
+                    PixelFormat::BYTE_RGB,
+                    mGlobalColourMapSize,
+                    mGlobalColourMapSize);
                 mColourMap->getBuffer()->blitToMemory(tmp.getPixelBox());
                 stream.write(tmp.getData(), tmp.size());
             }
@@ -436,7 +442,7 @@ namespace Ogre
             }
             else
             {
-                Image tmp(PF_L8, mLightmapSize, mLightmapSize);
+                Image tmp(PixelFormat::L8, mLightmapSize, mLightmapSize);
                 mLightmap->getBuffer()->blitToMemory(tmp.getPixelBox());
                 stream.write(tmp.getData(), tmp.size());
             }
@@ -460,7 +466,10 @@ namespace Ogre
             else
             {
                 // composite map is 4 channel, 3x diffuse, 1x specular mask
-                Image tmp(PF_BYTE_RGBA, mCompositeMapSize, mCompositeMapSize);
+                Image tmp(
+                    PixelFormat::BYTE_RGBA,
+                    mCompositeMapSize,
+                    mCompositeMapSize);
                 mCompositeMap->getBuffer()->blitToMemory(tmp.getPixelBox());
                 stream.write(tmp.getData(), tmp.size());
             }
@@ -682,7 +691,10 @@ namespace Ogre
         int numBlendTex = getBlendTextureCount(numLayers);
         for (int i = 0; i < numBlendTex; ++i)
         {
-            mCpuBlendMapStorage.emplace_back(PF_BYTE_RGBA, mLayerBlendMapSize, mLayerBlendMapSize);
+            mCpuBlendMapStorage.emplace_back(
+                PixelFormat::BYTE_RGBA,
+                mLayerBlendMapSize,
+                mLayerBlendMapSize);
             stream.read(
                 mCpuBlendMapStorage.back().getData(),
                 mCpuBlendMapStorage.back().size());
@@ -701,7 +713,7 @@ namespace Ogre
             if (name == "normalmap")
             {
                 mNormalMapRequired = true;
-                mCpuTerrainNormalMap.create(PF_BYTE_RGB, sz, sz);
+                mCpuTerrainNormalMap.create(PixelFormat::BYTE_RGB, sz, sz);
                 stream.read(
                     mCpuTerrainNormalMap.getData(),
                     mCpuTerrainNormalMap.size());
@@ -711,21 +723,21 @@ namespace Ogre
             {
                 mGlobalColourMapEnabled = true;
                 mGlobalColourMapSize = sz;
-                mCpuColourMap.create(PF_BYTE_RGB, sz, sz);
+                mCpuColourMap.create(PixelFormat::BYTE_RGB, sz, sz);
                 stream.read(mCpuColourMap.getData(), mCpuColourMap.size());
             }
             else if (name == "lightmap")
             {
                 mLightMapRequired = true;
                 mLightmapSize = sz;
-                mCpuLightmap.create(PF_L8, sz, sz);
+                mCpuLightmap.create(PixelFormat::L8, sz, sz);
                 stream.read(mCpuLightmap.getData(), mCpuLightmap.size());
             }
             else if (name == "compositemap")
             {
                 mCompositeMapRequired = true;
                 mCompositeMapSize = sz;
-                mCpuCompositeMap.create(PF_BYTE_RGBA, sz, sz);
+                mCpuCompositeMap.create(PixelFormat::BYTE_RGBA, sz, sz);
                 stream.read(
                     mCpuCompositeMap.getData(),
                     mCpuCompositeMap.size());
@@ -844,8 +856,12 @@ namespace Ogre
             {
                 uint32 srcy = mSize - i - 1;
                 float* pDst = mHeightData + i * mSize;
-                PixelUtil::bulkPixelConversion(img->getData(0, srcy), img->getFormat(), pDst, PF_FLOAT32_R,
-                                               mSize);
+                PixelUtil::bulkPixelConversion(
+                    img->getData(0, srcy),
+                    img->getFormat(),
+                    pDst,
+                    PixelFormat::FLOAT32_R,
+                    mSize);
             }
 
             if (!Math::RealEqual(importData.inputBias, 0.0) || !Math::RealEqual(importData.inputScale, 1.0))
@@ -2845,7 +2861,7 @@ namespace Ogre
                 mLayerBlendMapSize,
                 1,
                 0,
-                PF_BYTE_RGBA,
+                PixelFormat::BYTE_RGBA,
                 TU_STATIC);
 
             mLayerBlendMapSizeActual = mBlendTextureList[i]->getWidth();
@@ -2900,7 +2916,7 @@ namespace Ogre
                 mSize,
                 1,
                 0,
-                PF_BYTE_RGB,
+                PixelFormat::BYTE_RGB,
                 TU_STATIC);
 
             // Upload loaded normal data if present
@@ -3190,8 +3206,12 @@ namespace Ogre
         uint8* pData = static_cast<uint8*>(
             OGRE_MALLOC(widenedRect.width() * widenedRect.height() * 3, MEMCATEGORY_GENERAL));
 
-        PixelBox* pixbox = OGRE_NEW PixelBox(static_cast<uint32>(widenedRect.width()),
-                                             static_cast<uint32>(widenedRect.height()), 1, PF_BYTE_RGB, pData);
+        PixelBox* pixbox = OGRE_NEW PixelBox(
+            static_cast<uint32>(widenedRect.width()),
+            static_cast<uint32>(widenedRect.height()),
+            1,
+            PixelFormat::BYTE_RGB,
+            pData);
 
         // Evaluate normal like this
         //  3---2---1
@@ -3369,8 +3389,12 @@ namespace Ogre
         uint8* pData = static_cast<uint8*>(
             OGRE_MALLOC(widenedRect.width() * widenedRect.height(), MEMCATEGORY_GENERAL));
 
-        PixelBox* pixbox = OGRE_NEW PixelBox(static_cast<uint32>(widenedRect.width()),
-                                             static_cast<uint32>(widenedRect.height()), 1, PF_L8, pData);
+        PixelBox* pixbox = OGRE_NEW PixelBox(
+            static_cast<uint32>(widenedRect.width()),
+            static_cast<uint32>(widenedRect.height()),
+            1,
+            PixelFormat::L8,
+            pData);
 
         Real heightPad = (getMaxHeight() - getMinHeight()) * 1.0e-3f;
 
@@ -3533,7 +3557,7 @@ namespace Ogre
                 mGlobalColourMapSize,
                 mGlobalColourMapSize,
                 MIP_DEFAULT,
-                PF_BYTE_RGB,
+                PixelFormat::BYTE_RGB,
                 TU_AUTOMIPMAP | TU_STATIC);
 
             if (mCpuColourMap.getData())
@@ -3565,7 +3589,7 @@ namespace Ogre
                 mLightmapSize,
                 mLightmapSize,
                 0,
-                PF_L8,
+                PixelFormat::L8,
                 TU_STATIC);
 
             mLightmapSizeActual = mLightmap->getWidth();
@@ -3609,7 +3633,7 @@ namespace Ogre
                 mCompositeMapSize,
                 mCompositeMapSize,
                 0,
-                PF_BYTE_RGBA,
+                PixelFormat::BYTE_RGBA,
                 TU_STATIC);
 
             mCompositeMapSizeActual = mCompositeMap->getWidth();
@@ -4406,11 +4430,17 @@ namespace Ogre
 
             size_t numVertices = newSize * newSize;
 
-            PixelBox src(mSize, mSize, 1, Ogre::PF_FLOAT32_R, (void*)getHeightData());
+            PixelBox src(
+                mSize,
+                mSize,
+                1,
+                Ogre::PixelFormat::FLOAT32_R,
+                (void*)getHeightData());
 
             float* tmpData = OGRE_ALLOC_T(float, numVertices, MEMCATEGORY_GENERAL);
 
-            PixelBox dst(newSize, newSize, 1, Ogre::PF_FLOAT32_R, tmpData);
+            PixelBox
+                dst(newSize, newSize, 1, Ogre::PixelFormat::FLOAT32_R, tmpData);
 
             Image::scale(src, dst, Image::FILTER_BILINEAR);
 

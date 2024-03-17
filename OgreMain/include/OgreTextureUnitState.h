@@ -517,7 +517,7 @@ namespace Ogre {
         */
         int getNumMipmaps(void) const;
 
-        /// @deprecated use setDesiredFormat(PF_A8)
+        /// @deprecated use setDesiredFormat(PixelFormat::A8)
         OGRE_DEPRECATED void setIsAlpha(bool isAlpha);
 
         /// @copydoc Texture::getGamma

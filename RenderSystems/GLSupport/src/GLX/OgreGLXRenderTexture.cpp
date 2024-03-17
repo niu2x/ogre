@@ -53,31 +53,31 @@ namespace Ogre
         
         switch (mFormat)
         {
-        case PCT_BYTE:
-            bits = 8; 
-            break;
-            
-        case PCT_SHORT:
-            bits = 16; 
-            break;
-            
-        case PCT_FLOAT16:
-            bits = 16; 
-            break;
-            
-        case PCT_FLOAT32:
-            bits = 32; 
-            break;
-            
-        default: 
-            break;
+            case PixelComponentType::BYTE:
+                bits = 8;
+                break;
+
+            case PixelComponentType::SHORT:
+                bits = 16;
+                break;
+
+            case PixelComponentType::FLOAT16:
+                bits = 16;
+                break;
+
+            case PixelComponentType::FLOAT32:
+                bits = 32;
+                break;
+
+            default:
+                break;
         }
         
         int renderAttrib = GLX_RENDER_TYPE;
         int renderValue  = GLX_RGBA_BIT;
-        
-        if (mFormat == PCT_FLOAT16 || mFormat == PCT_FLOAT32)
-        {
+
+        if (mFormat == PixelComponentType::FLOAT16
+            || mFormat == PixelComponentType::FLOAT32) {
             if (glsupport->checkExtension("GLX_NV_float_buffer"))
             {
                 renderAttrib = GLX_FLOAT_COMPONENTS_NV;
@@ -101,7 +101,7 @@ namespace Ogre
                 OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "No support for Floating point PBuffers",  "GLRenderTexture::createPBuffer");
             }
         }
-        
+
         int minAttribs[] = {
             GLX_DRAWABLE_TYPE, GLX_PBUFFER,
             renderAttrib,     renderValue,
