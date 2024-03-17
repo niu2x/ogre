@@ -44,7 +44,7 @@ void Sample_MeshLod::setupContent()
     mHullNode->scale(1.001,1.001,1.001);
     mHullEntity = NULL;
 #endif
-    if(!MeshLodGenerator::singleton_ptr(()) {
+    if (!MeshLodGenerator::singleton_ptr()) {
         new MeshLodGenerator();
     }
     MeshLodGenerator::singleton().setInjectorListener(this);
@@ -216,7 +216,7 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
 bool Sample_MeshLod::loadConfig()
 {
     mLodConfig.advanced = LodConfig::Advanced();
-    mLodConfig.strategy = PixelCountLodStrategy::singleton_ptr(();
+    mLodConfig.strategy = PixelCountLodStrategy::singleton_ptr();
     mLodConfig.levels.clear();
     mLodConfig.advanced.profile.clear();
 
@@ -326,7 +326,7 @@ size_t Sample_MeshLod::getUniqueVertexCount( MeshPtr mesh )
     // The vertex buffer contains the same vertex position multiple times.
     // To get the count of the vertices, which has unique positions, we can use progressive mesh.
     // It is constructing a mesh grid at the beginning, so if we reduce 0%, we will get the unique vertex count.
-    LodConfig lodConfig(mesh, PixelCountLodStrategy::singleton_ptr(());
+    LodConfig lodConfig(mesh, PixelCountLodStrategy::singleton_ptr());
     lodConfig.advanced.useBackgroundQueue = false; // Non-threaded
     lodConfig.advanced.useCompression = ENABLE_COMPRESSION;
     lodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;

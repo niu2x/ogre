@@ -329,9 +329,9 @@ void Sample_ShaderSystem::setupContent()
     childNode->attachObject(entity);
 
     // OpenGL ES 2.0 does not support texture atlases. But ES 3.0 does!
-    if (Root::singleton_ptr(()->getRenderSystem()->name().find("OpenGL ES 2")
+    if (Root::singleton_ptr()->getRenderSystem()->name().find("OpenGL ES 2")
             == String::npos
-        || Root::singleton_ptr(()
+        || Root::singleton_ptr()
                 ->getRenderSystem()
                 ->getNativeShadingLanguageVersion()
             >= 300) {
@@ -1146,7 +1146,7 @@ void Sample_ShaderSystem::createInstancedViewports()
 
 void Sample_ShaderSystem::createMaterialForTexture( const String & texName, bool isTextureAtlasTexture )
 {
-    MaterialManager * matMgr = MaterialManager::singleton_ptr(();
+    MaterialManager* matMgr = MaterialManager::singleton_ptr();
     if ( !matMgr->resourceExists(texName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) )
     {
         MaterialPtr newMat = matMgr->create(texName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);

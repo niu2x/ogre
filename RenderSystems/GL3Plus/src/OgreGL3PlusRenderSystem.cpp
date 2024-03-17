@@ -492,8 +492,7 @@ namespace Ogre {
         RenderSystem::shutdown();
 
         // Remove from manager safely
-        if (auto progMgr = HighLevelGpuProgramManager::singleton_ptr(())
-        {
+        if (auto progMgr = HighLevelGpuProgramManager::singleton_ptr()) {
             if(mGLSLShaderFactory)
                 progMgr->removeFactory(mGLSLShaderFactory);
 
@@ -1317,7 +1316,9 @@ namespace Ogre {
 
     void GL3PlusRenderSystem::_unregisterContext(GL3PlusContext *context)
     {
-        static_cast<GL3PlusHardwareBufferManager*>(HardwareBufferManager::singleton_ptr(())->notifyContextDestroyed(context);
+        static_cast<GL3PlusHardwareBufferManager*>(
+            HardwareBufferManager::singleton_ptr())
+            ->notifyContextDestroyed(context);
 
         for(auto & rt : mRenderTargets)
         {
@@ -1578,7 +1579,7 @@ namespace Ogre {
         RenderSystem::bindGpuProgram(prg);
 
         // TextureManager::ResourceMapIterator resource =
-        // TextureManager::singleton_ptr(()->getResourceIterator();
+        // TextureManager::singleton_ptr()->getResourceIterator();
 
         // while(resource.hasMoreElements())
         // {

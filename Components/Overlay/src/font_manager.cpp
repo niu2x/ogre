@@ -31,20 +31,19 @@ THE SOFTWARE
 namespace Ogre {
 //---------------------------------------------------------------------
 template <>
-FontManager* Singleton<FontManager>::msSingleton = 0;
-    FontManager* FontManager::singleton_ptr((void)
-    {
-    return msSingleton;
-    }
-    FontManager& FontManager::singleton(void)
-    {
-    assert(msSingleton);
-    return (*msSingleton);  
-    }
-    //---------------------------------------------------------------------
-    FontManager::FontManager()
-    : ResourceManager("Font")
-    {
+FontManager* Singleton<FontManager>::singleton_ = 0;
+
+FontManager* FontManager::singleton_ptr(void) { return singleton_; }
+
+FontManager& FontManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
+//---------------------------------------------------------------------
+FontManager::FontManager()
+: ResourceManager("Font")
+{
     // Loading order
     set_load_order(200.0f);
     // Scripting is supported by this manager
@@ -56,35 +55,42 @@ FontManager* Singleton<FontManager>::msSingleton = 0;
     ResourceGroupManager::singleton()._registerResourceManager(
         resource_type(),
         this);
-    }
-    //---------------------------------------------------------------------
-    FontManager::~FontManager()
-    {
+}
+//---------------------------------------------------------------------
+FontManager::~FontManager()
+{
     // Unregister with resource group manager
     ResourceGroupManager::singleton()._unregisterResourceManager(
         resource_type());
     // Unegister scripting with resource group manager
     ResourceGroupManager::singleton()._unregisterScriptLoader(this);
-
-    }
-    //---------------------------------------------------------------------
-    Resource* FontManager::create_impl(const String& name, ResourceHandle handle, 
-        const String& group, bool isManual, ManualResourceLoader* loader,
-        const NameValuePairList* params)
-    {
+}
+//---------------------------------------------------------------------
+Resource* FontManager::create_impl(
+    const String& name,
+    ResourceHandle handle,
+    const String& group,
+    bool isManual,
+    ManualResourceLoader* loader,
+    const NameValuePairList* params)
+{
     return OGRE_NEW Font(this, name, handle, group, isManual, loader);
-    }
-    //-----------------------------------------------------------------------
-    FontPtr FontManager::getByName(const String& name, const String& groupName) const
-    {
+}
+//-----------------------------------------------------------------------
+FontPtr
+FontManager::get_by_name(const String& name, const String& groupName) const
+{
     return static_pointer_cast<Font>(get_resource_by_name(name, groupName));
-    }
-    //---------------------------------------------------------------------
-    FontPtr FontManager::create (const String& name, const String& group,
-                                    bool isManual, ManualResourceLoader* loader,
-                                    const NameValuePairList* createParams)
-    {
+}
+//---------------------------------------------------------------------
+FontPtr FontManager::create(
+    const String& name,
+    const String& group,
+    bool isManual,
+    ManualResourceLoader* loader,
+    const NameValuePairList* createParams)
+{
     return static_pointer_cast<Font>(
         create_resource(name, group, isManual, loader, createParams));
-    }
-    } // namespace Ogre
+}
+} // namespace Ogre

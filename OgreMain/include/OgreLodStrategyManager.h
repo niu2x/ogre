@@ -96,7 +96,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static LodStrategyManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static LodStrategyManager* singleton_ptr((void);
+        static LodStrategyManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

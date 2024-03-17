@@ -43,20 +43,18 @@ struct LodWorkQueueRequest {
     bool isCancelled;
 };
 
-template<> MeshLodGenerator* Singleton<MeshLodGenerator>::msSingleton = 0;
-MeshLodGenerator* MeshLodGenerator::singleton_ptr(()
-{
-    return msSingleton;
-}
+template <>
+MeshLodGenerator* Singleton<MeshLodGenerator>::singleton_ = 0;
+MeshLodGenerator* MeshLodGenerator::singleton_ptr() { return singleton_; }
 MeshLodGenerator& MeshLodGenerator::singleton()
 {
-    assert(msSingleton);
-    return (*msSingleton);
+    assert(singleton_);
+    return (*singleton_);
 }
 void MeshLodGenerator::getAutoconfig(MeshPtr& inMesh, LodConfig& outLodConfig)
 {
     outLodConfig.mesh = inMesh;
-    outLodConfig.strategy = PixelCountLodStrategy::singleton_ptr(();
+    outLodConfig.strategy = PixelCountLodStrategy::singleton_ptr();
     LodLevel lodLevel;
     lodLevel.reductionMethod = LodLevel::VRM_COLLAPSE_COST;
     Real radius = inMesh->getBoundingSphereRadius();

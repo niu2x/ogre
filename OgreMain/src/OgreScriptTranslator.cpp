@@ -1086,7 +1086,8 @@ namespace Ogre{
                         // Deprecated! Only for backwards compatibility.
                         // Set strategy hard-coded to 'distance' strategy, since that was the only one available back then,
                         // when using this material keyword was still current.
-                        LodStrategy *strategy = DistanceLodSphereStrategy::singleton_ptr(();
+                        LodStrategy* strategy
+                            = DistanceLodSphereStrategy::singleton_ptr();
                         mMaterial->setLodStrategy(strategy);
 
                         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file,

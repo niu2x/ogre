@@ -63,13 +63,11 @@ namespace Ogre
     //---------------------------------------------------------------------
     TerrainMaterialGenerator::~TerrainMaterialGenerator()
     {
-        if (mCompositeMapRTT && TextureManager::singleton_ptr(())
-        {
-        TextureManager::singleton().remove(mCompositeMapRTT->handle());
-        mCompositeMapRTT = 0;
+        if (mCompositeMapRTT && TextureManager::singleton_ptr()) {
+            TextureManager::singleton().remove(mCompositeMapRTT->handle());
+            mCompositeMapRTT = 0;
         }
-        if (mCompositeMapSM && Root::singleton_ptr(())
-        {
+        if (mCompositeMapSM && Root::singleton_ptr()) {
             // will also delete cam and objects etc
             Root::singleton().destroySceneManager(mCompositeMapSM);
             mCompositeMapSM = 0;

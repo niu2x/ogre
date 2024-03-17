@@ -40,18 +40,18 @@
 
 namespace Ogre {
 
-    template<> GLSLProgramManager* Singleton<GLSLProgramManager>::msSingleton = 0;
+template <>
+GLSLProgramManager* Singleton<GLSLProgramManager>::singleton_ = 0;
 
-    GLSLProgramManager* GLSLProgramManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-
+GLSLProgramManager* GLSLProgramManager::singleton_ptr(void)
+{
+    return singleton_;
+}
 
     GLSLProgramManager& GLSLProgramManager::singleton(void)
     {
-        assert(msSingleton);
-        return (*msSingleton);
+        assert(singleton_);
+        return (*singleton_);
     }
     
     GLSLProgramManager::GLSLProgramManager(GL3PlusRenderSystem* renderSystem)

@@ -90,7 +90,7 @@ namespace Ogre {
                                     GLUniformReferenceList& list);
 
         static GLSLESProgramManager& singleton(void);
-        static GLSLESProgramManager* singleton_ptr((void);
+        static GLSLESProgramManager* singleton_ptr(void);
     };
 
 }

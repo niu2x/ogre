@@ -241,7 +241,7 @@ namespace Ogre {
             mGLShaderHandle = 0;
 
             // destroy all programs using this shader
-            GLSLLinkProgramManager::singleton_ptr(()->destroyAllByShader(this);
+            GLSLLinkProgramManager::singleton_ptr()->destroyAllByShader(this);
         }
     }
     //-----------------------------------------------------------------------

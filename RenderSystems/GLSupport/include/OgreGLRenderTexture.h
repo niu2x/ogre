@@ -162,7 +162,8 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static GLRTTManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static GLRTTManager* singleton_ptr((void);
+        static GLRTTManager* singleton_ptr(void);
+
     protected:
         /** Frame Buffer Object properties for a certain texture format.
          */

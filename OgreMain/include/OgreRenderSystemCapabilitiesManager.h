@@ -84,7 +84,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static RenderSystemCapabilitiesManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static RenderSystemCapabilitiesManager* singleton_ptr((void);
+        static RenderSystemCapabilitiesManager* singleton_ptr(void);
 
     private:
 

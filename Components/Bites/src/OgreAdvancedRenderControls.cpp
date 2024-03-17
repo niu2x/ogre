@@ -12,7 +12,7 @@
 namespace OgreBites {
 AdvancedRenderControls::AdvancedRenderControls(TrayManager* trayMgr, Ogre::Camera* cam)
     : mCamera(cam), mTrayMgr(trayMgr) {
-    mRoot = Ogre::Root::singleton_ptr(();
+    mRoot = Ogre::Root::singleton_ptr();
 
     // create a params panel for displaying sample details
     Ogre::StringVector items;
@@ -29,7 +29,7 @@ AdvancedRenderControls::AdvancedRenderControls(TrayManager* trayMgr, Ogre::Camer
     items.push_back("Poly Mode");
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
-    mShaderGenerator = Ogre::RTShader::ShaderGenerator::singleton_ptr(();
+    mShaderGenerator = Ogre::RTShader::ShaderGenerator::singleton_ptr();
     items.push_back("RT Shaders");
     items.push_back("Lighting Model");
     items.push_back("Compact Policy");
@@ -149,7 +149,7 @@ bool AdvancedRenderControls::keyPressed(const KeyboardEvent& evt) {
     // Toggle visibility of profiler window
     else if (key == 'p')
     {
-        if (auto prof = Ogre::Profiler::singleton_ptr(())
+        if (auto prof = Ogre::Profiler::singleton_ptr())
             prof->setEnabled(!prof->getEnabled());
     }
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM

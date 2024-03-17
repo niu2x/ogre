@@ -446,7 +446,7 @@ namespace Ogre
         OgreAssert( mWindowHandle,  "externalWindowHandle required" );
         createSurface(mWindowHandle);
 
-        auto texMgr = TextureManager::singleton_ptr(();
+        auto texMgr = TextureManager::singleton_ptr();
         mTexture = new VulkanTextureGpuWindow("RenderWindow", TEX_TYPE_2D, texMgr, this);;
         mTexture->setFormat(chooseSurfaceFormat(mHwGamma));
         mTexture->setHardwareGammaEnabled(mHwGamma);

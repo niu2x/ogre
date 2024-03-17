@@ -203,7 +203,7 @@ namespace Ogre {
         */
         static OverlayManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static OverlayManager* singleton_ptr((void);
+        static OverlayManager* singleton_ptr(void);
     };
 
 

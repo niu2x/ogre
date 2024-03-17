@@ -32,15 +32,14 @@ THE SOFTWARE.
 
 namespace Ogre {
     //-----------------------------------------------------------------------
-    template<> ControllerManager* Singleton<ControllerManager>::msSingleton = 0;
-    ControllerManager* ControllerManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    ControllerManager& ControllerManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
-    }
+template <>
+ControllerManager* Singleton<ControllerManager>::singleton_ = 0;
+ControllerManager* ControllerManager::singleton_ptr(void) { return singleton_; }
+ControllerManager& ControllerManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
     //-----------------------------------------------------------------------
     ControllerManager::ControllerManager()
         : mFrameTimeController(OGRE_NEW FrameTimeControllerValue())

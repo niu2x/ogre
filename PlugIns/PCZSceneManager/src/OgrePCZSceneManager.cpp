@@ -117,7 +117,7 @@ namespace Ogre
         mDefaultZoneFileName = filename;
 
         // create a new default zone
-        mZoneFactoryManager = PCZoneFactoryManager::singleton_ptr(();
+        mZoneFactoryManager = PCZoneFactoryManager::singleton_ptr();
         mDefaultZone = createZoneFromFile(mDefaultZoneTypeName, "Default_Zone", (PCZSceneNode*)getRootSceneNode(), mDefaultZoneFileName);
     }
 
@@ -1033,7 +1033,9 @@ namespace Ogre
                             if (portal2)
                             {
                                 // found a match!
-                                Ogre::LogManager::singleton_ptr(()->log_message("Connecting portal "+portal->name()+" to portal "+portal2->name());
+                                Ogre::LogManager::singleton_ptr()->log_message(
+                                    "Connecting portal " + portal->name()
+                                    + " to portal " + portal2->name());
                                 foundMatch = true;
                                 portal->setTargetZone(zone2);
                                 portal->setTargetPortal(portal2);

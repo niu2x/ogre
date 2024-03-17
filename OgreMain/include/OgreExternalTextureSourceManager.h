@@ -81,7 +81,8 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static ExternalTextureSourceManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ExternalTextureSourceManager* singleton_ptr((void);
+        static ExternalTextureSourceManager* singleton_ptr(void);
+
     private:
         /// The current texture controller selected
         ExternalTextureSource* mCurrExternalTextureSource;

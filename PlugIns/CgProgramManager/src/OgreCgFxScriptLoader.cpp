@@ -2645,14 +2645,16 @@ namespace Ogre {
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
-    template<> CgFxScriptLoader *Singleton<CgFxScriptLoader>::msSingleton = 0;
-    CgFxScriptLoader* CgFxScriptLoader::singleton_ptr((void)
+    template <>
+    CgFxScriptLoader* Singleton<CgFxScriptLoader>::singleton_ = 0;
+    CgFxScriptLoader* CgFxScriptLoader::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     CgFxScriptLoader& CgFxScriptLoader::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
     //---------------------------------------------------------------------
     CgFxScriptLoader::CgFxScriptLoader()

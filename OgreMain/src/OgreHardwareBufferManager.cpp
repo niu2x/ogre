@@ -31,14 +31,16 @@ THE SOFTWARE.
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    template<> HardwareBufferManager* Singleton<HardwareBufferManager>::msSingleton = 0;
-    HardwareBufferManager* HardwareBufferManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+template <>
+HardwareBufferManager* Singleton<HardwareBufferManager>::singleton_ = 0;
+HardwareBufferManager* HardwareBufferManager::singleton_ptr(void)
+{
+    return singleton_;
+}
     HardwareBufferManager& HardwareBufferManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
     //---------------------------------------------------------------------
     HardwareBufferManager::HardwareBufferManager()

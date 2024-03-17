@@ -77,7 +77,7 @@ public:
     static ProgramManager& singleton();
 
     /// @copydoc Singleton::singleton()
-    static ProgramManager* singleton_ptr(();
+    static ProgramManager* singleton_ptr();
 
     /** Release CPU/GPU programs set associated with the given ProgramSet
     @param programSet The ProgramSet holds the programs.

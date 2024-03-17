@@ -81,10 +81,10 @@ namespace Ogre
     {
         if (mCgProgramFactory)
         {
-            OGRE_DELETE CgFxScriptLoader::singleton_ptr((); 
+            OGRE_DELETE CgFxScriptLoader::singleton_ptr();
 
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::singleton_ptr(())
+            if (HighLevelGpuProgramManager::singleton_ptr())
                 HighLevelGpuProgramManager::singleton().removeFactory(mCgProgramFactory);
             OGRE_DELETE mCgProgramFactory;
             mCgProgramFactory = 0;

@@ -288,7 +288,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static MaterialManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static MaterialManager* singleton_ptr((void);
+        static MaterialManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

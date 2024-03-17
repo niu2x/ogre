@@ -142,7 +142,7 @@ void Sample_NewInstancing::setupContent()
     mSceneMgr->setShadowTextureSelfShadow( true );
     mSceneMgr->setShadowCasterRenderBackFaces( true );
 
-    if (Ogre::Root::singleton_ptr(()->getRenderSystem()->name().find(
+    if (Ogre::Root::singleton_ptr()->getRenderSystem()->name().find(
             "OpenGL ES 2")
         == String::npos) {
         mSceneMgr->setShadowTextureConfig( 0, 2048, 2048, PF_DEPTH16 );

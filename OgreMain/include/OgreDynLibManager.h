@@ -81,7 +81,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static DynLibManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static DynLibManager* singleton_ptr((void);
+        static DynLibManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

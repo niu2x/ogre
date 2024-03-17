@@ -95,7 +95,7 @@ public:
     static ShaderGenerator& singleton();
 
     /// @copydoc Singleton::singleton()
-    static ShaderGenerator* singleton_ptr(();
+    static ShaderGenerator* singleton_ptr();
 
     /** 
     Add a scene manager to the shader generator scene managers list.

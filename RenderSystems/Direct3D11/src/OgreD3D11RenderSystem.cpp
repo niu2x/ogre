@@ -208,7 +208,7 @@ namespace Ogre
         if (mHLSLProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::singleton_ptr(())
+            if (HighLevelGpuProgramManager::singleton_ptr())
                 HighLevelGpuProgramManager::singleton().removeFactory(mHLSLProgramFactory);
             delete mHLSLProgramFactory;
             mHLSLProgramFactory = 0;
@@ -216,7 +216,8 @@ namespace Ogre
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
         // Stereo driver must be freed after device is created
-        D3D11StereoDriverBridge* stereoBridge = D3D11StereoDriverBridge::singleton_ptr(();
+        D3D11StereoDriverBridge* stereoBridge
+            = D3D11StereoDriverBridge::singleton_ptr();
         OGRE_DELETE stereoBridge;
 #endif
 

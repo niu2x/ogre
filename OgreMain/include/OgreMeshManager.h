@@ -369,7 +369,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static MeshManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static MeshManager* singleton_ptr((void);
+        static MeshManager* singleton_ptr(void);
 
         /** Gets the base element type used for blend weights in vertex buffers.
 

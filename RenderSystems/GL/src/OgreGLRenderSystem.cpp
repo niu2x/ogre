@@ -939,7 +939,7 @@ namespace Ogre {
         if (mGLSLProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::singleton_ptr(())
+            if (HighLevelGpuProgramManager::singleton_ptr())
                 HighLevelGpuProgramManager::singleton().removeFactory(mGLSLProgramFactory);
             delete mGLSLProgramFactory;
             mGLSLProgramFactory = 0;

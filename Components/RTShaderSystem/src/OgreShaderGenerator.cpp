@@ -29,8 +29,8 @@ THE SOFTWARE.
 namespace Ogre {
 
 //-----------------------------------------------------------------------
-template<>
-RTShader::ShaderGenerator* Singleton<RTShader::ShaderGenerator>::msSingleton = 0;
+template <>
+RTShader::ShaderGenerator* Singleton<RTShader::ShaderGenerator>::singleton_ = 0;
 
 namespace RTShader {
 
@@ -113,16 +113,13 @@ String ShaderGenerator::DEFAULT_SCHEME_NAME     = MSN_SHADERGEN;
 String ShaderGenerator::SGTechnique::UserKey    = "SGTechnique";
 
 //-----------------------------------------------------------------------
-ShaderGenerator* ShaderGenerator::singleton_ptr(()
-{
-    return msSingleton;
-}
+ShaderGenerator* ShaderGenerator::singleton_ptr() { return singleton_; }
 
 //-----------------------------------------------------------------------
 ShaderGenerator& ShaderGenerator::singleton()
 {
-    assert( msSingleton );
-    return ( *msSingleton );
+    assert(singleton_);
+    return (*singleton_);
 }
 
 //-----------------------------------------------------------------------------
@@ -172,13 +169,11 @@ ShaderGenerator::~ShaderGenerator()
 //-----------------------------------------------------------------------------
 bool ShaderGenerator::initialize()
 {
-    if (msSingleton == NULL)
-    {
-        msSingleton = OGRE_NEW ShaderGenerator;
-        if (false == msSingleton->_initialize())
-        {
-            OGRE_DELETE msSingleton;
-            msSingleton = NULL;
+    if (singleton_ == NULL) {
+        singleton_ = OGRE_NEW ShaderGenerator;
+        if (false == singleton_->_initialize()) {
+            OGRE_DELETE singleton_;
+            singleton_ = NULL;
             return false;
         }
     }
@@ -303,12 +298,11 @@ void ShaderGenerator::createBuiltinSRSFactories()
 //-----------------------------------------------------------------------------
 void ShaderGenerator::destroy()
 {
-    if (msSingleton != NULL)
-    {
-        msSingleton->_destroy();
+    if (singleton_ != NULL) {
+        singleton_->_destroy();
 
-        OGRE_DELETE msSingleton;
-        msSingleton = NULL;
+        OGRE_DELETE singleton_;
+        singleton_ = NULL;
     }
 }
 

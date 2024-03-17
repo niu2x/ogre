@@ -293,7 +293,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static GpuProgramManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static GpuProgramManager* singleton_ptr((void);
+        static GpuProgramManager* singleton_ptr(void);
     };
 
     /** @} */

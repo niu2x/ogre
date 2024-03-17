@@ -32,17 +32,21 @@ THE SOFTWARE.
 
 
 namespace Ogre {
-template<> RTShader::HardwareSkinningFactory* Singleton<RTShader::HardwareSkinningFactory>::msSingleton = 0;
+template <>
+RTShader::HardwareSkinningFactory*
+    Singleton<RTShader::HardwareSkinningFactory>::singleton_
+    = 0;
 
 namespace RTShader {
 
-HardwareSkinningFactory* HardwareSkinningFactory::singleton_ptr((void)
+HardwareSkinningFactory* HardwareSkinningFactory::singleton_ptr(void)
 {
-    return msSingleton;
+    return singleton_;
 }
 HardwareSkinningFactory& HardwareSkinningFactory::singleton(void)
-{  
-    assert( msSingleton );  return ( *msSingleton );
+{
+    assert(singleton_);
+    return (*singleton_);
 }
 
 String HardwareSkinning::Type = "SGX_HardwareSkinning";

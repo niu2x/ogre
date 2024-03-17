@@ -917,7 +917,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
 {
     static int dummyMatCount = 0;
 
-    MaterialManager* omatMgr = MaterialManager::singleton_ptr(();
+    MaterialManager* omatMgr = MaterialManager::singleton_ptr();
     enum aiTextureType type = aiTextureType_DIFFUSE;
     static aiString path;
     unsigned int uvindex = 0; // the texture uv index channel
@@ -1033,7 +1033,7 @@ static MaterialPtr createMaterial(const aiMaterial* mat, const Ogre::String &gro
     }
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
-    auto shaderGen = RTShader::ShaderGenerator::singleton_ptr(();
+    auto shaderGen = RTShader::ShaderGenerator::singleton_ptr();
 
     if(!shaderGen)
         return omat;

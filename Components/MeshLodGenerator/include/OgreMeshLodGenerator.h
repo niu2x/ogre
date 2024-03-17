@@ -55,7 +55,7 @@ class _OgreLodExport MeshLodGenerator :
 public Singleton<MeshLodGenerator>
 {
 public:
-    static MeshLodGenerator* singleton_ptr(();
+    static MeshLodGenerator* singleton_ptr();
     static MeshLodGenerator& singleton();
 
     /**

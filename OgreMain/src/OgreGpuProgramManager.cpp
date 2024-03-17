@@ -109,14 +109,16 @@ namespace {
     }
 
     //-----------------------------------------------------------------------
-    template<> GpuProgramManager* Singleton<GpuProgramManager>::msSingleton = 0;
-    GpuProgramManager* GpuProgramManager::singleton_ptr((void)
+    template <>
+    GpuProgramManager* Singleton<GpuProgramManager>::singleton_ = 0;
+    GpuProgramManager* GpuProgramManager::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     GpuProgramManager& GpuProgramManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
     //-----------------------------------------------------------------------
     GpuProgramPtr GpuProgramManager::getByName(const String& name, const String& group) const

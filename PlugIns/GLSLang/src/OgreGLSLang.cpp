@@ -482,7 +482,7 @@ void GLSLangPlugin::uninstall()
     {
 
         // Remove from manager safely
-        if (GpuProgramManager::singleton_ptr(())
+        if (GpuProgramManager::singleton_ptr())
             GpuProgramManager::singleton().removeFactory(mProgramFactory.get());
         mProgramFactory.reset();
     }

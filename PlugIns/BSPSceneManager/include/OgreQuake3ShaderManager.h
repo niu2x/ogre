@@ -93,7 +93,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static Quake3ShaderManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static Quake3ShaderManager* singleton_ptr((void);
+        static Quake3ShaderManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

@@ -582,7 +582,8 @@ namespace Ogre
         OGRE_ASSERT_LOW( numMipmaps <= (mNumMipmaps - mipLevel + 1) &&
                          "Asking for more mipmaps than the texture has!" );
 
-        auto textureManager = static_cast<VulkanTextureGpuManager*>(TextureManager::singleton_ptr(());
+        auto textureManager = static_cast<VulkanTextureGpuManager*>(
+            TextureManager::singleton_ptr());
         VulkanDevice *device = textureManager->getDevice();
 
         VkImageViewCreateInfo imageViewCi = {VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO};
@@ -736,7 +737,7 @@ namespace Ogre
     {
         mName = name;
 
-        auto texMgr = TextureManager::singleton_ptr(();
+        auto texMgr = TextureManager::singleton_ptr();
         VulkanDevice* device = static_cast<VulkanTextureGpuManager*>(texMgr)->getDevice();
 
         target->setFSAA(1, "");

@@ -91,7 +91,7 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static ShadowTextureManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ShadowTextureManager* singleton_ptr((void);
+        static ShadowTextureManager* singleton_ptr(void);
     };
 
     /** @} */

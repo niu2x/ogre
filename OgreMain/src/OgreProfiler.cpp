@@ -50,15 +50,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     // PROFILE DEFINITIONS
     //-----------------------------------------------------------------------
-    template<> Profiler* Singleton<Profiler>::msSingleton = 0;
-    Profiler* Profiler::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    Profiler& Profiler::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
-    }
+template <>
+Profiler* Singleton<Profiler>::singleton_ = 0;
+Profiler* Profiler::singleton_ptr(void) { return singleton_; }
+Profiler& Profiler::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
 
     //-----------------------------------------------------------------------
     // PROFILER DEFINITIONS

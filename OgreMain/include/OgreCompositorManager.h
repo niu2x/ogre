@@ -181,8 +181,8 @@ namespace Ogre {
         static CompositorManager& singleton(void);
 
         /// @copydoc Singleton::singleton()
-        static CompositorManager* singleton_ptr((void);
-    
+        static CompositorManager* singleton_ptr(void);
+
     private:
         Resource* create_impl(const String& name, ResourceHandle handle,
             const String& group, bool isManual, ManualResourceLoader* loader,

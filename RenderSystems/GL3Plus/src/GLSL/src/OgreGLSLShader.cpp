@@ -469,7 +469,7 @@ namespace Ogre {
         }
 
         // destroy all programs using this shader
-        GLSLProgramManager::singleton_ptr(()->destroyAllByShader(this);
+        GLSLProgramManager::singleton_ptr()->destroyAllByShader(this);
 
         mGLShaderHandle = 0;
         mGLProgramHandle = 0;

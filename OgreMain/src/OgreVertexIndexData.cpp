@@ -146,7 +146,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     VertexData::VertexData(HardwareBufferManagerBase* mgr)
     {
-        mMgr = mgr ? mgr : HardwareBufferManager::singleton_ptr(();
+        mMgr = mgr ? mgr : HardwareBufferManager::singleton_ptr();
         vertexBufferBinding = mMgr->createVertexBufferBinding();
         vertexDeclaration = mMgr->createVertexDeclaration();
         mDeleteDclBinding = true;
@@ -158,7 +158,7 @@ namespace Ogre {
     VertexData::VertexData(VertexDeclaration* dcl, VertexBufferBinding* bind)
     {
         // this is a fallback rather than actively used
-        mMgr = HardwareBufferManager::singleton_ptr(();
+        mMgr = HardwareBufferManager::singleton_ptr();
         vertexDeclaration = dcl;
         vertexBufferBinding = bind;
         mDeleteDclBinding = false;
@@ -753,7 +753,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     IndexData* IndexData::clone(bool copyData, HardwareBufferManagerBase* mgr) const
     {
-        HardwareBufferManagerBase* pManager = mgr ? mgr : HardwareBufferManager::singleton_ptr(();
+        HardwareBufferManagerBase* pManager
+            = mgr ? mgr : HardwareBufferManager::singleton_ptr();
         IndexData* dest = OGRE_NEW IndexData();
         if (indexBuffer.get())
         {

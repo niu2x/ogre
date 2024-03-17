@@ -275,9 +275,8 @@ namespace Volume {
         OGRE_DELETE mRenderOp.vertexData;
 
         // Root might already be shutdown.
-        if (Root::singleton_ptr(())
-        {
-        Root::singleton().removeFrameListener(this);
+        if (Root::singleton_ptr()) {
+            Root::singleton().removeFrameListener(this);
         }
 
         if (mChildren)

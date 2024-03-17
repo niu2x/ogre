@@ -122,7 +122,8 @@ protected:
         
     void setupShaderGenerator()
     {
-        RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::singleton_ptr(();
+        RTShader::ShaderGenerator* mGen
+            = RTShader::ShaderGenerator::singleton_ptr();
 
         RTShader::RenderState* pMainRenderState
             = mGen->create_or_retrieveRenderState(MSN_SHADERGEN).first;
@@ -163,7 +164,8 @@ protected:
             default: textureName = "evening.jpg"; break;
             }
             mSRSTextureFogFactory->setBackgroundTextureName(textureName);
-            RTShader::ShaderGenerator* gen = RTShader::ShaderGenerator::singleton_ptr(();
+            RTShader::ShaderGenerator* gen
+                = RTShader::ShaderGenerator::singleton_ptr();
             gen->invalidateScheme(Ogre::MSN_SHADERGEN);
         }
     }

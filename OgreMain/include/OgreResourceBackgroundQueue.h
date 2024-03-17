@@ -116,7 +116,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static ResourceBackgroundQueue& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ResourceBackgroundQueue* singleton_ptr((void);
+        static ResourceBackgroundQueue* singleton_ptr(void);
     };
 
     /** @} */

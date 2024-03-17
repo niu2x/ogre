@@ -511,11 +511,13 @@ public:
     /// @copydoc Singleton::singleton()
     static TextureManager& singleton(void);
     /// @copydoc Singleton::singleton()
-        static TextureManager* singleton_ptr((void);
+    static TextureManager* singleton_ptr(void);
 
-    protected:
-
-        virtual SamplerPtr _createSamplerImpl() { return std::make_shared<Sampler>(); }
+protected:
+    virtual SamplerPtr _createSamplerImpl()
+    {
+        return std::make_shared<Sampler>();
+    }
 
         ushort mPreferredIntegerBitDepth;
         ushort mPreferredFloatBitDepth;

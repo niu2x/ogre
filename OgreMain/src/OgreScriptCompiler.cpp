@@ -510,17 +510,16 @@ namespace Ogre
         if(mListener)
             nodes = mListener->importFile(this, name);
 
-        if(!nodes && ResourceGroupManager::singleton_ptr(())
-        {
-        auto stream = ResourceGroupManager::singleton()
-                          .openResource(name, mGroup, NULL, false);
+        if (!nodes && ResourceGroupManager::singleton_ptr()) {
+            auto stream = ResourceGroupManager::singleton()
+                              .openResource(name, mGroup, NULL, false);
 
-        if (!stream)
-            return retval;
+            if (!stream)
+                return retval;
 
-        nodes = ScriptParser::parse(
-            ScriptLexer::tokenize(stream->as_string(), name),
-            name);
+            nodes = ScriptParser::parse(
+                ScriptLexer::tokenize(stream->as_string(), name),
+                name);
         }
 
         if(nodes)
@@ -1500,16 +1499,18 @@ namespace Ogre
     
 
     // ScriptCompilerManager
-    template<> ScriptCompilerManager *Singleton<ScriptCompilerManager>::msSingleton = 0;
+    template <>
+    ScriptCompilerManager* Singleton<ScriptCompilerManager>::singleton_ = 0;
 
-    ScriptCompilerManager* ScriptCompilerManager::singleton_ptr((void)
+    ScriptCompilerManager* ScriptCompilerManager::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     //-----------------------------------------------------------------------
     ScriptCompilerManager& ScriptCompilerManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
     //-----------------------------------------------------------------------
     ScriptCompilerManager::ScriptCompilerManager()

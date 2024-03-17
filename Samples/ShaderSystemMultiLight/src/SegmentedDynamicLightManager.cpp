@@ -13,16 +13,20 @@
 
 namespace Ogre
 {
-    template<> SegmentedDynamicLightManager* Singleton<SegmentedDynamicLightManager>::msSingleton = 0;
+template <>
+SegmentedDynamicLightManager*
+    Singleton<SegmentedDynamicLightManager>::singleton_
+    = 0;
 }
 
-SegmentedDynamicLightManager* SegmentedDynamicLightManager::singleton_ptr((void)
+SegmentedDynamicLightManager* SegmentedDynamicLightManager::singleton_ptr(void)
 {
-    return msSingleton;
+    return singleton_;
 }
 SegmentedDynamicLightManager& SegmentedDynamicLightManager::singleton(void)
 {
-    assert( msSingleton );  return ( *msSingleton );
+    assert(singleton_);
+    return (*singleton_);
 }
 
 using namespace Ogre;

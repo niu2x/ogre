@@ -50,14 +50,16 @@ namespace Ogre
         return !( lhs == rhs );
     }
     //-----------------------------------------------------------------------
-    template<> ShadowTextureManager* Singleton<ShadowTextureManager>::msSingleton = 0;
-    ShadowTextureManager* ShadowTextureManager::singleton_ptr((void)
+    template <>
+    ShadowTextureManager* Singleton<ShadowTextureManager>::singleton_ = 0;
+    ShadowTextureManager* ShadowTextureManager::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     ShadowTextureManager& ShadowTextureManager::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
     //---------------------------------------------------------------------
     ShadowTextureManager::ShadowTextureManager()

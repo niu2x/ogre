@@ -138,7 +138,7 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static LogManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static LogManager* singleton_ptr((void);
+        static LogManager* singleton_ptr(void);
     };
 
 

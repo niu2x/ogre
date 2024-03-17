@@ -80,54 +80,59 @@ namespace Ogre
 		}
 	}
 	//-----------------------------------------------------------------------------
-	template<> D3D9StereoDriverBridge* Ogre::Singleton<D3D9StereoDriverBridge>::msSingleton = 0;
+    template <>
+    D3D9StereoDriverBridge* Ogre::Singleton<D3D9StereoDriverBridge>::singleton_
+        = 0;
     D3D9StereoDriverBridge& D3D9StereoDriverBridge::singleton(void)
     {
-        assert(msSingleton);
-        return (*msSingleton);
+        assert(singleton_);
+        return (*singleton_);
     }
     //-----------------------------------------------------------------------------
-    D3D9StereoDriverBridge* D3D9StereoDriverBridge::singleton_ptr((void)
-	{
-		return msSingleton;
-	}
-	//-----------------------------------------------------------------------------
-	StereoModeType D3D9StereoDriverBridge::getStereoMode() const
-	{
-		return mStereoMode;
-	}
-	//-----------------------------------------------------------------------------
-	bool D3D9StereoDriverBridge::addRenderWindow(D3D9RenderWindow* renderWindow) const
-	{
-		if (NULL != mPimpl)
-			return mPimpl->addRenderWindow(renderWindow);
+    D3D9StereoDriverBridge* D3D9StereoDriverBridge::singleton_ptr(void)
+    {
+        return singleton_;
+    }
+    //-----------------------------------------------------------------------------
+    StereoModeType D3D9StereoDriverBridge::getStereoMode() const
+    {
+        return mStereoMode;
+    }
+    //-----------------------------------------------------------------------------
+    bool D3D9StereoDriverBridge::addRenderWindow(
+        D3D9RenderWindow* renderWindow) const
+    {
+        if (NULL != mPimpl)
+            return mPimpl->addRenderWindow(renderWindow);
 
-		return false;
-	}
-	//-----------------------------------------------------------------------------
-	bool D3D9StereoDriverBridge::removeRenderWindow(const String& name) const
-	{
-		if (NULL != mPimpl)
-			return mPimpl->removeRenderWindow(name);
+        return false;
+    }
+    //-----------------------------------------------------------------------------
+    bool D3D9StereoDriverBridge::removeRenderWindow(const String& name) const
+    {
+        if (NULL != mPimpl)
+            return mPimpl->removeRenderWindow(name);
 
-		return false;
-	}
-	//-----------------------------------------------------------------------------
-	bool D3D9StereoDriverBridge::isStereoEnabled(const String& renderWindowName) const
-	{
-		if (NULL != mPimpl)
-			return mPimpl->isStereoEnabled(renderWindowName);
+        return false;
+    }
+    //-----------------------------------------------------------------------------
+    bool D3D9StereoDriverBridge::isStereoEnabled(
+        const String& renderWindowName) const
+    {
+        if (NULL != mPimpl)
+            return mPimpl->isStereoEnabled(renderWindowName);
 
-		return false;
-	}
-	//-----------------------------------------------------------------------------
-	bool D3D9StereoDriverBridge::setDrawBuffer(ColourBufferType colourBuffer) const
-	{
-		if (NULL != mPimpl)
-			return mPimpl->setDrawBuffer(colourBuffer);
+        return false;
+    }
+    //-----------------------------------------------------------------------------
+    bool
+    D3D9StereoDriverBridge::setDrawBuffer(ColourBufferType colourBuffer) const
+    {
+        if (NULL != mPimpl)
+            return mPimpl->setDrawBuffer(colourBuffer);
 
-		return false;
-	}
+        return false;
+    }
     //-----------------------------------------------------------------------------
 }
 #endif

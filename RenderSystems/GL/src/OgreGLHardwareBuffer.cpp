@@ -71,7 +71,9 @@ namespace Ogre {
     {
         void* retPtr = 0;
 
-        GLHardwareBufferManager* glBufManager = static_cast<GLHardwareBufferManager*>(HardwareBufferManager::singleton_ptr(());
+        GLHardwareBufferManager* glBufManager
+            = static_cast<GLHardwareBufferManager*>(
+                HardwareBufferManager::singleton_ptr());
 
         // Try to use scratch buffers for smaller buffers
         if( length < glBufManager->getGLMapBufferThreshold() )
@@ -141,7 +143,8 @@ namespace Ogre {
 
             // deallocate from scratch buffer
             static_cast<GLHardwareBufferManager*>(
-                HardwareBufferManager::singleton_ptr(())->deallocateScratch(mScratchPtr);
+                HardwareBufferManager::singleton_ptr())
+                ->deallocateScratch(mScratchPtr);
 
             mLockedToScratch = false;
         }

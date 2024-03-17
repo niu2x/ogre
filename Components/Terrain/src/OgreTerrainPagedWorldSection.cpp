@@ -45,7 +45,7 @@ namespace Ogre
     {
         // we always use a grid strategy
         setStrategy(parent->getManager()->getStrategy("Grid2D"));
-        mNextLoadingTime = Root::singleton_ptr(()->getTimer()->milli_seconds();
+        mNextLoadingTime = Root::singleton_ptr()->getTimer()->milli_seconds();
     }
     //---------------------------------------------------------------------
     TerrainPagedWorldSection::~TerrainPagedWorldSection()
@@ -284,7 +284,7 @@ namespace Ogre
         }
 
         unsigned long currentTime
-            = Root::singleton_ptr(()->getTimer()->milli_seconds();
+            = Root::singleton_ptr()->getTimer()->milli_seconds();
         if(currentTime < mNextLoadingTime)
         {
         }
@@ -318,7 +318,7 @@ namespace Ogre
             mPagesInLoading.pop_front();
 
             unsigned long currentTime
-                = Root::singleton_ptr(()->getTimer()->milli_seconds();
+                = Root::singleton_ptr()->getTimer()->milli_seconds();
             mNextLoadingTime = currentTime + mLoadingIntervalMs;
 
             // Continue loading other pages

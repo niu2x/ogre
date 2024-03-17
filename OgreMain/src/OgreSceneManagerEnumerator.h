@@ -132,7 +132,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static SceneManagerEnumerator& singleton(void);
         /// @copydoc Singleton::singleton()
-        static SceneManagerEnumerator* singleton_ptr((void);
+        static SceneManagerEnumerator* singleton_ptr(void);
     };
 
     /** @} */

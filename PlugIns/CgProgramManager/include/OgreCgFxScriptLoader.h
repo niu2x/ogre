@@ -1510,7 +1510,8 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static CgFxScriptLoader& singleton(void);
         /// @copydoc Singleton::singleton()
-        static CgFxScriptLoader* singleton_ptr((void);
+        static CgFxScriptLoader* singleton_ptr(void);
+
     private:
     };
     /** @} */

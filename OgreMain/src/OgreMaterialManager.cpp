@@ -34,14 +34,13 @@ namespace Ogre {
     const String MSN_SHADERGEN = "ShaderGeneratorDefaultScheme";
 
     //-----------------------------------------------------------------------
-    template<> MaterialManager* Singleton<MaterialManager>::msSingleton = 0;
-    MaterialManager* MaterialManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+    template <>
+    MaterialManager* Singleton<MaterialManager>::singleton_ = 0;
+    MaterialManager* MaterialManager::singleton_ptr(void) { return singleton_; }
     MaterialManager& MaterialManager::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
     String MaterialManager::DEFAULT_SCHEME_NAME = MSN_DEFAULT;
     //-----------------------------------------------------------------------

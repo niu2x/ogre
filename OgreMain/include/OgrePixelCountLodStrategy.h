@@ -87,7 +87,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static AbsolutePixelCountLodStrategy& singleton(void);
         /// @copydoc Singleton::singleton()
-        static AbsolutePixelCountLodStrategy* singleton_ptr((void);
+        static AbsolutePixelCountLodStrategy* singleton_ptr(void);
     };
 
     class _OgreExport ScreenRatioPixelCountLodStrategy : public PixelCountLodStrategyBase, public Singleton<ScreenRatioPixelCountLodStrategy>
@@ -100,7 +100,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static ScreenRatioPixelCountLodStrategy& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ScreenRatioPixelCountLodStrategy* singleton_ptr((void);
+        static ScreenRatioPixelCountLodStrategy* singleton_ptr(void);
     };
     /** @} */
     /** @} */

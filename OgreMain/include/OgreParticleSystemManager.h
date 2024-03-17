@@ -318,7 +318,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static ParticleSystemManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ParticleSystemManager* singleton_ptr((void);
+        static ParticleSystemManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

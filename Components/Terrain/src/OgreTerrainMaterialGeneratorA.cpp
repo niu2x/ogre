@@ -64,12 +64,12 @@ namespace Ogre
 
         using namespace RTShader;
 
-        if (!ShaderGenerator::singleton_ptr(())
-        {
-        LogManager::singleton().log_error(
-            "TerrainMaterialGeneratorA - Shader generation not possible: RTSS "
-            "is not initialized.");
-        return;
+        if (!ShaderGenerator::singleton_ptr()) {
+            LogManager::singleton().log_error(
+                "TerrainMaterialGeneratorA - Shader generation not possible: "
+                "RTSS "
+                "is not initialized.");
+            return;
         }
 
         static SubRenderStateFactory* factory = nullptr;
@@ -257,7 +257,7 @@ namespace Ogre
         
         // Automatically disable normal & parallax mapping if card cannot handle it
         // We do this rather than having a specific technique for it since it's simpler
-        auto rsc = Root::singleton_ptr(()->getRenderSystem()->getCapabilities();
+        auto rsc = Root::singleton_ptr()->getRenderSystem()->getCapabilities();
         if (getRequiredLayers(terrain, mPSSM) > rsc->getNumTextureUnits())
         {
             setLayerNormalMappingEnabled(false);

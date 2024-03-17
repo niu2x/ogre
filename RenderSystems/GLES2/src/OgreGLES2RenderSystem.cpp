@@ -518,7 +518,7 @@ namespace Ogre {
         if (mGLSLESProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::singleton_ptr(())
+            if (HighLevelGpuProgramManager::singleton_ptr())
                 HighLevelGpuProgramManager::singleton().removeFactory(mGLSLESProgramFactory);
             OGRE_DELETE mGLSLESProgramFactory;
             mGLSLESProgramFactory = 0;
@@ -529,7 +529,7 @@ namespace Ogre {
         if (mGLSLESCgProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::singleton_ptr(())
+            if (HighLevelGpuProgramManager::singleton_ptr())
                 HighLevelGpuProgramManager::singleton().removeFactory(mGLSLESCgProgramFactory);
             OGRE_DELETE mGLSLESCgProgramFactory;
             mGLSLESCgProgramFactory = 0;
@@ -1349,9 +1349,11 @@ namespace Ogre {
 
     void GLES2RenderSystem::_unregisterContext(GLContext *context)
     {
-        if(HardwareBufferManager::singleton_ptr(())
-            static_cast<GLES2HardwareBufferManager*>(HardwareBufferManager::singleton_ptr(())->notifyContextDestroyed(context);
-        
+        if (HardwareBufferManager::singleton_ptr())
+            static_cast<GLES2HardwareBufferManager*>(
+                HardwareBufferManager::singleton_ptr())
+                ->notifyContextDestroyed(context);
+
         for(RenderTargetMap::iterator it = mRenderTargets.begin(); it!=mRenderTargets.end(); ++it)
         {
             if(auto target = dynamic_cast<GLRenderTarget*>(it->second))
@@ -1641,7 +1643,9 @@ namespace Ogre {
     //---------------------------------------------------------------------
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID || OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
     void GLES2RenderSystem::notifyOnContextLost() {
-        static_cast<GLES2HardwareBufferManager*>(HardwareBufferManager::singleton_ptr(())->notifyContextDestroyed(mCurrentContext);
+        static_cast<GLES2HardwareBufferManager*>(
+            HardwareBufferManager::singleton_ptr())
+            ->notifyContextDestroyed(mCurrentContext);
         GLES2RenderSystem::mResourceManager->notifyOnContextLost();
     }
 

@@ -152,7 +152,7 @@ public:
     static HardwareSkinningFactory& singleton(void);
 
     /// @copydoc Singleton::singleton()
-    static HardwareSkinningFactory* singleton_ptr((void);
+    static HardwareSkinningFactory* singleton_ptr(void);
 
 private:
 

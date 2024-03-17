@@ -808,7 +808,7 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static Root& singleton(void);
         /// @copydoc Singleton::singleton()
-        static Root* singleton_ptr((void);
+        static Root* singleton_ptr(void);
 
         /** Clears the history of all event times.
 

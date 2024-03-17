@@ -63,7 +63,7 @@ namespace Ogre {
         , mLightListUpdated(0)
         , mLightMask(0xFFFFFFFF)
     {
-        if (Root::singleton_ptr(())
+        if (Root::singleton_ptr())
             mMinPixelSize = Root::singleton().getDefaultMinPixelSize();
     }
     //-----------------------------------------------------------------------

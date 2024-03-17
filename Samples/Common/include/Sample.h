@@ -73,7 +73,7 @@ namespace OgreBites
         Sample()
 #endif
         {
-            mRoot = Ogre::Root::singleton_ptr(();
+            mRoot = Ogre::Root::singleton_ptr();
             mWindow = 0;
             mSceneMgr = 0;
             mDone = true;

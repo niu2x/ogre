@@ -490,8 +490,11 @@ protected:
 
         // Disable the lightmap for OpenGL ES 2.0. The minimum number of samplers allowed is 8(as opposed to 16 on
         // desktop). Otherwise we will run over the limit by just one. The minimum was raised to 16 in GL ES 3.0.
-        if (Ogre::Root::singleton_ptr(()->getRenderSystem()->getCapabilities()->getNumTextureUnits() < 9)
-        {
+        if (Ogre::Root::singleton_ptr()
+                ->getRenderSystem()
+                ->getCapabilities()
+                ->getNumTextureUnits()
+            < 9) {
             matProfile->setLightmapEnabled(false);
         }
 

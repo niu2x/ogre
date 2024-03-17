@@ -42,7 +42,7 @@ LodConfig::Advanced::Advanced() :
 
 LodConfig::LodConfig(
     MeshPtr& _mesh,
-    LodStrategy* _strategy /*= DistanceLodStrategy::singleton_ptr(()*/)
+    LodStrategy* _strategy /*= DistanceLodStrategy::singleton_ptr()*/)
 : mesh(_mesh)
 , strategy(_strategy)
 {

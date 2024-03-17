@@ -40,15 +40,14 @@ THE SOFTWARE.
 namespace Ogre {
 
     //---------------------------------------------------------------------
-    template<> OverlayManager *Singleton<OverlayManager>::msSingleton = 0;
-    OverlayManager* OverlayManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    OverlayManager& OverlayManager::singleton(void)
-    {
-        assert( msSingleton );  return ( *msSingleton );
-    }
+template <>
+OverlayManager* Singleton<OverlayManager>::singleton_ = 0;
+OverlayManager* OverlayManager::singleton_ptr(void) { return singleton_; }
+OverlayManager& OverlayManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
     //---------------------------------------------------------------------
     OverlayManager::OverlayManager()
       : mLastViewportWidth(0),

@@ -78,14 +78,19 @@ namespace Ogre {
     /************************************************************************/
 
     //-----------------------------------------------------------------------
-    template<> AbsolutePixelCountLodStrategy* Singleton<AbsolutePixelCountLodStrategy>::msSingleton = 0;
-    AbsolutePixelCountLodStrategy* AbsolutePixelCountLodStrategy::singleton_ptr((void)
+    template <>
+    AbsolutePixelCountLodStrategy*
+        Singleton<AbsolutePixelCountLodStrategy>::singleton_
+        = 0;
+    AbsolutePixelCountLodStrategy*
+    AbsolutePixelCountLodStrategy::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     AbsolutePixelCountLodStrategy& AbsolutePixelCountLodStrategy::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
     //-----------------------------------------------------------------------
     AbsolutePixelCountLodStrategy::AbsolutePixelCountLodStrategy()
@@ -158,14 +163,19 @@ namespace Ogre {
     /************************************************************************/
 
     //-----------------------------------------------------------------------
-    template<> ScreenRatioPixelCountLodStrategy* Singleton<ScreenRatioPixelCountLodStrategy>::msSingleton = 0;
-    ScreenRatioPixelCountLodStrategy* ScreenRatioPixelCountLodStrategy::singleton_ptr((void)
+    template <>
+    ScreenRatioPixelCountLodStrategy*
+        Singleton<ScreenRatioPixelCountLodStrategy>::singleton_
+        = 0;
+    ScreenRatioPixelCountLodStrategy*
+    ScreenRatioPixelCountLodStrategy::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     ScreenRatioPixelCountLodStrategy& ScreenRatioPixelCountLodStrategy::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
     //-----------------------------------------------------------------------
     ScreenRatioPixelCountLodStrategy::ScreenRatioPixelCountLodStrategy()

@@ -514,46 +514,57 @@ namespace Ogre {
     {
         // HLSL delegates need a target to compile to.
         // Return value for GLSL delegates is ignored.
-        GpuProgramManager* gpuMgr = GpuProgramManager::singleton_ptr(();
+        GpuProgramManager* gpuMgr = GpuProgramManager::singleton_ptr();
 
-		if (mSelectedCgProfile == CG_PROFILE_HLSLF)
-		{
-			static const String fpProfiles[] = {
+        if (mSelectedCgProfile == CG_PROFILE_HLSLF) {
+            static const String fpProfiles[] = {
 #if(CG_VERSION_NUM >= 3000)
-			"ps_5_0",
+                "ps_5_0",
 #endif
 #if(CG_VERSION_NUM >= 2200)
-			"ps_4_0",
+                "ps_4_0",
 #endif
-			"ps_3_0", "ps_2_x", "ps_2_0", "ps_1_4", "ps_1_3", "ps_1_2", "ps_1_1"};
-			static const size_t numFpProfiles = sizeof(fpProfiles)/sizeof(String);
-			// find the highest profile available
-			for (size_t i = 0; i < numFpProfiles; ++i)
-			{
-				if (gpuMgr->isSyntaxSupported(fpProfiles[i]))
-					return fpProfiles[i];
-			}
-		}
-		else if (mSelectedCgProfile == CG_PROFILE_HLSLV)
-		{
-			static const String vpProfiles[] = {
+                "ps_3_0",
+                "ps_2_x",
+                "ps_2_0",
+                "ps_1_4",
+                "ps_1_3",
+                "ps_1_2",
+                "ps_1_1"
+            };
+            static const size_t numFpProfiles
+                = sizeof(fpProfiles) / sizeof(String);
+            // find the highest profile available
+            for (size_t i = 0; i < numFpProfiles; ++i) {
+                if (gpuMgr->isSyntaxSupported(fpProfiles[i]))
+                    return fpProfiles[i];
+            }
+        } else if (mSelectedCgProfile == CG_PROFILE_HLSLV) {
+            static const String vpProfiles[] = {
 #if(CG_VERSION_NUM >= 3000)
-			"vs_5_0",
+                "vs_5_0",
 #endif
 #if(CG_VERSION_NUM >= 2200)
-			"vs_4_0",
+                "vs_4_0",
 #endif
-			"vs_3_0", "vs_2_x", "vs_2_0", "vs_1_4", "vs_1_3", "vs_1_2", "vs_1_1"};
-			static const size_t numVpProfiles = sizeof(vpProfiles)/sizeof(String);
-			// find the highest profile available
-			for (size_t i = 0; i < numVpProfiles; ++i)
-			{
-				if (gpuMgr->isSyntaxSupported(vpProfiles[i]))
-					return vpProfiles[i];
-			}
-		}
+                "vs_3_0",
+                "vs_2_x",
+                "vs_2_0",
+                "vs_1_4",
+                "vs_1_3",
+                "vs_1_2",
+                "vs_1_1"
+            };
+            static const size_t numVpProfiles
+                = sizeof(vpProfiles) / sizeof(String);
+            // find the highest profile available
+            for (size_t i = 0; i < numVpProfiles; ++i) {
+                if (gpuMgr->isSyntaxSupported(vpProfiles[i]))
+                    return vpProfiles[i];
+            }
+        }
 
-		return "unknown";
+        return "unknown";
     }
     //-----------------------------------------------------------------------
     struct HighLevelOutputFixer {

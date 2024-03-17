@@ -79,7 +79,7 @@ private:
     Singleton& operator=(const Singleton<T>&);
 
 protected:
-    static T* msSingleton;
+    static T* singleton_;
 
 public:
 #if defined(__has_attribute)
@@ -92,23 +92,22 @@ public:
 #endif
     Singleton(void)
     {
-        OgreAssert(!msSingleton, "There can be only one singleton");
-        msSingleton = static_cast<T*>(this);
+        OgreAssert(!singleton_, "There can be only one singleton");
+        singleton_ = static_cast<T*>(this);
     }
     ~Singleton(void)
     {
-        assert(msSingleton);
-        msSingleton = 0;
+        assert(singleton_);
+        singleton_ = 0;
     }
     /// Get the singleton instance
     static T& singleton(void)
     {
-        assert(msSingleton);
-        return (*msSingleton);
+        assert(singleton_);
+        return (*singleton_);
     }
     /// @copydoc getSingleton
-    static T* singleton_ptr((void) {
-        return msSingleton; }
+    static T* singleton_ptr(void) { return singleton_; }
 };
 /** @} */
 /** @} */

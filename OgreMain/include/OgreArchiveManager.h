@@ -104,7 +104,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static ArchiveManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ArchiveManager* singleton_ptr((void);
+        static ArchiveManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

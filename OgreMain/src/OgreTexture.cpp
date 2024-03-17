@@ -70,13 +70,12 @@ namespace Ogre {
         }
 
         // Set some defaults for default load path
-        if (TextureManager::singleton_ptr(())
-        {
-        TextureManager& tmgr = TextureManager::singleton();
-        setNumMipmaps(tmgr.getDefaultNumMipmaps());
-        setDesiredBitDepths(
-            tmgr.getPreferredIntegerBitDepth(),
-            tmgr.getPreferredFloatBitDepth());
+        if (TextureManager::singleton_ptr()) {
+            TextureManager& tmgr = TextureManager::singleton();
+            setNumMipmaps(tmgr.getDefaultNumMipmaps());
+            setDesiredBitDepths(
+                tmgr.getPreferredIntegerBitDepth(),
+                tmgr.getPreferredFloatBitDepth());
         }
     }
     //--------------------------------------------------------------------------

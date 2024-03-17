@@ -448,7 +448,7 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static ScriptCompilerManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ScriptCompilerManager* singleton_ptr((void);
+        static ScriptCompilerManager* singleton_ptr(void);
     };
 
     class _OgreExport ProcessResourceNameScriptCompilerEvent : public ScriptCompilerEvent

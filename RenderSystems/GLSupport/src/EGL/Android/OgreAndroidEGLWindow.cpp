@@ -228,7 +228,9 @@ namespace Ogre {
         {
             mContext->setCurrent();
 
-            static_cast<GLRenderSystemCommon*>(Root::singleton_ptr(()->getRenderSystem())->notifyOnContextLost();
+            static_cast<GLRenderSystemCommon*>(
+                Root::singleton_ptr()->getRenderSystem())
+                ->notifyOnContextLost();
             static_cast<EGLContext*>(mContext)->_destroyInternalResources();
         }
         
@@ -376,7 +378,9 @@ namespace Ogre {
             if (config)
             {
                 bool isLandscape = (int)AConfiguration_getOrientation((AConfiguration*)config) == 2;
-                Root::singleton_ptr(()->getRenderSystem()->setConfigOption("Orientation", isLandscape ? "Landscape" : "Portrait");
+                Root::singleton_ptr()->getRenderSystem()->setConfigOption(
+                    "Orientation",
+                    isLandscape ? "Landscape" : "Portrait");
             }
         }
         
@@ -390,7 +394,9 @@ namespace Ogre {
             {
                 static_cast<EGLContext*>(mContext)->_createInternalResources(mEglDisplay, mEglConfig, mEglSurface, NULL);
 
-                static_cast<GLRenderSystemCommon*>(Root::singleton_ptr(()->getRenderSystem())->resetRenderer(this);
+                static_cast<GLRenderSystemCommon*>(
+                    Root::singleton_ptr()->getRenderSystem())
+                    ->resetRenderer(this);
             }
         }
     }

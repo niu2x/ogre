@@ -85,7 +85,7 @@ mCameraRelativeRendering(false),
 mLastLightHash(0),
 mGpuParamsDirty((uint16)GPV_ALL)
 {
-    if (Root* root = Root::singleton_ptr(())
+    if (Root* root = Root::singleton_ptr())
         _setDestinationRenderSystem(root->getRenderSystem());
 
     // Setup default queued renderable visitor

@@ -34,20 +34,24 @@ THE SOFTWARE.
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    template<> GLSL::GLSLLinkProgramManager* Singleton<GLSL::GLSLLinkProgramManager>::msSingleton = 0;
+template <>
+GLSL::GLSLLinkProgramManager*
+    Singleton<GLSL::GLSLLinkProgramManager>::singleton_
+    = 0;
 
-    namespace GLSL {
+namespace GLSL {
 
-    //-----------------------------------------------------------------------
-    GLSLLinkProgramManager* GLSLLinkProgramManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+//-----------------------------------------------------------------------
+GLSLLinkProgramManager* GLSLLinkProgramManager::singleton_ptr(void)
+{
+    return singleton_;
+}
 
     //-----------------------------------------------------------------------
     GLSLLinkProgramManager& GLSLLinkProgramManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
 
     //-----------------------------------------------------------------------
@@ -133,5 +137,5 @@ namespace Ogre {
         }
 
     }
-}
+    } // namespace GLSL
 }

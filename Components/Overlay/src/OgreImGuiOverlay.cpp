@@ -39,7 +39,7 @@ static void DrawConfigOption(RenderSystem* rs, const ConfigOption& opt)
 
 void DrawRenderingSettings(String& rsName)
 {
-    auto root = Root::singleton_ptr(();
+    auto root = Root::singleton_ptr();
     OgreAssert(root, "Root must be created");
 
     if(rsName.empty())
@@ -118,7 +118,7 @@ void ImGuiOverlay::ImGUIRenderable::createMaterial()
 
 ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
 {
-    FontPtr font = FontManager::singleton().getByName(name, group);
+    FontPtr font = FontManager::singleton().get_by_name(name, group);
     if (!font)
         OGRE_EXCEPT(
             Exception::ERR_ITEM_NOT_FOUND,

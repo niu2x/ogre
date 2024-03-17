@@ -30,15 +30,14 @@ THE SOFTWARE.
 
 namespace Ogre {
     //-----------------------------------------------------------------------
-    template<> TextureManager* Singleton<TextureManager>::msSingleton = 0;
-    TextureManager* TextureManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    TextureManager& TextureManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
-    }
+template <>
+TextureManager* Singleton<TextureManager>::singleton_ = 0;
+TextureManager* TextureManager::singleton_ptr(void) { return singleton_; }
+TextureManager& TextureManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
     //-----------------------------------------------------------------------
     TextureManager::TextureManager(void)
     : ResourceManager("Texture")

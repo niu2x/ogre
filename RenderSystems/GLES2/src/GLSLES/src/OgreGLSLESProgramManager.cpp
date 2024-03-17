@@ -42,18 +42,20 @@ THE SOFTWARE.
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    template<> GLSLESProgramManager* Singleton<GLSLESProgramManager>::msSingleton = 0;
+template <>
+GLSLESProgramManager* Singleton<GLSLESProgramManager>::singleton_ = 0;
 
-    //-----------------------------------------------------------------------
-    GLSLESProgramManager* GLSLESProgramManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+//-----------------------------------------------------------------------
+GLSLESProgramManager* GLSLESProgramManager::singleton_ptr(void)
+{
+    return singleton_;
+}
 
     //-----------------------------------------------------------------------
     GLSLESProgramManager& GLSLESProgramManager::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
 
     //-----------------------------------------------------------------------

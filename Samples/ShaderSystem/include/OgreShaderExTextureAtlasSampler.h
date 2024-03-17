@@ -235,7 +235,7 @@ public:
     TextureAtlasSamplerFactory();
 
     //Singleton implementation
-    static TextureAtlasSamplerFactory* singleton_ptr((void);
+    static TextureAtlasSamplerFactory* singleton_ptr(void);
     static TextureAtlasSamplerFactory& singleton(void);
     
 

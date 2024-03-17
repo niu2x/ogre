@@ -35,14 +35,19 @@ THE SOFTWARE.
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    template<> RenderSystemCapabilitiesManager* Singleton<RenderSystemCapabilitiesManager>::msSingleton = 0;
-    RenderSystemCapabilitiesManager* RenderSystemCapabilitiesManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+template <>
+RenderSystemCapabilitiesManager*
+    Singleton<RenderSystemCapabilitiesManager>::singleton_
+    = 0;
+RenderSystemCapabilitiesManager*
+RenderSystemCapabilitiesManager::singleton_ptr(void)
+{
+    return singleton_;
+}
     RenderSystemCapabilitiesManager& RenderSystemCapabilitiesManager::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
 
     //-----------------------------------------------------------------------

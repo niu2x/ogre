@@ -72,7 +72,7 @@ namespace Ogre {
             GLUniformReferenceList& list);
 
         static GLSLLinkProgramManager& singleton(void);
-        static GLSLLinkProgramManager* singleton_ptr((void);
+        static GLSLLinkProgramManager* singleton_ptr(void);
     };
 
     }

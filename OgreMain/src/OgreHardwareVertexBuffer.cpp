@@ -476,7 +476,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     VertexDeclaration* VertexDeclaration::clone(HardwareBufferManagerBase* mgr) const
     {
-        HardwareBufferManagerBase* pManager = mgr ? mgr : HardwareBufferManager::singleton_ptr((); 
+        HardwareBufferManagerBase* pManager
+            = mgr ? mgr : HardwareBufferManager::singleton_ptr();
         VertexDeclaration* ret = pManager->createVertexDeclaration();
 
         for (auto& e : mElementList)

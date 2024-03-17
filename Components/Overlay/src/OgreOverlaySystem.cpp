@@ -81,14 +81,13 @@ namespace Ogre {
         }
     };
 
-    template<> OverlaySystem *Singleton<OverlaySystem>::msSingleton = 0;
-    OverlaySystem* OverlaySystem::singleton_ptr(()
-    {
-        return msSingleton;
-    }
+    template <>
+    OverlaySystem* Singleton<OverlaySystem>::singleton_ = 0;
+    OverlaySystem* OverlaySystem::singleton_ptr() { return singleton_; }
     OverlaySystem& OverlaySystem::singleton()
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
     //---------------------------------------------------------------------
     OverlaySystem::OverlaySystem()
@@ -103,8 +102,7 @@ namespace Ogre {
         mOverlayManager->addOverlayElementFactory(OGRE_NEW Ogre::TextAreaOverlayElementFactory());
 
         mFontManager = OGRE_NEW FontManager();
-        if (auto prof = Profiler::singleton_ptr(())
-        {
+        if (auto prof = Profiler::singleton_ptr()) {
             mProfileListener = new Ogre::OverlayProfileSessionListener();
             prof->add_listener(mProfileListener);
         }
@@ -115,8 +113,7 @@ namespace Ogre {
         if(RenderSystem::getSharedListener() == this)
             RenderSystem::setSharedListener(0);
 
-        if (auto prof = Profiler::singleton_ptr(())
-        {
+        if (auto prof = Profiler::singleton_ptr()) {
             prof->remove_listener(mProfileListener);
             delete mProfileListener;
         }
@@ -129,7 +126,9 @@ namespace Ogre {
     {
         if(queueGroupId == Ogre::RENDER_QUEUE_OVERLAY)
         {
-            Ogre::Viewport* vp = Ogre::Root::singleton_ptr(()->getRenderSystem()->_getViewport();
+            Ogre::Viewport* vp = Ogre::Root::singleton_ptr()
+                                     ->getRenderSystem()
+                                     ->_getViewport();
             if(vp != NULL)
             {
                 Ogre::SceneManager* sceneMgr = vp->getCamera()->getSceneManager();

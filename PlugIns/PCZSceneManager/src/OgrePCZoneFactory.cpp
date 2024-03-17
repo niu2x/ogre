@@ -71,14 +71,16 @@ namespace Ogre
     }
     //-------------------------------------------------------------------------
     // PCZoneFactoryManager functions
-    template<> PCZoneFactoryManager* Singleton<PCZoneFactoryManager>::msSingleton = 0;
-    PCZoneFactoryManager* PCZoneFactoryManager::singleton_ptr((void)
+    template <>
+    PCZoneFactoryManager* Singleton<PCZoneFactoryManager>::singleton_ = 0;
+    PCZoneFactoryManager* PCZoneFactoryManager::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     PCZoneFactoryManager& PCZoneFactoryManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
     PCZoneFactoryManager::PCZoneFactoryManager()
     {

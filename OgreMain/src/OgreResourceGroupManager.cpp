@@ -31,14 +31,16 @@ THE SOFTWARE.
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    template<> ResourceGroupManager* Singleton<ResourceGroupManager>::msSingleton = 0;
-    ResourceGroupManager* ResourceGroupManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+template <>
+ResourceGroupManager* Singleton<ResourceGroupManager>::singleton_ = 0;
+ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
+{
+    return singleton_;
+}
     ResourceGroupManager& ResourceGroupManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
 
     const char* const RGN_DEFAULT = "General";

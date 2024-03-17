@@ -365,7 +365,7 @@ namespace Ogre {
             /// @copydoc Singleton::singleton()
             static Profiler& singleton(void);
             /// @copydoc Singleton::singleton()
-            static Profiler* singleton_ptr((void);
+            static Profiler* singleton_ptr(void);
 
         private:
             friend class ProfileInstance;

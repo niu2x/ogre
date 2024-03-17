@@ -406,8 +406,9 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
     //src->mTextureID << ":" << srcBox.left << "," << srcBox.top << "," << srcBox.right << "," << srcBox.bottom << " " << 
     //mTextureID << ":" << dstBox.left << "," << dstBox.top << "," << dstBox.right << "," << dstBox.bottom << std::endl;
     /// Store reference to FBO manager
-    GLFBOManager *fboMan = static_cast<GLFBOManager *>(GLRTTManager::singleton_ptr(());
-    
+    GLFBOManager* fboMan
+        = static_cast<GLFBOManager*>(GLRTTManager::singleton_ptr());
+
     /// Save and clear GL state for rendering
     glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT | 
         GL_FOG_BIT | GL_LIGHTING_BIT | GL_POLYGON_BIT | GL_SCISSOR_BIT | GL_STENCIL_BUFFER_BIT |

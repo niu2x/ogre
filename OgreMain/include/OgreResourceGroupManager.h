@@ -963,7 +963,7 @@ public:
         /// @copydoc Singleton::singleton()
         static ResourceGroupManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ResourceGroupManager* singleton_ptr((void);
+        static ResourceGroupManager* singleton_ptr(void);
     };
     /** @} */
     /** @} */

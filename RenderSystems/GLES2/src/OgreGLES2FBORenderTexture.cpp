@@ -83,7 +83,9 @@ namespace Ogre {
         
         mFB.notifyOnContextReset(target);
 
-        static_cast<GLES2RenderSystem*>(Ogre::Root::singleton_ptr(()->getRenderSystem())->_createDepthBufferFor(this);
+        static_cast<GLES2RenderSystem*>(
+            Ogre::Root::singleton_ptr()->getRenderSystem())
+            ->_createDepthBufferFor(this);
     }
 #endif
     

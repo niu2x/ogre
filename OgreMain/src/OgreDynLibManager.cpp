@@ -33,16 +33,15 @@ THE SOFTWARE.
 namespace Ogre
 {
     //-----------------------------------------------------------------------
-    template<> DynLibManager* Singleton<DynLibManager>::msSingleton = 0;
-    DynLibManager* DynLibManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    //-----------------------------------------------------------------------
-    DynLibManager& DynLibManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
-    }
+template <>
+DynLibManager* Singleton<DynLibManager>::singleton_ = 0;
+DynLibManager* DynLibManager::singleton_ptr(void) { return singleton_; }
+//-----------------------------------------------------------------------
+DynLibManager& DynLibManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
     //-----------------------------------------------------------------------
     DynLibManager::DynLibManager()
     {

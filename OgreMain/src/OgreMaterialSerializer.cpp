@@ -962,8 +962,8 @@ namespace Ogre
             }
 
             //filtering
-            if (TextureManager::singleton_ptr(() && (mDefaults || !pTex->isDefaultFiltering()))
-            {
+            if (TextureManager::singleton_ptr()
+                && (mDefaults || !pTex->isDefaultFiltering())) {
                 writeAttribute(4, "filtering");
                 writeValue(
                     convertFiltering(pTex->getTextureFiltering(FT_MIN))

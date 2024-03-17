@@ -338,8 +338,7 @@ namespace Ogre {
 #if OGRE_DEBUG_MODE
             // Log warnings if any
             const char* warnings = static_cast<const char*>(errors ? errors->GetBufferPointer() : 0);
-            if(warnings && LogManager::singleton_ptr(())
-            {
+            if (warnings && LogManager::singleton_ptr()) {
                 String message = "Warnings while compiling D3D11 high-level shader " + mName + ":\n" + warnings;
                 LogManager::singleton().log_message(
                     message,

@@ -37,7 +37,8 @@ namespace Ogre {
     const String GLRenderTexture::CustomAttributeString_TARGET = "TARGET";
     const String GLRenderTexture::CustomAttributeString_GLCONTEXT = "GLCONTEXT";
 
-    template<> GLRTTManager* Singleton<GLRTTManager>::msSingleton = NULL;
+    template <>
+    GLRTTManager* Singleton<GLRTTManager>::singleton_ = NULL;
 
     GLFrameBufferObjectCommon::GLFrameBufferObjectCommon(int32 fsaa)
         : mFB(0), mMultisampleFB(0), mNumSamples(fsaa)
@@ -89,13 +90,11 @@ namespace Ogre {
         return mColour[0].buffer->getFormat();
     }
 
-    GLRTTManager* GLRTTManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+    GLRTTManager* GLRTTManager::singleton_ptr(void) { return singleton_; }
     GLRTTManager& GLRTTManager::singleton(void)
     {
-        assert( msSingleton );  return ( *msSingleton );
+        assert(singleton_);
+        return (*singleton_);
     }
 
     GLRTTManager::GLRTTManager() {}

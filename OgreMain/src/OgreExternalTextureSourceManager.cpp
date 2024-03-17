@@ -42,14 +42,18 @@ email                : pjcast@yahoo.com
 namespace Ogre 
 {
     //****************************************************************************************
-    template<> ExternalTextureSourceManager* Singleton<ExternalTextureSourceManager>::msSingleton = 0;
-    ExternalTextureSourceManager* ExternalTextureSourceManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
+template <>
+ExternalTextureSourceManager*
+    Singleton<ExternalTextureSourceManager>::singleton_
+    = 0;
+ExternalTextureSourceManager* ExternalTextureSourceManager::singleton_ptr(void)
+{
+    return singleton_;
+}
     ExternalTextureSourceManager& ExternalTextureSourceManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
     //****************************************************************************************
 

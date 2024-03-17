@@ -75,7 +75,7 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static PCZoneFactoryManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static PCZoneFactoryManager* singleton_ptr((void);
+        static PCZoneFactoryManager* singleton_ptr(void);
         /* PCZoneFactory Iterator - for querying what types of PCZone
         factories are available */
         typedef std::map<String, PCZoneFactory*> PCZoneFactoryMap;

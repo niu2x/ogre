@@ -78,7 +78,7 @@ public:
     */
     static FontManager& singleton(void);
     /// @copydoc Singleton::singleton()
-    static FontManager* Singleton_ptr(void);
+    static FontManager* singleton_ptr(void);
 
 private:
     /// Internal methods

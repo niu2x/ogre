@@ -80,14 +80,16 @@ namespace Ogre
     // This MUST match the bitwise OR of all the types above with no extra bits!
     const uint8 Terrain::DERIVED_DATA_ALL = 7;
     //-----------------------------------------------------------------------
-    template<> TerrainGlobalOptions* Singleton<TerrainGlobalOptions>::msSingleton = 0;
-    TerrainGlobalOptions* TerrainGlobalOptions::singleton_ptr((void)
+    template <>
+    TerrainGlobalOptions* Singleton<TerrainGlobalOptions>::singleton_ = 0;
+    TerrainGlobalOptions* TerrainGlobalOptions::singleton_ptr(void)
     {
-        return msSingleton;
+        return singleton_;
     }
     TerrainGlobalOptions& TerrainGlobalOptions::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    {
+        assert(singleton_);
+        return (*singleton_);
     }
     // need to implement in cpp due to how Ogre::Singleton works
     TerrainGlobalOptions::~TerrainGlobalOptions() {}
@@ -1975,7 +1977,7 @@ namespace Ogre
     void Terrain::freeGPUResources()
     {
         // remove textures
-        TextureManager* tmgr = TextureManager::singleton_ptr(();
+        TextureManager* tmgr = TextureManager::singleton_ptr();
         if (tmgr)
         {
             for (auto& i : mBlendTextureList) {
@@ -2817,7 +2819,7 @@ namespace Ogre
         // Create enough RGBA textures to cope with blend layers
         uint8 numTex = getBlendTextureCount(getLayerCount());
         // delete extras
-        TextureManager* tmgr = TextureManager::singleton_ptr(();
+        TextureManager* tmgr = TextureManager::singleton_ptr();
         if (!tmgr)
             return;
 
@@ -4414,7 +4416,7 @@ namespace Ogre
 
             if (mTerrainNormalMap)
             {
-                TextureManager::singleton_ptr(()->remove(
+                TextureManager::singleton_ptr()->remove(
                     mTerrainNormalMap->handle());
                 mTerrainNormalMap.reset();
             }

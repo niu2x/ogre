@@ -2040,7 +2040,7 @@ namespace Ogre
         /// @copydoc Singleton::singleton()
         static TerrainGlobalOptions& singleton(void);
         /// @copydoc Singleton::singleton()
-        static TerrainGlobalOptions* singleton_ptr((void);
+        static TerrainGlobalOptions* singleton_ptr(void);
     };
 
 

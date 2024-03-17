@@ -79,7 +79,8 @@ mSharedVertexDataAnimationType(VAT_NONE)
     //-----------------------------------------------------------------------
     Mesh::~Mesh()
     {
-        if (!HardwareBufferManager::singleton_ptr(()) // LogManager might be also gone already
+        if (!HardwareBufferManager::singleton_ptr()) // LogManager might be also
+                                                     // gone already
         {
             printf(
                 "ERROR: '%s' is being destroyed after HardwareBufferManager. "
@@ -95,7 +96,8 @@ mSharedVertexDataAnimationType(VAT_NONE)
     //-----------------------------------------------------------------------
     HardwareBufferManagerBase* Mesh::getHardwareBufferManager()
     {
-        return mBufferManager ? mBufferManager : HardwareBufferManager::singleton_ptr(();
+        return mBufferManager ? mBufferManager
+                              : HardwareBufferManager::singleton_ptr();
     }
     //-----------------------------------------------------------------------
     SubMesh* Mesh::createSubMesh()

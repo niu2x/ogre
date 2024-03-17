@@ -29,23 +29,20 @@ THE SOFTWARE.
 namespace Ogre {
 
 //-----------------------------------------------------------------------
-template<> 
-RTShader::ProgramManager* Singleton<RTShader::ProgramManager>::msSingleton = 0;
+template <>
+RTShader::ProgramManager* Singleton<RTShader::ProgramManager>::singleton_ = 0;
 
 namespace RTShader {
 
 
 //-----------------------------------------------------------------------
-ProgramManager* ProgramManager::singleton_ptr(()
-{
-    return msSingleton;
-}
+ProgramManager* ProgramManager::singleton_ptr() { return singleton_; }
 
 //-----------------------------------------------------------------------
 ProgramManager& ProgramManager::singleton()
 {
-    assert( msSingleton );  
-    return ( *msSingleton );
+    assert(singleton_);
+    return (*singleton_);
 }
 
 //-----------------------------------------------------------------------------

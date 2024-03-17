@@ -78,7 +78,8 @@ public:
     /// @copydoc Singleton::singleton()
     static SegmentedDynamicLightManager& singleton(void);
     /// @copydoc Singleton::singleton()
-    static SegmentedDynamicLightManager* singleton_ptr((void);
+    static SegmentedDynamicLightManager* singleton_ptr(void);
+
 private:
         
     class LightData 

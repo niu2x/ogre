@@ -138,7 +138,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static DistanceLodSphereStrategy& singleton(void);
         /// @copydoc Singleton::singleton()
-        static DistanceLodSphereStrategy* singleton_ptr((void);
+        static DistanceLodSphereStrategy* singleton_ptr(void);
     };
     /** @} */
     /** @} */
@@ -171,7 +171,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static DistanceLodBoxStrategy& singleton(void);
         /// @copydoc Singleton::singleton()
-        static DistanceLodBoxStrategy* singleton_ptr((void);
+        static DistanceLodBoxStrategy* singleton_ptr(void);
     };
 
     /** @} */

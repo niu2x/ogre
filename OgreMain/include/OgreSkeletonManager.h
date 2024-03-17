@@ -68,7 +68,8 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static SkeletonManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static SkeletonManager* singleton_ptr((void);
+        static SkeletonManager* singleton_ptr(void);
+
     private:
 
         /// @copydoc ResourceManager::createImpl

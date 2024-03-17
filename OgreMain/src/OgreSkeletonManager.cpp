@@ -31,15 +31,14 @@ THE SOFTWARE.
 namespace Ogre
 {
     //-----------------------------------------------------------------------
-    template<> SkeletonManager* Singleton<SkeletonManager>::msSingleton = 0;
-    SkeletonManager* SkeletonManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    SkeletonManager& SkeletonManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
-    }
+template <>
+SkeletonManager* Singleton<SkeletonManager>::singleton_ = 0;
+SkeletonManager* SkeletonManager::singleton_ptr(void) { return singleton_; }
+SkeletonManager& SkeletonManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
     //-----------------------------------------------------------------------
     SkeletonManager::SkeletonManager()
     : ResourceManager("Skeleton")

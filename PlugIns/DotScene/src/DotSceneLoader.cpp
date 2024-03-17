@@ -300,7 +300,7 @@ void DotSceneLoader::processTerrainGroup(pugi::xml_node& XMLNode)
     int compositeMapDistance = StringConverter::parse_int32(XMLNode.attribute("tuningCompositeMapDistance").value());
     int maxPixelError = StringConverter::parse_int32(XMLNode.attribute("tuningMaxPixelError").value());
 
-    auto terrainGlobalOptions = TerrainGlobalOptions::singleton_ptr(();
+    auto terrainGlobalOptions = TerrainGlobalOptions::singleton_ptr();
     OgreAssert(terrainGlobalOptions, "TerrainGlobalOptions not available");
 
     terrainGlobalOptions->setMaxPixelError((Real)maxPixelError);
@@ -649,15 +649,20 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
                 LogMsgLevel::TRIVIAL);
 
             // Load the Mesh to get the material name of the first submesh
-            Ogre::MeshPtr mesh = MeshManager::singleton_ptr(()->load(meshFile, m_sGroupName);
+            Ogre::MeshPtr mesh
+                = MeshManager::singleton_ptr()->load(meshFile, m_sGroupName);
 
-			// Get the material name of the entity
-			if(!material.empty())
-				pEntity = mSceneMgr->createInstancedEntity(material, instancedManager);
-			else
-				pEntity = mSceneMgr->createInstancedEntity(mesh->getSubMesh(0)->getMaterialName(), instancedManager);
+            // Get the material name of the entity
+            if (!material.empty())
+                pEntity = mSceneMgr->createInstancedEntity(
+                    material,
+                    instancedManager);
+            else
+                pEntity = mSceneMgr->createInstancedEntity(
+                    mesh->getSubMesh(0)->getMaterialName(),
+                    instancedManager);
 
-			pParent->attachObject(static_cast<InstancedEntity*>(pEntity));
+            pParent->attachObject(static_cast<InstancedEntity*>(pEntity));
         } else {
             pEntity = mSceneMgr->createEntity(name, meshFile, m_sGroupName);
 
@@ -757,9 +762,19 @@ void DotSceneLoader::processPlane(pugi::xml_node& XMLNode, SceneNode* pParent)
     Vector3 up = parseVector3(XMLNode.child("upVector"));
 
     Plane plane(normal, distance);
-    MeshPtr res =
-        MeshManager::singleton_ptr(()->createPlane(name + "mesh", m_sGroupName, plane, width, height, xSegments,
-                                                    ySegments, hasNormals, numTexCoordSets, uTile, vTile, up);
+    MeshPtr res = MeshManager::singleton_ptr()->createPlane(
+        name + "mesh",
+        m_sGroupName,
+        plane,
+        width,
+        height,
+        xSegments,
+        ySegments,
+        hasNormals,
+        numTexCoordSets,
+        uTile,
+        vTile,
+        up);
     Entity* ent = mSceneMgr->createEntity(name, name + "mesh");
 
     ent->setMaterialName(material);

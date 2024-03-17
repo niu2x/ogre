@@ -31,20 +31,22 @@ THE SOFTWARE.
 namespace Ogre {
 
 //-----------------------------------------------------------------------
-template<> 
-RTShader::ProgramWriterManager* Singleton<RTShader::ProgramWriterManager>::msSingleton = 0;
+template <>
+RTShader::ProgramWriterManager*
+    Singleton<RTShader::ProgramWriterManager>::singleton_
+    = 0;
 
 namespace RTShader {
 //-----------------------------------------------------------------------
-ProgramWriterManager* ProgramWriterManager::singleton_ptr((void)
+ProgramWriterManager* ProgramWriterManager::singleton_ptr(void)
 {
-    return msSingleton;
+    return singleton_;
 }
 //-----------------------------------------------------------------------
 ProgramWriterManager& ProgramWriterManager::singleton(void)
-{  
-    assert( msSingleton );  
-    return ( *msSingleton );  
+{
+    assert(singleton_);
+    return (*singleton_);
 }
 //-----------------------------------------------------------------------
 ProgramWriterManager::ProgramWriterManager()

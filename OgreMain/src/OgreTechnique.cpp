@@ -954,7 +954,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Technique::clearIlluminationPasses(void)
     {
-        if(MaterialManager::singleton_ptr(())
+        if (MaterialManager::singleton_ptr())
             MaterialManager::singleton()._notifyBeforeIlluminationPassesCleared(this);
 
         for (auto *i : mIlluminationPasses)
@@ -980,7 +980,7 @@ namespace Ogre {
             // Splitting the passes into illumination passes
             _compileIlluminationPasses();
             // Post notification, so that technique owner can post-process created passes
-            if(MaterialManager::singleton_ptr(())
+            if (MaterialManager::singleton_ptr())
                 MaterialManager::singleton()._notifyAfterIlluminationPassesCreated(this);
             // Mark that illumination passes compilation finished
             mIlluminationPassesCompilationPhase = targetState;

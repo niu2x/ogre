@@ -97,7 +97,7 @@ bool ApplicationContextBase::initialiseRTShaderSystem()
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
     if (Ogre::RTShader::ShaderGenerator::initialize())
     {
-        mShaderGenerator = Ogre::RTShader::ShaderGenerator::singleton_ptr(();
+        mShaderGenerator = Ogre::RTShader::ShaderGenerator::singleton_ptr();
 
         // Create and register the material manager listener if it doesn't exist yet.
         if (!mMaterialMgrListener) {

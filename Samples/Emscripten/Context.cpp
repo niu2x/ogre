@@ -91,7 +91,8 @@ void Context::destroyMaterials( const Ogre::String& resourceGroupID )
 
     try
     {
-        Ogre::MaterialManager* materialManager = Ogre::MaterialManager::singleton_ptr(();
+        Ogre::MaterialManager* materialManager
+            = Ogre::MaterialManager::singleton_ptr();
         Ogre::ResourceManager::ResourceMapIterator resourceIterator = materialManager->getResourceIterator();
 
         std::vector< std::string > materialNamesToRemove;
@@ -130,7 +131,8 @@ void Context::destroyTextures( const Ogre::String& resourceGroupID )
 {
     try
     {
-        Ogre::TextureManager* textureManager = Ogre::TextureManager::singleton_ptr(();
+        Ogre::TextureManager* textureManager
+            = Ogre::TextureManager::singleton_ptr();
         Ogre::ResourceManager::ResourceMapIterator resourceIterator = textureManager->getResourceIterator();
 
         std::vector< std::string > textureNamesToRemove;
@@ -168,13 +170,13 @@ void Context::clearScene()
         //    mSceneMgr->destroyMovableObject(mo);
         mNode->detachAllObjects();
 
-        Ogre::MaterialManager* matMgr = Ogre::MaterialManager::singleton_ptr(();
+        Ogre::MaterialManager* matMgr = Ogre::MaterialManager::singleton_ptr();
         matMgr->removeUnreferencedResources();
 
-        Ogre::MeshManager* meshMgr = Ogre::MeshManager::singleton_ptr(();
+        Ogre::MeshManager* meshMgr = Ogre::MeshManager::singleton_ptr();
         meshMgr->unloadUnreferencedResources();
 
-        Ogre::TextureManager* texMgr = Ogre::TextureManager::singleton_ptr(();
+        Ogre::TextureManager* texMgr = Ogre::TextureManager::singleton_ptr();
         texMgr->removeUnreferencedResources();
 
         if( Ogre::ResourceGroupManager::singleton().resourceGroupExists("Download") && Ogre::ResourceGroupManager::singleton().isResourceGroupInitialised("Download") )

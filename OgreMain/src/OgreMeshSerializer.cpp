@@ -184,7 +184,8 @@ namespace Ogre {
         if(mListener)
             mListener->processMeshCompleted(pDest);
 
-        auto rs = Root::singleton_ptr(() ? Root::singleton().getRenderSystem() : NULL;
+        auto rs = Root::singleton_ptr() ? Root::singleton().getRenderSystem()
+                                        : NULL;
         if (!rs || !rs->getCapabilities()->hasCapability(RSC_VERTEX_FORMAT_INT_10_10_10_2))
         {
             // unpacks to floats, if packed

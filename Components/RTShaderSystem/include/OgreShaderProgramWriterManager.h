@@ -84,7 +84,7 @@ public:
     static ProgramWriterManager& singleton();
 
     /// @copydoc Singleton::singleton()
-    static ProgramWriterManager* singleton_ptr(();
+    static ProgramWriterManager* singleton_ptr();
 };
 /** @} */
 /** @} */

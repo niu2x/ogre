@@ -260,7 +260,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static ControllerManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static ControllerManager* singleton_ptr((void);
+        static ControllerManager* singleton_ptr(void);
     };
 
     /** @} */

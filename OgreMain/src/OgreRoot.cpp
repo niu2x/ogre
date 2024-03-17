@@ -82,15 +82,14 @@ THE SOFTWARE.
 
 namespace Ogre {
     //-----------------------------------------------------------------------
-    template<> Root* Singleton<Root>::msSingleton = 0;
-    Root* Root::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    Root& Root::singleton(void)
-    {
-        assert( msSingleton );  return ( *msSingleton );
-    }
+template <>
+Root* Singleton<Root>::singleton_ = 0;
+Root* Root::singleton_ptr(void) { return singleton_; }
+Root& Root::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
 
     typedef void (*DLL_START_PLUGIN)(void);
     typedef void (*DLL_STOP_PLUGIN)(void);
@@ -121,8 +120,7 @@ namespace Ogre {
         mConfigFileName = configFileName;
 
         // Create log manager and default log file if there is no log manager yet
-        if(!LogManager::singleton_ptr(())
-        {
+        if (!LogManager::singleton_ptr()) {
             mLogManager = std::make_unique<LogManager>();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
@@ -676,7 +674,7 @@ namespace Ogre {
         }
 
         // Tell buffer manager to free temp buffers used this frame
-        if (HardwareBufferManager::singleton_ptr(())
+        if (HardwareBufferManager::singleton_ptr())
             HardwareBufferManager::singleton()._releaseBufferCopies();
 
         // Tell the queue to process responses
@@ -977,7 +975,7 @@ namespace Ogre {
     DataStreamPtr Root::openFileStream(const String& filename, const String& groupName)
     {
         DataStreamPtr ret;
-        if(auto rgm = ResourceGroupManager::singleton_ptr(())
+        if (auto rgm = ResourceGroupManager::singleton_ptr())
             ret = rgm->openResource(filename, groupName, NULL, false);
 
         if(ret)

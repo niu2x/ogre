@@ -69,7 +69,7 @@ public:
 
     void _shutdown() override
     {
-        delete SegmentedDynamicLightManager::singleton_ptr(();
+        delete SegmentedDynamicLightManager::singleton_ptr();
 
         RTShader::RenderState* pMainRenderState
             = RTShader::ShaderGenerator::singleton()
@@ -180,7 +180,8 @@ protected:
 
         SegmentedDynamicLightManager::singleton().setSceneManager(mSceneMgr);
 
-        RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::singleton_ptr(();
+        RTShader::ShaderGenerator* mGen
+            = RTShader::ShaderGenerator::singleton_ptr();
 
         RTShader::RenderState* pMainRenderState
             = mGen->create_or_retrieveRenderState(MSN_SHADERGEN).first;

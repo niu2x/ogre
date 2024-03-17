@@ -308,7 +308,7 @@ namespace Ogre {
         /// @copydoc Singleton::singleton()
         static HardwareBufferManager& singleton(void);
         /// @copydoc Singleton::singleton()
-        static HardwareBufferManager* singleton_ptr((void);
+        static HardwareBufferManager* singleton_ptr(void);
     };
 
     /** @} */

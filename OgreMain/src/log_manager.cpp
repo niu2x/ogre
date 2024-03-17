@@ -30,15 +30,14 @@ THE SOFTWARE.
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    template<> LogManager* Singleton<LogManager>::msSingleton = 0;
-    LogManager* LogManager::singleton_ptr((void)
-    {
-        return msSingleton;
-    }
-    LogManager& LogManager::singleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
-    }
+template <>
+LogManager* Singleton<LogManager>::singleton_ = 0;
+LogManager* LogManager::singleton_ptr(void) { return singleton_; }
+LogManager& LogManager::singleton(void)
+{
+    assert(singleton_);
+    return (*singleton_);
+}
     //-----------------------------------------------------------------------
     LogManager::LogManager()
     {

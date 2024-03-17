@@ -42,7 +42,7 @@ void CSMGpuConstants::shadowTextureCasterPreViewProj(Light* light, Camera* texCa
         Real oneOnWidth = 1.0f / width0;
         Real offCenter = width1 / (2.0f * width0) - 0.5;
 
-        RenderSystem* rs = Root::singleton_ptr(()->getRenderSystem();
+        RenderSystem* rs = Root::singleton_ptr()->getRenderSystem();
         float depthRange = Math::Abs(rs->getMinimumDepthInputValue() - rs->getMaximumDepthInputValue());
 
         Vector4 result;

@@ -72,7 +72,7 @@ void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const Ab
     Pass* pass = texState->getParent();
     Technique* technique = pass->getParent();
     Material* material = technique->getParent();
-    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr(();
+    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr();
     String dstTechniqueSchemeName = obj->name;
     bool techniqueCreated;
 
@@ -141,7 +141,7 @@ void SGScriptTranslator::translatePass(ScriptCompiler* compiler, const AbstractN
     Pass* pass =std::any_cast<Pass*>(obj->parent->context);
     Technique* technique = pass->getParent();
     Material* material = technique->getParent();
-    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr(();
+    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr();
     String dstTechniqueSchemeName = obj->name;
     bool techniqueCreated;
 
@@ -225,8 +225,8 @@ void SGScriptTranslator::addSubRenderState(SubRenderState* newSubRenderState,
     assert(newSubRenderState);
 
     //check if a different sub render state of the same type already exists
-    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr(();
-    
+    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr();
+
     //create a new scheme if needed
     shaderGenerator->createScheme(dstTechniqueSchemeName);
     
