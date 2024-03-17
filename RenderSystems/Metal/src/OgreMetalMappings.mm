@@ -35,160 +35,160 @@ namespace Ogre
     {
         switch( pf )
         {
-        case PF_L8:                     return MTLPixelFormatR8Unorm;
-        case PF_L16:                    return MTLPixelFormatR16Unorm;
-        case PF_A8:                     return MTLPixelFormatA8Unorm;
-        case PF_BYTE_LA:                return MTLPixelFormatInvalid;
+        case PixelFormat::L8:                     return MTLPixelFormatR8Unorm;
+        case PixelFormat::L16:                    return MTLPixelFormatR16Unorm;
+        case PixelFormat::A8:                     return MTLPixelFormatA8Unorm;
+        case PixelFormat::BYTE_LA:                return MTLPixelFormatInvalid;
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-        case PF_R5G6B5:                 return MTLPixelFormatB5G6R5Unorm;
-        case PF_B5G6R5:                 return MTLPixelFormatB5G6R5Unorm;
+        case PixelFormat::R5G6B5:                 return MTLPixelFormatB5G6R5Unorm;
+        case PixelFormat::B5G6R5:                 return MTLPixelFormatB5G6R5Unorm;
 #endif
-        case PF_R3G3B2:                 return MTLPixelFormatInvalid;
+        case PixelFormat::R3G3B2:                 return MTLPixelFormatInvalid;
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-        case PF_A4R4G4B4:               return MTLPixelFormatABGR4Unorm;
-        case PF_A1R5G5B5:               return MTLPixelFormatBGR5A1Unorm;
+        case PixelFormat::A4R4G4B4:               return MTLPixelFormatABGR4Unorm;
+        case PixelFormat::A1R5G5B5:               return MTLPixelFormatBGR5A1Unorm;
 #endif
 
-        case PF_X8R8G8B8:
-        case PF_A8R8G8B8:
-        case PF_B8G8R8A8:
+        case PixelFormat::X8R8G8B8:
+        case PixelFormat::A8R8G8B8:
+        case PixelFormat::B8G8R8A8:
             return !isGamma ? MTLPixelFormatBGRA8Unorm : MTLPixelFormatBGRA8Unorm_sRGB;
 
-        case PF_R8G8B8:
-        case PF_B8G8R8:
-        case PF_X8B8G8R8:
-        case PF_A8B8G8R8:
-        case PF_R8G8B8A8:
+        case PixelFormat::R8G8B8:
+        case PixelFormat::B8G8R8:
+        case PixelFormat::X8B8G8R8:
+        case PixelFormat::A8B8G8R8:
+        case PixelFormat::R8G8B8A8:
             return !isGamma ? MTLPixelFormatRGBA8Unorm : MTLPixelFormatRGBA8Unorm_sRGB;
 
-        case PF_A2R10G10B10:            return MTLPixelFormatRGB10A2Unorm;
-        case PF_A2B10G10R10:            return MTLPixelFormatRGB10A2Unorm;
+        case PixelFormat::A2R10G10B10:            return MTLPixelFormatRGB10A2Unorm;
+        case PixelFormat::A2B10G10R10:            return MTLPixelFormatRGB10A2Unorm;
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
-        case PF_DXT1:                   return !isGamma ? MTLPixelFormatBC1_RGBA : MTLPixelFormatBC1_RGBA_sRGB;
-        case PF_DXT2:                   return !isGamma ? MTLPixelFormatBC2_RGBA : MTLPixelFormatBC2_RGBA_sRGB;
-        case PF_DXT3:                   return !isGamma ? MTLPixelFormatBC2_RGBA : MTLPixelFormatBC2_RGBA_sRGB;
-        case PF_DXT4:                   return !isGamma ? MTLPixelFormatBC3_RGBA : MTLPixelFormatBC3_RGBA_sRGB;
-        case PF_DXT5:                   return !isGamma ? MTLPixelFormatBC3_RGBA : MTLPixelFormatBC3_RGBA_sRGB;
+        case PixelFormat::DXT1:                   return !isGamma ? MTLPixelFormatBC1_RGBA : MTLPixelFormatBC1_RGBA_sRGB;
+        case PixelFormat::DXT2:                   return !isGamma ? MTLPixelFormatBC2_RGBA : MTLPixelFormatBC2_RGBA_sRGB;
+        case PixelFormat::DXT3:                   return !isGamma ? MTLPixelFormatBC2_RGBA : MTLPixelFormatBC2_RGBA_sRGB;
+        case PixelFormat::DXT4:                   return !isGamma ? MTLPixelFormatBC3_RGBA : MTLPixelFormatBC3_RGBA_sRGB;
+        case PixelFormat::DXT5:                   return !isGamma ? MTLPixelFormatBC3_RGBA : MTLPixelFormatBC3_RGBA_sRGB;
 #endif
-        case PF_FLOAT16_R:              return MTLPixelFormatR16Float;
-        case PF_FLOAT16_RGB:            return MTLPixelFormatRGBA16Float;
-        case PF_FLOAT16_RGBA:           return MTLPixelFormatRGBA16Float;
-        case PF_FLOAT32_R:              return MTLPixelFormatR32Float;
-        case PF_FLOAT32_RGB:            return MTLPixelFormatRGBA32Float;
-        case PF_FLOAT32_RGBA:           return MTLPixelFormatRGBA32Float;
-        case PF_FLOAT16_GR:             return MTLPixelFormatRG16Float;
-        case PF_FLOAT32_GR:             return MTLPixelFormatRG32Float;
-        case PF_SHORT_RGBA:             return MTLPixelFormatRGBA16Snorm;
-        case PF_SHORT_GR:               return MTLPixelFormatRG16Snorm;
-        case PF_SHORT_RGB:              return MTLPixelFormatRGBA16Snorm;
+        case PixelFormat::FLOAT16_R:              return MTLPixelFormatR16Float;
+        case PixelFormat::FLOAT16_RGB:            return MTLPixelFormatRGBA16Float;
+        case PixelFormat::FLOAT16_RGBA:           return MTLPixelFormatRGBA16Float;
+        case PixelFormat::FLOAT32_R:              return MTLPixelFormatR32Float;
+        case PixelFormat::FLOAT32_RGB:            return MTLPixelFormatRGBA32Float;
+        case PixelFormat::FLOAT32_RGBA:           return MTLPixelFormatRGBA32Float;
+        case PixelFormat::FLOAT16_GR:             return MTLPixelFormatRG16Float;
+        case PixelFormat::FLOAT32_GR:             return MTLPixelFormatRG32Float;
+        case PixelFormat::SHORT_RGBA:             return MTLPixelFormatRGBA16Snorm;
+        case PixelFormat::SHORT_GR:               return MTLPixelFormatRG16Snorm;
+        case PixelFormat::SHORT_RGB:              return MTLPixelFormatRGBA16Snorm;
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-        case PF_PVRTC_RGB2:             return !isGamma ? MTLPixelFormatPVRTC_RGB_2BPP  : MTLPixelFormatPVRTC_RGB_2BPP_sRGB;
-        case PF_PVRTC_RGBA2:            return !isGamma ? MTLPixelFormatPVRTC_RGBA_2BPP : MTLPixelFormatPVRTC_RGBA_2BPP_sRGB;
-        case PF_PVRTC_RGB4:             return !isGamma ? MTLPixelFormatPVRTC_RGB_4BPP  : MTLPixelFormatPVRTC_RGB_4BPP_sRGB;
-        case PF_PVRTC_RGBA4:            return !isGamma ? MTLPixelFormatPVRTC_RGBA_4BPP : MTLPixelFormatPVRTC_RGBA_4BPP_sRGB;
+        case PixelFormat::PVRTC_RGB2:             return !isGamma ? MTLPixelFormatPVRTC_RGB_2BPP  : MTLPixelFormatPVRTC_RGB_2BPP_sRGB;
+        case PixelFormat::PVRTC_RGBA2:            return !isGamma ? MTLPixelFormatPVRTC_RGBA_2BPP : MTLPixelFormatPVRTC_RGBA_2BPP_sRGB;
+        case PixelFormat::PVRTC_RGB4:             return !isGamma ? MTLPixelFormatPVRTC_RGB_4BPP  : MTLPixelFormatPVRTC_RGB_4BPP_sRGB;
+        case PixelFormat::PVRTC_RGBA4:            return !isGamma ? MTLPixelFormatPVRTC_RGBA_4BPP : MTLPixelFormatPVRTC_RGBA_4BPP_sRGB;
 #endif
-        case PF_PVRTC2_2BPP:            return MTLPixelFormatInvalid;
-        case PF_PVRTC2_4BPP:            return MTLPixelFormatInvalid;
-        case PF_R11G11B10_FLOAT:        return MTLPixelFormatRG11B10Float;
-        case PF_R8_UINT:                return MTLPixelFormatR8Uint;
-        case PF_R8G8_UINT:              return MTLPixelFormatRG8Uint;
-        case PF_R8G8B8_UINT:            return MTLPixelFormatRGBA8Uint;
-        case PF_R8G8B8A8_UINT:          return MTLPixelFormatRGBA8Uint;
-        case PF_R16_UINT:               return MTLPixelFormatR16Uint;
-        case PF_R16G16_UINT:            return MTLPixelFormatRG16Uint;
-        case PF_R16G16B16_UINT:         return MTLPixelFormatRGBA16Uint;
-        case PF_R16G16B16A16_UINT:      return MTLPixelFormatRGBA16Uint;
-        case PF_R32_UINT:               return MTLPixelFormatR32Uint;
-        case PF_R32G32_UINT:            return MTLPixelFormatRG32Uint;
-        case PF_R32G32B32_UINT:         return MTLPixelFormatRGBA32Uint;
-        case PF_R32G32B32A32_UINT:      return MTLPixelFormatRGBA32Uint;
-        case PF_R8_SINT:                return MTLPixelFormatR8Sint;
-        case PF_R8G8_SINT:              return MTLPixelFormatRG8Sint;
-        case PF_R8G8B8_SINT:            return MTLPixelFormatRGBA8Sint;
-        case PF_R8G8B8A8_SINT:          return MTLPixelFormatRGBA8Sint;
-        case PF_R16_SINT:               return MTLPixelFormatR16Sint;
-        case PF_R16G16_SINT:            return MTLPixelFormatRG16Sint;
-        case PF_R16G16B16_SINT:         return MTLPixelFormatRGBA16Sint;
-        case PF_R16G16B16A16_SINT:      return MTLPixelFormatRGBA16Sint;
-        case PF_R32_SINT:               return MTLPixelFormatR32Sint;
-        case PF_R32G32_SINT:            return MTLPixelFormatRG32Sint;
-        case PF_R32G32B32_SINT:         return MTLPixelFormatRGBA32Sint;
-        case PF_R32G32B32A32_SINT:      return MTLPixelFormatRGBA32Sint;
-        case PF_R9G9B9E5_SHAREDEXP:     return MTLPixelFormatRGB9E5Float;
+        case PixelFormat::PVRTC2_2BPP:            return MTLPixelFormatInvalid;
+        case PixelFormat::PVRTC2_4BPP:            return MTLPixelFormatInvalid;
+        case PixelFormat::R11G11B10_FLOAT:        return MTLPixelFormatRG11B10Float;
+        case PixelFormat::R8_UINT:                return MTLPixelFormatR8Uint;
+        case PixelFormat::R8G8_UINT:              return MTLPixelFormatRG8Uint;
+        case PixelFormat::R8G8B8_UINT:            return MTLPixelFormatRGBA8Uint;
+        case PixelFormat::R8G8B8A8_UINT:          return MTLPixelFormatRGBA8Uint;
+        case PixelFormat::R16_UINT:               return MTLPixelFormatR16Uint;
+        case PixelFormat::R16G16_UINT:            return MTLPixelFormatRG16Uint;
+        case PixelFormat::R16G16B16_UINT:         return MTLPixelFormatRGBA16Uint;
+        case PixelFormat::R16G16B16A16_UINT:      return MTLPixelFormatRGBA16Uint;
+        case PixelFormat::R32_UINT:               return MTLPixelFormatR32Uint;
+        case PixelFormat::R32G32_UINT:            return MTLPixelFormatRG32Uint;
+        case PixelFormat::R32G32B32_UINT:         return MTLPixelFormatRGBA32Uint;
+        case PixelFormat::R32G32B32A32_UINT:      return MTLPixelFormatRGBA32Uint;
+        case PixelFormat::R8_SINT:                return MTLPixelFormatR8Sint;
+        case PixelFormat::R8G8_SINT:              return MTLPixelFormatRG8Sint;
+        case PixelFormat::R8G8B8_SINT:            return MTLPixelFormatRGBA8Sint;
+        case PixelFormat::R8G8B8A8_SINT:          return MTLPixelFormatRGBA8Sint;
+        case PixelFormat::R16_SINT:               return MTLPixelFormatR16Sint;
+        case PixelFormat::R16G16_SINT:            return MTLPixelFormatRG16Sint;
+        case PixelFormat::R16G16B16_SINT:         return MTLPixelFormatRGBA16Sint;
+        case PixelFormat::R16G16B16A16_SINT:      return MTLPixelFormatRGBA16Sint;
+        case PixelFormat::R32_SINT:               return MTLPixelFormatR32Sint;
+        case PixelFormat::R32G32_SINT:            return MTLPixelFormatRG32Sint;
+        case PixelFormat::R32G32B32_SINT:         return MTLPixelFormatRGBA32Sint;
+        case PixelFormat::R32G32B32A32_SINT:      return MTLPixelFormatRGBA32Sint;
+        case PixelFormat::R9G9B9E5_SHAREDEXP:     return MTLPixelFormatRGB9E5Float;
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
-        case PF_BC4_UNORM:              return MTLPixelFormatBC4_RUnorm;
-        case PF_BC4_SNORM:              return MTLPixelFormatBC4_RSnorm;
-        case PF_BC5_UNORM:              return MTLPixelFormatBC5_RGUnorm;
-        case PF_BC5_SNORM:              return MTLPixelFormatBC5_RGSnorm;
-        case PF_BC6H_UF16:              return MTLPixelFormatBC6H_RGBUfloat;
-        case PF_BC6H_SF16:              return MTLPixelFormatBC6H_RGBFloat;
-        case PF_BC7_UNORM:              return MTLPixelFormatBC7_RGBAUnorm;
+        case PixelFormat::BC4_UNORM:              return MTLPixelFormatBC4_RUnorm;
+        case PixelFormat::BC4_SNORM:              return MTLPixelFormatBC4_RSnorm;
+        case PixelFormat::BC5_UNORM:              return MTLPixelFormatBC5_RGUnorm;
+        case PixelFormat::BC5_SNORM:              return MTLPixelFormatBC5_RGSnorm;
+        case PixelFormat::BC6H_UF16:              return MTLPixelFormatBC6H_RGBUfloat;
+        case PixelFormat::BC6H_SF16:              return MTLPixelFormatBC6H_RGBFloat;
+        case PixelFormat::BC7_UNORM:              return MTLPixelFormatBC7_RGBAUnorm;
 #endif
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-        case PF_R8:                     return !isGamma ? MTLPixelFormatR8Unorm : MTLPixelFormatR8Unorm_sRGB;
-        case PF_RG8:                    return !isGamma ? MTLPixelFormatRG8Unorm : MTLPixelFormatRG8Unorm_sRGB;
+        case PixelFormat::R8:                     return !isGamma ? MTLPixelFormatR8Unorm : MTLPixelFormatR8Unorm_sRGB;
+        case PixelFormat::RG8:                    return !isGamma ? MTLPixelFormatRG8Unorm : MTLPixelFormatRG8Unorm_sRGB;
 #else
-        case PF_R8:                     return MTLPixelFormatR8Unorm;
-        case PF_RG8:                    return MTLPixelFormatRG8Unorm;
+        case PixelFormat::R8:                     return MTLPixelFormatR8Unorm;
+        case PixelFormat::RG8:                    return MTLPixelFormatRG8Unorm;
 #endif
-        case PF_R8_SNORM:               return MTLPixelFormatR8Snorm;
-        case PF_R8G8_SNORM:             return MTLPixelFormatRG8Snorm;
-        case PF_R8G8B8_SNORM:           return MTLPixelFormatRGBA8Snorm;
-        case PF_R8G8B8A8_SNORM:         return MTLPixelFormatRGBA8Snorm;
-        case PF_R16_SNORM:              return MTLPixelFormatR16Snorm;
-        case PF_R16G16_SNORM:           return MTLPixelFormatRG16Snorm;
-        case PF_R16G16B16_SNORM:        return MTLPixelFormatRGBA16Snorm;
-        case PF_R16G16B16A16_SNORM:     return MTLPixelFormatRGBA16Snorm;
+        case PixelFormat::R8_SNORM:               return MTLPixelFormatR8Snorm;
+        case PixelFormat::R8G8_SNORM:             return MTLPixelFormatRG8Snorm;
+        case PixelFormat::R8G8B8_SNORM:           return MTLPixelFormatRGBA8Snorm;
+        case PixelFormat::R8G8B8A8_SNORM:         return MTLPixelFormatRGBA8Snorm;
+        case PixelFormat::R16_SNORM:              return MTLPixelFormatR16Snorm;
+        case PixelFormat::R16G16_SNORM:           return MTLPixelFormatRG16Snorm;
+        case PixelFormat::R16G16B16_SNORM:        return MTLPixelFormatRGBA16Snorm;
+        case PixelFormat::R16G16B16A16_SNORM:     return MTLPixelFormatRGBA16Snorm;
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-        case PF_ETC1_RGB8:              return !isGamma ? MTLPixelFormatETC2_RGB8 : MTLPixelFormatETC2_RGB8_sRGB;
-        case PF_ETC2_RGB8:              return !isGamma ? MTLPixelFormatETC2_RGB8 : MTLPixelFormatETC2_RGB8_sRGB;
-        case PF_ETC2_RGBA8:             return !isGamma ? MTLPixelFormatEAC_RGBA8 : MTLPixelFormatEAC_RGBA8_sRGB;
-        case PF_ETC2_RGB8A1:            return !isGamma ? MTLPixelFormatETC2_RGB8A1 : MTLPixelFormatETC2_RGB8A1_sRGB;
+        case PixelFormat::ETC1_RGB8:              return !isGamma ? MTLPixelFormatETC2_RGB8 : MTLPixelFormatETC2_RGB8_sRGB;
+        case PixelFormat::ETC2_RGB8:              return !isGamma ? MTLPixelFormatETC2_RGB8 : MTLPixelFormatETC2_RGB8_sRGB;
+        case PixelFormat::ETC2_RGBA8:             return !isGamma ? MTLPixelFormatEAC_RGBA8 : MTLPixelFormatEAC_RGBA8_sRGB;
+        case PixelFormat::ETC2_RGB8A1:            return !isGamma ? MTLPixelFormatETC2_RGB8A1 : MTLPixelFormatETC2_RGB8A1_sRGB;
 #endif
-        case PF_ATC_RGB:                        return MTLPixelFormatInvalid;
-        case PF_ATC_RGBA_EXPLICIT_ALPHA:        return MTLPixelFormatInvalid;
-        case PF_ATC_RGBA_INTERPOLATED_ALPHA:    return MTLPixelFormatInvalid;
+        case PixelFormat::ATC_RGB:                        return MTLPixelFormatInvalid;
+        case PixelFormat::ATC_RGBA_EXPLICIT_ALPHA:        return MTLPixelFormatInvalid;
+        case PixelFormat::ATC_RGBA_INTERPOLATED_ALPHA:    return MTLPixelFormatInvalid;
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-        case PF_ASTC_RGBA_4X4_LDR:      return MTLPixelFormatASTC_4x4_LDR;
-        case PF_ASTC_RGBA_5X4_LDR:      return MTLPixelFormatASTC_5x4_LDR;
-        case PF_ASTC_RGBA_5X5_LDR:      return MTLPixelFormatASTC_5x5_LDR;
-        case PF_ASTC_RGBA_6X5_LDR:      return MTLPixelFormatASTC_6x5_LDR;
-        case PF_ASTC_RGBA_6X6_LDR:      return MTLPixelFormatASTC_6x6_LDR;
-        case PF_ASTC_RGBA_8X5_LDR:      return MTLPixelFormatASTC_8x5_LDR;
-        case PF_ASTC_RGBA_8X6_LDR:      return MTLPixelFormatASTC_8x6_LDR;
-        case PF_ASTC_RGBA_8X8_LDR:      return MTLPixelFormatASTC_8x8_LDR;
-        case PF_ASTC_RGBA_10X5_LDR:     return MTLPixelFormatASTC_10x5_LDR;
-        case PF_ASTC_RGBA_10X6_LDR:     return MTLPixelFormatASTC_10x6_LDR;
-        case PF_ASTC_RGBA_10X8_LDR:     return MTLPixelFormatASTC_10x8_LDR;
-        case PF_ASTC_RGBA_10X10_LDR:    return MTLPixelFormatASTC_10x10_LDR;
-        case PF_ASTC_RGBA_12X10_LDR:    return MTLPixelFormatASTC_12x10_LDR;
-        case PF_ASTC_RGBA_12X12_LDR:    return MTLPixelFormatASTC_12x12_LDR;
+        case PixelFormat::ASTC_RGBA_4X4_LDR:      return MTLPixelFormatASTC_4x4_LDR;
+        case PixelFormat::ASTC_RGBA_5X4_LDR:      return MTLPixelFormatASTC_5x4_LDR;
+        case PixelFormat::ASTC_RGBA_5X5_LDR:      return MTLPixelFormatASTC_5x5_LDR;
+        case PixelFormat::ASTC_RGBA_6X5_LDR:      return MTLPixelFormatASTC_6x5_LDR;
+        case PixelFormat::ASTC_RGBA_6X6_LDR:      return MTLPixelFormatASTC_6x6_LDR;
+        case PixelFormat::ASTC_RGBA_8X5_LDR:      return MTLPixelFormatASTC_8x5_LDR;
+        case PixelFormat::ASTC_RGBA_8X6_LDR:      return MTLPixelFormatASTC_8x6_LDR;
+        case PixelFormat::ASTC_RGBA_8X8_LDR:      return MTLPixelFormatASTC_8x8_LDR;
+        case PixelFormat::ASTC_RGBA_10X5_LDR:     return MTLPixelFormatASTC_10x5_LDR;
+        case PixelFormat::ASTC_RGBA_10X6_LDR:     return MTLPixelFormatASTC_10x6_LDR;
+        case PixelFormat::ASTC_RGBA_10X8_LDR:     return MTLPixelFormatASTC_10x8_LDR;
+        case PixelFormat::ASTC_RGBA_10X10_LDR:    return MTLPixelFormatASTC_10x10_LDR;
+        case PixelFormat::ASTC_RGBA_12X10_LDR:    return MTLPixelFormatASTC_12x10_LDR;
+        case PixelFormat::ASTC_RGBA_12X12_LDR:    return MTLPixelFormatASTC_12x12_LDR;
 #endif
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
-        case PF_DEPTH24_STENCIL8:             return MTLPixelFormatDepth24Unorm_Stencil8;
+        case PixelFormat::DEPTH24_STENCIL8:             return MTLPixelFormatDepth24Unorm_Stencil8;
 #else
-        case PF_DEPTH24_STENCIL8:             return MTLPixelFormatDepth32Float_Stencil8;
+        case PixelFormat::DEPTH24_STENCIL8:             return MTLPixelFormatDepth32Float_Stencil8;
 #endif
 #if 0
-        case PF_X24_S8_UINT:            return MTLPixelFormatStencil8;
+        case PixelFormat::X24_S8_UINT:            return MTLPixelFormatStencil8;
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
-        case PF_D24_UNORM:              return MTLPixelFormatDepth24Unorm_Stencil8;
+        case PixelFormat::D24_UNORM:              return MTLPixelFormatDepth24Unorm_Stencil8;
 #else
-        case PF_D24_UNORM:              return MTLPixelFormatDepth32Float;
+        case PixelFormat::D24_UNORM:              return MTLPixelFormatDepth32Float;
 #endif
-        case PF_D32_FLOAT_X24_S8_UINT:  return MTLPixelFormatDepth32Float_Stencil8;
-        case PF_D32_FLOAT_X24_X8:       return MTLPixelFormatDepth32Float_Stencil8;
-        case PF_X32_X24_S8_UINT:        return MTLPixelFormatStencil8;
+        case PixelFormat::D32_FLOAT_X24_S8_UINT:  return MTLPixelFormatDepth32Float_Stencil8;
+        case PixelFormat::D32_FLOAT_X24_X8:       return MTLPixelFormatDepth32Float_Stencil8;
+        case PixelFormat::X32_X24_S8_UINT:        return MTLPixelFormatStencil8;
 #endif
 
-        case PF_DEPTH16:              return MTLPixelFormatDepth32Float;
-        case PF_DEPTH32:              return MTLPixelFormatDepth32Float;
-        case PF_DEPTH32F:              return MTLPixelFormatDepth32Float;
+        case PixelFormat::DEPTH16:              return MTLPixelFormatDepth32Float;
+        case PixelFormat::DEPTH32:              return MTLPixelFormatDepth32Float;
+        case PixelFormat::DEPTH32F:              return MTLPixelFormatDepth32Float;
 
         default:
-        case PF_COUNT:                  return MTLPixelFormatInvalid;
+        case PixelFormat::COUNT:                  return MTLPixelFormatInvalid;
         }
     }
     //-----------------------------------------------------------------------------------
@@ -200,7 +200,7 @@ namespace Ogre
 
         switch( pf )
         {
-        case PF_DEPTH24_STENCIL8:
+        case PixelFormat::DEPTH24_STENCIL8:
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
             depthFormat = MTLPixelFormatDepth32Float;
             stencilFormat = MTLPixelFormatStencil8;
@@ -220,11 +220,11 @@ namespace Ogre
             stencilFormat = MTLPixelFormatInvalid;
             break;
 #if 0
-        case PF_D32_FLOAT:
-        case PF_D32_FLOAT_X24_X8:
+        case PixelFormat::D32_FLOAT:
+        case PixelFormat::D32_FLOAT_X24_X8:
             depthFormat = MTLPixelFormatDepth32Float;
             break;
-        case PF_D32_FLOAT_X24_S8_UINT:
+        case PixelFormat::D32_FLOAT_X24_S8_UINT:
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
             depthFormat = MTLPixelFormatDepth32Float;
             stencilFormat = MTLPixelFormatStencil8;
@@ -233,13 +233,13 @@ namespace Ogre
             stencilFormat = MTLPixelFormatDepth32Float_Stencil8;
 #endif
             break;
-        case PF_X32_X24_S8_UINT:
+        case PixelFormat::X32_X24_S8_UINT:
             stencilFormat = MTLPixelFormatStencil8;
             break;
 #endif
-        case PF_DEPTH16:
-        case PF_DEPTH32:
-        case PF_DEPTH32F:
+        case PixelFormat::DEPTH16:
+        case PixelFormat::DEPTH32:
+        case PixelFormat::DEPTH32F:
             depthFormat = MTLPixelFormatDepth32Float;
             break;
         default:

@@ -119,9 +119,9 @@ namespace Ogre {
             // No scaling or conversion needed
             scaled = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), src.format, src.data);
 
-            if (src.format == PF_R8G8B8 || src.format == PF_B8G8R8)
+            if (src.format == PixelFormat::R8G8B8 || src.format == PixelFormat::B8G8R8)
             {
-                const PixelFormat newFormat = src.format == PF_R8G8B8 ? PF_X8R8G8B8 : PF_X8B8G8R8;
+                const PixelFormat newFormat = src.format == PixelFormat::R8G8B8 ? PixelFormat::X8R8G8B8 : PixelFormat::X8B8G8R8;
                 freeScaledBuffer = true;
                 size_t scaledSize = PixelUtil::getMemorySize( src.getWidth(), src.getHeight(),
                                                               src.getDepth(), newFormat );
@@ -130,12 +130,12 @@ namespace Ogre {
                 scaled.setConsecutive();
                 PixelUtil::bulkPixelConversion(src, scaled);
             }
-            else if (src.format == PF_BYTE_LA)
+            else if (src.format == PixelFormat::BYTE_LA)
             {
                 freeScaledBuffer = true;
                 size_t scaledSize = PixelUtil::getMemorySize( src.getWidth(), src.getHeight(),
-                                                              src.getDepth(), PF_A8R8G8B8 );
-                scaled.format = PF_A8R8G8B8;
+                                                              src.getDepth(), PixelFormat::A8R8G8B8 );
+                scaled.format = PixelFormat::A8R8G8B8;
                 scaled.data = new uint8[scaledSize];
                 scaled.setConsecutive();
                 PixelUtil::bulkPixelConversion(src, scaled);
@@ -314,12 +314,12 @@ namespace Ogre {
         NSUInteger rowPitch = PixelUtil::getMemorySize(data.getWidth(), 1, 1, data.format);
 
         // PVR textures should have 0 row size and data size
-        if( data.format == PF_PVRTC2_2BPP ||
-            data.format == PF_PVRTC2_4BPP ||
-            data.format == PF_PVRTC_RGB2 ||
-            data.format == PF_PVRTC_RGB4 ||
-            data.format == PF_PVRTC_RGBA2 ||
-            data.format == PF_PVRTC_RGBA4 )
+        if( data.format == PixelFormat::PVRTC2_2BPP ||
+            data.format == PixelFormat::PVRTC2_4BPP ||
+            data.format == PixelFormat::PVRTC_RGB2 ||
+            data.format == PixelFormat::PVRTC_RGB4 ||
+            data.format == PixelFormat::PVRTC_RGBA2 ||
+            data.format == PixelFormat::PVRTC_RGBA4 )
         {
             rowPitch = 0;
             bytesPerImage = 0;

@@ -405,7 +405,7 @@ namespace Ogre
         desc.storageMode = MTLStorageModePrivate;
 #endif
 
-        PixelFormat desiredDepthBufferFormat = PF_DEPTH24_STENCIL8;//renderTarget->getDesiredDepthBufferFormat();
+        PixelFormat desiredDepthBufferFormat = PixelFormat::DEPTH24_STENCIL8;//renderTarget->getDesiredDepthBufferFormat();
 
         MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
         MTLPixelFormat stencilFormat = MTLPixelFormatInvalid;
@@ -692,7 +692,7 @@ namespace Ogre
         uint8 mrtCount = 1;
         /*for( int i=0; i<OGRE_MAX_MULTIPLE_RENDER_TARGETS; ++i )
         {
-            if( newPso->pass.colourFormat[i] != PF_NULL )
+            if( newPso->pass.colourFormat[i] != PixelFormat::NULL )
                 mrtCount = i + 1u;
         }*/
 
@@ -1156,7 +1156,7 @@ namespace Ogre
     //-------------------------------------------------------------------------
     void MetalRenderSystem::initialiseFromRenderSystemCapabilities(RenderSystemCapabilities* caps, RenderTarget* primary)
     {
-        //DepthBuffer::DefaultDepthBufferFormat = PF_D32_FLOAT_X24_S8_UINT;
+        //DepthBuffer::DefaultDepthBufferFormat = PixelFormat::D32_FLOAT_X24_S8_UINT;
         mMetalProgramFactory = new MetalProgramFactory( &mDevice );
         HighLevelGpuProgramManager::singleton().addFactory( mMetalProgramFactory );
     }

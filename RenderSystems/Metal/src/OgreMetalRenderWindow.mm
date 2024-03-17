@@ -192,7 +192,7 @@ namespace Ogre
         mActive = true;
         mClosed = false;
 
-        mFormat = PF_B8G8R8A8;
+        mFormat = PixelFormat::B8G8R8A8;
         mHwGamma = true;
 
         if( miscParams )

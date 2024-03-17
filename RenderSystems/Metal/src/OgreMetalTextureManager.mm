@@ -96,14 +96,14 @@ namespace Ogre
 
     PixelFormat MetalTextureManager::getNativeFormat(TextureType ttype, PixelFormat format, int usage)
     {
-        if( format == PF_R8G8B8 )
-            return PF_X8R8G8B8;
-        if( format == PF_B8G8R8 )
-            return PF_X8B8G8R8;
+        if( format == PixelFormat::R8G8B8 )
+            return PixelFormat::X8R8G8B8;
+        if( format == PixelFormat::B8G8R8 )
+            return PixelFormat::X8B8G8R8;
 
         if(MetalMappings::getPixelFormat( format, false ) != MTLPixelFormatInvalid)
             return format;
 
-        return PF_BYTE_RGBA;
+        return PixelFormat::BYTE_RGBA;
     }
 }
