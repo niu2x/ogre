@@ -75,7 +75,7 @@ namespace Ogre
         ,mStereoDriver (NULL)
 #endif
     {
-        LogManager::getSingleton().log_message( "D3D9 : " + name() + " created." );
+        LogManager::singleton().log_message("D3D9 : " + name() + " created.");
 
         // update singleton access pointer.
         msD3D9RenderSystem = this;
@@ -267,8 +267,8 @@ namespace Ogre
         if (mHLSLProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::getSingletonPtr())
-                HighLevelGpuProgramManager::getSingleton().removeFactory(mHLSLProgramFactory);
+            if (HighLevelGpuProgramManager::singleton_ptr(())
+                HighLevelGpuProgramManager::singleton().removeFactory(mHLSLProgramFactory);
             OGRE_DELETE mHLSLProgramFactory;
             mHLSLProgramFactory = 0;
         }
@@ -286,7 +286,7 @@ namespace Ogre
         mStereoDriver = NULL;
 #endif
 
-        LogManager::getSingleton().log_message( "D3D9 : " + name() + " destroyed." );
+        LogManager::singleton().log_message("D3D9 : " + name() + " destroyed.");
 
         msD3D9RenderSystem = NULL;
     }
@@ -486,7 +486,7 @@ namespace Ogre
     void D3D9RenderSystem::setConfigOption( const String &name, const String &value )
     {
 
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "D3D9 : RenderSystem Option: " << name << " = " << value;
 
         bool viewModeChanged = false;
@@ -686,7 +686,7 @@ namespace Ogre
     {
         // call superclass method
         RenderSystem::_initialise();
-        LogManager::getSingleton().log_message( "D3D9 : Subsystem Initialising" );
+        LogManager::singleton().log_message("D3D9 : Subsystem Initialising");
 
         // Init using current settings
         mActiveD3DDriver = NULL;
@@ -724,10 +724,13 @@ namespace Ogre
 
         // Create & register HLSL factory       
         mHLSLProgramFactory = OGRE_NEW D3D9HLSLProgramFactory();
-        
-        LogManager::getSingleton().log_message("***************************************");
-        LogManager::getSingleton().log_message("*** D3D9 : Subsystem Initialised OK ***");
-        LogManager::getSingleton().log_message("***************************************");
+
+        LogManager::singleton().log_message(
+            "***************************************");
+        LogManager::singleton().log_message(
+            "*** D3D9 : Subsystem Initialised OK ***");
+        LogManager::singleton().log_message(
+            "***************************************");
     }
     //---------------------------------------------------------------------
     void D3D9RenderSystem::shutdown()
@@ -744,11 +747,11 @@ namespace Ogre
         {
             OGRE_DELETE mDriverList;
             mDriverList = NULL;
-        }               
-        mActiveD3DDriver = NULL;    
-                        
-        LogManager::getSingleton().log_message("D3D9 : Shutting down cleanly.");
-        
+        }
+        mActiveD3DDriver = NULL;
+
+        LogManager::singleton().log_message("D3D9 : Shutting down cleanly.");
+
         if (mTextureManager != NULL)
         {
             OGRE_DELETE mTextureManager;
@@ -809,7 +812,7 @@ namespace Ogre
         
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
         // Must be called after device has been linked to window
-        D3D9StereoDriverBridge::getSingleton().addRenderWindow(renderWindow);
+        D3D9StereoDriverBridge::singleton().addRenderWindow(renderWindow);
         renderWindow->_validateStereo();
 #endif
 
@@ -994,8 +997,9 @@ namespace Ogre
 
             // see https://technet.microsoft.com/en-us/evalcenter/jj841213(v=vs.90)
             if (!has_level_9_1)
-                LogManager::getSingleton().log_error(
-                    "D3D9 feature level 9.1 required, but at least one Capability is not supported");
+                LogManager::singleton().log_error(
+                    "D3D9 feature level 9.1 required, but at least one "
+                    "Capability is not supported");
         }
 
         // We always support compression, D3DX will decompress if device does not support
@@ -1332,7 +1336,7 @@ namespace Ogre
             {
                 // cool, at least one supported
                 anySupported = true;
-                LogManager::getSingleton().stream()
+                LogManager::singleton().stream()
                     << "D3D9: Vertex texture format supported - "
                     << PixelUtil::getFormatName(pf);
             }
@@ -1348,12 +1352,12 @@ namespace Ogre
         {
             if (lang == "hlsl")
             {
-                GpuProgramManager::getSingleton().addFactory(mHLSLProgramFactory);
+                GpuProgramManager::singleton().addFactory(mHLSLProgramFactory);
             }
             else
             {
                 D3D9GpuProgramManager::currentLanguage = lang;
-                GpuProgramManager::getSingleton().addFactory(mGpuProgramManager);
+                GpuProgramManager::singleton().addFactory(mGpuProgramManager);
             }
         }
     }
@@ -1450,7 +1454,7 @@ namespace Ogre
     void D3D9RenderSystem::destroyRenderTarget(const String& name)
     {       
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
-        D3D9StereoDriverBridge::getSingleton().removeRenderWindow(name);
+        D3D9StereoDriverBridge::singleton().removeRenderWindow(name);
 #endif
 
         detachRenderTargetImpl(name);
@@ -3628,7 +3632,7 @@ namespace Ogre
         StringStream ss;
 
         ss << "D3D9 Device 0x[" << device->getD3D9Device() << "] entered lost state";
-        LogManager::getSingleton().log_message(ss.str());
+        LogManager::singleton().log_message(ss.str());
 
         fireDeviceEvent(device, "DeviceLost");
 
@@ -3645,8 +3649,8 @@ namespace Ogre
         
         // Force all compositors to reconstruct their internal resources
         // render textures will have been changed without their knowledge
-        CompositorManager::getSingleton()._reconstructAllCompositorResources();
-        
+        CompositorManager::singleton()._reconstructAllCompositorResources();
+
         // Restore previous active device.
 
         // Invalidate active view port.
@@ -3658,10 +3662,11 @@ namespace Ogre
         for (size_t i = 0; i < OGRE_MAX_TEXTURE_LAYERS; ++i)
             _setTexture(i, false, TexturePtr());
 
-        LogManager::getSingleton().log_message("!!! Direct3D Device successfully restored.");
+        LogManager::singleton().log_message(
+            "!!! Direct3D Device successfully restored.");
 
         ss << "D3D9 device: 0x[" << device->getD3D9Device() << "] was reset";
-        LogManager::getSingleton().log_message(ss.str());
+        LogManager::singleton().log_message(ss.str());
 
         fireDeviceEvent(device, "DeviceRestored");
 
@@ -3796,7 +3801,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     bool D3D9RenderSystem::setDrawBuffer(ColourBufferType colourBuffer)
     {
-        return D3D9StereoDriverBridge::getSingleton().setDrawBuffer(colourBuffer);
+        return D3D9StereoDriverBridge::singleton().setDrawBuffer(colourBuffer);
     }
     //---------------------------------------------------------------------
 #endif

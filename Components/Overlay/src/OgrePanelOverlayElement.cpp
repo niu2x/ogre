@@ -134,11 +134,14 @@ namespace Ogre {
         VertexDeclaration* decl = mRenderOp.vertexData->vertexDeclaration;
 
         // Vertex buffer #1
-        HardwareVertexBufferSharedPtr vbuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-            decl->getVertexSize(POSITION_BINDING), mRenderOp.vertexData->vertexCount,
-            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,// mostly static except during resizing
-            true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(POSITION_BINDING),
+                mRenderOp.vertexData->vertexCount,
+                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY, // mostly static except
+                                                        // during resizing
+                true); // Workaround, using shadow buffer to avoid stall due to
+                       // buffer mapping
         // Bind buffer
         mRenderOp.vertexData->vertexBufferBinding->setBinding(POSITION_BINDING, vbuf);
 
@@ -279,7 +282,8 @@ namespace Ogre {
 
         // Use the furthest away depth value, since materials should have depth-check off
         // This initialised the depth buffer for any 3D objects in front
-        Real zValue = Root::getSingleton().getRenderSystem()->getMaximumDepthInputValue();
+        Real zValue
+            = Root::singleton().getRenderSystem()->getMaximumDepthInputValue();
         *pPos++ = left;
         *pPos++ = top;
         *pPos++ = zValue;
@@ -332,12 +336,17 @@ namespace Ogre {
             if (mNumTexCoordsInBuffer != numLayers)
             {
                 // NB reference counting will take care of the old one if it exists
-                HardwareVertexBufferSharedPtr newbuf =
-                    HardwareBufferManager::getSingleton().createVertexBuffer(
-                    decl->getVertexSize(TEXCOORD_BINDING), mRenderOp.vertexData->vertexCount,
-                    HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY, // mostly static except during resizing
-                    true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
-                // Bind buffer, note this will unbind the old one and destroy the buffer it had
+                HardwareVertexBufferSharedPtr newbuf
+                    = HardwareBufferManager::singleton().createVertexBuffer(
+                        decl->getVertexSize(TEXCOORD_BINDING),
+                        mRenderOp.vertexData->vertexCount,
+                        HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY, // mostly static
+                                                                // except during
+                                                                // resizing
+                        true); // Workaround, using shadow buffer to avoid stall
+                               // due to buffer mapping
+                // Bind buffer, note this will unbind the old one and destroy
+                // the buffer it had
                 mRenderOp.vertexData->vertexBufferBinding->setBinding(TEXCOORD_BINDING, newbuf);
                 // Set num tex coords in use now
                 mNumTexCoordsInBuffer = numLayers;

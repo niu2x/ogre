@@ -8,13 +8,16 @@ static const int NUM_RAND_VALUES = 1024;
 
 TexturePtr RandomTools::generateRandomVelocityTexture()
 {
-    TexturePtr texPtr = TextureManager::getSingleton().createManual(
+    TexturePtr texPtr = TextureManager::singleton().createManual(
         "RandomVelocityTexture",
         RGN_DEFAULT,
-        TEX_TYPE_1D, 
-        1024, 1, 1, 
-        0, 
-        PF_FLOAT32_RGBA, HBU_CPU_TO_GPU);
+        TEX_TYPE_1D,
+        1024,
+        1,
+        1,
+        0,
+        PF_FLOAT32_RGBA,
+        HBU_CPU_TO_GPU);
 
     HardwarePixelBufferSharedPtr pixelBuf = texPtr->getBuffer();
 

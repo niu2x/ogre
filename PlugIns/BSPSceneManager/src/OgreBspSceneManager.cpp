@@ -84,7 +84,8 @@ namespace Ogre {
     void BspSceneManager::setWorldGeometry(const String& filename)
     {
         auto stream = Root::openFileStream(
-            filename, ResourceGroupManager::getSingleton().getWorldResourceGroupName());
+            filename,
+            ResourceGroupManager::singleton().getWorldResourceGroupName());
         setWorldGeometry(stream);
     }
     //-----------------------------------------------------------------------
@@ -279,7 +280,9 @@ namespace Ogre {
                     continue;
                 StaticFaceGroup* faceGroup = mLevel->mFaceGroups + realIndex;
                 // Get Material pointer by handle
-                pMat = static_pointer_cast<Material>(MaterialManager::getSingleton().getByHandle(faceGroup->materialHandle));
+                pMat = static_pointer_cast<Material>(
+                    MaterialManager::singleton().getByHandle(
+                        faceGroup->materialHandle));
                 assert (pMat);
                 // Check normal (manual culling)
                 ManualCullingMode cullMode = pMat->getTechnique(0)->getPass(0)->getManualCullingMode();
@@ -334,16 +337,18 @@ namespace Ogre {
         /*
         unsigned long visibleColour;
         unsigned long nonVisibleColour;
-        Root& r = Root::getSingleton();
+        Root& r = Root::singleton();
 
         r.convertColourValue(ColourValue::White, &visibleColour);
         r.convertColourValue(ColourValue::Blue, &nonVisibleColour);
         if (mShowNodeAABs)
         {
             // Add set of lines
-            float* pVertices = (float*)mAABGeometry.pVertices + (mAABGeometry.numVertices*3);
-            unsigned short* pIndexes = mAABGeometry.pIndexes + mAABGeometry.numIndexes;
-            unsigned long* pColours = (unsigned long*)mAABGeometry.pDiffuseColour + mAABGeometry.numVertices;
+            float* pVertices = (float*)mAABGeometry.pVertices +
+        (mAABGeometry.numVertices*3); unsigned short* pIndexes =
+        mAABGeometry.pIndexes + mAABGeometry.numIndexes; unsigned long* pColours
+        = (unsigned long*)mAABGeometry.pDiffuseColour +
+        mAABGeometry.numVertices;
 
             const Vector3* pCorner = aab.allCorners();
 
@@ -398,7 +403,6 @@ namespace Ogre {
 
         }
         */
-
     }
     //-----------------------------------------------------------------------
     ViewPoint BspSceneManager::getSuggestedViewpoint(bool random)

@@ -14,13 +14,15 @@ namespace Ogre
 TinyTextureManager::TinyTextureManager()
 {
     // Register with group manager
-    ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+    ResourceGroupManager::singleton()._registerResourceManager(
+        mResourceType,
+        this);
 }
 
 TinyTextureManager::~TinyTextureManager()
 {
     // Unregister with group manager
-    ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+    ResourceGroupManager::singleton()._unregisterResourceManager(mResourceType);
 }
 
 Resource* TinyTextureManager::create_impl(const String& name, ResourceHandle handle, const String& group,

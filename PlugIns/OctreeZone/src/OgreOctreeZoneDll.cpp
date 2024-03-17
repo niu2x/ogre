@@ -50,12 +50,11 @@ namespace Ogre
         OZPlugin = OGRE_NEW OctreeZonePlugin();
 
         // Register
-        Root::getSingleton().installPlugin(OZPlugin);
-
+        Root::singleton().installPlugin(OZPlugin);
     }
     extern "C" void _OgreOctreeZonePluginExport dllStopPlugin( void )
     {
-        Root::getSingleton().uninstallPlugin(OZPlugin);
+        Root::singleton().uninstallPlugin(OZPlugin);
         OGRE_DELETE OZPlugin;
     }
 }

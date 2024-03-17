@@ -146,20 +146,19 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     VertexData::VertexData(HardwareBufferManagerBase* mgr)
     {
-        mMgr = mgr ? mgr : HardwareBufferManager::getSingletonPtr();
+        mMgr = mgr ? mgr : HardwareBufferManager::singleton_ptr(();
         vertexBufferBinding = mMgr->createVertexBufferBinding();
         vertexDeclaration = mMgr->createVertexDeclaration();
         mDeleteDclBinding = true;
         vertexCount = 0;
         vertexStart = 0;
         hwAnimDataItemsUsed = 0;
-
     }
     //---------------------------------------------------------------------
     VertexData::VertexData(VertexDeclaration* dcl, VertexBufferBinding* bind)
     {
         // this is a fallback rather than actively used
-        mMgr = HardwareBufferManager::getSingletonPtr();
+        mMgr = HardwareBufferManager::singleton_ptr(();
         vertexDeclaration = dcl;
         vertexBufferBinding = bind;
         mDeleteDclBinding = false;
@@ -312,7 +311,7 @@ namespace Ogre {
             return;
 
         // Upfront, lets check whether we have vertex program capability
-        bool useVertexPrograms = Root::getSingleton().getRenderSystem() != 0;
+        bool useVertexPrograms = Root::singleton().getRenderSystem() != 0;
 
         auto vbuf = vertexBufferBinding->getBuffer(posElem->getSource());
 
@@ -706,8 +705,8 @@ namespace Ogre {
     {
         // Clone without copying data
         VertexData* ret = clone(false);
-        bool removeIndices = Root::getSingleton().isBlendIndicesGpuRedundant();
-        bool removeWeights = Root::getSingleton().isBlendWeightsGpuRedundant();
+        bool removeIndices = Root::singleton().isBlendIndicesGpuRedundant();
+        bool removeWeights = Root::singleton().isBlendWeightsGpuRedundant();
 
         unsigned short safeSource = 0xFFFF;
         auto blendIndexElem = vertexDeclaration->findElementBySemantic(VES_BLEND_INDICES);
@@ -754,7 +753,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     IndexData* IndexData::clone(bool copyData, HardwareBufferManagerBase* mgr) const
     {
-        HardwareBufferManagerBase* pManager = mgr ? mgr : HardwareBufferManager::getSingletonPtr();
+        HardwareBufferManagerBase* pManager = mgr ? mgr : HardwareBufferManager::singleton_ptr(();
         IndexData* dest = OGRE_NEW IndexData();
         if (indexBuffer.get())
         {

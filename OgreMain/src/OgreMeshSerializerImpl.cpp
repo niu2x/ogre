@@ -58,7 +58,9 @@ namespace Ogre {
     void MeshSerializerImpl::exportMesh(const Mesh* pMesh, 
         const DataStreamPtr& stream, Endian endianMode)
     {
-        LogManager::getSingleton().log_message("MeshSerializer writing mesh data to stream " + stream->name() + "...");
+        LogManager::singleton().log_message(
+            "MeshSerializer writing mesh data to stream " + stream->name()
+            + "...");
 
         // Decide on endian mode
         determineEndianness(endianMode);
@@ -79,16 +81,16 @@ namespace Ogre {
         }
 
         writeFileHeader();
-        LogManager::getSingleton().log_message("File header written.");
+        LogManager::singleton().log_message("File header written.");
 
-
-        LogManager::getSingleton().log_message("Writing mesh data...");
+        LogManager::singleton().log_message("Writing mesh data...");
         pushInnerChunk(mStream);
         writeMesh(pMesh);
         popInnerChunk(mStream);
-        LogManager::getSingleton().log_message("Mesh data exported.");
+        LogManager::singleton().log_message("Mesh data exported.");
 
-        LogManager::getSingleton().log_message("MeshSerializer export successful.");
+        LogManager::singleton().log_message(
+            "MeshSerializer export successful.");
     }
     //---------------------------------------------------------------------
     void MeshSerializerImpl::importMesh(const DataStreamPtr& stream, Mesh* pMesh, MeshSerializerListener *listener)
@@ -138,23 +140,24 @@ namespace Ogre {
         // Write Submeshes
         for (unsigned short i = 0; i < pMesh->getNumSubMeshes(); ++i)
         {
-            LogManager::getSingleton().log_message("Writing submesh...");
+            LogManager::singleton().log_message("Writing submesh...");
             writeSubMesh(pMesh->getSubMesh(i));
-            LogManager::getSingleton().log_message("Submesh exported.");
+            LogManager::singleton().log_message("Submesh exported.");
         }
 
         // Write skeleton info if required
         if (pMesh->hasSkeleton())
         {
-            LogManager::getSingleton().log_message("Exporting skeleton link...");
+            LogManager::singleton().log_message("Exporting skeleton link...");
             // Write skeleton link
             writeSkeletonLink(pMesh->getSkeletonName());
-            LogManager::getSingleton().log_message("Skeleton link exported.");
+            LogManager::singleton().log_message("Skeleton link exported.");
 
             // Write bone assignments
             if (!pMesh->mBoneAssignments.empty())
             {
-                LogManager::getSingleton().log_message("Exporting shared geometry bone assignments...");
+                LogManager::singleton().log_message(
+                    "Exporting shared geometry bone assignments...");
 
                 Mesh::VertexBoneAssignmentList::const_iterator vi;
                 for (vi = pMesh->mBoneAssignments.begin();
@@ -163,7 +166,8 @@ namespace Ogre {
                     writeMeshBoneAssignment(vi->second);
                 }
 
-                LogManager::getSingleton().log_message("Shared geometry bone assignments exported.");
+                LogManager::singleton().log_message(
+                    "Shared geometry bone assignments exported.");
             }
         }
             
@@ -171,29 +175,29 @@ namespace Ogre {
         // Write LOD data if any
         if (pMesh->getNumLodLevels() > 1)
         {
-            LogManager::getSingleton().log_message("Exporting LOD information....");
-                writeLodLevel(pMesh);
-            LogManager::getSingleton().log_message("LOD information exported.");
-
+            LogManager::singleton().log_message(
+                "Exporting LOD information....");
+            writeLodLevel(pMesh);
+            LogManager::singleton().log_message("LOD information exported.");
         }
 #endif
         
         // Write bounds information
-        LogManager::getSingleton().log_message("Exporting bounds information....");
+        LogManager::singleton().log_message("Exporting bounds information....");
         writeBoundsInfo(pMesh);
-        LogManager::getSingleton().log_message("Bounds information exported.");
+        LogManager::singleton().log_message("Bounds information exported.");
 
         // Write submesh name table
-        LogManager::getSingleton().log_message("Exporting submesh name table...");
+        LogManager::singleton().log_message("Exporting submesh name table...");
         writeSubMeshNameTable(pMesh);
-        LogManager::getSingleton().log_message("Submesh name table exported.");
+        LogManager::singleton().log_message("Submesh name table exported.");
 
         // Write edge lists
         if (pMesh->isEdgeListBuilt())
         {
-            LogManager::getSingleton().log_message("Exporting edge lists...");
+            LogManager::singleton().log_message("Exporting edge lists...");
             writeEdgeList(pMesh);
-            LogManager::getSingleton().log_message("Edge lists exported");
+            LogManager::singleton().log_message("Edge lists exported");
         }
 
         // Write morph animation
@@ -280,12 +284,14 @@ namespace Ogre {
         // Bone assignments
         if (!s->mBoneAssignments.empty())
         {
-            LogManager::getSingleton().log_message("Exporting dedicated geometry bone assignments...");
+            LogManager::singleton().log_message(
+                "Exporting dedicated geometry bone assignments...");
             for (auto& vi : s->mBoneAssignments)
             {
                 writeSubMeshBoneAssignment(vi.second);
             }
-            LogManager::getSingleton().log_message("Dedicated geometry bone assignments exported.");
+            LogManager::singleton().log_message(
+                "Dedicated geometry bone assignments exported.");
         }
         popInnerChunk(mStream);
 
@@ -302,12 +308,13 @@ namespace Ogre {
             if (!has_extremes)
             {
                 has_extremes = true;
-                LogManager::getSingleton().log_message("Writing submesh extremes...");
+                LogManager::singleton().log_message(
+                    "Writing submesh extremes...");
             }
             writeSubMeshExtremes(i, sm);
         }
         if (has_extremes)
-            LogManager::getSingleton().log_message("Extremes exported.");
+            LogManager::singleton().log_message("Extremes exported.");
     }
     size_t MeshSerializerImpl::calcExtremesSize(const Mesh* pMesh)
     {
@@ -685,7 +692,7 @@ namespace Ogre {
 
         if (vType == _DETAIL_SWAP_RB)
         {
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING)
+            LogManager::singleton().stream(LogMsgLevel::WARNING)
                 << "Warning: VET_COLOUR_ARGB element type is deprecated and "
                    "incurs conversion on load. "
                 << "Use OgreMeshUpgrader on '" << pMesh->name()
@@ -890,7 +897,7 @@ namespace Ogre {
         String materialName = readString(stream);
         if(listener)
             listener->processMaterialName(pMesh, &materialName);
-        if (auto material = MaterialManager::getSingleton().getByName(
+        if (auto material = MaterialManager::singleton().getByName(
                 materialName,
                 pMesh->group())) {
             sm->setMaterial(material);
@@ -990,8 +997,9 @@ namespace Ogre {
             }
 
             if (seenTexAlias)
-                LogManager::getSingleton().log_error("texture aliases for SubMeshes are unsupported - " +
-                                                      stream->name());
+                LogManager::singleton().log_error(
+                    "texture aliases for SubMeshes are unsupported - "
+                    + stream->name());
 
             if (!stream->eof())
             {
@@ -1376,11 +1384,12 @@ namespace Ogre {
 #else
         // Read the strategy to be used for this mesh
         String strategyName = readString(stream);
-        LodStrategy *strategy = LodStrategyManager::getSingleton().getStrategy(strategyName);
+        LodStrategy* strategy
+            = LodStrategyManager::singleton().getStrategy(strategyName);
 
         // Check that valid strategy name was given, otherwise use default
         if (strategy == 0)
-            strategy = LodStrategyManager::getSingleton().getDefaultStrategy();
+            strategy = LodStrategyManager::singleton().getDefaultStrategy();
 
         pMesh->setLodStrategy(strategy);
 
@@ -2136,10 +2145,10 @@ namespace Ogre {
         for (unsigned short a = 0; a < pMesh->getNumAnimations(); ++a)
         {
             Animation* anim = pMesh->getAnimation(a);
-            LogManager::getSingleton().log_message(
+            LogManager::singleton().log_message(
                 "Exporting animation " + anim->name());
             writeAnimation(anim);
-            LogManager::getSingleton().log_message("Animation exported.");
+            LogManager::singleton().log_message("Animation exported.");
         }
         popInnerChunk(mStream);
     }
@@ -2690,7 +2699,10 @@ namespace Ogre {
     void MeshSerializerImpl_v1_8::writeLodLevel(const Mesh* pMesh)
     {
         if (isLodMixed(pMesh)) {
-            LogManager::getSingleton().log_message("MeshSerializer_v1_8 older mesh format is incompatible with mixed manual/generated Lod levels. Lod levels will not be exported.");
+            LogManager::singleton().log_message(
+                "MeshSerializer_v1_8 older mesh format is incompatible with "
+                "mixed manual/generated Lod levels. Lod levels will not be "
+                "exported.");
         } else {
             
             exportedLodCount = pMesh->getNumLodLevels();
@@ -2960,8 +2972,9 @@ namespace Ogre {
 
         // Read the strategy to be used for this mesh
         String strategyName = readString(stream);
-        LodStrategy *strategy = LodStrategyManager::getSingleton().getStrategy(strategyName);
-        
+        LodStrategy* strategy
+            = LodStrategyManager::singleton().getStrategy(strategyName);
+
         if (strategy)
             pMesh->setLodStrategy(strategy);
 
@@ -3196,7 +3209,7 @@ namespace Ogre {
     }
     size_t MeshSerializerImpl_v1_4::calcLodLevelSize(const Mesh* pMesh)
     {
-        if (isLodMixed(pMesh) || pMesh->getLodStrategy() != DistanceLodBoxStrategy::getSingletonPtr()) {
+        if (isLodMixed(pMesh) || pMesh->getLodStrategy() != DistanceLodBoxStrategy::singleton_ptr(()) {
             return 0; // Supported in v1_9+
         }
         exportedLodCount = pMesh->getNumLodLevels();
@@ -3226,9 +3239,14 @@ namespace Ogre {
     void MeshSerializerImpl_v1_4::writeLodLevel(const Mesh* pMesh)
     {
         if (isLodMixed(pMesh)) {
-            LogManager::getSingleton().log_message("MeshSerializer_v1_4 or older mesh format is incompatible with mixed manual/generated Lod levels. Lod levels will not be exported.");
-        } else if (pMesh->getLodStrategy() != DistanceLodBoxStrategy::getSingletonPtr()) {
-            LogManager::getSingleton().log_message("MeshSerializer_v1_4 or older mesh format is only compatible with Distance Lod Strategy. Lod levels will not be exported.");
+            LogManager::singleton().log_message(
+                "MeshSerializer_v1_4 or older mesh format is incompatible with "
+                "mixed manual/generated Lod levels. Lod levels will not be "
+                "exported.");
+        } else if (pMesh->getLodStrategy() != DistanceLodBoxStrategy::singleton_ptr(()) {
+        LogManager::singleton().log_message(
+            "MeshSerializer_v1_4 or older mesh format is only compatible with "
+            "Distance Lod Strategy. Lod levels will not be exported.");
         } else {
             exportedLodCount = pMesh->getNumLodLevels();
             bool manual = pMesh->hasManualLodLevel();
@@ -3356,7 +3374,7 @@ namespace Ogre {
         unsigned short streamID, i;
 
         // Use the old strategy for this mesh
-        LodStrategy *strategy = DistanceLodSphereStrategy::getSingletonPtr();
+        LodStrategy *strategy = DistanceLodSphereStrategy::singleton_ptr(();
         pMesh->setLodStrategy(strategy);
 
         // unsigned short numLevels;

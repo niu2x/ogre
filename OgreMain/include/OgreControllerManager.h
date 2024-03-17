@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreCommon.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreTextureUnitState.h"
 
 #include "OgreHeaderPrefix.h"
@@ -257,10 +257,10 @@ namespace Ogre {
         */
         void setElapsedTime(Real elapsedTime);
 
-        /// @copydoc Singleton::getSingleton()
-        static ControllerManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ControllerManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static ControllerManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ControllerManager* singleton_ptr((void);
     };
 
     /** @} */

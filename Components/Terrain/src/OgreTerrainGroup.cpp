@@ -91,7 +91,7 @@ namespace Ogre
         // waiting for terrain preparing finished
         while (getNumTerrainPrepareRequests() > 0)
         {
-            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
+            Root::singleton().getWorkQueue()->process_main_thread_tasks();
         }
 
         removeAllTerrains();
@@ -315,7 +315,9 @@ namespace Ogre
         defineTerrain(x, y, &img);
 
         auto profile = dynamic_cast<TerrainMaterialGeneratorA::SM2Profile*>(
-            TerrainGlobalOptions::getSingleton().getDefaultMaterialGenerator()->getActiveProfile());
+            TerrainGlobalOptions::singleton()
+                .getDefaultMaterialGenerator()
+                ->getActiveProfile());
 
         if(profile)
         {
@@ -359,10 +361,10 @@ namespace Ogre
                 return;
             }
 
-            Root::getSingleton().getWorkQueue()->add_task([this, slot]() {
+            Root::singleton().getWorkQueue()->add_task([this, slot]() {
                 auto r = std::make_unique<WorkQueue::Request>(0, 0, slot, 0, 0);
                 auto res = handleRequest(std::move(r), NULL);
-                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                Root::singleton().getWorkQueue()->add_main_thread_task(
                     [this, res]() {
                         handleResponse(res, NULL);
                         delete res;
@@ -780,7 +782,7 @@ namespace Ogre
         else
         {
             // oh dear
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
                 << "We failed to prepare the terrain at (" << slot->x << ", "
                 << slot->y << ") with the error '" << res->message() << "'";
             freeTerrainSlotInstance(slot);
@@ -936,8 +938,10 @@ namespace Ogre
     //---------------------------------------------------------------------
     void TerrainGroup::saveGroupDefinition(const String& filename)
     {
-        DataStreamPtr stream = Root::getSingleton().createFileStream(filename,
-            getResourceGroup(), true);
+        DataStreamPtr stream = Root::singleton().createFileStream(
+            filename,
+            getResourceGroup(),
+            true);
         StreamSerialiser ser(stream);
         saveGroupDefinition(ser);
     }
@@ -972,8 +976,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     void TerrainGroup::loadGroupDefinition(const String& filename)
     {
-        DataStreamPtr stream = Root::getSingleton().openFileStream(filename,
-            getResourceGroup());
+        DataStreamPtr stream
+            = Root::singleton().openFileStream(filename, getResourceGroup());
         StreamSerialiser ser(stream);
         loadGroupDefinition(ser);
     }

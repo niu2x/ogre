@@ -191,12 +191,12 @@ extern "C" void _OgreSampleExport dllStopPlugin(void);
 extern "C" _OgreSampleExport void dllStartPlugin()
 {
     sp = new DefaultSamplesPlugin();
-    Root::getSingleton().installPlugin(sp);
+    Root::singleton().installPlugin(sp);
 }
 
 extern "C" _OgreSampleExport void dllStopPlugin()
 {
-    Root::getSingleton().uninstallPlugin(sp);
+    Root::singleton().uninstallPlugin(sp);
     delete sp;
 }
 #endif

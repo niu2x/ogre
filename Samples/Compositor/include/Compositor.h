@@ -108,7 +108,7 @@ void Sample_Compositor::setupContent(void)
 {
     // Register the compositor logics
     // See comment in beginning of HelperLogics.h for explanation
-    Ogre::CompositorManager& compMgr = Ogre::CompositorManager::getSingleton();
+    Ogre::CompositorManager& compMgr = Ogre::CompositorManager::singleton();
     mCompositorLogics["GaussianBlur"] = new GaussianBlurLogic;
     mCompositorLogics["HDR"] = new HDRLogic;
     mCompositorLogics["HeatVision"] = new HeatVisionLogic;
@@ -151,8 +151,8 @@ void Sample_Compositor::registerCompositors(void)
     Ogre::Viewport *vp = mViewport;
 
     //iterate through Compositor Managers resources and add name keys to menu
-    Ogre::CompositorManager::ResourceMapIterator resourceIterator =
-        Ogre::CompositorManager::getSingleton().getResourceIterator();
+    Ogre::CompositorManager::ResourceMapIterator resourceIterator
+        = Ogre::CompositorManager::singleton().getResourceIterator();
 
     // add all compositor resources to the view container
     while (resourceIterator.hasMoreElements())
@@ -173,11 +173,19 @@ void Sample_Compositor::registerCompositors(void)
         }
         try
         {
-            Ogre::CompositorManager::getSingleton().addCompositor(vp, compositorName, addPosition);
-            Ogre::CompositorManager::getSingleton().setCompositorEnabled(vp, compositorName, false);
+            Ogre::CompositorManager::singleton().addCompositor(
+                vp,
+                compositorName,
+                addPosition);
+            Ogre::CompositorManager::singleton().setCompositorEnabled(
+                vp,
+                compositorName,
+                false);
         } catch (Ogre::Exception& e) {
             /// Warn user
-            LogManager::getSingleton().log_message(e.description(), LogMsgLevel::CRITICAL);
+            LogManager::singleton().log_message(
+                e.description(),
+                LogMsgLevel::CRITICAL);
         }
     }
 
@@ -199,8 +207,9 @@ void Sample_Compositor::changePage(size_t pageNum)
         if (i < maxCompositorsInPage)
         {
             String compositorName = mCompositorNames[pageNum * COMPOSITORS_PER_PAGE + i];
-            CompositorInstance *tmpCompo = CompositorManager::getSingleton().getCompositorChain(mViewport)
-                ->getCompositor(compositorName);
+            CompositorInstance* tmpCompo = CompositorManager::singleton()
+                                               .getCompositorChain(mViewport)
+                                               ->getCompositor(compositorName);
 
             cb->setCaption(compositorName);
 
@@ -232,13 +241,13 @@ void Sample_Compositor::changePage(size_t pageNum)
 void Sample_Compositor::cleanupContent(void)
 {
     mDebugTextureTUS->setContentType(TextureUnitState::CONTENT_NAMED);
-    CompositorManager::getSingleton().removeCompositorChain(mViewport);
+    CompositorManager::singleton().removeCompositorChain(mViewport);
     mCompositorNames.clear();
 
-    TextureManager::getSingleton().remove("DitherTex", "General");
-    TextureManager::getSingleton().remove("HalftoneVolume", "General");
+    TextureManager::singleton().remove("DitherTex", "General");
+    TextureManager::singleton().remove("HalftoneVolume", "General");
 
-    Ogre::CompositorManager& compMgr = Ogre::CompositorManager::getSingleton();
+    Ogre::CompositorManager& compMgr = Ogre::CompositorManager::singleton();
     CompositorLogicMap::const_iterator itor = mCompositorLogics.begin();
     CompositorLogicMap::const_iterator end  = mCompositorLogics.end();
     while( itor != end )
@@ -248,7 +257,9 @@ void Sample_Compositor::cleanupContent(void)
         ++itor;
     }
     mCompositorLogics.clear();
-    MeshManager::getSingleton().remove("Myplane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshManager::singleton().remove(
+        "Myplane",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 }
 
 
@@ -317,13 +328,17 @@ void Sample_Compositor::checkBoxToggled(OgreBites::CheckBox * box)
             }
         }
 
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, compositorName, box->isChecked());
-
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            compositorName,
+            box->isChecked());
 
         if (box->isChecked())
         {
             //Add the items to the selectable texture menu
-            CompositorInstance* instance = CompositorManager::getSingleton().getCompositorChain(mViewport)->getCompositor(compositorName);
+            CompositorInstance* instance = CompositorManager::singleton()
+                                               .getCompositorChain(mViewport)
+                                               ->getCompositor(compositorName);
             if (instance)
             {
                 const CompositionTechnique::TextureDefinitions& defs =
@@ -429,9 +444,19 @@ void Sample_Compositor::setupScene(void)
     Ogre::Plane plane;
     plane.normal = Ogre::Vector3::unit_y;
     plane.d = 100;
-    Ogre::MeshManager::getSingleton().createPlane("Myplane",
-                                                  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane,
-                                                  1500, 1500, 10, 10, true, 1, 5, 5, Ogre::Vector3::unit_z);
+    Ogre::MeshManager::singleton().createPlane(
+        "Myplane",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        plane,
+        1500,
+        1500,
+        10,
+        10,
+        true,
+        1,
+        5,
+        5,
+        Ogre::Vector3::unit_z);
     Ogre::Entity* pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
     pPlaneEnt->setMaterialName("Examples/Rockwall");
     pPlaneEnt->setCastShadows(false);
@@ -453,9 +478,9 @@ bool Sample_Compositor::frameRenderingQueued(const FrameEvent& evt)
 void Sample_Compositor::createEffects(void)
 {
     /// Motion blur effect
-    Ogre::CompositorPtr comp3 = Ogre::CompositorManager::getSingleton().create(
-        "Motion Blur", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME
-    );
+    Ogre::CompositorPtr comp3 = Ogre::CompositorManager::singleton().create(
+        "Motion Blur",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     {
         Ogre::CompositionTechnique *t = comp3->createTechnique();
         {
@@ -521,9 +546,9 @@ void Sample_Compositor::createEffects(void)
         }
     }
     /// Heat vision effect
-    Ogre::CompositorPtr comp4 = Ogre::CompositorManager::getSingleton().create(
-        "Heat Vision", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME
-    );
+    Ogre::CompositorPtr comp4 = Ogre::CompositorManager::singleton().create(
+        "Heat Vision",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     {
         Ogre::CompositionTechnique *t = comp4->createTechnique();
         t->setCompositorLogicName("HeatVision");
@@ -575,17 +600,18 @@ void Sample_Compositor::createTextures(void)
 {
     using namespace Ogre;
 
-    TexturePtr tex = TextureManager::getSingleton().createManual(
+    TexturePtr tex = TextureManager::singleton().createManual(
         "HalftoneVolume",
         "General",
         TEX_TYPE_3D,
-        64,64,64,
+        64,
+        64,
+        64,
         0,
         PF_L8,
-        TU_DYNAMIC_WRITE_ONLY
-    );
+        TU_DYNAMIC_WRITE_ONLY);
 
-    MaterialManager::getSingleton()
+    MaterialManager::singleton()
         .getByName("Ogre/Compositor/Halftone", "General")
         ->getTechnique(0)
         ->getPass(0)
@@ -625,17 +651,18 @@ void Sample_Compositor::createTextures(void)
     }
     Ogre::Viewport *vp = mWindow->getViewport(0);
 
-    TexturePtr tex2 = TextureManager::getSingleton().createManual(
+    TexturePtr tex2 = TextureManager::singleton().createManual(
         "DitherTex",
         "General",
         TEX_TYPE_2D,
-        vp->getActualWidth(),vp->getActualHeight(),1,
+        vp->getActualWidth(),
+        vp->getActualHeight(),
+        1,
         0,
         PF_L8,
-        TU_DYNAMIC_WRITE_ONLY
-    );
+        TU_DYNAMIC_WRITE_ONLY);
 
-    MaterialManager::getSingleton()
+    MaterialManager::singleton()
         .getByName("Ogre/Compositor/Dither", "General")
         ->getTechnique(0)
         ->getPass(0)

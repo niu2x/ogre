@@ -116,13 +116,19 @@ void PrefabFactory::load_resource(Resource* res)
         //! [vertex_decl]
 
         //! [vertex_buffer]
-        HardwareVertexBufferPtr vbuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(offset, 4, HBU_GPU_ONLY);
+        HardwareVertexBufferPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                offset,
+                4,
+                HBU_GPU_ONLY);
         vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
         bind->setBinding(0, vbuf);
 
-        HardwareIndexBufferPtr ibuf =
-            HardwareBufferManager::getSingleton().createIndexBuffer(HardwareIndexBuffer::IT_16BIT, 6, HBU_GPU_ONLY);
+        HardwareIndexBufferPtr ibuf
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                6,
+                HBU_GPU_ONLY);
         ibuf->writeData(0, ibuf->getSizeInBytes(), faces, true);
         //! [vertex_buffer]
 
@@ -254,19 +260,21 @@ void PrefabFactory::load_resource(Resource* res)
                           0)
                       .size();
 
-        HardwareVertexBufferSharedPtr vbuf = 
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-            offset, NUM_VERTICES, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                offset,
+                NUM_VERTICES,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         bind->setBinding(0, vbuf);
 
         vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
 
         sub->useSharedVertices = true;
-        HardwareIndexBufferSharedPtr ibuf = HardwareBufferManager::getSingleton().
-            createIndexBuffer(
-            HardwareIndexBuffer::IT_16BIT, 
-            NUM_INDICES,
-            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        HardwareIndexBufferSharedPtr ibuf
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                NUM_INDICES,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
         unsigned short faces[NUM_INDICES] = {
             // front
@@ -335,7 +343,12 @@ void PrefabFactory::load_resource(Resource* res)
 
         // allocate the vertex buffer
         vertexData->vertexCount = (NUM_RINGS + 1) * (NUM_SEGMENTS+1);
-        HardwareVertexBufferSharedPtr vBuf = HardwareBufferManager::getSingleton().createVertexBuffer(vertexDecl->getVertexSize(0), vertexData->vertexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY, false);
+        HardwareVertexBufferSharedPtr vBuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                vertexDecl->getVertexSize(0),
+                vertexData->vertexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY,
+                false);
         VertexBufferBinding* binding = vertexData->vertexBufferBinding;
         binding->setBinding(0, vBuf);
         HardwareBufferLockGuard vBufLock(vBuf, HardwareBuffer::HBL_DISCARD);
@@ -343,7 +356,12 @@ void PrefabFactory::load_resource(Resource* res)
 
         // allocate index buffer
         pSphereVertex->indexData->indexCount = 6 * NUM_RINGS * (NUM_SEGMENTS + 1);
-        pSphereVertex->indexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(HardwareIndexBuffer::IT_16BIT, pSphereVertex->indexData->indexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY, false);
+        pSphereVertex->indexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                pSphereVertex->indexData->indexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY,
+                false);
         HardwareIndexBufferSharedPtr iBuf = pSphereVertex->indexData->indexBuffer;
         HardwareBufferLockGuard iBufLock(iBuf, HardwareBuffer::HBL_DISCARD);
         unsigned short* pIndices = static_cast<unsigned short*>(iBufLock.pData);
@@ -420,9 +438,12 @@ void PrefabFactory::load_resource(Resource* res)
         // Allocate memory for faces
         // Num faces, width*height*2 (2 tris per square), index count is * 3 on top
         sm->indexData->indexCount = (meshWidth-1) * (meshHeight-1) * 2 * iterations * 3;
-        sm->indexData->indexBuffer = HardwareBufferManager::getSingleton().
-            createIndexBuffer(HardwareIndexBuffer::IT_16BIT,
-            sm->indexData->indexCount, indexBufferUsage, indexShadowBuffer);
+        sm->indexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                sm->indexData->indexCount,
+                indexBufferUsage,
+                indexShadowBuffer);
 
         unsigned short v1, v2, v3;
         //bool firstTri = true;

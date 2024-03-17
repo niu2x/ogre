@@ -33,7 +33,7 @@ public:
     {
         auto imguiOverlay = mContext->initialiseImGui();
 
-        float vpScale = OverlayManager::getSingleton().getPixelRatio();
+        float vpScale = OverlayManager::singleton().getPixelRatio();
         ImGui::GetIO().FontGlobalScale = std::round(vpScale); // default font does not work with fractional scaling
 
         imguiOverlay->setZOrder(300);
@@ -66,7 +66,7 @@ public:
 
     void cleanupContent() override
     {
-        OverlayManager::getSingleton().destroy("ImGuiOverlay");
+        OverlayManager::singleton().destroy("ImGuiOverlay");
         mWindow->remove_listener(this);
     }
 };

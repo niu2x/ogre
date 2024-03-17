@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "resource.h"
 #include "work_queue.h"
 #include "OgreHeaderPrefix.h"
@@ -113,11 +113,10 @@ namespace Ogre {
         */
         std::future<void> load(const ResourcePtr& res);
 
-        /// @copydoc Singleton::getSingleton()
-        static ResourceBackgroundQueue& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ResourceBackgroundQueue* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static ResourceBackgroundQueue& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ResourceBackgroundQueue* singleton_ptr((void);
     };
 
     /** @} */

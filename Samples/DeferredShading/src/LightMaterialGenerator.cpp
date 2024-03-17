@@ -64,8 +64,9 @@ public:
             programName += "LightMaterial_vs";
         }
 
-        GpuProgramPtr ptr = HighLevelGpuProgramManager::getSingleton().getByName(
-            programName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        GpuProgramPtr ptr = HighLevelGpuProgramManager::singleton().getByName(
+            programName,
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         OgreAssert(ptr, "vertex shader is NULL");
         return ptr;
     }
@@ -75,9 +76,10 @@ public:
         /// Create shader
         if (mMasterSource.empty())
         {
-            DataStreamPtr ptrMasterSource = ResourceGroupManager::getSingleton().openResource(
-                 "LightMaterial_ps.cg"
-                , ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            DataStreamPtr ptrMasterSource
+                = ResourceGroupManager::singleton().openResource(
+                    "LightMaterial_ps.cg",
+                    ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             assert(ptrMasterSource);
             mMasterSource = ptrMasterSource->as_string();
         }
@@ -88,9 +90,12 @@ public:
         String name = mBaseName+StringConverter::to_string(permutation)+"_ps";       
 
         // Create shader object
-        HighLevelGpuProgramPtr ptrProgram = HighLevelGpuProgramManager::getSingleton().createProgram(
-            name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            "hlsl", GPT_FRAGMENT_PROGRAM);
+        HighLevelGpuProgramPtr ptrProgram
+            = HighLevelGpuProgramManager::singleton().createProgram(
+                name,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+                "hlsl",
+                GPT_FRAGMENT_PROGRAM);
         ptrProgram->setSource(mMasterSource);
         ptrProgram->set_parameter("entry_point","main");
         ptrProgram->set_parameter("target","ps_2_a");
@@ -120,7 +125,7 @@ public:
         {
             materialName += "Shadow";
         }
-        return MaterialManager::getSingleton().getByName(materialName);
+        return MaterialManager::singleton().getByName(materialName);
     }
 
     protected:
@@ -230,8 +235,9 @@ public:
             programName += "LightMaterial_vs";
         }
 
-        GpuProgramPtr ptr = HighLevelGpuProgramManager::getSingleton().getByName(
-            programName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        GpuProgramPtr ptr = HighLevelGpuProgramManager::singleton().getByName(
+            programName,
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         OgreAssert(ptr, "vertex shader is NULL");
         return ptr;
     }
@@ -241,8 +247,10 @@ public:
         /// Create shader
         if (mMasterSource.empty())
         {
-            DataStreamPtr ptrMasterSource =
-                ResourceGroupManager::getSingleton().openResource("LightMaterial_ps.glsl", RGN_DEFAULT);
+            DataStreamPtr ptrMasterSource
+                = ResourceGroupManager::singleton().openResource(
+                    "LightMaterial_ps.glsl",
+                    RGN_DEFAULT);
 
             OgreAssert(ptrMasterSource, "could not find 'LightMaterial_ps'");
             mMasterSource = ptrMasterSource->as_string();
@@ -255,15 +263,18 @@ public:
 
         // Create shader object
         HighLevelGpuProgramPtr ptrProgram;
-        if(GpuProgramManager::getSingleton().isSyntaxSupported("glsles"))
-        {
-            ptrProgram = HighLevelGpuProgramManager::getSingleton().createProgram(name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                                                                  "glsles", GPT_FRAGMENT_PROGRAM);
-        }
-        else
-        {
-            ptrProgram = HighLevelGpuProgramManager::getSingleton().createProgram(name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                                                                  "glsl", GPT_FRAGMENT_PROGRAM);
+        if (GpuProgramManager::singleton().isSyntaxSupported("glsles")) {
+            ptrProgram = HighLevelGpuProgramManager::singleton().createProgram(
+                name,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+                "glsles",
+                GPT_FRAGMENT_PROGRAM);
+        } else {
+            ptrProgram = HighLevelGpuProgramManager::singleton().createProgram(
+                name,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+                "glsl",
+                GPT_FRAGMENT_PROGRAM);
         }
         ptrProgram->setSource(mMasterSource);
         // set up the preprocessor defines
@@ -301,7 +312,7 @@ public:
         {
             materialName += "Shadow";
         }
-        return MaterialManager::getSingleton().getByName(materialName);
+        return MaterialManager::singleton().getByName(materialName);
     }
 
 protected:
@@ -391,8 +402,11 @@ LightMaterialGenerator::LightMaterialGenerator()
                 LightMaterialGenerator::MI_SHADOW_CASTER;
     
     materialBaseName = "DeferredShading/LightMaterial/";
-    if ((GpuProgramManager::getSingleton().isSyntaxSupported("glsl") || GpuProgramManager::getSingleton().isSyntaxSupported("glsles")) &&
-        !(GpuProgramManager::getSingleton().isSyntaxSupported("ps_2_x") ||GpuProgramManager::getSingleton().isSyntaxSupported("arbfp1")))
+    if ((GpuProgramManager::singleton().isSyntaxSupported("glsl")
+         || GpuProgramManager::singleton().isSyntaxSupported("glsles"))
+        && !(
+            GpuProgramManager::singleton().isSyntaxSupported("ps_2_x")
+            || GpuProgramManager::singleton().isSyntaxSupported("arbfp1")))
         mImpl = new LightMaterialGeneratorGLSL("DeferredShading/LightMaterial/");
     else
         mImpl = new LightMaterialGeneratorCG("DeferredShading/LightMaterial/");

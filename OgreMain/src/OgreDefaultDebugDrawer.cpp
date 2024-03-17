@@ -25,10 +25,11 @@ void DefaultDebugDrawer::beginLines()
     if (mLines.getSections().empty())
     {
         const char* matName = "Ogre/Debug/LinesMat";
-        auto mat = MaterialManager::getSingleton().getByName(matName, RGN_INTERNAL);
+        auto mat
+            = MaterialManager::singleton().getByName(matName, RGN_INTERNAL);
         if (!mat)
         {
-            mat = MaterialManager::getSingleton().create(matName, RGN_INTERNAL);
+            mat = MaterialManager::singleton().create(matName, RGN_INTERNAL);
             Pass* p = mat->getTechnique(0)->getPass(0);
             p->setLightingEnabled(false);
             p->setVertexColourTracking(TVC_AMBIENT);
@@ -74,10 +75,11 @@ void DefaultDebugDrawer::drawAxes(const Affine3& pose, float size)
     if (mAxes.getSections().empty())
     {
         const char* matName = "Ogre/Debug/AxesMat";
-        auto mat = MaterialManager::getSingleton().getByName(matName, RGN_INTERNAL);
+        auto mat
+            = MaterialManager::singleton().getByName(matName, RGN_INTERNAL);
         if (!mat)
         {
-            mat = MaterialManager::getSingleton().create(matName, RGN_INTERNAL);
+            mat = MaterialManager::singleton().create(matName, RGN_INTERNAL);
             Pass* p = mat->getTechnique(0)->getPass(0);
             p->setLightingEnabled(false);
             p->setPolygonModeOverrideable(false);

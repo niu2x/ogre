@@ -312,14 +312,15 @@ uint16 ensureLtcLUTPresent(Pass* dstPass)
 	if(tus)
 		return dstPass->getTextureUnitStateIndex(tus);
 
-	auto ltcSampler = TextureManager::getSingleton().getSampler("Ogre/LtcLUTSampler");
-	tus = dstPass->createTextureUnitState("ltc_1.dds");
-	tus->setNumMipmaps(0);
-	tus->setName("ltc_1.dds");
-	tus->setSampler(ltcSampler);
-	tus = dstPass->createTextureUnitState("ltc_2.dds");
-	tus->setNumMipmaps(0);
-	tus->setSampler(ltcSampler);
+    auto ltcSampler
+        = TextureManager::singleton().getSampler("Ogre/LtcLUTSampler");
+    tus = dstPass->createTextureUnitState("ltc_1.dds");
+    tus->setNumMipmaps(0);
+    tus->setName("ltc_1.dds");
+    tus->setSampler(ltcSampler);
+    tus = dstPass->createTextureUnitState("ltc_2.dds");
+    tus->setNumMipmaps(0);
+    tus->setSampler(ltcSampler);
 
 	return dstPass->getNumTextureUnitStates() - 2; // idx of first LUT
 }

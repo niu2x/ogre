@@ -99,7 +99,9 @@ void Sample_VolumeCSG::setupContent(void)
 
     mVolumeRoot->load(volumeRootNode, Vector3::zero, to, 1, &parameters);
 
-    MaterialPtr mat = MaterialManager::getSingleton().getByName("Ogre/RTShader/TriplanarTexturing", "General");
+    MaterialPtr mat = MaterialManager::singleton().getByName(
+        "Ogre/RTShader/TriplanarTexturing",
+        "General");
     mVolumeRoot->setMaterial(mat);
 
     // Camera

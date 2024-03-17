@@ -57,7 +57,7 @@ namespace Ogre
         mEventRouter.pWorldMap = &mWorlds;
         mEventRouter.pCameraList = &mCameraList;
 
-        Root::getSingleton().addFrameListener(&mEventRouter);
+        Root::singleton().addFrameListener(&mEventRouter);
 
         createStandardStrategies();
         createStandardContentFactories();
@@ -66,7 +66,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     PageManager::~PageManager()
     {
-        Root::getSingleton().removeFrameListener(&mEventRouter);
+        Root::singleton().removeFrameListener(&mEventRouter);
         for (auto c : mCameraList)
         {
             c->remove_listener(&mEventRouter);
@@ -367,7 +367,8 @@ namespace Ogre
             StringStream nameStr;
             nameStr << section->getWorld()->name() << "_" << section->name() 
                 << "_" << pageID << ".page";
-            DataStreamPtr stream = ResourceGroupManager::getSingleton().openResource(nameStr.str());
+            DataStreamPtr stream
+                = ResourceGroupManager::singleton().openResource(nameStr.str());
 
             ser = OGRE_NEW StreamSerialiser(stream);
 
@@ -391,7 +392,7 @@ namespace Ogre
             
             // create file, overwrite if necessary
             DataStreamPtr stream
-                = ResourceGroupManager::getSingleton().create_resource(
+                = ResourceGroupManager::singleton().create_resource(
                     nameStr.str(),
                     mPageResourceGroup,
                     true);
@@ -412,8 +413,8 @@ namespace Ogre
         if (!ser)
         {
             // use default implementation
-            DataStreamPtr stream = ResourceGroupManager::getSingleton().openResource(
-                filename);
+            DataStreamPtr stream
+                = ResourceGroupManager::singleton().openResource(filename);
 
             ser = OGRE_NEW StreamSerialiser(stream);
 
@@ -433,7 +434,7 @@ namespace Ogre
             // use default implementation
             // create file, overwrite if necessary
             DataStreamPtr stream
-                = ResourceGroupManager::getSingleton().create_resource(
+                = ResourceGroupManager::singleton().create_resource(
                     filename,
                     mPageResourceGroup,
                     true);

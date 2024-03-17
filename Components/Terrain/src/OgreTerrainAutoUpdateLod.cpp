@@ -67,7 +67,9 @@ namespace Ogre
         // A = 1 / tan(fovy*0.5)    (== 1 for fovy=45*2)
         Real A = 1.0f / Math::Tan(cam->getFOVy() * 0.5f);
         // T = 2 * maxPixelError / vertRes
-        Real maxPixelError = TerrainGlobalOptions::getSingleton().getMaxPixelError() * cam->_getLodBiasInverse();
+        Real maxPixelError
+            = TerrainGlobalOptions::singleton().getMaxPixelError()
+            * cam->_getLodBiasInverse();
         Real T = 2.0f * maxPixelError / (Real)vp->getActualHeight();
 
         // CFactor = A / T
@@ -100,8 +102,8 @@ namespace Ogre
 
         Vector3 localPos = cam->getDerivedPosition() - node->getLocalCentre() - node->getTerrain()->getPosition();
         Real dist;
-        if (TerrainGlobalOptions::getSingleton().getUseRayBoxDistanceCalculation())
-        {
+        if (TerrainGlobalOptions::singleton()
+                .getUseRayBoxDistanceCalculation()) {
             // Get distance to this terrain node (to closest point of the box)
             // head towards centre of the box (note, box may not cover mLocalCentre because of height)
             Vector3 dir(node->getBoundingBox().center() - localPos);
@@ -111,9 +113,7 @@ namespace Ogre
 
             // ray will always intersect, we just want the distance
             dist = intersectRes.second;
-        }
-        else
-        {
+        } else {
             // distance to tile centre
             dist = localPos.length();
             // deduct half the radius of the box, assume that on average the

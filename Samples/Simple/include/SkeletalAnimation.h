@@ -158,10 +158,14 @@ protected:
         Ogre::RTShader::RenderState* renderState = mShaderGenerator->getRenderState(MSN_SHADERGEN);
         renderState->addTemplateSubRenderState(srsHardwareSkinning);
 
-        Ogre::MaterialPtr pCast1 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_1weight");
-        Ogre::MaterialPtr pCast2 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_2weight");
-        Ogre::MaterialPtr pCast3 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_3weight");
-        Ogre::MaterialPtr pCast4 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_4weight");
+        Ogre::MaterialPtr pCast1 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_1weight");
+        Ogre::MaterialPtr pCast2 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_2weight");
+        Ogre::MaterialPtr pCast3 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_3weight");
+        Ogre::MaterialPtr pCast4 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_4weight");
 
         Ogre::RTShader::HardwareSkinningFactory::setCustomShadowCasterMaterials(Ogre::RTShader::ST_DUAL_QUATERNION,
                                                                                 pCast1, pCast2, pCast3, pCast4);
@@ -209,8 +213,19 @@ protected:
         bbs->createBillboard(pos)->setColour(l->getDiffuseColour());
 
         // create a floor mesh resource
-        MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            Plane(Vector3::unit_y, -1), 250, 250, 25, 25, true, 1, 15, 15, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            Plane(Vector3::unit_y, -1),
+            250,
+            250,
+            25,
+            25,
+            true,
+            1,
+            15,
+            15,
+            Vector3::unit_z);
 
         // add a floor to our scene using the floor mesh we created
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");
@@ -236,12 +251,15 @@ protected:
         AnimationState* as = NULL;
 
         // make sure we can get the buffers for bbox calculations
-        MeshManager::getSingleton().load("jaiqua.mesh",
-                                         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                         HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
-                                         HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY, true, true);
+        MeshManager::singleton().load(
+            "jaiqua.mesh",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+            true,
+            true);
 
-        auto& controllerMgr = ControllerManager::getSingleton();
+        auto& controllerMgr = ControllerManager::singleton();
 
         for (int i = 0; i < NUM_MODELS; i++)
         {
@@ -280,7 +298,8 @@ protected:
         enableBoneBoundingBoxMode( false );  // update status panel entry
 
         // make sure we query the correct scheme
-        MaterialManager::getSingleton().setActiveScheme(mViewport->getMaterialScheme());
+        MaterialManager::singleton().setActiveScheme(
+            mViewport->getMaterialScheme());
 
         // change the value if hardware skinning is enabled
         MaterialPtr entityMaterial = ent->getSubEntity(0)->getMaterial();
@@ -306,8 +325,10 @@ protected:
     void tweakSneakAnim()
     {
         // get the skeleton, animation, and the node track iterator
-        SkeletonPtr skel = static_pointer_cast<Skeleton>(SkeletonManager::getSingleton().load("jaiqua.skeleton",
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME));
+        SkeletonPtr skel
+            = static_pointer_cast<Skeleton>(SkeletonManager::singleton().load(
+                "jaiqua.skeleton",
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME));
 
         for (const auto& it : skel->getAnimation("Sneak")->_getNodeTrackList()) // for every node track...
         {
@@ -350,7 +371,9 @@ protected:
     {
         mModelNodes.clear();
         mAnimStates.clear();
-        MeshManager::getSingleton().remove("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().remove(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }
 
     const int NUM_MODELS;

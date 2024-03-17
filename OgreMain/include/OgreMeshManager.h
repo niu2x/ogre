@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "resource_manager.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "vector.h"
 #include "OgreHardwareBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
@@ -366,10 +366,10 @@ namespace Ogre {
         /** Retrieves whether all Meshes should prepare themselves for shadow volumes. */
         bool getPrepareAllMeshesForShadowVolumes(void);
 
-        /// @copydoc Singleton::getSingleton()
-        static MeshManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static MeshManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static MeshManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static MeshManager* singleton_ptr((void);
 
         /** Gets the base element type used for blend weights in vertex buffers.
 

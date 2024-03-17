@@ -85,7 +85,7 @@ mCameraRelativeRendering(false),
 mLastLightHash(0),
 mGpuParamsDirty((uint16)GPV_ALL)
 {
-    if (Root* root = Root::getSingletonPtr())
+    if (Root* root = Root::singleton_ptr(())
         _setDestinationRenderSystem(root->getRenderSystem());
 
     // Setup default queued renderable visitor
@@ -888,7 +888,7 @@ void SceneManager::prepareRenderQueue(void)
 {
     RenderQueue* q = getRenderQueue();
     // Clear the render queue
-    q->clear(Root::getSingleton().getRemoveRenderQueueStructuresOnClear());
+    q->clear(Root::singleton().getRemoveRenderQueueStructuresOnClear());
 
     // Prep the ordering options
     // We need this here to reset if coming out of a render queue sequence,
@@ -915,13 +915,13 @@ void SceneManager::_renderScene(Camera* camera, Viewport* vp, bool includeOverla
     assert(camera);
     OgreProfileGroup(camera->name(), OGREPROF_GENERAL);
 
-    auto prevSceneManager = Root::getSingleton()._getCurrentSceneManager();
-    Root::getSingleton()._setCurrentSceneManager(this);
+    auto prevSceneManager = Root::singleton()._getCurrentSceneManager();
+    Root::singleton()._setCurrentSceneManager(this);
     mActiveQueuedRenderableVisitor->targetSceneMgr = this;
     mAutoParamDataSource->setCurrentSceneManager(this);
 
     // preserve the previous scheme, in case this is a RTT update with an outer _renderScene pending
-    MaterialManager& matMgr = MaterialManager::getSingleton();
+    MaterialManager& matMgr = MaterialManager::singleton();
     String prevMaterialScheme = matMgr.getActiveScheme();
 
     // Also set the internal viewport pointer at this point, for calls that need it
@@ -948,12 +948,11 @@ void SceneManager::_renderScene(Camera* camera, Viewport* vp, bool includeOverla
 
     mCameraInProgress = camera;
 
-
-    // Update controllers 
-    ControllerManager::getSingleton().updateAllControllers();
+    // Update controllers
+    ControllerManager::singleton().updateAllControllers();
 
     // Update the scene, only do this once per frame
-    unsigned long thisFrameNumber = Root::getSingleton().getNextFrameNumber();
+    unsigned long thisFrameNumber = Root::singleton().getNextFrameNumber();
     if (thisFrameNumber != mLastFrameNumber)
     {
         // Update animations
@@ -1092,7 +1091,7 @@ void SceneManager::_renderScene(Camera* camera, Viewport* vp, bool includeOverla
     camera->_notifyRenderedBatches(mDestRenderSystem->_getBatchCount());
 
     matMgr.setActiveScheme(prevMaterialScheme);
-    Root::getSingleton()._setCurrentSceneManager(prevSceneManager);
+    Root::singleton()._setCurrentSceneManager(prevSceneManager);
 }
 //-----------------------------------------------------------------------
 void SceneManager::_setDestinationRenderSystem(RenderSystem* sys)
@@ -1122,8 +1121,9 @@ void SceneManager::_restoreManualHardwareResources()
     // restore stencil shadows index buffer
     if(isShadowTechniqueStencilBased())
     {
-        mShadowRenderer.mShadowIndexBuffer = HardwareBufferManager::getSingleton().
-            createIndexBuffer(HardwareIndexBuffer::IT_16BIT,
+        mShadowRenderer.mShadowIndexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
                 mShadowRenderer.mShadowIndexBufferSize,
                 HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE,
                 false);
@@ -1670,7 +1670,10 @@ void SceneManager::renderInstancedObject(const RenderableList& rends, const Pass
     // update instance buffer
     if (!mInstanceBuffer || mInstanceBuffer->getNumVertices() < rends.size())
     {
-        mInstanceBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(sizeof(Matrix3x4f), rends.size(), HBU_CPU_TO_GPU);
+        mInstanceBuffer = HardwareBufferManager::singleton().createVertexBuffer(
+            sizeof(Matrix3x4f),
+            rends.size(),
+            HBU_CPU_TO_GPU);
         mInstanceBuffer->setIsInstanceData(true);
         mInstanceBuffer->setInstanceDataStepRate(1);
     }
@@ -2415,7 +2418,7 @@ void SceneManager::setViewport(Viewport* vp)
     // Set viewport in render system
     mDestRenderSystem->_setViewport(vp);
     // Set the active material scheme for this viewport
-    MaterialManager::getSingleton().setActiveScheme(vp->getMaterialScheme());
+    MaterialManager::singleton().setActiveScheme(vp->getMaterialScheme());
 }
 //---------------------------------------------------------------------
 void SceneManager::showBoundingBoxes(bool bShow) 
@@ -2622,7 +2625,7 @@ void SceneManager::invalidatePerFrameScissorRectCache()
 //---------------------------------------------------------------------
 void SceneManager::checkCachedLightClippingInfo(bool forceScissorRectsInvalidation)
 {
-    unsigned long frame = Root::getSingleton().getNextFrameNumber();
+    unsigned long frame = Root::singleton().getNextFrameNumber();
     if (frame != mLightClippingInfoMapFrameNumber)
     {
         // reset cached clip information
@@ -3196,8 +3199,8 @@ MovableObject* SceneManager::createMovableObject(const String& name,
     {
         return createCamera(name);
     }
-    MovableObjectFactory* factory = 
-        Root::getSingleton().getMovableObjectFactory(typeName);
+    MovableObjectFactory* factory
+        = Root::singleton().getMovableObjectFactory(typeName);
     // Check for duplicate names
     MovableObjectCollection* objectMap = getMovableObjectCollection(typeName);
 
@@ -3234,8 +3237,8 @@ void SceneManager::destroyMovableObject(const String& name, const String& typeNa
         return;
     }
     MovableObjectCollection* objectMap = getMovableObjectCollection(typeName);
-    MovableObjectFactory* factory = 
-        Root::getSingleton().getMovableObjectFactory(typeName);
+    MovableObjectFactory* factory
+        = Root::singleton().getMovableObjectFactory(typeName);
 
     {
             
@@ -3258,9 +3261,9 @@ void SceneManager::destroyAllMovableObjectsByType(const String& typeName)
         return;
     }
     MovableObjectCollection* objectMap = getMovableObjectCollection(typeName);
-    MovableObjectFactory* factory = 
-        Root::getSingleton().getMovableObjectFactory(typeName);
-    
+    MovableObjectFactory* factory
+        = Root::singleton().getMovableObjectFactory(typeName);
+
     {
         
         for (auto& m : objectMap->map)
@@ -3284,13 +3287,11 @@ void SceneManager::destroyAllMovableObjects(void)
         MovableObjectCollection* coll = c.second;
 
         // lock map mutex
-        
 
-        if (Root::getSingleton().hasMovableObjectFactory(c.first))
-        {
+        if (Root::singleton().hasMovableObjectFactory(c.first)) {
             // Only destroy if we have a factory instance; otherwise must be injected
-            MovableObjectFactory* factory = 
-                Root::getSingleton().getMovableObjectFactory(c.first);
+            MovableObjectFactory* factory
+                = Root::singleton().getMovableObjectFactory(c.first);
             for (auto& i : coll->map)
             {
                 if (i.second->_getManager() == this)

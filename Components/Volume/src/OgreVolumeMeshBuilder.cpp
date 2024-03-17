@@ -90,12 +90,13 @@ namespace Volume {
     
         // Add vertex-normals to the buffer
         decl->addElement(0, offset, VET_FLOAT3, VES_NORMAL);
-    
-        HardwareVertexBufferSharedPtr vbuf = HardwareBufferManager::getSingleton().createVertexBuffer(
-            decl->getVertexSize(MAIN_BINDING),
-            operation.vertexData->vertexCount,
-            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-    
+
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(MAIN_BINDING),
+                operation.vertexData->vertexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+
         bind->setBinding(0, vbuf);
 
         float* vertices = static_cast<float*>(vbuf->lock(HardwareBuffer::HBL_DISCARD));
@@ -121,10 +122,11 @@ namespace Volume {
         VecIndices::const_iterator endIndices = mIndices.end();
         if (operation.indexData->indexCount > USHRT_MAX)
         {
-            operation.indexData->indexBuffer =
-                HardwareBufferManager::getSingleton().createIndexBuffer(
-                HardwareIndexBuffer::IT_32BIT,
-                operation.indexData->indexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+            operation.indexData->indexBuffer
+                = HardwareBufferManager::singleton().createIndexBuffer(
+                    HardwareIndexBuffer::IT_32BIT,
+                    operation.indexData->indexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
             unsigned int* indices = static_cast<unsigned int*>(
                 operation.indexData->indexBuffer->lock(0,
@@ -138,10 +140,11 @@ namespace Volume {
         }
         else
         {
-            operation.indexData->indexBuffer =
-                HardwareBufferManager::getSingleton().createIndexBuffer(
-                HardwareIndexBuffer::IT_16BIT,
-                operation.indexData->indexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+            operation.indexData->indexBuffer
+                = HardwareBufferManager::singleton().createIndexBuffer(
+                    HardwareIndexBuffer::IT_16BIT,
+                    operation.indexData->indexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
             unsigned short* indices = static_cast<unsigned short*>(
                 operation.indexData->indexBuffer->lock(0,
@@ -185,7 +188,9 @@ namespace Volume {
             manual->end();
             StringStream meshName;
             meshName << name << "ManualObject";
-            MeshManager::getSingleton().remove(meshName.str(), ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            MeshManager::singleton().remove(
+                meshName.str(),
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             manual->convertToMesh(meshName.str());
             return sceneManager->createEntity(name, meshName.str());
     }

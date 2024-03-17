@@ -366,10 +366,9 @@ namespace Ogre {
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     CgFxScriptLoader::CgStateListener::CgStateListener(CGtype cgType)
-        : mCgState(0),
-        mCgType(cgType),
-        mCgContext(CgFxScriptLoader::getSingleton().getCgContext())
-
+    : mCgState(0)
+    , mCgType(cgType)
+    , mCgContext(CgFxScriptLoader::singleton().getCgContext())
 
     {
     }
@@ -455,7 +454,9 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void CgFxScriptLoader::CgGlobalStateListener::createState()
     {
-        const char * typeNameAsString = CgFxScriptLoader::getSingleton().getGlobalStateNameTypeToString(mGlobalStateType);
+        const char* typeNameAsString
+            = CgFxScriptLoader::singleton().getGlobalStateNameTypeToString(
+                mGlobalStateType);
         mCgState = cgCreateState( mCgContext, typeNameAsString, mCgType );
 
     }
@@ -2170,7 +2171,9 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void CgFxScriptLoader::CgSamplerStateListener::createState()
     {
-        const char * typeNameAsString = CgFxScriptLoader::getSingleton().getSamplerStateNameTypeToString(mSamplerStateType);
+        const char* typeNameAsString
+            = CgFxScriptLoader::singleton().getSamplerStateNameTypeToString(
+                mSamplerStateType);
         mCgState = cgCreateSamplerState( mCgContext, typeNameAsString, mCgType );
     }
     //---------------------------------------------------------------------
@@ -2643,11 +2646,11 @@ namespace Ogre {
     //---------------------------------------------------------------------
     //---------------------------------------------------------------------
     template<> CgFxScriptLoader *Singleton<CgFxScriptLoader>::msSingleton = 0;
-    CgFxScriptLoader* CgFxScriptLoader::getSingletonPtr(void)
+    CgFxScriptLoader* CgFxScriptLoader::singleton_ptr((void)
     {
         return msSingleton;
     }
-    CgFxScriptLoader& CgFxScriptLoader::getSingleton(void)
+    CgFxScriptLoader& CgFxScriptLoader::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -2681,7 +2684,7 @@ namespace Ogre {
 
         // Scripting is supported by this manager
         mScriptPatterns.push_back("*.cgfx");
-        ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+        ResourceGroupManager::singleton()._registerScriptLoader(this);
 
     }
     //---------------------------------------------------------------------
@@ -2701,7 +2704,7 @@ namespace Ogre {
         cgDestroyContext(mCgContext);
 
         // Unregister with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+        ResourceGroupManager::singleton()._unregisterScriptLoader(this);
     }
     //---------------------------------------------------------------------
     CGcontext CgFxScriptLoader::getCgContext() const
@@ -2727,7 +2730,8 @@ namespace Ogre {
     {
         String streamAsString = stream->as_string();
 
-        MaterialPtr ogreMaterial = MaterialManager::getSingleton().create(stream->name(), groupName);
+        MaterialPtr ogreMaterial
+            = MaterialManager::singleton().create(stream->name(), groupName);
 
         String sourceToUse = HighLevelGpuProgram::_resolveIncludes(streamAsString, ogreMaterial.get(), stream->name(), true);
 
@@ -2874,7 +2878,7 @@ namespace Ogre {
         String ProgramNameAsString = programName.str();
 
         HighLevelGpuProgramPtr ogreProgram
-            = HighLevelGpuProgramManager::getSingleton().createProgram(
+            = HighLevelGpuProgramManager::singleton().createProgram(
                 ProgramNameAsString,
                 ogrePass->getParent()->getParent()->group(),
                 "cg",

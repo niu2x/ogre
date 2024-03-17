@@ -99,9 +99,19 @@ private:
         Plane* plane = new MovablePlane("*mPlane");
         plane->normal = Vector3::unit_y;
         plane->d = 107 * scale;
-        MeshManager::getSingleton().createPlane(
-            "MyPlane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *plane, 6000, 6000, 50, 50, true,
-            1, 25.0f / scale, 25.0f / scale, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "MyPlane",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            *plane,
+            6000,
+            6000,
+            50,
+            50,
+            true,
+            1,
+            25.0f / scale,
+            25.0f / scale,
+            Vector3::unit_z);
         Entity* pPlaneEnt = mSceneMgr->createEntity("plane", "MyPlane");
         pPlaneEnt->setMaterialName("CSMShadows/Rockwall");
         pPlaneEnt->setCastShadows(false);

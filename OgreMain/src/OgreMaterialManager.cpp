@@ -35,11 +35,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> MaterialManager* Singleton<MaterialManager>::msSingleton = 0;
-    MaterialManager* MaterialManager::getSingletonPtr(void)
+    MaterialManager* MaterialManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    MaterialManager& MaterialManager::getSingleton(void)
+    MaterialManager& MaterialManager::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -53,7 +53,7 @@ namespace Ogre {
         // Scripting is supported by this manager
 
         // Register with resource group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
 
@@ -72,9 +72,9 @@ namespace Ogre {
 
         // Resources cleared by superclass
         // Unregister with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+        ResourceGroupManager::singleton()._unregisterResourceManager(
             resource_type());
-        ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+        ResourceGroupManager::singleton()._unregisterScriptLoader(this);
     }
     //-----------------------------------------------------------------------
     Resource* MaterialManager::create_impl(const String& name, ResourceHandle handle,
@@ -117,7 +117,8 @@ namespace Ogre {
         mDefaultSettings->createTechnique()->createPass();
 
         // Set the default LOD strategy
-        mDefaultSettings->setLodStrategy(LodStrategyManager::getSingleton().getDefaultStrategy());
+        mDefaultSettings->setLodStrategy(
+            LodStrategyManager::singleton().getDefaultStrategy());
 
         // Set up a lit base white material
         create("BaseWhite", ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
@@ -130,33 +131,36 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void MaterialManager::setDefaultTextureFiltering(TextureFilterOptions fo)
     {
-        TextureManager::getSingleton().getDefaultSampler()->setFiltering(fo);
+    TextureManager::singleton().getDefaultSampler()->setFiltering(fo);
     }
     //-----------------------------------------------------------------------
     void MaterialManager::setDefaultAnisotropy(unsigned int maxAniso)
     {
-        TextureManager::getSingleton().getDefaultSampler()->setAnisotropy(maxAniso);
+    TextureManager::singleton().getDefaultSampler()->setAnisotropy(maxAniso);
     }
     //-----------------------------------------------------------------------
     unsigned int MaterialManager::getDefaultAnisotropy() const
     {
-        return TextureManager::getSingleton().getDefaultSampler()->getAnisotropy();
+    return TextureManager::singleton().getDefaultSampler()->getAnisotropy();
     }
     //-----------------------------------------------------------------------
     void MaterialManager::setDefaultTextureFiltering(FilterType ftype, FilterOptions opts)
     {
-        TextureManager::getSingleton().getDefaultSampler()->setFiltering(ftype, opts);
+    TextureManager::singleton().getDefaultSampler()->setFiltering(ftype, opts);
     }
     //-----------------------------------------------------------------------
     void MaterialManager::setDefaultTextureFiltering(FilterOptions minFilter,
         FilterOptions magFilter, FilterOptions mipFilter)
     {
-        TextureManager::getSingleton().getDefaultSampler()->setFiltering(minFilter, magFilter, mipFilter);
+    TextureManager::singleton().getDefaultSampler()->setFiltering(
+        minFilter,
+        magFilter,
+        mipFilter);
     }
     //-----------------------------------------------------------------------
     FilterOptions MaterialManager::getDefaultTextureFiltering(FilterType ftype) const
     {
-        return TextureManager::getSingleton().getDefaultSampler()->getFiltering(ftype);
+    return TextureManager::singleton().getDefaultSampler()->getFiltering(ftype);
     }
     //-----------------------------------------------------------------------
     unsigned short MaterialManager::_getSchemeIndex(const String& schemeName)
@@ -302,5 +306,4 @@ namespace Ogre {
 			}
 		}
 	}
-
 }

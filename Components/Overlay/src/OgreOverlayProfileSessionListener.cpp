@@ -61,7 +61,7 @@ namespace Ogre
     void OverlayProfileSessionListener::initializeSession()
     {
         // create a new overlay to hold our Profiler display
-        mOverlay = OverlayManager::getSingleton().create("Profiler");
+        mOverlay = OverlayManager::singleton().create("Profiler");
         mOverlay->setZOrder(500);
 
         // this panel will be the main container for our profile bars
@@ -114,13 +114,13 @@ namespace Ogre
             {
                 OverlayElement* element = container->getChildren().cbegin()->second;
                 container->removeChild(element->name());
-                OverlayManager::getSingleton().destroyOverlayElement(element);
+                OverlayManager::singleton().destroyOverlayElement(element);
             }
         }
         if(mProfileGui)
-            OverlayManager::getSingleton().destroyOverlayElement(mProfileGui);
+            OverlayManager::singleton().destroyOverlayElement(mProfileGui);
         if(mOverlay)
-            OverlayManager::getSingleton().destroy(mOverlay);
+            OverlayManager::singleton().destroy(mOverlay);
 
         mProfileBars.clear();
     }
@@ -256,9 +256,9 @@ namespace Ogre
     //-----------------------------------------------------------------------
     OverlayContainer* OverlayProfileSessionListener::createContainer()
     {
-        OverlayContainer* container = (OverlayContainer*)
-            OverlayManager::getSingleton().createOverlayElement(
-                "BorderPanel", "profiler");
+        OverlayContainer* container
+            = (OverlayContainer*)OverlayManager::singleton()
+                  .createOverlayElement("BorderPanel", "profiler");
         container->setMetricsMode(GMM_PIXELS);
         container->setMaterialName("Core/StatsBlockCenter");
         container->setHeight(mGuiHeight);
@@ -282,7 +282,10 @@ namespace Ogre
     OverlayElement* OverlayProfileSessionListener::createTextArea(const String& name, Real width, Real height, Real top, Real left,
                                          uint fontSize, const String& caption, bool show)
     {
-        OverlayElement* textArea = OverlayManager::getSingleton().createOverlayElement("TextArea", name);
+        OverlayElement* textArea
+            = OverlayManager::singleton().createOverlayElement(
+                "TextArea",
+                name);
         textArea->setMetricsMode(GMM_PIXELS);
         textArea->setWidth(width);
         textArea->setHeight(height);
@@ -307,8 +310,8 @@ namespace Ogre
     OverlayElement* OverlayProfileSessionListener::createPanel(const String& name, Real width, Real height, Real top, Real left,
                                       const String& materialName, bool show)
     {
-        OverlayElement* panel =
-            OverlayManager::getSingleton().createOverlayElement("Panel", name);
+        OverlayElement* panel
+            = OverlayManager::singleton().createOverlayElement("Panel", name);
         panel->setMetricsMode(GMM_PIXELS);
         panel->setWidth(width);
         panel->setHeight(height);

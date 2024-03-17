@@ -59,7 +59,9 @@ protected:
         texNames.push_back("stevecube_bk.jpg");
 
         // create material and set the texture unit to our texture
-        MaterialPtr texArrayMat = MaterialManager::getSingleton().getByName("Examples/TextureArray", RGN_DEFAULT);
+        MaterialPtr texArrayMat = MaterialManager::singleton().getByName(
+            "Examples/TextureArray",
+            RGN_DEFAULT);
         texArrayMat->compile();
         Pass * pass = texArrayMat->getBestTechnique()->getPass(0);
         pass->setLightingEnabled(false);

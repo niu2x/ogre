@@ -38,7 +38,7 @@ namespace Ogre {
         : TextureManager(), mRenderSystem(renderSystem)
     {
         // Register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
     }
@@ -46,7 +46,7 @@ namespace Ogre {
     GLES2TextureManager::~GLES2TextureManager()
     {
         // Unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+        ResourceGroupManager::singleton()._unregisterResourceManager(
             resource_type());
     }
 
@@ -61,7 +61,8 @@ namespace Ogre {
     PixelFormat GLES2TextureManager::getNativeFormat(TextureType ttype, PixelFormat format, int usage)
     {
         // Adjust requested parameters to capabilities
-        const RenderSystemCapabilities *caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         // Check compressed texture support
         // if a compressed format not supported, revert to PF_A8R8G8B8
@@ -82,7 +83,7 @@ namespace Ogre {
         {
             /// Get closest supported alternative
             /// If mFormat is supported it's returned
-            return GLRTTManager::getSingleton().getSupportedAlternative(format);
+            return GLRTTManager::singleton().getSupportedAlternative(format);
         }
 
         // format not supported by GLES2: e.g. BGR

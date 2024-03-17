@@ -48,7 +48,7 @@ namespace Ogre
         // Create the DirectX 11 rendering api
         mRenderSystem = new D3D11RenderSystem();
         // Register the render system
-        Root::getSingleton().addRenderSystem( mRenderSystem );
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
     //---------------------------------------------------------------------
     void D3D11Plugin::initialise()

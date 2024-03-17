@@ -91,18 +91,19 @@ void ThingRenderable::initialise()
     size_t offset = 0;
     offset += decl->addElement(0, offset, VET_FLOAT3, VES_POSITION).size();
 
-    vbuf = 
-    HardwareBufferManager::getSingleton().createVertexBuffer(
-        offset, nvertices, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
+    vbuf = HardwareBufferManager::singleton().createVertexBuffer(
+        offset,
+        nvertices,
+        HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
 
     bind->setBinding(0, vbuf);
 
     //vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
-    
-    HardwareIndexBufferSharedPtr ibuf = HardwareBufferManager::getSingleton().
-        createIndexBuffer(
-            HardwareIndexBuffer::IT_16BIT, 
-            mCount*6, 
+
+    HardwareIndexBufferSharedPtr ibuf
+        = HardwareBufferManager::singleton().createIndexBuffer(
+            HardwareIndexBuffer::IT_16BIT,
+            mCount * 6,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
     idata->indexBuffer = ibuf;

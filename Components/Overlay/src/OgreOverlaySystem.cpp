@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreViewport.h"
 #include "OgreOverlayManager.h"
 #include "OgreOverlayElementFactory.h"
-#include "OgreFontManager.h"
+#include "font_manager.h"
 
 namespace Ogre {
     //---------------------------------------------------------------------
@@ -82,11 +82,11 @@ namespace Ogre {
     };
 
     template<> OverlaySystem *Singleton<OverlaySystem>::msSingleton = 0;
-    OverlaySystem* OverlaySystem::getSingletonPtr()
+    OverlaySystem* OverlaySystem::singleton_ptr(()
     {
         return msSingleton;
     }
-    OverlaySystem& OverlaySystem::getSingleton()
+    OverlaySystem& OverlaySystem::singleton()
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -103,7 +103,7 @@ namespace Ogre {
         mOverlayManager->addOverlayElementFactory(OGRE_NEW Ogre::TextAreaOverlayElementFactory());
 
         mFontManager = OGRE_NEW FontManager();
-        if (auto prof = Profiler::getSingletonPtr())
+        if (auto prof = Profiler::singleton_ptr(())
         {
             mProfileListener = new Ogre::OverlayProfileSessionListener();
             prof->add_listener(mProfileListener);
@@ -115,7 +115,7 @@ namespace Ogre {
         if(RenderSystem::getSharedListener() == this)
             RenderSystem::setSharedListener(0);
 
-        if (auto prof = Profiler::getSingletonPtr())
+        if (auto prof = Profiler::singleton_ptr(())
         {
             prof->remove_listener(mProfileListener);
             delete mProfileListener;
@@ -129,13 +129,16 @@ namespace Ogre {
     {
         if(queueGroupId == Ogre::RENDER_QUEUE_OVERLAY)
         {
-            Ogre::Viewport* vp = Ogre::Root::getSingletonPtr()->getRenderSystem()->_getViewport();
+            Ogre::Viewport* vp = Ogre::Root::singleton_ptr(()->getRenderSystem()->_getViewport();
             if(vp != NULL)
             {
                 Ogre::SceneManager* sceneMgr = vp->getCamera()->getSceneManager();
                 if (vp->getOverlaysEnabled() && sceneMgr->_getCurrentRenderStage() != Ogre::SceneManager::IRS_RENDER_TO_TEXTURE)
                 {
-                    OverlayManager::getSingleton()._queueOverlaysForRendering(vp->getCamera(), sceneMgr->getRenderQueue(), vp);
+                    OverlayManager::singleton()._queueOverlaysForRendering(
+                        vp->getCamera(),
+                        sceneMgr->getRenderQueue(),
+                        vp);
                 }
             }
         }
@@ -152,5 +155,5 @@ namespace Ogre {
 			mOverlayManager->_restoreManualHardwareResources();
 		}
 	}
-	//---------------------------------------------------------------------
+    //---------------------------------------------------------------------
 }

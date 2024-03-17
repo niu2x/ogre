@@ -33,8 +33,8 @@ THE SOFTWARE.
 #define __D3D11StereoDriverBridge_H__
 
 #include "OgreCommon.h"
-#include "OgreSingleton.h"
-#include "OgreD3D11RenderWindow.h"
+        #include "singleton.h"
+        #include "OgreD3D11RenderWindow.h"
 
 namespace Ogre {
 
@@ -48,8 +48,8 @@ namespace Ogre {
     public:
       D3D11StereoDriverBridge(StereoModeType stereoMode);
       virtual ~D3D11StereoDriverBridge();
-      static D3D11StereoDriverBridge& getSingleton(void);
-      static D3D11StereoDriverBridge* getSingletonPtr(void);
+      static D3D11StereoDriverBridge& singleton(void);
+      static D3D11StereoDriverBridge* singleton_ptr((void);
       StereoModeType getStereoMode() const;
 	  bool addRenderWindow(D3D11RenderWindowBase* renderWindow) const;
       bool removeRenderWindow(const String& renderWindowName) const;

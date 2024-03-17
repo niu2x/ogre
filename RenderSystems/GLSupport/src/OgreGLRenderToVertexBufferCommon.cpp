@@ -16,8 +16,11 @@ void GLRenderToVertexBufferCommon::reallocateBuffer(uint8 index)
 
     // Transform feedback buffer must be at least as large as the
     // number of output primitives.
-    mVertexBuffers[index] = HardwareBufferManager::getSingleton().createVertexBuffer(
-        mVertexData->vertexDeclaration->getVertexSize(0), mMaxVertexCount, HBU_GPU_ONLY);
+    mVertexBuffers[index]
+        = HardwareBufferManager::singleton().createVertexBuffer(
+            mVertexData->vertexDeclaration->getVertexSize(0),
+            mMaxVertexCount,
+            HBU_GPU_ONLY);
 }
 
 String GLRenderToVertexBufferCommon::getSemanticVaryingName(VertexElementSemantic semantic,

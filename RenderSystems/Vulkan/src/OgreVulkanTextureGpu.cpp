@@ -60,7 +60,7 @@ namespace Ogre
 
                 RenderTexture *trt = new VulkanRenderTexture(name, this, zoffset, mParent, mFace);
                 mSliceTRT.push_back(trt);
-                Root::getSingleton().getRenderSystem()->attachRenderTarget(*trt);
+                Root::singleton().getRenderSystem()->attachRenderTarget(*trt);
             }
         }
     }
@@ -204,7 +204,10 @@ namespace Ogre
             return;  // Nothing to do
 
         // Adjust format if required.
-        mFormat = TextureManager::getSingleton().getNativeFormat(mTextureType, mFormat, mUsage);
+        mFormat = TextureManager::singleton().getNativeFormat(
+            mTextureType,
+            mFormat,
+            mUsage);
 
         VkImageCreateInfo imageInfo = {VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO};
         imageInfo.imageType = getVulkanTextureType();
@@ -579,7 +582,7 @@ namespace Ogre
         OGRE_ASSERT_LOW( numMipmaps <= (mNumMipmaps - mipLevel + 1) &&
                          "Asking for more mipmaps than the texture has!" );
 
-        auto textureManager = static_cast<VulkanTextureGpuManager*>(TextureManager::getSingletonPtr());
+        auto textureManager = static_cast<VulkanTextureGpuManager*>(TextureManager::singleton_ptr(());
         VulkanDevice *device = textureManager->getDevice();
 
         VkImageViewCreateInfo imageViewCi = {VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO};
@@ -733,7 +736,7 @@ namespace Ogre
     {
         mName = name;
 
-        auto texMgr = TextureManager::getSingletonPtr();
+        auto texMgr = TextureManager::singleton_ptr(();
         VulkanDevice* device = static_cast<VulkanTextureGpuManager*>(texMgr)->getDevice();
 
         target->setFSAA(1, "");

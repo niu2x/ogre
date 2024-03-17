@@ -58,13 +58,13 @@ namespace OgreBites {
 
     void Sample_Isosurf::cleanupContent()
     {
-        MeshManager::getSingleton().remove(mTetrahedraMesh);
+        MeshManager::singleton().remove(mTetrahedraMesh);
     }
 
     bool Sample_Isosurf::frameRenderingQueued(const FrameEvent& evt)
     {
         Real seconds
-            = (Real)(Root::getSingleton().getTimer()->milli_seconds()) / 1000.0;
+            = (Real)(Root::singleton().getTimer()->milli_seconds()) / 1000.0;
         Ogre::Pass* renderPass = tetrahedra->getSubEntity(0)->getMaterial()->getTechnique(0)->getPass(0);
         if (renderPass->hasVertexProgram())
         {

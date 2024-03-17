@@ -30,11 +30,14 @@ public:
         // Make this viewport work with shader generator
         mViewport->setMaterialScheme(MSN_SHADERGEN);
 
-        auto rcvmat = MaterialManager::getSingleton().getDefaultMaterial()->clone("rcvmat");
+        auto rcvmat = MaterialManager::singleton().getDefaultMaterial()->clone(
+            "rcvmat");
         rcvmat->getTechnique(0)->getPass(0)->setSpecular(ColourValue::White * 0.25);
         rcvmat->getTechnique(0)->getPass(0)->setShininess(80);
 
-        auto srcmat = MaterialManager::getSingleton().getDefaultMaterial(false)->clone("lightsrcmat");
+        auto srcmat
+            = MaterialManager::singleton().getDefaultMaterial(false)->clone(
+                "lightsrcmat");
         srcmat->getTechnique(0)->getPass(0)->setCullingMode(CULL_ANTICLOCKWISE);
 
         auto ground = mSceneMgr->createEntity(SceneManager::PT_PLANE);

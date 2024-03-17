@@ -34,7 +34,7 @@
 #include "OgreOverlayManager.h"
 #include "OgreBorderPanelOverlayElement.h"
 #include "OgreTextAreaOverlayElement.h"
-#include "OgreFontManager.h"
+#include "font_manager.h"
 #include "timer.h"
 #include "OgreRoot.h"
 #include "OgreCamera.h"
@@ -1199,7 +1199,7 @@ namespace OgreBites
         Ogre::Real mGroupLoadProportion;      // proportion of load job assigned to loading one resource group
         Ogre::Real mLoadInc;                  // loading increment
         Ogre::GuiHorizontalAlignment mTrayWidgetAlign[10];   // tray widget alignments
-        Ogre::Timer* mTimer;                  // Root::getSingleton().getTimer()
+        Ogre::Timer* mTimer; // Root::singleton().getTimer()
         unsigned long mLastStatUpdateTime;    // The last time the stat text were updated
         Ogre::Vector2 mCursorPos;             // current cursor position
 

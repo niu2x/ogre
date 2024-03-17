@@ -228,7 +228,7 @@ namespace Ogre {
         {
             mContext->setCurrent();
 
-            static_cast<GLRenderSystemCommon*>(Root::getSingletonPtr()->getRenderSystem())->notifyOnContextLost();
+            static_cast<GLRenderSystemCommon*>(Root::singleton_ptr(()->getRenderSystem())->notifyOnContextLost();
             static_cast<EGLContext*>(mContext)->_destroyInternalResources();
         }
         
@@ -316,7 +316,9 @@ namespace Ogre {
                 }
                 catch (Exception& e)
                 {
-                    LogManager::getSingleton().log_message("AndroidEGLWindow::_createInternalResources: setting CSAA failed");
+                    LogManager::singleton().log_message(
+                        "AndroidEGLWindow::_createInternalResources: setting "
+                        "CSAA failed");
                 }
             }
 
@@ -345,7 +347,9 @@ namespace Ogre {
                 }
                 catch (Exception& e)
                 {
-                    LogManager::getSingleton().log_message("AndroidEGLWindow::_createInternalResources: setting MSAA failed");
+                    LogManager::singleton().log_message(
+                        "AndroidEGLWindow::_createInternalResources: setting "
+                        "MSAA failed");
                 }
             }
 
@@ -372,7 +376,7 @@ namespace Ogre {
             if (config)
             {
                 bool isLandscape = (int)AConfiguration_getOrientation((AConfiguration*)config) == 2;
-                Root::getSingletonPtr()->getRenderSystem()->setConfigOption("Orientation", isLandscape ? "Landscape" : "Portrait");
+                Root::singleton_ptr(()->getRenderSystem()->setConfigOption("Orientation", isLandscape ? "Landscape" : "Portrait");
             }
         }
         
@@ -386,7 +390,7 @@ namespace Ogre {
             {
                 static_cast<EGLContext*>(mContext)->_createInternalResources(mEglDisplay, mEglConfig, mEglSurface, NULL);
 
-                static_cast<GLRenderSystemCommon*>(Root::getSingletonPtr()->getRenderSystem())->resetRenderer(this);
+                static_cast<GLRenderSystemCommon*>(Root::singleton_ptr(()->getRenderSystem())->resetRenderer(this);
             }
         }
     }

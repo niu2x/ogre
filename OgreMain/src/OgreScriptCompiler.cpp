@@ -210,9 +210,9 @@ namespace Ogre
             ss << ": " << msg;
         
         if(code == ScriptCompiler::CE_DEPRECATEDSYMBOL)
-            LogManager::getSingleton().log_warning(ss.str());
+            LogManager::singleton().log_warning(ss.str());
         else
-            LogManager::getSingleton().log_error(ss.str());
+            LogManager::singleton().log_error(ss.str());
     }
 
     bool ScriptCompilerListener::handleEvent(ScriptCompiler *compiler, ScriptCompilerEvent *evt, void *retval)
@@ -309,7 +309,7 @@ namespace Ogre
             msg = msg + "Unacceptable node type: " + StringConverter::to_string(node->type);
         }
 
-        LogManager::getSingleton().log_message(msg);
+        LogManager::singleton().log_message(msg);
 
         if(node->type == ANT_OBJECT)
         {
@@ -357,8 +357,9 @@ namespace Ogre
 #endif
             if(i->type == ANT_OBJECT && static_cast<ObjectAbstractNode*>(i.get())->abstract)
                 continue;
-            //LogManager::getSingleton().log_message(static_cast<ObjectAbstractNode*>((*i).get())->name);
-            ScriptTranslator *translator = ScriptCompilerManager::getSingleton().getTranslator(i);
+            // LogManager::singleton().log_message(static_cast<ObjectAbstractNode*>((*i).get())->name);
+            ScriptTranslator* translator
+                = ScriptCompilerManager::singleton().getTranslator(i);
             if(translator)
                 translator->translate(this, i);
         }
@@ -509,14 +510,17 @@ namespace Ogre
         if(mListener)
             nodes = mListener->importFile(this, name);
 
-        if(!nodes && ResourceGroupManager::getSingletonPtr())
+        if(!nodes && ResourceGroupManager::singleton_ptr(())
         {
-            auto stream = ResourceGroupManager::getSingleton().openResource(name, mGroup, NULL, false);
+        auto stream = ResourceGroupManager::singleton()
+                          .openResource(name, mGroup, NULL, false);
 
-            if (!stream)
-                return retval;
+        if (!stream)
+            return retval;
 
-            nodes = ScriptParser::parse(ScriptLexer::tokenize(stream->as_string(), name), name);
+        nodes = ScriptParser::parse(
+            ScriptLexer::tokenize(stream->as_string(), name),
+            name);
         }
 
         if(nodes)
@@ -1497,13 +1501,13 @@ namespace Ogre
 
     // ScriptCompilerManager
     template<> ScriptCompilerManager *Singleton<ScriptCompilerManager>::msSingleton = 0;
-    
-    ScriptCompilerManager* ScriptCompilerManager::getSingletonPtr(void)
+
+    ScriptCompilerManager* ScriptCompilerManager::singleton_ptr((void)
     {
         return msSingleton;
     }
     //-----------------------------------------------------------------------
-    ScriptCompilerManager& ScriptCompilerManager::getSingleton(void)
+    ScriptCompilerManager& ScriptCompilerManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -1516,7 +1520,7 @@ namespace Ogre
         mScriptPatterns.push_back("*.particle");
         mScriptPatterns.push_back("*.compositor");
         mScriptPatterns.push_back("*.os");
-        ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+        ResourceGroupManager::singleton()._registerScriptLoader(this);
 
         mBuiltinTranslatorManager = OGRE_NEW BuiltinScriptTranslatorManager();
         mManagers.push_back(mBuiltinTranslatorManager);

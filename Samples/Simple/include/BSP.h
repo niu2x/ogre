@@ -45,7 +45,7 @@ class _OgreSampleClassExport Sample_BSP : public SdkSample
         mTrayMgr->showLoadingBar(1, 1, 0);
 
         // associate the world geometry with the world resource group, and then load the group
-        ResourceGroupManager& rgm = ResourceGroupManager::getSingleton();
+        ResourceGroupManager& rgm = ResourceGroupManager::singleton();
 
         // Pick a new resource group so Q3Shader parser is correctly registered
         rgm.setWorldResourceGroupName("BSPWorld");
@@ -62,7 +62,7 @@ class _OgreSampleClassExport Sample_BSP : public SdkSample
     void unloadResources() override
     {
         // unload the map so we don't interfere with subsequent samples
-        ResourceGroupManager& rgm = ResourceGroupManager::getSingleton();
+        ResourceGroupManager& rgm = ResourceGroupManager::singleton();
         rgm.clearResourceGroup(rgm.getWorldResourceGroupName());
         rgm.setWorldResourceGroupName(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }

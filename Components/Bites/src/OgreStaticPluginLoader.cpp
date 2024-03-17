@@ -183,7 +183,7 @@ void OgreBites::StaticPluginLoader::load()
 #endif
 #endif
 
-    Root& root  = Root::getSingleton();
+    Root& root = Root::singleton();
     for (auto & p : mPlugins) {
         root.installPlugin(p);
     }

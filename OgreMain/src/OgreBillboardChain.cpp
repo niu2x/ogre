@@ -81,7 +81,7 @@ namespace Ogre {
         mVertexData->vertexStart = 0;
         // index data set up later
         // set basic white material
-        mMaterial = MaterialManager::getSingleton().getDefaultMaterial(false);
+        mMaterial = MaterialManager::singleton().getDefaultMaterial(false);
         mMaterial->load();
     }
 
@@ -133,11 +133,13 @@ namespace Ogre {
 
             if (!mUseTexCoords && !mUseVertexColour)
             {
-                LogManager::getSingleton().log_error(
-                    "BillboardChain '" + mName + "' is using neither "
-                    "texture coordinates nor vertex colours; it will not be "
-                    "visible on some rendering APIs so you should change this "
-                    "so you use one or the other.");
+                LogManager::singleton().log_error(
+                    "BillboardChain '" + mName
+                    + "' is using neither "
+                      "texture coordinates nor vertex colours; it will not be "
+                      "visible on some rendering APIs so you should change "
+                      "this "
+                      "so you use one or the other.");
             }
             mVertexDeclDirty = false;
         }
@@ -149,18 +151,18 @@ namespace Ogre {
         if (mBuffersNeedRecreating)
         {
             // Create the vertex buffer (always dynamic due to the camera adjust)
-            HardwareVertexBufferSharedPtr pBuffer =
-                HardwareBufferManager::getSingleton().createVertexBuffer(
-                mVertexData->vertexDeclaration->getVertexSize(0),
-                mVertexData->vertexCount,
-                HBU_CPU_TO_GPU);
+            HardwareVertexBufferSharedPtr pBuffer
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    mVertexData->vertexDeclaration->getVertexSize(0),
+                    mVertexData->vertexCount,
+                    HBU_CPU_TO_GPU);
 
             // (re)Bind the buffer
             // Any existing buffer will lose its reference count and be destroyed
             mVertexData->vertexBufferBinding->setBinding(0, pBuffer);
 
-            mIndexData->indexBuffer =
-                HardwareBufferManager::getSingleton().createIndexBuffer(
+            mIndexData->indexBuffer
+                = HardwareBufferManager::singleton().createIndexBuffer(
                     HardwareIndexBuffer::IT_16BIT,
                     mChainCount * mMaxElementsPerChain * 6, // max we can use
                     HBU_GPU_ONLY);
@@ -637,12 +639,12 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void BillboardChain::setMaterialName( const String& name, const String& groupName /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */)
     {
-        mMaterial = MaterialManager::getSingleton().getByName(name, groupName);
+        mMaterial = MaterialManager::singleton().getByName(name, groupName);
 
         if (!mMaterial)
         {
             logMaterialNotFound(name, groupName, "BillboardChain", mName);
-            mMaterial = MaterialManager::getSingleton().getDefaultMaterial(false);
+            mMaterial = MaterialManager::singleton().getDefaultMaterial(false);
         }
         // Ensure new material loaded (will not load again if already loaded)
         mMaterial->load();

@@ -31,7 +31,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 
 #include "OgreGLSupportPrerequisites.h"
 #include "OgreRenderTexture.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreGLRenderTarget.h"
 
 namespace Ogre {
@@ -159,10 +159,10 @@ namespace Ogre {
          */
         PixelFormat getSupportedAlternative(PixelFormat format);
 
-        /// @copydoc Singleton::getSingleton()
-        static GLRTTManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static GLRTTManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static GLRTTManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static GLRTTManager* singleton_ptr((void);
     protected:
         /** Frame Buffer Object properties for a certain texture format.
          */

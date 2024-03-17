@@ -575,8 +575,7 @@ bool FFPTexturing::preAddToRenderState(const RenderState* renderState, Pass* src
 {
     mIsPointSprite = srcPass->getPointSpritesEnabled();
 
-    if (auto rs = Root::getSingleton().getRenderSystem())
-    {
+    if (auto rs = Root::singleton().getRenderSystem()) {
         if (mIsPointSprite && !rs->getCapabilities()->hasCapability(RSC_POINT_SPRITES))
             return false;
     }
@@ -633,7 +632,7 @@ void FFPTexturing::setTextureUnit(unsigned short index, TextureUnitState* textur
     if(textureUnitState->isTextureLoadFailing()) // -> will be set to a 2D texture
         return;
 
-    bool isGLES2 = ShaderGenerator::getSingleton().getTargetLanguage() == "glsles";
+    bool isGLES2 = ShaderGenerator::singleton().getTargetLanguage() == "glsles";
 
     switch (curParams.mTextureUnitState->getTextureType())
     {

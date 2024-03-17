@@ -64,7 +64,9 @@ namespace Ogre {
         // load all programs
         for (auto name : programNames)
         {
-            auto vp = HighLevelGpuProgramManager::getSingleton().getByName(name, RGN_INTERNAL);
+            auto vp = HighLevelGpuProgramManager::singleton().getByName(
+                name,
+                RGN_INTERNAL);
             if (!vp)
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             String(name) + " not found. Verify that you referenced the 'Media/Main' "

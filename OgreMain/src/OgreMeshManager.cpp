@@ -42,7 +42,7 @@ namespace Ogre
         {
             Mesh* dst = std::any_cast<Mesh*>(output);
             MeshSerializer serializer;
-            serializer.setListener(MeshManager::getSingleton().getListener());
+            serializer.setListener(MeshManager::singleton().getListener());
             serializer.importMesh(input, dst);
         }
     };
@@ -51,11 +51,11 @@ namespace Ogre
     template<> MeshManager* Singleton<MeshManager>::msSingleton = 0;
 
     bool MeshManager::mBonesUseObjectSpace = true;
-    MeshManager* MeshManager::getSingletonPtr(void)
+    MeshManager* MeshManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    MeshManager& MeshManager::getSingleton(void)
+    MeshManager& MeshManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -73,7 +73,7 @@ namespace Ogre
         mMeshCodec = std::make_unique<MeshCodec>();
         Codec::registerCodec(mMeshCodec.get());
 
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
 
@@ -83,7 +83,7 @@ namespace Ogre
     MeshManager::~MeshManager()
     {
         Codec::unregisterCodec(mMeshCodec.get());
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+        ResourceGroupManager::singleton()._unregisterResourceManager(
             resource_type());
     }
     //-----------------------------------------------------------------------

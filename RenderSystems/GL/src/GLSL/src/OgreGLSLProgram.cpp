@@ -229,7 +229,8 @@ namespace Ogre {
 
         // probably we have warnings
         if (!compileInfo.empty())
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << getResourceLogName() << " " << compileInfo;
+            LogManager::singleton().stream(LogMsgLevel::WARNING)
+                << getResourceLogName() << " " << compileInfo;
     }
     //-----------------------------------------------------------------------
     void GLSLProgram::unloadHighLevelImpl(void)
@@ -240,7 +241,7 @@ namespace Ogre {
             mGLShaderHandle = 0;
 
             // destroy all programs using this shader
-            GLSLLinkProgramManager::getSingletonPtr()->destroyAllByShader(this);
+            GLSLLinkProgramManager::singleton_ptr(()->destroyAllByShader(this);
         }
     }
     //-----------------------------------------------------------------------
@@ -254,15 +255,18 @@ namespace Ogre {
         createParameterMappingStructures(true);
         mLogicalToPhysical.reset();
 
-        GLSLLinkProgramManager::getSingleton().extractUniformsFromGLSL(
-            mSource, *mConstantDefs, getResourceLogName());
+        GLSLLinkProgramManager::singleton().extractUniformsFromGLSL(
+            mSource,
+            *mConstantDefs,
+            getResourceLogName());
 
         // Also parse any attached sources
         for (auto childShader : mAttachedGLSLPrograms)
         {
-            GLSLLinkProgramManager::getSingleton().extractUniformsFromGLSL(
-                childShader->getSource(), *mConstantDefs, childShader->name());
-
+            GLSLLinkProgramManager::singleton().extractUniformsFromGLSL(
+                childShader->getSource(),
+                *mConstantDefs,
+                childShader->name());
         }
     }
 
@@ -304,7 +308,10 @@ namespace Ogre {
                 "The maximum number of vertices a single run of this geometry program can output",
                 ParameterType::INT),&msMaxOutputVerticesCmd);
         }
-        mPassFFPStates = Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_FIXED_FUNCTION);
+        mPassFFPStates = Root::singleton()
+                             .getRenderSystem()
+                             ->getCapabilities()
+                             ->hasCapability(RSC_FIXED_FUNCTION);
     }
 
     //-----------------------------------------------------------------------
@@ -367,13 +374,13 @@ namespace Ogre {
     void GLSLProgram::bindProgram(void)
     {
         // Tell the Link Program Manager what shader is to become active
-        GLSLLinkProgramManager::getSingleton().setActiveShader( mType, this );
+        GLSLLinkProgramManager::singleton().setActiveShader(mType, this);
     }
     //-----------------------------------------------------------------------------
     void GLSLProgram::unbindProgram(void)
     {
         // Tell the Link Program Manager what shader is to become inactive
-        GLSLLinkProgramManager::getSingleton().setActiveShader( mType, NULL );
+        GLSLLinkProgramManager::singleton().setActiveShader(mType, NULL);
         // change back to fixed pipeline
         glUseProgramObjectARB(0);
     }
@@ -385,7 +392,8 @@ namespace Ogre {
         try
         {
             // activate the link program object
-            GLSLLinkProgram* linkProgram = GLSLLinkProgramManager::getSingleton().getActiveLinkProgram();
+            GLSLLinkProgram* linkProgram
+                = GLSLLinkProgramManager::singleton().getActiveLinkProgram();
             // pass on parameters from params to program object uniforms
             linkProgram->updateUniforms(params, mask, mType);
         }
@@ -396,7 +404,8 @@ namespace Ogre {
     bool GLSLProgram::isAttributeValid(VertexElementSemantic semantic, uint index)
     {
         // get link program - only call this in the context of bound program
-        GLSLLinkProgram* linkProgram = GLSLLinkProgramManager::getSingleton().getActiveLinkProgram();
+        GLSLLinkProgram* linkProgram
+            = GLSLLinkProgramManager::singleton().getActiveLinkProgram();
 
         if (linkProgram->isAttributeValid(semantic, index))
         {

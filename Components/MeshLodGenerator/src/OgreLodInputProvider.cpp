@@ -79,7 +79,7 @@ namespace Ogre
                 str << "Triangle " << LodData::getVectorIDFromPointer(data->mTriangleList, duplicate) << " positions:" << std::endl;
                 printTriangle(duplicate, str);
                 str << "Triangle " << LodData::getVectorIDFromPointer(data->mTriangleList, triangle) << " will be excluded from Lod level calculations.";
-                LogManager::getSingleton().stream() << str.str();
+                LogManager::singleton().stream() << str.str();
 #endif
                 triangle->isRemoved = true;
                 data->mIndexBufferInfoList[triangle->submeshID].indexCount -= 3;
@@ -241,7 +241,7 @@ namespace Ogre
                 std::endl;
                 printTriangle(tri, str);
                 str << "It will be excluded from Lod level calculations.";
-                LogManager::getSingleton().stream() << str.str();
+                LogManager::singleton().stream() << str.str();
 #endif
                 tri->isRemoved = true;
                 data->mIndexBufferInfoList[tri->submeshID].indexCount -= 3;
@@ -302,7 +302,7 @@ namespace Ogre
                 std::endl;
 //                printLine(tri, str);
                 str << "It will be excluded from Lod level calculations.";
-                LogManager::getSingleton().stream() << str.str();
+                LogManager::singleton().stream() << str.str();
 #endif
                 line->isRemoved = true;
                 data->mIndexBufferInfoList[line->submeshID].indexCount -= 2;

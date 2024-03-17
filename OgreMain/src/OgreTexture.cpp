@@ -70,14 +70,14 @@ namespace Ogre {
         }
 
         // Set some defaults for default load path
-        if (TextureManager::getSingletonPtr())
+        if (TextureManager::singleton_ptr(())
         {
-            TextureManager& tmgr = TextureManager::getSingleton();
-            setNumMipmaps(tmgr.getDefaultNumMipmaps());
-            setDesiredBitDepths(tmgr.getPreferredIntegerBitDepth(), tmgr.getPreferredFloatBitDepth());
+        TextureManager& tmgr = TextureManager::singleton();
+        setNumMipmaps(tmgr.getDefaultNumMipmaps());
+        setDesiredBitDepths(
+            tmgr.getPreferredIntegerBitDepth(),
+            tmgr.getPreferredFloatBitDepth());
         }
-
-        
     }
     //--------------------------------------------------------------------------
     void Texture::loadRawData( DataStreamPtr& stream, 
@@ -224,9 +224,9 @@ namespace Ogre {
         if(faces > getNumFaces())
             faces = getNumFaces();
 
-        if (TextureManager::getSingleton().verbose()) {
+        if (TextureManager::singleton().verbose()) {
             // Say what we're doing
-            Log::Stream str = LogManager::getSingleton().stream();
+            Log::Stream str = LogManager::singleton().stream();
             str << "Texture '" << name() << "': Loading " << faces << " faces"
                 << "(" << PixelUtil::getFormatName(images[0]->getFormat())
                 << "," << images[0]->getWidth() << "x" << images[0]->getHeight()
@@ -408,8 +408,10 @@ namespace Ogre {
 
     void Texture::readImage(LoadedImages& imgs, const String& name, const String& ext, bool haveNPOT)
     {
-        DataStreamPtr dstream = ResourceGroupManager::getSingleton()
-                                    .openResource(name, group(), this);
+        DataStreamPtr dstream = ResourceGroupManager::singleton().openResource(
+            name,
+            group(),
+            this);
 
         imgs.push_back(Image());
         Image& img = imgs.back();
@@ -430,8 +432,8 @@ namespace Ogre {
         if (mUsage & TU_RENDERTARGET)
             return;
 
-        const RenderSystemCapabilities* renderCaps =
-            Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* renderCaps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         bool haveNPOT = renderCaps->hasCapability(RSC_NON_POWER_OF_2_TEXTURES) ||
                         (renderCaps->getNonPOW2TexturesLimited() && mNumMipmaps == 0);
@@ -464,8 +466,8 @@ namespace Ogre {
                 for (size_t i = 0; i < 6; i++)
                     mLayerNames[i] = StringUtil::format("%s%s.%s", baseName.c_str(), CUBEMAP_SUFFIXES[i], ext.c_str());
 
-                if(!ResourceGroupManager::getSingleton().resourceExistsInAnyGroup(mLayerNames[0]))
-                {
+                if (!ResourceGroupManager::singleton().resourceExistsInAnyGroup(
+                        mLayerNames[0])) {
                     // assume alternative naming convention
                     for (size_t i = 0; i < 6; i++)
                         mLayerNames[i] =

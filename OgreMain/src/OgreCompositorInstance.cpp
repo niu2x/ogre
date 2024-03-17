@@ -51,8 +51,9 @@ CompositorInstance::CompositorInstance(CompositionTechnique *technique,
     const String& logicName = mTechnique->getCompositorLogicName();
     if (!logicName.empty())
     {
-        CompositorManager::getSingleton().
-            getCompositorLogic(logicName)->compositorInstanceCreated(this);
+        CompositorManager::singleton()
+            .getCompositorLogic(logicName)
+            ->compositorInstanceCreated(this);
     }
 }
 //-----------------------------------------------------------------------
@@ -61,8 +62,9 @@ CompositorInstance::~CompositorInstance()
     const String& logicName = mTechnique->getCompositorLogicName();
     if (!logicName.empty())
     {
-        CompositorManager::getSingleton().
-            getCompositorLogic(logicName)->compositorInstanceDestroyed(this);
+        CompositorManager::singleton()
+            .getCompositorLogic(logicName)
+            ->compositorInstanceDestroyed(this);
     }
 
     freeResources(false, true);
@@ -190,7 +192,8 @@ public:
         instance->_fireNotifyMaterialRender(pass_id, mat);
 
         Viewport* vp = rs->_getViewport();
-        Rectangle2D *rect = static_cast<Rectangle2D*>(CompositorManager::getSingleton()._getTexturedRectangle2D());
+        Rectangle2D* rect = static_cast<Rectangle2D*>(
+            CompositorManager::singleton()._getTexturedRectangle2D());
 
         if (mQuadCornerModified)
         {
@@ -240,7 +243,7 @@ public:
 
     void execute(SceneManager *sm, RenderSystem *rs) override
     {
-        MaterialManager& matMgr = MaterialManager::getSingleton();
+        MaterialManager& matMgr = MaterialManager::singleton();
         mPreviousScheme = matMgr.getActiveScheme();
         matMgr.setActiveScheme(mSchemeName);
 
@@ -263,7 +266,8 @@ public:
 
     void execute(SceneManager *sm, RenderSystem *rs) override
     {
-        MaterialManager::getSingleton().setActiveScheme(mSetOperation->getPreviousScheme());
+        MaterialManager::singleton().setActiveScheme(
+            mSetOperation->getPreviousScheme());
         sm->setLateMaterialResolving(mSetOperation->getPreviousLateResolving());
     }
 };
@@ -333,7 +337,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(pass->getFirstRenderQueue() < finalState.currentQueueGroupID)
             {
                 /// XXX We could support repeating the last queue, with some effort
-                LogManager::getSingleton().log_error(StringUtil::format(
+                LogManager::singleton().log_error(StringUtil::format(
                     "Compositor '%s': cannot use first_render_queue %d after "
                     "last_render_queue %d",
                     mCompositor->name().c_str(),
@@ -380,7 +384,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(!srcmat)
             {
                 /// No material -- warn user
-                LogManager::getSingleton().log_warning(
+                LogManager::singleton().log_warning(
                     "in compilation of Compositor " + mCompositor->name()
                     + ": No material defined for composition pass");
                 break;
@@ -389,7 +393,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             if(srcmat->getSupportedTechniques().empty())
             {
                 /// No supported techniques -- warn user
-                LogManager::getSingleton().log_warning(
+                LogManager::singleton().log_warning(
                     "in compilation of Compositor " + mCompositor->name()
                     + ": material " + srcmat->name()
                     + " has no supported techniques");
@@ -407,7 +411,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
 
                 if (isCompute && !targetpass->hasGpuProgram(GPT_COMPUTE_PROGRAM))
                 {
-                    LogManager::getSingleton().log_error(
+                    LogManager::singleton().log_error(
                         "in compilation of Compositor " + mCompositor->name()
                         + ": material " + srcmat->name()
                         + " has no compute program");
@@ -427,7 +431,7 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
                         else
                         {
                             /// Texture unit not there
-                            LogManager::getSingleton().log_warning(
+                            LogManager::singleton().log_warning(
                                 "in compilation of Compositor "
                                 + mCompositor->name() + ": material "
                                 + srcmat->name() + " texture unit "
@@ -459,8 +463,10 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
             }
             break;
         case CompositionPass::PT_RENDERCUSTOM:
-            RenderSystemOperation* customOperation = CompositorManager::getSingleton().
-                getCustomCompositionPass(pass->getCustomType())->createOperation(this, pass);
+            RenderSystemOperation* customOperation
+                = CompositorManager::singleton()
+                      .getCustomCompositionPass(pass->getCustomType())
+                      ->createOperation(this, pass);
             queueRenderSystemOp(finalState, customOperation);
             break;
         }
@@ -602,11 +608,11 @@ const TexturePtr& CompositorInstance::getTextureInstance(const String& name, siz
 MaterialPtr CompositorInstance::createLocalMaterial(const String& srcName)
 {
     static size_t dummyCounter = 0;
-    MaterialPtr mat = MaterialManager::getSingleton().create(
+    MaterialPtr mat = MaterialManager::singleton().create(
         StringUtil::format("c%zu/%s", dummyCounter++, srcName.c_str()),
         ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
     /// This is safe, as we hold a private reference
-    MaterialManager::getSingleton().remove(mat);
+    MaterialManager::singleton().remove(mat);
     /// Remove all passes from first technique
     mat->getTechnique(0)->removeAllPasses();
     return mat;
@@ -702,8 +708,10 @@ void CompositorInstance::createResources(bool forResizeOnly)
                     + StringConverter::to_string(dummyCounter++) + "/"
                     + def->name + "/"
                     + mChain->getViewport()->getTarget()->name();
-                MultiRenderTarget* mrt = 
-                Root::getSingleton().getRenderSystem()->createMultiRenderTarget(MRTbaseName);
+                MultiRenderTarget* mrt
+                    = Root::singleton()
+                          .getRenderSystem()
+                          ->createMultiRenderTarget(MRTbaseName);
                 mLocalMRTs[def->name] = mrt;
                 
                 // create and bind individual surfaces
@@ -718,18 +726,35 @@ void CompositorInstance::createResources(bool forResizeOnly)
                     if (def->pooled)
                     {
                         // get / create pooled texture
-                        tex = CompositorManager::getSingleton().getPooledTexture(texname,
-                                                                                 mrtLocalName, 
-                                                                                 width, height, *p, fsaa, fsaaHint,  
-                                                                                 hwGamma && !PixelUtil::isFloatingPoint(*p), 
-                                                                                 assignedTextures, this, def->scope, def->type);
+                        tex = CompositorManager::singleton().getPooledTexture(
+                            texname,
+                            mrtLocalName,
+                            width,
+                            height,
+                            *p,
+                            fsaa,
+                            fsaaHint,
+                            hwGamma && !PixelUtil::isFloatingPoint(*p),
+                            assignedTextures,
+                            this,
+                            def->scope,
+                            def->type);
                     }
                     else
                     {
-                        tex = TextureManager::getSingleton().createManual(texname,
-                                                                          RGN_INTERNAL, def->type,
-                                                                          width, height, 0, *p, TU_RENDERTARGET, 0,
-                                                                          hwGamma && !PixelUtil::isFloatingPoint(*p), fsaa, fsaaHint ); 
+                        tex = TextureManager::singleton().createManual(
+                            texname,
+                            RGN_INTERNAL,
+                            def->type,
+                            width,
+                            height,
+                            0,
+                            *p,
+                            TU_RENDERTARGET,
+                            0,
+                            hwGamma && !PixelUtil::isFloatingPoint(*p),
+                            fsaa,
+                            fsaaHint);
                     }
                     
                     RenderTexture* rt = tex->getBuffer()->getRenderTarget();
@@ -760,16 +785,35 @@ void CompositorInstance::createResources(bool forResizeOnly)
                 if (def->pooled)
                 {
                     // get / create pooled texture
-                    tex = CompositorManager::getSingleton().getPooledTexture(texName, 
-                                                                             def->name, width, height, def->formatList[0], fsaa, fsaaHint,
-                                                                             hwGamma, assignedTextures,
-                                                                             this, def->scope, def->type);
+                    tex = CompositorManager::singleton().getPooledTexture(
+                        texName,
+                        def->name,
+                        width,
+                        height,
+                        def->formatList[0],
+                        fsaa,
+                        fsaaHint,
+                        hwGamma,
+                        assignedTextures,
+                        this,
+                        def->scope,
+                        def->type);
                 }
                 else
                 {
-                    tex = TextureManager::getSingleton().createManual(
-                        texName, RGN_INTERNAL, def->type, width, height, 0, def->formatList[0],
-                        TU_RENDERTARGET, 0, hwGamma, fsaa, fsaaHint);
+                    tex = TextureManager::singleton().createManual(
+                        texName,
+                        RGN_INTERNAL,
+                        def->type,
+                        width,
+                        height,
+                        0,
+                        def->formatList[0],
+                        TU_RENDERTARGET,
+                        0,
+                        hwGamma,
+                        fsaa,
+                        fsaaHint);
                 }
 
                 mLocalTextures[def->name] = tex;
@@ -937,7 +981,7 @@ void CompositorInstance::freeResources(bool forResizeOnly, bool clearReserveText
                     if (!def->pooled && def->scope != CompositionTechnique::TS_GLOBAL)
                     {
                         // remove myself from central only if not pooled and not global
-                        TextureManager::getSingleton().remove(i->second);
+                        TextureManager::singleton().remove(i->second);
                     }
 
                     // remove from local
@@ -956,7 +1000,7 @@ void CompositorInstance::freeResources(bool forResizeOnly, bool clearReserveText
                     if (def->scope != CompositionTechnique::TS_GLOBAL) 
                     {
                         // remove MRT if not global
-                        Root::getSingleton()
+                        Root::singleton()
                             .getRenderSystem()
                             ->destroyRenderTarget(mrti->second->name());
                     }
@@ -992,7 +1036,7 @@ void CompositorInstance::freeResources(bool forResizeOnly, bool clearReserveText
     // Now we tell the central list of textures to check if its unreferenced, 
     // and to remove if necessary. Anything shared that was left in the reserve textures
     // will not be released here
-    CompositorManager::getSingleton().freePooledTextures(true);
+    CompositorManager::singleton().freePooledTextures(true);
 }
 //---------------------------------------------------------------------
 RenderTarget* CompositorInstance::getRenderTarget(const String& name, int slice)
@@ -1019,7 +1063,8 @@ CompositorInstance::resolveTexReference(const CompositionTechnique::TextureDefin
     if(!refTexDef)
     {
         //Still NULL. Try global search.
-        const CompositorPtr &refComp = CompositorManager::getSingleton().getByName(texDef->refCompName);
+        const CompositorPtr& refComp
+            = CompositorManager::singleton().getByName(texDef->refCompName);
         if(refComp)
         {
             refTexDef = refComp->getSupportedTechnique()->getTextureDefinition(texDef->refTexName);
@@ -1087,7 +1132,9 @@ RenderTarget *CompositorInstance::getTargetForTex(const String &name, int slice)
             case CompositionTechnique::TS_GLOBAL:
             {
                 //Chain and global case - the referenced compositor will know how to handle
-                const CompositorPtr& refComp = CompositorManager::getSingleton().getByName(texDef->refCompName);
+                const CompositorPtr& refComp
+                    = CompositorManager::singleton().getByName(
+                        texDef->refCompName);
                 OgreAssert(refComp, "Referencing non-existent compositor");
                 return refComp->getRenderTarget(texDef->refTexName, slice);
             }
@@ -1140,7 +1187,9 @@ const TexturePtr &CompositorInstance::getSourceForTex(const String &name, size_t
             case CompositionTechnique::TS_GLOBAL:
             {
                 //Chain and global case - the referenced compositor will know how to handle
-                const CompositorPtr& refComp = CompositorManager::getSingleton().getByName(texDef->refCompName);
+                const CompositorPtr& refComp
+                    = CompositorManager::singleton().getByName(
+                        texDef->refCompName);
                 OgreAssert(refComp, "Referencing non-existent compositor");
                 return refComp->getTextureInstance(texDef->refTexName, mrtIndex);
             }

@@ -81,11 +81,11 @@ namespace Ogre
     const uint8 Terrain::DERIVED_DATA_ALL = 7;
     //-----------------------------------------------------------------------
     template<> TerrainGlobalOptions* Singleton<TerrainGlobalOptions>::msSingleton = 0;
-    TerrainGlobalOptions* TerrainGlobalOptions::getSingletonPtr(void)
+    TerrainGlobalOptions* TerrainGlobalOptions::singleton_ptr((void)
     {
         return msSingleton;
     }
-    TerrainGlobalOptions& TerrainGlobalOptions::getSingleton(void)
+    TerrainGlobalOptions& TerrainGlobalOptions::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -360,9 +360,11 @@ namespace Ogre
         {
             if (mLayerBlendMapSize != mLayerBlendMapSizeActual)
             {
-                LogManager::getSingleton().log_warning(
-                    "blend maps were requested at a size larger than was supported "
-                    "on this hardware, which means the quality has been degraded");
+                LogManager::singleton().log_warning(
+                    "blend maps were requested at a size larger than was "
+                    "supported "
+                    "on this hardware, which means the quality has been "
+                    "degraded");
             }
             stream.write(&mLayerBlendMapSizeActual);
             Image tmp(PF_BYTE_RGBA, mLayerBlendMapSizeActual, mLayerBlendMapSizeActual);
@@ -577,16 +579,18 @@ namespace Ogre
     const String& Terrain::_getDerivedResourceGroup() const
     {
         if (mResourceGroup.empty())
-            return TerrainGlobalOptions::getSingleton().getDefaultResourceGroup();
+            return TerrainGlobalOptions::singleton().getDefaultResourceGroup();
         else
             return mResourceGroup;
     }
     //---------------------------------------------------------------------
     bool Terrain::prepare(const String& filename)
     {
-        DataStreamPtr stream = ResourceGroupManager::getSingleton().openResource(filename, _getDerivedResourceGroup());
+    DataStreamPtr stream = ResourceGroupManager::singleton().openResource(
+        filename,
+        _getDerivedResourceGroup());
 
-        return prepare(stream);
+    return prepare(stream);
     }
     //---------------------------------------------------------------------
     bool Terrain::prepare(DataStreamPtr& stream)
@@ -892,61 +896,65 @@ namespace Ogre
     //---------------------------------------------------------------------
     void Terrain::copyGlobalOptions()
     {
-        TerrainGlobalOptions& opts = TerrainGlobalOptions::getSingleton();
-        mSkirtSize = opts.getSkirtSize();
-        mRenderQueueGroup = opts.getRenderQueueGroup();
-        mVisibilityFlags = opts.getVisibilityFlags();
-        mQueryFlags = opts.getQueryFlags();
-        mLayerBlendMapSize = opts.getLayerBlendMapSize();
-        mLayerBlendMapSizeActual = mLayerBlendMapSize; // for now, until we check
-        mLightmapSize = opts.getLightMapSize();
-        mLightmapSizeActual = mLightmapSize; // for now, until we check
-        mCompositeMapSize = opts.getCompositeMapSize();
-        mCompositeMapSizeActual = mCompositeMapSize; // for now, until we check
+    TerrainGlobalOptions& opts = TerrainGlobalOptions::singleton();
+    mSkirtSize = opts.getSkirtSize();
+    mRenderQueueGroup = opts.getRenderQueueGroup();
+    mVisibilityFlags = opts.getVisibilityFlags();
+    mQueryFlags = opts.getQueryFlags();
+    mLayerBlendMapSize = opts.getLayerBlendMapSize();
+    mLayerBlendMapSizeActual = mLayerBlendMapSize; // for now, until we check
+    mLightmapSize = opts.getLightMapSize();
+    mLightmapSizeActual = mLightmapSize; // for now, until we check
+    mCompositeMapSize = opts.getCompositeMapSize();
+    mCompositeMapSizeActual = mCompositeMapSize; // for now, until we check
 
     }
     //---------------------------------------------------------------------
     void Terrain::determineLodLevels()
     {
-        /* On a leaf-node basis, LOD can vary from maxBatch to minBatch in 
-            number of vertices. After that, nodes will be gathered into parent
-            nodes with the same number of vertices, but they are combined with
-            3 of their siblings. In practice, the number of LOD levels overall 
-            is:
-                LODlevels = log2(size - 1) - log2(minBatch - 1) + 1
-                TreeDepth = log2((size - 1) / (maxBatch - 1)) + 1
+    /* On a leaf-node basis, LOD can vary from maxBatch to minBatch in
+        number of vertices. After that, nodes will be gathered into parent
+        nodes with the same number of vertices, but they are combined with
+        3 of their siblings. In practice, the number of LOD levels overall
+        is:
+            LODlevels = log2(size - 1) - log2(minBatch - 1) + 1
+            TreeDepth = log2((size - 1) / (maxBatch - 1)) + 1
 
-            .. it's just that at the max LOD, the terrain is divided into 
-            (size - 1) / (maxBatch - 1) tiles each of maxBatch vertices, and
-            at the lowest LOD the terrain is made up of one single tile of 
-            minBatch vertices. 
+        .. it's just that at the max LOD, the terrain is divided into
+        (size - 1) / (maxBatch - 1) tiles each of maxBatch vertices, and
+        at the lowest LOD the terrain is made up of one single tile of
+        minBatch vertices.
 
-            Example: size = 257, minBatch = 17, maxBatch = 33
+        Example: size = 257, minBatch = 17, maxBatch = 33
 
-            LODlevels = log2(257 - 1) - log2(17 - 1) + 1 = 8 - 4 + 1 = 5
-            TreeDepth = log2((size - 1) / (maxBatch - 1)) + 1 = 4
+        LODlevels = log2(257 - 1) - log2(17 - 1) + 1 = 8 - 4 + 1 = 5
+        TreeDepth = log2((size - 1) / (maxBatch - 1)) + 1 = 4
 
-            LOD list - this assumes everything changes at once, which rarely happens of course
-                       in fact except where groupings must occur, tiles can change independently
-            LOD 0: 257 vertices, 8 x 33 vertex tiles (tree depth 3)
-            LOD 1: 129 vertices, 8 x 17 vertex tiles (tree depth 3)
-            LOD 2: 65  vertices, 4 x 17 vertex tiles (tree depth 2)
-            LOD 3: 33  vertices, 2 x 17 vertex tiles (tree depth 1)
-            LOD 4: 17  vertices, 1 x 17 vertex tiles (tree depth 0)
+        LOD list - this assumes everything changes at once, which rarely happens
+       of course in fact except where groupings must occur, tiles can change
+       independently LOD 0: 257 vertices, 8 x 33 vertex tiles (tree depth 3) LOD
+       1: 129 vertices, 8 x 17 vertex tiles (tree depth 3) LOD 2: 65  vertices,
+       4 x 17 vertex tiles (tree depth 2) LOD 3: 33  vertices, 2 x 17 vertex
+       tiles (tree depth 1) LOD 4: 17  vertices, 1 x 17 vertex tiles (tree depth
+       0)
 
-            Notice how we only have 2 sizes of index buffer to be concerned about,
-            17 vertices (per side) or 33. This makes buffer re-use much easier while
-            still giving the full range of LODs.
-        */
-        mNumLodLevelsPerLeafNode = (uint16) (Math::Log2(mMaxBatchSize - 1.0f) - Math::Log2(mMinBatchSize - 1.0f) + 1.0f);
-        mNumLodLevels = (uint16) (Math::Log2(mSize - 1.0f) - Math::Log2(mMinBatchSize - 1.0f) + 1.0f);
-        //mTreeDepth = Math::Log2(mMaxBatchSize - 1) - Math::Log2(mMinBatchSize - 1) + 2;
-        mTreeDepth = mNumLodLevels - mNumLodLevelsPerLeafNode + 1;
+        Notice how we only have 2 sizes of index buffer to be concerned about,
+        17 vertices (per side) or 33. This makes buffer re-use much easier while
+        still giving the full range of LODs.
+    */
+    mNumLodLevelsPerLeafNode
+        = (uint16)(Math::Log2(mMaxBatchSize - 1.0f) - Math::Log2(mMinBatchSize - 1.0f) + 1.0f);
+    mNumLodLevels
+        = (uint16)(Math::Log2(mSize - 1.0f) - Math::Log2(mMinBatchSize - 1.0f) + 1.0f);
+    // mTreeDepth = Math::Log2(mMaxBatchSize - 1) - Math::Log2(mMinBatchSize -
+    // 1) + 2;
+    mTreeDepth = mNumLodLevels - mNumLodLevelsPerLeafNode + 1;
 
-        LogManager::getSingleton().stream() << "Terrain created; size=" << mSize
-            << " minBatch=" << mMinBatchSize << " maxBatch=" << mMaxBatchSize
-            << " treeDepth=" << mTreeDepth << " lodLevels=" << mNumLodLevels 
-            << " leafLods=" << mNumLodLevelsPerLeafNode;
+    LogManager::singleton().stream()
+        << "Terrain created; size=" << mSize << " minBatch=" << mMinBatchSize
+        << " maxBatch=" << mMaxBatchSize << " treeDepth=" << mTreeDepth
+        << " lodLevels=" << mNumLodLevels
+        << " leafLods=" << mNumLodLevelsPerLeafNode;
     }
     //---------------------------------------------------------------------
     void Terrain::distributeVertexData()
@@ -1019,7 +1027,7 @@ namespace Ogre
 
         */
 
-        LogManager& logMgr = LogManager::getSingleton();
+        LogManager& logMgr = LogManager::singleton();
         logMgr.stream(LogMsgLevel::TRIVIAL) << "Terrain::distributeVertexData processing source "
             "terrain size of " << mSize;
 
@@ -1109,7 +1117,7 @@ namespace Ogre
             return;
         }
 
-        Root::getSingleton().getWorkQueue()->add_main_thread_task(
+        Root::singleton().getWorkQueue()->add_main_thread_task(
             [this]() { generateMaterial(); });
     }
     //---------------------------------------------------------------------
@@ -1708,7 +1716,8 @@ namespace Ogre
         }
         else
         {
-            return TerrainGlobalOptions::getSingleton().getDefaultLayerTextureWorldSize();
+            return TerrainGlobalOptions::singleton()
+                .getDefaultLayerTextureWorldSize();
         }
     }
     //---------------------------------------------------------------------
@@ -1925,10 +1934,10 @@ namespace Ogre
             return;
         }
 
-        Root::getSingleton().getWorkQueue()->add_task([this, req]() {
+        Root::singleton().getWorkQueue()->add_task([this, req]() {
             auto r = std::make_unique<WorkQueue::Request>(0, 0, req, 0, 0);
             auto res = handleRequest(std::move(r), NULL);
-            Root::getSingleton().getWorkQueue()->add_main_thread_task(
+            Root::singleton().getWorkQueue()->add_main_thread_task(
                 [this, res]() {
                     handleResponse(res, NULL);
                     delete res;
@@ -1941,7 +1950,7 @@ namespace Ogre
         while (mDerivedDataUpdateInProgress || mGenerateMaterialInProgress || mPrepareInProgress)
         {
             // we need to wait for this to finish
-            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
+            Root::singleton().getWorkQueue()->process_main_thread_tasks();
         }
 
     }
@@ -1966,7 +1975,7 @@ namespace Ogre
     void Terrain::freeGPUResources()
     {
         // remove textures
-        TextureManager* tmgr = TextureManager::getSingletonPtr();
+        TextureManager* tmgr = TextureManager::singleton_ptr(();
         if (tmgr)
         {
             for (auto& i : mBlendTextureList) {
@@ -2001,14 +2010,13 @@ namespace Ogre
 
         if (mMaterial)
         {
-            MaterialManager::getSingleton().remove(mMaterial->handle());
-            mMaterial.reset();
+        MaterialManager::singleton().remove(mMaterial->handle());
+        mMaterial.reset();
         }
         if (mCompositeMapMaterial)
         {
-            MaterialManager::getSingleton().remove(
-                mCompositeMapMaterial->handle());
-            mCompositeMapMaterial.reset();
+        MaterialManager::singleton().remove(mCompositeMapMaterial->handle());
+        mCompositeMapMaterial.reset();
         }
 
 
@@ -2209,7 +2217,7 @@ namespace Ogre
 
         // check deferred updates
         unsigned long currMillis
-            = Root::getSingleton().getTimer()->milli_seconds();
+            = Root::singleton().getTimer()->milli_seconds();
         unsigned long elapsedMillis = currMillis - mLastMillis;
         if (mCompositeMapUpdateCountdown > 0 && elapsedMillis)
         {
@@ -2224,7 +2232,7 @@ namespace Ogre
         mLastMillis = currMillis;
         // only calculate LOD once per LOD camera, per frame, per viewport height
         const Camera* lodCamera = v->getCamera()->getLodCamera();
-        unsigned long frameNum = Root::getSingleton().getNextFrameNumber();
+        unsigned long frameNum = Root::singleton().getNextFrameNumber();
         int vpHeight = v->getActualHeight();
         if (mLastLODCamera != lodCamera || frameNum != mLastLODFrame
             || mLastViewportHeight != vpHeight)
@@ -2256,7 +2264,9 @@ namespace Ogre
             // A = 1 / tan(fovy*0.5)    (== 1 for fovy=45*2)
             Real A = 1.0f / Math::Tan(cam->getFOVy() * 0.5f);
             // T = 2 * maxPixelError / vertRes
-            Real maxPixelError = TerrainGlobalOptions::getSingleton().getMaxPixelError() * cam->_getLodBiasInverse();
+            Real maxPixelError
+                = TerrainGlobalOptions::singleton().getMaxPixelError()
+                * cam->_getLodBiasInverse();
             Viewport* lodVp = cam->getViewport();
             Real T = 2.0f * maxPixelError / (Real)lodVp->getActualHeight();
 
@@ -2510,7 +2520,8 @@ namespace Ogre
     {
         if (!mMaterialGenerator)
         {
-            mMaterialGenerator = TerrainGlobalOptions::getSingleton().getDefaultMaterialGenerator();
+            mMaterialGenerator = TerrainGlobalOptions::singleton()
+                                     .getDefaultMaterialGenerator();
         }
 
         if (mLayerDecl.empty())
@@ -2567,7 +2578,8 @@ namespace Ogre
     void Terrain::addLayer(uint8 index, Real worldSize, const StringVector* textureNames)
     {
         if (!worldSize)
-            worldSize = TerrainGlobalOptions::getSingleton().getDefaultLayerTextureWorldSize();
+            worldSize = TerrainGlobalOptions::singleton()
+                            .getDefaultLayerTextureWorldSize();
 
         uint8 blendIndex = std::max(index-1,0); 
         if (index >= getLayerCount())
@@ -2805,7 +2817,7 @@ namespace Ogre
         // Create enough RGBA textures to cope with blend layers
         uint8 numTex = getBlendTextureCount(getLayerCount());
         // delete extras
-        TextureManager* tmgr = TextureManager::getSingletonPtr();
+        TextureManager* tmgr = TextureManager::singleton_ptr(();
         if (!tmgr)
             return;
 
@@ -2823,9 +2835,16 @@ namespace Ogre
             // Use TU_STATIC because although we will update this, we won't do it every frame
             // in normal circumstances, so we don't want TU_DYNAMIC. Also we will 
             // read it (if we've cleared local temp areas) so no WRITE_ONLY
-            mBlendTextureList[i] = TextureManager::getSingleton().createManual(
-                msBlendTextureGenerator.generate(), _getDerivedResourceGroup(), 
-                TEX_TYPE_2D, mLayerBlendMapSize, mLayerBlendMapSize, 1, 0, PF_BYTE_RGBA, TU_STATIC);
+            mBlendTextureList[i] = TextureManager::singleton().createManual(
+                msBlendTextureGenerator.generate(),
+                _getDerivedResourceGroup(),
+                TEX_TYPE_2D,
+                mLayerBlendMapSize,
+                mLayerBlendMapSize,
+                1,
+                0,
+                PF_BYTE_RGBA,
+                TU_STATIC);
 
             mLayerBlendMapSizeActual = mBlendTextureList[i]->getWidth();
 
@@ -2835,9 +2854,7 @@ namespace Ogre
                 mBlendTextureList[i]->getBuffer()->blitFromMemory(mCpuBlendMapStorage[i].getPixelBox());
                 // release CPU copy, don't need it anymore
                 mCpuBlendMapStorage[i].freeMemory();
-            }
-            else
-            {
+            } else {
                 // initialise black
                 auto buf = mBlendTextureList[i]->getBuffer();
                 uint8* pInit = buf->lock(
@@ -2873,9 +2890,16 @@ namespace Ogre
         if (mNormalMapRequired && !mTerrainNormalMap)
         {
             // create
-            mTerrainNormalMap = TextureManager::getSingleton().createManual(
-                mMaterialName + "/nm", _getDerivedResourceGroup(), 
-                TEX_TYPE_2D, mSize, mSize, 1, 0, PF_BYTE_RGB, TU_STATIC);
+            mTerrainNormalMap = TextureManager::singleton().createManual(
+                mMaterialName + "/nm",
+                _getDerivedResourceGroup(),
+                TEX_TYPE_2D,
+                mSize,
+                mSize,
+                1,
+                0,
+                PF_BYTE_RGB,
+                TU_STATIC);
 
             // Upload loaded normal data if present
             if (mCpuTerrainNormalMap.getData())
@@ -2887,7 +2911,7 @@ namespace Ogre
         else if (!mNormalMapRequired && mTerrainNormalMap)
         {
             // destroy
-            TextureManager::getSingleton().remove(mTerrainNormalMap->handle());
+            TextureManager::singleton().remove(mTerrainNormalMap->handle());
             mTerrainNormalMap.reset();
         }
 
@@ -2935,13 +2959,16 @@ namespace Ogre
 
             // Check NPOT textures supported. We have to use NPOT textures to map
             // texels to vertices directly!
-            if (!mNormalMapRequired && Root::getSingleton().getRenderSystem()
-                ->getCapabilities()->hasCapability(RSC_NON_POWER_OF_2_TEXTURES))
-            {
+            if (!mNormalMapRequired
+                && Root::singleton()
+                       .getRenderSystem()
+                       ->getCapabilities()
+                       ->hasCapability(RSC_NON_POWER_OF_2_TEXTURES)) {
                 mNormalMapRequired = false;
-                LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) <<
-                    "Terrain: Ignoring request for normal map generation since "
-                    "non-power-of-two texture support is required.";
+                LogManager::singleton().stream(LogMsgLevel::CRITICAL)
+                    << "Terrain: Ignoring request for normal map generation "
+                       "since "
+                       "non-power-of-two texture support is required.";
             }
 
             createOrDestroyGPUNormalMap();
@@ -3001,8 +3028,9 @@ namespace Ogre
     //---------------------------------------------------------------------
     bool Terrain::_getUseVertexCompression() const
     {
-        return mMaterialGenerator->isVertexCompressionSupported() &&
-            TerrainGlobalOptions::getSingleton().getUseVertexCompressionWhenAvailable();
+    return mMaterialGenerator->isVertexCompressionSupported()
+        && TerrainGlobalOptions::singleton()
+               .getUseVertexCompressionWhenAvailable();
     }
     //---------------------------------------------------------------------
     WorkQueue::Response* Terrain::handleRequest(
@@ -3314,8 +3342,8 @@ namespace Ogre
         // other areas. To do this, we project the dirt rect by the light direction
         // onto the minimum height
 
-
-        const Vector3& lightVec = TerrainGlobalOptions::getSingleton().getLightMapDirection();
+        const Vector3& lightVec
+            = TerrainGlobalOptions::singleton().getLightMapDirection();
         Ogre::Rect widenedRect;
         widenRectByVector(lightVec, rect, widenedRect);
 
@@ -3428,7 +3456,10 @@ namespace Ogre
             {
                 // widen the dirty rectangle since lighting makes it wider
                 Rect widenedRect;
-                widenRectByVector(TerrainGlobalOptions::getSingleton().getLightMapDirection(), mCompositeMapDirtyRect, widenedRect);
+                widenRectByVector(
+                    TerrainGlobalOptions::singleton().getLightMapDirection(),
+                    mCompositeMapDirtyRect,
+                    widenedRect);
                 // clamp
                 widenedRect = widenedRect.intersect(Rect(0, 0, mSize, mSize));
                 mMaterialGenerator->updateCompositeMap(this, widenedRect);  
@@ -3470,7 +3501,8 @@ namespace Ogre
     void Terrain::setGlobalColourMapEnabled(bool enabled, uint16 sz)
     {
         if (!sz)
-            sz = TerrainGlobalOptions::getSingleton().getDefaultGlobalColourMapSize();
+            sz = TerrainGlobalOptions::singleton()
+                     .getDefaultGlobalColourMapSize();
 
         if (enabled != mGlobalColourMapEnabled ||
             (enabled && mGlobalColourMapSize != sz))
@@ -3492,10 +3524,15 @@ namespace Ogre
         if (mGlobalColourMapEnabled && !mColourMap)
         {
             // create
-            mColourMap = TextureManager::getSingleton().createManual(
-                mMaterialName + "/cm", _getDerivedResourceGroup(), 
-                TEX_TYPE_2D, mGlobalColourMapSize, mGlobalColourMapSize, MIP_DEFAULT, 
-                PF_BYTE_RGB, TU_AUTOMIPMAP|TU_STATIC);
+            mColourMap = TextureManager::singleton().createManual(
+                mMaterialName + "/cm",
+                _getDerivedResourceGroup(),
+                TEX_TYPE_2D,
+                mGlobalColourMapSize,
+                mGlobalColourMapSize,
+                MIP_DEFAULT,
+                PF_BYTE_RGB,
+                TU_AUTOMIPMAP | TU_STATIC);
 
             if (mCpuColourMap.getData())
             {
@@ -3508,7 +3545,7 @@ namespace Ogre
         else if (!mGlobalColourMapEnabled && mColourMap)
         {
             // destroy
-            TextureManager::getSingleton().remove(mColourMap);
+            TextureManager::singleton().remove(mColourMap);
             mColourMap.reset();
         }
 
@@ -3519,9 +3556,15 @@ namespace Ogre
         if (mLightMapRequired && !mLightmap)
         {
             // create
-            mLightmap = TextureManager::getSingleton().createManual(
-                mMaterialName + "/lm", _getDerivedResourceGroup(), 
-                TEX_TYPE_2D, mLightmapSize, mLightmapSize, 0, PF_L8, TU_STATIC);
+            mLightmap = TextureManager::singleton().createManual(
+                mMaterialName + "/lm",
+                _getDerivedResourceGroup(),
+                TEX_TYPE_2D,
+                mLightmapSize,
+                mLightmapSize,
+                0,
+                PF_L8,
+                TU_STATIC);
 
             mLightmapSizeActual = mLightmap->getWidth();
 
@@ -3546,7 +3589,7 @@ namespace Ogre
         else if (!mLightMapRequired && mLightmap)
         {
             // destroy
-            TextureManager::getSingleton().remove(mLightmap);
+            TextureManager::singleton().remove(mLightmap);
             mLightmap.reset();
         }
 
@@ -3557,9 +3600,15 @@ namespace Ogre
         if (mCompositeMapRequired && !mCompositeMap)
         {
             // create
-            mCompositeMap = TextureManager::getSingleton().createManual(
-                mMaterialName + "/comp", _getDerivedResourceGroup(), 
-                TEX_TYPE_2D, mCompositeMapSize, mCompositeMapSize, 0, PF_BYTE_RGBA, TU_STATIC);
+            mCompositeMap = TextureManager::singleton().createManual(
+                mMaterialName + "/comp",
+                _getDerivedResourceGroup(),
+                TEX_TYPE_2D,
+                mCompositeMapSize,
+                mCompositeMapSize,
+                0,
+                PF_BYTE_RGBA,
+                TU_STATIC);
 
             mCompositeMapSizeActual = mCompositeMap->getWidth();
 
@@ -3584,7 +3633,7 @@ namespace Ogre
         else if (!mCompositeMapRequired && mCompositeMap)
         {
             // destroy
-            TextureManager::getSingleton().remove(mCompositeMap);
+            TextureManager::singleton().remove(mCompositeMap);
             mCompositeMap.reset();
         }
 
@@ -3674,7 +3723,8 @@ namespace Ogre
             Rect dirtyRectForNeighbours(mDirtyGeometryRectForNeighbours);
             mDirtyGeometryRectForNeighbours.set_null();
             // calculate light update rectangle
-            const Vector3& lightVec = TerrainGlobalOptions::getSingleton().getLightMapDirection();
+            const Vector3& lightVec
+                = TerrainGlobalOptions::singleton().getLightMapDirection();
             Rect lightmapRect;
             widenRectByVector(lightVec, dirtyRectForNeighbours, getMinHeight(), getMaxHeight(), lightmapRect);
 
@@ -3766,7 +3816,8 @@ namespace Ogre
             // update shadows
             // here we need to widen the rect passed in based on the min/max height 
             // of the *neighbour*
-            const Vector3& lightVec = TerrainGlobalOptions::getSingleton().getLightMapDirection();
+            const Vector3& lightVec
+                = TerrainGlobalOptions::singleton().getLightMapDirection();
             Rect widenedRect;
             widenRectByVector(lightVec, shadowrect, neighbour->getMinHeight(), neighbour->getMaxHeight(), widenedRect);
 
@@ -4363,7 +4414,7 @@ namespace Ogre
 
             if (mTerrainNormalMap)
             {
-                TextureManager::getSingletonPtr()->remove(
+                TextureManager::singleton_ptr(()->remove(
                     mTerrainNormalMap->handle());
                 mTerrainNormalMap.reset();
             }
@@ -4437,8 +4488,10 @@ namespace Ogre
             }
         }
         // Didn't find one?
-        return HardwareBufferManager::getSingleton()
-            .createVertexBuffer(vertexSize, numVertices, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        return HardwareBufferManager::singleton().createVertexBuffer(
+            vertexSize,
+            numVertices,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
 
     }
@@ -4462,9 +4515,11 @@ namespace Ogre
         {
             // create new
             size_t indexCount = Terrain::_getNumIndexesForBatchSize(batchSize);
-            HardwareIndexBufferSharedPtr ret = HardwareBufferManager::getSingleton()
-                .createIndexBuffer(HardwareIndexBuffer::IT_16BIT, indexCount, 
-                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+            HardwareIndexBufferSharedPtr ret
+                = HardwareBufferManager::singleton().createIndexBuffer(
+                    HardwareIndexBuffer::IT_16BIT,
+                    indexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
             uint16* pI = static_cast<uint16*>(ret->lock(HardwareBuffer::HBL_DISCARD));
             Terrain::_populateIndexBuffer(pI, batchSize, vdatasize, uint16(vertexIncrement), xoffset, yoffset, numSkirtRowsCols, skirtRowColSkip);
             ret->unlock();

@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreShaderPrerequisites.h"
 #include "OgreGpuProgram.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreShaderFunction.h"
 #include "string_vector.h"
 

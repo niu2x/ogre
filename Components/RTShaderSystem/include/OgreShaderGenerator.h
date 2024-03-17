@@ -28,7 +28,7 @@ THE SOFTWARE.
 #define _ShaderGenerator_
 
 #include "OgreShaderPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreFileSystemLayer.h"
 #include "OgreRenderObjectListener.h"
 #include "OgreSceneManager.h"
@@ -92,11 +92,10 @@ public:
     but the implementation stays in this single compilation unit,
     preventing link errors.
     */
-    static ShaderGenerator& getSingleton(); 
+    static ShaderGenerator& singleton();
 
-
-    /// @copydoc Singleton::getSingleton()
-    static ShaderGenerator* getSingletonPtr();
+    /// @copydoc Singleton::singleton()
+    static ShaderGenerator* singleton_ptr(();
 
     /** 
     Add a scene manager to the shader generator scene managers list.

@@ -60,7 +60,7 @@ public:
     void registerProgramFactory(const String& syntaxCode, CreateGpuProgramCallback createFn)
     {
         mFactories.emplace_back(syntaxCode, createFn);
-        GpuProgramManager::getSingleton().addFactory(&mFactories.back());
+        GpuProgramManager::singleton().addFactory(&mFactories.back());
     }
 };
 

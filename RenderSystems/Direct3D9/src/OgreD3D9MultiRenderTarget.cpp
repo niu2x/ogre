@@ -76,10 +76,12 @@ namespace Ogre
                     "D3D9MultiRenderTarget::bindSurface");
             }
 
-            if (Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_MRT_SAME_BIT_DEPTHS)
-                && (PixelUtil::getNumElemBits(mRenderTargets[y]->getFormat()) != 
-                    PixelUtil::getNumElemBits(buffer->getFormat())))
-            {
+            if (Root::singleton()
+                    .getRenderSystem()
+                    ->getCapabilities()
+                    ->hasCapability(RSC_MRT_SAME_BIT_DEPTHS)
+                && (PixelUtil::getNumElemBits(mRenderTargets[y]->getFormat())
+                    != PixelUtil::getNumElemBits(buffer->getFormat()))) {
                 OGRE_EXCEPT(
                     Exception::ERR_INVALIDPARAMS, 
                     "MultiRenderTarget surfaces are not of same bit depth and hardware requires it", 

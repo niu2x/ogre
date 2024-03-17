@@ -54,17 +54,29 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
 
         mShaderGenerator->invalidateScheme(MSN_SHADERGEN);
 
-        Ogre::MaterialPtr pCast1 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_1weight_twophase");
-        Ogre::MaterialPtr pCast2 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_2weight_twophase");
-        Ogre::MaterialPtr pCast3 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_3weight_twophase");
-        Ogre::MaterialPtr pCast4 = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_dq_skinning_4weight_twophase");
+        Ogre::MaterialPtr pCast1 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_1weight_twophase");
+        Ogre::MaterialPtr pCast2 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_2weight_twophase");
+        Ogre::MaterialPtr pCast3 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_3weight_twophase");
+        Ogre::MaterialPtr pCast4 = Ogre::MaterialManager::singleton().getByName(
+            "Ogre/RTShader/shadow_caster_dq_skinning_4weight_twophase");
 
         Ogre::RTShader::HardwareSkinningFactory::setCustomShadowCasterMaterials(RTShader::ST_DUAL_QUATERNION, pCast1, pCast2, pCast3, pCast4);
 
-        Ogre::MaterialPtr pCast1l = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_skinning_1weight");
-        Ogre::MaterialPtr pCast2l = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_skinning_2weight");
-        Ogre::MaterialPtr pCast3l = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_skinning_3weight");
-        Ogre::MaterialPtr pCast4l = Ogre::MaterialManager::getSingleton().getByName("Ogre/RTShader/shadow_caster_skinning_4weight");
+        Ogre::MaterialPtr pCast1l
+            = Ogre::MaterialManager::singleton().getByName(
+                "Ogre/RTShader/shadow_caster_skinning_1weight");
+        Ogre::MaterialPtr pCast2l
+            = Ogre::MaterialManager::singleton().getByName(
+                "Ogre/RTShader/shadow_caster_skinning_2weight");
+        Ogre::MaterialPtr pCast3l
+            = Ogre::MaterialManager::singleton().getByName(
+                "Ogre/RTShader/shadow_caster_skinning_3weight");
+        Ogre::MaterialPtr pCast4l
+            = Ogre::MaterialManager::singleton().getByName(
+                "Ogre/RTShader/shadow_caster_skinning_4weight");
 
         Ogre::RTShader::HardwareSkinningFactory::setCustomShadowCasterMaterials(RTShader::ST_LINEAR, pCast1l, pCast2l, pCast3l, pCast4l);
 #endif
@@ -94,8 +106,19 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
         bbs->createBillboard(pos)->setColour(l->getDiffuseColour());
 
         // Create a floor mesh resource.
-        MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                                Plane(Vector3::unit_y, -1), 250, 250, 25, 25, true, 1, 15, 15, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            Plane(Vector3::unit_y, -1),
+            250,
+            250,
+            25,
+            25,
+            true,
+            1,
+            15,
+            15,
+            Vector3::unit_z);
 
         // Add a floor to our scene using the floor mesh we created.
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");
@@ -143,7 +166,8 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
 #endif
 
         // make sure we query the correct scheme
-        MaterialManager::getSingleton().setActiveScheme(mViewport->getMaterialScheme());
+        MaterialManager::singleton().setActiveScheme(
+            mViewport->getMaterialScheme());
 
         // Create name and value for skinning mode.
         StringVector names;
@@ -171,7 +195,9 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
 
     void cleanupContent() override
     {
-        MeshManager::getSingleton().remove("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().remove(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
 #if defined(INCLUDE_RTSHADER_SYSTEM) && defined(RTSHADER_SYSTEM_BUILD_EXT_SHADERS)
         Ogre::RTShader::RenderState* renderState = mShaderGenerator->getRenderState(MSN_SHADERGEN);

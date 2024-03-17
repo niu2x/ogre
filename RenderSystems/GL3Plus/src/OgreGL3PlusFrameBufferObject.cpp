@@ -69,7 +69,8 @@ namespace Ogre {
         // Delete framebuffer object
         if(mContext && mFB)
         {
-            GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+            GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+                Root::singleton().getRenderSystem());
             rs->_destroyFbo(mContext, mFB);
             
             if (mMultisampleFB)
@@ -79,7 +80,11 @@ namespace Ogre {
     
     void GL3PlusFrameBufferObject::initialise()
     {
-        assert(mContext == (static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem()))->_getCurrentContext());
+        assert(
+            mContext
+            == (static_cast<GLRenderSystemCommon*>(
+                    Root::singleton().getRenderSystem()))
+                   ->_getCurrentContext());
 
         // Release depth and stencil, if they were bound
         mManager->releaseRenderBuffer(mDepth);
@@ -102,7 +107,10 @@ namespace Ogre {
         uint32 width = mColour[0].buffer->getWidth();
         uint32 height = mColour[0].buffer->getHeight();
         GLuint format = mColour[0].buffer->getGLFormat();
-        ushort maxSupportedMRTs = Root::getSingleton().getRenderSystem()->getCapabilities()->getNumMultiRenderTargets();
+        ushort maxSupportedMRTs = Root::singleton()
+                                      .getRenderSystem()
+                                      ->getCapabilities()
+                                      ->getNumMultiRenderTargets();
 
         // Bind simple buffer to add colour attachments
         mManager->getStateCacheManager()->bindGLFrameBuffer( GL_FRAMEBUFFER, mFB );
@@ -207,7 +215,8 @@ namespace Ogre {
     
     bool GL3PlusFrameBufferObject::bind(bool recreateIfNeeded)
     {
-        GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+            Root::singleton().getRenderSystem());
         GLContext* currentContext = rs->_getCurrentContext();
         if(mContext && mContext != currentContext) // FBO is unusable with current context, destroy it
         {

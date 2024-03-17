@@ -32,11 +32,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> ArchiveManager* Singleton<ArchiveManager>::msSingleton = 0;
-    ArchiveManager* ArchiveManager::getSingletonPtr(void)
+    ArchiveManager* ArchiveManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ArchiveManager& ArchiveManager::getSingleton(void)
+    ArchiveManager& ArchiveManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -122,8 +122,8 @@ namespace Ogre {
     void ArchiveManager::addArchiveFactory(ArchiveFactory* factory)
     {
         mArchFactories.emplace(factory->getType(), factory);
-        LogManager::getSingleton().log_message("ArchiveFactory for type '" + factory->getType() + "' registered");
+        LogManager::singleton().log_message(
+            "ArchiveFactory for type '" + factory->getType() + "' registered");
     }
-
 }
 

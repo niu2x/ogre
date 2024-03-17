@@ -166,8 +166,7 @@ bool HardwareSkinningTechnique::resolveParameters(ProgramSet* programSet)
 
     if (mDoBoneCalculations == true)
     {
-        if (ShaderGenerator::getSingleton().getTargetLanguage() == "hlsl")
-        {
+        if (ShaderGenerator::singleton().getTargetLanguage() == "hlsl") {
             //set hlsl shader to use row-major matrices instead of column-major.
             //it enables the use of 3x4 matrices in hlsl shader instead of full 4x4 matrix.
             vsProgram->setUseColumnMajorMatrices(false);

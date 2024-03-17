@@ -33,11 +33,11 @@ THE SOFTWARE.
 namespace Ogre {
     //-----------------------------------------------------------------------
     template<> ControllerManager* Singleton<ControllerManager>::msSingleton = 0;
-    ControllerManager* ControllerManager::getSingletonPtr(void)
+    ControllerManager* ControllerManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ControllerManager& ControllerManager::getSingleton(void)
+    ControllerManager& ControllerManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -74,7 +74,7 @@ namespace Ogre {
     void ControllerManager::updateAllControllers(void)
     {
         // Only update once per frame
-        unsigned long thisFrameNumber = Root::getSingleton().getNextFrameNumber();
+        unsigned long thisFrameNumber = Root::singleton().getNextFrameNumber();
         if (thisFrameNumber != mLastFrameNumber)
         {
             for (auto *ci : mControllers)

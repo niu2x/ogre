@@ -58,7 +58,7 @@ protected:
         auto animState = mSceneMgr->createAnimationState("CameraTrack");
         animState->setEnabled(true);
 
-        auto& controllerMgr = ControllerManager::getSingleton();
+        auto& controllerMgr = ControllerManager::singleton();
         controllerMgr.createFrameTimePassthroughController(AnimationStateControllerValue::create(animState, true));
     }
 };

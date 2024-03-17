@@ -49,7 +49,7 @@ namespace Ogre
     {
         mRenderSystem = OGRE_NEW GLRenderSystem();
 
-        Root::getSingleton().addRenderSystem(mRenderSystem);
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
     //---------------------------------------------------------------------
     void GLPlugin::initialise()

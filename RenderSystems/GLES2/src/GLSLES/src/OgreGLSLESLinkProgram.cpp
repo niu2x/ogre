@@ -79,7 +79,8 @@ namespace Ogre {
                     String paramStr = mVertexProgram->getGLSLProgram()->parameter("use_optimiser");
                     if((paramStr == "true") || paramStr.empty())
                     {
-                        GLSLESLinkProgramManager::getSingleton().optimiseShaderSource(mVertexProgram);
+                        GLSLESLinkProgramManager::singleton()
+                            .optimiseShaderSource(mVertexProgram);
                     }
                 }
 
@@ -88,7 +89,8 @@ namespace Ogre {
                     String paramStr = mFragmentProgram->getGLSLProgram()->parameter("use_optimiser");
                     if((paramStr == "true") || paramStr.empty())
                     {
-                        GLSLESLinkProgramManager::getSingleton().optimiseShaderSource(mFragmentProgram);
+                        GLSLESLinkProgramManager::singleton()
+                            .optimiseShaderSource(mFragmentProgram);
                     }
                 }
 #endif
@@ -100,7 +102,8 @@ namespace Ogre {
                 if(mVertexProgram->getGLSLProgram()->getOptimiserEnabled() && 
                     mFragmentProgram->getGLSLProgram()->getOptimiserEnabled())
                 {
-                    LogManager::getSingleton().stream() << "Try not optimised shader."; 
+                    LogManager::singleton().stream()
+                        << "Try not optimised shader.";
                     mVertexProgram->getGLSLProgram()->setOptimiserEnabled(false);
                     mFragmentProgram->getGLSLProgram()->setOptimiserEnabled(false);
                     compileAndLink();
@@ -135,7 +138,8 @@ namespace Ogre {
 
         GLSLES::logObjectInfo( getCombinedName() + String("GLSL link result : "), mGLProgramHandle );
 
-        const RenderSystemCapabilities* caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         if(caps->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
         {

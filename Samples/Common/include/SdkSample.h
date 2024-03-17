@@ -197,8 +197,9 @@ namespace OgreBites
             mTrayMgr.reset();
 
             // restore settings we may have changed, so as not to affect other samples
-            Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_BILINEAR);
-            Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(1);
+            Ogre::MaterialManager::singleton().setDefaultTextureFiltering(
+                Ogre::TFO_BILINEAR);
+            Ogre::MaterialManager::singleton().setDefaultAnisotropy(1);
         }
 
     protected:
@@ -242,12 +243,14 @@ namespace OgreBites
             using namespace Ogre;
             // Create material
             String matName = "Ogre/DebugTexture" + StringConverter::to_string(i);
-            MaterialPtr debugMat = MaterialManager::getSingleton().getByName(
-                matName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            MaterialPtr debugMat = MaterialManager::singleton().getByName(
+                matName,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             if (!debugMat)
             {
-                debugMat = MaterialManager::getSingleton().create(matName,
-                                                                  ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+                debugMat = MaterialManager::singleton().create(
+                    matName,
+                    ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             }
             Pass* p = debugMat->getTechnique(0)->getPass(0);
             p->removeAllTextureUnitStates();
@@ -256,9 +259,14 @@ namespace OgreBites
             t->setTextureAddressingMode(TextureUnitState::TAM_CLAMP);
 
             // create template
-            if (!OverlayManager::getSingleton().hasOverlayElement("Ogre/DebugTexOverlay", true))
-            {
-                OverlayElement* e = OverlayManager::getSingleton().createOverlayElement("Panel", "Ogre/DebugTexOverlay", true);
+            if (!OverlayManager::singleton().hasOverlayElement(
+                    "Ogre/DebugTexOverlay",
+                    true)) {
+                OverlayElement* e
+                    = OverlayManager::singleton().createOverlayElement(
+                        "Panel",
+                        "Ogre/DebugTexOverlay",
+                        true);
                 e->setMetricsMode(GMM_PIXELS);
                 e->setWidth(128);
                 e->setHeight(128);

@@ -42,14 +42,13 @@ namespace Ogre {
 
     template<> GLSLProgramManager* Singleton<GLSLProgramManager>::msSingleton = 0;
 
-
-    GLSLProgramManager* GLSLProgramManager::getSingletonPtr(void)
+    GLSLProgramManager* GLSLProgramManager::singleton_ptr((void)
     {
         return msSingleton;
     }
 
 
-    GLSLProgramManager& GLSLProgramManager::getSingleton(void)
+    GLSLProgramManager& GLSLProgramManager::singleton(void)
     {
         assert(msSingleton);
         return (*msSingleton);
@@ -155,7 +154,8 @@ namespace Ogre {
         // This could be impemented as a switch-like statement inside shared_params:
 
         // Now deal with uniform blocks
-        auto& hbm = static_cast<GL3PlusHardwareBufferManager&>(HardwareBufferManager::getSingleton());
+        auto& hbm = static_cast<GL3PlusHardwareBufferManager&>(
+            HardwareBufferManager::singleton());
         GLint blockCount = 0;
         OGRE_CHECK_GL_ERROR(glGetProgramiv(programObject, GL_ACTIVE_UNIFORM_BLOCKS, &blockCount));
 
@@ -165,7 +165,9 @@ namespace Ogre {
 
             // Map uniform block to binding point of GL buffer of
             // shared param bearing the same name.
-            GpuSharedParametersPtr blockSharedParams = GpuProgramManager::getSingleton().getSharedParameters(uniformName);
+            GpuSharedParametersPtr blockSharedParams
+                = GpuProgramManager::singleton().getSharedParameters(
+                    uniformName);
 
             HardwareBufferPtr hwGlBuffer = blockSharedParams->_getHardwareBuffer();
             if (!hwGlBuffer)
@@ -200,7 +202,9 @@ namespace Ogre {
                 // Map uniform block to binding point of GL buffer of
                 // shared param bearing the same name.
 
-                GpuSharedParametersPtr blockSharedParams = GpuProgramManager::getSingleton().getSharedParameters(uniformName);
+                GpuSharedParametersPtr blockSharedParams
+                    = GpuProgramManager::singleton().getSharedParameters(
+                        uniformName);
 
                 HardwareBufferPtr hwGlBuffer = blockSharedParams->_getHardwareBuffer();
                 if (!hwGlBuffer)

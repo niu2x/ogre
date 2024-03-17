@@ -76,11 +76,13 @@ namespace Ogre
         for (const String& dn : mDelegateNames)
         {
             GpuProgramPtr deleg
-                = GpuProgramManager::getSingleton().getByName(dn, group());
+                = GpuProgramManager::singleton().getByName(dn, group());
 
             //recheck with auto resource group
             if (!deleg)
-                deleg = GpuProgramManager::getSingleton().getByName(dn, RGN_AUTODETECT);
+                deleg = GpuProgramManager::singleton().getByName(
+                    dn,
+                    RGN_AUTODETECT);
 
             // Silently ignore missing links
             if(!deleg || (!deleg->isSupported() && !deleg->hasCompileError()))
@@ -88,7 +90,7 @@ namespace Ogre
 
             if (deleg->getType() != getType())
             {
-                LogManager::getSingleton().log_error(
+                LogManager::singleton().log_error(
                     "unified program '" + name()
                     + "' delegating to program with different type '" + dn
                     + "'");
@@ -156,7 +158,8 @@ namespace Ogre
         else
         {
             // return a default set
-            GpuProgramParametersSharedPtr params = GpuProgramManager::getSingleton().createParameters();
+            GpuProgramParametersSharedPtr params
+                = GpuProgramManager::singleton().createParameters();
             // avoid any errors on parameter names that don't exist
             params->setIgnoreMissingParams(true);
             return params;

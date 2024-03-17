@@ -54,7 +54,7 @@ namespace Ogre
         clear();
         std::map<std::wstring, unsigned> sameNameCounter;
 
-        LogManager::getSingleton().log_message( "D3D11: Driver Detection Starts" );
+        LogManager::singleton().log_message("D3D11: Driver Detection Starts");
 
         // We need fresh IDXGIFactory to get fresh driver list
         ComPtr<IDXGIFactoryN> pDXGIFactory;
@@ -95,7 +95,8 @@ namespace Ogre
 
             auto driver = std::make_shared<D3D11Driver>(pDXGIAdapter.Get(), desc1, sameNameIndex);
 
-            LogManager::getSingleton().log_message("D3D11: \"" + driver->DriverDescription() + "\"");
+            LogManager::singleton().log_message(
+                "D3D11: \"" + driver->DriverDescription() + "\"");
 
             // we don't want NVIDIA PerfHUD in the list, so place it to the hidden part of drivers list
             const bool isHidden = wcscmp(driver->getAdapterIdentifier().Description, L"NVIDIA PerfHUD") == 0;
@@ -110,7 +111,7 @@ namespace Ogre
             }
         }
 
-        LogManager::getSingleton().log_message( "D3D11: Driver Detection Ends" );
+        LogManager::singleton().log_message("D3D11: Driver Detection Ends");
     }
     //-----------------------------------------------------------------------
     size_t D3D11DriverList::count() const 

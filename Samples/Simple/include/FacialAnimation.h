@@ -49,7 +49,9 @@ class _OgreSampleClassExport Sample_FacialAnimation : public SdkSample
             ->attachObject(mSceneMgr->createLight());
 
         // pre-load the mesh so that we can tweak it with a manual animation
-        mHeadMesh = MeshManager::getSingleton().load("facial.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        mHeadMesh = MeshManager::singleton().load(
+            "facial.mesh",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         // create a manual animation, create a pose track for it, and create a keyframe in that track
         mManualKeyFrame = mHeadMesh->createAnimation("Manual", 0)->createVertexTrack(4, VAT_POSE)->createVertexPoseKeyFrame(0);
@@ -72,7 +74,7 @@ class _OgreSampleClassExport Sample_FacialAnimation : public SdkSample
         mTrayMgr->showCursor();
 
         // by default, the speaking animation is enabled
-        auto& controllerMgr = ControllerManager::getSingleton();
+        auto& controllerMgr = ControllerManager::singleton();
         mPlayAnimation = controllerMgr.createFrameTimePassthroughController(
             AnimationStateControllerValue::create(mSpeakAnimState, true));
 

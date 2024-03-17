@@ -16,11 +16,11 @@ namespace Ogre
     template<> SegmentedDynamicLightManager* Singleton<SegmentedDynamicLightManager>::msSingleton = 0;
 }
 
-SegmentedDynamicLightManager* SegmentedDynamicLightManager::getSingletonPtr(void)
+SegmentedDynamicLightManager* SegmentedDynamicLightManager::singleton_ptr((void)
 {
     return msSingleton;
 }
-SegmentedDynamicLightManager& SegmentedDynamicLightManager::getSingleton(void)
+SegmentedDynamicLightManager& SegmentedDynamicLightManager::singleton(void)
 {
     assert( msSingleton );  return ( *msSingleton );
 }
@@ -51,7 +51,7 @@ SegmentedDynamicLightManager::~SegmentedDynamicLightManager()
     setSceneManager(NULL);
     if (mLightTexture.get())
     {
-        TextureManager::getSingleton().remove(mLightTexture->handle());
+        TextureManager::singleton().remove(mLightTexture->handle());
     }
 }
 
@@ -110,9 +110,15 @@ bool SegmentedDynamicLightManager::initTexture()
     {
         const String& sdlTextureName = getSDLTextureName();
         // create the render texture
-        mLightTexture = TextureManager::getSingleton().createManual(sdlTextureName, 
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,TEX_TYPE_2D,
-            mTextureWidth,mTextureHeight,0,PF_FLOAT16_RGBA,TU_STATIC_WRITE_ONLY);
+        mLightTexture = TextureManager::singleton().createManual(
+            sdlTextureName,
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            TEX_TYPE_2D,
+            mTextureWidth,
+            mTextureHeight,
+            0,
+            PF_FLOAT16_RGBA,
+            TU_STATIC_WRITE_ONLY);
     }
     return mLightTexture.get() != NULL;
 }

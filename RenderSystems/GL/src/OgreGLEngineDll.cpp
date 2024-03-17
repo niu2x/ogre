@@ -41,12 +41,12 @@ namespace Ogre
     extern "C" void _OgreGLExport dllStartPlugin(void)
     {
         plugin = OGRE_NEW GLPlugin();
-        Root::getSingleton().installPlugin(plugin);
+        Root::singleton().installPlugin(plugin);
     }
 
     extern "C" void _OgreGLExport dllStopPlugin(void)
     {
-        Root::getSingleton().uninstallPlugin(plugin);
+        Root::singleton().uninstallPlugin(plugin);
         OGRE_DELETE plugin;
     }
 }

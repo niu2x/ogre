@@ -60,8 +60,12 @@ static void prepareCircleMaterial()
         }
     }
 
-    auto tex = TextureManager::getSingleton().loadImage(CIRCLES_MATERIAL, RGN_DEFAULT, bmap);
-    MaterialPtr material = MaterialManager::getSingleton().create(CIRCLES_MATERIAL, RGN_DEFAULT);
+    auto tex = TextureManager::singleton().loadImage(
+        CIRCLES_MATERIAL,
+        RGN_DEFAULT,
+        bmap);
+    MaterialPtr material
+        = MaterialManager::singleton().create(CIRCLES_MATERIAL, RGN_DEFAULT);
     auto texLayer = material->getTechnique(0)->getPass(0)->createTextureUnitState();
     texLayer->setTexture(tex);
     texLayer->setTextureAddressingMode( TextureUnitState::TAM_CLAMP );
@@ -294,7 +298,8 @@ protected:
     {
         //Only one menu in this demo
         const String& materialName = menu->getSelectedItem();
-        MaterialPtr material = MaterialManager::getSingleton().getByName(materialName);
+        MaterialPtr material
+            = MaterialManager::singleton().getByName(materialName);
         if (!material)
         {
             OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR,

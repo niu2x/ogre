@@ -117,7 +117,7 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DSurface9 *sur
             dev->CreateRenderTarget(desc.Width, desc.Height, D3DFMT_NULL, D3DMULTISAMPLE_NONE, 0, false,
                                     &bufferResources->nullSurface, NULL);
 
-            auto rs = (D3D9RenderSystem *)Root::getSingleton().getRenderSystem();
+            auto rs = (D3D9RenderSystem*)Root::singleton().getRenderSystem();
             auto rtt = static_cast<D3D9RenderTexture *>(mSliceTRT.front());
             auto depthBuf = rs->_addManualDepthBuffer(dev, getSurface(dev));
             rtt->_setDepthBuffer(depthBuf);
@@ -989,7 +989,7 @@ void D3D9HardwarePixelBuffer::updateRenderTexture(bool writeGamma, uint fsaa, co
         name = "rtt/" +Ogre::StringConverter::to_string((size_t)this) + "/" + srcName;
 
         mSliceTRT.push_back(OGRE_NEW D3D9RenderTexture(name, this, writeGamma, fsaa));
-        Root::getSingleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[0]);
+        Root::singleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[0]);
     }
 }
 //-----------------------------------------------------------------------------    
@@ -997,7 +997,8 @@ void D3D9HardwarePixelBuffer::destroyRenderTexture()
 {
     if (!mSliceTRT.empty())
     {
-        Root::getSingleton().getRenderSystem()->destroyRenderTarget(mSliceTRT[0]->name());
+        Root::singleton().getRenderSystem()->destroyRenderTarget(
+            mSliceTRT[0]->name());
         mSliceTRT.clear();
     }
 }

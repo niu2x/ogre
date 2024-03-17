@@ -291,7 +291,8 @@ namespace Ogre {
         if (mSource.empty())
             return;
 
-        const RenderSystemCapabilities* rsc = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* rsc
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         bool clipDistBug =
             ((OGRE_PLATFORM == OGRE_PLATFORM_WIN32) || (OGRE_PLATFORM == OGRE_PLATFORM_WINRT)) &&
@@ -426,7 +427,7 @@ namespace Ogre {
         GLenum GLShaderType = getGLShaderType(mType);
         OGRE_CHECK_GL_ERROR(mGLShaderHandle = glCreateShader(GLShaderType));
 
-        auto caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        auto caps = Root::singleton().getRenderSystem()->getCapabilities();
 
         if (caps->hasCapability(RSC_DEBUG))
             OGRE_CHECK_GL_ERROR(
@@ -454,7 +455,8 @@ namespace Ogre {
 
         // probably we have warnings
         if (!compileInfo.empty())
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << getResourceLogName() << " " << compileInfo;
+            LogManager::singleton().stream(LogMsgLevel::WARNING)
+                << getResourceLogName() << " " << compileInfo;
     }
 
     void GLSLShader::unloadHighLevelImpl(void)
@@ -467,7 +469,7 @@ namespace Ogre {
         }
 
         // destroy all programs using this shader
-        GLSLProgramManager::getSingletonPtr()->destroyAllByShader(this);
+        GLSLProgramManager::singleton_ptr(()->destroyAllByShader(this);
 
         mGLShaderHandle = 0;
         mGLProgramHandle = 0;
@@ -530,8 +532,9 @@ namespace Ogre {
                     std::vector<int> val(use.currentSize);
                     OGRE_CHECK_GL_ERROR(glGetUniformiv(mGLProgramHandle, def.logicalIndex, val.data()));
                     if (val != std::vector<int>(use.currentSize))
-                        LogManager::getSingleton().log_warning("Default value of uniform '" + name +
-                                                              "' is ignored in " + getResourceLogName());
+                        LogManager::singleton().log_warning(
+                            "Default value of uniform '" + name
+                            + "' is ignored in " + getResourceLogName());
                 }
             }
             else if(def.isSampler())
@@ -544,8 +547,9 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().log_error("Could not parse type of GLSL Uniform: '" + name +
-                                                    "' in file " + getResourceLogName());
+                LogManager::singleton().log_error(
+                    "Could not parse type of GLSL Uniform: '" + name
+                    + "' in file " + getResourceLogName());
             }
             mConstantDefs->map.emplace(name, def);
         }
@@ -556,7 +560,8 @@ namespace Ogre {
         GLint numBlocks = 0;
         OGRE_CHECK_GL_ERROR(glGetProgramInterfaceiv(mGLProgramHandle, type, GL_ACTIVE_RESOURCES, &numBlocks));
 
-        auto& hbm = static_cast<GL3PlusHardwareBufferManager&>(HardwareBufferManager::getSingleton());
+        auto& hbm = static_cast<GL3PlusHardwareBufferManager&>(
+            HardwareBufferManager::singleton());
 
         const GLenum blockProperties[3] = {GL_NUM_ACTIVE_VARIABLES, GL_NAME_LENGTH, GL_BUFFER_DATA_SIZE};
         for(int blockIdx = 0; blockIdx < numBlocks; ++blockIdx)
@@ -576,9 +581,10 @@ namespace Ogre {
                 extractUniforms(blockIdx);
                 int binding = mType == GPT_COMPUTE_PROGRAM ? 0 : int(mType);
                 if (binding > 1)
-                    LogManager::getSingleton().log_warning(
-                        getResourceLogName() +
-                        " - using 'OgreUniforms' in this shader type does alias with shared_params");
+                    LogManager::singleton().log_warning(
+                        getResourceLogName()
+                        + " - using 'OgreUniforms' in this shader type does "
+                          "alias with shared_params");
 
                 mDefaultBuffer = hbm.createUniformBuffer(values[2]);
                 static_cast<GL3PlusHardwareBuffer*>(mDefaultBuffer.get())->setGLBufferBinding(binding);
@@ -586,7 +592,8 @@ namespace Ogre {
                 continue;
             }
 
-            auto blockSharedParams = GpuProgramManager::getSingleton().getSharedParameters(name);
+            auto blockSharedParams
+                = GpuProgramManager::singleton().getSharedParameters(name);
 
             HardwareBufferPtr hwGlBuffer = blockSharedParams->_getHardwareBuffer();
             if(!hwGlBuffer)
@@ -623,7 +630,7 @@ namespace Ogre {
     void GLSLShader::buildConstantDefinitions()
     {
         createParameterMappingStructures(true);
-        auto caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        auto caps = Root::singleton().getRenderSystem()->getCapabilities();
 
         if(caps->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
         {
@@ -635,7 +642,7 @@ namespace Ogre {
             }
             catch (const InvalidParametersException& e)
             {
-                LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+                LogManager::singleton().stream(LogMsgLevel::CRITICAL)
                     << "Program '" << name()
                     << "' is not supported: " << e.description();
                 mCompileError = true;
@@ -648,14 +655,18 @@ namespace Ogre {
         // We need an accurate list of all the uniforms in the shader, but we
         // can't get at them until we link all the shaders into a program object.
         // Therefore instead parse the source code manually and extract the uniforms.
-        GLSLProgramManager::getSingleton().extractUniformsFromGLSL(mSource, *mConstantDefs, getResourceLogName());
-
+        GLSLProgramManager::singleton().extractUniformsFromGLSL(
+            mSource,
+            *mConstantDefs,
+            getResourceLogName());
 
         // Also parse any attached sources.
         for (auto childShader : mAttachedGLSLPrograms)
         {
-            GLSLProgramManager::getSingleton().extractUniformsFromGLSL(
-                childShader->getSource(), *mConstantDefs, childShader->name());
+            GLSLProgramManager::singleton().extractUniformsFromGLSL(
+                childShader->getSource(),
+                *mConstantDefs,
+                childShader->name());
         }
 
         if(!mHasSamplerBinding)

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "resource_manager.h"
 #include "OgreGpuProgram.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -290,13 +290,10 @@ namespace Ogre {
         /** Remove a factory object for programs of a given language. */
         void removeFactory(GpuProgramFactory* factory);
 
-        /// @copydoc Singleton::getSingleton()
-        static GpuProgramManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static GpuProgramManager* getSingletonPtr(void);
-    
-
-
+        /// @copydoc Singleton::singleton()
+        static GpuProgramManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static GpuProgramManager* singleton_ptr((void);
     };
 
     /** @} */

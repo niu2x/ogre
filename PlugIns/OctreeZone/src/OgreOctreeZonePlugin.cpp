@@ -62,14 +62,14 @@ namespace Ogre
     void OctreeZonePlugin::initialise()
     {
         // Register
-        PCZoneFactoryManager & pczfm = PCZoneFactoryManager::getSingleton();
+        PCZoneFactoryManager& pczfm = PCZoneFactoryManager::singleton();
         pczfm.registerPCZoneFactory(mOctreeZoneFactory);
     }
     //---------------------------------------------------------------------
     void OctreeZonePlugin::shutdown()
     {
         // Unregister
-        PCZoneFactoryManager & pczfm = PCZoneFactoryManager::getSingleton();
+        PCZoneFactoryManager& pczfm = PCZoneFactoryManager::singleton();
         pczfm.unregisterPCZoneFactory(mOctreeZoneFactory);
     }
     //---------------------------------------------------------------------

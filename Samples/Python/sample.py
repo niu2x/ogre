@@ -8,7 +8,7 @@ class KeyListener(Ogre.Bites.InputListener):
 
     def keyPressed(self, evt):
         if evt.keysym.sym == Ogre.Bites.SDLK_ESCAPE:
-            Ogre.Root.getSingleton().queueEndRendering()
+            Ogre.Root.singleton().queueEndRendering()
 
         return True
 
@@ -24,7 +24,7 @@ def main():
     root = ctx.getRoot()
     scn_mgr = root.createSceneManager()
 
-    shadergen = Ogre.RTShader.ShaderGenerator.getSingleton()
+    shadergen = Ogre.RTShader.ShaderGenerator.singleton()
     shadergen.addSceneManager(scn_mgr)  # must be done before we do anything with the scene
 
     # without light we would just get a black screen

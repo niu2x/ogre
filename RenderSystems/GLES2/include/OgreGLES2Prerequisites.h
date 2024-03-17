@@ -64,7 +64,8 @@ extern float EAGLCurrentOSVersion;
 #define OGRE_IF_IOS_VERSION_IS_GREATER_THAN(vers)
 #endif
 
-#define getGLES2RenderSystem() dynamic_cast<GLES2RenderSystem*>(Root::getSingleton().getRenderSystem())
+#define getGLES2RenderSystem()                                                 \
+    dynamic_cast<GLES2RenderSystem*>(Root::singleton().getRenderSystem())
 
 // Copy this definition from desktop GL.  Used for polygon modes.
 #ifndef GL_FILL
@@ -93,28 +94,39 @@ namespace Ogre {
 
 #if ENABLE_GL_CHECK
 #include "log_manager.h"
-#define OGRE_CHECK_GL_ERROR(glFunc) \
-{ \
-    glFunc; \
-    int e = glGetError(); \
-    if (e != 0) \
-    { \
-        const char * errorString = ""; \
-        switch(e) \
-        { \
-        case GL_INVALID_ENUM:       errorString = "GL_INVALID_ENUM";        break; \
-        case GL_INVALID_VALUE:      errorString = "GL_INVALID_VALUE";       break; \
-        case GL_INVALID_OPERATION:  errorString = "GL_INVALID_OPERATION";   break; \
-        case GL_OUT_OF_MEMORY:      errorString = "GL_OUT_OF_MEMORY";       break; \
-        default:                                                            break; \
-        } \
-        String funcname = #glFunc; \
-        funcname = funcname.substr(0, funcname.find('(')); \
-        LogManager::getSingleton().log_error(StringUtil::format("%s failed with %s in %s at %s(%d)",          \
-                                                                funcname.c_str(), errorString, __FUNCTION__, \
-                                                                __FILE__, __LINE__));                        \
-    } \
-}
+    #define OGRE_CHECK_GL_ERROR(glFunc)                                        \
+        {                                                                      \
+            glFunc;                                                            \
+            int e = glGetError();                                              \
+            if (e != 0) {                                                      \
+                const char* errorString = "";                                  \
+                switch (e) {                                                   \
+                    case GL_INVALID_ENUM:                                      \
+                        errorString = "GL_INVALID_ENUM";                       \
+                        break;                                                 \
+                    case GL_INVALID_VALUE:                                     \
+                        errorString = "GL_INVALID_VALUE";                      \
+                        break;                                                 \
+                    case GL_INVALID_OPERATION:                                 \
+                        errorString = "GL_INVALID_OPERATION";                  \
+                        break;                                                 \
+                    case GL_OUT_OF_MEMORY:                                     \
+                        errorString = "GL_OUT_OF_MEMORY";                      \
+                        break;                                                 \
+                    default:                                                   \
+                        break;                                                 \
+                }                                                              \
+                String funcname = #glFunc;                                     \
+                funcname = funcname.substr(0, funcname.find('('));             \
+                LogManager::singleton().log_error(StringUtil::format(          \
+                    "%s failed with %s in %s at %s(%d)",                       \
+                    funcname.c_str(),                                          \
+                    errorString,                                               \
+                    __FUNCTION__,                                              \
+                    __FILE__,                                                  \
+                    __LINE__));                                                \
+            }                                                                  \
+        }
 #else
 #   define OGRE_CHECK_GL_ERROR(glFunc) { glFunc; }
 #endif

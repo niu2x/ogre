@@ -59,7 +59,7 @@ void RenderState::clear()
 {
     for (auto & it : mSubRenderStateList)
     {
-        ShaderGenerator::getSingleton().destroySubRenderState(it);
+        ShaderGenerator::singleton().destroySubRenderState(it);
     }
     mSubRenderStateList.clear();
 }
@@ -68,7 +68,8 @@ void RenderState::addTemplateSubRenderStates(const StringVector& srsTypes)
 {
     for (auto& srsType : srsTypes)
     {
-        addTemplateSubRenderState(ShaderGenerator::getSingleton().createSubRenderState(srsType));
+        addTemplateSubRenderState(
+            ShaderGenerator::singleton().createSubRenderState(srsType));
     }
 }
 
@@ -111,7 +112,7 @@ void RenderState::removeSubRenderState(SubRenderState* subRenderState)
     if(it == mSubRenderStateList.end()) return;
 
     mSubRenderStateList.erase(it);
-    ShaderGenerator::getSingleton().destroySubRenderState(subRenderState);
+    ShaderGenerator::singleton().destroySubRenderState(subRenderState);
 }
 
 SubRenderState* RenderState::getSubRenderState(const String& type) const
@@ -145,7 +146,8 @@ void TargetRenderState::addSubRenderStateInstance(SubRenderState* subRenderState
 void TargetRenderState::bindUniformParameters(Program* pCpuProgram, const GpuProgramParametersSharedPtr& passParams)
 {
     // samplers are bound via registers in HLSL & Cg
-    bool samplersBound = ShaderGenerator::getSingleton().getTargetLanguage()[0] != 'g';
+    bool samplersBound
+        = ShaderGenerator::singleton().getTargetLanguage()[0] != 'g';
 
     // Bind each uniform parameter to its GPU parameter.
     for (const auto& param : pCpuProgram->parameters())
@@ -160,10 +162,11 @@ void TargetRenderState::bindUniformParameters(Program* pCpuProgram, const GpuPro
 void TargetRenderState::acquirePrograms(Pass* pass)
 {
     createCpuPrograms();
-    ProgramManager::getSingleton().createGpuPrograms(mProgramSet.get());
+    ProgramManager::singleton().createGpuPrograms(mProgramSet.get());
 
     bool hasError = false;
-    bool logProgramNames = !ShaderGenerator::getSingleton().getShaderCachePath().empty();
+    bool logProgramNames
+        = !ShaderGenerator::singleton().getShaderCachePath().empty();
     const char* matName = pass->getParent()->getParent()->name().c_str();
 
     for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
@@ -172,8 +175,11 @@ void TargetRenderState::acquirePrograms(Pass* pass)
         hasError = hasError || prog->hasCompileError();
         if (logProgramNames)
         {
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "RTSS: using %s for Pass %d of '%s'", prog->name().c_str(), pass->getIndex(), matName));
+            LogManager::singleton().log_message(StringUtil::format(
+                "RTSS: using %s for Pass %d of '%s'",
+                prog->name().c_str(),
+                pass->getIndex(),
+                matName));
         }
 
         // Bind the created GPU programs to the target pass.
@@ -184,8 +190,10 @@ void TargetRenderState::acquirePrograms(Pass* pass)
 
     if (hasError)
     {
-        LogManager::getSingleton().log_error(
-            StringUtil::format("RTSS: failed to create GpuPrograms for Pass %d of '%s'", pass->getIndex(), matName));
+        LogManager::singleton().log_error(StringUtil::format(
+            "RTSS: failed to create GpuPrograms for Pass %d of '%s'",
+            pass->getIndex(),
+            matName));
     }
 
     mParent = pass;
@@ -200,7 +208,7 @@ void TargetRenderState::releasePrograms(Pass* pass)
     pass->setGpuProgram(GPT_VERTEX_PROGRAM, GpuProgramPtr());
     pass->setGpuProgram(GPT_FRAGMENT_PROGRAM, GpuProgramPtr());
 
-    ProgramManager::getSingleton().releasePrograms(mProgramSet.get());
+    ProgramManager::singleton().releasePrograms(mProgramSet.get());
 
     mProgramSet.reset();
 }
@@ -266,7 +274,7 @@ void TargetRenderState::link(const StringVector& srsTypes, Pass* srcPass, Pass* 
 {
     for (const auto& srsType : srsTypes)
     {
-        auto srs = ShaderGenerator::getSingleton().createSubRenderState(srsType);
+        auto srs = ShaderGenerator::singleton().createSubRenderState(srsType);
 
         if (srs->preAddToRenderState(this, srcPass, dstPass))
         {
@@ -274,7 +282,7 @@ void TargetRenderState::link(const StringVector& srsTypes, Pass* srcPass, Pass* 
         }
         else
         {
-            ShaderGenerator::getSingleton().destroySubRenderState(srs);
+            ShaderGenerator::singleton().destroySubRenderState(srs);
         }
     }
 }
@@ -303,7 +311,7 @@ void TargetRenderState::link(const RenderState& templateRS, Pass* srcPass, Pass*
 
         if(it != mSubRenderStateList.end())
         {
-            ShaderGenerator::getSingleton().destroySubRenderState(*it);
+            ShaderGenerator::singleton().destroySubRenderState(*it);
             std::swap(*it, mSubRenderStateList.back());
             mSubRenderStateList.pop_back();
         }
@@ -316,13 +324,15 @@ void TargetRenderState::link(const RenderState& templateRS, Pass* srcPass, Pass*
 
         if(it != mSubRenderStateList.end())
         {
-            ShaderGenerator::getSingleton().destroySubRenderState(*it);
+            ShaderGenerator::singleton().destroySubRenderState(*it);
             std::swap(*it, mSubRenderStateList.back());
             mSubRenderStateList.pop_back();
         }
 
         // Case custom sub render state not exits -> add it to custom list.
-        auto newSubRenderState = ShaderGenerator::getSingleton().createSubRenderState(srcSubRenderState->getType());
+        auto newSubRenderState
+            = ShaderGenerator::singleton().createSubRenderState(
+                srcSubRenderState->getType());
         *newSubRenderState = *srcSubRenderState;
 
         if (newSubRenderState->preAddToRenderState(this, srcPass, dstPass))
@@ -331,7 +341,8 @@ void TargetRenderState::link(const RenderState& templateRS, Pass* srcPass, Pass*
         }
         else
         {
-            ShaderGenerator::getSingleton().destroySubRenderState(newSubRenderState);
+            ShaderGenerator::singleton().destroySubRenderState(
+                newSubRenderState);
         }
     }
 }

@@ -66,8 +66,8 @@ namespace Ogre {
 
         void eventOccurred(const String& eventName, const NameValuePairList* parameters) override;
 
-        static OverlaySystem& getSingleton();
-        static OverlaySystem* getSingletonPtr();
+        static OverlaySystem& singleton();
+        static OverlaySystem* singleton_ptr(();
     private:
         OverlayManager* mOverlayManager;
         FontManager* mFontManager;

@@ -51,7 +51,7 @@ namespace Ogre {
 		, mColourBuffer(CBT_BACK)
     {           
 #if OGRE_PLATFORM != OGRE_PLATFORM_ANDROID
-        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+        LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
             << "Creating viewport on target '" << target->name() << "'"
             << ", rendering from camera '" << (cam != 0 ? cam->name() : "NULL")
             << "'"
@@ -59,7 +59,7 @@ namespace Ogre {
 #endif
             
         // Set the default material scheme
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
         mMaterialSchemeName = rs->_getDefaultViewportMaterialScheme();
         
         // Calculate actual dimensions
@@ -78,7 +78,7 @@ namespace Ogre {
             l->viewportDestroyed(this);
         }
 
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
         if ((rs) && (rs->_getViewport() == this))
         {
             rs->_setViewport(NULL);
@@ -114,7 +114,7 @@ namespace Ogre {
                 mCamera->setAspectRatio((float)mActRect.width() / (float)mActRect.height());
         }
 
-        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+        LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
             << "Viewport for camera '" << (mCamera ? mCamera->name() : "NULL")
             << "'"
             << ", actual dimensions " << mActRect;
@@ -153,7 +153,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Viewport::clear(uint32 buffers, const ColourValue& col, float depth, uint16 stencil)
     {
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
         if (rs)
         {
             Viewport* currentvp = rs->_getViewport();

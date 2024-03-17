@@ -314,9 +314,9 @@ namespace Ogre {
         auto dstPass = mMaterial->getTechnique(0)->getPass(0); // assume this is representative
         if (dstPass->getLightingEnabled() || dstPass->getDepthCheckEnabled())
         {
-            LogManager::getSingleton().log_warning(
-                "force-disabling 'lighting' and 'depth_check' of Material " + mat->name() +
-                " for use with OverlayElement " + name());
+            LogManager::singleton().log_warning(
+                "force-disabling 'lighting' and 'depth_check' of Material "
+                + mat->name() + " for use with OverlayElement " + name());
         }
 
         // Set some prerequisites to be sure
@@ -329,7 +329,7 @@ namespace Ogre {
     {
         if (!matName.empty())
         {
-            mMaterial = MaterialManager::getSingleton().getByName(matName, group);
+            mMaterial = MaterialManager::singleton().getByName(matName, group);
             if (!mMaterial)
                 OGRE_EXCEPT( Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + matName,
                     "OverlayElement::setMaterialName" );
@@ -360,7 +360,7 @@ namespace Ogre {
     void OverlayElement::_update(void)
     {
         Real vpWidth, vpHeight;
-        OverlayManager& oMgr = OverlayManager::getSingleton();
+        OverlayManager& oMgr = OverlayManager::singleton();
         vpWidth = (Real) (oMgr.getViewportWidth());
         vpHeight = (Real) (oMgr.getViewportHeight());
 
@@ -447,8 +447,8 @@ namespace Ogre {
         }
         else
         {
-            RenderSystem* rSys = Root::getSingleton().getRenderSystem();
-            OverlayManager& oMgr = OverlayManager::getSingleton();
+            RenderSystem* rSys = Root::singleton().getRenderSystem();
+            OverlayManager& oMgr = OverlayManager::singleton();
 
             // Calculate offsets required for mapping texel origins to pixel origins in the
             // current rendersystem
@@ -582,7 +582,7 @@ namespace Ogre {
         case GMM_PIXELS :
             {
                 Real vpWidth, vpHeight;
-                OverlayManager& oMgr = OverlayManager::getSingleton();
+                OverlayManager& oMgr = OverlayManager::singleton();
                 vpWidth = (Real) (oMgr.getViewportWidth());
                 vpHeight = (Real) (oMgr.getViewportHeight());
 
@@ -594,7 +594,7 @@ namespace Ogre {
         case GMM_RELATIVE_ASPECT_ADJUSTED :
             {
                 Real vpWidth, vpHeight;
-                OverlayManager& oMgr = OverlayManager::getSingleton();
+                OverlayManager& oMgr = OverlayManager::singleton();
                 vpWidth = (Real) (oMgr.getViewportWidth());
                 vpHeight = (Real) (oMgr.getViewportHeight());
 
@@ -705,7 +705,7 @@ namespace Ogre {
         case GMM_PIXELS :
             {
                 Real vpWidth, vpHeight;
-                OverlayManager& oMgr = OverlayManager::getSingleton();
+                OverlayManager& oMgr = OverlayManager::singleton();
                 vpWidth = (Real) (oMgr.getViewportWidth());
                 vpHeight = (Real) (oMgr.getViewportHeight());
 
@@ -729,7 +729,7 @@ namespace Ogre {
         case GMM_RELATIVE_ASPECT_ADJUSTED :
             {
                 Real vpWidth, vpHeight;
-                OverlayManager& oMgr = OverlayManager::getSingleton();
+                OverlayManager& oMgr = OverlayManager::singleton();
                 vpWidth = (Real) (oMgr.getViewportWidth());
                 vpHeight = (Real) (oMgr.getViewportHeight());
 
@@ -798,8 +798,9 @@ namespace Ogre {
     {
         OverlayElement* newElement;
 
-        newElement = OverlayManager::getSingleton().createOverlayElement(
-            getTypeName(), instanceName + "/" + mName);
+        newElement = OverlayManager::singleton().createOverlayElement(
+            getTypeName(),
+            instanceName + "/" + mName);
         copy_parameters_to(newElement);
 
         return newElement;

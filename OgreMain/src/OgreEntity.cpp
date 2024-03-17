@@ -745,7 +745,7 @@ namespace Ogre {
         if (!mInitialised)
             return;
 
-        Root& root = Root::getSingleton();
+        Root& root = Root::singleton();
         bool hwAnimation = isHardwareAnimationEnabled();
         bool isNeedUpdateHardwareAnim = hwAnimation && !mCurrentHWAnimationState;
         bool forcedSwAnimation = getSoftwareAnimationRequests()>0;
@@ -946,11 +946,13 @@ namespace Ogre {
                 if (msh->getSharedVertexDataAnimationType() == VAT_POSE && 
                     supportedCount < mHardwarePoseCount)
                 {
-                    LogManager::getSingleton().stream() <<
-                        "Vertex program assigned to Entity '" << mName << 
-                        "' claimed to support " << mHardwarePoseCount << 
-                        " morph/pose vertex sets, but in fact only " << supportedCount <<
-                        " were able to be supported in the shared mesh data.";
+                    LogManager::singleton().stream()
+                        << "Vertex program assigned to Entity '" << mName
+                        << "' claimed to support " << mHardwarePoseCount
+                        << " morph/pose vertex sets, but in fact only "
+                        << supportedCount
+                        << " were able to be supported in the shared mesh "
+                           "data.";
                     mHardwarePoseCount = supportedCount;
                 }
                     
@@ -969,11 +971,13 @@ namespace Ogre {
                     if (sub->getSubMesh()->getVertexAnimationType() == VAT_POSE && 
                         supportedCount < sub->mHardwarePoseCount)
                     {
-                        LogManager::getSingleton().stream() <<
-                        "Vertex program assigned to SubEntity of '" << mName << 
-                        "' claimed to support " << sub->mHardwarePoseCount << 
-                        " morph/pose vertex sets, but in fact only " << supportedCount <<
-                        " were able to be supported in the mesh data.";
+                        LogManager::singleton().stream()
+                            << "Vertex program assigned to SubEntity of '"
+                            << mName << "' claimed to support "
+                            << sub->mHardwarePoseCount
+                            << " morph/pose vertex sets, but in fact only "
+                            << supportedCount
+                            << " were able to be supported in the mesh data.";
                         sub->mHardwarePoseCount = supportedCount;
                     }
                     
@@ -1296,7 +1300,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     bool Entity::cacheBoneMatrices(void)
     {
-        Root& root = Root::getSingleton();
+        Root& root = Root::singleton();
         unsigned long currentFrameNumber = root.getNextFrameNumber();
         if ((*mFrameBonesLastUpdated != currentFrameNumber) ||
             (hasSkeleton() && getSkeleton()->getManualBonesDirty()))
@@ -1573,7 +1577,8 @@ namespace Ogre {
     bool Entity::isHardwareAnimationEnabled(void)
     {
         //find whether the entity has hardware animation for the current active sceme
-        unsigned short schemeIndex = MaterialManager::getSingleton()._getActiveSchemeIndex();
+        unsigned short schemeIndex
+            = MaterialManager::singleton()._getActiveSchemeIndex();
         for(const auto& p : mSchemeHardwareAnim)
         {
             if(p.first == schemeIndex) return p.second;
@@ -2245,10 +2250,10 @@ namespace Ogre {
             if (ni != params->end())
             {
                 // Get mesh (load if required)
-                pMesh = MeshManager::getSingleton().load(
+                pMesh = MeshManager::singleton().load(
                     ni->second,
                     // autodetect group location
-                    groupName );
+                    groupName);
             }
 
         }

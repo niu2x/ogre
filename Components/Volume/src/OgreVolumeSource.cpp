@@ -72,7 +72,7 @@ namespace Volume {
     void Source::serialize(const Vector3 &from, const Vector3 &to, float voxelWidth, Real maxClampedAbsoluteDensity, const String &file)
     {
         // Compress
-        DataStreamPtr stream = Root::getSingleton().createFileStream(file);
+        DataStreamPtr stream = Root::singleton().createFileStream(file);
 #if OGRE_NO_ZIP_ARCHIVE == 0
         DataStreamPtr compressStream(OGRE_NEW DeflateStream(file, stream));
         StreamSerialiser ser(compressStream);

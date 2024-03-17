@@ -67,7 +67,7 @@ void Context::_mainLoop(void* target)
             size_t length = emscripten_get_callstack(EM_LOG_C_STACK | EM_LOG_DEMANGLE | EM_LOG_NO_PATHS | EM_LOG_FUNC_PARAMS,0,0) + 50;
             std::vector<char> buffer(length);
             emscripten_get_callstack(EM_LOG_C_STACK | EM_LOG_DEMANGLE | EM_LOG_NO_PATHS | EM_LOG_FUNC_PARAMS, buffer.data(), length);
-            Ogre::LogManager::getSingleton().log_message(buffer.data());
+            Ogre::LogManager::singleton().log_message(buffer.data());
 
             emscripten_pause_main_loop();
 	    }
@@ -91,7 +91,7 @@ void Context::destroyMaterials( const Ogre::String& resourceGroupID )
 
     try
     {
-        Ogre::MaterialManager* materialManager = Ogre::MaterialManager::getSingletonPtr();
+        Ogre::MaterialManager* materialManager = Ogre::MaterialManager::singleton_ptr(();
         Ogre::ResourceManager::ResourceMapIterator resourceIterator = materialManager->getResourceIterator();
 
         std::vector< std::string > materialNamesToRemove;
@@ -119,7 +119,9 @@ void Context::destroyMaterials( const Ogre::String& resourceGroupID )
     }
     catch( ... )
     {
-        Ogre::LogManager::getSingleton().log_message("An Error occurred trying to destroy Materials in " + resourceGroupID);
+        Ogre::LogManager::singleton().log_message(
+            "An Error occurred trying to destroy Materials in "
+            + resourceGroupID);
     }
 
 }
@@ -128,7 +130,7 @@ void Context::destroyTextures( const Ogre::String& resourceGroupID )
 {
     try
     {
-        Ogre::TextureManager* textureManager = Ogre::TextureManager::getSingletonPtr();
+        Ogre::TextureManager* textureManager = Ogre::TextureManager::singleton_ptr(();
         Ogre::ResourceManager::ResourceMapIterator resourceIterator = textureManager->getResourceIterator();
 
         std::vector< std::string > textureNamesToRemove;
@@ -151,7 +153,9 @@ void Context::destroyTextures( const Ogre::String& resourceGroupID )
     }
     catch( ... )
     {
-        Ogre::LogManager::getSingleton().log_message("An Error occurred trying to destroy Textures in " + resourceGroupID);
+        Ogre::LogManager::singleton().log_message(
+            "An Error occurred trying to destroy Textures in "
+            + resourceGroupID);
     }
 
 }
@@ -164,22 +168,24 @@ void Context::clearScene()
         //    mSceneMgr->destroyMovableObject(mo);
         mNode->detachAllObjects();
 
-        Ogre::MaterialManager* matMgr = Ogre::MaterialManager::getSingletonPtr();
+        Ogre::MaterialManager* matMgr = Ogre::MaterialManager::singleton_ptr(();
         matMgr->removeUnreferencedResources();
 
-        Ogre::MeshManager* meshMgr = Ogre::MeshManager::getSingletonPtr();
+        Ogre::MeshManager* meshMgr = Ogre::MeshManager::singleton_ptr(();
         meshMgr->unloadUnreferencedResources();
 
-        Ogre::TextureManager* texMgr = Ogre::TextureManager::getSingletonPtr();
+        Ogre::TextureManager* texMgr = Ogre::TextureManager::singleton_ptr(();
         texMgr->removeUnreferencedResources();
 
-        if( Ogre::ResourceGroupManager::getSingleton().resourceGroupExists("Download") && Ogre::ResourceGroupManager::getSingleton().isResourceGroupInitialised("Download") )
+        if( Ogre::ResourceGroupManager::singleton().resourceGroupExists("Download") && Ogre::ResourceGroupManager::singleton().isResourceGroupInitialised("Download") )
         {
             destroyMaterials( "Download" );
             destroyTextures( "Download" );
 
-            Ogre::ResourceGroupManager::getSingleton().removeResourceLocation( "download.zip" );
-            Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup( "Download" );
+            Ogre::ResourceGroupManager::singleton().removeResourceLocation(
+                "download.zip");
+            Ogre::ResourceGroupManager::singleton().destroyResourceGroup(
+                "Download");
         }
 
         Ogre::EmbeddedZipArchiveFactory::removeEmbbeddedFile("download.zip");
@@ -197,22 +203,28 @@ void Context::passAssetAsArrayBuffer(unsigned char* arr, int length) {
     try {
 
         clearScene();
-        Ogre::ResourceGroupManager::getSingleton().createResourceGroup("Download");
+        Ogre::ResourceGroupManager::singleton().createResourceGroup("Download");
         mBuffer = arr;
 
         Ogre::EmbeddedZipArchiveFactory::addEmbbeddedFile("download.zip", mBuffer, length, NULL);
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation("download.zip","EmbeddedZip","Download");
-        Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Download");
+        Ogre::ResourceGroupManager::singleton().addResourceLocation(
+            "download.zip",
+            "EmbeddedZip",
+            "Download");
+        Ogre::ResourceGroupManager::singleton().initialiseResourceGroup(
+            "Download");
 
-        Ogre::StringVectorPtr meshes = Ogre::ArchiveManager::getSingleton().load("download.zip","EmbeddedZip",true)->find("*.mesh");
+        Ogre::StringVectorPtr meshes
+            = Ogre::ArchiveManager::singleton()
+                  .load("download.zip", "EmbeddedZip", true)
+                  ->find("*.mesh");
         for (auto i : *meshes)
         {
             //mNode->attachObject(mSceneMgr->createEntity(i));
         }
 
     } catch (Ogre::Exception& ex) {
-        Ogre::LogManager::getSingleton().log_message(ex.what());
-
+        Ogre::LogManager::singleton().log_message(ex.what());
     }
 
 

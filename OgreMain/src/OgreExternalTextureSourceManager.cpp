@@ -43,11 +43,11 @@ namespace Ogre
 {
     //****************************************************************************************
     template<> ExternalTextureSourceManager* Singleton<ExternalTextureSourceManager>::msSingleton = 0;
-    ExternalTextureSourceManager* ExternalTextureSourceManager::getSingletonPtr(void)
+    ExternalTextureSourceManager* ExternalTextureSourceManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ExternalTextureSourceManager& ExternalTextureSourceManager::getSingleton(void)
+    ExternalTextureSourceManager& ExternalTextureSourceManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -97,26 +97,26 @@ namespace Ogre
     //****************************************************************************************
     void ExternalTextureSourceManager::setExternalTextureSource( const String& sTexturePlugInType, ExternalTextureSource* pTextureSystem )
     {
-        LogManager::getSingleton().log_message( "Registering Texture Controller: Type = "
-                        + sTexturePlugInType + " Name = " + pTextureSystem->getPluginStringName());
+    LogManager::singleton().log_message(
+        "Registering Texture Controller: Type = " + sTexturePlugInType
+        + " Name = " + pTextureSystem->getPluginStringName());
 
-        for(auto& t : mTextureSystems)
-        {
-            if( t.first == sTexturePlugInType )
-            {
-                LogManager::getSingleton().log_message( "Shutting Down Texture Controller: "
-                        + t.second->getPluginStringName()
-                        + " To be replaced by: "
-                        + pTextureSystem->getPluginStringName());
+    for (auto& t : mTextureSystems) {
+        if (t.first == sTexturePlugInType) {
+            LogManager::singleton().log_message(
+                "Shutting Down Texture Controller: "
+                + t.second->getPluginStringName() + " To be replaced by: "
+                + pTextureSystem->getPluginStringName());
 
-                t.second->shutDown();              //Only one plugIn of Sent Type can be registered at a time
-                                                    //so shut down old plugin before starting new plugin
-                t.second = pTextureSystem;
-                // **Moved this line b/c Rendersystem needs to be selected before things
-                // such as framelistners can be added
-                // pTextureSystem->Initialise();
-                return;
-            }
+            t.second->shutDown(); // Only one plugIn of Sent Type can be
+                                  // registered at a time so shut down old
+                                  // plugin before starting new plugin
+            t.second = pTextureSystem;
+            // **Moved this line b/c Rendersystem needs to be selected before
+            // things such as framelistners can be added
+            // pTextureSystem->Initialise();
+            return;
+        }
         }
         mTextureSystems[sTexturePlugInType] = pTextureSystem;   //If we got here then add it to map
     }

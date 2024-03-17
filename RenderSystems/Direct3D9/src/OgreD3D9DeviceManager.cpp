@@ -63,7 +63,8 @@ namespace Ogre
         {
             mActiveDevice = device;
 
-            D3D9RenderSystem*   renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
             D3D9DriverList*     driverList   = renderSystem->getDirect3DDrivers();
 
             // Update the active driver member.
@@ -141,7 +142,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     D3D9Device* D3D9DeviceManager::selectDevice(D3D9RenderWindow* renderWindow, D3D9RenderWindowList& renderWindowsGroup)
     {
-        D3D9RenderSystem*       renderSystem     = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
         D3D9Device*             renderDevice     = NULL;    
         IDirect3D9*             direct3D9        = D3D9RenderSystem::getDirect3D9();
         UINT                    nAdapterOrdinal  = D3DADAPTER_DEFAULT;
@@ -204,7 +206,9 @@ namespace Ogre
                     if (osVersionInfo.dwMajorVersion <= 5 && renderWindow->isVSync())
                     {
                         bTryUsingMultiheadDevice = false;
-                        LogManager::getSingleton().log_message("D3D9 : Multi head disabled. It causes horizontal line when used in XP + VSync combination");
+                        LogManager::singleton().log_message(
+                            "D3D9 : Multi head disabled. It causes horizontal "
+                            "line when used in XP + VSync combination");
                     }       
 
                     // Vista and SP1 or SP2 - multi-head device can not be reset - it causes memory corruption.
@@ -214,7 +218,10 @@ namespace Ogre
 
                     {
                         bTryUsingMultiheadDevice = false;
-                        LogManager::getSingleton().log_message("D3D9 : Multi head disabled. It causes application run time crashes when used in Vista + SP 1 or 2 combination");
+                        LogManager::singleton().log_message(
+                            "D3D9 : Multi head disabled. It causes application "
+                            "run time crashes when used in Vista + SP 1 or 2 "
+                            "combination");
                     }   
                 }
                 else
@@ -410,7 +417,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     D3D9Driver* D3D9DeviceManager::findDriver(D3D9RenderWindow* renderWindow)
     {
-        D3D9RenderSystem*       renderSystem     = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());      
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
         IDirect3D9*             direct3D9        = D3D9RenderSystem::getDirect3D9();
         UINT                    nAdapterOrdinal  = D3DADAPTER_DEFAULT;                      
         HMONITOR                hRenderWindowMonitor = NULL;            
@@ -484,16 +492,15 @@ namespace Ogre
     void D3D9DeviceManager::destroyInactiveRenderDevices()
     {
         DeviceIterator itDevice = mRenderDevices.begin();
-        while (itDevice != mRenderDevices.end())
-        {           
-            if ((*itDevice)->getRenderWindowCount() == 0 &&
-                (*itDevice)->getLastPresentFrame() + 1 < Root::getSingleton().getNextFrameNumber())
-            {       
+        while (itDevice != mRenderDevices.end()) {
+            if ((*itDevice)->getRenderWindowCount() == 0
+                && (*itDevice)->getLastPresentFrame() + 1
+                    < Root::singleton().getNextFrameNumber()) {
                 if (*itDevice == mActiveRenderWindowDevice)
                     setActiveRenderTargetDevice(NULL);
                 (*itDevice)->destroy();
                 break;
-            }                                               
+            }
             ++itDevice;
         }
     }

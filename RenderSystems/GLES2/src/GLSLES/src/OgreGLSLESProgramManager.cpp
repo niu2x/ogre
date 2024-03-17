@@ -45,13 +45,13 @@ namespace Ogre {
     template<> GLSLESProgramManager* Singleton<GLSLESProgramManager>::msSingleton = 0;
 
     //-----------------------------------------------------------------------
-    GLSLESProgramManager* GLSLESProgramManager::getSingletonPtr(void)
+    GLSLESProgramManager* GLSLESProgramManager::singleton_ptr((void)
     {
         return msSingleton;
     }
 
     //-----------------------------------------------------------------------
-    GLSLESProgramManager& GLSLESProgramManager::getSingleton(void)
+    GLSLESProgramManager& GLSLESProgramManager::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -59,7 +59,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     GLSLESProgramManager::GLSLESProgramManager(void)
     {
-        
+
 #if !OGRE_NO_GLES2_GLSL_OPTIMISER
 #if OGRE_NO_GLES3_SUPPORT == 0
         mGLSLOptimiserContext = glslopt_initialize(kGlslTargetOpenGLES30);
@@ -105,9 +105,10 @@ namespace Ogre {
             // Program object not found for key so need to create it
             if (programFound == mPrograms.end())
             {
-                if (Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(
-                        RSC_SEPARATE_SHADER_OBJECTS))
-                {
+                if (Root::singleton()
+                        .getRenderSystem()
+                        ->getCapabilities()
+                        ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)) {
                     mActiveProgram = new GLSLESProgramPipeline(mActiveShader);
                 }
                 else
@@ -149,13 +150,16 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().log_message("Error from GLSL Optimiser, disabling optimisation for program: " + gpuProgram->name());
+                LogManager::singleton().log_message(
+                    "Error from GLSL Optimiser, disabling optimisation for "
+                    "program: "
+                    + gpuProgram->name());
                 gpuProgram->getGLSLProgram()->set_parameter("use_optimiser", "false");
-                //LogManager::getSingleton().log_message(String(glslopt_get_log(shader)));
-                //LogManager::getSingleton().log_message("Original Shader");
-                //LogManager::getSingleton().log_message(gpuProgram->getGLSLProgram()->getSource());
-                //LogManager::getSingleton().log_message("Optimized Shader");
-                //LogManager::getSingleton().log_message(os.str());
+                // LogManager::singleton().log_message(String(glslopt_get_log(shader)));
+                // LogManager::singleton().log_message("Original Shader");
+                // LogManager::singleton().log_message(gpuProgram->getGLSLProgram()->getSource());
+                // LogManager::singleton().log_message("Optimized Shader");
+                // LogManager::singleton().log_message(os.str());
             }
             glslopt_shader_delete(shader);
         }
@@ -208,12 +212,12 @@ namespace Ogre {
         {
             OGRE_CHECK_GL_ERROR(glGetActiveUniformBlockName(programObject, index, uniformLength, NULL, uniformName));
 
-            GpuSharedParametersPtr blockSharedParams = GpuProgramManager::getSingleton().getSharedParameters(uniformName);
+            GpuSharedParametersPtr blockSharedParams = GpuProgramManager::singleton().getSharedParameters(uniformName);
 
             GLint blockSize, blockBinding;
             OGRE_CHECK_GL_ERROR(glGetActiveUniformBlockiv(programObject, index, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize));
             OGRE_CHECK_GL_ERROR(glGetActiveUniformBlockiv(programObject, index, GL_UNIFORM_BLOCK_BINDING, &blockBinding));
-            HardwareUniformBufferSharedPtr newUniformBuffer = HardwareBufferManager::getSingleton().createUniformBuffer(blockSize, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE, false, uniformName);
+            HardwareUniformBufferSharedPtr newUniformBuffer = HardwareBufferManager::singleton().createUniformBuffer(blockSize, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE, false, uniformName);
 
             GLES2HardwareUniformBuffer* hwGlBuffer = static_cast<GLES2HardwareUniformBuffer*>(newUniformBuffer.get());
             hwGlBuffer->setGLBufferBinding(blockBinding);

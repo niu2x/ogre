@@ -101,7 +101,7 @@ namespace Ogre {
         uint32 height = mColour[0].buffer->getHeight();
         GLuint format = mColour[0].buffer->getGLFormat();
 
-        auto rsc = Root::getSingleton().getRenderSystem()->getCapabilities();
+        auto rsc = Root::singleton().getRenderSystem()->getCapabilities();
         ushort maxSupportedMRTs = rsc->getNumMultiRenderTargets();
 
         // Bind simple buffer to add colour attachments

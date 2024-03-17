@@ -109,7 +109,7 @@ void Resource::prepare(bool background)
                 loader_->prepare_resource(this);
             } else {
                 // Warn that this resource is not reloadable
-                LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+                LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
                     << "Note: " << creator_->resource_type() << " instance '"
                     << name_ << "' was defined as manually "
                     << "loaded, but no manual loader was provided. This "
@@ -120,7 +120,7 @@ void Resource::prepare(bool background)
             if (group_
                 == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME) {
                 // Derive resource group
-                change_group_ownership(ResourceGroupManager::getSingleton()
+                change_group_ownership(ResourceGroupManager::singleton()
                                            .findGroupContainingResource(name_));
             }
             prepare_impl();
@@ -213,7 +213,7 @@ void Resource::load(bool background)
                 loader_->load_resource(this);
             } else {
                 // Warn that this resource is not reloadable
-                LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+                LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
                     << "Note: " << creator_->resource_type() << " instance '"
                     << name_ << "' was defined as manually "
                     << "loaded, but no manual loader was provided. This "
@@ -231,7 +231,7 @@ void Resource::load(bool background)
             if (group_
                 == ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME) {
                 // Derive resource group
-                change_group_ownership(ResourceGroupManager::getSingleton()
+                change_group_ownership(ResourceGroupManager::singleton()
                                            .findGroupContainingResource(name_));
             }
 
@@ -291,7 +291,7 @@ void Resource::change_group_ownership(const String& new_group)
     if (group_ != new_group) {
         String old_group = group_;
         group_ = new_group;
-        ResourceGroupManager::getSingleton()._notifyResourceGroupChanged(
+        ResourceGroupManager::singleton()._notifyResourceGroupChanged(
             old_group,
             this);
     }

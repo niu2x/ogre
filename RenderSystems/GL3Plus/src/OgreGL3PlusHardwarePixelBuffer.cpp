@@ -51,7 +51,8 @@ namespace Ogre {
         // Generate renderbuffer
         OGRE_CHECK_GL_ERROR(glGenRenderbuffers(1, &mRenderbufferID));
 
-        mRenderSystem = static_cast<GL3PlusRenderSystem*>(Root::getSingleton().getRenderSystem());
+        mRenderSystem = static_cast<GL3PlusRenderSystem*>(
+            Root::singleton().getRenderSystem());
         // Bind it to FBO
         mRenderSystem->_getStateCacheManager()->bindGLRenderBuffer( mRenderbufferID );
 

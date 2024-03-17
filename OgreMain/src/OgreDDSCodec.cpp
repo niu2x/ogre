@@ -167,7 +167,7 @@ namespace {
         if (!msInstance)
         {
 
-            LogManager::getSingleton().log_message(
+            LogManager::singleton().log_message(
                 LogMsgLevel::NORMAL,
                 "DDS codec registering");
 
@@ -824,9 +824,11 @@ namespace {
 
         if (PixelUtil::isCompressed(sourceFormat))
         {
-            if (Root::getSingleton().getRenderSystem() == NULL ||
-                !Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_TEXTURE_COMPRESSION_DXT))
-            {
+            if (Root::singleton().getRenderSystem() == NULL
+                || !Root::singleton()
+                        .getRenderSystem()
+                        ->getCapabilities()
+                        ->hasCapability(RSC_TEXTURE_COMPRESSION_DXT)) {
                 // We'll need to decompress
                 decompressDXT = true;
                 // Convert format
@@ -867,9 +869,7 @@ namespace {
                     // all other cases need no special format handling
                     break;
                 }
-            }
-            else
-            {
+            } else {
                 // Use original format
                 format = sourceFormat;
             }

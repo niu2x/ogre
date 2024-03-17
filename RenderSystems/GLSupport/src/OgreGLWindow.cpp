@@ -69,7 +69,7 @@ void GLWindow::copyContentsToMemory(const Box& src, const PixelBox& dst, FrameBu
         buffer = mIsFullScreen ? FB_FRONT : FB_BACK;
     }
 
-    static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem())
+    static_cast<GLRenderSystemCommon*>(Root::singleton().getRenderSystem())
         ->_copyContentsToMemory(getViewport(0), src, dst, buffer);
 }
 } // namespace Ogre

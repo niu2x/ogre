@@ -132,7 +132,7 @@ struct _OgreLodExport LodConfig {
     typedef std::vector<LodLevel> LodLevelList;
     LodLevelList levels; /// Info about Lod levels
 
-    LodConfig(MeshPtr & _mesh, LodStrategy * _strategy = DistanceLodBoxStrategy::getSingletonPtr());
+    LodConfig(MeshPtr & _mesh, LodStrategy * _strategy = DistanceLodBoxStrategy::singleton_ptr(());
     LodConfig();
 
     // Helper functions:
@@ -147,7 +147,7 @@ struct _OgreLodExport LodConfig {
         /// return immediately. After processed in background, the
         /// LodWorkQueueInjector will inject it in frameEnd event when rendering
         /// next frame. Ready LODs can also be injected by calling
-        /// Root::getSingleton().getWorkQueue()->process_main_thread_tasks().
+        /// Root::singleton().getWorkQueue()->process_main_thread_tasks().
         /// (disabled by default)
         bool useBackgroundQueue;
         /// If enabled, it allows up to 50% smaller index buffers by storing once shared faces with frame shifting.

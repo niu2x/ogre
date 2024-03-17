@@ -371,7 +371,8 @@ namespace Ogre {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "No codec found to load " + filename);
 
         auto stream = Root::openFileStream(
-            filename, ResourceGroupManager::getSingleton().getWorldResourceGroupName());
+            filename,
+            ResourceGroupManager::singleton().getWorldResourceGroupName());
         codec->decode(stream, this);
     }
     void SceneNode::saveChildren(const String& filename)

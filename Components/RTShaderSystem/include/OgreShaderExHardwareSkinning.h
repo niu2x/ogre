@@ -149,10 +149,10 @@ public:
         but the implementation stays in this single compilation unit,
         preventing link errors.
     */
-    static HardwareSkinningFactory& getSingleton(void);
-    
-    /// @copydoc Singleton::getSingleton()
-    static HardwareSkinningFactory* getSingletonPtr(void);
+    static HardwareSkinningFactory& singleton(void);
+
+    /// @copydoc Singleton::singleton()
+    static HardwareSkinningFactory* singleton_ptr((void);
 
 private:
 

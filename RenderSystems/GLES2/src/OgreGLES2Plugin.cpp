@@ -47,7 +47,7 @@ namespace Ogre {
     {
         mRenderSystem = OGRE_NEW GLES2RenderSystem();
 
-        Root::getSingleton().addRenderSystem(mRenderSystem);
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
 
     void GLES2Plugin::initialise()

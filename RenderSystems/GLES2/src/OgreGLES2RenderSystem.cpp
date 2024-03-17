@@ -162,7 +162,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().log_message(name() + " created.");
+        LogManager::singleton().log_message(name() + " created.");
 
         mRenderAttribsBound.reserve(100);
         mRenderInstanceAttribsBound.reserve(100);
@@ -493,11 +493,13 @@ namespace Ogre {
         mProgramManager = new GLSLESProgramManager();
 
         mGLSLESProgramFactory = OGRE_NEW GLSLESProgramFactory();
-        HighLevelGpuProgramManager::getSingleton().addFactory(mGLSLESProgramFactory);
+        HighLevelGpuProgramManager::singleton().addFactory(
+            mGLSLESProgramFactory);
 
 #if !OGRE_NO_GLES2_CG_SUPPORT
         mGLSLESCgProgramFactory = OGRE_NEW GLSLESCgProgramFactory();
-        HighLevelGpuProgramManager::getSingleton().addFactory(mGLSLESCgProgramFactory);
+        HighLevelGpuProgramManager::singleton().addFactory(
+            mGLSLESCgProgramFactory);
 #endif
 
         // Use VBO's by default
@@ -516,8 +518,8 @@ namespace Ogre {
         if (mGLSLESProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::getSingletonPtr())
-                HighLevelGpuProgramManager::getSingleton().removeFactory(mGLSLESProgramFactory);
+            if (HighLevelGpuProgramManager::singleton_ptr(())
+                HighLevelGpuProgramManager::singleton().removeFactory(mGLSLESProgramFactory);
             OGRE_DELETE mGLSLESProgramFactory;
             mGLSLESProgramFactory = 0;
         }
@@ -527,8 +529,8 @@ namespace Ogre {
         if (mGLSLESCgProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::getSingletonPtr())
-                HighLevelGpuProgramManager::getSingleton().removeFactory(mGLSLESCgProgramFactory);
+            if (HighLevelGpuProgramManager::singleton_ptr(())
+                HighLevelGpuProgramManager::singleton().removeFactory(mGLSLESCgProgramFactory);
             OGRE_DELETE mGLSLESCgProgramFactory;
             mGLSLESCgProgramFactory = 0;
         }
@@ -576,7 +578,8 @@ namespace Ogre {
 
             // Get the shader language version
             const char* shadingLangVersion = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-            LogManager::getSingleton().log_message("Shading language version: " + String(shadingLangVersion));
+            LogManager::singleton().log_message(
+                "Shading language version: " + String(shadingLangVersion));
             StringVector tokens = StringUtil::split(shadingLangVersion, ". ");
             size_t i = 0;
 
@@ -1346,8 +1349,8 @@ namespace Ogre {
 
     void GLES2RenderSystem::_unregisterContext(GLContext *context)
     {
-        if(HardwareBufferManager::getSingletonPtr())
-            static_cast<GLES2HardwareBufferManager*>(HardwareBufferManager::getSingletonPtr())->notifyContextDestroyed(context);
+        if(HardwareBufferManager::singleton_ptr(())
+            static_cast<GLES2HardwareBufferManager*>(HardwareBufferManager::singleton_ptr(())->notifyContextDestroyed(context);
         
         for(RenderTargetMap::iterator it = mRenderTargets.begin(); it!=mRenderTargets.end(); ++it)
         {
@@ -1457,9 +1460,12 @@ namespace Ogre {
             GLES2PixelUtil::useSizedFormats();
         }
 
-        LogManager::getSingleton().log_message("**************************************");
-        LogManager::getSingleton().log_message("*** OpenGL ES 2.x Renderer Started ***");
-        LogManager::getSingleton().log_message("**************************************");
+        LogManager::singleton().log_message(
+            "**************************************");
+        LogManager::singleton().log_message(
+            "*** OpenGL ES 2.x Renderer Started ***");
+        LogManager::singleton().log_message(
+            "**************************************");
     }
 
     void GLES2RenderSystem::_setRenderTarget(RenderTarget *target)
@@ -1635,16 +1641,19 @@ namespace Ogre {
     //---------------------------------------------------------------------
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID || OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
     void GLES2RenderSystem::notifyOnContextLost() {
-        static_cast<GLES2HardwareBufferManager*>(HardwareBufferManager::getSingletonPtr())->notifyContextDestroyed(mCurrentContext);
+        static_cast<GLES2HardwareBufferManager*>(HardwareBufferManager::singleton_ptr(())->notifyContextDestroyed(mCurrentContext);
         GLES2RenderSystem::mResourceManager->notifyOnContextLost();
     }
 
     void GLES2RenderSystem::resetRenderer(RenderWindow* win)
     {
-        LogManager::getSingleton().log_message("********************************************");
-        LogManager::getSingleton().log_message("*** OpenGL ES 2.x Reset Renderer Started ***");
-        LogManager::getSingleton().log_message("********************************************");
-                
+        LogManager::singleton().log_message(
+            "********************************************");
+        LogManager::singleton().log_message(
+            "*** OpenGL ES 2.x Reset Renderer Started ***");
+        LogManager::singleton().log_message(
+            "********************************************");
+
         initialiseContext(win);
         
         static_cast<GLES2FBOManager*>(mRTTManager)->_reload();
@@ -1789,19 +1798,19 @@ namespace Ogre {
         glGetIntegerv(GL_MINOR_VERSION, &mVersion.minor);
 #endif
 
-        LogManager::getSingleton().log_message("GL_VERSION = " + mDriverVersion.toString());
-
+        LogManager::singleton().log_message(
+            "GL_VERSION = " + mDriverVersion.toString());
 
         // Get vendor
         const GLubyte* pcVendor = glGetString(GL_VENDOR);
         tmpStr = (const char*)pcVendor;
-        LogManager::getSingleton().log_message("GL_VENDOR = " + tmpStr);
+        LogManager::singleton().log_message("GL_VENDOR = " + tmpStr);
         mVendor = RenderSystemCapabilities::vendorFromString(tmpStr.substr(0, tmpStr.find(' ')));
 
         // Get renderer
         const GLubyte* pcRenderer = glGetString(GL_RENDERER);
         tmpStr = (const char*)pcRenderer;
-        LogManager::getSingleton().log_message("GL_RENDERER = " + tmpStr);
+        LogManager::singleton().log_message("GL_RENDERER = " + tmpStr);
 
         // Set extension list
         StringStream ext;
@@ -1811,7 +1820,7 @@ namespace Ogre {
         OgreAssert(pcExt, "Problems getting GL extension string using glGetString");
         ext << pcExt;
 
-        Log::Stream log = LogManager::getSingleton().stream();
+        Log::Stream log = LogManager::singleton().stream();
         log << "GL_EXTENSIONS = ";
         while (ext >> str)
         {

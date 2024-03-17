@@ -39,12 +39,16 @@ namespace OgreBites {
 
         mOgreEnt = mSceneMgr->createEntity(SceneManager::PT_PLANE);
 
-        mOgreEnt->setMaterial(MaterialManager::getSingleton().getByName("Compute/Show"));
+        mOgreEnt->setMaterial(
+            MaterialManager::singleton().getByName("Compute/Show"));
         SceneNode* ogre = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         ogre->setScale(0.1,0.1,0.1);
         ogre->attachObject(mOgreEnt);
 
-        CompositorManager::getSingleton().addCompositor(mViewport, "Compute");
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "Compute", true);
+        CompositorManager::singleton().addCompositor(mViewport, "Compute");
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            "Compute",
+            true);
     }
 }

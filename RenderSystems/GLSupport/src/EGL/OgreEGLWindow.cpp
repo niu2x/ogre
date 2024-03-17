@@ -266,9 +266,14 @@ namespace Ogre {
         mGLSupport->getGLConfigAttrib(mEglConfig, EGL_ALPHA_SIZE, &Asz);
         mGLSupport->getGLConfigAttrib(mEglConfig, EGL_SAMPLES, &fsaa);
 
-        LogManager::getSingleton().log_message(
-            StringUtil::format("EGLWindow: colourBufferSize=%d/%d/%d/%d gamma=%d FSAA=%d", Rsz, Bsz, Gsz,
-                               Asz, mHwGamma, fsaa));
+        LogManager::singleton().log_message(StringUtil::format(
+            "EGLWindow: colourBufferSize=%d/%d/%d/%d gamma=%d FSAA=%d",
+            Rsz,
+            Bsz,
+            Gsz,
+            Asz,
+            mHwGamma,
+            fsaa));
 
         mActive = true;
         mVisible = true;

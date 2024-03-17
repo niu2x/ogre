@@ -103,7 +103,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D11MultiRenderTarget::update(void)
     {
-        //D3D11RenderSystem* rs = static_cast<D3D11RenderSystem*>(Root::getSingleton().getRenderSystem());
+        // D3D11RenderSystem* rs =
+        // static_cast<D3D11RenderSystem*>(Root::singleton().getRenderSystem());
 
         MultiRenderTarget::update();
     }

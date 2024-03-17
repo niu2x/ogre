@@ -364,7 +364,10 @@ namespace Ogre
         }
 
         if(!PixelUtil::isDepth(mFormat))
-            mFormat = TextureManager::getSingleton().getNativeFormat(mTextureType, mFormat, mUsage);
+            mFormat = TextureManager::singleton().getNativeFormat(
+                mTextureType,
+                mFormat,
+                mUsage);
 
         // load based on tex.type
         switch (getTextureType())
@@ -421,7 +424,8 @@ namespace Ogre
         // Check FSAA level
         if (mUsage & TU_RENDERTARGET)
         {
-            D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+            D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
             rsys->determineFSAASettings(d3d9Device, mFSAA, mFSAAHint, d3dPF, false, 
                 &mFSAAType, &mFSAAQuality);
         }
@@ -584,7 +588,8 @@ namespace Ogre
         // Check FSAA level
         if (mUsage & TU_RENDERTARGET)
         {
-            D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+            D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
             rsys->determineFSAASettings(d3d9Device, mFSAA, mFSAAHint, d3dPF, false, 
                 &mFSAAType, &mFSAAQuality);
         }
@@ -848,9 +853,16 @@ namespace Ogre
         if (mWidth != mSrcWidth ||
             mHeight != mSrcHeight)
         {
-            LogManager::getSingleton().log_message("D3D9 : ***** Dimensions altered by the render system");
-            LogManager::getSingleton().log_message("D3D9 : ***** Source image dimensions : " + StringConverter::to_string(mSrcWidth) + "x" + StringConverter::to_string(mSrcHeight));
-            LogManager::getSingleton().log_message("D3D9 : ***** Texture dimensions : " + StringConverter::to_string(mWidth) + "x" + StringConverter::to_string(mHeight));
+            LogManager::singleton().log_message(
+                "D3D9 : ***** Dimensions altered by the render system");
+            LogManager::singleton().log_message(
+                "D3D9 : ***** Source image dimensions : "
+                + StringConverter::to_string(mSrcWidth) + "x"
+                + StringConverter::to_string(mSrcHeight));
+            LogManager::singleton().log_message(
+                "D3D9 : ***** Texture dimensions : "
+                + StringConverter::to_string(mWidth) + "x"
+                + StringConverter::to_string(mHeight));
         }
         
         // Create list of subsurfaces for getBuffer()
@@ -1179,8 +1191,9 @@ namespace Ogre
             catch (...)
             {
                 mLoadingState.store(LoadingState::UNLOADED);
-                LogManager::getSingleton().stream(LogMsgLevel::WARNING)
-                    << "Warning: Failed to restore texture " << name() << " on DeviceCreate.";
+                LogManager::singleton().stream(LogMsgLevel::WARNING)
+                    << "Warning: Failed to restore texture " << name()
+                    << " on DeviceCreate.";
             }
         }
     }
@@ -1197,7 +1210,7 @@ namespace Ogre
             StringStream ss;
 
             ss << "D3D9 device: 0x[" << d3d9Device << "] destroy. Releasing D3D9 texture: " << mName;
-            LogManager::getSingleton().log_message(ss.str());
+            LogManager::singleton().log_message(ss.str());
 
             TextureResources* textureResource = it->second;
 
@@ -1218,7 +1231,8 @@ namespace Ogre
             
             mMapDeviceToTextureResources.erase(it);
 
-            LogManager::getSingleton().log_message("Released D3D9 texture: " + mName);   
+            LogManager::singleton().log_message(
+                "Released D3D9 texture: " + mName);
         }   
     }
 
@@ -1236,7 +1250,7 @@ namespace Ogre
                 StringStream ss;
 
                 ss << "D3D9 device: 0x[" << d3d9Device << "] lost. Releasing D3D9 texture: " << mName;
-                LogManager::getSingleton().log_message(ss.str());
+                LogManager::singleton().log_message(ss.str());
 
                 TextureResources* textureResource = it->second;             
 
@@ -1244,8 +1258,9 @@ namespace Ogre
                 // because we want the un-touched resource to keep its unloaded status
                 // after device reset.
                 freeTextureResources(d3d9Device, textureResource);
-                
-                LogManager::getSingleton().log_message("Released D3D9 texture: " + mName);   
+
+                LogManager::singleton().log_message(
+                    "Released D3D9 texture: " + mName);
             }                   
         }       
     }

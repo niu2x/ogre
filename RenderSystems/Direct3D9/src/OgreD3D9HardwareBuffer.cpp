@@ -142,7 +142,7 @@ namespace Ogre {
         if (!mShadowBuffer)
         {
             DeviceToBufferResourcesIterator it = mMapDeviceToBufferResources.begin();
-            uint nextFrameNumber = Root::getSingleton().getNextFrameNumber();
+            uint nextFrameNumber = Root::singleton().getNextFrameNumber();
 
             while (it != mMapDeviceToBufferResources.end())
             {
@@ -279,8 +279,9 @@ namespace Ogre {
         bufferResources->mLockOffset = 0;
         bufferResources->mLockLength = getSizeInBytes();
         bufferResources->mLockOptions = HBL_NORMAL;
-        bufferResources->mLastUsedFrame = Root::getSingleton().getNextFrameNumber();
-        
+        bufferResources->mLastUsedFrame
+            = Root::singleton().getNextFrameNumber();
+
         if(mType == D3DFMT_VERTEXDATA)
         {
             // Create the vertex buffer
@@ -355,8 +356,8 @@ namespace Ogre {
 
         // Make sure that the buffer content is updated.
         updateBufferContent(it->second);
-        
-        it->second->mLastUsedFrame = Root::getSingleton().getNextFrameNumber();
+
+        it->second->mLastUsedFrame = Root::singleton().getNextFrameNumber();
 
         return it->second->mBuffer;
     }   

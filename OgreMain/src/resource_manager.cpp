@@ -51,7 +51,7 @@ void ResourceManager::parse_script(
     DataStreamPtr& stream,
     const String& groupName)
 {
-    ScriptCompilerManager::getSingleton().parse_script(stream, groupName);
+    ScriptCompilerManager::singleton().parse_script(stream, groupName);
 }
 //-----------------------------------------------------------------------
 ResourcePtr ResourceManager::create_resource(
@@ -77,7 +77,7 @@ ResourcePtr ResourceManager::create_resource(
     add_impl(ret);
     // Tell resource group manager
     if (ret)
-        ResourceGroupManager::getSingleton()._notifyResourceCreated(ret);
+        ResourceGroupManager::singleton()._notifyResourceCreated(ret);
     return ret;
 }
 //-----------------------------------------------------------------------
@@ -136,7 +136,7 @@ void ResourceManager::add_impl(ResourcePtr& res)
 {
 
     std::pair<ResourceMap::iterator, bool> result;
-    if (ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(
+    if (ResourceGroupManager::singleton().isResourceGroupInGlobalPool(
             res->group())) {
         result = resources_.emplace(res->name(), res);
     } else {
@@ -148,7 +148,7 @@ void ResourceManager::add_impl(ResourcePtr& res)
 
     // Attempt to resolve the collision
     ResourceLoadingListener* listener
-        = ResourceGroupManager::getSingleton().getLoadingListener();
+        = ResourceGroupManager::singleton().getLoadingListener();
     if (!result.second && listener) {
         if (listener->resourceCollision(res.get(), this) == false) {
             // explicitly use previous instance and destroy current
@@ -158,7 +158,7 @@ void ResourceManager::add_impl(ResourcePtr& res)
 
         // Try to do the addition again, no seconds attempts to resolve
         // collisions are allowed
-        if (ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(
+        if (ResourceGroupManager::singleton().isResourceGroupInGlobalPool(
                 res->group())) {
             result = resources_.emplace(res->name(), res);
         } else {
@@ -202,7 +202,7 @@ void ResourceManager::remove_impl(const ResourcePtr& res)
                 + resource_type() + "' ResourceManager");
 #endif
 
-    if (ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(
+    if (ResourceGroupManager::singleton().isResourceGroupInGlobalPool(
             res->group())) {
         ResourceMap::iterator nameIt = resources_.find(res->name());
         if (nameIt != resources_.end()) {
@@ -229,7 +229,7 @@ void ResourceManager::remove_impl(const ResourcePtr& res)
         resources_by_handle_.erase(handleIt);
     }
     // Tell resource group manager
-    ResourceGroupManager::getSingleton()._notifyResourceRemoved(res);
+    ResourceGroupManager::singleton()._notifyResourceRemoved(res);
 }
 //-----------------------------------------------------------------------
 void ResourceManager::set_memory_budget(size_t bytes)
@@ -348,7 +348,7 @@ void ResourceManager::remove_all(void)
     resources_with_group_.clear();
     resources_by_handle_.clear();
     // Notify resource group manager
-    ResourceGroupManager::getSingleton()._notifyAllResourcesRemoved(this);
+    ResourceGroupManager::singleton()._notifyAllResourcesRemoved(this);
 }
 //-----------------------------------------------------------------------
 void ResourceManager::removeUnreferencedResources(bool reloadable_only)
@@ -378,7 +378,7 @@ ResourcePtr ResourceManager::get_resource_by_name(
 
     // resource should be in global pool
     bool isGlobal
-        = ResourceGroupManager::getSingleton().isResourceGroupInGlobalPool(
+        = ResourceGroupManager::singleton().isResourceGroupInGlobalPool(
             groupName);
 
     if (isGlobal) {

@@ -192,7 +192,7 @@ protected:
 
         // create controller, after this is will get updated on its own
         ControllerFunctionRealPtr func = WaveformControllerFunction::create(Ogre::WFT_SINE, 0.75, 0.5);
-        ControllerManager& contMgr = ControllerManager::getSingleton();
+        ControllerManager& contMgr = ControllerManager::singleton();
         ControllerValueRealPtr val = ControllerValueRealPtr(
             new LightWibbler(mLight, bb, mMinLightColour, mMaxLightColour, 
             mMinFlareSize, mMaxFlareSize));
@@ -236,7 +236,7 @@ protected:
         auto animState = mSceneMgr->createAnimationState("LightTrack");
         animState->setEnabled(true);
 
-        auto& controllerMgr = ControllerManager::getSingleton();
+        auto& controllerMgr = ControllerManager::singleton();
         controllerMgr.createFrameTimePassthroughController(AnimationStateControllerValue::create(animState, true));
 
         // Make light node look at origin, this is for when we
@@ -244,7 +244,8 @@ protected:
         mLightNode->setAutoTracking(true, mSceneMgr->getRootSceneNode());
 
         // Prepare athene mesh for normalmapping
-        MeshPtr pAthene = MeshManager::getSingleton().load("athene.mesh", RGN_DEFAULT);
+        MeshPtr pAthene
+            = MeshManager::singleton().load("athene.mesh", RGN_DEFAULT);
         pAthene->buildTangentVectors();
 
         SceneNode* node;
@@ -279,9 +280,19 @@ protected:
         mPlane = new MovablePlane("*mPlane");
         mPlane->normal = Vector3::unit_y;
         mPlane->d = 107;
-        MeshManager::getSingleton().createPlane("Myplane",
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *mPlane,
-            1500,1500,50,50,true,1,5,5,Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "Myplane",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            *mPlane,
+            1500,
+            1500,
+            50,
+            50,
+            true,
+            1,
+            5,
+            5,
+            Vector3::unit_z);
         pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
         pPlaneEnt->setMaterialName(BASIC_ROCKWALL_MATERIAL);
         pPlaneEnt->setCastShadows(false);
@@ -303,9 +314,11 @@ protected:
     
     void cleanupContent() override
     {
-        ControllerManager::getSingleton().destroyController(mController);
+        ControllerManager::singleton().destroyController(mController);
 
-        MeshManager::getSingleton().remove("Myplane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().remove(
+            "Myplane",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         pColumns.clear();
     }
@@ -501,7 +514,8 @@ protected:
 
     void updateDepthShadowParams()
     {
-        auto mat = MaterialManager::getSingleton().getByName(CUSTOM_CASTER_MATERIAL);
+        auto mat
+            = MaterialManager::singleton().getByName(CUSTOM_CASTER_MATERIAL);
         auto pass = mat->getTechniques().back()->getPass(0);
         pass->setDepthBias(-mFixedBiasSlider->getValue(), -mSlopedBiasSlider->getValue());
     }
@@ -547,7 +561,8 @@ protected:
                 mSceneMgr->setShadowTexturePixelFormat(PF_DEPTH16);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
-                themat = MaterialManager::getSingleton().getByName(CUSTOM_CASTER_MATERIAL);
+                themat = MaterialManager::singleton().getByName(
+                    CUSTOM_CASTER_MATERIAL);
                 mSceneMgr->setShadowTextureCasterMaterial(themat);
                 mSceneMgr->setShadowTextureSelfShadow(true);    
                 // Sort out base materials
@@ -569,7 +584,8 @@ protected:
                 mSceneMgr->setShadowTexturePixelFormat(PF_DEPTH16);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
-                themat = MaterialManager::getSingleton().getByName(CUSTOM_CASTER_MATERIAL);
+                themat = MaterialManager::singleton().getByName(
+                    CUSTOM_CASTER_MATERIAL);
                 mSceneMgr->setShadowTextureCasterMaterial(themat);
                 mSceneMgr->setShadowTextureSelfShadow(true);    
                 // Sort out base materials

@@ -99,7 +99,7 @@ extern "C" {
 
 #include "OgreSimpleRenderable.h"
 #include "OgreSimpleSpline.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreSkeleton.h"
 #include "sphere.h"
 #include "string_converter.h"

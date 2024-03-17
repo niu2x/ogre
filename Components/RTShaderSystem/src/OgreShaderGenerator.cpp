@@ -113,13 +113,13 @@ String ShaderGenerator::DEFAULT_SCHEME_NAME     = MSN_SHADERGEN;
 String ShaderGenerator::SGTechnique::UserKey    = "SGTechnique";
 
 //-----------------------------------------------------------------------
-ShaderGenerator* ShaderGenerator::getSingletonPtr()
+ShaderGenerator* ShaderGenerator::singleton_ptr(()
 {
     return msSingleton;
 }
 
 //-----------------------------------------------------------------------
-ShaderGenerator& ShaderGenerator::getSingleton()
+ShaderGenerator& ShaderGenerator::singleton()
 {
     assert( msSingleton );
     return ( *msSingleton );
@@ -135,7 +135,7 @@ ShaderGenerator::ShaderGenerator() :
     mLightCount[1]              = 0;
     mLightCount[2]              = 0;
 
-    HighLevelGpuProgramManager& hmgr = HighLevelGpuProgramManager::getSingleton();
+    HighLevelGpuProgramManager& hmgr = HighLevelGpuProgramManager::singleton();
 
     if (hmgr.isLanguageSupported("glsles"))
     {
@@ -144,9 +144,7 @@ ShaderGenerator::ShaderGenerator() :
     else if (hmgr.isLanguageSupported("glsl"))
     {
         mShaderLanguage = "glsl";
-    }
-    else if (hmgr.isLanguageSupported("hlsl"))
-    {
+    } else if (hmgr.isLanguageSupported("hlsl")) {
         mShaderLanguage = "hlsl";
     }
     else if (hmgr.isLanguageSupported("glslang"))
@@ -156,7 +154,9 @@ ShaderGenerator::ShaderGenerator() :
     else
     {
         mShaderLanguage = "null"; // falling back to HLSL, for unit tests mainly
-        LogManager::getSingleton().log_warning("ShaderGenerator: No supported language found. Falling back to 'null'");
+        LogManager::singleton().log_warning(
+            "ShaderGenerator: No supported language found. Falling back to "
+            "'null'");
     }
 
     setShaderProfiles(GPT_VERTEX_PROGRAM, "vs_3_0 vs_2_a vs_2_0 vs_1_1");
@@ -201,14 +201,18 @@ bool ShaderGenerator::_initialize()
 
     // Allocate script translator manager.
     mScriptTranslatorManager.reset(new SGScriptTranslatorManager(this));
-    ScriptCompilerManager::getSingleton().addTranslatorManager(mScriptTranslatorManager.get());
-    ID_RT_SHADER_SYSTEM = ScriptCompilerManager::getSingleton().registerCustomWordId("rtshader_system");
+    ScriptCompilerManager::singleton().addTranslatorManager(
+        mScriptTranslatorManager.get());
+    ID_RT_SHADER_SYSTEM
+        = ScriptCompilerManager::singleton().registerCustomWordId(
+            "rtshader_system");
 
     // Create the default scheme.
     createScheme(MSN_SHADERGEN);
 
 	mResourceGroupListener.reset(new SGResourceGroupListener(this));
-	ResourceGroupManager::getSingleton().addResourceGroupListener(mResourceGroupListener.get());
+    ResourceGroupManager::singleton().addResourceGroupListener(
+        mResourceGroupListener.get());
 
     return true;
 }
@@ -221,34 +225,36 @@ void ShaderGenerator::createBuiltinSRSFactories()
     SubRenderStateFactory* curFactory;
 #ifdef RTSHADER_SYSTEM_BUILD_CORE_SHADERS
     curFactory = OGRE_NEW FFPTransformFactory;
-    ShaderGenerator::getSingleton().addSubRenderStateFactory(curFactory);
+    ShaderGenerator::singleton().addSubRenderStateFactory(curFactory);
     mBuiltinSRSFactories.push_back(curFactory);
 
     curFactory = OGRE_NEW FFPColourFactory;
-    ShaderGenerator::getSingleton().addSubRenderStateFactory(curFactory);
+    ShaderGenerator::singleton().addSubRenderStateFactory(curFactory);
     mBuiltinSRSFactories.push_back(curFactory);
 
     curFactory = OGRE_NEW FFPLightingFactory;
-    ShaderGenerator::getSingleton().addSubRenderStateFactory(curFactory);
+    ShaderGenerator::singleton().addSubRenderStateFactory(curFactory);
     mBuiltinSRSFactories.push_back(curFactory);
 
     curFactory = OGRE_NEW FFPTexturingFactory;
-    ShaderGenerator::getSingleton().addSubRenderStateFactory(curFactory);
+    ShaderGenerator::singleton().addSubRenderStateFactory(curFactory);
     mBuiltinSRSFactories.push_back(curFactory);
 
     curFactory = OGRE_NEW FFPFogFactory;
-    ShaderGenerator::getSingleton().addSubRenderStateFactory(curFactory);
+    ShaderGenerator::singleton().addSubRenderStateFactory(curFactory);
     mBuiltinSRSFactories.push_back(curFactory);
 
     curFactory = OGRE_NEW FFPAlphaTestFactory;
-    ShaderGenerator::getSingleton().addSubRenderStateFactory(curFactory);
+    ShaderGenerator::singleton().addSubRenderStateFactory(curFactory);
     mBuiltinSRSFactories.push_back(curFactory);
 #endif
 #ifdef RTSHADER_SYSTEM_BUILD_EXT_SHADERS
     // check if we are running an old shader level in d3d11
-    bool d3d11AndLowProfile = ( (GpuProgramManager::getSingleton().isSyntaxSupported("vs_4_0_level_9_1") ||
-        GpuProgramManager::getSingleton().isSyntaxSupported("vs_4_0_level_9_3"))
-        && !GpuProgramManager::getSingleton().isSyntaxSupported("vs_4_0"));
+    bool d3d11AndLowProfile
+        = ((GpuProgramManager::singleton().isSyntaxSupported("vs_4_0_level_9_1")
+            || GpuProgramManager::singleton().isSyntaxSupported(
+                "vs_4_0_level_9_3"))
+           && !GpuProgramManager::singleton().isSyntaxSupported("vs_4_0"));
     if(!d3d11AndLowProfile)
     {
         curFactory = OGRE_NEW PerPixelLightingFactory;
@@ -341,7 +347,8 @@ void ShaderGenerator::_destroy()
     // Delete script translator manager.
     if (mScriptTranslatorManager)
     {
-        ScriptCompilerManager::getSingleton().removeTranslatorManager(mScriptTranslatorManager.get());
+        ScriptCompilerManager::singleton().removeTranslatorManager(
+            mScriptTranslatorManager.get());
         mScriptTranslatorManager.reset();
     }
 
@@ -349,7 +356,8 @@ void ShaderGenerator::_destroy()
 
     if (mResourceGroupListener)
     {
-        ResourceGroupManager::getSingleton().removeResourceGroupListener(mResourceGroupListener.get());
+        ResourceGroupManager::singleton().removeResourceGroupListener(
+            mResourceGroupListener.get());
         mResourceGroupListener.reset();
     }
 
@@ -666,7 +674,8 @@ bool ShaderGenerator::hasShaderBasedTechnique(const String& materialName,
     
 
     // Make sure material exists;
-    if (false == MaterialManager::getSingleton().resourceExists(materialName, groupName))
+    if (false
+        == MaterialManager::singleton().resourceExists(materialName, groupName))
         return false;
 
 
@@ -1107,7 +1116,7 @@ void ShaderGenerator::flushShaderCache()
         t.second->releasePrograms();
     }
 
-    ProgramManager::getSingleton().flushGpuProgramsCache();
+    ProgramManager::singleton().flushGpuProgramsCache();
 
     // Invalidate all schemes.
     for (auto& s : mSchemeEntriesMap)
@@ -1325,8 +1334,8 @@ void ShaderGenerator::SGPass::buildTargetRenderState()
 {
     if(mSrcPass->isProgrammable() && !mParent->overProgrammablePass() && !isIlluminationPass()) return;
     const String& schemeName = mParent->getDestinationTechniqueSchemeName();
-    const RenderState* renderStateGlobal = ShaderGenerator::getSingleton().getRenderState(schemeName);
-
+    const RenderState* renderStateGlobal
+        = ShaderGenerator::singleton().getRenderState(schemeName);
 
     auto targetRenderState = std::make_shared<TargetRenderState>();
 
@@ -1346,7 +1355,6 @@ void ShaderGenerator::SGPass::buildTargetRenderState()
         lightCount = renderStateGlobal->getLightCount();
         haveAreaLights = renderStateGlobal->haveAreaLights();
     }
-
 
     targetRenderState->setLightCount(lightCount);
     targetRenderState->setHaveAreaLights(haveAreaLights);
@@ -1451,9 +1459,9 @@ ShaderGenerator::SGTechnique::~SGTechnique()
     // Destroy the passes.
     destroySGPasses();
 
-    if (MaterialManager::getSingleton().resourceExists(materialName, groupName))
-    {
-        MaterialPtr mat = MaterialManager::getSingleton().getByName(materialName, groupName);
+    if (MaterialManager::singleton().resourceExists(materialName, groupName)) {
+        MaterialPtr mat
+            = MaterialManager::singleton().getByName(materialName, groupName);
 
         // Remove the destination technique from parent material.
         for (ushort i=0; i < mat->getNumTechniques(); ++i)
@@ -1467,8 +1475,7 @@ ShaderGenerator::SGTechnique::~SGTechnique()
                 mat->removeTechnique(i);
 
                 // touch when finalizing - will reload the textures - so no touch if finalizing
-                if (ShaderGenerator::getSingleton().getIsFinalizing() == false)
-                {
+                if (ShaderGenerator::singleton().getIsFinalizing() == false) {
                     // Make sure the material goes back to its original state.
                     mat->touch();
                 }
@@ -1698,7 +1705,8 @@ void ShaderGenerator::SGScheme::validate()
 //-----------------------------------------------------------------------------
 void ShaderGenerator::SGScheme::synchronizeWithLightSettings()
 {
-    SceneManager* sceneManager = ShaderGenerator::getSingleton().getActiveSceneManager();
+    SceneManager* sceneManager
+        = ShaderGenerator::singleton().getActiveSceneManager();
     RenderState* curRenderState = getRenderState();
 
     if (curRenderState->getLightCountAutoUpdate())
@@ -1718,17 +1726,18 @@ void ShaderGenerator::SGScheme::synchronizeWithLightSettings()
         // Case new light appeared -> invalidate. But dont invalidate the other way as shader compilation is costly.
         if ((currLightCount - sceneLightCount) < 0)
         {
-            LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-                << "RTSS: invalidating scheme " << mName << " - lights changed " << currLightCount
-                << " -> " << sceneLightCount;
+            LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
+                << "RTSS: invalidating scheme " << mName << " - lights changed "
+                << currLightCount << " -> " << sceneLightCount;
             curRenderState->setLightCount(sceneLightCount);
             invalidate();
         }
 
         if(!curRenderState->haveAreaLights() && haveAreaLights)
         {
-            LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-                << "RTSS: invalidating scheme " << mName << " - enabling area lights";
+            LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
+                << "RTSS: invalidating scheme " << mName
+                << " - enabling area lights";
             curRenderState->setHaveAreaLights(true);
             invalidate();
         }
@@ -1738,12 +1747,14 @@ void ShaderGenerator::SGScheme::synchronizeWithLightSettings()
 //-----------------------------------------------------------------------------
 void ShaderGenerator::SGScheme::synchronizeWithFogSettings()
 {
-    SceneManager* sceneManager = ShaderGenerator::getSingleton().getActiveSceneManager();
+    SceneManager* sceneManager
+        = ShaderGenerator::singleton().getActiveSceneManager();
 
     if (sceneManager != NULL && sceneManager->getFogMode() != mFogMode)
     {
-        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-            << "RTSS: invalidating scheme " << mName << " - fog settings changed";
+        LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
+            << "RTSS: invalidating scheme " << mName
+            << " - fog settings changed";
         mFogMode = sceneManager->getFogMode();
         invalidate();
     }
@@ -1796,9 +1807,9 @@ bool ShaderGenerator::SGScheme::validateIlluminationPasses(const String& materia
 
 			return true;
 		}
-	}
+    }
 
-	return false;
+    return false;
 }
 //-----------------------------------------------------------------------------
 void ShaderGenerator::SGScheme::invalidateIlluminationPasses(const String& materialName, const String& groupName)

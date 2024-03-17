@@ -265,8 +265,11 @@ namespace Ogre
             bufferSize += val;
         }
 
-        LogManager::getSingleton().log_message(StringUtil::format(
-            "GLXWindow::create colourBufferSize=%d gamma=%d FSAA=%d", bufferSize, mHwGamma, fsaa));
+        LogManager::singleton().log_message(StringUtil::format(
+            "GLXWindow::create colourBufferSize=%d gamma=%d FSAA=%d",
+            bufferSize,
+            mHwGamma,
+            fsaa));
 
         mIsTopLevel = (! mIsExternal && parentWindow == DefaultRootWindow(xDisplay));
 
@@ -312,7 +315,9 @@ namespace Ogre
 
         mGLSupport->getFBConfigAttrib(fbConfig, GLX_FBCONFIG_ID, &fbConfigID);
 
-        LogManager::getSingleton().log_message("GLXWindow::create used FBConfigID = " + StringConverter::to_string(fbConfigID));
+        LogManager::singleton().log_message(
+            "GLXWindow::create used FBConfigID = "
+            + StringConverter::to_string(fbConfigID));
 
         mName = name;
         mWidth = width;
@@ -354,7 +359,9 @@ namespace Ogre
         if (mIsFullScreen != fullscreen && mGLSupport->mAtomFullScreen == None)
         {
             // Without WM support it is best to give up.
-            LogManager::getSingleton().log_message("GLXWindow::switchFullScreen: Your WM has no fullscreen support");
+            LogManager::singleton().log_message(
+                "GLXWindow::switchFullScreen: Your WM has no fullscreen "
+                "support");
             return;
         }
         else if (fullscreen)

@@ -52,7 +52,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void SubMesh::setMaterialName( const String& name, const String& groupName /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */)
     {
-        mMaterial = MaterialManager::getSingleton().getByName(name, groupName);
+        mMaterial = MaterialManager::singleton().getByName(name, groupName);
     }
     //-----------------------------------------------------------------------
     const String& SubMesh::getMaterialName() const

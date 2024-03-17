@@ -114,7 +114,7 @@ namespace Ogre {
     {
         if (!msInstance)
         {
-            LogManager::getSingleton().log_message(
+            LogManager::singleton().log_message(
                 LogMsgLevel::NORMAL,
                 "PVRTC codec registering");
 

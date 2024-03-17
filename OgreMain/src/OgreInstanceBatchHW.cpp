@@ -52,7 +52,7 @@ namespace Ogre
     {
         size_t retVal = 0;
 
-        RenderSystem *renderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* renderSystem = Root::singleton().getRenderSystem();
         const RenderSystemCapabilities *capabilities = renderSystem->getCapabilities();
 
         if( capabilities->hasCapability( RSC_VERTEX_BUFFER_INSTANCE_DATA ) )
@@ -74,8 +74,11 @@ namespace Ogre
         mRemoveOwnVertexData = true;
         VertexData *thisVertexData      = mRenderOperation.vertexData;
         const unsigned short lastSource = thisVertexData->vertexDeclaration->getMaxSource();
-        auto vertexBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(
-            thisVertexData->vertexDeclaration->getVertexSize(lastSource), mInstancesPerBatch, HBU_CPU_TO_GPU);
+        auto vertexBuffer
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                thisVertexData->vertexDeclaration->getVertexSize(lastSource),
+                mInstancesPerBatch,
+                HBU_CPU_TO_GPU);
         thisVertexData->vertexBufferBinding->setBinding( lastSource, vertexBuffer );
         vertexBuffer->setIsInstanceData( true );
         vertexBuffer->setInstanceDataStepRate( 1 );
@@ -101,8 +104,11 @@ namespace Ogre
         }
 
         //Create the vertex buffer containing per instance data
-        auto vertexBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(
-            thisVertexData->vertexDeclaration->getVertexSize(newSource), mInstancesPerBatch, HBU_CPU_TO_GPU);
+        auto vertexBuffer
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                thisVertexData->vertexDeclaration->getVertexSize(newSource),
+                mInstancesPerBatch,
+                HBU_CPU_TO_GPU);
         thisVertexData->vertexBufferBinding->setBinding( newSource, vertexBuffer );
         vertexBuffer->setIsInstanceData( true );
         vertexBuffer->setInstanceDataStepRate( 1 );

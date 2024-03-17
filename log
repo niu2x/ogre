@@ -1,0 +1,17 @@
+	modified:   Components/Bites/src/OgreOSXConfigDialog.mm
+	modified:   RenderSystems/GLES2/src/EAGL/OgreEAGL2Support.mm
+	modified:   RenderSystems/GLES2/src/EAGL/OgreEAGL2View.mm
+	modified:   RenderSystems/GLES2/src/EAGL/OgreEAGL2Window.mm
+	modified:   RenderSystems/GLES2/src/EAGL/OgreEAGLES2Context.mm
+	modified:   RenderSystems/GLSupport/src/OSX/OgreOSXCocoaContext.mm
+	modified:   RenderSystems/GLSupport/src/OSX/OgreOSXCocoaWindow.mm
+	modified:   RenderSystems/GLSupport/src/OSX/OgreOSXGL3PlusSupport.mm
+	modified:   RenderSystems/Metal/src/OgreMetalEngineDll.mm
+	modified:   RenderSystems/Metal/src/OgreMetalHardwareBufferCommon.mm
+	modified:   RenderSystems/Metal/src/OgreMetalHardwarePixelBuffer.mm
+	modified:   RenderSystems/Metal/src/OgreMetalPlugin.mm
+	modified:   RenderSystems/Metal/src/OgreMetalProgram.mm
+	modified:   RenderSystems/Metal/src/OgreMetalRenderSystem.mm
+	modified:   RenderSystems/Metal/src/OgreMetalRenderWindow.mm
+	modified:   RenderSystems/Metal/src/OgreMetalTexture.mm
+	modified:   RenderSystems/Metal/src/OgreMetalTextureManager.mm

@@ -12,7 +12,7 @@ def main():
     root = app.getRoot()
     scn_mgr = root.createSceneManager()
     
-    shadergen = Ogre.RTShader.ShaderGenerator.getSingleton()
+    shadergen = Ogre.RTShader.ShaderGenerator.singleton()
     shadergen.addSceneManager(scn_mgr)
     
     ## [numpy_image]
@@ -24,11 +24,11 @@ def main():
     ogre_img = Ogre.Image()
     ogre_img.loadDynamicImage(arr, 256, 256, Ogre.PF_BYTE_RGB)
     
-    Ogre.TextureManager.getSingleton().loadImage("gradient", "General", ogre_img)
+    Ogre.TextureManager.singleton().loadImage("gradient", "General", ogre_img)
     ## [np_to_ogre]
 
     ## [apply_to_rect]
-    mat = Ogre.MaterialManager.getSingleton().create("gradient_mat", "General")
+    mat = Ogre.MaterialManager.singleton().create("gradient_mat", "General")
     rpass = mat.getTechniques()[0].getPasses()[0]
     rpass.setLightingEnabled(False)
     rpass.createTextureUnitState("gradient")

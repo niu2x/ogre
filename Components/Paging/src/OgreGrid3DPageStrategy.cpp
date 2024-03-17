@@ -364,10 +364,12 @@ namespace Ogre
 
             //--- Get a material
             String matName = "Ogre/G3D/Debug";
-            MaterialPtr mat = MaterialManager::getSingleton().getByName(matName);
+            MaterialPtr mat = MaterialManager::singleton().getByName(matName);
             if (!mat)
             {
-                mat = MaterialManager::getSingleton().create(matName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+                mat = MaterialManager::singleton().create(
+                    matName,
+                    ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
                 Pass* pass = mat->getTechnique(0)->getPass(0);
                 pass->setLightingEnabled(false);
                 pass->setVertexColourTracking(TVC_AMBIENT);

@@ -32,11 +32,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> ResourceGroupManager* Singleton<ResourceGroupManager>::msSingleton = 0;
-    ResourceGroupManager* ResourceGroupManager::getSingletonPtr(void)
+    ResourceGroupManager* ResourceGroupManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ResourceGroupManager& ResourceGroupManager::getSingleton(void)
+    ResourceGroupManager& ResourceGroupManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -81,12 +81,12 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::createResourceGroup(const String& name, bool inGlobalPool)
     {
-        LogManager::getSingleton().log_message("Creating resource group " + name);
-        if (getResourceGroup(name))
-        {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 
-                "Resource group with name '" + name + "' already exists!", 
-                "ResourceGroupManager::createResourceGroup");
+    LogManager::singleton().log_message("Creating resource group " + name);
+    if (getResourceGroup(name)) {
+        OGRE_EXCEPT(
+            Exception::ERR_DUPLICATE_ITEM,
+            "Resource group with name '" + name + "' already exists!",
+            "ResourceGroupManager::createResourceGroup");
         }
         ResourceGroup* grp = OGRE_NEW_T(ResourceGroup, MEMCATEGORY_RESOURCE)();
         grp->groupStatus = ResourceGroup::UNINITIALSED;
@@ -100,23 +100,23 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::initialiseResourceGroup(const String& name)
     {
-        LogManager::getSingleton().log_message("Initialising resource group " + name);
-        ResourceGroup* grp = getResourceGroup(name, true);
-         // lock group mutex;
+    LogManager::singleton().log_message("Initialising resource group " + name);
+    ResourceGroup* grp = getResourceGroup(name, true);
+    // lock group mutex;
 
-        if (grp->groupStatus == ResourceGroup::UNINITIALSED)
-        {
-            // in the process of initialising
-            grp->groupStatus = ResourceGroup::INITIALISING;
-            // Set current group
-            parseResourceGroupScripts(grp);
-            mCurrentGroup = grp;
-            LogManager::getSingleton().log_message("Creating resources for group " + name);
-            createDeclaredResources(grp);
-            grp->groupStatus = ResourceGroup::INITIALISED;
-            LogManager::getSingleton().log_message("All done");
-            // Reset current group
-            mCurrentGroup = 0;
+    if (grp->groupStatus == ResourceGroup::UNINITIALSED) {
+        // in the process of initialising
+        grp->groupStatus = ResourceGroup::INITIALISING;
+        // Set current group
+        parseResourceGroupScripts(grp);
+        mCurrentGroup = grp;
+        LogManager::singleton().log_message(
+            "Creating resources for group " + name);
+        createDeclaredResources(grp);
+        grp->groupStatus = ResourceGroup::INITIALISED;
+        LogManager::singleton().log_message("All done");
+        // Reset current group
+        mCurrentGroup = 0;
         }
     }
     //-----------------------------------------------------------------------
@@ -136,10 +136,11 @@ namespace Ogre {
                 // Set current group
                 mCurrentGroup = grp;
                 parseResourceGroupScripts(grp);
-                LogManager::getSingleton().log_message("Creating resources for group " + g.first);
+                LogManager::singleton().log_message(
+                    "Creating resources for group " + g.first);
                 createDeclaredResources(grp);
                 grp->groupStatus = ResourceGroup::INITIALISED;
-                LogManager::getSingleton().log_message("All done");
+                LogManager::singleton().log_message("All done");
                 // Reset current group
                 mCurrentGroup = 0;
             }
@@ -148,19 +149,19 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::prepareResourceGroup(const String& name)
     {
-        LogManager::getSingleton().stream() << "Preparing resource group '" << name << "'";
-        // load all created resources
-        ResourceGroup* grp = getResourceGroup(name, true);
-        
-         // lock group mutex 
-        // Set current group
-        mCurrentGroup = grp;
+    LogManager::singleton().stream()
+        << "Preparing resource group '" << name << "'";
+    // load all created resources
+    ResourceGroup* grp = getResourceGroup(name, true);
 
-        // Count up resources for starting event
-        size_t resourceCount = 0;
-        for (auto& oi : grp->loadResourceOrderMap)
-        {
-            resourceCount += oi.second.size();
+    // lock group mutex
+    // Set current group
+    mCurrentGroup = grp;
+
+    // Count up resources for starting event
+    size_t resourceCount = 0;
+    for (auto& oi : grp->loadResourceOrderMap) {
+        resourceCount += oi.second.size();
         }
 
         fireResourceGroupPrepareStarted(name, resourceCount);
@@ -203,25 +204,26 @@ namespace Ogre {
 
         // reset current group
         mCurrentGroup = 0;
-        
-        LogManager::getSingleton().log_message("Finished preparing resource group " + name);
+
+        LogManager::singleton().log_message(
+            "Finished preparing resource group " + name);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::loadResourceGroup(const String& name)
     {
-        LogManager::getSingleton().stream() << "Loading resource group '" << name << "'";
-        // load all created resources
-        ResourceGroup* grp = getResourceGroup(name, true);
-        
-         // lock group mutex 
-        // Set current group
-        mCurrentGroup = grp;
+    LogManager::singleton().stream()
+        << "Loading resource group '" << name << "'";
+    // load all created resources
+    ResourceGroup* grp = getResourceGroup(name, true);
 
-        // Count up resources for starting event
-        size_t resourceCount = grp->customStageCount;
-        for (auto& oi : grp->loadResourceOrderMap)
-        {
-            resourceCount += oi.second.size();
+    // lock group mutex
+    // Set current group
+    mCurrentGroup = grp;
+
+    // Count up resources for starting event
+    size_t resourceCount = grp->customStageCount;
+    for (auto& oi : grp->loadResourceOrderMap) {
+        resourceCount += oi.second.size();
         }
 
         fireResourceGroupLoadStarted(name, resourceCount);
@@ -267,102 +269,104 @@ namespace Ogre {
 
         // reset current group
         mCurrentGroup = 0;
-        
-        LogManager::getSingleton().log_message("Finished loading resource group " + name);
+
+        LogManager::singleton().log_message(
+            "Finished loading resource group " + name);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::unloadResourceGroup(const String& name, bool reloadableOnly)
     {
-        LogManager::getSingleton().log_message("Unloading resource group " + name);
-        ResourceGroup* grp = getResourceGroup(name, true);
-        
-        // Set current group
-        mCurrentGroup = grp;
-         // lock group mutex 
+    LogManager::singleton().log_message("Unloading resource group " + name);
+    ResourceGroup* grp = getResourceGroup(name, true);
 
-        // unload in reverse order
-        for (auto& oi : grp->loadResourceOrderMap)
-        {
-            for (auto& l : oi.second)
-            {
+    // Set current group
+    mCurrentGroup = grp;
+    // lock group mutex
+
+    // unload in reverse order
+    for (auto& oi : grp->loadResourceOrderMap) {
+        for (auto& l : oi.second) {
+            Resource* resource = l.get();
+            if (!reloadableOnly || resource->reloadable()) {
+                resource->unload();
+            }
+        }
+    }
+
+        grp->groupStatus = ResourceGroup::INITIALISED;
+
+        // reset current group
+        mCurrentGroup = 0;
+        LogManager::singleton().log_message(
+            "Finished unloading resource group " + name);
+    }
+    //-----------------------------------------------------------------------
+    void ResourceGroupManager::unloadUnreferencedResourcesInGroup(
+        const String& name, bool reloadableOnly )
+    {
+    LogManager::singleton().log_message(
+        "Unloading unused resources in resource group " + name);
+    ResourceGroup* grp = getResourceGroup(name, true);
+
+    // Set current group
+    mCurrentGroup = grp;
+
+    ResourceGroup::LoadResourceOrderMap::reverse_iterator oi;
+    // unload in reverse order
+    for (oi = grp->loadResourceOrderMap.rbegin();
+         oi != grp->loadResourceOrderMap.rend();
+         ++oi) {
+        for (auto& l : oi->second) {
+            // A use count of 3 means that only RGM and RM have references
+            // RGM has one (this one) and RM has 2 (by name and by handle)
+            if (l.use_count() == RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS) {
                 Resource* resource = l.get();
                 if (!reloadableOnly || resource->reloadable()) {
                     resource->unload();
                 }
             }
         }
-
-        grp->groupStatus = ResourceGroup::INITIALISED;
-
-        // reset current group
-        mCurrentGroup = 0;
-        LogManager::getSingleton().log_message("Finished unloading resource group " + name);
     }
-    //-----------------------------------------------------------------------
-    void ResourceGroupManager::unloadUnreferencedResourcesInGroup(
-        const String& name, bool reloadableOnly )
-    {
-        LogManager::getSingleton().log_message(
-            "Unloading unused resources in resource group " + name);
-        ResourceGroup* grp = getResourceGroup(name, true);
-        
-        // Set current group
-        mCurrentGroup = grp;
-
-        ResourceGroup::LoadResourceOrderMap::reverse_iterator oi;
-        // unload in reverse order
-        for (oi = grp->loadResourceOrderMap.rbegin(); oi != grp->loadResourceOrderMap.rend(); ++oi)
-        {
-            for (auto& l : oi->second)
-            {
-                // A use count of 3 means that only RGM and RM have references
-                // RGM has one (this one) and RM has 2 (by name and by handle)
-                if (l.use_count() == RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS)
-                {
-                    Resource* resource = l.get();
-                    if (!reloadableOnly || resource->reloadable()) {
-                        resource->unload();
-                    }
-                }
-            }
-        }
 
         grp->groupStatus = ResourceGroup::INITIALISED;
 
         // reset current group
         mCurrentGroup = 0;
-        LogManager::getSingleton().log_message(
+        LogManager::singleton().log_message(
             "Finished unloading unused resources in resource group " + name);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::clearResourceGroup(const String& name)
     {
-            LogManager::getSingleton().log_message("Clearing resource group " + name);
-        ResourceGroup* grp = getResourceGroup(name, true);
-        
-        // set current group
-        mCurrentGroup = grp;
-        dropGroupContents(grp);
-        // clear initialised flag
-        grp->groupStatus = ResourceGroup::UNINITIALSED;
-        // reset current group
-        mCurrentGroup = 0;
-        LogManager::getSingleton().log_message("Finished clearing resource group " + name);
+    LogManager::singleton().log_message("Clearing resource group " + name);
+    ResourceGroup* grp = getResourceGroup(name, true);
+
+    // set current group
+    mCurrentGroup = grp;
+    dropGroupContents(grp);
+    // clear initialised flag
+    grp->groupStatus = ResourceGroup::UNINITIALSED;
+    // reset current group
+    mCurrentGroup = 0;
+    LogManager::singleton().log_message(
+        "Finished clearing resource group " + name);
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::destroyResourceGroup(const String& name)
     {
-        LogManager::getSingleton().log_message("Destroying resource group " + name);
-        ResourceGroup* grp = getResourceGroup(name, true);
-        
-        // set current group
-        mCurrentGroup = grp;
-        unloadResourceGroup(name, false); // will throw an exception if name not valid
-        dropGroupContents(grp);
-        deleteGroup(grp);
-        mResourceGroupMap.erase(mResourceGroupMap.find(name));
-        // reset current group
-        mCurrentGroup = 0;
+    LogManager::singleton().log_message("Destroying resource group " + name);
+    ResourceGroup* grp = getResourceGroup(name, true);
+
+    // set current group
+    mCurrentGroup = grp;
+    unloadResourceGroup(
+        name,
+        false); // will throw an exception if name not valid
+    dropGroupContents(grp);
+    deleteGroup(grp);
+    mResourceGroupMap.erase(mResourceGroupMap.find(name));
+    // reset current group
+    mCurrentGroup = 0;
     }
     //-----------------------------------------------------------------------
     bool ResourceGroupManager::isResourceGroupInitialised(const String& name) const
@@ -405,7 +409,8 @@ namespace Ogre {
         const String& locType, const String& resGroup, bool recursive, bool readOnly)
     {
         // Get archive
-        Archive* pArch = ArchiveManager::getSingleton().load( name, locType, readOnly );
+        Archive* pArch
+            = ArchiveManager::singleton().load(name, locType, readOnly);
         // Add to location list
 
         ResourceLocation loc = {pArch, recursive};
@@ -430,7 +435,7 @@ namespace Ogre {
             << "' to resource group '" << resGroup << "'";
         if (recursive)
             msg << " with recursive option";
-        LogManager::getSingleton().log_message(msg.str());
+        LogManager::singleton().log_message(msg.str());
 
     }
     //-----------------------------------------------------------------------
@@ -448,12 +453,13 @@ namespace Ogre {
             if (pArch->name() == name) {
                 grp->removeFromIndex(pArch);
                 grp->locationList.erase(li);
-                ArchiveManager::getSingleton().unload(pArch);
+                ArchiveManager::singleton().unload(pArch);
                 break;
             }
         }
 
-        LogManager::getSingleton().log_message("Removed resource location " + name);
+        LogManager::singleton().log_message(
+            "Removed resource location " + name);
 
 
     }
@@ -703,25 +709,20 @@ namespace Ogre {
     void ResourceGroupManager::_registerResourceManager(
         const String& resourceType, ResourceManager* rm)
     {
-        
-
-        LogManager::getSingleton().log_message(
-            "Registering ResourceManager for type " + resourceType);
-        mResourceManagerMap[resourceType] = rm;
+    LogManager::singleton().log_message(
+        "Registering ResourceManager for type " + resourceType);
+    mResourceManagerMap[resourceType] = rm;
     }
     //-----------------------------------------------------------------------
     void ResourceGroupManager::_unregisterResourceManager(
         const String& resourceType)
     {
-        
+    LogManager::singleton().log_message(
+        "Unregistering ResourceManager for type " + resourceType);
 
-        LogManager::getSingleton().log_message(
-            "Unregistering ResourceManager for type " + resourceType);
-        
-        ResourceManagerMap::iterator i = mResourceManagerMap.find(resourceType);
-        if (i != mResourceManagerMap.end())
-        {
-            mResourceManagerMap.erase(i);
+    ResourceManagerMap::iterator i = mResourceManagerMap.find(resourceType);
+    if (i != mResourceManagerMap.end()) {
+        mResourceManagerMap.erase(i);
         }
     }
     //-----------------------------------------------------------------------
@@ -772,32 +773,29 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ResourceGroupManager::parseResourceGroupScripts(ResourceGroup* grp) const
     {
+    LogManager::singleton().log_message(
+        "Parsing scripts for resource group " + grp->name);
 
-        LogManager::getSingleton().log_message(
-            "Parsing scripts for resource group " + grp->name);
+    // Count up the number of scripts we have to parse
+    typedef std::pair<ScriptLoader*, FileInfoList> LoaderFileListPair;
+    typedef std::vector<LoaderFileListPair> ScriptLoaderFileList;
+    ScriptLoaderFileList scriptLoaderFileList;
+    size_t scriptCount = 0;
+    // Iterate over script users in loading order and get streams
+    for (auto& oi : mScriptLoaderOrderMap) {
+        ScriptLoader* su = oi.second;
 
-        // Count up the number of scripts we have to parse
-        typedef std::pair<ScriptLoader*, FileInfoList> LoaderFileListPair;
-        typedef std::vector<LoaderFileListPair> ScriptLoaderFileList;
-        ScriptLoaderFileList scriptLoaderFileList;
-        size_t scriptCount = 0;
-        // Iterate over script users in loading order and get streams
-        for (auto& oi : mScriptLoaderOrderMap)
-        {
-            ScriptLoader* su = oi.second;
+        scriptLoaderFileList.push_back(LoaderFileListPair(su, FileInfoList()));
 
-            scriptLoaderFileList.push_back(LoaderFileListPair(su, FileInfoList()));
+        // Get all the patterns and search them
+        const StringVector& patterns = su->script_patterns();
+        for (const auto& pattern : patterns) {
+            FileInfoListPtr fileList = findResourceFileInfo(grp->name, pattern);
+            FileInfoList& lst = scriptLoaderFileList.back().second;
+            lst.insert(lst.end(), fileList->begin(), fileList->end());
+        }
 
-            // Get all the patterns and search them
-            const StringVector& patterns = su->script_patterns();
-            for (const auto& pattern : patterns)
-            {
-                FileInfoListPtr fileList = findResourceFileInfo(grp->name, pattern);
-                FileInfoList& lst = scriptLoaderFileList.back().second;
-                lst.insert(lst.end(), fileList->begin(), fileList->end());
-            }
-
-            scriptCount += scriptLoaderFileList.back().second.size();
+        scriptCount += scriptLoaderFileList.back().second.size();
         }
         // Fire scripting event
         fireResourceGroupScriptingStarted(grp->name, scriptCount);
@@ -814,12 +812,10 @@ namespace Ogre {
                 fireScriptStarted(fii.filename, skipScript);
                 if(skipScript)
                 {
-                    LogManager::getSingleton().log_message(
+                    LogManager::singleton().log_message(
                         "Skipping script " + fii.filename);
-                }
-                else
-                {
-                    LogManager::getSingleton().log_message(
+                } else {
+                    LogManager::singleton().log_message(
                         "Parsing script " + fii.filename);
                     DataStreamPtr stream = fii.archive->open(fii.filename);
                     if (stream)
@@ -831,8 +827,7 @@ namespace Ogre {
                         {
                             DataStreamPtr cachedCopy(OGRE_NEW MemoryDataStream(stream->name(), stream.get()));
                             su->parse_script(cachedCopy, grp->name);
-                        }
-                        else
+                        } else
                             su->parse_script(stream, grp->name);
                     }
                 }
@@ -841,7 +836,7 @@ namespace Ogre {
         }
 
         fireResourceGroupScriptingEnded(grp->name);
-        LogManager::getSingleton().log_message(
+        LogManager::singleton().log_message(
             "Finished parsing scripts for resource group " + grp->name);
     }
     //-----------------------------------------------------------------------

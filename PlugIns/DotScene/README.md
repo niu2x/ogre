@@ -65,7 +65,7 @@ The Plugin will be then automatically used when you call `SceneNode::loadChildre
 Ogre::SceneNode* attachmentNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 
 // Set the desired resource group first and then load the Scene
-Ogre::ResourceGroupManager::getSingleton().setWorldResourceGroupName("MyGroup");
+Ogre::ResourceGroupManager::singleton().setWorldResourceGroupName("MyGroup");
 attachmentNode->loadChildren("myScene.scene");
 ```
 

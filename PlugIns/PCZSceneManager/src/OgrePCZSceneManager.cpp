@@ -117,7 +117,7 @@ namespace Ogre
         mDefaultZoneFileName = filename;
 
         // create a new default zone
-        mZoneFactoryManager = PCZoneFactoryManager::getSingletonPtr();
+        mZoneFactoryManager = PCZoneFactoryManager::singleton_ptr(();
         mDefaultZone = createZoneFromFile(mDefaultZoneTypeName, "Default_Zone", (PCZSceneNode*)getRootSceneNode(), mDefaultZoneFileName);
     }
 
@@ -125,7 +125,8 @@ namespace Ogre
     Portal* PCZSceneManager::createPortal(const String& name, PortalBase::PORTAL_TYPE type)
     {
         Portal* newPortal = OGRE_NEW Portal(name, type);
-        newPortal->_notifyCreator(Root::getSingleton().getMovableObjectFactory("Portal"));
+        newPortal->_notifyCreator(
+            Root::singleton().getMovableObjectFactory("Portal"));
         newPortal->_notifyManager(this);
         mPortals.push_front(newPortal);
         return newPortal;
@@ -204,7 +205,8 @@ namespace Ogre
     AntiPortal* PCZSceneManager::createAntiPortal(const String& name, PortalBase::PORTAL_TYPE type)
     {
         AntiPortal* newAntiPortal = OGRE_NEW AntiPortal(name, type);
-        newAntiPortal->_notifyCreator(Root::getSingleton().getMovableObjectFactory("AntiPortal"));
+        newAntiPortal->_notifyCreator(
+            Root::singleton().getMovableObjectFactory("AntiPortal"));
         newAntiPortal->_notifyManager(this);
         mAntiPortals.push_front(newAntiPortal);
         return newAntiPortal;
@@ -1031,7 +1033,7 @@ namespace Ogre
                             if (portal2)
                             {
                                 // found a match!
-                                Ogre::LogManager::getSingletonPtr()->log_message("Connecting portal "+portal->name()+" to portal "+portal2->name());
+                                Ogre::LogManager::singleton_ptr(()->log_message("Connecting portal "+portal->name()+" to portal "+portal2->name());
                                 foundMatch = true;
                                 portal->setTargetZone(zone2);
                                 portal->setTargetPortal(portal2);
@@ -1066,7 +1068,7 @@ namespace Ogre
 
         // if we are re-rendering the scene again with the same camera, we can just use the cache.
         // this helps post processing compositors.
-        unsigned long frameCount = Root::getSingleton().getNextFrameNumber();
+        unsigned long frameCount = Root::singleton().getNextFrameNumber();
         if (mLastActiveCamera == cam && mFrameCount == frameCount)
         {
             RenderQueue* queue = getRenderQueue();

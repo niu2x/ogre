@@ -86,10 +86,19 @@ protected:
         mTrayMgr->showCursor();
 
         // create our dynamic texture with 8-bit luminance texels
-        TexturePtr tex = TextureManager::getSingleton().createManual("thaw", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            TEX_TYPE_2D, TEXTURE_SIZE, TEXTURE_SIZE, 0, PF_L8, TU_DYNAMIC_WRITE_ONLY);
-        MaterialManager::getSingleton()
-            .getByName("Examples/Frost", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
+        TexturePtr tex = TextureManager::singleton().createManual(
+            "thaw",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            TEX_TYPE_2D,
+            TEXTURE_SIZE,
+            TEXTURE_SIZE,
+            0,
+            PF_L8,
+            TU_DYNAMIC_WRITE_ONLY);
+        MaterialManager::singleton()
+            .getByName(
+                "Examples/Frost",
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
             ->getTechnique(0)
             ->getPass(0)
             ->getTextureUnitState(1)
@@ -170,7 +179,9 @@ protected:
 
     void cleanupContent() override
     {
-        TextureManager::getSingleton().remove("thaw", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        TextureManager::singleton().remove(
+            "thaw",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         mSceneMgr->destroyQuery(mCursorQuery);
     }
 

@@ -54,16 +54,20 @@ TerrainTessellationMaterialGenerator::Profile::~Profile()
 // -----------------------------------------------------------------------------------------------------------------------
 MaterialPtr TerrainTessellationMaterialGenerator::Profile::generate(const Terrain* terrain)
 {
-    const Ogre::String& matName = terrain->getMaterialName();        
-    MaterialPtr mat = MaterialManager::getSingleton().getByName( matName ).staticCast<Material>();
+    const Ogre::String& matName = terrain->getMaterialName();
+    MaterialPtr mat = MaterialManager::singleton()
+                          .getByName(matName)
+                          .staticCast<Material>();
 
-    if (mat) 
-        MaterialManager::getSingleton().remove(matName);
+    if (mat)
+        MaterialManager::singleton().remove(matName);
 
     TerrainTessellationMaterialGenerator* parent = (TerrainTessellationMaterialGenerator*)getParent();
-    
-    // Set Ogre material 
-    mat = MaterialManager::getSingleton().getByName( parent->mMaterialName ).staticCast<Material>();
+
+    // Set Ogre material
+    mat = MaterialManager::singleton()
+              .getByName(parent->mMaterialName)
+              .staticCast<Material>();
 
     // Clone material
     if(parent->mCloneMaterial) 

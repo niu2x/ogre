@@ -100,12 +100,10 @@ namespace Ogre {
                 break;
             default: break;
         };
-        LogManager::getSingleton().log_message(
-            " Win32PBuffer::Creating PBuffer of format bits="+
-            StringConverter::to_string(bits)+
-            " float="+StringConverter::to_string(isFloat)
-        );
-
+        LogManager::singleton().log_message(
+            " Win32PBuffer::Creating PBuffer of format bits="
+            + StringConverter::to_string(bits)
+            + " float=" + StringConverter::to_string(isFloat));
 
         HDC old_hdc = wglGetCurrentDC();
         HGLRC old_context = wglGetCurrentContext();
@@ -172,13 +170,10 @@ namespace Ogre {
         PFNWGLGETPIXELFORMATATTRIBIVARBPROC wglGetPixelFormatAttribiv = (PFNWGLGETPIXELFORMATATTRIBIVARBPROC)wglGetProcAddress("wglGetPixelFormatAttribivARB");
         wglGetPixelFormatAttribiv(old_hdc,format,0,sizeof(piAttributes)/sizeof(const int),piAttributes,piValues);
 
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << " Win32PBuffer::PBuffer -- Chosen pixel format rgba="
-            << piValues[0] << ","  
-            << piValues[1] << ","  
-            << piValues[2] << ","  
-            << piValues[3] 
-            << " depth=" << piValues[4]
+            << piValues[0] << "," << piValues[1] << "," << piValues[2] << ","
+            << piValues[3] << " depth=" << piValues[4]
             << " stencil=" << piValues[5];
         // FIXME lookup procaddress
         mPBuffer = 0;//wglCreatePbufferARB(old_hdc,format,mWidth,mHeight,pattrib_default);
@@ -211,7 +206,7 @@ namespace Ogre {
         wglQueryPbufferARB(mPBuffer, WGL_PBUFFER_HEIGHT_ARB, &iHeight);
         mWidth = iWidth;  
         mHeight = iHeight;
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "Win32RenderTexture::PBuffer created -- Real dimensions "
             << mWidth << "x" << mHeight;
 #endif

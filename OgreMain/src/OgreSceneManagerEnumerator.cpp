@@ -33,11 +33,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> SceneManagerEnumerator* Singleton<SceneManagerEnumerator>::msSingleton = 0;
-    SceneManagerEnumerator* SceneManagerEnumerator::getSingletonPtr(void)
+    SceneManagerEnumerator* SceneManagerEnumerator::singleton_ptr((void)
     {
         return msSingleton;
     }
-    SceneManagerEnumerator& SceneManagerEnumerator::getSingleton(void)
+    SceneManagerEnumerator& SceneManagerEnumerator::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -77,7 +77,9 @@ namespace Ogre {
         // add to metadata
         mMetaDataList.push_back(fact->getTypeName());
         // Log
-        LogManager::getSingleton().log_message("SceneManagerFactory for type '" + fact->getTypeName() + "' registered.");
+        LogManager::singleton().log_message(
+            "SceneManagerFactory for type '" + fact->getTypeName()
+            + "' registered.");
     }
     //-----------------------------------------------------------------------
     void SceneManagerEnumerator::removeFactory(SceneManagerFactory* fact)

@@ -46,13 +46,13 @@ void Widget::nukeOverlayElement(Ogre::OverlayElement *element)
     {
         Ogre::OverlayContainer* parent = element->getParent();
         if (parent) parent->removeChild(element->name());
-        Ogre::OverlayManager::getSingleton().destroyOverlayElement(element);
+        Ogre::OverlayManager::singleton().destroyOverlayElement(element);
     }
 }
 
 bool Widget::isCursorOver(Ogre::OverlayElement *element, const Ogre::Vector2 &cursorPos, Ogre::Real voidBorder)
 {
-    Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+    Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
     Ogre::Real l = element->_getDerivedLeft() * om.getViewportWidth();
     Ogre::Real t = element->_getDerivedTop() * om.getViewportHeight();
     Ogre::Real r = l + element->getWidth();
@@ -64,7 +64,7 @@ bool Widget::isCursorOver(Ogre::OverlayElement *element, const Ogre::Vector2 &cu
 
 Ogre::Vector2 Widget::cursorOffset(Ogre::OverlayElement *element, const Ogre::Vector2 &cursorPos)
 {
-    Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+    Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
     return Ogre::Vector2(cursorPos.x - (element->_getDerivedLeft() * om.getViewportWidth() + element->getWidth() / 2),
                          cursorPos.y - (element->_getDerivedTop() * om.getViewportHeight() + element->getHeight() / 2));
 }
@@ -118,7 +118,11 @@ void Widget::fitCaptionToArea(const Ogre::DisplayString &caption, Ogre::TextArea
 
 Button::Button(const Ogre::String &name, const Ogre::DisplayString &caption, Ogre::Real width)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate("SdkTrays/Button", "BorderPanel", name);
+    mElement
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
+            "SdkTrays/Button",
+            "BorderPanel",
+            name);
     mBP = (Ogre::BorderPanelOverlayElement*)mElement;
     mTextArea = (Ogre::TextAreaOverlayElement*)mBP->getChild(mBP->name() + "/ButtonCaption");
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
@@ -202,7 +206,7 @@ TextBox::TextBox(
     Ogre::Real height)
 {
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/TextBox",
             "BorderPanel",
             p_name);
@@ -398,8 +402,12 @@ SelectMenu::SelectMenu(const Ogre::String &name, const Ogre::DisplayString &capt
     mDragging = false;
     mMaxItemsShown = maxItemsShown;
     mItemsShown = 0;
-    mElement = (Ogre::BorderPanelOverlayElement*)Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
-            ("SdkTrays/SelectMenu", "BorderPanel", name);
+    mElement
+        = (Ogre::BorderPanelOverlayElement*)Ogre::OverlayManager::singleton()
+              .createOverlayElementFromTemplate(
+                  "SdkTrays/SelectMenu",
+                  "BorderPanel",
+                  name);
     mTextArea = (Ogre::TextAreaOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(name + "/MenuCaption");
     mSmallBox = (Ogre::BorderPanelOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(name + "/MenuSmallBox");
     mSmallBox->setWidth(width - 10);
@@ -462,10 +470,14 @@ void SelectMenu::setItems(const Ogre::StringVector &items)
 
     for (unsigned int i = 0; i < mItemsShown; i++)   // create all the item elements
     {
-        Ogre::BorderPanelOverlayElement* e =
-                (Ogre::BorderPanelOverlayElement*)Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate
-                ("SdkTrays/SelectMenuItem", "BorderPanel",
-                 mExpandedBox->name() + "/Item" + Ogre::StringConverter::to_string(i + 1));
+        Ogre::BorderPanelOverlayElement* e
+            = (Ogre::BorderPanelOverlayElement*)
+                  Ogre::OverlayManager::singleton()
+                      .createOverlayElementFromTemplate(
+                          "SdkTrays/SelectMenuItem",
+                          "BorderPanel",
+                          mExpandedBox->name() + "/Item"
+                              + Ogre::StringConverter::to_string(i + 1));
 
         e->setTop(6 + i * (mSmallBox->getHeight() - 8));
         e->setWidth(mExpandedBox->getWidth() - 32);
@@ -577,7 +589,7 @@ Ogre::DisplayString SelectMenu::getSelectedItem()
 
 void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
 {
-    Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+    Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
 
     if (mExpanded)
     {
@@ -661,7 +673,7 @@ void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
 
 void SelectMenu::_cursorMoved(const Ogre::Vector2 &cursorPos, float wheelDelta)
 {
-    Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+    Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
 
     if (mExpanded)
     {
@@ -763,7 +775,7 @@ Label::Label(
     Ogre::Real width)
 {
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/Label",
             "BorderPanel",
             p_name);
@@ -788,7 +800,7 @@ void Label::_cursorPressed(const Ogre::Vector2 &cursorPos)
 Separator::Separator(const Ogre::String& p_name, Ogre::Real width)
 {
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/Separator",
             "Panel",
             p_name);
@@ -818,7 +830,7 @@ Slider::Slider(
     mDragging = false;
     mFitToContents = false;
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/Slider",
             "BorderPanel",
             p_name);
@@ -953,7 +965,7 @@ ParamsPanel::ParamsPanel(
     unsigned int lines)
 {
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/ParamsPanel",
             "BorderPanel",
             p_name);
@@ -1061,7 +1073,7 @@ CheckBox::CheckBox(
     mCursorOver = false;
     mFitToContents = width <= 0;
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/CheckBox",
             "BorderPanel",
             p_name);
@@ -1131,7 +1143,8 @@ void CheckBox::_focusLost()
 
 DecorWidget::DecorWidget(const Ogre::String &name, const Ogre::String &templateName)
 {
-    mElement = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(templateName, "", name);
+    mElement = Ogre::OverlayManager::singleton()
+                   .createOverlayElementFromTemplate(templateName, "", name);
 }
 
 ProgressBar::ProgressBar(
@@ -1142,7 +1155,7 @@ ProgressBar::ProgressBar(
 : mProgress(0.0f)
 {
     mElement
-        = Ogre::OverlayManager::getSingleton().createOverlayElementFromTemplate(
+        = Ogre::OverlayManager::singleton().createOverlayElementFromTemplate(
             "SdkTrays/ProgressBar",
             "BorderPanel",
             p_name);
@@ -1171,10 +1184,10 @@ TrayManager::TrayManager(const Ogre::String &name, Ogre::RenderWindow *window, T
     mNo(0), mCursorWasVisible(false), mFpsLabel(0), mStatsPanel(0), mLogo(0), mLoadBar(0),
     mGroupInitProportion(0.0f), mGroupLoadProportion(0.0f), mLoadInc(0.0f)
 {
-    mTimer = Ogre::Root::getSingleton().getTimer();
+    mTimer = Ogre::Root::singleton().getTimer();
     mLastStatUpdateTime = -FRAME_UPDATE_DELAY; // update immediately on first call
 
-    Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+    Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
 
     Ogre::String nameBase = mName + "/";
     std::replace(nameBase.begin(), nameBase.end(), ' ', '_');
@@ -1229,7 +1242,7 @@ TrayManager::TrayManager(const Ogre::String &name, Ogre::RenderWindow *window, T
 
 TrayManager::~TrayManager()
 {
-    Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+    Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
 
     destroyAllWidgets();
 
@@ -1637,7 +1650,7 @@ void TrayManager::showLoadingBar(unsigned int numGroupsInit, unsigned int numGro
     e->setLeft(-(e->getWidth() / 2));
     e->setTop(-(e->getHeight() / 2));
 
-    Ogre::ResourceGroupManager::getSingleton().addResourceGroupListener(this);
+    Ogre::ResourceGroupManager::singleton().addResourceGroupListener(this);
     mCursorWasVisible = isCursorVisible();
     hideCursor();
     mDialogShade->show();
@@ -1674,7 +1687,8 @@ void TrayManager::hideLoadingBar()
         delete mLoadBar;
         mLoadBar = 0;
 
-        Ogre::ResourceGroupManager::getSingleton().removeResourceGroupListener(this);
+        Ogre::ResourceGroupManager::singleton().removeResourceGroupListener(
+            this);
         if (mCursorWasVisible) showCursor();
         mDialogShade->hide();
     }
@@ -2167,7 +2181,7 @@ bool TrayManager::mouseMoved(const MouseMotionEvent &evt)
     // thats a separate event. Ignore for now.
     static float wheelDelta = 0;
 
-    auto vpScale = Ogre::OverlayManager::getSingleton().getPixelRatio();
+    auto vpScale = Ogre::OverlayManager::singleton().getPixelRatio();
 
     // always keep track of the mouse pos for refreshCursor()
     mCursorPos = Ogre::Vector2(evt.x, evt.y) / vpScale;
@@ -2227,8 +2241,8 @@ void TrayManager::setExpandedMenu(SelectMenu *m)
         Ogre::OverlayContainer* eb = (Ogre::OverlayContainer*)c->getChild(m->name() + "/MenuExpandedBox");
         eb->_update();
         eb->setPosition
-                ((unsigned int)(eb->_getDerivedLeft() * Ogre::OverlayManager::getSingleton().getViewportWidth()),
-                 (unsigned int)(eb->_getDerivedTop() * Ogre::OverlayManager::getSingleton().getViewportHeight()));
+                ((unsigned int)(eb->_getDerivedLeft() * Ogre::OverlayManager::singleton().getViewportWidth()),
+                 (unsigned int)(eb->_getDerivedTop() * Ogre::OverlayManager::singleton().getViewportHeight()));
         c->removeChild(eb->name());
         mPriorityLayer->add2D(eb);
     }

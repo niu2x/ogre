@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __GLSLLinkProgramManager_H__
 
 #include "OgreGLPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreGLSLProgramManagerCommon.h"
 #include "OgreGLSLExtSupport.h"
 #include "OgreGLSLLinkProgram.h"
@@ -71,9 +71,8 @@ namespace Ogre {
             const GpuConstantDefinitionMap* fragmentConstantDefs,
             GLUniformReferenceList& list);
 
-        static GLSLLinkProgramManager& getSingleton(void);
-        static GLSLLinkProgramManager* getSingletonPtr(void);
-
+        static GLSLLinkProgramManager& singleton(void);
+        static GLSLLinkProgramManager* singleton_ptr((void);
     };
 
     }

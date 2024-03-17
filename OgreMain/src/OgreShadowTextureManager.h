@@ -32,7 +32,7 @@ Torus Knot Software Ltd.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgrePixelFormat.h"
 
 namespace Ogre
@@ -88,11 +88,10 @@ namespace Ogre
         */
         void clear();
 
-        /// @copydoc Singleton::getSingleton()
-        static ShadowTextureManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ShadowTextureManager* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static ShadowTextureManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ShadowTextureManager* singleton_ptr((void);
     };
 
     /** @} */

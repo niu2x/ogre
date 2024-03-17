@@ -48,7 +48,7 @@ namespace Ogre
                 mMaxLookupTableInstances(16),
                 mNumCustomParams( 0 )
     {
-        mMeshReference = MeshManager::getSingleton().load( meshName, groupName );
+        mMeshReference = MeshManager::singleton().load(meshName, groupName);
 
         if(mMeshReference->sharedVertexData)
             unshareVertices(mMeshReference);
@@ -91,7 +91,7 @@ namespace Ogre
                                                                 uint16 flags )
     {
         //Get the material
-        MaterialPtr mat = MaterialManager::getSingleton().getByName(
+        MaterialPtr mat = MaterialManager::singleton().getByName(
             materialName,
             mMeshReference->group());
         InstanceBatch *batch = 0;
@@ -173,7 +173,7 @@ namespace Ogre
         idxMap = idxMap.empty() ? mMeshReference->sharedBlendIndexToBoneIndexMap : idxMap;
 
         //Get the material
-        MaterialPtr mat = MaterialManager::getSingleton().getByName(
+        MaterialPtr mat = MaterialManager::singleton().getByName(
             materialName,
             mMeshReference->group());
 
@@ -540,10 +540,14 @@ namespace Ogre
             for (uint16 bufIdx = 0; bufIdx < uint16(sharedVertexData->vertexBufferBinding->getBufferCount()); bufIdx++)
             {
                 HardwareVertexBufferSharedPtr sharedVertexBuffer = sharedVertexData->vertexBufferBinding->getBuffer(bufIdx);
-                size_t vertexSize = sharedVertexBuffer->getVertexSize();                
+                size_t vertexSize = sharedVertexBuffer->getVertexSize();
 
-                HardwareVertexBufferSharedPtr newVertexBuffer = HardwareBufferManager::getSingleton().createVertexBuffer
-                    (vertexSize, newVertexData->vertexCount, sharedVertexBuffer->getUsage(), sharedVertexBuffer->hasShadowBuffer());
+                HardwareVertexBufferSharedPtr newVertexBuffer
+                    = HardwareBufferManager::singleton().createVertexBuffer(
+                        vertexSize,
+                        newVertexData->vertexCount,
+                        sharedVertexBuffer->getUsage(),
+                        sharedVertexBuffer->hasShadowBuffer());
 
                 HardwareBufferLockGuard oldLock(sharedVertexBuffer, 0, sharedVertexData->vertexCount * vertexSize, HardwareBuffer::HBL_READ_ONLY);
                 HardwareBufferLockGuard newLock(newVertexBuffer, 0, newVertexData->vertexCount * vertexSize, HardwareBuffer::HBL_NORMAL);

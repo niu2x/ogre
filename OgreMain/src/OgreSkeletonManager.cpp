@@ -32,11 +32,11 @@ namespace Ogre
 {
     //-----------------------------------------------------------------------
     template<> SkeletonManager* Singleton<SkeletonManager>::msSingleton = 0;
-    SkeletonManager* SkeletonManager::getSingletonPtr(void)
+    SkeletonManager* SkeletonManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    SkeletonManager& SkeletonManager::getSingleton(void)
+    SkeletonManager& SkeletonManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -46,7 +46,7 @@ namespace Ogre
     {
         set_load_order(300.0f);
 
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
     }
@@ -67,8 +67,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     SkeletonManager::~SkeletonManager()
     {
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
-            resource_type());
+    ResourceGroupManager::singleton()._unregisterResourceManager(
+        resource_type());
     }
     //-----------------------------------------------------------------------
     Resource* SkeletonManager::create_impl(const String& name, ResourceHandle handle, 
@@ -77,7 +77,4 @@ namespace Ogre
     {
         return OGRE_NEW Skeleton(this, name, handle, group, isManual, loader);
     }
-
-
-
 }

@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "resource_manager.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 
 namespace Ogre {
 
@@ -65,17 +65,16 @@ namespace Ogre {
         /// @see ResourceManager::getResourceByName
         SkeletonPtr getByName(const String& name, const String& groupName OGRE_RESOURCE_GROUP_INIT) const;
 
-        /// @copydoc Singleton::getSingleton()
-        static SkeletonManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static SkeletonManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static SkeletonManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static SkeletonManager* singleton_ptr((void);
     private:
 
         /// @copydoc ResourceManager::createImpl
         Resource* create_impl(const String& name, ResourceHandle handle, 
             const String& group, bool isManual, ManualResourceLoader* loader, 
             const NameValuePairList* createParams) override;
-
     };
 
     /** @} */

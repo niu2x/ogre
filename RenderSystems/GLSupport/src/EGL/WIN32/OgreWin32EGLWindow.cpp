@@ -204,31 +204,35 @@ namespace Ogre {
                 displayDeviceMode.dmPelsWidth = mWidth;
                 displayDeviceMode.dmPelsHeight = mHeight;
                 displayDeviceMode.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-/*
-                if (mDisplayFrequency)
-                {
-                    displayDeviceMode.dmDisplayFrequency = mDisplayFrequency;
-                    displayDeviceMode.dmFields |= DM_DISPLAYFREQUENCY;
-                    if (ChangeDisplaySettingsEx(mDeviceName, &displayDeviceMode, NULL, CDS_FULLSCREEN | CDS_TEST, NULL) != DISP_CHANGE_SUCCESSFUL)
-                    {
-                        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "ChangeDisplaySettings with user display frequency failed");
-                        displayDeviceMode.dmFields ^= DM_DISPLAYFREQUENCY;
-                    }
-                }
-                if (ChangeDisplaySettingsEx(mDeviceName, &displayDeviceMode, NULL, CDS_FULLSCREEN, NULL) != DISP_CHANGE_SUCCESSFUL)                             
-                    LogManager::getSingleton().log_message(LogMsgLevel::CRITICAL, "ChangeDisplaySettings failed");
-*/
-
+                /*
+                                if (mDisplayFrequency)
+                                {
+                                    displayDeviceMode.dmDisplayFrequency =
+                   mDisplayFrequency; displayDeviceMode.dmFields |=
+                   DM_DISPLAYFREQUENCY; if (ChangeDisplaySettingsEx(mDeviceName,
+                   &displayDeviceMode, NULL, CDS_FULLSCREEN | CDS_TEST, NULL) !=
+                   DISP_CHANGE_SUCCESSFUL)
+                                    {
+                                        LogManager::singleton().log_message(LogMsgLevel::NORMAL,
+                   "ChangeDisplaySettings with user display frequency failed");
+                                        displayDeviceMode.dmFields ^=
+                   DM_DISPLAYFREQUENCY;
+                                    }
+                                }
+                                if (ChangeDisplaySettingsEx(mDeviceName,
+                   &displayDeviceMode, NULL, CDS_FULLSCREEN, NULL) !=
+                   DISP_CHANGE_SUCCESSFUL)
+                                    LogManager::singleton().log_message(LogMsgLevel::CRITICAL,
+                   "ChangeDisplaySettings failed");
+                */
             }
             // Pass pointer to self as WM_CREATE parameter
             mWindow = CreateWindowEx(dwStyleEx, "OgreGLES2Window", title.c_str(),
                 dwStyle, mLeft, mTop, mWidth, mHeight, parent, 0, hInst, this);
 
-            LogManager::getSingleton().stream()
-                << "Created Win32Window '"
-                << mName << "' : " << mWidth << "x" << mHeight
-                << ", " << mColourDepth << "bpp";
-
+            LogManager::singleton().stream()
+                << "Created Win32Window '" << mName << "' : " << mWidth << "x"
+                << mHeight << ", " << mColourDepth << "bpp";
         }
 
         RECT rc;

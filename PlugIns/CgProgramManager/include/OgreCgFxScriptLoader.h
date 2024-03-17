@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __CgFxScriptLoader_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "string_vector.h"
 #include "script_loader.h"
 #include "OgreCgPrerequisites.h"
@@ -1507,12 +1507,11 @@ namespace Ogre {
         /// @copydoc ScriptLoader::getLoadingOrder
         Real loading_order(void) const override;
 
-        /// @copydoc Singleton::getSingleton()
-        static CgFxScriptLoader& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static CgFxScriptLoader* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static CgFxScriptLoader& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static CgFxScriptLoader* singleton_ptr((void);
     private:
-
     };
     /** @} */
     /** @} */

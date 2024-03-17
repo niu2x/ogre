@@ -42,9 +42,11 @@ void SGMaterialSerializerListener::materialEventRaised(MaterialSerializer* ser,
 {
     if (event == MaterialSerializer::MSE_PRE_WRITE)
     {
-        MaterialPtr matPtr = MaterialManager::getSingleton().getByName(mat->name());
+        MaterialPtr matPtr
+            = MaterialManager::singleton().getByName(mat->name());
         mSourceMaterial = matPtr.get();
-        mSGPassList = ShaderGenerator::getSingleton().createSGPassList(mSourceMaterial);
+        mSGPassList
+            = ShaderGenerator::singleton().createSGPassList(mSourceMaterial);
     }
 
     if (event == MaterialSerializer::MSE_POST_WRITE)
@@ -89,9 +91,9 @@ void SGMaterialSerializerListener::serializePassAttributes(MaterialSerializer* s
     // Write each of the sub-render states that composing the final render state.
     for (SubRenderState* curSubRenderState : customRenderState->getSubRenderStates())
     {
-        if (SubRenderStateFactory* curFactory =
-                ShaderGenerator::getSingleton().getSubRenderStateFactory(curSubRenderState->getType()))
-        {
+        if (SubRenderStateFactory* curFactory
+            = ShaderGenerator::singleton().getSubRenderStateFactory(
+                curSubRenderState->getType())) {
             curFactory->writeInstance(ser, curSubRenderState, passEntry->getSrcPass(), passEntry->getDstPass());
         }
     }
@@ -126,8 +128,9 @@ void SGMaterialSerializerListener::serializeTextureUnitStateAttributes(MaterialS
     // Write each of the sub-render states that composing the final render state.
     for (SubRenderState* curSubRenderState : customRenderState->getSubRenderStates())
     {
-        if (SubRenderStateFactory* curFactory =
-                ShaderGenerator::getSingleton().getSubRenderStateFactory(curSubRenderState->getType()))
+        if (SubRenderStateFactory* curFactory
+            = ShaderGenerator::singleton().getSubRenderStateFactory(
+                curSubRenderState->getType()))
             curFactory->writeInstance(ser, curSubRenderState, srcTextureUnit, dstTextureUnit);
     }
 

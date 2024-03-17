@@ -41,7 +41,7 @@ namespace Ogre {
 
         logMessage = msg + "\n" + logMessage;
 
-        LogManager::getSingleton().log_message(LogMsgLevel::CRITICAL, logMessage);
+        LogManager::singleton().log_message(LogMsgLevel::CRITICAL, logMessage);
 
         return logMessage;
     }
@@ -59,10 +59,12 @@ namespace Ogre {
         GLint infologLength = 0;
 
         GLboolean isShader = glIsShader(obj);
-        GLboolean isProgramPipeline =
-            Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(
-                RSC_SEPARATE_SHADER_OBJECTS) &&
-            glIsProgramPipeline(obj);
+        GLboolean isProgramPipeline
+            = Root::singleton()
+                  .getRenderSystem()
+                  ->getCapabilities()
+                  ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)
+            && glIsProgramPipeline(obj);
         GLboolean isProgram = glIsProgram(obj);
 
         if (isShader)

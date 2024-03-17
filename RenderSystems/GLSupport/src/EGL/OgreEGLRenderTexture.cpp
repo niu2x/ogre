@@ -134,8 +134,14 @@ namespace Ogre {
 
         mWidth = iWidth;
         mHeight = iHeight;
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "EGLPBuffer::create used final dimensions " + StringConverter::to_string(mWidth) + " x " + StringConverter::to_string(mHeight));
-        LogManager::getSingleton().log_message("EGLPBuffer::create used FBConfigID " + StringConverter::to_string(glConfigID));
+        LogManager::singleton().log_message(
+            LogMsgLevel::NORMAL,
+            "EGLPBuffer::create used final dimensions "
+                + StringConverter::to_string(mWidth) + " x "
+                + StringConverter::to_string(mHeight));
+        LogManager::singleton().log_message(
+            "EGLPBuffer::create used FBConfigID "
+            + StringConverter::to_string(glConfigID));
 
         mContext = new EGLContext(mGlDisplay, mGLSupport, glConfig, mEglDrawable, NULL);
     }
@@ -144,7 +150,9 @@ namespace Ogre {
     {
         eglDestroySurface(mGlDisplay, mEglDrawable);
         delete mContext;
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "EGLPBuffer::PBuffer destroyed");
+        LogManager::singleton().log_message(
+            LogMsgLevel::NORMAL,
+            "EGLPBuffer::PBuffer destroyed");
     }
 
 

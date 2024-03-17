@@ -144,16 +144,16 @@ bool CompositionTechnique::isSupported(bool acceptTextureDegradation)
         }
     }
 
-    TextureManager& texMgr = TextureManager::getSingleton();
+    TextureManager& texMgr = TextureManager::singleton();
     for (auto *td : mTextureDefinitions)
     {
         // Firstly check MRTs
-        if (td->formatList.size() > 
-            Root::getSingleton().getRenderSystem()->getCapabilities()->getNumMultiRenderTargets())
-        {
+        if (td->formatList.size() > Root::singleton()
+                                        .getRenderSystem()
+                                        ->getCapabilities()
+                                        ->getNumMultiRenderTargets()) {
             return false;
         }
-
 
         for (auto& pfi : td->formatList)
         {
@@ -171,9 +171,11 @@ bool CompositionTechnique::isSupported(bool acceptTextureDegradation)
         }
 
         //Check all render targets have same number of bits
-        if( Root::getSingleton().getRenderSystem()->getCapabilities()->
-            hasCapability( RSC_MRT_SAME_BIT_DEPTHS ) && !td->formatList.empty() )
-        {
+        if (Root::singleton()
+                .getRenderSystem()
+                ->getCapabilities()
+                ->hasCapability(RSC_MRT_SAME_BIT_DEPTHS)
+            && !td->formatList.empty()) {
             PixelFormat nativeFormat = texMgr.getNativeFormat( td->type, td->formatList.front(),
                                                                 TU_RENDERTARGET );
             size_t nativeBits = PixelUtil::getNumElemBits( nativeFormat );

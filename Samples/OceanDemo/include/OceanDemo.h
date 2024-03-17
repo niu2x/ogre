@@ -133,7 +133,9 @@ Sample_Ocean::Sample_Ocean()
 *************************************************************************/
 void Sample_Ocean::cleanupContent()
 {
-    MeshManager::getSingleton().remove("OceanSurface", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshManager::singleton().remove(
+        "OceanSurface",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     // get rid of the shared pointers before shutting down ogre or exceptions occur
     mActiveFragmentProgram.reset();
@@ -222,10 +224,19 @@ void Sample_Ocean::setupScene()
     Ogre::Plane oceanSurface;
     oceanSurface.normal = Ogre::Vector3::unit_y;
     oceanSurface.d = 20;
-    Ogre::MeshManager::getSingleton().createPlane("OceanSurface",
+    Ogre::MeshManager::singleton().createPlane(
+        "OceanSurface",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         oceanSurface,
-        1000, 1000, 50, 50, true, 1, 1, 1, Ogre::Vector3::unit_z);
+        1000,
+        1000,
+        50,
+        50,
+        true,
+        1,
+        1,
+        1,
+        Ogre::Vector3::unit_z);
 
     mOceanSurfaceEnt = mSceneMgr->createEntity( "OceanSurface", "OceanSurface" );
     mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(mOceanSurfaceEnt);
@@ -446,7 +457,8 @@ void Sample_Ocean::itemSelected(SelectMenu *menu)
 {
     //Only one selection menu - the material one
     mCurrentMaterial = menu->getSelectionIndex();
-    mActiveMaterial = Ogre::MaterialManager::getSingleton().getByName( mMaterialControlsContainer[mCurrentMaterial].getMaterialName() );
+    mActiveMaterial = Ogre::MaterialManager::singleton().getByName(
+        mMaterialControlsContainer[mCurrentMaterial].getMaterialName());
     mActiveMaterial->load();
     size_t numShaders = mMaterialControlsContainer[mCurrentMaterial].getShaderControlCount();
     mNumPages = (numShaders / CONTROLS_PER_PAGE) + (numShaders % CONTROLS_PER_PAGE == 0 ? 0 : 1);

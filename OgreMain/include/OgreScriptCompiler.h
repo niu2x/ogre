@@ -29,8 +29,7 @@ THE SOFTWARE.
 #ifndef __SCRIPTCOMPILER_H_
 #define __SCRIPTCOMPILER_H_
 
-
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "script_loader.h"
 #include "OgreGpuProgram.h"
 #include "any.h"
@@ -446,10 +445,10 @@ namespace Ogre
         /// @copydoc ScriptLoader::getLoadingOrder
         Real loading_order(void) const override;
 
-        /// @copydoc Singleton::getSingleton()
-        static ScriptCompilerManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ScriptCompilerManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static ScriptCompilerManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ScriptCompilerManager* singleton_ptr((void);
     };
 
     class _OgreExport ProcessResourceNameScriptCompilerEvent : public ScriptCompilerEvent

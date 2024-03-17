@@ -37,8 +37,10 @@ void MaterialControls::addControl(const Ogre::String& params)
     // if there are not five elements then log error and move on
     if (vecparams.size() != 6)
     {
-        Ogre::LogManager::getSingleton().log_message(
-            "Incorrect number of parameters passed in params string for MaterialControls::addControl()", Ogre::LogMsgLevel::CRITICAL);
+        Ogre::LogManager::singleton().log_message(
+            "Incorrect number of parameters passed in params string for "
+            "MaterialControls::addControl()",
+            Ogre::LogMsgLevel::CRITICAL);
 
         return;
     }
@@ -84,8 +86,10 @@ void loadMaterialControlsFile(MaterialControlsContainer& controlsContainer, cons
             if (!secName.empty())
             {
                 materialName = cf.getSetting("material", secName);
-                
-                Ogre::MaterialPtr curMat = Ogre::MaterialManager::getSingleton().getByName(materialName);
+
+                Ogre::MaterialPtr curMat
+                    = Ogre::MaterialManager::singleton().getByName(
+                        materialName);
                 curMat->load();
                 Ogre::Technique * curTec = curMat->getBestTechnique();
                 if (!curTec || !curTec->isSupported())
@@ -110,7 +114,7 @@ void loadMaterialControlsFile(MaterialControlsContainer& controlsContainer, cons
             }
         }
 
-        Ogre::LogManager::getSingleton().log_message( "Material Controls setup" );
+        Ogre::LogManager::singleton().log_message("Material Controls setup");
     }
     catch (Ogre::Exception& e)
     {
@@ -121,7 +125,10 @@ void loadMaterialControlsFile(MaterialControlsContainer& controlsContainer, cons
 
 void loadAllMaterialControlFiles(MaterialControlsContainer& controlsContainer)
 {
-    Ogre::StringVectorPtr fileStringVector = Ogre::ResourceGroupManager::getSingleton().findResourceNames( "General", "*.controls");
+    Ogre::StringVectorPtr fileStringVector
+        = Ogre::ResourceGroupManager::singleton().findResourceNames(
+            "General",
+            "*.controls");
     Ogre::StringVector::iterator controlsFileNameIterator = fileStringVector->begin();
 
     while ( controlsFileNameIterator != fileStringVector->end() )

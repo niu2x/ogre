@@ -29,12 +29,11 @@ public:
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Your graphics card does not support tesselation shaders. Sorry!",
                 "Sample_Island:testCapabilities");
         }
-        if (!GpuProgramManager::getSingleton().isSyntaxSupported("vs_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("hs_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("ds_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("ps_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("hlsl"))
-        {
+        if (!GpuProgramManager::singleton().isSyntaxSupported("vs_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("hs_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("ds_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("ps_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("hlsl")) {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "Your card does not support the shader model 5.0 needed for this sample, "
                 "so you cannot run this sample. Sorry!", "Sample_Island::testCapabilities");
         }
@@ -55,20 +54,26 @@ public:
         }
         if (box->name() == "Tessellation") {
             g_UseDynamicLOD = !g_UseDynamicLOD;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Island")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_UseDynamicLOD", g_UseDynamicLOD );
         }
         if (box->name() == "FrustumCull") {
             g_FrustumCullInHS = !g_FrustumCullInHS;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Island")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_FrustumCullInHS", g_FrustumCullInHS );
         }
         if (box->name() == "RenderRefraction") {
             g_RenderCaustics = !g_RenderCaustics;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Island")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_RenderCaustics", g_RenderCaustics );
         }
     }
@@ -76,11 +81,15 @@ public:
     void sliderMoved(Slider* slider)
     {
         if (slider->name() == "tessellationLOD") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Island")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_DynamicTessFactor", slider->getValue() );
         }
         if (slider->name() == "tessellationFactor") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Island" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Island")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)
                 ->getPass(0)
                 ->getTessellationHullProgramParameters()

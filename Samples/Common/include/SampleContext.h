@@ -64,7 +64,7 @@ namespace OgreBites
         -----------------------------------------------------------------------------*/
         virtual void runSample(Sample* s)
         {
-            Ogre::Profiler* prof = Ogre::Profiler::getSingletonPtr();
+            Ogre::Profiler* prof = Ogre::Profiler::singleton_ptr(();
             if (prof)
                 prof->setEnabled(false);
 

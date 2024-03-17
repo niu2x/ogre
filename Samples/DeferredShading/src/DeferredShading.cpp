@@ -46,8 +46,9 @@ DeferredShadingSystem::DeferredShadingSystem(
     mViewport(vp), mSceneMgr(sm), mCamera(cam)
 {
     sm->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
-    sm->setShadowTextureCasterMaterial(
-        MaterialManager::getSingleton().getByName("DeferredShading/Shadows/Caster", "General"));
+    sm->setShadowTextureCasterMaterial(MaterialManager::singleton().getByName(
+        "DeferredShading/Shadows/Caster",
+        "General"));
     mSceneMgr->setShadowTextureCount(1);
     mSceneMgr->setShadowFarDistance(150);
     //Use a value of "2" to use a different depth buffer pool and avoid sharing this with the Backbuffer's
@@ -71,12 +72,13 @@ void DeferredShadingSystem::initialize()
 
 DeferredShadingSystem::~DeferredShadingSystem()
 {
-    CompositorChain *chain = CompositorManager::getSingleton().getCompositorChain(mViewport);
+    CompositorChain* chain
+        = CompositorManager::singleton().getCompositorChain(mViewport);
     for(auto & i : mInstance)
         chain->_removeInstance(i);
-    CompositorManager::getSingleton().removeCompositorChain(mViewport);
+    CompositorManager::singleton().removeCompositorChain(mViewport);
 
-    Ogre::CompositorManager& compMgr = Ogre::CompositorManager::getSingleton();
+    Ogre::CompositorManager& compMgr = Ogre::CompositorManager::singleton();
     CompositorLogicMap::const_iterator itor = mCompositorLogics.begin();
     CompositorLogicMap::const_iterator end  = mCompositorLogics.end();
     while( itor != end )
@@ -136,7 +138,8 @@ void DeferredShadingSystem::setActive(bool active)
         mActive = active;
         mGBufferInstance->setEnabled(active);
 
-        RTShader::ShaderGenerator& rtShaderGen = RTShader::ShaderGenerator::getSingleton();
+        RTShader::ShaderGenerator& rtShaderGen
+            = RTShader::ShaderGenerator::singleton();
         // we do lights ourselves if active
         rtShaderGen.getRenderState(MSN_SHADERGEN)->setLightCountAutoUpdate(!mActive);
 
@@ -152,16 +155,17 @@ DeferredShadingSystem::DSMode DeferredShadingSystem::getMode(void) const
 
 void DeferredShadingSystem::createResources(void)
 {
-    CompositorManager &compMan = CompositorManager::getSingleton();
+    CompositorManager& compMan = CompositorManager::singleton();
 
-    RTShader::ShaderGenerator& rtShaderGen = RTShader::ShaderGenerator::getSingleton();
+    RTShader::ShaderGenerator& rtShaderGen
+        = RTShader::ShaderGenerator::singleton();
 
     //Hook up the compositor logic and scheme handlers.
     //This can theoretically happen in a loaded plugin, but in this case the demo contains the code.
     static bool firstTime = true;
     if (firstTime)
     {
-        MaterialManager::getSingleton().add_listener(
+        MaterialManager::singleton().add_listener(
             new GBufferSchemeHandler,
             "GBuffer");
 
@@ -185,12 +189,11 @@ void DeferredShadingSystem::createResources(void)
     // Create the main GBuffer compositor
     mGBufferInstance = compMan.addCompositor(mViewport, "DeferredShading/GBuffer");
 
-    if(!GpuProgramManager::getSingleton().isSyntaxSupported("hlsl"))
-    {
+    if (!GpuProgramManager::singleton().isSyntaxSupported("hlsl")) {
         // need to clear depth to 1.0 for GL
         mGBufferInstance->getTechnique()->getTargetPass(0)->getPass(0)->setClearColour(ColourValue(0.0, 0.0, 0.0, 1.0));
     }
-    
+
     // Create filters
     mInstance[DSM_SHOWLIT] = compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
     mInstance[DSM_SHOWNORMALS] = compMan.addCompositor(mViewport, "DeferredShading/ShowNormals");
@@ -205,13 +208,13 @@ void DeferredShadingSystem::logCurrentMode(void)
 {
     if (mActive==false)
     {
-        LogManager::getSingleton().log_message("No Compositor Enabled!");
+        LogManager::singleton().log_message("No Compositor Enabled!");
         return;
     }
 
     CompositorInstance* ci = mInstance[mCurrentMode];
     assert(ci->getEnabled()==true);
 
-    LogManager::getSingleton().log_message("Current Mode: ");
-    LogManager::getSingleton().log_message(ci->getCompositor()->name());
+    LogManager::singleton().log_message("Current Mode: ");
+    LogManager::singleton().log_message(ci->getCompositor()->name());
 }

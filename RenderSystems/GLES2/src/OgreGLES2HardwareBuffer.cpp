@@ -39,7 +39,8 @@ namespace Ogre {
         : HardwareBuffer(usage, useShadowBuffer || HANDLE_CONTEXT_LOSS), mTarget(target)
     {
         mSizeInBytes = sizeInBytes;
-        mRenderSystem = static_cast<GLES2RenderSystem*>(Root::getSingleton().getRenderSystem());
+        mRenderSystem = static_cast<GLES2RenderSystem*>(
+            Root::singleton().getRenderSystem());
         createBuffer();
 
         if (useShadowBuffer || HANDLE_CONTEXT_LOSS)

@@ -23,7 +23,7 @@ void TinyPlugin::install()
 {
     mRenderSystem = OGRE_NEW TinyRenderSystem();
 
-    Root::getSingleton().addRenderSystem(mRenderSystem);
+    Root::singleton().addRenderSystem(mRenderSystem);
 }
 
 void TinyPlugin::initialise()
@@ -51,12 +51,12 @@ extern "C" void _OgreTinyExport dllStopPlugin(void);
 extern "C" void _OgreTinyExport dllStartPlugin(void)
 {
     plugin = OGRE_NEW TinyPlugin();
-    Root::getSingleton().installPlugin(plugin);
+    Root::singleton().installPlugin(plugin);
 }
 
 extern "C" void _OgreTinyExport dllStopPlugin(void)
 {
-    Root::getSingleton().uninstallPlugin(plugin);
+    Root::singleton().uninstallPlugin(plugin);
     OGRE_DELETE plugin;
 }
 #endif

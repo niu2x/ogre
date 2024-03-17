@@ -42,35 +42,37 @@ THE SOFTWARE.
 #include "exception.h"
 
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC
-#   pragma warning (push)
-#   pragma warning ( disable: 4661)
+    #pragma warning(push)
+    #pragma warning(disable : 4661)
 #endif
 
 namespace Ogre {
-    /** \addtogroup Core
-    *  @{
-    */
-    /** \addtogroup General
-    *  @{
-    */
+/** \addtogroup Core
+ *  @{
+ */
+/** \addtogroup General
+ *  @{
+ */
 
 // End SJS additions
 /** Template class for creating single-instance global classes.
  *
- * This implementation @cite bilas2000automatic slightly derives from the textbook pattern, by requiring
- * manual instantiation, instead of implicitly doing it in #getSingleton. This is useful for classes that
- * want to do some involved initialization, which should be done at a well defined time-point or need some
- * additional parameters in their constructor.
+ * This implementation @cite bilas2000automatic slightly derives from the
+ * textbook pattern, by requiring manual instantiation, instead of implicitly
+ * doing it in #getSingleton. This is useful for classes that want to do some
+ * involved initialization, which should be done at a well defined time-point or
+ * need some additional parameters in their constructor.
  *
  * It also allows you to manage the singleton lifetime through RAII.
  *
- * @note Be aware that #getSingleton will fail before the global instance is created. (check via
- * #getSingletonPtr)
+ * @note Be aware that #getSingleton will fail before the global instance is
+ * created. (check via #singleton_ptr()
  */
-template <typename T> class Singleton
-{
+template <typename T>
+class Singleton {
 private:
-    /** @brief Explicit private copy constructor. This is a forbidden operation.*/
+    /** @brief Explicit private copy constructor. This is a forbidden
+     * operation.*/
     Singleton(const Singleton<T>&);
 
     /** @brief Private operator= . This is a forbidden operation. */
@@ -81,12 +83,12 @@ protected:
 
 public:
 #if defined(__has_attribute)
-#  if __has_attribute(no_sanitize)
+    #if __has_attribute(no_sanitize)
     // The `static_cast` happens so early in the construction of the inheriting
     // classes that the `this` pointer is still detected as the super class
     // pointer. Therefore, disabling vptr checks.
     __attribute__((no_sanitize("vptr")))
-#  endif
+    #endif
 #endif
     Singleton(void)
     {
@@ -99,20 +101,21 @@ public:
         msSingleton = 0;
     }
     /// Get the singleton instance
-    static T& getSingleton(void)
+    static T& singleton(void)
     {
         assert(msSingleton);
         return (*msSingleton);
     }
     /// @copydoc getSingleton
-    static T* getSingletonPtr(void) { return msSingleton; }
-    };
-    /** @} */
-    /** @} */
+    static T* singleton_ptr((void) {
+        return msSingleton; }
+};
+/** @} */
+/** @} */
 
-}
+} // namespace Ogre
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC
-#   pragma warning (pop)
+    #pragma warning(pop)
 #endif
 
 #endif

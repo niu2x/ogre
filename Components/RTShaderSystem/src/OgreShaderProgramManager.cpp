@@ -36,13 +36,13 @@ namespace RTShader {
 
 
 //-----------------------------------------------------------------------
-ProgramManager* ProgramManager::getSingletonPtr()
+ProgramManager* ProgramManager::singleton_ptr(()
 {
     return msSingleton;
 }
 
 //-----------------------------------------------------------------------
-ProgramManager& ProgramManager::getSingleton()
+ProgramManager& ProgramManager::singleton()
 {
     assert( msSingleton );  
     return ( *msSingleton );
@@ -74,7 +74,7 @@ void ProgramManager::releasePrograms(const ProgramSet* programSet)
         // TODO: this check should not be necessary, but we observed strange prg.use_count() in the wild
         if(it != mShaderList.end())
             mShaderList.erase(it);
-        GpuProgramManager::getSingleton().remove(prg);
+        GpuProgramManager::singleton().remove(prg);
     }
 }
 size_t ProgramManager::getShaderCount(GpuProgramType type) const
@@ -93,7 +93,7 @@ void ProgramManager::flushGpuProgramsCache()
 {
     for(auto& s : mShaderList)
     {
-        GpuProgramManager::getSingleton().remove(s);
+        GpuProgramManager::singleton().remove(s);
     }
     mShaderList.clear();
 }
@@ -122,9 +122,10 @@ void ProgramManager::createGpuPrograms(ProgramSet* programSet)
     matchVStoPSInterface(programSet);
 
     // Grab the matching writer.
-    const String& language = ShaderGenerator::getSingleton().getTargetLanguage();
+    const String& language = ShaderGenerator::singleton().getTargetLanguage();
 
-    auto programWriter = ProgramWriterManager::getSingleton().getProgramWriter(language);
+    auto programWriter
+        = ProgramWriterManager::singleton().getProgramWriter(language);
 
     ProgramProcessor* programProcessor = mDefaultProgramProcessors.front();
     
@@ -135,9 +136,12 @@ void ProgramManager::createGpuPrograms(ProgramSet* programSet)
     // Create the shader programs
     for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
     {
-        auto gpuProgram = createGpuProgram(programSet->getCpuProgram(type), programWriter, language,
-                                           ShaderGenerator::getSingleton().getShaderProfiles(type),
-                                           ShaderGenerator::getSingleton().getShaderCachePath());
+        auto gpuProgram = createGpuProgram(
+            programSet->getCpuProgram(type),
+            programWriter,
+            language,
+            ShaderGenerator::singleton().getShaderProfiles(type),
+            ShaderGenerator::singleton().getShaderCachePath());
         programSet->setGpuProgram(gpuProgram);
     }
 
@@ -178,7 +182,8 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
     }
 
     // Try to get program by name.
-    auto pGpuProgram = GpuProgramManager::getSingleton().getByName(programName, RGN_INTERNAL);
+    auto pGpuProgram
+        = GpuProgramManager::singleton().getByName(programName, RGN_INTERNAL);
 
     if(pGpuProgram) {
         return pGpuProgram;
@@ -186,8 +191,11 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
 
     // Case the program doesn't exist yet.
     // Create new GPU program.
-    pGpuProgram =
-        GpuProgramManager::getSingleton().createProgram(programName, RGN_INTERNAL, language, shaderProgram->getType());
+    pGpuProgram = GpuProgramManager::singleton().createProgram(
+        programName,
+        RGN_INTERNAL,
+        language,
+        shaderProgram->getType());
 
     // Case cache directory specified -> create program from file.
     if (!cachePath.empty())
@@ -228,10 +236,8 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
         pGpuProgram->set_parameter("target", profiles);
         pGpuProgram->set_parameter("enable_backwards_compatibility", "true");
         pGpuProgram->set_parameter("column_major_matrices", StringConverter::to_string(shaderProgram->getUseColumnMajorMatrices()));
-    }
-    else if (language == "glsl")
-    {
-        auto* rs = Root::getSingleton().getRenderSystem();
+    } else if (language == "glsl") {
+        auto* rs = Root::singleton().getRenderSystem();
         if( rs && rs->getNativeShadingLanguageVersion() >= 420)
             pGpuProgram->set_parameter("has_sampler_binding", "true");
     }

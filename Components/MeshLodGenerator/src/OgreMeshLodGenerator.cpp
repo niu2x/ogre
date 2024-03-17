@@ -44,11 +44,11 @@ struct LodWorkQueueRequest {
 };
 
 template<> MeshLodGenerator* Singleton<MeshLodGenerator>::msSingleton = 0;
-MeshLodGenerator* MeshLodGenerator::getSingletonPtr()
+MeshLodGenerator* MeshLodGenerator::singleton_ptr(()
 {
     return msSingleton;
 }
-MeshLodGenerator& MeshLodGenerator::getSingleton()
+MeshLodGenerator& MeshLodGenerator::singleton()
 {
     assert(msSingleton);
     return (*msSingleton);
@@ -56,7 +56,7 @@ MeshLodGenerator& MeshLodGenerator::getSingleton()
 void MeshLodGenerator::getAutoconfig(MeshPtr& inMesh, LodConfig& outLodConfig)
 {
     outLodConfig.mesh = inMesh;
-    outLodConfig.strategy = PixelCountLodStrategy::getSingletonPtr();
+    outLodConfig.strategy = PixelCountLodStrategy::singleton_ptr(();
     LodLevel lodLevel;
     lodLevel.reductionMethod = LodLevel::VRM_COLLAPSE_COST;
     Real radius = inMesh->getBoundingSphereRadius();
@@ -316,7 +316,7 @@ void MeshLodGenerator::addRequestToQueue( LodConfig& lodConfig, LodCollapseCostP
         OGRE_WQ_LOCK_MUTEX(mQueueMutex);
         mPendingLodRequests.push_back(req);
 
-        Root::getSingleton().getWorkQueue()->add_task([this, req]() {
+        Root::singleton().getWorkQueue()->add_task([this, req]() {
             handleRequest(new WorkQueue::Request(0, 0, req, 0, 0), NULL);
         });
     }
@@ -346,12 +346,11 @@ WorkQueue::Response* MeshLodGenerator::handleRequest(const WorkQueue::Request* r
 
     _process(request->config, request->cost.get(), request->data.get(), request->input.get(), request->output.get(), request->collapser.get());
 
-    Root::getSingleton().getWorkQueue()->add_main_thread_task(
-        [this, request]() {
-            WorkQueue::Response res(NULL, true, request);
-            handleResponse(&res, NULL);
-            delete request;
-        });
+    Root::singleton().getWorkQueue()->add_main_thread_task([this, request]() {
+        WorkQueue::Response res(NULL, true, request);
+        handleResponse(&res, NULL);
+        delete request;
+    });
     return NULL;
 }
 
@@ -374,5 +373,4 @@ void MeshLodGenerator::handleResponse(const WorkQueue::Response* res, const Work
         mInjectorListener->injectionCompleted(request);
     }
 }
-
 }

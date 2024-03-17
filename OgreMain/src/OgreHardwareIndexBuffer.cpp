@@ -46,12 +46,16 @@ namespace Ogre {
         mIndexSize = indexSize(idxType);
         mSizeInBytes = mIndexSize * mNumIndexes;
 
-        if (idxType == IT_32BIT && Root::getSingletonPtr() && Root::getSingleton().getRenderSystem())
+        if (idxType == IT_32BIT && Root::singleton_ptr(() && Root::singleton().getRenderSystem())
         {
-            if (!Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_32BIT_INDEX))
-            {
-                OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "32 bit index buffers are not supported");
-            }
+        if (!Root::singleton()
+                 .getRenderSystem()
+                 ->getCapabilities()
+                 ->hasCapability(RSC_32BIT_INDEX)) {
+            OGRE_EXCEPT(
+                Exception::ERR_INTERNAL_ERROR,
+                "32 bit index buffers are not supported");
+        }
         }
 
         // Create a shadow buffer if required

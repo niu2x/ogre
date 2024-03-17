@@ -346,7 +346,7 @@ namespace Ogre {
             if (mCurrentRenderable && mCurrentRenderable->getUseIdentityProjection())
             {
                 // Use identity projection matrix, still need to take RS depth into account.
-                RenderSystem* rs = Root::getSingleton().getRenderSystem();
+                RenderSystem* rs = Root::singleton().getRenderSystem();
                 rs->_convertProjectionMatrix(Matrix4::identity, mProjectionMatrix, true);
             }
             else
@@ -909,7 +909,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     Real AutoParamDataSource::getTime(void) const
     {
-        return ControllerManager::getSingleton().getElapsedTime();
+        return ControllerManager::singleton().getElapsedTime();
     }
     //-----------------------------------------------------------------------------
     Real AutoParamDataSource::getTime_0_X(Real x) const
@@ -992,7 +992,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     Real AutoParamDataSource::getFrameTime(void) const
     {
-        return ControllerManager::getSingleton().getFrameTimeSource()->getValue();
+        return ControllerManager::singleton().getFrameTimeSource()->getValue();
     }
     //-----------------------------------------------------------------------------
     Real AutoParamDataSource::getFPS() const

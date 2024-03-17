@@ -112,12 +112,12 @@ GLTextureBuffer::GLTextureBuffer(GLRenderSystem* renderSystem, GLTexture* parent
     // Log a message
     /*
     std::stringstream str;
-    str << "GLHardwarePixelBuffer constructed for texture " << mTextureID 
+    str << "GLHardwarePixelBuffer constructed for texture " << mTextureID
         << " face " << mFace << " level " << mLevel << ": "
         << "width=" << mWidth << " height="<< mHeight << " depth=" << mDepth
         << "format=" << PixelUtil::getFormatName(mFormat) << "(internal 0x"
         << std::hex << value << ")";
-    LogManager::getSingleton().log_message( 
+    LogManager::singleton().log_message(
                 LogMsgLevel::NORMAL, str.str());
     */
     // Set up pixel box
@@ -141,9 +141,14 @@ GLTextureBuffer::GLTextureBuffer(GLRenderSystem* renderSystem, GLTexture* parent
             GLSurfaceDesc surface;
             surface.buffer = this;
             surface.zoffset = zoffset;
-            RenderTexture *trt = GLRTTManager::getSingleton().createRenderTexture(name, surface, mHwGamma, parent->getFSAA());
+            RenderTexture* trt = GLRTTManager::singleton().createRenderTexture(
+                name,
+                surface,
+                mHwGamma,
+                parent->getFSAA());
             mSliceTRT.push_back(trt);
-            Root::getSingleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[zoffset]);
+            Root::singleton().getRenderSystem()->attachRenderTarget(
+                *mSliceTRT[zoffset]);
         }
     }
 }
@@ -401,7 +406,7 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
     //src->mTextureID << ":" << srcBox.left << "," << srcBox.top << "," << srcBox.right << "," << srcBox.bottom << " " << 
     //mTextureID << ":" << dstBox.left << "," << dstBox.top << "," << dstBox.right << "," << dstBox.bottom << std::endl;
     /// Store reference to FBO manager
-    GLFBOManager *fboMan = static_cast<GLFBOManager *>(GLRTTManager::getSingletonPtr());
+    GLFBOManager *fboMan = static_cast<GLFBOManager *>(GLRTTManager::singleton_ptr(());
     
     /// Save and clear GL state for rendering
     glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT | 
@@ -409,7 +414,7 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
         GL_TEXTURE_BIT | GL_VIEWPORT_BIT);
 
     // Important to disable all other texture units
-    RenderSystem* rsys = Root::getSingleton().getRenderSystem();
+    RenderSystem* rsys = Root::singleton().getRenderSystem();
     rsys->_disableTextureUnitsFrom(0);
     mRenderSystem->_getStateCacheManager()->activateGLTextureUnit(0);
 
@@ -482,9 +487,14 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
     if(!fboMan->checkFormat(mFormat))
     {
         /// If target format not directly supported, create intermediate texture
-        tempTex = TextureManager::getSingleton().createManual(
-            "GLBlitFromTextureTMP", ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, TEX_TYPE_2D,
-            dstBox.getWidth(), dstBox.getHeight(), dstBox.getDepth(), 0,
+        tempTex = TextureManager::singleton().createManual(
+            "GLBlitFromTextureTMP",
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+            TEX_TYPE_2D,
+            dstBox.getWidth(),
+            dstBox.getHeight(),
+            dstBox.getDepth(),
+            0,
             fboMan->getSupportedAlternative(mFormat));
 
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
@@ -589,7 +599,7 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
     glPopAttrib();
 
     if(tempTex)
-        TextureManager::getSingleton().remove(tempTex);
+        TextureManager::singleton().remove(tempTex);
 }
 //-----------------------------------------------------------------------------  
 /// blitFromMemory doing hardware trilinear scaling
@@ -609,9 +619,15 @@ void GLTextureBuffer::blitFromMemory(const PixelBox &src, const Box &dstBox)
     TextureType type = (src.getDepth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
 
     // Set automatic mipmap generation; nice for minimisation
-    TexturePtr tex = TextureManager::getSingleton().createManual(
-        "GLBlitFromMemoryTMP", ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, type,
-        src.getWidth(), src.getHeight(), src.getDepth(), MIP_UNLIMITED, src.format);
+    TexturePtr tex = TextureManager::singleton().createManual(
+        "GLBlitFromMemoryTMP",
+        ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+        type,
+        src.getWidth(),
+        src.getHeight(),
+        src.getDepth(),
+        MIP_UNLIMITED,
+        src.format);
 
     // Upload data to 0,0,0 in temporary texture
     Box tempTarget(src.size());
@@ -621,7 +637,7 @@ void GLTextureBuffer::blitFromMemory(const PixelBox &src, const Box &dstBox)
     blit(tex->getBuffer(), tempTarget, dstBox);
 
     // Delete temp texture
-    TextureManager::getSingleton().remove(tex);
+    TextureManager::singleton().remove(tex);
 }
 //-----------------------------------------------------------------------------    
 

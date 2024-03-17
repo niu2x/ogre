@@ -143,9 +143,15 @@ namespace Ogre
         
         mWidth = iWidth;  
         mHeight = iHeight;
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "GLXPBuffer::create used final dimensions " + StringConverter::to_string(mWidth) + " x " + StringConverter::to_string(mHeight));
-        LogManager::getSingleton().log_message("GLXPBuffer::create used FBConfigID " + StringConverter::to_string(fbConfigID));
-        
+        LogManager::singleton().log_message(
+            LogMsgLevel::NORMAL,
+            "GLXPBuffer::create used final dimensions "
+                + StringConverter::to_string(mWidth) + " x "
+                + StringConverter::to_string(mHeight));
+        LogManager::singleton().log_message(
+            "GLXPBuffer::create used FBConfigID "
+            + StringConverter::to_string(fbConfigID));
+
         mContext = new GLXContext(mGLSupport, fbConfig, glxDrawable);
     }
     
@@ -155,8 +161,10 @@ namespace Ogre
         glXDestroyPbuffer(mGLSupport->getGLDisplay(), mContext->mDrawable);
         
         delete mContext;
-        
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, "GLXPBuffer::PBuffer destroyed");
+
+        LogManager::singleton().log_message(
+            LogMsgLevel::NORMAL,
+            "GLXPBuffer::PBuffer destroyed");
     }
     
     //-------------------------------------------------------------------------------------------------//

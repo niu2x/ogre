@@ -10,8 +10,8 @@ namespace Ogre
 
 CSMGpuConstants::CSMGpuConstants(size_t cascadeCount)
 {
-    mParamsScaleBias =
-        GpuProgramManager::getSingleton().getSharedParameters("params_shadowMatrixScaleBias");
+    mParamsScaleBias = GpuProgramManager::singleton().getSharedParameters(
+        "params_shadowMatrixScaleBias");
     for (size_t i = 1; i < cascadeCount; i++)
     {
         mParamsScaleBias->addConstantDefinition("texMatrixScaleBias" + StringConverter::to_string(i),
@@ -42,7 +42,7 @@ void CSMGpuConstants::shadowTextureCasterPreViewProj(Light* light, Camera* texCa
         Real oneOnWidth = 1.0f / width0;
         Real offCenter = width1 / (2.0f * width0) - 0.5;
 
-        RenderSystem* rs = Root::getSingletonPtr()->getRenderSystem();
+        RenderSystem* rs = Root::singleton_ptr(()->getRenderSystem();
         float depthRange = Math::Abs(rs->getMinimumDepthInputValue() - rs->getMaximumDepthInputValue());
 
         Vector4 result;

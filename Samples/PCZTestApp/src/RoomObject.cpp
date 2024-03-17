@@ -266,7 +266,8 @@ void RoomObject::addMaterial(const Ogre::String &mat,
     else
         init=true;
 
-    Ogre::MaterialPtr matptr = Ogre::MaterialManager::getSingleton().create(mat, "General"); 
+    Ogre::MaterialPtr matptr
+        = Ogre::MaterialManager::singleton().create(mat, "General");
     matptr->setReceiveShadows(false); 
     matptr->getTechnique(0)->setLightingEnabled(true);
     matptr->getTechnique(0)->getPass(0)->setDiffuse(clr); 

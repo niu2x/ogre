@@ -109,7 +109,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void PagedWorldSection::setSceneManager(const String& smName)
     {
-        setSceneManager(Root::getSingleton().getSceneManager(smName));
+        setSceneManager(Root::singleton().getSceneManager(smName));
     }
     //---------------------------------------------------------------------
     bool PagedWorldSection::load(StreamSerialiser& ser)
@@ -126,7 +126,7 @@ namespace Ogre
         SceneManager* sm = 0;
         ser.read(&smType);
         ser.read(&smInstanceName);
-        Root& root = Root::getSingleton();
+        Root& root = Root::singleton();
         if (root.hasSceneManager(smInstanceName))
             sm = root.getSceneManager(smInstanceName);
         else
@@ -139,8 +139,9 @@ namespace Ogre
         // Page Strategy Data
         bool strategyDataOk = mStrategyData->load(ser);
         if (!strategyDataOk)
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) << "Error: PageStrategyData for section '"
-            << mName << "' was not loaded correctly, check file contents";
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
+                << "Error: PageStrategyData for section '" << mName
+                << "' was not loaded correctly, check file contents";
 
         /// Load any data specific to a subtype of this class
         loadSubtypeData(ser);

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __QUAKE3SHADERMANAGER_H__
 
 #include "OgreBspPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "resource_manager.h"
 #include "OgreQuake3Shader.h"
 #include "blend_mode.h"
@@ -90,12 +90,10 @@ namespace Ogre {
         /** Retrieve a Quake3Shader by name */
         Quake3Shader* getByName(const String& name);
 
-        /// @copydoc Singleton::getSingleton()
-        static Quake3ShaderManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static Quake3ShaderManager* getSingletonPtr(void);
-
-
+        /// @copydoc Singleton::singleton()
+        static Quake3ShaderManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static Quake3ShaderManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

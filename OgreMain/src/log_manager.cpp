@@ -31,11 +31,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> LogManager* Singleton<LogManager>::msSingleton = 0;
-    LogManager* LogManager::getSingletonPtr(void)
+    LogManager* LogManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    LogManager& LogManager::getSingleton(void)
+    LogManager& LogManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }

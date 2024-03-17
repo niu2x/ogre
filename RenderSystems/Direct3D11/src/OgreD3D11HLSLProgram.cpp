@@ -64,12 +64,9 @@ namespace Ogre {
         mSyntaxCode = getCompatibleTarget();
 
         uint32 hash = getNameForMicrocodeCache();
-        if ( GpuProgramManager::getSingleton().isMicrocodeAvailableInCache(hash) )
-        {
+        if (GpuProgramManager::singleton().isMicrocodeAvailableInCache(hash)) {
             getMicrocodeFromCache(hash);
-        }
-        else
-        {
+        } else {
             compileMicrocode();
         }
     }
@@ -82,8 +79,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void D3D11HLSLProgram::getMicrocodeFromCache(uint32 id)
     {
-        GpuProgramManager::Microcode cacheMicrocode = 
-            GpuProgramManager::getSingleton().getMicrocodeFromCache(id);
+        GpuProgramManager::Microcode cacheMicrocode
+            = GpuProgramManager::singleton().getMicrocodeFromCache(id);
 
         cacheMicrocode->seek(0);
 
@@ -267,7 +264,8 @@ namespace Ogre {
         defines.push_back({0, 0});
 
         UINT compileFlags=0;
-        D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(
+            Root::singleton().getRenderSystem());
 #if OGRE_DEBUG_MODE
         compileFlags |= D3DCOMPILE_DEBUG;
         // Skip optimization only if we have enough instruction slots (>=256) and not feature level 9 hardware
@@ -340,10 +338,12 @@ namespace Ogre {
 #if OGRE_DEBUG_MODE
             // Log warnings if any
             const char* warnings = static_cast<const char*>(errors ? errors->GetBufferPointer() : 0);
-            if(warnings && LogManager::getSingletonPtr())
+            if(warnings && LogManager::singleton_ptr(())
             {
                 String message = "Warnings while compiling D3D11 high-level shader " + mName + ":\n" + warnings;
-                LogManager::getSingleton().log_message(message, LogMsgLevel::NORMAL);
+                LogManager::singleton().log_message(
+                    message,
+                    LogMsgLevel::NORMAL);
             }
 #endif
             mMicroCode.resize(pMicroCode->GetBufferSize());
@@ -523,7 +523,7 @@ namespace Ogre {
                 }
             }
 
-            if ( GpuProgramManager::getSingleton().getSaveMicrocodesToCache() )
+            if ( GpuProgramManager::singleton().getSaveMicrocodesToCache() )
             {
 
 #define SIZE_OF_DATA_START(curlist, memberType) + sizeof(uint16) +  curlist.size() * ( 0
@@ -811,7 +811,9 @@ namespace Ogre {
 
 
                 // add to the microcode to the cache
-                GpuProgramManager::getSingleton().addMicrocodeToCache(getNameForMicrocodeCache(), newMicrocode);
+                GpuProgramManager::singleton().addMicrocodeToCache(
+                    getNameForMicrocodeCache(),
+                    newMicrocode);
             }
         }
 #endif // else defined(ENABLE_SHADERS_CACHE_LOAD) && (ENABLE_SHADERS_CACHE_LOAD == 1)
@@ -832,17 +834,27 @@ namespace Ogre {
                     if(cb_name == "$Globals" || cb_name == "$Params" || cb_name == "OgreUniforms")
                     {
                         if(mDefaultBuffer)
-                            LogManager::getSingleton().log_error(mName+" - default cbuffer already exists. Ignoring "+cb_name);
+                            LogManager::singleton().log_error(
+                                mName
+                                + " - default cbuffer already exists. Ignoring "
+                                + cb_name);
                         else
                         {
-                            mDefaultBuffer = HardwareBufferManager::getSingleton().createUniformBuffer(mD3d11ShaderBufferDescs[b].Size);
+                            mDefaultBuffer
+                                = HardwareBufferManager::singleton()
+                                      .createUniformBuffer(
+                                          mD3d11ShaderBufferDescs[b].Size);
                         }
                     }
                     else
                     {
-                        auto blockSharedParams = GpuProgramManager::getSingleton().getSharedParameters(cb_name);
+                        auto blockSharedParams
+                            = GpuProgramManager::singleton()
+                                  .getSharedParameters(cb_name);
 
-                        auto cbuffer = HardwareBufferManager::getSingleton().createUniformBuffer(mD3d11ShaderBufferDescs[b].Size);
+                        auto cbuffer = HardwareBufferManager::singleton()
+                                           .createUniformBuffer(
+                                               mD3d11ShaderBufferDescs[b].Size);
                         blockSharedParams->_setHardwareBuffer(cbuffer);
                         mBufferInfoMap[cb_name] = b;
                     }
@@ -1199,8 +1211,8 @@ namespace Ogre {
         for(unsigned int i = 0 ; i < profiles.size() ; i++)
         {
             String & currentProfile = profiles[i];
-            if(GpuProgramManager::getSingleton().isSyntaxSupported(currentProfile))
-            {
+            if (GpuProgramManager::singleton().isSyntaxSupported(
+                    currentProfile)) {
                 mSyntaxCode = currentProfile;
                 break;
             }
@@ -1208,8 +1220,9 @@ namespace Ogre {
 
         if(mSyntaxCode == "hlsl")
         {
-            LogManager::getSingleton().log_message(
-                "Invalid target for D3D11 shader '" + mName + "' - '" + target + "'");
+            LogManager::singleton().log_message(
+                "Invalid target for D3D11 shader '" + mName + "' - '" + target
+                + "'");
             return;
         }
     }
@@ -1296,8 +1309,9 @@ namespace Ogre {
         else
         {
             assert(false);
-            LogManager::getSingleton().log_message(
-                "Unsupported D3D11 vertex shader '" + mName + "' was not loaded.");
+            LogManager::singleton().log_message(
+                "Unsupported D3D11 vertex shader '" + mName
+                + "' was not loaded.");
         }
     }
 
@@ -1323,8 +1337,9 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().log_message(
-                "Unsupported D3D11 Pixel shader '" + mName + "' was not loaded.");
+            LogManager::singleton().log_message(
+                "Unsupported D3D11 Pixel shader '" + mName
+                + "' was not loaded.");
         }
     }
 
@@ -1411,8 +1426,9 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().log_message(
-                "Unsupported D3D11 Geometry shader '" + mName + "' was not loaded.");
+            LogManager::singleton().log_message(
+                "Unsupported D3D11 Geometry shader '" + mName
+                + "' was not loaded.");
         }
     }
     //-----------------------------------------------------------------------
@@ -1437,8 +1453,9 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().log_message(
-                "Unsupported D3D11 Hull shader '" + mName + "' was not loaded.");
+            LogManager::singleton().log_message(
+                "Unsupported D3D11 Hull shader '" + mName
+                + "' was not loaded.");
         }
     }
     //-----------------------------------------------------------------------
@@ -1463,8 +1480,9 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().log_message(
-                "Unsupported D3D11 Domain shader '" + mName + "' was not loaded.");
+            LogManager::singleton().log_message(
+                "Unsupported D3D11 Domain shader '" + mName
+                + "' was not loaded.");
         }
     }
     //-----------------------------------------------------------------------
@@ -1489,8 +1507,9 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().log_message(
-                "Unsupported D3D11 Compute shader '" + mName + "' was not loaded.");
+            LogManager::singleton().log_message(
+                "Unsupported D3D11 Compute shader '" + mName
+                + "' was not loaded.");
         }
     }
     //-----------------------------------------------------------------------------

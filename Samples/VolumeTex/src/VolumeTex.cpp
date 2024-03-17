@@ -32,13 +32,21 @@ SceneNode *snode,*fnode;
 
 void Sample_VolumeTex::setupContent()
 {
-    if (!ResourceGroupManager::getSingleton().resourceGroupExists("VolumeRenderable"))
-    {
-        ResourceGroupManager::getSingleton().createResourceGroup("VolumeRenderable");
+    if (!ResourceGroupManager::singleton().resourceGroupExists(
+            "VolumeRenderable")) {
+        ResourceGroupManager::singleton().createResourceGroup(
+            "VolumeRenderable");
     }
     // Create dynamic texture
-    ptex = TextureManager::getSingleton().createManual(
-                "DynaTex","VolumeRenderable", TEX_TYPE_3D, 64, 64, 64, 0, PF_BYTE_RGBA);
+    ptex = TextureManager::singleton().createManual(
+        "DynaTex",
+        "VolumeRenderable",
+        TEX_TYPE_3D,
+        64,
+        64,
+        64,
+        0,
+        PF_BYTE_RGBA);
 
     // Set ambient light
     mSceneMgr->setAmbientLight(ColourValue(0.6, 0.6, 0.6));
@@ -59,7 +67,9 @@ void Sample_VolumeTex::setupContent()
     snode->attachObject( vrend );
 
     trend = new ThingRenderable(90.0f, 32, 7.5f);
-    MaterialPtr mat = MaterialManager::getSingleton().getByName("Examples/VTDarkStuff", "General");
+    MaterialPtr mat = MaterialManager::singleton().getByName(
+        "Examples/VTDarkStuff",
+        "General");
     trend->setMaterial(mat);
     snode->attachObject(trend);
 
@@ -86,7 +96,7 @@ void Sample_VolumeTex::setupContent()
     // Create a new animation state to track this
     auto animState = mSceneMgr->createAnimationState("OgreTrack");
     animState->setEnabled(true);
-    auto& controllerMgr = ControllerManager::getSingleton();
+    auto& controllerMgr = ControllerManager::singleton();
     controllerMgr.createFrameTimePassthroughController(AnimationStateControllerValue::create(animState, true));
 
     //mFountainNode->attachObject(pSys2);
@@ -114,7 +124,7 @@ bool Sample_VolumeTex::frameRenderingQueued(const FrameEvent &evt)
 
 void Sample_VolumeTex::cleanupContent()
 {
-    TextureManager::getSingleton().remove("DynaTex", "VolumeRenderable");
+    TextureManager::singleton().remove("DynaTex", "VolumeRenderable");
     delete vrend;
     delete trend;
 }
@@ -130,13 +140,13 @@ void Sample_VolumeTex::generate()
     HardwarePixelBufferSharedPtr buffer = ptex->getBuffer(0, 0);
     Ogre::StringStream d;
     d << "HardwarePixelBuffer " << buffer->getWidth() << " " << buffer->getHeight() << " " << buffer->getDepth();
-    LogManager::getSingleton().log_message(d.str());
+    LogManager::singleton().log_message(d.str());
 
     buffer->lock(HardwareBuffer::HBL_NORMAL);
     const PixelBox &pb = buffer->getCurrentLock();
     d.str("");
     d << "PixelBox " << pb.getWidth() << " " << pb.getHeight() << " " << pb.getDepth() << " " << pb.rowPitch << " " << pb.slicePitch << " " << pb.data << " " << PixelUtil::getFormatName(pb.format);
-    LogManager::getSingleton().log_message(d.str());
+    LogManager::singleton().log_message(d.str());
 
     Ogre::uint32 *pbptr = reinterpret_cast<Ogre::uint32*>(pb.data);
     for(size_t z=pb.front; z<pb.back; z++)

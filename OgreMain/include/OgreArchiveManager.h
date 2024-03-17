@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreIteratorWrapper.h"
 #include "OgreHeaderPrefix.h"
 
@@ -101,10 +101,10 @@ namespace Ogre {
                 Archive subclasses for their archive type.
         */
         void addArchiveFactory(ArchiveFactory* factory);
-        /// @copydoc Singleton::getSingleton()
-        static ArchiveManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ArchiveManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static ArchiveManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ArchiveManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

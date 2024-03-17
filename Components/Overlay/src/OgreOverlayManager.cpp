@@ -41,11 +41,11 @@ namespace Ogre {
 
     //---------------------------------------------------------------------
     template<> OverlayManager *Singleton<OverlayManager>::msSingleton = 0;
-    OverlayManager* OverlayManager::getSingletonPtr(void)
+    OverlayManager* OverlayManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    OverlayManager& OverlayManager::getSingleton(void)
+    OverlayManager& OverlayManager::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -58,7 +58,7 @@ namespace Ogre {
 
         // Scripting is supported by this manager
         mScriptPatterns.push_back("*.overlay");
-        ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+        ResourceGroupManager::singleton()._registerScriptLoader(this);
         mTranslatorManager.reset(new OverlayTranslatorManager());
     }
     //---------------------------------------------------------------------
@@ -75,7 +75,7 @@ namespace Ogre {
         }
 
         // Unregister with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+        ResourceGroupManager::singleton()._unregisterScriptLoader(this);
     }
     //---------------------------------------------------------------------
     void OverlayManager::_releaseManualHardwareResources()
@@ -198,12 +198,13 @@ namespace Ogre {
         // skip scripts that were already loaded as we lack proper re-loading support
         if(!stream->name().empty() && !mLoadedScripts.emplace(stream->name()).second)
         {
-            LogManager::getSingleton().log_warning(
-                StringUtil::format("Skipping loading '%s' as it is already loaded", stream->name().c_str()));
+            LogManager::singleton().log_warning(StringUtil::format(
+                "Skipping loading '%s' as it is already loaded",
+                stream->name().c_str()));
             return;
         }
 
-        ScriptCompilerManager::getSingleton().parse_script(stream, groupName);
+        ScriptCompilerManager::singleton().parse_script(stream, groupName);
     }
     //---------------------------------------------------------------------
     void OverlayManager::_queueOverlaysForRendering(Camera* cam,
@@ -405,7 +406,8 @@ namespace Ogre {
         // Add / replace
         mFactories[elemFactory->getTypeName()] = elemFactory;
 
-        LogManager::getSingleton().log_message("OverlayElementFactory for type " + elemFactory->getTypeName()
+        LogManager::singleton().log_message(
+            "OverlayElementFactory for type " + elemFactory->getTypeName()
             + " registered.");
     }
 }

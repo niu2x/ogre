@@ -32,11 +32,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> HardwareBufferManager* Singleton<HardwareBufferManager>::msSingleton = 0;
-    HardwareBufferManager* HardwareBufferManager::getSingletonPtr(void)
+    HardwareBufferManager* HardwareBufferManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    HardwareBufferManager& HardwareBufferManager::getSingleton(void)
+    HardwareBufferManager& HardwareBufferManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -246,7 +246,7 @@ namespace Ogre {
         {
             str << "HardwareBufferManager: No unused temporary vertex buffers found.";
         }
-        LogManager::getSingleton().log_message(str.str(), LogMsgLevel::TRIVIAL);
+        LogManager::singleton().log_message(str.str(), LogMsgLevel::TRIVIAL);
     }
     //-----------------------------------------------------------------------
     void HardwareBufferManagerBase::_releaseBufferCopies(bool forceFreeUnused)

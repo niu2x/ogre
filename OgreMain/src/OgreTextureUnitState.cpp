@@ -133,7 +133,7 @@ namespace Ogre {
         , mRecalcTexMatrix(false)
         , mTextureCoordSetIndex(0)
         , mFramePtrs(1)
-        , mSampler(TextureManager::getSingletonPtr() ? TextureManager::getSingleton().getDefaultSampler() : DUMMY_SAMPLER)
+        , mSampler(TextureManager::singleton_ptr(() ? TextureManager::singleton().getDefaultSampler() : DUMMY_SAMPLER)
         , mParent(parent)
         , mAnimController(0)
     {
@@ -474,9 +474,10 @@ namespace Ogre {
     {
         OgreAssert(mFramePtrs[0], "frame must not be blank");
         for (auto& frame : mFramePtrs)
-            frame->setNumMipmaps(numMipmaps == MIP_DEFAULT
-                                     ? TextureManager::getSingleton().getDefaultNumMipmaps()
-                                     : numMipmaps);
+            frame->setNumMipmaps(
+                numMipmaps == MIP_DEFAULT
+                    ? TextureManager::singleton().getDefaultNumMipmaps()
+                    : numMipmaps);
     }
     //-----------------------------------------------------------------------
     int TextureUnitState::getNumMipmaps(void) const
@@ -621,7 +622,8 @@ namespace Ogre {
                 // Destroy old effect controller if exist
                 if (i->second.controller)
                 {
-                    ControllerManager::getSingleton().destroyController(i->second.controller);
+                    ControllerManager::singleton().destroyController(
+                        i->second.controller);
                 }
 
                 mEffects.erase(i);
@@ -647,7 +649,8 @@ namespace Ogre {
         {
             if (i->second.controller)
             {
-                ControllerManager::getSingleton().destroyController(i->second.controller);
+                ControllerManager::singleton().destroyController(
+                    i->second.controller);
             }
         }
 
@@ -707,7 +710,8 @@ namespace Ogre {
         {
             if (i->second.controller)
             {
-                ControllerManager::getSingleton().destroyController(i->second.controller);
+                ControllerManager::singleton().destroyController(
+                    i->second.controller);
             }
         }
         // Erase         
@@ -890,7 +894,8 @@ namespace Ogre {
             {
                 if (i->second.controller)
                 {
-                    ControllerManager::getSingleton().destroyController(i->second.controller);
+                    ControllerManager::singleton().destroyController(
+                        i->second.controller);
                 }
                 mEffects.erase(i);
 
@@ -984,7 +989,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     TexturePtr TextureUnitState::retrieveTexture(const String& name) {
         TextureManager::Resourcecreate_or_retrieveResult res;
-        res = TextureManager::getSingleton().create_or_retrieve(
+        res = TextureManager::singleton().create_or_retrieve(
             name,
             mParent->getResourceGroup());
         return static_pointer_cast<Texture>(res.first);
@@ -1012,7 +1017,7 @@ namespace Ogre {
 
         String msg = err + ", but '" + tex->name()
             + "' is not. Texture layer will be blank";
-        LogManager::getSingleton().log_error(msg);
+        LogManager::singleton().log_error(msg);
         mTextureLoadFailed = true;
         return false;
     }
@@ -1031,7 +1036,7 @@ namespace Ogre {
         {
             String msg = "preparing texture '" + tex->name()
                 + "'. Texture layer will be blank: " + e.description();
-            LogManager::getSingleton().log_error(msg);
+            LogManager::singleton().log_error(msg);
             mTextureLoadFailed = true;
         }
     }
@@ -1054,7 +1059,7 @@ namespace Ogre {
         {
             String msg = "loading texture '" + tex->name()
                 + "'. Texture layer will be blank: " + e.description();
-            LogManager::getSingleton().log_error(msg);
+            LogManager::singleton().log_error(msg);
             mTextureLoadFailed = true;
         }
     }
@@ -1063,10 +1068,12 @@ namespace Ogre {
     {
         if (mAnimController)
         {
-            ControllerManager::getSingleton().destroyController(mAnimController);
+            ControllerManager::singleton().destroyController(mAnimController);
             mAnimController = 0;
         }
-        mAnimController = ControllerManager::getSingleton().createTextureAnimator(this, mAnimDuration);
+        mAnimController = ControllerManager::singleton().createTextureAnimator(
+            this,
+            mAnimDuration);
 
     }
     //-----------------------------------------------------------------------
@@ -1074,10 +1081,10 @@ namespace Ogre {
     {
         if (effect.controller)
         {
-            ControllerManager::getSingleton().destroyController(effect.controller);
+            ControllerManager::singleton().destroyController(effect.controller);
             effect.controller = 0;
         }
-        ControllerManager& cMgr = ControllerManager::getSingleton();
+        ControllerManager& cMgr = ControllerManager::singleton();
         switch (effect.type)
         {
         case ET_UVSCROLL:
@@ -1154,7 +1161,7 @@ namespace Ogre {
         // Destroy animation controller
         if (mAnimController)
         {
-            ControllerManager::getSingleton().destroyController(mAnimController);
+            ControllerManager::singleton().destroyController(mAnimController);
             mAnimController = 0;
         }
 
@@ -1163,7 +1170,8 @@ namespace Ogre {
         {
             if (e.second.controller)
             {
-                ControllerManager::getSingleton().destroyController(e.second.controller);
+                ControllerManager::singleton().destroyController(
+                    e.second.controller);
                 e.second.controller = 0;
             }
         }
@@ -1227,13 +1235,13 @@ namespace Ogre {
     }
 
     bool TextureUnitState::isDefaultFiltering() const {
-        return mSampler == TextureManager::getSingleton().getDefaultSampler();
+    return mSampler == TextureManager::singleton().getDefaultSampler();
     }
 
     const SamplerPtr& TextureUnitState::_getLocalSampler()
     {
         if(isDefaultFiltering())
-            mSampler = TextureManager::getSingleton().createSampler();
+            mSampler = TextureManager::singleton().createSampler();
 
         return mSampler;
     }

@@ -132,9 +132,10 @@ namespace Ogre
         // really this should be empty if read/write was complete, but be tidy
         if (!mChunkStack.empty())
         {
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING) <<
-                "Warning: stream " << mStream->name() << " was not fully read / written; " <<
-                mChunkStack.size() << " chunks remain unterminated.";
+            LogManager::singleton().stream(LogMsgLevel::WARNING)
+                << "Warning: stream " << mStream->name()
+                << " was not fully read / written; " << mChunkStack.size()
+                << " chunks remain unterminated.";
         }
         for (auto & i : mChunkStack)
             delete i;
@@ -189,8 +190,9 @@ namespace Ogre
         }
         else if (c->version > maxVersion)
         {
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) << "Error: " << msg
-                << " : Data version is " << c->version << " but this software can only read "
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
+                << "Error: " << msg << " : Data version is " << c->version
+                << " but this software can only read "
                 << "up to version " << maxVersion;
             // skip
             readChunkEnd(c->id);

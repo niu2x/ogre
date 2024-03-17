@@ -75,22 +75,21 @@ namespace Ogre {
 
         pushInnerChunk(mStream);
         // Write main skeleton data
-        LogManager::getSingleton().log_message("Exporting bones..");
+        LogManager::singleton().log_message("Exporting bones..");
         writeSkeleton(pSkeleton, ver);
-        LogManager::getSingleton().log_message("Bones exported.");
+        LogManager::singleton().log_message("Bones exported.");
 
         // Write all animations
         unsigned short numAnims = pSkeleton->getNumAnimations();
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "Exporting animations, count=" << numAnims;
         for (unsigned short i = 0; i < numAnims; ++i)
         {
             Animation* pAnim = pSkeleton->getAnimation(i);
-            LogManager::getSingleton().stream()
+            LogManager::singleton().stream()
                 << "Exporting animation: " << pAnim->name();
             writeAnimation(pSkeleton, pAnim, ver);
-            LogManager::getSingleton().log_message("Animation exported.");
-
+            LogManager::singleton().log_message("Animation exported.");
         }
 
         // Write links

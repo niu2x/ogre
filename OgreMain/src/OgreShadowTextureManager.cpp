@@ -51,11 +51,11 @@ namespace Ogre
     }
     //-----------------------------------------------------------------------
     template<> ShadowTextureManager* Singleton<ShadowTextureManager>::msSingleton = 0;
-    ShadowTextureManager* ShadowTextureManager::getSingletonPtr(void)
+    ShadowTextureManager* ShadowTextureManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ShadowTextureManager& ShadowTextureManager::getSingleton(void)
+    ShadowTextureManager& ShadowTextureManager::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -102,11 +102,18 @@ namespace Ogre
                 // Create a new texture
                 static const String baseName = "Ogre/ShadowTexture";
                 String targName = baseName + StringConverter::to_string(mCount++);
-                TexturePtr shadowTex = TextureManager::getSingleton().createManual(
-                    targName, 
-                    ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, 
-                    TEX_TYPE_2D, config.width, config.height, 0, config.format, 
-                    TU_RENDERTARGET, NULL, false, config.fsaa);
+                TexturePtr shadowTex = TextureManager::singleton().createManual(
+                    targName,
+                    ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+                    TEX_TYPE_2D,
+                    config.width,
+                    config.height,
+                    0,
+                    config.format,
+                    TU_RENDERTARGET,
+                    NULL,
+                    false,
+                    config.fsaa);
                 // Ensure texture loaded
                 shadowTex->load();
 
@@ -135,10 +142,15 @@ namespace Ogre
         // A 1x1 texture of the correct format, not a render target
         static const String baseName = "Ogre/ShadowTextureNull";
         String targName = baseName + StringConverter::to_string(mCount++);
-        TexturePtr shadowTex = TextureManager::getSingleton().createManual(
-            targName, 
-            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, 
-            TEX_TYPE_2D, 1, 1, 0, format, TU_STATIC_WRITE_ONLY);
+        TexturePtr shadowTex = TextureManager::singleton().createManual(
+            targName,
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+            TEX_TYPE_2D,
+            1,
+            1,
+            0,
+            format,
+            TU_STATIC_WRITE_ONLY);
         mNullTextureList.push_back(shadowTex);
 
         // lock & populate the texture based on format
@@ -164,7 +176,7 @@ namespace Ogre
             // any old references
             if ((*i).use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
             {
-                TextureManager::getSingleton().remove((*i)->handle());
+                TextureManager::singleton().remove((*i)->handle());
                 i = mTextureList.erase(i);
             }
             else
@@ -179,7 +191,7 @@ namespace Ogre
             // any old references
             if ((*i).use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
             {
-                TextureManager::getSingleton().remove((*i)->handle());
+                TextureManager::singleton().remove((*i)->handle());
                 i = mNullTextureList.erase(i);
             }
             else
@@ -194,7 +206,7 @@ namespace Ogre
     {
         for (auto & i : mTextureList)
         {
-            TextureManager::getSingleton().remove(i->handle());
+            TextureManager::singleton().remove(i->handle());
         }
         mTextureList.clear();
 

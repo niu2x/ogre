@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "resource_manager.h"
 #include "OgreHeaderPrefix.h"
 #include "OgreTextureUnitState.h"
@@ -285,12 +285,10 @@ namespace Ogre {
 		/// Internal method for sorting out illumination passes for a scheme
 		virtual void _notifyBeforeIlluminationPassesCleared(Technique* mat);
 
-
-		/// @copydoc Singleton::getSingleton()
-        static MaterialManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static MaterialManager* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static MaterialManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static MaterialManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

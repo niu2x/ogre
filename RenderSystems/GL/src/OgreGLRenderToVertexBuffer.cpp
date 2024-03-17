@@ -74,7 +74,9 @@ namespace Ogre {
             String fullErrorMessage = "GL Error : " + msg + " in " + sectionName;
             if (logError)
             {
-                LogManager::getSingleton().default_log()->log_message(fullErrorMessage, LogMsgLevel::CRITICAL);
+                LogManager::singleton().default_log()->log_message(
+                    fullErrorMessage,
+                    LogMsgLevel::CRITICAL);
             }
             if (throwException)
             {
@@ -147,7 +149,8 @@ namespace Ogre {
 
         glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN_NV, mPrimitivesDrawnQuery);
 
-        GLRenderSystem* targetRenderSystem = static_cast<GLRenderSystem*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystem* targetRenderSystem
+            = static_cast<GLRenderSystem*>(Root::singleton().getRenderSystem());
         //Draw the object
         targetRenderSystem->setWorldMatrix(Matrix4::identity);
         targetRenderSystem->setViewMatrix(Matrix4::identity);
@@ -222,7 +225,9 @@ namespace Ogre {
         if (useVaryingAttributes)
         {
             //Have GLSL shaders, using varying attributes
-            GLSL::GLSLLinkProgram* linkProgram = GLSL::GLSLLinkProgramManager::getSingleton().getActiveLinkProgram();
+            GLSL::GLSLLinkProgram* linkProgram
+                = GLSL::GLSLLinkProgramManager::singleton()
+                      .getActiveLinkProgram();
             uint linkProgramId = linkProgram->getGLHandle();
             
             std::vector<GLint> locations;

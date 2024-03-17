@@ -119,7 +119,7 @@ namespace Ogre {
             name += OGRE_BUILD_SUFFIX ".dll";
 #endif
         // Log library load
-        LogManager::getSingleton().log_message("Loading library " + name);
+        LogManager::singleton().log_message("Loading library " + name);
 
         mInst = (DYNLIB_HANDLE)DYNLIB_LOAD( name.c_str() );
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -144,7 +144,7 @@ namespace Ogre {
     void DynLib::unload()
     {
         // Log library unload
-        LogManager::getSingleton().log_message("Unloading library " + mName);
+        LogManager::singleton().log_message("Unloading library " + mName);
 
         if( DYNLIB_UNLOAD( mInst ) )
         {

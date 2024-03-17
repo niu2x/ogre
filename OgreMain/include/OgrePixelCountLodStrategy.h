@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreLodStrategy.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 
 namespace Ogre {
 
@@ -84,10 +84,10 @@ namespace Ogre {
 
         Real getValueImpl(const MovableObject *movableObject, const Camera *camera) const override;
 
-        /// @copydoc Singleton::getSingleton()
-        static AbsolutePixelCountLodStrategy& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static AbsolutePixelCountLodStrategy* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static AbsolutePixelCountLodStrategy& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static AbsolutePixelCountLodStrategy* singleton_ptr((void);
     };
 
     class _OgreExport ScreenRatioPixelCountLodStrategy : public PixelCountLodStrategyBase, public Singleton<ScreenRatioPixelCountLodStrategy>
@@ -97,10 +97,10 @@ namespace Ogre {
         ScreenRatioPixelCountLodStrategy();
         ~ScreenRatioPixelCountLodStrategy();
 
-        /// @copydoc Singleton::getSingleton()
-        static ScreenRatioPixelCountLodStrategy& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ScreenRatioPixelCountLodStrategy* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static ScreenRatioPixelCountLodStrategy& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ScreenRatioPixelCountLodStrategy* singleton_ptr((void);
     };
     /** @} */
     /** @} */

@@ -49,8 +49,9 @@ static void UnSwizzle(Ogre::uint index, Ogre::uint sizeLog2[3], Ogre::uint * pPo
 
 MeshPtr ProceduralTools::generateTetrahedra()
 {
-    MeshPtr tetrahedraMesh = Ogre::MeshManager::getSingleton().createManual
-        ("TetrahedraMesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshPtr tetrahedraMesh = Ogre::MeshManager::singleton().createManual(
+        "TetrahedraMesh",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     SubMesh* tetrahedraSubMesh = tetrahedraMesh->createSubMesh();
     tetrahedraSubMesh->operationType = RenderOperation::OT_LINE_LIST_ADJ;
@@ -67,16 +68,18 @@ MeshPtr ProceduralTools::generateTetrahedra()
     tetrahedraSubMesh->vertexData->vertexDeclaration->addElement(0, 0, 
                                                                  VET_FLOAT4, VES_POSITION);
 
-    HardwareVertexBufferSharedPtr vertexBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(
-        tetrahedraSubMesh->vertexData->vertexDeclaration->getVertexSize(0), 
-        nPointsTotal, 
-        HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+    HardwareVertexBufferSharedPtr vertexBuffer
+        = HardwareBufferManager::singleton().createVertexBuffer(
+            tetrahedraSubMesh->vertexData->vertexDeclaration->getVertexSize(0),
+            nPointsTotal,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
-    HardwareIndexBufferSharedPtr indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-        HardwareIndexBuffer::IT_32BIT, 
-        CELLS_COUNT * sizeof(Ogre::uint) * 24, 
-        HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-        
+    HardwareIndexBufferSharedPtr indexBuffer
+        = HardwareBufferManager::singleton().createIndexBuffer(
+            HardwareIndexBuffer::IT_32BIT,
+            CELLS_COUNT * sizeof(Ogre::uint) * 24,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+
     tetrahedraSubMesh->vertexData->vertexBufferBinding->setBinding(0, vertexBuffer);
     tetrahedraSubMesh->vertexData->vertexCount = nPointsTotal;
     tetrahedraSubMesh->vertexData->vertexStart = 0;

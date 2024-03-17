@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include <exception>
 #include <deque>
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreSceneManager.h"
 #include "OgreHeaderPrefix.h"
 
@@ -66,7 +66,7 @@ namespace Ogre
             created before any other Ogre operations are called. Once an
             instance has been created, the same instance is accessible
             throughout the life of that object by using Root::getSingleton
-            (as a reference) or Root::getSingletonPtr (as a pointer).
+            (as a reference) or Root::singleton_ptr( (as a pointer).
     */
     class _OgreExport Root : public Singleton<Root>, public RootAlloc
     {
@@ -805,10 +805,10 @@ namespace Ogre
         */
         bool _updateAllRenderTargets(FrameEvent& evt);
 
-        /// @copydoc Singleton::getSingleton()
-        static Root& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static Root* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static Root& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static Root* singleton_ptr((void);
 
         /** Clears the history of all event times.
 

@@ -373,11 +373,9 @@ namespace Ogre {
             mHWnd = CreateWindowEx(dwStyleEx, "OgreGLWindow", title.c_str(),
                 getWindowStyle(fullScreen), mLeft, mTop, mWidth, mHeight, 0, 0, hInst, this);
 
-            LogManager::getSingleton().stream()
-                << "Created Win32Window '"
-                << mName << "' : " << mWidth << "x" << mHeight
-                << ", " << mColourDepth << "bpp";
-            
+            LogManager::singleton().stream()
+                << "Created Win32Window '" << mName << "' : " << mWidth << "x"
+                << mHeight << ", " << mColourDepth << "bpp";
         }
 
         HDC old_hdc = wglGetCurrentDC();
@@ -513,12 +511,13 @@ namespace Ogre {
             displayDeviceMode.dmFields |= DM_DISPLAYFREQUENCY;
             if (ChangeDisplaySettingsEx(mDeviceName, &displayDeviceMode, NULL, CDS_FULLSCREEN | CDS_TEST, NULL) != DISP_CHANGE_SUCCESSFUL)
             {
-                LogManager::getSingleton().log_warning("ChangeDisplaySettings with user display frequency failed");
+                LogManager::singleton().log_warning(
+                    "ChangeDisplaySettings with user display frequency failed");
                 displayDeviceMode.dmFields ^= DM_DISPLAYFREQUENCY;
             }
         }
         if (ChangeDisplaySettingsEx(mDeviceName, &displayDeviceMode, NULL, CDS_FULLSCREEN, NULL) != DISP_CHANGE_SUCCESSFUL)
-            LogManager::getSingleton().log_error("ChangeDisplaySettings failed");
+            LogManager::singleton().log_error("ChangeDisplaySettings failed");
     }
 
     void Win32Window::setFullscreen(bool fullScreen, unsigned int width, unsigned int height)

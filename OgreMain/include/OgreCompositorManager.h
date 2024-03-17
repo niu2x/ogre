@@ -177,11 +177,11 @@ namespace Ogre {
         */
         void _relocateChain(Viewport* sourceVP, Viewport* destVP);
 
-        /// @copydoc Singleton::getSingleton()
-        static CompositorManager& getSingleton(void);
+        /// @copydoc Singleton::singleton()
+        static CompositorManager& singleton(void);
 
-        /// @copydoc Singleton::getSingleton()
-        static CompositorManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static CompositorManager* singleton_ptr((void);
     
     private:
         Resource* create_impl(const String& name, ResourceHandle handle,
@@ -246,7 +246,6 @@ namespace Ogre {
         bool isInputPreviousTarget(CompositorInstance* inst, const TexturePtr& tex);
         bool isInputToOutputTarget(CompositorInstance* inst, const Ogre::String& localName);
         bool isInputToOutputTarget(CompositorInstance* inst, const TexturePtr& tex);
-
     };
     /** @} */
     /** @} */

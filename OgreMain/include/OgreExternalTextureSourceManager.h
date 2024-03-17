@@ -36,7 +36,7 @@ OgreExternalTextureSourceManager.h  -
 date                 : Jan 1 2004
 email                : pjcast@yahoo.com
 ***************************************************************************/
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreResourceGroupManager.h"
 #include "OgreExternalTextureSource.h"
 #include "OgreHeaderPrefix.h"
@@ -78,10 +78,10 @@ namespace Ogre
         /** Called from plugin to register itself */
         void setExternalTextureSource( const String& sTexturePlugInType, ExternalTextureSource* pTextureSystem );
 
-        /// @copydoc Singleton::getSingleton()
-        static ExternalTextureSourceManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ExternalTextureSourceManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static ExternalTextureSourceManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ExternalTextureSourceManager* singleton_ptr((void);
     private:
         /// The current texture controller selected
         ExternalTextureSource* mCurrExternalTextureSource;

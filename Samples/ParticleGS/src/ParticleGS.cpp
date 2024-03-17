@@ -50,7 +50,9 @@ struct FireworkParticle
     {
         mParticleSystem = new ProceduralManualObject();
         mParticleSystem->_notifyManager(mSceneMgr);
-        MaterialPtr mat = MaterialManager::getSingleton().getByName("Ogre/ParticleGS/Display", "General");
+        MaterialPtr mat = MaterialManager::singleton().getByName(
+            "Ogre/ParticleGS/Display",
+            "General");
         mParticleSystem->setMaterial(mat);
 
         // Generate the geometry that will seed the particle system.
@@ -64,7 +66,8 @@ struct FireworkParticle
         particleSystemSeed->end();
 
         // Generate the RenderToBufferObject.
-        auto r2vb = HardwareBufferManager::getSingleton().createRenderToVertexBuffer();
+        auto r2vb
+            = HardwareBufferManager::singleton().createRenderToVertexBuffer();
         r2vb->setRenderToBufferMaterialName("Ogre/ParticleGS/Generate");
 
         // Apply the random texture.
@@ -145,9 +148,19 @@ struct FireworkParticle
         Plane plane;
         plane.normal = Vector3::unit_y;
         plane.d = 100;
-        MeshManager::getSingleton().createPlane("Myplane",
-                                                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane,
-                                                1500,1500,20,20,true,1,60,60,Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "Myplane",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            plane,
+            1500,
+            1500,
+            20,
+            20,
+            true,
+            1,
+            60,
+            60,
+            Vector3::unit_z);
         Entity* pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
         pPlaneEnt->setMaterialName("Examples/Rockwall");
         pPlaneEnt->setCastShadows(false);
@@ -159,7 +172,9 @@ struct FireworkParticle
         delete mParticleSystem;
         mParticleSystem = 0;
 
-        MeshManager::getSingleton().remove("Myplane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().remove(
+            "Myplane",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }
 
 #ifdef LOG_GENERATED_BUFFER
@@ -167,8 +182,9 @@ struct FireworkParticle
     {
         // This will only work if the vertex buffer usage is dynamic
         // (see R2VB implementation).
-        LogManager::getSingleton().default_log()->stream() <<
-            "Particle system for frame " <<     Root::getSingleton().getNextFrameNumber();
+        LogManager::singleton().default_log()->stream()
+            << "Particle system for frame "
+            << Root::singleton().getNextFrameNumber();
         RenderOperation renderOp;
         mParticleSystem->getRenderToVertexBuffer()->getRenderOperation(renderOp);
         const HardwareVertexBufferSharedPtr& vertexBuffer =
@@ -182,12 +198,14 @@ struct FireworkParticle
         for (size_t i = 0; i < renderOp.vertexData->vertexCount; i++)
         {
             FireworkParticle& p = particles[i];
-            LogManager::getSingleton().default_log()->stream() <<
-                "FireworkParticle " << i + 1 << " : " <<
-                "Position : " << p.pos[0] << " " << p.pos[1] << " " << p.pos[2] << " , " <<
-                "Timer : " << p.timer << " , " <<
-                "Type : " << p.type << " , " <<
-                "Velocity : " << p.vel[0] << " " << p.vel[1] << " " << p.vel[2];
+            LogManager::singleton().default_log()->stream()
+                << "FireworkParticle " << i + 1 << " : "
+                << "Position : " << p.pos[0] << " " << p.pos[1] << " "
+                << p.pos[2] << " , "
+                << "Timer : " << p.timer << " , "
+                << "Type : " << p.type << " , "
+                << "Velocity : " << p.vel[0] << " " << p.vel[1] << " "
+                << p.vel[2];
         }
         
         vertexBuffer->unlock();

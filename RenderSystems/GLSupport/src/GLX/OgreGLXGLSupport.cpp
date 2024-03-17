@@ -150,20 +150,18 @@ namespace Ogre
     //-------------------------------------------------------------------------------------------------//
     void GLXGLSupport::start() 
     {
-        LogManager::getSingleton().log_message(
-            "******************************\n"
-            "*** Starting GLX Subsystem ***\n"
-            "******************************");
+        LogManager::singleton().log_message("******************************\n"
+                                            "*** Starting GLX Subsystem ***\n"
+                                            "******************************");
         initialiseExtensions();
     }
 
     //-------------------------------------------------------------------------------------------------//
     void GLXGLSupport::stop()
     {
-        LogManager::getSingleton().log_message(
-            "******************************\n"
-            "*** Stopping GLX Subsystem ***\n"
-            "******************************");
+        LogManager::singleton().log_message("******************************\n"
+                                            "*** Stopping GLX Subsystem ***\n"
+                                            "******************************");
     }
 
     //-------------------------------------------------------------------------------------------------//
@@ -180,14 +178,15 @@ namespace Ogre
         glXQueryVersion(mGLDisplay, &mGLXVerMajor, &mGLXVerMinor);
 
         const char* verStr = glXGetClientString(mGLDisplay, GLX_VERSION);
-        LogManager::getSingleton().stream() << "GLX_VERSION = " << verStr;
+        LogManager::singleton().stream() << "GLX_VERSION = " << verStr;
 
         const char* extensionsString;
 
         // This is more realistic than using glXGetClientString:
         extensionsString = glXGetClientString(mGLDisplay, GLX_EXTENSIONS);
 
-        LogManager::getSingleton().stream() << "GLX_EXTENSIONS = " << extensionsString;
+        LogManager::singleton().stream()
+            << "GLX_EXTENSIONS = " << extensionsString;
 
         StringStream ext;
         String instr;
@@ -563,7 +562,8 @@ namespace Ogre
 
         if (ctxErrorOccurred || !glxContext)
         {
-            LogManager::getSingleton().log_error("Failed to create an OpenGL context - " + ctxErrorMessage);
+            LogManager::singleton().log_error(
+                "Failed to create an OpenGL context - " + ctxErrorMessage);
         }
 
         return glxContext;
@@ -642,7 +642,10 @@ namespace Ogre
 
                 mCurrentMode = {newMode->first.first, newMode->first.second, newMode->second};
 
-                LogManager::getSingleton().log_message("Entered video mode " + mCurrentMode.description() + " @ " + StringConverter::to_string(mCurrentMode.refreshRate) + "Hz");
+                LogManager::singleton().log_message(
+                    "Entered video mode " + mCurrentMode.description() + " @ "
+                    + StringConverter::to_string(mCurrentMode.refreshRate)
+                    + "Hz");
             }
         }
     }

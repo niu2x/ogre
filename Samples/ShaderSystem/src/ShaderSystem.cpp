@@ -235,9 +235,19 @@ void Sample_ShaderSystem::setupContent()
     // Setup the sky box,
     mSceneMgr->setSkyBox(true, "Examples/SceneSkyBox2");
 
-    MeshManager::getSingleton().createPlane("Myplane",
-        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Plane(Vector3::unit_y, 0),
-        1500,1500,25,25,true,1,60,60,Vector3::unit_z);
+    MeshManager::singleton().createPlane(
+        "Myplane",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        Plane(Vector3::unit_y, 0),
+        1500,
+        1500,
+        25,
+        25,
+        true,
+        1,
+        60,
+        60,
+        Vector3::unit_z);
 
     Entity* pPlaneEnt = mSceneMgr->createEntity( "plane", "Myplane" );
     pPlaneEnt->setMaterialName("Examples/Rockwall");
@@ -249,11 +259,13 @@ void Sample_ShaderSystem::setupContent()
     // Load sample meshes and generate tangent vectors.
     for (const auto & curMeshName : MESH_ARRAY)
     {
-        MeshPtr pMesh = MeshManager::getSingleton().load(curMeshName,
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,    
-            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY, 
-            HardwareBuffer::HBU_STATIC_WRITE_ONLY, 
-            true, true); //so we can still read it
+        MeshPtr pMesh = MeshManager::singleton().load(
+            curMeshName,
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY,
+            true,
+            true); // so we can still read it
 
         // Build tangent vectors, all our meshes use only 1 texture coordset 
         pMesh->buildTangentVectors();
@@ -317,14 +329,14 @@ void Sample_ShaderSystem::setupContent()
     childNode->attachObject(entity);
 
     // OpenGL ES 2.0 does not support texture atlases. But ES 3.0 does!
-    if (Root::getSingletonPtr()->getRenderSystem()->name().find("OpenGL ES 2")
+    if (Root::singleton_ptr(()->getRenderSystem()->name().find("OpenGL ES 2")
             == String::npos
-        || Root::getSingletonPtr()
+        || Root::singleton_ptr(()
                 ->getRenderSystem()
                 ->getNativeShadingLanguageVersion()
             >= 300) {
         RTShader::RenderState* pMainRenderState
-            = RTShader::ShaderGenerator::getSingleton()
+            = RTShader::ShaderGenerator::singleton()
                   .create_or_retrieveRenderState(MSN_SHADERGEN)
                   .first;
         pMainRenderState->addTemplateSubRenderState(
@@ -446,13 +458,19 @@ void Sample_ShaderSystem::cleanupContent()
     // UnLoad sample meshes and generate tangent vectors.
     for (const auto & curMeshName : MESH_ARRAY)
     {
-        MeshManager::getSingleton().unload(curMeshName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().unload(
+            curMeshName,
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }
-    
-    MeshManager::getSingleton().remove(MAIN_ENTITY_MESH, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+    MeshManager::singleton().remove(
+        MAIN_ENTITY_MESH,
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     mTargetEntities.clear();
 
-    MeshManager::getSingleton().remove("Myplane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshManager::singleton().remove(
+        "Myplane",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     mSceneMgr->destroyQuery(mRayQuery);
 }
@@ -504,8 +522,10 @@ void Sample_ShaderSystem::setPerPixelFogEnable( bool enable )
 void Sample_ShaderSystem::setAtlasBorderMode( bool enable )
 {
 #ifdef RTSHADER_SYSTEM_BUILD_EXT_SHADERS
-    TextureAtlasSamplerFactory::getSingleton().setDefaultAtlasingAttributes(
-        TextureAtlasSamplerFactory::ipmRelative, 1, enable);
+    TextureAtlasSamplerFactory::singleton().setDefaultAtlasingAttributes(
+        TextureAtlasSamplerFactory::ipmRelative,
+        1,
+        enable);
     mShaderGenerator->invalidateScheme(Ogre::MSN_SHADERGEN);
 #endif
 }
@@ -733,7 +753,9 @@ void Sample_ShaderSystem::addModelToScene(const String &  modelName)
         mLotsOfModelsNodes.push_back(childNode);
         childNode->setPosition(mNumberOfModelsAdded * scaleFactor, 15,  i * scaleFactor);
         childNode->attachObject(entity);
-        MeshPtr modelMesh = MeshManager::getSingleton().getByName(modelName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshPtr modelMesh = MeshManager::singleton().getByName(
+            modelName,
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         Vector3 modelSize = modelMesh->getBounds().size();
         childNode->scale(1 / modelSize.x * scaleFactor, 
                          1 / modelSize.y * scaleFactor, 
@@ -894,7 +916,8 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
         mDirLightCheckBox->hide();
 
         // Disable fog on the caster pass.
-        MaterialPtr passCaterMaterial = MaterialManager::getSingleton().getByName("PSSM/shadow_caster");
+        MaterialPtr passCaterMaterial
+            = MaterialManager::singleton().getByName("PSSM/shadow_caster");
         Pass* pssmCasterPass = passCaterMaterial->getTechnique(0)->getPass(0);
         pssmCasterPass->setFog(true);
 
@@ -926,7 +949,7 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
 //-----------------------------------------------------------------------
 void Sample_ShaderSystem::testCapabilities( const RenderSystemCapabilities* caps )
 {
-    if(RTShader::ShaderGenerator::getSingleton().getTargetLanguage() != "null")
+    if (RTShader::ShaderGenerator::singleton().getTargetLanguage() != "null")
         return;
 
     OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "RTSS not supported on your system");
@@ -988,9 +1011,9 @@ void Sample_ShaderSystem::updateTargetObjInfo()
     
     mTargetObjMatName->setCaption(targetObjMaterialName);
 
-    if (mViewport->getMaterialScheme() == MSN_SHADERGEN)
-    {       
-        MaterialPtr matMainEnt        = MaterialManager::getSingleton().getByName(targetObjMaterialName);
+    if (mViewport->getMaterialScheme() == MSN_SHADERGEN) {
+        MaterialPtr matMainEnt
+            = MaterialManager::singleton().getByName(targetObjMaterialName);
 
         if (!matMainEnt == false)
         {
@@ -1015,10 +1038,7 @@ void Sample_ShaderSystem::updateTargetObjInfo()
 
         }
 
-
-    }
-    else
-    {       
+    } else {
         mTargetObjVS->setCaption("VS: N/A");
         mTargetObjFS->setCaption("FS: N/A");
     }
@@ -1126,7 +1146,7 @@ void Sample_ShaderSystem::createInstancedViewports()
 
 void Sample_ShaderSystem::createMaterialForTexture( const String & texName, bool isTextureAtlasTexture )
 {
-    MaterialManager * matMgr = MaterialManager::getSingletonPtr();
+    MaterialManager * matMgr = MaterialManager::singleton_ptr(();
     if ( !matMgr->resourceExists(texName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) )
     {
         MaterialPtr newMat = matMgr->create(texName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -1138,7 +1158,6 @@ void Sample_ShaderSystem::createMaterialForTexture( const String & texName, bool
             pState->setTextureFiltering(TFO_TRILINEAR);
         }
     }
-
 }
 
 ManualObject* Sample_ShaderSystem::createTextureAtlasObject()
@@ -1147,7 +1166,9 @@ ManualObject* Sample_ShaderSystem::createTextureAtlasObject()
         static_cast<TextureAtlasSamplerFactory *>(mShaderGenerator->getSubRenderStateFactory(TextureAtlasSampler::Type));
     TextureAtlasTablePtr textureAtlasTable(new TextureAtlasTable);
 
-    DataStreamPtr taiFile = Ogre::ResourceGroupManager::getSingleton().openResource("TextureAtlasSampleWrap.tai");
+    DataStreamPtr taiFile
+        = Ogre::ResourceGroupManager::singleton().openResource(
+            "TextureAtlasSampleWrap.tai");
 
     textureAtlasSamplerFactory->addTexutreAtlasDefinition(taiFile, textureAtlasTable);
 

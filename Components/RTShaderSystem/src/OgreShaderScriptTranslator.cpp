@@ -72,7 +72,7 @@ void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const Ab
     Pass* pass = texState->getParent();
     Technique* technique = pass->getParent();
     Material* material = technique->getParent();
-    ShaderGenerator* shaderGenerator = ShaderGenerator::getSingletonPtr();
+    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr(();
     String dstTechniqueSchemeName = obj->name;
     bool techniqueCreated;
 
@@ -109,8 +109,10 @@ void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const Ab
             if(i->type == ANT_PROPERTY)
             {
                 PropertyAbstractNode *prop = static_cast<PropertyAbstractNode*>(i.get());
-                SubRenderState* subRenderState = ShaderGenerator::getSingleton().createSubRenderState(compiler, prop, texState, this);
-                
+                SubRenderState* subRenderState
+                    = ShaderGenerator::singleton()
+                          .createSubRenderState(compiler, prop, texState, this);
+
                 if (subRenderState)
                 {
                     addSubRenderState(subRenderState, dstTechniqueSchemeName, material->name(), 
@@ -128,7 +130,7 @@ void SGScriptTranslator::translateTextureUnit(ScriptCompiler* compiler, const Ab
         }
 
         mGeneratedRenderState = NULL;
-    }   
+    }
 }
 
 
@@ -139,7 +141,7 @@ void SGScriptTranslator::translatePass(ScriptCompiler* compiler, const AbstractN
     Pass* pass =std::any_cast<Pass*>(obj->parent->context);
     Technique* technique = pass->getParent();
     Material* material = technique->getParent();
-    ShaderGenerator* shaderGenerator = ShaderGenerator::getSingletonPtr();
+    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr(();
     String dstTechniqueSchemeName = obj->name;
     bool techniqueCreated;
 
@@ -193,7 +195,9 @@ void SGScriptTranslator::translatePass(ScriptCompiler* compiler, const AbstractN
                 // Handle the rest of the custom properties.
                 else
                 {
-                    SubRenderState* subRenderState = ShaderGenerator::getSingleton().createSubRenderState(compiler, prop, pass, this);
+                    SubRenderState* subRenderState
+                        = ShaderGenerator::singleton()
+                              .createSubRenderState(compiler, prop, pass, this);
                     if (subRenderState)
                     {
                         addSubRenderState(subRenderState, dstTechniqueSchemeName, material->name(), material->group(), pass->getIndex());
@@ -212,7 +216,6 @@ void SGScriptTranslator::translatePass(ScriptCompiler* compiler, const AbstractN
 
         mGeneratedRenderState = NULL;
     }
-
 }
 
 //-----------------------------------------------------------------------------
@@ -222,7 +225,7 @@ void SGScriptTranslator::addSubRenderState(SubRenderState* newSubRenderState,
     assert(newSubRenderState);
 
     //check if a different sub render state of the same type already exists
-    ShaderGenerator* shaderGenerator = ShaderGenerator::getSingletonPtr();
+    ShaderGenerator* shaderGenerator = ShaderGenerator::singleton_ptr(();
     
     //create a new scheme if needed
     shaderGenerator->createScheme(dstTechniqueSchemeName);

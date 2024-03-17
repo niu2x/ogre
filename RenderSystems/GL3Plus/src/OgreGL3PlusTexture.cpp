@@ -82,7 +82,10 @@ namespace Ogre {
             mUsage |= HardwareBuffer::HBU_DYNAMIC;
 
         // Adjust format if required.
-        mFormat = TextureManager::getSingleton().getNativeFormat(mTextureType, mFormat, mUsage);
+        mFormat = TextureManager::singleton().getNativeFormat(
+            mTextureType,
+            mFormat,
+            mUsage);
 
         // Create a texture object and identify its GL type.
         OGRE_CHECK_GL_ERROR(glGenTextures(1, &mTextureID));
@@ -149,16 +152,21 @@ namespace Ogre {
             {
                 size = static_cast<GLsizei>(PixelUtil::getMemorySize(width, height, depth, mFormat));
                 // std::stringstream str;
-                // str << "GL3PlusTexture::create - " << StringConverter::to_string(mTextureID)
-                // << " bytes: " << StringConverter::to_string(PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat))
+                // str << "GL3PlusTexture::create - " <<
+                // StringConverter::to_string(mTextureID)
+                // << " bytes: " <<
+                // StringConverter::to_string(PixelUtil::getMemorySize(mWidth,
+                // mHeight, mDepth, mFormat))
                 // << " Mip: " + StringConverter::to_string(mip)
                 // << " Width: " << StringConverter::to_string(width)
                 // << " Height: " << StringConverter::to_string(height)
                 // << " Format " << PixelUtil::getFormatName(mFormat)
                 // << " Internal Format: 0x" << std::hex << format
-                // << " Origin Format: 0x" << std::hex << GL3PlusPixelUtil::getGLOriginFormat(mFormat)
+                // << " Origin Format: 0x" << std::hex <<
+                // GL3PlusPixelUtil::getGLOriginFormat(mFormat)
                 // << " Data type: 0x" << std::hex << datatype;
-                // LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+                // LogManager::singleton().log_message(LogMsgLevel::NORMAL,
+                // str.str());
 
                 switch(mTextureType)
                 {
@@ -241,16 +249,27 @@ namespace Ogre {
                 for(uint32 mip = 0; mip <= mNumMipmaps; mip++)
                 {
                     //                    std::stringstream str;
-                    //                    str << "GL3PlusTexture::create - " << StringConverter::to_string(mTextureID)
-                    //                    << " bytes: " << StringConverter::to_string(PixelUtil::getMemorySize(width, height, depth, mFormat))
-                    //                    << " Mip: " + StringConverter::to_string(mip)
-                    //                    << " Width: " << StringConverter::to_string(width)
-                    //                    << " Height: " << StringConverter::to_string(height)
-                    //                    << " Format " << PixelUtil::getFormatName(mFormat)
-                    //                    << " Internal Format: 0x" << std::hex << format
-                    //                    << " Origin Format: 0x" << std::hex << GL3PlusPixelUtil::getGLOriginFormat(mFormat)
-                    //                    << " Data type: 0x" << std::hex << datatype;
-                    //                    LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+                    //                    str << "GL3PlusTexture::create - " <<
+                    //                    StringConverter::to_string(mTextureID)
+                    //                    << " bytes: " <<
+                    //                    StringConverter::to_string(PixelUtil::getMemorySize(width,
+                    //                    height, depth, mFormat))
+                    //                    << " Mip: " +
+                    //                    StringConverter::to_string(mip)
+                    //                    << " Width: " <<
+                    //                    StringConverter::to_string(width)
+                    //                    << " Height: " <<
+                    //                    StringConverter::to_string(height)
+                    //                    << " Format " <<
+                    //                    PixelUtil::getFormatName(mFormat)
+                    //                    << " Internal Format: 0x" << std::hex
+                    //                    << format
+                    //                    << " Origin Format: 0x" << std::hex <<
+                    //                    GL3PlusPixelUtil::getGLOriginFormat(mFormat)
+                    //                    << " Data type: 0x" << std::hex <<
+                    //                    datatype;
+                    //                    LogManager::singleton().log_message(LogMsgLevel::NORMAL,
+                    //                    str.str());
 
                     // Normal formats
                     switch(mTextureType)

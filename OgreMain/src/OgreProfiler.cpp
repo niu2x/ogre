@@ -51,11 +51,11 @@ namespace Ogre {
     // PROFILE DEFINITIONS
     //-----------------------------------------------------------------------
     template<> Profiler* Singleton<Profiler>::msSingleton = 0;
-    Profiler* Profiler::getSingletonPtr(void)
+    Profiler* Profiler::singleton_ptr((void)
     {
         return msSingleton;
     }
-    Profiler& Profiler::getSingleton(void)
+    Profiler& Profiler::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -85,7 +85,9 @@ namespace Ogre {
         rmt_Settings()->reuse_open_port = true;
         if(auto error = rmt_CreateGlobalInstance(&rmt))
         {
-            LogManager::getSingleton().log_error("Could not launch Remotery - RMT_ERROR " + std::to_string(error));
+            LogManager::singleton().log_error(
+                "Could not launch Remotery - RMT_ERROR "
+                + std::to_string(error));
             return;
         }
         rmt_SetCurrentThreadName("Ogre Main");
@@ -387,9 +389,7 @@ namespace Ogre {
             instance->history.totalTimePercent = framePercentage;
             instance->history.totalTimeMillisecs = frameTimeMillisecs;
             instance->history.totalCalls = 1;
-        }
-        else
-        {
+        } else {
             instance->history.totalTimePercent += framePercentage;
             instance->history.totalTimeMillisecs += frameTimeMillisecs;
             instance->history.totalCalls++;
@@ -529,26 +529,30 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Profiler::logResults() 
     {
-        LogManager::getSingleton().log_message("----------------------Profiler Results----------------------");
+    LogManager::singleton().log_message(
+        "----------------------Profiler Results----------------------");
 
-        for(auto& it : mRoot.children)
-        {
-            it.second->logResults();
+    for (auto& it : mRoot.children) {
+        it.second->logResults();
         }
 
-        LogManager::getSingleton().log_message("------------------------------------------------------------");
+        LogManager::singleton().log_message(
+            "------------------------------------------------------------");
     }
     //-----------------------------------------------------------------------
     void ProfileInstance::logResults() 
     {
+    LogManager::singleton().log_message(StringUtil::format(
+        "%*s%s\t| Min %.2f | Max %.2f | Avg %.2f",
+        hierarchicalLvl * 4,
+        "",
+        name.c_str(),
+        history.minTimePercent,
+        history.maxTimePercent,
+        history.totalTimePercent / history.totalCalls));
 
-        LogManager::getSingleton().log_message(StringUtil::format(
-            "%*s%s\t| Min %.2f | Max %.2f | Avg %.2f", hierarchicalLvl * 4, "", name.c_str(), history.minTimePercent,
-            history.maxTimePercent, history.totalTimePercent / history.totalCalls));
-
-        for(auto& it : children)
-        {
-            it.second->logResults();
+    for (auto& it : children) {
+        it.second->logResults();
         }
     }
     //-----------------------------------------------------------------------

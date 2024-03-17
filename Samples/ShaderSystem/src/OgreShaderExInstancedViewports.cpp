@@ -248,7 +248,8 @@ void ShaderExInstancedViewports::setMonitorsCount( const Vector2 monitorCount )
     mMonitorsCount = monitorCount;
     mMonitorsCountChanged = true;
 
-    Ogre::VertexDeclaration* vertexDeclaration = Ogre::HardwareBufferManager::getSingleton().createVertexDeclaration();
+    Ogre::VertexDeclaration* vertexDeclaration
+        = Ogre::HardwareBufferManager::singleton().createVertexDeclaration();
     size_t offset = 0;
     offset = vertexDeclaration->getVertexSize(0);
     vertexDeclaration->addElement(0, offset, Ogre::VET_FLOAT4, Ogre::VES_TEXTURE_COORDINATES, 1);
@@ -261,9 +262,11 @@ void ShaderExInstancedViewports::setMonitorsCount( const Vector2 monitorCount )
     offset = vertexDeclaration->getVertexSize(0);
     vertexDeclaration->addElement(0, offset, Ogre::VET_FLOAT4, Ogre::VES_TEXTURE_COORDINATES, 5);
 
-    Ogre::HardwareVertexBufferSharedPtr vbuf =
-        Ogre::HardwareBufferManager::getSingleton().createVertexBuffer(
-        vertexDeclaration->getVertexSize(0), monitorCount.x * monitorCount.y, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+    Ogre::HardwareVertexBufferSharedPtr vbuf
+        = Ogre::HardwareBufferManager::singleton().createVertexBuffer(
+            vertexDeclaration->getVertexSize(0),
+            monitorCount.x * monitorCount.y,
+            Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
     vbuf->setInstanceDataStepRate(1);
     vbuf->setIsInstanceData(true);
 
@@ -307,7 +310,7 @@ void ShaderExInstancedViewports::setMonitorsCount( const Vector2 monitorCount )
 
     mOwnsGlobalData = true;
 
-    auto rs = Ogre::Root::getSingleton().getRenderSystem();
+    auto rs = Ogre::Root::singleton().getRenderSystem();
     rs->setGlobalInstanceVertexBuffer(vbuf);
     rs->setGlobalInstanceVertexDeclaration(vertexDeclaration);
     rs->setGlobalInstanceCount(monitorCount.x * monitorCount.y);
@@ -317,10 +320,10 @@ ShaderExInstancedViewports::~ShaderExInstancedViewports()
     if (!mOwnsGlobalData)
         return;
 
-    auto rs = Ogre::Root::getSingleton().getRenderSystem();
+    auto rs = Ogre::Root::singleton().getRenderSystem();
     if (auto decl = rs->getGlobalInstanceVertexDeclaration())
     {
-        Ogre::HardwareBufferManager::getSingleton().destroyVertexDeclaration(decl);
+        Ogre::HardwareBufferManager::singleton().destroyVertexDeclaration(decl);
     }
 
     rs->setGlobalInstanceVertexDeclaration(NULL);

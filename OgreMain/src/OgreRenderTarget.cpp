@@ -49,7 +49,7 @@ namespace Ogre {
 		, mStereoEnabled(false)
 #endif
     {
-        mTimer = Root::getSingleton().getTimer();
+        mTimer = Root::singleton().getTimer();
         resetStatistics();
     }
 
@@ -70,12 +70,11 @@ namespace Ogre {
 
 
         // Write closing message
-        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+        LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
             << "Render Target '" << mName << "' "
             << "Average FPS: " << mStats.avgFPS << " "
             << "Best FPS: " << mStats.bestFPS << " "
-            << "Worst FPS: " << mStats.worstFPS; 
-
+            << "Worst FPS: " << mStats.worstFPS;
     }
 
     const String& RenderTarget::name(void) const { return mName; }

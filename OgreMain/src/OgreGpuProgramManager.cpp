@@ -110,11 +110,11 @@ namespace {
 
     //-----------------------------------------------------------------------
     template<> GpuProgramManager* Singleton<GpuProgramManager>::msSingleton = 0;
-    GpuProgramManager* GpuProgramManager::getSingletonPtr(void)
+    GpuProgramManager* GpuProgramManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    GpuProgramManager& GpuProgramManager::getSingleton(void)
+    GpuProgramManager& GpuProgramManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -139,15 +139,15 @@ namespace {
         mUnifiedFactory = std::make_unique<UnifiedHighLevelGpuProgramFactory>();
         addFactory(mUnifiedFactory.get());
 
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
     }
     //---------------------------------------------------------------------------
     GpuProgramManager::~GpuProgramManager()
     {
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
-            resource_type());
+    ResourceGroupManager::singleton()._unregisterResourceManager(
+        resource_type());
     }
     //---------------------------------------------------------------------------
     GpuProgramPtr GpuProgramManager::load(const String& name,
@@ -198,7 +198,7 @@ namespace {
         add_impl(ret);
         // Tell resource group manager
         if(ret)
-            ResourceGroupManager::getSingleton()._notifyResourceCreated(ret);
+            ResourceGroupManager::singleton()._notifyResourceCreated(ret);
         return static_pointer_cast<GpuProgram>(ret);
     }
     //---------------------------------------------------------------------------
@@ -223,7 +223,7 @@ namespace {
     const GpuProgramManager::SyntaxCodes& GpuProgramManager::getSupportedSyntax(void)
     {
         // Use the current render system
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
 
         // Get the supported syntaxed from RenderSystemCapabilities 
         return rs->getCapabilities()->getSupportedShaderProfiles();
@@ -233,7 +233,7 @@ namespace {
     bool GpuProgramManager::isSyntaxSupported(const String& syntaxCode)
     {
         // Use the current render system
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
 
         // Get the supported syntax from RenderSystemCapabilities 
         return rs && rs->getCapabilities()->isShaderProfileSupported(syntaxCode);
@@ -277,7 +277,7 @@ namespace {
     bool GpuProgramManager::canGetCompiledShaderBuffer()
     {
         // Use the current render system
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
 
         // Check if the supported  
         return rs->getCapabilities()->hasCapability(RSC_CAN_GET_COMPILED_SHADER_BUFFER);
@@ -300,7 +300,7 @@ namespace {
     String GpuProgramManager::addRenderSystemToName( const String & name )
     {
         // Use the current render system
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
 
         return rs->name() + "_" + name;
     }
@@ -390,14 +390,14 @@ namespace {
         }
         catch (const InvalidStateException& e)
         {
-            LogManager::getSingleton().log_warning("Could not load Microcode Cache: " +
-                                                  e.description());
+            LogManager::singleton().log_warning(
+                "Could not load Microcode Cache: " + e.description());
             return;
         }
 
         if(chunk->id != CACHE_CHUNK_ID || chunk->version != 2)
         {
-            LogManager::getSingleton().log_warning("Invalid Microcode Cache");
+            LogManager::singleton().log_warning("Invalid Microcode Cache");
             return;
         }
         // write the size of the array

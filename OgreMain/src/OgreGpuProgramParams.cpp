@@ -578,8 +578,9 @@ namespace Ogre
                     mCopyDataList.push_back(e);
                 }
                 else
-                    LogManager::getSingleton().log_warning("cannot copy shared parameter '" + pName +
-                                                          "' - type or variability mismatch");
+                    LogManager::singleton().log_warning(
+                        "cannot copy shared parameter '" + pName
+                        + "' - type or variability mismatch");
             }
         }
 
@@ -1608,8 +1609,10 @@ namespace Ogre
                     break;
                 case ACT_VERTEX_WINDING:
                     {
-                        RenderSystem* rsys = Root::getSingleton().getRenderSystem();
-                        _writeRawConstant(ac.physicalIndex, rsys->getInvertVertexWinding() ? -1.f : +1.f);
+                    RenderSystem* rsys = Root::singleton().getRenderSystem();
+                    _writeRawConstant(
+                        ac.physicalIndex,
+                        rsys->getInvertVertexWinding() ? -1.f : +1.f);
                     }
                     break;
 
@@ -1740,13 +1743,17 @@ namespace Ogre
                     break;
                 case ACT_TEXEL_OFFSETS:
                     {
-                        RenderSystem* rsys = Root::getSingleton().getRenderSystem();
-                        _writeRawConstant(ac.physicalIndex, Vector4f(
+                    RenderSystem* rsys = Root::singleton().getRenderSystem();
+                    _writeRawConstant(
+                        ac.physicalIndex,
+                        Vector4f(
                             rsys->getHorizontalTexelOffset(),
                             rsys->getVerticalTexelOffset(),
-                            rsys->getHorizontalTexelOffset() * source->getInverseViewportWidth(),
-                            rsys->getVerticalTexelOffset() * source->getInverseViewportHeight()),
-                                          ac.elementCount);
+                            rsys->getHorizontalTexelOffset()
+                                * source->getInverseViewportWidth(),
+                            rsys->getVerticalTexelOffset()
+                                * source->getInverseViewportHeight()),
+                        ac.elementCount);
                     }
                     break;
                 case ACT_TEXTURE_SIZE:
@@ -2582,7 +2589,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     void GpuProgramParameters::addSharedParameters(const String& sharedParamsName)
     {
-        addSharedParameters(GpuProgramManager::getSingleton().getSharedParameters(sharedParamsName));
+        addSharedParameters(GpuProgramManager::singleton().getSharedParameters(
+            sharedParamsName));
     }
     //---------------------------------------------------------------------
     bool GpuProgramParameters::isUsingSharedParameters(const String& sharedParamsName) const

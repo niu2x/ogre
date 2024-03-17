@@ -103,8 +103,19 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
      mSceneMgr->setSkyBox(true, "Examples/SpaceSkyBox");
 
      // create a mesh for our ground
-     MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                             Plane(Vector3::unit_y, 0), 1000, 1000, 20, 20, true, 1, 6, 6, Vector3::unit_z);
+     MeshManager::singleton().createPlane(
+         "ground",
+         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+         Plane(Vector3::unit_y, 0),
+         1000,
+         1000,
+         20,
+         20,
+         true,
+         1,
+         6,
+         6,
+         Vector3::unit_z);
 
      // create a ground entity from our mesh and attach it to the origin
      Entity* ground = mSceneMgr->createEntity("Ground", "ground");
@@ -141,7 +152,9 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
      //! [grass_field]
 
      // build tangent vectors for the ogre head mesh
-     MeshPtr headMesh = MeshManager::getSingleton().load("ogrehead.mesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+     MeshPtr headMesh = MeshManager::singleton().load(
+         "ogrehead.mesh",
+         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
      headMesh->buildTangentVectors();
 
      // put an ogre head in the middle of the field
@@ -222,7 +235,7 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
      // create a controller for the light intensity, using our LightPulsator class
      ControllerFunctionRealPtr func(OGRE_NEW WaveformControllerFunction(Ogre::WFT_SINE, 0.5, 0.5, 0, 0.5));
      ControllerValueRealPtr dest(OGRE_NEW LightPulse(light, bb, lightColour, 15));
-     ControllerManager& cm = ControllerManager::getSingleton();
+     ControllerManager& cm = ControllerManager::singleton();
      mLightController = cm.createController(cm.getFrameTimeSource(), dest, func);
 
      // create a light node and attach the light and flare to it
@@ -290,8 +303,9 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
 
  void checkBoxToggled(CheckBox* box) override
  {
-     auto mat = MaterialManager::getSingleton().getByName(box->isChecked() ? "Examples/GrassBladesWaver"
-                                                                           : "Examples/GrassBlades");
+     auto mat = MaterialManager::singleton().getByName(
+         box->isChecked() ? "Examples/GrassBladesWaver"
+                          : "Examples/GrassBlades");
      for (const auto& reg : mField->getRegions())
      {
          for (auto lod : reg.second->getLODBuckets())
@@ -306,9 +320,13 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
 
  void cleanupContent() override
  {
-     ControllerManager::getSingleton().destroyController(mLightController);
-     MeshManager::getSingleton().remove("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-     MeshManager::getSingleton().remove("grass", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+     ControllerManager::singleton().destroyController(mLightController);
+     MeshManager::singleton().remove(
+         "ground",
+         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+     MeshManager::singleton().remove(
+         "grass",
+         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
  }
 
  StaticGeometry* mField;

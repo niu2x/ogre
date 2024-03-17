@@ -76,7 +76,8 @@ namespace Ogre {
         // Delete framebuffer object
         if(mContext && mFB)
         {
-            GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+            GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+                Root::singleton().getRenderSystem());
             rs->_destroyFbo(mContext, mFB);
             
             if (mMultisampleFB)
@@ -243,7 +244,8 @@ namespace Ogre {
     
     bool GLES2FrameBufferObject::bind(bool recreateIfNeeded)
     {
-        GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+            Root::singleton().getRenderSystem());
         GLContext* currentContext = rs->_getCurrentContext();
         if(mContext && mContext != currentContext) // FBO is unusable with current context, destroy it
         {

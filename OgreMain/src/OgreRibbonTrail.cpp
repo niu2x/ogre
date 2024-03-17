@@ -74,7 +74,7 @@ namespace Ogre
         if (mFadeController)
         {
             // destroy controller
-            ControllerManager::getSingleton().destroyController(mFadeController);
+            ControllerManager::singleton().destroyController(mFadeController);
         }
 
     }
@@ -258,13 +258,13 @@ namespace Ogre
         if (!mFadeController && needController)
         {
             // Set up fading via frame time controller
-            ControllerManager& mgr = ControllerManager::getSingleton();
+            ControllerManager& mgr = ControllerManager::singleton();
             mFadeController = mgr.createFrameTimePassthroughController(mTimeControllerValue);
         }
         else if (mFadeController && !needController)
         {
             // destroy controller
-            ControllerManager::getSingleton().destroyController(mFadeController);
+            ControllerManager::singleton().destroyController(mFadeController);
             mFadeController = 0;
         }
 

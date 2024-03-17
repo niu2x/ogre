@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -93,10 +93,10 @@ namespace Ogre {
         /** Get an iterator for all contained strategies. */
         MapIterator<StrategyMap> getIterator();
 
-        /// @copydoc Singleton::getSingleton()
-        static LodStrategyManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static LodStrategyManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static LodStrategyManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static LodStrategyManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

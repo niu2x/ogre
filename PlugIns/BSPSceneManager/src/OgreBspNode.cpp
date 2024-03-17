@@ -146,12 +146,12 @@ namespace Ogre {
         Plane::Side sd = getSide(point);
         if (sd == PlaneSide::NEGATIVE_SIDE)
         {
-            //LogManager::getSingleton().log_message("back");
+            // LogManager::singleton().log_message("back");
             return getBack();
         }
         else
         {
-            //LogManager::getSingleton().log_message("front");
+            // LogManager::singleton().log_message("front");
             return getFront();
         }
 

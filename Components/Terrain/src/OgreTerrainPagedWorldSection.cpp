@@ -45,7 +45,7 @@ namespace Ogre
     {
         // we always use a grid strategy
         setStrategy(parent->getManager()->getStrategy("Grid2D"));
-        mNextLoadingTime = Root::getSingletonPtr()->getTimer()->milli_seconds();
+        mNextLoadingTime = Root::singleton_ptr(()->getTimer()->milli_seconds();
     }
     //---------------------------------------------------------------------
     TerrainPagedWorldSection::~TerrainPagedWorldSection()
@@ -56,7 +56,7 @@ namespace Ogre
 
         while(!mPagesInLoading.empty())
         {
-            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
+            Root::singleton().getWorkQueue()->process_main_thread_tasks();
         }
 
         OGRE_DELETE mTerrainGroup;
@@ -237,15 +237,13 @@ namespace Ogre
                 }
                 else
                 {
-                    Root::getSingleton().getWorkQueue()->add_task([this]() {
+                    Root::singleton().getWorkQueue()->add_task([this]() {
                         handleRequest(NULL, NULL);
                         if(mPagesInLoading.empty())
                             return;
                         // continue loading in main thread
-                        Root::getSingleton()
-                            .getWorkQueue()
-                            ->add_main_thread_task(
-                                [this]() { handleResponse(NULL, NULL); });
+                        Root::singleton().getWorkQueue()->add_main_thread_task(
+                            [this]() { handleResponse(NULL, NULL); });
                     });
                 }
             }
@@ -286,7 +284,7 @@ namespace Ogre
         }
 
         unsigned long currentTime
-            = Root::getSingletonPtr()->getTimer()->milli_seconds();
+            = Root::singleton_ptr(()->getTimer()->milli_seconds();
         if(currentTime < mNextLoadingTime)
         {
         }
@@ -320,16 +318,16 @@ namespace Ogre
             mPagesInLoading.pop_front();
 
             unsigned long currentTime
-                = Root::getSingletonPtr()->getTimer()->milli_seconds();
+                = Root::singleton_ptr(()->getTimer()->milli_seconds();
             mNextLoadingTime = currentTime + mLoadingIntervalMs;
 
             // Continue loading other pages
-            Root::getSingleton().getWorkQueue()->add_task([this]() {
+            Root::singleton().getWorkQueue()->add_task([this]() {
                 handleRequest(NULL, NULL);
                 if(mPagesInLoading.empty())
                     return;
                 // continue loading in main thread
-                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                Root::singleton().getWorkQueue()->add_main_thread_task(
                     [this]() { handleResponse(NULL, NULL); });
             });
         }

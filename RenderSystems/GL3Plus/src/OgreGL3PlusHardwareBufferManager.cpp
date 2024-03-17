@@ -36,7 +36,8 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 namespace Ogre {
     GL3PlusHardwareBufferManager::GL3PlusHardwareBufferManager() : mUniformBufferCount(0), mShaderStorageBufferCount(0)
     {
-        mRenderSystem = static_cast<GL3PlusRenderSystem*>(Root::getSingleton().getRenderSystem());
+        mRenderSystem = static_cast<GL3PlusRenderSystem*>(
+            Root::singleton().getRenderSystem());
     }
 
     GL3PlusHardwareBufferManager::~GL3PlusHardwareBufferManager()

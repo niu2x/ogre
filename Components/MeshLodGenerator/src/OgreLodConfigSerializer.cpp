@@ -115,10 +115,11 @@ namespace Ogre
     {
         String group = readString(mStream);
         String name = readString(mStream);
-        mLodConfig->mesh = MeshManager::getSingleton().load(name, group);
+        mLodConfig->mesh = MeshManager::singleton().load(name, group);
 
         String strategyName = readString(mStream);
-        mLodConfig->strategy = LodStrategyManager::getSingleton().getStrategy(strategyName);
+        mLodConfig->strategy
+            = LodStrategyManager::singleton().getStrategy(strategyName);
     }
 
     void LodConfigSerializer::readLodLevels()
@@ -172,7 +173,9 @@ namespace Ogre
 
     void LodConfigSerializer::exportLodConfig(Ogre::LodConfig& config, Ogre::DataStreamPtr stream, Endian endianMode /*= ENDIAN_NATIVE*/ )
     {
-        Ogre::LogManager::getSingleton().log_message("MeshSerializer writing mesh data to stream " + stream->name() + "...");
+        Ogre::LogManager::singleton().log_message(
+            "MeshSerializer writing mesh data to stream " + stream->name()
+            + "...");
 
         // Decide on endian mode
         determineEndianness(endianMode);
@@ -186,14 +189,14 @@ namespace Ogre
         }
 
         writeFileHeader();
-        LogManager::getSingleton().log_message("File header written.");
+        LogManager::singleton().log_message("File header written.");
 
-
-        LogManager::getSingleton().log_message("Writing Lod Config...");
+        LogManager::singleton().log_message("Writing Lod Config...");
         pushInnerChunk(mStream);
         writeLodConfig();
         popInnerChunk(mStream);
-        LogManager::getSingleton().log_message("LodConfigSerializer export successful.");
+        LogManager::singleton().log_message(
+            "LodConfigSerializer export successful.");
     }
 
     void LodConfigSerializer::writeLodConfig()

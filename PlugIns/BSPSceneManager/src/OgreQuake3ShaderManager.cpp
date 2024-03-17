@@ -39,11 +39,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> Quake3ShaderManager *Singleton<Quake3ShaderManager>::msSingleton = 0;
-    Quake3ShaderManager* Quake3ShaderManager::getSingletonPtr(void)
+    Quake3ShaderManager* Quake3ShaderManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    Quake3ShaderManager& Quake3ShaderManager::getSingleton(void)
+    Quake3ShaderManager& Quake3ShaderManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -53,14 +53,14 @@ namespace Ogre {
     Quake3ShaderManager::Quake3ShaderManager()
     {
         mScriptPatterns.push_back("*.shader");
-        ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+        ResourceGroupManager::singleton()._registerScriptLoader(this);
     }
     //-----------------------------------------------------------------------
     Quake3ShaderManager::~Quake3ShaderManager()
     {
         // delete all shaders
         clear();
-        ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+        ResourceGroupManager::singleton()._unregisterScriptLoader(this);
     }
     //-----------------------------------------------------------------------
     const StringVector& Quake3ShaderManager::script_patterns(void) const
@@ -294,7 +294,6 @@ namespace Ogre {
                 StringUtil::lower_case(&params[i]);
         }
 
-
         // MAP
         if (params[0] == "map")
         {
@@ -484,9 +483,7 @@ namespace Ogre {
         else if (q3func == "gl_dst_color")
         {
             return SceneBlendFactor::DEST_COLOUR;
-        }
-        else if (q3func == "gl_src_color")
-        {
+        } else if (q3func == "gl_src_color") {
             return SceneBlendFactor::SOURCE_COLOUR;
         }
         else if (q3func == "gl_one_minus_dst_color")
@@ -506,5 +503,4 @@ namespace Ogre {
         return SceneBlendFactor::ONE;
 
     }
-
 }

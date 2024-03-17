@@ -39,7 +39,8 @@ namespace Ogre {
     {
         if(mVAO != 0)
         {
-            GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+            GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+                Root::singleton().getRenderSystem());
             rs->_destroyVao(mCreatorContext, mVAO);
         }
     }

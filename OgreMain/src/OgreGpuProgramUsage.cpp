@@ -57,13 +57,14 @@ namespace Ogre
     GpuProgramPtr GpuProgramUsage::_getProgramByName(const String& name, const String& group,
                                                      GpuProgramType type)
     {
-        GpuProgramPtr program =
-            GpuProgramManager::getSingleton().getByName(name, group);
+        GpuProgramPtr program
+            = GpuProgramManager::singleton().getByName(name, group);
 
         //Look again without the group if not found
         if (!program)
-            program = GpuProgramManager::getSingleton().getByName(
-                name, ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+            program = GpuProgramManager::singleton().getByName(
+                name,
+                ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
 
         if (!program)
         {

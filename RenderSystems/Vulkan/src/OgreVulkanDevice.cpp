@@ -124,14 +124,16 @@ namespace Ogre
 
         if( deviceIdx >= numDevices )
         {
-            LogManager::getSingleton().log_warning( "[Vulkan] Requested device index " + deviceIdsStr +
-                                                   " but there's only " +
-                                                   StringConverter::to_string( numDevices ) + "devices" );
+            LogManager::singleton().log_warning(
+                "[Vulkan] Requested device index " + deviceIdsStr
+                + " but there's only " + StringConverter::to_string(numDevices)
+                + "devices");
             deviceIdx = 0u;
             deviceIdsStr = "0";
         }
 
-        LogManager::getSingleton().log_message( "[Vulkan] Selecting device #" + deviceIdsStr );
+        LogManager::singleton().log_message(
+            "[Vulkan] Selecting device #" + deviceIdsStr);
 
         FastArray<VkPhysicalDevice> pd(numDevices);
         OGRE_VK_CHECK(vkEnumeratePhysicalDevices(mInstance, &numDevices, pd.data()));

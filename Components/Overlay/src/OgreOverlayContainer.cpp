@@ -337,10 +337,10 @@ namespace Ogre {
                  OverlayElement* oldChildElement = p.second;
                  if (oldChildElement->isCloneable())
                  {
-                     OverlayElement* newChildElement =
-                         OverlayManager::getSingleton().createOverlayElement(
-                            oldChildElement->getTypeName(),
-                            mName+"/"+oldChildElement->name());
+                     OverlayElement* newChildElement
+                         = OverlayManager::singleton().createOverlayElement(
+                             oldChildElement->getTypeName(),
+                             mName + "/" + oldChildElement->name());
                      newChildElement->copyFromTemplate(oldChildElement);
                      addChild(newChildElement);
                  }

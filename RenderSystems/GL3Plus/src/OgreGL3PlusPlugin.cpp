@@ -49,7 +49,7 @@ namespace Ogre
     {
         mRenderSystem = OGRE_NEW GL3PlusRenderSystem();
 
-        Root::getSingleton().addRenderSystem(mRenderSystem);
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
 
     void GL3PlusPlugin::initialise()

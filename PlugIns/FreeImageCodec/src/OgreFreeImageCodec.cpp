@@ -56,13 +56,13 @@ namespace Ogre {
         const char* typeName = FreeImage_GetFormatFromFIF(fif);
         if (typeName)
         {
-            LogManager::getSingleton().stream() 
+            LogManager::singleton().stream()
                 << "FreeImage error: '" << message << "' when loading format "
                 << typeName;
         }
         else
         {
-            LogManager::getSingleton().stream() 
+            LogManager::singleton().stream()
                 << "FreeImage error: '" << message << "'";
         }
 
@@ -72,10 +72,10 @@ namespace Ogre {
     {
         FreeImage_Initialise(false);
 
-        LogManager::getSingleton().log_message(
+        LogManager::singleton().log_message(
             LogMsgLevel::NORMAL,
             "FreeImage version: " + String(FreeImage_GetVersion()));
-        LogManager::getSingleton().log_message(
+        LogManager::singleton().log_message(
             LogMsgLevel::NORMAL,
             FreeImage_GetCopyrightMessage());
 
@@ -114,9 +114,7 @@ namespace Ogre {
                 }
             }
         }
-        LogManager::getSingleton().log_message(
-            LogMsgLevel::NORMAL,
-            strExt.str());
+        LogManager::singleton().log_message(LogMsgLevel::NORMAL, strExt.str());
 
         // Set error handler
         FreeImage_SetOutputMessage(FreeImageLoadErrorHandler);

@@ -282,9 +282,10 @@ void TextureAtlasSampler::updateGpuProgramsParams(Renderable* rend, const Pass* 
 //-----------------------------------------------------------------------
 bool TextureAtlasSampler::preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass)
 {
-    mAtlasTexcoordPos = 0; 
-    
-    const TextureAtlasSamplerFactory& factory = TextureAtlasSamplerFactory::getSingleton();
+    mAtlasTexcoordPos = 0;
+
+    const TextureAtlasSamplerFactory& factory
+        = TextureAtlasSamplerFactory::singleton();
 
     bool hasAtlas = false;
     unsigned short texCount = srcPass->getNumTextureUnitStates();
@@ -297,8 +298,9 @@ bool TextureAtlasSampler::preAddToRenderState(const RenderState* renderState, Pa
         {
             if (table->size() > TAS_MAX_SAFE_ATLASED_TEXTURES)
             {
-                LogManager::getSingleton().log_warning(
-                    "Compiling atlas texture has to many internally defined textures. Shader may fail to compile.");
+                LogManager::singleton().log_warning(
+                    "Compiling atlas texture has to many internally defined "
+                    "textures. Shader may fail to compile.");
             }
             if (i >= TAS_MAX_TEXTURES)
             {
@@ -341,12 +343,11 @@ TextureAtlasSamplerFactory::TextureAtlasSamplerFactory()
 
 }
 
-
-TextureAtlasSamplerFactory* TextureAtlasSamplerFactory::getSingletonPtr(void)
+TextureAtlasSamplerFactory* TextureAtlasSamplerFactory::singleton_ptr((void)
 {
     return msSingleton;
 }
-TextureAtlasSamplerFactory& TextureAtlasSamplerFactory::getSingleton(void)
+TextureAtlasSamplerFactory& TextureAtlasSamplerFactory::singleton(void)
 {  
     assert( msSingleton );  return ( *msSingleton );  
 }
@@ -451,9 +452,11 @@ bool TextureAtlasSamplerFactory::addTexutreAtlasDefinition( const DataStreamPtr&
 
         if (maxTextureCount > TAS_MAX_SAFE_ATLASED_TEXTURES)
         {
-            LogManager::getSingleton().log_message(LogMsgLevel::CRITICAL, 
-                ("Warning : " + stream->name() +
-                " atlas texture has to many internally defined textures. Shader may fail to compile."));
+            LogManager::singleton().log_message(
+                LogMsgLevel::CRITICAL,
+                ("Warning : " + stream->name()
+                 + " atlas texture has to many internally defined textures. "
+                   "Shader may fail to compile."));
         }
     }
     return isSuccess;
@@ -542,8 +545,6 @@ SubRenderState* TextureAtlasSamplerFactory::createInstanceImpl()
 {
     return OGRE_NEW TextureAtlasSampler;
 }
-
-
 }
 }
 

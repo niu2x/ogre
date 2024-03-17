@@ -35,7 +35,7 @@ String GLSLProgramWriter::TargetLanguage = "glsl";
 //-----------------------------------------------------------------------
 GLSLProgramWriter::GLSLProgramWriter() : mIsGLSLES(false), mIsVulkan(false)
 {
-    auto* rs = Root::getSingleton().getRenderSystem();
+    auto* rs = Root::singleton().getRenderSystem();
     mGLSLVersion = rs ? rs->getNativeShadingLanguageVersion() : 120;
 
     if(rs && rs->getCapabilities()->isShaderProfileSupported("spirv"))
@@ -143,7 +143,7 @@ void GLSLProgramWriter::writeMainSourceCode(std::ostream& os, Program* program)
     writeUniformParametersTitle(os, program);
     os << std::endl;
 
-    auto* rs = Root::getSingleton().getRenderSystem();
+    auto* rs = Root::singleton().getRenderSystem();
     auto hasSSO = rs ? rs->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS) : false;
 
     // Write the uniforms

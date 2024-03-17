@@ -52,7 +52,8 @@ namespace Ogre {
         : GLHardwarePixelBufferCommon(width, height, depth, parent->getFormat(), (Usage)parent->getUsage()),
           mTarget(parent->getGL3PlusTextureTarget()), mTextureID(parent->getGLID()), mLevel(level)
     {
-        mRenderSystem = static_cast<GL3PlusRenderSystem*>(Root::getSingleton().getRenderSystem());
+        mRenderSystem = static_cast<GL3PlusRenderSystem*>(
+            Root::singleton().getRenderSystem());
         // Get face identifier
         mFaceTarget = mTarget;
         if (mTarget == GL_TEXTURE_CUBE_MAP)
@@ -63,13 +64,16 @@ namespace Ogre {
 
         // Log a message
         //        std::stringstream str;
-        //        str << "GL3PlusHardwarePixelBuffer constructed for texture: " << mTextureID
+        //        str << "GL3PlusHardwarePixelBuffer constructed for texture: "
+        //        << mTextureID
         //            << " bytes: " << mSizeInBytes
         //            << " face: " << mFace << " level: " << mLevel
-        //            << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
+        //            << " width: " << mWidth << " height: "<< mHeight << "
+        //            depth: " << mDepth
         //            << " format: " << PixelUtil::getFormatName(mFormat)
         //            << "(internal 0x" << std::hex << value << ")";
-        //        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+        //        LogManager::singleton().log_message(LogMsgLevel::NORMAL,
+        //        str.str());
 
         // Set up a pixel box
         mBuffer = PixelBox(mWidth, mHeight, mDepth, mFormat);
@@ -90,10 +94,15 @@ namespace Ogre {
                 GLSurfaceDesc surface;
                 surface.buffer = this;
                 surface.zoffset = zoffset;
-                RenderTexture* trt = GL3PlusRTTManager::getSingleton().createRenderTexture(
-                    name, surface, parent->isHardwareGammaEnabled(), parent->getFSAA());
+                RenderTexture* trt
+                    = GL3PlusRTTManager::singleton().createRenderTexture(
+                        name,
+                        surface,
+                        parent->isHardwareGammaEnabled(),
+                        parent->getFSAA());
                 mSliceTRT.push_back(trt);
-                Root::getSingleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[zoffset]);
+                Root::singleton().getRenderSystem()->attachRenderTarget(
+                    *mSliceTRT[zoffset]);
             }
         }
     }
@@ -129,9 +138,10 @@ namespace Ogre {
         // << " dest front: " << dest.front
         // << " datasize: " << dataSize
         // << " face: " << mFace << " level: " << mLevel
-        // << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
+        // << " width: " << mWidth << " height: "<< mHeight << " depth: " <<
+        // mDepth
         // << " format: " << PixelUtil::getFormatName(mFormat);
-        // LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+        // LogManager::singleton().log_message(LogMsgLevel::NORMAL, str.str());
 
         void* pdata = NULL;
 #else
@@ -280,9 +290,11 @@ namespace Ogre {
         //        << " pixel buffer: " << mBufferId
         //        << " bytes: " << mSizeInBytes
         //        << " face: " << mFace << " level: " << mLevel
-        //        << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
+        //        << " width: " << mWidth << " height: "<< mHeight << " depth: "
+        //        << mDepth
         //        << " format: " << PixelUtil::getFormatName(mFormat);
-        //        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+        //        LogManager::singleton().log_message(LogMsgLevel::NORMAL,
+        //        str.str());
 
         mRenderSystem->_getStateCacheManager()->bindGLTexture(mTarget, mTextureID);
 
@@ -362,12 +374,9 @@ namespace Ogre {
     {
         GL3PlusTextureBuffer *srct = static_cast<GL3PlusTextureBuffer *>(src.get());
         // Check for FBO support first
-        if (GLRTTManager::getSingleton().checkFormat(mFormat))
-        {
+        if (GLRTTManager::singleton().checkFormat(mFormat)) {
             blitFromTexture(srct, srcBox, dstBox);
-        }
-        else
-        {
+        } else {
             GLHardwarePixelBufferCommon::blit(src, srcBox, dstBox);
         }
     }
@@ -497,9 +506,15 @@ namespace Ogre {
         TextureType type = (src.getDepth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
 
         // no mipmaps. blitFromTexture does not use them
-        TexturePtr tex = TextureManager::getSingleton().createManual(
-            "GLBlitFromMemoryTMP", ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, type,
-            src.getWidth(), src.getHeight(), src.getDepth(), 0, src.format);
+        TexturePtr tex = TextureManager::singleton().createManual(
+            "GLBlitFromMemoryTMP",
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+            type,
+            src.getWidth(),
+            src.getHeight(),
+            src.getDepth(),
+            0,
+            src.format);
 
         // Upload data to 0,0,0 in temporary texture
         Box tempTarget(src.size());
@@ -509,7 +524,7 @@ namespace Ogre {
         blit(tex->getBuffer(), tempTarget, dstBox);
 
         // Delete temp texture
-        TextureManager::getSingleton().remove(tex);
+        TextureManager::singleton().remove(tex);
     }
     void GL3PlusTextureBuffer::_blitFromMemory(const PixelBox &src, const Box& dst)
     {

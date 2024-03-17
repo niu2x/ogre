@@ -152,8 +152,9 @@ void GBuffer::addDepthInvocations(ProgramSet* programSet, const ParameterPtr& ou
     // vertex shader
     auto vsOutPos = vsMain->resolveOutputParameter(Parameter::SPC_POSITION_PROJECTIVE_SPACE);
 
-    bool isD3D9 = ShaderGenerator::getSingleton().getTargetLanguage() == "hlsl" &&
-                  !GpuProgramManager::getSingleton().isSyntaxSupported("vs_4_0_level_9_1");
+    bool isD3D9 = ShaderGenerator::singleton().getTargetLanguage() == "hlsl"
+        && !GpuProgramManager::singleton().isSyntaxSupported(
+            "vs_4_0_level_9_1");
 
     if (isD3D9)
     {

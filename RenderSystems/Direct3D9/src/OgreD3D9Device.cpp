@@ -208,7 +208,8 @@ namespace Ogre
     {
         if (mDevice != NULL)
         {
-            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
 
             RenderWindowToResourcesIterator it = mMapRenderWindowToResources.begin();
 
@@ -242,10 +243,11 @@ namespace Ogre
             return;
 
         // Case we just moved from valid state to lost state.
-        mDeviceLost = true; 
-        
-        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
-        
+        mDeviceLost = true;
+
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
+
         renderSystem->notifyOnDeviceLost(this);
     }   
 
@@ -312,7 +314,8 @@ namespace Ogre
         D3D9RenderSystem::getResourceManager()->lockDeviceAccess();
 
         //Remove _all_ depth buffers created by this device
-        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
         renderSystem->_cleanupDepthBuffers( mDevice );
 
         release();
@@ -378,8 +381,9 @@ namespace Ogre
 
         // Lock access to rendering device.
         D3D9RenderSystem::getResourceManager()->lockDeviceAccess();
-                                
-        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
 
         // Inform all resources that device lost.
         D3D9RenderSystem::getResourceManager()->notifyOnDeviceLost(mDevice);
@@ -392,8 +396,7 @@ namespace Ogre
         // and they will reallocate on demand. This save a lot of
         // release/recreate of non-managed vertex buffers which
         // wasn't need at all.
-        HardwareBufferManager::getSingleton()._releaseBufferCopies(true);
-
+        HardwareBufferManager::singleton()._releaseBufferCopies(true);
 
         // Cleanup depth stencils surfaces.
         renderSystem->_cleanupDepthBuffers();
@@ -619,7 +622,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     void D3D9Device::clearDeviceStreams()
     {
-        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
 
         // Set all texture units to nothing to release texture surfaces
         for (DWORD stage = 0; stage < mD3D9DeviceCaps.MaxSimultaneousTextures; ++stage)
@@ -775,7 +779,8 @@ namespace Ogre
 
         mDeviceManager->setActiveDevice(pCurActiveDevice);
 
-        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
         renderSystem->fireDeviceEvent(this, "DeviceCreated");
 
         // UnLock access to rendering device.
@@ -787,7 +792,8 @@ namespace Ogre
     {
         if (mDevice != NULL)
         {
-            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
             renderSystem->fireDeviceEvent(this, "DeviceReleased");
 
             // Lock access to rendering device.
@@ -817,8 +823,8 @@ namespace Ogre
     {
         if( renderWindowResources->depthBuffer )
         {
-            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>
-                                                    (Root::getSingleton().getRenderSystem());
+            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
             renderSystem->_cleanupDepthBuffers( renderWindowResources->depthBuffer );
         }
 
@@ -1012,7 +1018,8 @@ namespace Ogre
 
         HRESULT hr;
 
-        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
         renderSystem->fireDeviceEvent(this, "BeforeDevicePresent");
 
         if (isMultihead())
@@ -1042,7 +1049,7 @@ namespace Ogre
                 "D3D9Device::present" );
         }
         else
-            mLastPresentFrame = Root::getSingleton().getNextFrameNumber();
+            mLastPresentFrame = Root::singleton().getNextFrameNumber();
     }
 
     //---------------------------------------------------------------------
@@ -1144,7 +1151,8 @@ namespace Ogre
             if (renderWindowResources->depthBuffer)
             {
                 //Tell the RS we have a depth buffer we created it needs to add to the default pool
-                D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+                D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+                    Root::singleton().getRenderSystem());
                 DepthBuffer *depthBuf = renderSystem->_addManualDepthBuffer( mDevice, renderWindowResources->depthBuffer );
 
                 //Don't forget we want this window to use _this_ depth buffer
@@ -1152,7 +1160,8 @@ namespace Ogre
             }
             else
             {
-                LogManager::getSingleton().log_warning("D3D9: Depth buffer could not be acquired.");
+                LogManager::singleton().log_warning(
+                    "D3D9: Depth buffer could not be acquired.");
             }
         }
 

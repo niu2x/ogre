@@ -176,7 +176,7 @@ namespace Ogre {
         // Warn on old version of mesh
         if (ver != mVersionData[0]->versionString)
         {
-            LogManager::getSingleton().log_warning(
+            LogManager::singleton().log_warning(
                 pDest->name() + " uses an old format " + ver
                 + "; upgrade with the OgreMeshUpgrader tool");
         }
@@ -184,7 +184,7 @@ namespace Ogre {
         if(mListener)
             mListener->processMeshCompleted(pDest);
 
-        auto rs = Root::getSingletonPtr() ? Root::getSingleton().getRenderSystem() : NULL;
+        auto rs = Root::singleton_ptr(() ? Root::singleton().getRenderSystem() : NULL;
         if (!rs || !rs->getCapabilities()->hasCapability(RSC_VERTEX_FORMAT_INT_10_10_10_2))
         {
             // unpacks to floats, if packed

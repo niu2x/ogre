@@ -24,46 +24,47 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
 
-#include "OgreFontManager.h"
+#include "font_manager.h"
 
 #include "OgreResourceGroupManager.h"
 
-namespace Ogre
-{
-    //---------------------------------------------------------------------
-    template<> FontManager * Singleton< FontManager >::msSingleton = 0;
-    FontManager* FontManager::getSingletonPtr(void)
+namespace Ogre {
+//---------------------------------------------------------------------
+template <>
+FontManager* Singleton<FontManager>::msSingleton = 0;
+    FontManager* FontManager::singleton_ptr((void)
     {
-        return msSingleton;
+    return msSingleton;
     }
-    FontManager& FontManager::getSingleton(void)
-    {  
-        assert( msSingleton );  return ( *msSingleton );  
+    FontManager& FontManager::singleton(void)
+    {
+    assert(msSingleton);
+    return (*msSingleton);  
     }
     //---------------------------------------------------------------------
     FontManager::FontManager()
     : ResourceManager("Font")
     {
-        // Loading order
-        set_load_order(200.0f);
-        // Scripting is supported by this manager
-        add_script_pattern("*.fontdef");
-        // Register scripting with resource group manager
-        ResourceGroupManager::getSingleton()._registerScriptLoader(this);
+    // Loading order
+    set_load_order(200.0f);
+    // Scripting is supported by this manager
+    add_script_pattern("*.fontdef");
+    // Register scripting with resource group manager
+    ResourceGroupManager::singleton()._registerScriptLoader(this);
 
-        // Register with resource group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(
-            resource_type(),
-            this);
+    // Register with resource group manager
+    ResourceGroupManager::singleton()._registerResourceManager(
+        resource_type(),
+        this);
     }
     //---------------------------------------------------------------------
     FontManager::~FontManager()
     {
-        // Unregister with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
-            resource_type());
-        // Unegister scripting with resource group manager
-        ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+    // Unregister with resource group manager
+    ResourceGroupManager::singleton()._unregisterResourceManager(
+        resource_type());
+    // Unegister scripting with resource group manager
+    ResourceGroupManager::singleton()._unregisterScriptLoader(this);
 
     }
     //---------------------------------------------------------------------
@@ -71,19 +72,19 @@ namespace Ogre
         const String& group, bool isManual, ManualResourceLoader* loader,
         const NameValuePairList* params)
     {
-        return OGRE_NEW Font(this, name, handle, group, isManual, loader);
+    return OGRE_NEW Font(this, name, handle, group, isManual, loader);
     }
     //-----------------------------------------------------------------------
     FontPtr FontManager::getByName(const String& name, const String& groupName) const
     {
-        return static_pointer_cast<Font>(get_resource_by_name(name, groupName));
+    return static_pointer_cast<Font>(get_resource_by_name(name, groupName));
     }
     //---------------------------------------------------------------------
     FontPtr FontManager::create (const String& name, const String& group,
                                     bool isManual, ManualResourceLoader* loader,
                                     const NameValuePairList* createParams)
     {
-        return static_pointer_cast<Font>(
-            create_resource(name, group, isManual, loader, createParams));
+    return static_pointer_cast<Font>(
+        create_resource(name, group, isManual, loader, createParams));
     }
-}
+    } // namespace Ogre

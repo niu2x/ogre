@@ -141,10 +141,15 @@ namespace Ogre {
                 GLSurfaceDesc surface;
                 surface.buffer = this;
                 surface.zoffset = zoffset;
-                RenderTexture* trt = GLRTTManager::getSingleton().createRenderTexture(
-                    name, surface, parent->isHardwareGammaEnabled(), parent->getFSAA());
+                RenderTexture* trt
+                    = GLRTTManager::singleton().createRenderTexture(
+                        name,
+                        surface,
+                        parent->isHardwareGammaEnabled(),
+                        parent->getFSAA());
                 mSliceTRT.push_back(trt);
-                Root::getSingleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[zoffset]);
+                Root::singleton().getRenderSystem()->attachRenderTarget(
+                    *mSliceTRT[zoffset]);
             }
         }
     }
@@ -437,9 +442,15 @@ namespace Ogre {
         TextureType type = (src.getDepth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
 
         // Set automatic mipmap generation; nice for minimisation
-        TexturePtr tex = TextureManager::getSingleton().createManual(
-            "GLBlitFromMemoryTMP", ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, type,
-            src.getWidth(), src.getHeight(), src.getDepth(), MIP_UNLIMITED, src.format);
+        TexturePtr tex = TextureManager::singleton().createManual(
+            "GLBlitFromMemoryTMP",
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+            type,
+            src.getWidth(),
+            src.getHeight(),
+            src.getDepth(),
+            MIP_UNLIMITED,
+            src.format);
 
         // Upload data to 0,0,0 in temporary texture
         Box tempTarget(src.size());
@@ -449,7 +460,7 @@ namespace Ogre {
         blit(tex->getBuffer(), tempTarget, dstBox);
 
         // Delete temp texture
-        TextureManager::getSingleton().remove(tex);
+        TextureManager::singleton().remove(tex);
     }
     
     //********* GLES2RenderBuffer

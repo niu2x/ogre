@@ -108,16 +108,13 @@ namespace Ogre {
 
             uint32 hash = getCombinedHash();
 
-            if ( GpuProgramManager::getSingleton().canGetCompiledShaderBuffer() &&
-                 GpuProgramManager::getSingleton().isMicrocodeAvailableInCache(hash) &&
-                 !mShaders[GPT_GEOMETRY_PROGRAM])
-            {
+            if (GpuProgramManager::singleton().canGetCompiledShaderBuffer()
+                && GpuProgramManager::singleton().isMicrocodeAvailableInCache(
+                    hash)
+                && !mShaders[GPT_GEOMETRY_PROGRAM]) {
                 getMicrocodeFromCache(hash);
-            }
-            else
-            {
+            } else {
                 compileAndLink();
-
             }
             buildGLUniformReferences();
             extractAttributes();
@@ -137,9 +134,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void GLSLLinkProgram::getMicrocodeFromCache(uint32 id)
     {
-        GpuProgramManager::Microcode cacheMicrocode = 
-            GpuProgramManager::getSingleton().getMicrocodeFromCache(id);
-        
+        GpuProgramManager::Microcode cacheMicrocode
+            = GpuProgramManager::singleton().getMicrocodeFromCache(id);
+
         GLenum binaryFormat = *((GLenum *)(cacheMicrocode->getPtr()));
         uint8 * programBuffer = cacheMicrocode->getPtr() + sizeof(GLenum);
         size_t sizeOfBuffer = cacheMicrocode->size() - sizeof(GLenum);
@@ -466,8 +463,7 @@ namespace Ogre {
 
         if (mLinked)
         {
-            if ( GpuProgramManager::getSingleton().getSaveMicrocodesToCache() )
-            {
+            if (GpuProgramManager::singleton().getSaveMicrocodesToCache()) {
                 // add to the microcode to the cache
 
                 // get buffer size
@@ -489,7 +485,9 @@ namespace Ogre {
                 memcpy(newMicrocode->getPtr(), &binaryFormat, sizeof(GLenum));
 
                 // add to the microcode to the cache
-                GpuProgramManager::getSingleton().addMicrocodeToCache(hash, newMicrocode);
+                GpuProgramManager::singleton().addMicrocodeToCache(
+                    hash,
+                    newMicrocode);
             }
         }
     }

@@ -126,7 +126,8 @@ protected:
     void createAtheneScene(SceneNode* rootNode)
     {
         // Prepare athene mesh for normalmapping
-        MeshPtr pAthene = MeshManager::getSingleton().load("athene.mesh", RGN_DEFAULT);
+        MeshPtr pAthene
+            = MeshManager::singleton().load("athene.mesh", RGN_DEFAULT);
         pAthene->buildTangentVectors();
 
         //Create an athena statue
@@ -144,7 +145,7 @@ protected:
     void createKnotScene(SceneNode* rootNode)
     {
         // Prepare knot mesh for normal mapping
-        MeshPtr pKnot = MeshManager::getSingleton().load("knot.mesh", RGN_DEFAULT);
+        MeshPtr pKnot = MeshManager::singleton().load("knot.mesh", RGN_DEFAULT);
         pKnot->buildTangentVectors();
 
         // Create a bunch of knots with spotlights hanging from above
@@ -357,8 +358,9 @@ protected:
                 "PointLightMesh");
             String matname = light->name() + "m";
             // Create coloured material
-            MaterialPtr mat = MaterialManager::getSingleton().create(matname,
-                                                                     ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            MaterialPtr mat = MaterialManager::singleton().create(
+                matname,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             Pass* pass = mat->getTechnique(0)->getPass(0);
             pass->setDiffuse(0.0f,0.0f,0.0f,1.0f);
             pass->setAmbient(0.0f,0.0f,0.0f);
@@ -416,7 +418,7 @@ protected:
         auto animState = mSceneMgr->createAnimationState("LightSwarmTrack");
         animState->setEnabled(true);
 
-        auto& controllerMgr = ControllerManager::getSingleton();
+        auto& controllerMgr = ControllerManager::singleton();
         controllerMgr.createFrameTimePassthroughController(AnimationStateControllerValue::create(animState, true));
         
         /*Light* spotLight = mSceneMgr->createLight("Spotlight1");

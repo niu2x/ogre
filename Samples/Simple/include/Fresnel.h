@@ -84,8 +84,13 @@ protected:
 
     void setupWater()
     {
-        auto compositor = CompositorManager::getSingleton().addCompositor(mViewport, "Fresnel");
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "Fresnel", true);
+        auto compositor = CompositorManager::singleton().addCompositor(
+            mViewport,
+            "Fresnel");
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            "Fresnel",
+            true);
 
         // toggle reflection in camera
         compositor->getRenderTarget("reflection")->add_listener(this);
@@ -93,12 +98,24 @@ protected:
         mCamera->setAutoAspectRatio(true);
         // create our water plane mesh
         mWaterPlane = Plane(Vector3::unit_y, 0);
-        MeshManager::getSingleton().createPlane("water", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            mWaterPlane, 700, 1300, 10, 10, true, 1, 3, 5, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "water",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            mWaterPlane,
+            700,
+            1300,
+            10,
+            10,
+            true,
+            1,
+            3,
+            5,
+            Vector3::unit_z);
 
         // create a water entity using our mesh, give it the shader material, and attach it to the origin
         mWater = mSceneMgr->createEntity("Water", "water");
-        auto mat = MaterialManager::getSingleton().getByName("Examples/FresnelReflectionRefraction");
+        auto mat = MaterialManager::singleton().getByName(
+            "Examples/FresnelReflectionRefraction");
         mat->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setProjectiveTexturing(true, mCamera);
         mWater->setMaterial(mat);
         mSceneMgr->getRootSceneNode()->attachObject(mWater);
@@ -212,8 +229,12 @@ protected:
         mFishAnimStates.clear();
         mFishSplines.clear();
 
-        MeshManager::getSingleton().remove("water", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-        MaterialManager::getSingleton().unload("Examples/FresnelReflectionRefraction", RGN_DEFAULT);
+        MeshManager::singleton().remove(
+            "water",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MaterialManager::singleton().unload(
+            "Examples/FresnelReflectionRefraction",
+            RGN_DEFAULT);
     }
 
     const unsigned int NUM_FISH;

@@ -48,7 +48,9 @@ namespace Ogre
         desc.MinLOD = 0;
         desc.MaxLOD = mMipFilter == FO_NONE ? 0 : D3D11_FLOAT32_MAX;
 
-        bool reversedZ = Root::getSingleton().getRenderSystem()->isReverseDepthBufferEnabled();
+        bool reversedZ = Root::singleton()
+                             .getRenderSystem()
+                             ->isReverseDepthBufferEnabled();
         auto cmpFunc = mCompareFunc;
         if(reversedZ)
             cmpFunc = D3D11RenderSystem::reverseCompareFunction(cmpFunc);
@@ -77,14 +79,16 @@ namespace Ogre
         if( mDevice.is_null())
             OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS, "Invalid Direct3DDevice passed", "D3D11TextureManager::D3D11TextureManager" );
         // register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::singleton()._registerResourceManager(
+            mResourceType,
+            this);
     }
     //---------------------------------------------------------------------
     D3D11TextureManager::~D3D11TextureManager()
     {
         // unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
-
+        ResourceGroupManager::singleton()._unregisterResourceManager(
+            mResourceType);
     }
     //---------------------------------------------------------------------
     Resource* D3D11TextureManager::create_impl(const String& name, 

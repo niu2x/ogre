@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -314,12 +314,11 @@ namespace Ogre {
 
         /** Get an instance of ParticleSystemFactory (internal use). */
         ParticleSystemFactory* _getFactory(void) { return mFactory; }
-        
-        /// @copydoc Singleton::getSingleton()
-        static ParticleSystemManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ParticleSystemManager* getSingletonPtr(void);
 
+        /// @copydoc Singleton::singleton()
+        static ParticleSystemManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ParticleSystemManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

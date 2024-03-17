@@ -1,11 +1,10 @@
-/*
------------------------------------------------------------------------------
-This source file is part of OGRE
+/*-------------------------------------------------------------------------
+This source file is a part of OGRE
 (Object-oriented Graphics Rendering Engine)
+
 For the latest info, see http://www.ogre3d.org/
 
 Copyright (c) 2000-2014 Torus Knot Software Ltd
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -22,49 +21,45 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
------------------------------------------------------------------------------
-*/
-#ifndef __ShaderProgramWriterManager_H__
-#define __ShaderProgramWriterManager_H__
+THE SOFTWARE
+-------------------------------------------------------------------------*/
 
-#include "OgreShaderPrerequisites.h"
+#ifndef _FontManager_H__
+#define _FontManager_H__
+
+#include "OgreOverlayPrerequisites.h"
 #include "singleton.h"
+#include "resource_manager.h"
+#include "font.h"
 
 namespace Ogre {
-namespace RTShader {
-
-    class ProgramWriter;
-
 /** \addtogroup Optional
-*  @{
-*/
-/** \addtogroup RTShader
-*  @{
-*/
-
-class _OgreRTSSExport ProgramWriterManager 
-    : public Singleton<ProgramWriterManager>, public RTShaderSystemAlloc
-{
-    std::map<String, ProgramWriter*> mProgramWriters;
+ *  @{
+ */
+/** \addtogroup Overlays
+ *  @{
+ */
+/** Manages Font resources, parsing .fontdef files and generally organising
+ * them.*/
+class FontManager : public ResourceManager, public Singleton<FontManager> {
 public:
-    ProgramWriterManager();
-    ~ProgramWriterManager();
+    FontManager();
+    ~FontManager();
 
-    /// register and transfer ownership of writer
-    void addProgramWriter(const String& lang, ProgramWriter* writer);
+    /// Create a new font
+    /// @see ResourceManager::createResource
+    FontPtr create(
+        const String& name,
+        const String& group,
+        bool isManual = false,
+        ManualResourceLoader* loader = 0,
+        const NameValuePairList* createParams = 0);
 
-    /** Returns whether a given high-level language is supported. */
-    bool isLanguageSupported(const String& lang);
-
-    ProgramWriter* getProgramWriter(const String& language) const
-    {
-        auto it = mProgramWriters.find(language);
-        if (it != mProgramWriters.end())
-            return it->second;
-        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No program writer for language " + language);
-        return nullptr;
-    }
+    /// Get a font by name. For example, one defined in some .fontdef file.
+    /// @see ResourceManager::getResourceByName
+    FontPtr get_by_name(
+        const String& name,
+        const String& groupName OGRE_RESOURCE_GROUP_INIT) const;
 
     /** Override standard Singleton retrieval.
 
@@ -81,15 +76,22 @@ public:
     but the implementation stays in this single compilation unit,
     preventing link errors.
     */
-    static ProgramWriterManager& singleton();
-
+    static FontManager& singleton(void);
     /// @copydoc Singleton::singleton()
-    static ProgramWriterManager* singleton_ptr(();
+    static FontManager* Singleton_ptr(void);
+
+private:
+    /// Internal methods
+    Resource* create_impl(
+        const String& name,
+        ResourceHandle handle,
+        const String& group,
+        bool isManual,
+        ManualResourceLoader* loader,
+        const NameValuePairList* params) override;
 };
 /** @} */
 /** @} */
-}
-}
-
+} // namespace Ogre
 
 #endif

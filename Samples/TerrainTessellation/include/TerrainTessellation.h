@@ -71,12 +71,11 @@ public:
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Your graphics card does not support tesselation shaders. Sorry!",
                 "Sample_TerrainTessellation:testCapabilities");
         }
-        if (!GpuProgramManager::getSingleton().isSyntaxSupported("vs_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("hs_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("ds_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("ps_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("hlsl"))
-        {
+        if (!GpuProgramManager::singleton().isSyntaxSupported("vs_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("hs_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("ds_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("ps_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("hlsl")) {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "Your card does not support the shader model 5.0 needed for this sample, "
                 "so you cannot run this sample. Sorry!", "Sample_TerrainTessellation::testCapabilities");
         }
@@ -121,27 +120,39 @@ public:
     void sliderMoved(Slider* slider)
     {
         if (slider->name() == "tessellationAmount") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("TerrainTessellation")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_tessellationAmount", slider->getValue() );
         }
         if (slider->name() == "ridgeOctaves") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("TerrainTessellation")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_ridgeOctaves", slider->getValue() );
         }
         if (slider->name() == "fBmOctaves") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("TerrainTessellation")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_fBmOctaves", slider->getValue() );
         }
         if (slider->name() == "TwistOctaves") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("TerrainTessellation")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_TwistOctaves", slider->getValue() );
         }
         if (slider->name() == "detailNoiseScale") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("TerrainTessellation")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_detailNoiseScale", slider->getValue() );
         }
         if (slider->name() == "targetTrianglesWidth") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "TerrainTessellation" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("TerrainTessellation")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_targetTrianglesWidth", slider->getValue() );
         }
     }
@@ -213,8 +224,9 @@ protected:
         mCameraMan->setStyle(CS_ORBIT);
         mCameraMan->setYawPitchDist(Radian(0), Radian(0), 400);
 
-        MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
-        MaterialManager::getSingleton().setDefaultAnisotropy(7);
+        MaterialManager::singleton().setDefaultTextureFiltering(
+            TFO_ANISOTROPIC);
+        MaterialManager::singleton().setDefaultAnisotropy(7);
 
         mSceneMgr->setFog(FOG_LINEAR, ColourValue(0.7, 0.7, 0.8), 0, 4000, 10000);
 

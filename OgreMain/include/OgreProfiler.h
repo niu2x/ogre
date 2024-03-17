@@ -42,19 +42,25 @@ Ogre-dependent is in the visualization/logging routines and the use of the Timer
 #define __Profiler_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 #if OGRE_PROFILING == 1
 #   define OgreProfile( a ) Ogre::Profile _OgreProfileInstance( (a) )
-#   define OgreProfileBegin( a ) Ogre::Profiler::getSingleton().beginProfile( (a) )
-#   define OgreProfileEnd( a ) Ogre::Profiler::getSingleton().endProfile( (a) )
-#   define OgreProfileGroup( a, g ) Ogre::Profile OGRE_TOKEN_PASTE(_OgreProfileInstance, __LINE__) ( (a), (g) )
-#   define OgreProfileBeginGroup( a, g ) Ogre::Profiler::getSingleton().beginProfile( (a), (g) )
-#   define OgreProfileEndGroup( a, g ) Ogre::Profiler::getSingleton().endProfile( (a), (g) )
-#   define OgreProfileBeginGPUEvent( g ) Ogre::Root::getSingleton().getRenderSystem()->beginProfileEvent(g)
-#   define OgreProfileEndGPUEvent( g ) Ogre::Root::getSingleton().getRenderSystem()->endProfileEvent()
-#   define OgreProfileMarkGPUEvent( e ) Ogre::Root::getSingleton().getRenderSystem()->markProfileEvent(e)
+    #define OgreProfileBegin(a) Ogre::Profiler::singleton().beginProfile((a))
+    #define OgreProfileEnd(a)   Ogre::Profiler::singleton().endProfile((a))
+    #define OgreProfileGroup(a, g)                                             \
+        Ogre::Profile OGRE_TOKEN_PASTE(_OgreProfileInstance, __LINE__)((a), (g))
+    #define OgreProfileBeginGroup(a, g)                                        \
+        Ogre::Profiler::singleton().beginProfile((a), (g))
+    #define OgreProfileEndGroup(a, g)                                          \
+        Ogre::Profiler::singleton().endProfile((a), (g))
+    #define OgreProfileBeginGPUEvent(g)                                        \
+        Ogre::Root::singleton().getRenderSystem()->beginProfileEvent(g)
+    #define OgreProfileEndGPUEvent(g)                                          \
+        Ogre::Root::singleton().getRenderSystem()->endProfileEvent()
+    #define OgreProfileMarkGPUEvent(e)                                         \
+        Ogre::Root::singleton().getRenderSystem()->markProfileEvent(e)
 #else
 #   define OgreProfile( a )
 #   define OgreProfileBegin( a )
@@ -356,10 +362,10 @@ namespace Ogre {
             */
             void remove_listener(ProfileSessionListener* listener);
 
-            /// @copydoc Singleton::getSingleton()
-            static Profiler& getSingleton(void);
-            /// @copydoc Singleton::getSingleton()
-            static Profiler* getSingletonPtr(void);
+            /// @copydoc Singleton::singleton()
+            static Profiler& singleton(void);
+            /// @copydoc Singleton::singleton()
+            static Profiler* singleton_ptr((void);
 
         private:
             friend class ProfileInstance;
@@ -424,7 +430,6 @@ namespace Ogre {
             Real mAverageFrameTime;
             bool mResetExtents;
 
-
     }; // end class
 
     /** An individual profile that will be processed by the Profiler
@@ -444,9 +449,9 @@ namespace Ogre {
         Profile(const String& profileName, uint32 groupID = (uint32)OGREPROF_USER_DEFAULT)
             : mName(profileName), mGroupID(groupID)
         {
-            Profiler::getSingleton().beginProfile(profileName, groupID);
+            Profiler::singleton().beginProfile(profileName, groupID);
         }
-        ~Profile() { Profiler::getSingleton().endProfile(mName, mGroupID); }
+        ~Profile() { Profiler::singleton().endProfile(mName, mGroupID); }
 
     private:
         /// The name of this profile

@@ -117,8 +117,10 @@ struct DotSceneCodec : public Codec
     {
         DataStreamPtr _stream(stream);
         DotSceneLoader loader;
-        loader.load(_stream, ResourceGroupManager::getSingleton().getWorldResourceGroupName(),
-                   std::any_cast<SceneNode*>(output));
+        loader.load(
+            _stream,
+            ResourceGroupManager::singleton().getWorldResourceGroupName(),
+            std::any_cast<SceneNode*>(output));
     }
 
     void encodeToFile(const Any& input, const String& outFileName) const override
@@ -144,7 +146,8 @@ void DotSceneLoader::load(DataStreamPtr& stream, const String& groupName, SceneN
     auto result = XMLDoc.load_buffer(stream->as_string().c_str(), stream->size());
     if (!result)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + String(result.description()));
+        LogManager::singleton().log_error(
+            "DotSceneLoader - " + String(result.description()));
         return;
     }
 
@@ -154,7 +157,9 @@ void DotSceneLoader::load(DataStreamPtr& stream, const String& groupName, SceneN
     // Validate the File
     if (!XMLRoot.attribute("formatVersion"))
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - Invalid .scene File. Missing <scene formatVersion='x.y' >");
+        LogManager::singleton().log_error(
+            "DotSceneLoader - Invalid .scene File. Missing <scene "
+            "formatVersion='x.y' >");
         return;
     }
 
@@ -178,7 +183,7 @@ void DotSceneLoader::processScene(pugi::xml_node& XMLRoot)
     if (XMLRoot.attribute("author"))
         message += ", author " + String(XMLRoot.attribute("author").value());
 
-    LogManager::getSingleton().log_message(message);
+    LogManager::singleton().log_message(message);
 
     // Process environment (?)
     if (auto pElement = XMLRoot.child("environment"))
@@ -211,7 +216,9 @@ void DotSceneLoader::processScene(pugi::xml_node& XMLRoot)
 
 void DotSceneLoader::processNodes(pugi::xml_node& XMLNode)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Nodes...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Nodes...",
+        LogMsgLevel::TRIVIAL);
 
     // Process node (*)
     for (auto pElement : XMLNode.children("node"))
@@ -248,7 +255,9 @@ void DotSceneLoader::processExternals(pugi::xml_node& XMLNode)
 
 void DotSceneLoader::processEnvironment(pugi::xml_node& XMLNode)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Environment...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Environment...",
+        LogMsgLevel::TRIVIAL);
 
     // Process camera (?)
     if (auto pElement = XMLNode.child("camera"))
@@ -282,14 +291,16 @@ void DotSceneLoader::processEnvironment(pugi::xml_node& XMLNode)
 void DotSceneLoader::processTerrainGroup(pugi::xml_node& XMLNode)
 {
 #ifdef OGRE_BUILD_COMPONENT_TERRAIN
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Terrain Group...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Terrain Group...",
+        LogMsgLevel::TRIVIAL);
 
     Real worldSize = getAttribReal(XMLNode, "worldSize");
     int mapSize = StringConverter::parse_int32(XMLNode.attribute("size").value());
     int compositeMapDistance = StringConverter::parse_int32(XMLNode.attribute("tuningCompositeMapDistance").value());
     int maxPixelError = StringConverter::parse_int32(XMLNode.attribute("tuningMaxPixelError").value());
 
-    auto terrainGlobalOptions = TerrainGlobalOptions::getSingletonPtr();
+    auto terrainGlobalOptions = TerrainGlobalOptions::singleton_ptr(();
     OgreAssert(terrainGlobalOptions, "TerrainGlobalOptions not available");
 
     terrainGlobalOptions->setMaxPixelError((Real)maxPixelError);
@@ -322,7 +333,9 @@ void DotSceneLoader::processLight(pugi::xml_node& XMLNode, SceneNode* pParent)
     // Process attributes
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Light: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Light: " + name,
+        LogMsgLevel::TRIVIAL);
 
     // Create the light
     Light* pLight = mSceneMgr->createLight(name);
@@ -371,7 +384,9 @@ void DotSceneLoader::processCamera(pugi::xml_node& XMLNode, SceneNode* pParent)
     // Process attributes
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Camera: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Camera: " + name,
+        LogMsgLevel::TRIVIAL);
 
     // Real fov = getAttribReal(XMLNode, "fov", 45);
     Real aspectRatio = getAttribReal(XMLNode, "aspectRatio", 1.3333);
@@ -419,7 +434,9 @@ void DotSceneLoader::processNode(pugi::xml_node& XMLNode, SceneNode* pParent)
     // Construct the node's name
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Node: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Node: " + name,
+        LogMsgLevel::TRIVIAL);
 
     // Create the scene node
     SceneNode* pNode;
@@ -529,7 +546,9 @@ void DotSceneLoader::processLookTarget(pugi::xml_node& XMLNode, SceneNode* pPare
     // Process attributes
     String nodeName = getAttrib(XMLNode, "nodeName");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Look Target, nodeName: " + nodeName, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Look Target, nodeName: " + nodeName,
+        LogMsgLevel::TRIVIAL);
 
     Node::TransformSpace relativeTo = Node::TS_PARENT;
     String sValue = getAttrib(XMLNode, "relativeTo");
@@ -563,7 +582,8 @@ void DotSceneLoader::processLookTarget(pugi::xml_node& XMLNode, SceneNode* pPare
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
+        LogManager::singleton().log_error(
+            "DotSceneLoader - " + e.description());
     }
 }
 
@@ -572,7 +592,9 @@ void DotSceneLoader::processTrackTarget(pugi::xml_node& XMLNode, SceneNode* pPar
     // Process attributes
     String nodeName = getAttrib(XMLNode, "nodeName");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Track Target, nodeName: " + nodeName, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Track Target, nodeName: " + nodeName,
+        LogMsgLevel::TRIVIAL);
 
     // Process localDirection (?)
     Vector3 localDirection = Vector3::negative_unit_z;
@@ -592,7 +614,8 @@ void DotSceneLoader::processTrackTarget(pugi::xml_node& XMLNode, SceneNode* pPar
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
+        LogManager::singleton().log_error(
+            "DotSceneLoader - " + e.description());
     }
 }
 
@@ -601,7 +624,9 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
     // Process attributes
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Entity: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Entity: " + name,
+        LogMsgLevel::TRIVIAL);
 
     String meshFile = getAttrib(XMLNode, "meshFile");
 	String staticGeometry = getAttrib(XMLNode, "static");
@@ -618,10 +643,13 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
 		// If the Entity is instanced then the creation path is different
 		if (!instancedManager.empty())
 		{
-			LogManager::getSingleton().log_message("[DotSceneLoader] Adding entity: " + name + " to Instance Manager: " + instancedManager, LogMsgLevel::TRIVIAL);
+            LogManager::singleton().log_message(
+                "[DotSceneLoader] Adding entity: " + name
+                    + " to Instance Manager: " + instancedManager,
+                LogMsgLevel::TRIVIAL);
 
-			// Load the Mesh to get the material name of the first submesh
-			Ogre::MeshPtr mesh = MeshManager::getSingletonPtr()->load(meshFile, m_sGroupName);
+            // Load the Mesh to get the material name of the first submesh
+            Ogre::MeshPtr mesh = MeshManager::singleton_ptr(()->load(meshFile, m_sGroupName);
 
 			// Get the material name of the entity
 			if(!material.empty())
@@ -630,34 +658,41 @@ void DotSceneLoader::processEntity(pugi::xml_node& XMLNode, SceneNode* pParent)
 				pEntity = mSceneMgr->createInstancedEntity(mesh->getSubMesh(0)->getMaterialName(), instancedManager);
 
 			pParent->attachObject(static_cast<InstancedEntity*>(pEntity));
-		}
-		else
-		{
-			pEntity = mSceneMgr->createEntity(name, meshFile, m_sGroupName);
+        } else {
+            pEntity = mSceneMgr->createEntity(name, meshFile, m_sGroupName);
 
-			static_cast<Entity*>(pEntity)->setCastShadows(castShadows);
-			static_cast<Entity*>(pEntity)->setVisible(visible);
+            static_cast<Entity*>(pEntity)->setCastShadows(castShadows);
+            static_cast<Entity*>(pEntity)->setVisible(visible);
 
-			if (!material.empty())
-				static_cast<Entity*>(pEntity)->setMaterialName(material);
+            if (!material.empty())
+                static_cast<Entity*>(pEntity)->setMaterialName(material);
 
-			// If the Entity belongs to a Static Geometry group then it doesn't get attached to a node
+            // If the Entity belongs to a Static Geometry group then it doesn't get attached to a node
 			// * TODO * : Clean up nodes without attached entities or children nodes? (should be done afterwards if the hierarchy is being processed)
 			if (!staticGeometry.empty())
 			{
-				LogManager::getSingleton().log_message("[DotSceneLoader] Adding entity: " + name + " to Static Group: " + staticGeometry, LogMsgLevel::TRIVIAL);
-				mSceneMgr->getStaticGeometry(staticGeometry)->addEntity(static_cast<Entity*>(pEntity), pParent->_getDerivedPosition(), pParent->_getDerivedOrientation(), pParent->_getDerivedScale());
-			}
-			else
-			{
-				LogManager::getSingleton().log_message("[DotSceneLoader] pParent->attachObject(): " + name, LogMsgLevel::TRIVIAL);
-				pParent->attachObject(static_cast<Entity*>(pEntity));
-			}
-		}
+                LogManager::singleton().log_message(
+                    "[DotSceneLoader] Adding entity: " + name
+                        + " to Static Group: " + staticGeometry,
+                    LogMsgLevel::TRIVIAL);
+                mSceneMgr->getStaticGeometry(staticGeometry)
+                    ->addEntity(
+                        static_cast<Entity*>(pEntity),
+                        pParent->_getDerivedPosition(),
+                        pParent->_getDerivedOrientation(),
+                        pParent->_getDerivedScale());
+            } else {
+                LogManager::singleton().log_message(
+                    "[DotSceneLoader] pParent->attachObject(): " + name,
+                    LogMsgLevel::TRIVIAL);
+                pParent->attachObject(static_cast<Entity*>(pEntity));
+            }
+        }
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
+        LogManager::singleton().log_error(
+            "DotSceneLoader - " + e.description());
         return;
     }
 
@@ -671,7 +706,9 @@ void DotSceneLoader::processParticleSystem(pugi::xml_node& XMLNode, SceneNode* p
     // Process attributes
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Particle System: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Particle System: " + name,
+        LogMsgLevel::TRIVIAL);
 
     String templateName = getAttrib(XMLNode, "template");
 
@@ -686,7 +723,8 @@ void DotSceneLoader::processParticleSystem(pugi::xml_node& XMLNode, SceneNode* p
     }
     catch (const Exception& e)
     {
-        LogManager::getSingleton().log_error("DotSceneLoader - " + e.description());
+        LogManager::singleton().log_error(
+            "DotSceneLoader - " + e.description());
     }
 }
 
@@ -699,7 +737,9 @@ void DotSceneLoader::processPlane(pugi::xml_node& XMLNode, SceneNode* pParent)
 {
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Plane: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Plane: " + name,
+        LogMsgLevel::TRIVIAL);
 
     Real distance = getAttribReal(XMLNode, "distance");
     Real width = getAttribReal(XMLNode, "width");
@@ -716,7 +756,7 @@ void DotSceneLoader::processPlane(pugi::xml_node& XMLNode, SceneNode* pParent)
 
     Plane plane(normal, distance);
     MeshPtr res =
-        MeshManager::getSingletonPtr()->createPlane(name + "mesh", m_sGroupName, plane, width, height, xSegments,
+        MeshManager::singleton_ptr(()->createPlane(name + "mesh", m_sGroupName, plane, width, height, xSegments,
                                                     ySegments, hasNormals, numTexCoordSets, uTile, vTile, up);
     Entity* ent = mSceneMgr->createEntity(name, name + "mesh");
 
@@ -727,7 +767,9 @@ void DotSceneLoader::processPlane(pugi::xml_node& XMLNode, SceneNode* pParent)
 
 void DotSceneLoader::processFog(pugi::xml_node& XMLNode)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Fog...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Fog...",
+        LogMsgLevel::TRIVIAL);
 
     // Process attributes
     Real expDensity = getAttribReal(XMLNode, "density", 0.001);
@@ -759,7 +801,9 @@ void DotSceneLoader::processFog(pugi::xml_node& XMLNode)
 
 void DotSceneLoader::processSkyBox(pugi::xml_node& XMLNode)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing SkyBox...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing SkyBox...",
+        LogMsgLevel::TRIVIAL);
 
     // Process attributes
     String material = getAttrib(XMLNode, "material", "BaseWhite");
@@ -781,7 +825,9 @@ void DotSceneLoader::processSkyBox(pugi::xml_node& XMLNode)
 
 void DotSceneLoader::processSkyDome(pugi::xml_node& XMLNode)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing SkyDome...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing SkyDome...",
+        LogMsgLevel::TRIVIAL);
 
     // Process attributes
     String material = XMLNode.attribute("material").value();
@@ -804,7 +850,9 @@ void DotSceneLoader::processSkyDome(pugi::xml_node& XMLNode)
 
 void DotSceneLoader::processSkyPlane(pugi::xml_node& XMLNode)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing SkyPlane...", LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing SkyPlane...",
+        LogMsgLevel::TRIVIAL);
 
     // Process attributes
     String material = getAttrib(XMLNode, "material");
@@ -872,7 +920,10 @@ void DotSceneLoader::processUserData(pugi::xml_node& XMLNode, UserObjectBindings
 
 void DotSceneLoader::processNodeAnimations(pugi::xml_node& XMLNode, SceneNode* pParent)
 {
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Node Animations for SceneNode: " + pParent->name(), LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Node Animations for SceneNode: "
+            + pParent->name(),
+        LogMsgLevel::TRIVIAL);
 
     // Process node animations (*)
     for (auto pElement : XMLNode.children("animation"))
@@ -888,7 +939,9 @@ void DotSceneLoader::processNodeAnimation(pugi::xml_node& XMLNode, SceneNode* pP
     // Construct the animation name
     String name = getAttrib(XMLNode, "name");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Node Animation: " + name, LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Node Animation: " + name,
+        LogMsgLevel::TRIVIAL);
 
     Real length = getAttribReal(XMLNode, "length");
 
@@ -904,7 +957,8 @@ void DotSceneLoader::processNodeAnimation(pugi::xml_node& XMLNode, SceneNode* pP
     else if (interpolationMode == "spline")
         anim->setInterpolationMode(Animation::IM_SPLINE);
     else
-        LogManager::getSingleton().log_error("DotSceneLoader - Invalid interpolationMode: " + interpolationMode);
+        LogManager::singleton().log_error(
+            "DotSceneLoader - Invalid interpolationMode: " + interpolationMode);
 
     String rotationInterpolationMode = getAttrib(XMLNode, "rotationInterpolationMode");
 
@@ -913,7 +967,9 @@ void DotSceneLoader::processNodeAnimation(pugi::xml_node& XMLNode, SceneNode* pP
     else if (rotationInterpolationMode == "spherical")
         anim->setRotationInterpolationMode(Animation::RIM_SPHERICAL);
     else
-        LogManager::getSingleton().log_error("DotSceneLoader - Invalid rotationInterpolationMode: " + rotationInterpolationMode);
+        LogManager::singleton().log_error(
+            "DotSceneLoader - Invalid rotationInterpolationMode: "
+            + rotationInterpolationMode);
 
     // create a track to animate the camera's node
     NodeAnimationTrack* track = anim->createNodeTrack(0, pParent);
@@ -935,7 +991,10 @@ void DotSceneLoader::processKeyframe(pugi::xml_node& XMLNode, NodeAnimationTrack
     // Process node animation keyframe (*)
     Real time = getAttribReal(XMLNode, "time");
 
-    LogManager::getSingleton().log_message("[DotSceneLoader] Processing Keyframe: " + StringConverter::to_string(time), LogMsgLevel::TRIVIAL);
+    LogManager::singleton().log_message(
+        "[DotSceneLoader] Processing Keyframe: "
+            + StringConverter::to_string(time),
+        LogMsgLevel::TRIVIAL);
 
     auto keyframe = pTrack->createNodeKeyFrame(time);
 
@@ -1094,8 +1153,8 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
             continue;
         }
 
-        LogManager::getSingleton().log_warning("DotSceneLoader - unsupported MovableType " +
-                                            mo->getMovableType());
+        LogManager::singleton().log_warning(
+            "DotSceneLoader - unsupported MovableType " + mo->getMovableType());
     }
 
     // recurse
@@ -1126,10 +1185,10 @@ void DotScenePlugin::shutdown() {
 
     extern "C" _OgreDotScenePluginExport void dllStartPlugin()
     {
-        Ogre::Root::getSingleton().installPlugin(&plugin);
+        Ogre::Root::singleton().installPlugin(&plugin);
     }
     extern "C" _OgreDotScenePluginExport void dllStopPlugin()
     {
-        Ogre::Root::getSingleton().uninstallPlugin(&plugin);
+        Ogre::Root::singleton().uninstallPlugin(&plugin);
     }
 #endif

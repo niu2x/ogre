@@ -89,8 +89,8 @@ namespace Ogre {
                                     const GpuConstantDefinitionMap* fragmentConstantDefs,
                                     GLUniformReferenceList& list);
 
-        static GLSLESProgramManager& getSingleton(void);
-        static GLSLESProgramManager* getSingletonPtr(void);
+        static GLSLESProgramManager& singleton(void);
+        static GLSLESProgramManager* singleton_ptr((void);
     };
 
 }

@@ -176,9 +176,9 @@ bool FFPFog::preAddToRenderState(const RenderState* renderState, Pass* srcPass, 
     if (srcPass->getFogOverride())
     {
         mFogMode         = srcPass->getFogMode();
-    }
-    else if(SceneManager* sceneMgr = ShaderGenerator::getSingleton().getActiveSceneManager())
-    {
+    } else if (
+        SceneManager* sceneMgr
+        = ShaderGenerator::singleton().getActiveSceneManager()) {
         mFogMode         = sceneMgr->getFogMode();
     }
 

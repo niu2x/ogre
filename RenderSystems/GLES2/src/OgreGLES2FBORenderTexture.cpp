@@ -82,8 +82,8 @@ namespace Ogre {
         target.zoffset = mZOffset;
         
         mFB.notifyOnContextReset(target);
-        
-        static_cast<GLES2RenderSystem*>(Ogre::Root::getSingletonPtr()->getRenderSystem())->_createDepthBufferFor(this);
+
+        static_cast<GLES2RenderSystem*>(Ogre::Root::singleton_ptr(()->getRenderSystem())->_createDepthBufferFor(this);
     }
 #endif
     
@@ -167,7 +167,9 @@ namespace Ogre {
     {
         if(!mRenderBufferMap.empty())
         {
-            LogManager::getSingleton().log_warning("GLES2FBOManager destructor called, but not all renderbuffers were released.");
+            LogManager::singleton().log_warning(
+                "GLES2FBOManager destructor called, but not all renderbuffers "
+                "were released.");
         }
         
         OGRE_CHECK_GL_ERROR(glDeleteFramebuffers(1, &mTempFBO));
@@ -322,7 +324,9 @@ namespace Ogre {
             mProps[PF_DEPTH16].valid = true;
             mProps[PF_DEPTH16].modes.push_back(mode);
         }
-        LogManager::getSingleton().log_message("[GLES2] : detectFBOFormats is disabled on this platform (due performance reasons)");
+        LogManager::singleton().log_message(
+            "[GLES2] : detectFBOFormats is disabled on this platform (due "
+            "performance reasons)");
 #else
         // Try all formats, and report which ones work as target
         GLuint fb = 0, tid = 0;
@@ -374,11 +378,14 @@ namespace Ogre {
 
                         for (uchar stencil = 0; stencil < STENCILFORMAT_COUNT; stencil += stencilStep)
                         {
-//                            StringStream l;
-//                            l << "Trying " << PixelUtil::getFormatName((PixelFormat)x) 
-//                              << " D" << depthBits[depth] 
-//                              << "S" << stencilBits[stencil];
-//                            LogManager::getSingleton().log_message(l.str());
+                            //                            StringStream l;
+                            //                            l << "Trying " <<
+                            //                            PixelUtil::getFormatName((PixelFormat)x)
+                            //                              << " D" <<
+                            //                              depthBits[depth]
+                            //                              << "S" <<
+                            //                              stencilBits[stencil];
+                            //                            LogManager::singleton().log_message(l.str());
 
                             if (_tryFormat(depthFormats[depth], stencilFormats[stencil]))
                             {
@@ -423,7 +430,7 @@ namespace Ogre {
                         }
                     }
                 }
-                LogManager::getSingleton().log_message(str.str());
+                LogManager::singleton().log_message(str.str());
             }
 
             // Delete texture and framebuffer
@@ -446,8 +453,8 @@ namespace Ogre {
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
-        LogManager::getSingleton().log_message("[GLES2] : Valid FBO targets " + fmtstring);
-
+        LogManager::singleton().log_message(
+            "[GLES2] : Valid FBO targets " + fmtstring);
     }
 
     void GLES2FBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)

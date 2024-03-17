@@ -48,7 +48,8 @@ namespace Ogre {
     GLHardwareBufferManager::GLHardwareBufferManager()
         : mScratchBufferPool(NULL), mMapBufferThreshold(OGRE_GL_DEFAULT_MAP_BUFFER_THRESHOLD)
     {
-        mRenderSystem = static_cast<GLRenderSystem*>(Root::getSingleton().getRenderSystem());
+        mRenderSystem
+            = static_cast<GLRenderSystem*>(Root::singleton().getRenderSystem());
 
         // Init scratch pool
         // TODO make it a configurable size?

@@ -121,7 +121,7 @@ void Compositor::compile()
     }
 
     if (mSupportedTechniques.empty())
-        LogManager::getSingleton().log_error(
+        LogManager::singleton().log_error(
             "Compositor '" + name() + "' has no supported techniques");
 
     mCompilationRequired = false;
@@ -177,7 +177,8 @@ void Compositor::createGlobalTextures()
             OgreAssert(def->width && def->height, "Global compositor texture definition must have absolute size");
             if (def->pooled) 
             {
-                LogManager::getSingleton().log_warning("Pooling global compositor textures has no effect");
+                LogManager::singleton().log_warning(
+                    "Pooling global compositor textures has no effect");
             }
             globalTextureNames.insert(def->name);
 
@@ -190,8 +191,10 @@ void Compositor::createGlobalTextures()
                 String MRTbaseName = "mrt/c"
                     + StringConverter::to_string(dummyCounter++) + "/" + name()
                     + "/" + def->name;
-                MultiRenderTarget* mrt = 
-                    Root::getSingleton().getRenderSystem()->createMultiRenderTarget(MRTbaseName);
+                MultiRenderTarget* mrt
+                    = Root::singleton()
+                          .getRenderSystem()
+                          ->createMultiRenderTarget(MRTbaseName);
                 mGlobalMRTs[def->name] = mrt;
 
                 // create and bind individual surfaces
@@ -202,13 +205,20 @@ void Compositor::createGlobalTextures()
 
                     String texname = MRTbaseName + "/" + StringConverter::to_string(atch);
                     TexturePtr tex;
-                    
-                    tex = TextureManager::getSingleton().createManual(
-                            texname, 
-                            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
-                            (uint)def->width, (uint)def->height, 0, *p, TU_RENDERTARGET, 0, 
-                            def->hwGammaWrite && !PixelUtil::isFloatingPoint(*p), def->fsaa); 
-                    
+
+                    tex = TextureManager::singleton().createManual(
+                        texname,
+                        ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+                        TEX_TYPE_2D,
+                        (uint)def->width,
+                        (uint)def->height,
+                        0,
+                        *p,
+                        TU_RENDERTARGET,
+                        0,
+                        def->hwGammaWrite && !PixelUtil::isFloatingPoint(*p),
+                        def->fsaa);
+
                     RenderTexture* rt = tex->getBuffer()->getRenderTarget();
                     rt->setAutoUpdated(false);
                     mrt->bindSurface(atch, rt);
@@ -232,12 +242,19 @@ void Compositor::createGlobalTextures()
                 std::replace( texName.begin(), texName.end(), ' ', '_' ); 
 
                 TexturePtr tex;
-                tex = TextureManager::getSingleton().createManual(
-                    texName, 
-                    ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
-                    (uint)def->width, (uint)def->height, 0, def->formatList[0], TU_RENDERTARGET, 0,
-                    def->hwGammaWrite && !PixelUtil::isFloatingPoint(def->formatList[0]), def->fsaa); 
-                
+                tex = TextureManager::singleton().createManual(
+                    texName,
+                    ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+                    TEX_TYPE_2D,
+                    (uint)def->width,
+                    (uint)def->height,
+                    0,
+                    def->formatList[0],
+                    TU_RENDERTARGET,
+                    0,
+                    def->hwGammaWrite
+                        && !PixelUtil::isFloatingPoint(def->formatList[0]),
+                    def->fsaa);
 
                 rendTarget = tex->getBuffer()->getRenderTarget();
                 mGlobalTextures[def->name] = tex;
@@ -282,7 +299,7 @@ void Compositor::freeGlobalTextures()
     GlobalTextureMap::iterator i = mGlobalTextures.begin();
     while (i != mGlobalTextures.end())
     {
-        TextureManager::getSingleton().remove(i->second);
+        TextureManager::singleton().remove(i->second);
         ++i;
     }
     mGlobalTextures.clear();
@@ -291,7 +308,7 @@ void Compositor::freeGlobalTextures()
     while (mrti != mGlobalMRTs.end())
     {
         // remove MRT
-        Root::getSingleton().getRenderSystem()->destroyRenderTarget(
+        Root::singleton().getRenderSystem()->destroyRenderTarget(
             mrti->second->name());
         ++mrti;
     }

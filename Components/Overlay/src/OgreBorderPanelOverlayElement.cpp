@@ -200,22 +200,24 @@ namespace Ogre {
         VertexDeclaration* decl = mRenderOp2.vertexData->vertexDeclaration;
 
         // Vertex buffer #1, position
-        HardwareVertexBufferSharedPtr vbuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-                decl->getVertexSize(POSITION_BINDING), 
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(POSITION_BINDING),
                 mRenderOp2.vertexData->vertexCount,
                 HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
-                true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
+                true); // Workaround, using shadow buffer to avoid stall due to
+                       // buffer mapping
         // bind position
         VertexBufferBinding* binding = mRenderOp2.vertexData->vertexBufferBinding;
         binding->setBinding(POSITION_BINDING, vbuf);
 
         // Vertex buffer #2, texcoords
-        vbuf = HardwareBufferManager::getSingleton().createVertexBuffer(
-                decl->getVertexSize(TEXCOORD_BINDING), 
-                mRenderOp2.vertexData->vertexCount,
-                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
-                true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
+        vbuf = HardwareBufferManager::singleton().createVertexBuffer(
+            decl->getVertexSize(TEXCOORD_BINDING),
+            mRenderOp2.vertexData->vertexCount,
+            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+            true); // Workaround, using shadow buffer to avoid stall due to
+                   // buffer mapping
         // bind texcoord
         binding->setBinding(TEXCOORD_BINDING, vbuf);
 
@@ -229,12 +231,13 @@ namespace Ogre {
             |/    |
             1-----3
         */
-        mRenderOp2.indexData->indexBuffer =
-            HardwareBufferManager::getSingleton().createIndexBuffer(
-                HardwareIndexBuffer::IT_16BIT, 
-                mRenderOp2.indexData->indexCount, 
+        mRenderOp2.indexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                mRenderOp2.indexData->indexCount,
                 HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
-                true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
+                true); // Workaround, using shadow buffer to avoid stall due to
+                       // buffer mapping
 
         HardwareBufferLockGuard indexLock(mRenderOp2.indexData->indexBuffer, HardwareBuffer::HBL_DISCARD);
         ushort* pIdx = static_cast<ushort*>(indexLock.pData);
@@ -575,7 +578,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void BorderPanelOverlayElement::setBorderMaterialName(const String& name, const String& group)
     {
-        mBorderMaterial = MaterialManager::getSingleton().getByName(name, group);
+        mBorderMaterial = MaterialManager::singleton().getByName(name, group);
         if (!mBorderMaterial)
             OGRE_EXCEPT( Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + name,
                 "BorderPanelOverlayElement::setBorderMaterialName" );
@@ -628,7 +631,8 @@ namespace Ogre {
         float* pPos = static_cast<float*>(vbufLock.pData);
         // Use the furthest away depth value, since materials should have depth-check off
         // This initialised the depth buffer for any 3D objects in front
-        float zValue = Root::getSingleton().getRenderSystem()->getMaximumDepthInputValue();
+        float zValue
+            = Root::singleton().getRenderSystem()->getMaximumDepthInputValue();
         for (ushort cell = 0; cell < 8; ++cell)
         {
             /*

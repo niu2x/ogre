@@ -446,7 +446,7 @@ namespace Ogre {
             } // ortho            
         } // !mCustomProjMatrix
 
-        RenderSystem* renderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* renderSystem = Root::singleton().getRenderSystem();
 
         if(renderSystem)
         {

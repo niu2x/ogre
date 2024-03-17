@@ -287,8 +287,10 @@ namespace Ogre {
                 // this part once for each name mentioned
                 if (def.constType == GCT_UNKNOWN)
                 {
-                    LogManager::getSingleton().log_message("Problem parsing the following GLSL Uniform: '"
-                                                          + line + "' in file " + filename, LogMsgLevel::CRITICAL);
+                    LogManager::singleton().log_message(
+                        "Problem parsing the following GLSL Uniform: '" + line
+                            + "' in file " + filename,
+                        LogMsgLevel::CRITICAL);
                     // next uniform
                     break;
                 }
@@ -308,16 +310,18 @@ namespace Ogre {
                 }
                 else
                 {
-                    LogManager::getSingleton().log_message("Could not parse type of GLSL Uniform: '"
-                                                          + line + "' in file " + filename);
+                    LogManager::singleton().log_message(
+                        "Could not parse type of GLSL Uniform: '" + line
+                        + "' in file " + filename);
                 }
                 defs.map.emplace(paramName, def);
 
                 // warn if there is a default value, that we would overwrite
                 if (line.find('=') != String::npos)
                 {
-                    LogManager::getSingleton().log_warning("Default value of uniform '" + paramName +
-                                                          "' is ignored in " + filename);
+                    LogManager::singleton().log_warning(
+                        "Default value of uniform '" + paramName
+                        + "' is ignored in " + filename);
                     break;
                 }
             }
@@ -455,8 +459,10 @@ namespace Ogre {
                     }
                     else
                     {
-                        LogManager::getSingleton().log_message("Missing opening brace in GLSL Uniform Block in file "
-                                                              + filename);
+                        LogManager::singleton().log_message(
+                            "Missing opening brace in GLSL Uniform Block in "
+                            "file "
+                            + filename);
                         break;
                     }
 

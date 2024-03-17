@@ -186,12 +186,14 @@ namespace Ogre {
 
     void Win32GLSupport::start()
     {
-        LogManager::getSingleton().log_message("*** Starting Win32GL Subsystem ***");
+        LogManager::singleton().log_message(
+            "*** Starting Win32GL Subsystem ***");
     }
 
     void Win32GLSupport::stop()
     {
-        LogManager::getSingleton().log_message("*** Stopping Win32GL Subsystem ***");
+        LogManager::singleton().log_message(
+            "*** Stopping Win32GL Subsystem ***");
         mInitialWindow = 0; // Since there is no removeWindow, although there should be...
     }
 
@@ -205,7 +207,7 @@ namespace Ogre {
         if(!_wglGetExtensionsStringARB)
             return;
         const char *wgl_extensions = _wglGetExtensionsStringARB(mInitialWindow->getHDC());
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "Supported WGL extensions: " << wgl_extensions;
         // Parse them, and add them to the main list
         StringStream ext;

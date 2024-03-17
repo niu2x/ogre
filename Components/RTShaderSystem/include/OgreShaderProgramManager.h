@@ -28,7 +28,7 @@ THE SOFTWARE.
 #define _ShaderProgramManager_
 
 #include "OgreShaderPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreGpuProgram.h"
 #include "string_vector.h"
 
@@ -74,10 +74,10 @@ public:
     but the implementation stays in this single compilation unit,
     preventing link errors.
     */
-    static ProgramManager& getSingleton();  
+    static ProgramManager& singleton();
 
-    /// @copydoc Singleton::getSingleton()
-    static ProgramManager* getSingletonPtr();
+    /// @copydoc Singleton::singleton()
+    static ProgramManager* singleton_ptr(();
 
     /** Release CPU/GPU programs set associated with the given ProgramSet
     @param programSet The ProgramSet holds the programs.

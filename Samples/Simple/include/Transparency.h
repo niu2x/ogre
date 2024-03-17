@@ -26,7 +26,7 @@ public:
 
     bool frameRenderingQueued(const FrameEvent& evt) override
     {
-        Real theta = ControllerManager::getSingleton().getElapsedTime();
+        Real theta = ControllerManager::singleton().getElapsedTime();
 
         // this is the equation for a PQ torus knot
         Ogre::Real r = 28 * (2 + Math::Sin(theta * 3 / 2 + 0.2));
@@ -49,7 +49,7 @@ protected:
 
     void checkBoxToggled(CheckBox* box) override
     {
-        auto& cm = CompositorManager::getSingleton();
+        auto& cm = CompositorManager::singleton();
         cm.setCompositorEnabled(mViewport, "WBOIT", box->isChecked());
 
         if(box->isChecked())
@@ -67,7 +67,8 @@ protected:
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
         // Need RTSS for WBOIT
         mViewport->setMaterialScheme(MSN_SHADERGEN);
-        MaterialManager::getSingleton().setActiveScheme(mViewport->getMaterialScheme());
+        MaterialManager::singleton().setActiveScheme(
+            mViewport->getMaterialScheme());
 #endif
         mSceneMgr->setSkyBox(true, "Examples/TrippySkyBox");
 
@@ -97,13 +98,14 @@ protected:
             return;
 
         // OIT compositor (disabled)
-        auto& cm = CompositorManager::getSingleton();
+        auto& cm = CompositorManager::singleton();
         cm.addCompositor(mViewport, "WBOIT");
 
         // GUI
         mTrayMgr->showCursor();
 
-        auto oitMat = Ogre::MaterialManager::getSingleton().getByName("Examples/WaterStream/OIT");
+        auto oitMat = Ogre::MaterialManager::singleton().getByName(
+            "Examples/WaterStream/OIT");
         oitMat->load();
         if (oitMat->getBestTechnique()->getSchemeName() != mViewport->getMaterialScheme())
             return;

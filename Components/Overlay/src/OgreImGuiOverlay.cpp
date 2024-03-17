@@ -12,7 +12,7 @@
 #include <OgreTextureManager.h>
 #include <OgreMaterialManager.h>
 #include <OgreOverlayManager.h>
-#include <OgreFontManager.h>
+#include <font_manager.h>
 #include <OgreTechnique.h>
 #include <OgreTextureUnitState.h>
 #include <font.h>
@@ -39,7 +39,7 @@ static void DrawConfigOption(RenderSystem* rs, const ConfigOption& opt)
 
 void DrawRenderingSettings(String& rsName)
 {
-    auto root = Root::getSingletonPtr();
+    auto root = Root::singleton_ptr(();
     OgreAssert(root, "Root must be created");
 
     if(rsName.empty())
@@ -96,7 +96,8 @@ void ImGuiOverlay::_findVisibleObjects(Camera* cam, RenderQueue* queue, Viewport
 //-----------------------------------------------------------------------------------
 void ImGuiOverlay::ImGUIRenderable::createMaterial()
 {
-    mMaterial = MaterialManager::getSingleton().create("ImGui/material", RGN_INTERNAL);
+    mMaterial
+        = MaterialManager::singleton().create("ImGui/material", RGN_INTERNAL);
     Pass* mPass = mMaterial->getTechnique(0)->getPass(0);
     mPass->setCullingMode(CULL_NONE);
     mPass->setVertexColourTracking(TVC_DIFFUSE);
@@ -117,7 +118,7 @@ void ImGuiOverlay::ImGUIRenderable::createMaterial()
 
 ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
 {
-    FontPtr font = FontManager::getSingleton().getByName(name, group);
+    FontPtr font = FontManager::singleton().getByName(name, group);
     if (!font)
         OGRE_EXCEPT(
             Exception::ERR_ITEM_NOT_FOUND,
@@ -128,7 +129,7 @@ ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
 
     OgreAssert(font->type() == FT_TRUETYPE, "font must be of FT_TRUETYPE");
     DataStreamPtr dataStreamPtr
-        = ResourceGroupManager::getSingleton().openResource(
+        = ResourceGroupManager::singleton().openResource(
             font->source(),
             font->group());
     MemoryDataStream ttfchunk(dataStreamPtr, false); // transfer ownership to imgui
@@ -150,7 +151,7 @@ ImFont* ImGuiOverlay::addFont(const String& name, const String& group)
     // ptr must persist until createFontTexture
     cprangePtr = mCodePointRanges.back().data();
 
-    float vpScale = OverlayManager::getSingleton().getPixelRatio();
+    float vpScale = OverlayManager::singleton().getPixelRatio();
 
     ImFontConfig cfg;
     strncpy(cfg.Name, name.c_str(), IM_ARRAYSIZE(cfg.Name) - 1);
@@ -172,15 +173,22 @@ void ImGuiOverlay::ImGUIRenderable::createFontTexture()
     int width, height;
     io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
-    mFontTex = TextureManager::getSingleton().createManual("ImGui/FontTex", RGN_INTERNAL, TEX_TYPE_2D,
-                                                           width, height, 1, 1, PF_BYTE_RGBA);
+    mFontTex = TextureManager::singleton().createManual(
+        "ImGui/FontTex",
+        RGN_INTERNAL,
+        TEX_TYPE_2D,
+        width,
+        height,
+        1,
+        1,
+        PF_BYTE_RGBA);
 
     mFontTex->getBuffer()->blitFromMemory(PixelBox(Box(0, 0, width, height), PF_BYTE_RGBA, pixels));
 }
 void ImGuiOverlay::NewFrame()
 {
-    static auto lastTime = Root::getSingleton().getTimer()->milli_seconds();
-    auto now = Root::getSingleton().getTimer()->milli_seconds();
+    static auto lastTime = Root::singleton().getTimer()->milli_seconds();
+    auto now = Root::singleton().getTimer()->milli_seconds();
 
     ImGuiIO& io = ImGui::GetIO();
     io.DeltaTime = std::max<float>(
@@ -193,7 +201,7 @@ void ImGuiOverlay::NewFrame()
     io.KeyAlt = false;
     io.KeySuper = false;
 
-    OverlayManager& oMgr = OverlayManager::getSingleton();
+    OverlayManager& oMgr = OverlayManager::singleton();
 
     // Setup display size (every frame to accommodate for window resizing)
     auto vpScale = oMgr.getPixelRatio();
@@ -210,7 +218,7 @@ void ImGuiOverlay::ImGUIRenderable::_update()
         mMaterial->load(); // Support for adding lights run time
     }
 
-    RenderSystem* rSys = Root::getSingleton().getRenderSystem();
+    RenderSystem* rSys = Root::singleton().getRenderSystem();
 
     // Construct projection matrix, taking texel offset corrections in account (important for DirectX9)
     // See also:
@@ -268,11 +276,14 @@ bool ImGuiOverlay::ImGUIRenderable::preRender(SceneManager* sm, RenderSystem* rs
             if (drawCmd->TextureId)
             {
                 auto handle = (ResourceHandle)drawCmd->TextureId;
-                auto tex = static_pointer_cast<Texture>(TextureManager::getSingleton().getByHandle(handle));
+                auto tex = static_pointer_cast<Texture>(
+                    TextureManager::singleton().getByHandle(handle));
                 if (tex)
                 {
                     rsys->_setTexture(0, true, tex);
-                    rsys->_setSampler(0, *TextureManager::getSingleton().getDefaultSampler());
+                    rsys->_setSampler(
+                        0,
+                        *TextureManager::singleton().getDefaultSampler());
                 }
             }
 
@@ -347,9 +358,9 @@ void ImGuiOverlay::ImGUIRenderable::initialise(void)
 ImGuiOverlay::ImGUIRenderable::~ImGUIRenderable()
 {
     if(mFontTex)
-        TextureManager::getSingleton().remove(mFontTex);
+        TextureManager::singleton().remove(mFontTex);
     if(mMaterial)
-        MaterialManager::getSingleton().remove(mMaterial);
+        MaterialManager::singleton().remove(mMaterial);
     OGRE_DELETE mRenderOp.vertexData;
     OGRE_DELETE mRenderOp.indexData;
 }
@@ -363,14 +374,21 @@ void ImGuiOverlay::ImGUIRenderable::updateVertexData(ImDrawData* draw_data)
 
     if (bind->getBindings().empty() || bind->getBuffer(0)->getNumVertices() < size_t(draw_data->TotalVtxCount))
     {
-        bind->setBinding(0, HardwareBufferManager::getSingleton().createVertexBuffer(
-                                sizeof(ImDrawVert), draw_data->TotalVtxCount, HBU_CPU_TO_GPU));
+        bind->setBinding(
+            0,
+            HardwareBufferManager::singleton().createVertexBuffer(
+                sizeof(ImDrawVert),
+                draw_data->TotalVtxCount,
+                HBU_CPU_TO_GPU));
     }
     if (!mRenderOp.indexData->indexBuffer ||
         mRenderOp.indexData->indexBuffer->getNumIndexes() < size_t(draw_data->TotalIdxCount))
     {
-        mRenderOp.indexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-            HardwareIndexBuffer::IT_16BIT, draw_data->TotalIdxCount, HBU_CPU_TO_GPU);
+        mRenderOp.indexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                draw_data->TotalIdxCount,
+                HBU_CPU_TO_GPU);
     }
 
     // Copy all vertices

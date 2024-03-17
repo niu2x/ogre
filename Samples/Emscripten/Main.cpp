@@ -42,7 +42,7 @@ int main( int argc, const char* argv[] ) {
     }
     catch ( std::exception& e )
     {
-        Ogre::LogManager::getSingleton().log_message(e.what());
+        Ogre::LogManager::singleton().log_message(e.what());
     }
     return 0;
 }

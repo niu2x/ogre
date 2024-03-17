@@ -28,7 +28,7 @@ THE SOFTWARE.
 #define _SegmentedLightManager_
 
 #include "OgreShaderPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreLight.h"
 #include "OgreTexture.h"
 #include "OgreLight.h"
@@ -74,11 +74,11 @@ public:
 
     void postFindVisibleObjects(SceneManager* source,
         SceneManager::IlluminationRenderStage irs, Viewport* v) override;
-    
-    /// @copydoc Singleton::getSingleton()
-    static SegmentedDynamicLightManager& getSingleton(void);
-    /// @copydoc Singleton::getSingleton()
-    static SegmentedDynamicLightManager* getSingletonPtr(void);
+
+    /// @copydoc Singleton::singleton()
+    static SegmentedDynamicLightManager& singleton(void);
+    /// @copydoc Singleton::singleton()
+    static SegmentedDynamicLightManager* singleton_ptr((void);
 private:
         
     class LightData 

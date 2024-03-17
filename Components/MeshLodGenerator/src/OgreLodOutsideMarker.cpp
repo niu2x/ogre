@@ -411,14 +411,19 @@ void LodOutsideMarker::cleanHull()
 Ogre::MeshPtr LodOutsideMarker::createConvexHullMesh(const String& meshName, const String& resourceGroupName)
 {
     // Based on the wiki sample: http://www.ogre3d.org/tikiwiki/tiki-index.php?page=Generating+A+Mesh
-    OgreAssert(!MeshManager::getSingleton().getByName(meshName, resourceGroupName), "Resource with given name should not exist");
+    OgreAssert(
+        !MeshManager::singleton().getByName(meshName, resourceGroupName),
+        "Resource with given name should not exist");
 
     generateHull(); // calculate mHull triangles.
 
     // Convex hull can't be empty!
     assert(!mHull.empty());
 
-    MeshPtr mesh = MeshManager::getSingleton().createManual(meshName, resourceGroupName, NULL);
+    MeshPtr mesh = MeshManager::singleton().createManual(
+        meshName,
+        resourceGroupName,
+        NULL);
     SubMesh* subMesh = mesh->createSubMesh();
 
     std::vector<float> vertexBuffer;
@@ -455,7 +460,7 @@ Ogre::MeshPtr LodOutsideMarker::createConvexHullMesh(const String& meshName, con
     /// Allocate vertex buffer of the requested number of vertices (vertexCount)
     /// and bytes per vertex (offset)
     HardwareVertexBufferSharedPtr vbuf
-        = HardwareBufferManager::getSingleton().createVertexBuffer(
+        = HardwareBufferManager::singleton().createVertexBuffer(
             offset,
             mesh->sharedVertexData->vertexCount,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
@@ -468,7 +473,7 @@ Ogre::MeshPtr LodOutsideMarker::createConvexHullMesh(const String& meshName, con
 
     /// Allocate index buffer of the requested number of vertices (ibufCount)
     HardwareIndexBufferSharedPtr ibuf
-        = HardwareBufferManager::getSingleton().createIndexBuffer(
+        = HardwareBufferManager::singleton().createIndexBuffer(
             HardwareIndexBuffer::IT_16BIT,
             indexBuffer.size(),
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);

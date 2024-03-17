@@ -40,7 +40,8 @@ namespace {
         String getType() const override { return "bsp"; }
         void decode(const DataStreamPtr& stream, const Any& output) const override
         {
-            auto group = ResourceGroupManager::getSingleton().getWorldResourceGroupName();
+            auto group
+                = ResourceGroupManager::singleton().getWorldResourceGroupName();
             auto rootNode = std::any_cast<SceneNode*>(output);
             BspSceneManager* mgr = dynamic_cast<BspSceneManager*>(rootNode->creator());
 
@@ -76,7 +77,7 @@ namespace {
     void BspSceneManagerPlugin::initialise()
     {
         // Register (factory not dependent on rsys resources)
-        Root::getSingleton().addSceneManagerFactory(mBspFactory);
+        Root::singleton().addSceneManagerFactory(mBspFactory);
 
         // Also create related shader manager (singleton managed)
         mShaderMgr = OGRE_NEW Quake3ShaderManager();
@@ -88,7 +89,7 @@ namespace {
     void BspSceneManagerPlugin::shutdown()
     {
         // Unregister SM factory
-        Root::getSingleton().removeSceneManagerFactory(mBspFactory);
+        Root::singleton().removeSceneManagerFactory(mBspFactory);
 
         Codec::unregisterCodec(mCodec.get());
         mCodec.reset();

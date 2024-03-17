@@ -239,8 +239,7 @@ void Font::put_text(
 void Font::load_impl()
 {
     // Create a new material
-    material_
-        = MaterialManager::getSingleton().create("Fonts/" + name(), group());
+    material_ = MaterialManager::singleton().create("Fonts/" + name(), group());
 
     if (!material_) {
         OGRE_EXCEPT(
@@ -253,7 +252,7 @@ void Font::load_impl()
         create_texture_from_font();
     } else {
         // Manually load since we need to load to get alpha
-        texture_ = TextureManager::getSingleton()
+        texture_ = TextureManager::singleton()
                        .load(source_, group(), TEX_TYPE_2D, 0);
     }
 
@@ -293,12 +292,12 @@ void Font::load_impl()
 void Font::unload_impl()
 {
     if (material_) {
-        MaterialManager::getSingleton().remove(material_);
+        MaterialManager::singleton().remove(material_);
         material_.reset();
     }
 
     if (texture_) {
-        TextureManager::getSingleton().remove(texture_);
+        TextureManager::singleton().remove(texture_);
         texture_.reset();
     }
 }
@@ -307,7 +306,7 @@ void Font::create_texture_from_font(void)
 {
     // Just create the texture here, and point it at ourselves for when
     // it wants to (re)load for real
-    texture_ = TextureManager::getSingleton()
+    texture_ = TextureManager::singleton()
                    .create(name() + "Texture", group(), true, this);
     texture_->setTextureType(TEX_TYPE_2D);
     texture_->setNumMipmaps(0);
@@ -318,7 +317,7 @@ void Font::load_resource(Resource* res)
 {
     // Locate ttf file, load it pre-buffered into memory by wrapping the
     // original DataStream in a MemoryDataStream
-    DataStreamPtr dataStreamPtr = ResourceGroupManager::getSingleton()
+    DataStreamPtr dataStreamPtr = ResourceGroupManager::singleton()
                                       .openResource(source_, group(), this);
     MemoryDataStream ttfchunk(dataStreamPtr);
 
@@ -326,7 +325,7 @@ void Font::load_resource(Resource* res)
     if (code_point_range_list_.empty()) {
         code_point_range_list_.push_back(CodePointRange(32, 126));
     }
-    float vpScale = OverlayManager::getSingleton().getPixelRatio();
+    float vpScale = OverlayManager::singleton().getPixelRatio();
 #ifdef HAVE_FREETYPE
     // ManualResourceLoader implementation - load the texture
     FT_Library ftLibrary;
@@ -452,7 +451,7 @@ void Font::load_resource(Resource* res)
             FT_Error ftResult = FT_Load_Char(face, cp, FT_LOAD_RENDER);
             if (ftResult) {
                 // problem loading this glyph, continue
-                LogManager::getSingleton().log_error(StringUtil::format(
+                LogManager::singleton().log_error(StringUtil::format(
                     "Charcode %u is not in font %s",
                     cp,
                     source_.c_str()));
@@ -477,7 +476,7 @@ void Font::load_resource(Resource* res)
 #else
             int idx = stbtt_FindGlyphIndex(&font, cp);
             if (!idx) {
-                LogManager::getSingleton().log_warning(StringUtil::format(
+                LogManager::singleton().log_warning(StringUtil::format(
                     "Charcode %u is not in font %s",
                     cp,
                     source_.c_str()));

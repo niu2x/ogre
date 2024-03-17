@@ -75,9 +75,9 @@ namespace Volume {
             req.meshBuilder = OGRE_NEW MeshBuilder();
             req.dualGridGenerator = OGRE_NEW DualGridGenerator();
 
-            Root::getSingleton().getWorkQueue()->add_task([this, req]() {
+            Root::singleton().getWorkQueue()->add_task([this, req]() {
                 prepareGeometry(req.level, req.root, req.dualGridGenerator, req.meshBuilder, req.totalFrom, req.totalTo);
-                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                Root::singleton().getWorkQueue()->add_main_thread_task(
                     [this, req]() {
                         loadGeometry(
                             req.meshBuilder,
@@ -275,9 +275,9 @@ namespace Volume {
         OGRE_DELETE mRenderOp.vertexData;
 
         // Root might already be shutdown.
-        if (Root::getSingletonPtr())
+        if (Root::singleton_ptr(())
         {
-            Root::getSingleton().removeFrameListener(this);
+        Root::singleton().removeFrameListener(this);
         }
 
         if (mChildren)
@@ -350,9 +350,7 @@ namespace Volume {
         {
             while(mShared->chunksBeingProcessed)
             {
-                Root::getSingleton()
-                    .getWorkQueue()
-                    ->process_main_thread_tasks();
+                Root::singleton().getWorkQueue()->process_main_thread_tasks();
             }
         }
         
@@ -360,7 +358,7 @@ namespace Volume {
         // Just add the frame listener on initial load
         if (parameters->updateFrom == Vector3::zero && parameters->updateTo == Vector3::zero)
         {
-            Root::getSingleton().addFrameListener(this);
+            Root::singleton().addFrameListener(this);
         }
     }
     
@@ -407,7 +405,8 @@ namespace Volume {
             delete textureSource;
         }
 
-        MaterialPtr mat = MaterialManager::getSingleton().getByName(config.getSetting("material"));
+        MaterialPtr mat = MaterialManager::singleton().getByName(
+            config.getSetting("material"));
         setMaterial(mat);
 
         for (size_t i = 0; i < level; ++i)
@@ -418,7 +417,8 @@ namespace Volume {
             String materialOfLevel = config.getSetting(stream.str());
             if (!materialOfLevel.empty())
             {
-                mat = MaterialManager::getSingleton().getByName(config.getSetting(stream.str()));
+                mat = MaterialManager::singleton().getByName(
+                    config.getSetting(stream.str()));
                 setMaterialOfLevel(i, mat);
             }
         }

@@ -178,13 +178,15 @@ void RTShaderSRSSegmentedLights::updateGpuProgramsParams(Renderable* rend, const
     if (mUseSegmentedLightTexture)
     {
         unsigned int indexStart = 0, indexEnd = 0;
-        Ogre::Vector4 lightBounds; 
-        SegmentedDynamicLightManager::getSingleton().getLightListRange(rend, lightBounds, indexStart, indexEnd);
+        Ogre::Vector4 lightBounds;
+        SegmentedDynamicLightManager::singleton()
+            .getLightListRange(rend, lightBounds, indexStart, indexEnd);
         mPSLightTextureIndexLimit->setGpuParameter(Ogre::Vector2((Ogre::Real)indexStart, (Ogre::Real)indexEnd));
         mPSLightTextureLightBounds->setGpuParameter(lightBounds);
 
         Ogre::TextureUnitState* pLightTexture = pass->getTextureUnitState(mLightSamplerIndex);
-        const Ogre::String& textureName = SegmentedDynamicLightManager::getSingleton().getSDLTextureName();
+        const Ogre::String& textureName
+            = SegmentedDynamicLightManager::singleton().getSDLTextureName();
         if (textureName != pLightTexture->getTextureName())
         {
             pLightTexture->setTextureName(textureName, Ogre::TEX_TYPE_2D);
@@ -643,8 +645,10 @@ bool RTShaderSRSSegmentedLights::addPSIlluminationInvocation(LightParams* curLig
 
 bool RTShaderSRSSegmentedLights::addPSSegmentedTextureLightInvocation(Function* psMain, const int groupOrder)
 {
-    float invWidth = 1.0f / (float)SegmentedDynamicLightManager::getSingleton().getTextureWidth();
-    float invHeight = 1.0f / (float)SegmentedDynamicLightManager::getSingleton().getTextureHeight();
+    float invWidth = 1.0f
+        / (float)SegmentedDynamicLightManager::singleton().getTextureWidth();
+    float invHeight = 1.0f
+        / (float)SegmentedDynamicLightManager::singleton().getTextureHeight();
     ParameterPtr paramInvWidth = ParameterFactory::createConstParam(invWidth);
     ParameterPtr paramInvHeight = ParameterFactory::createConstParam(invHeight);
 
@@ -656,12 +660,14 @@ bool RTShaderSRSSegmentedLights::addPSSegmentedTextureLightInvocation(Function* 
     curFuncInvocation->pushOperand(mPSLightTextureIndexLimit, Operand::OPS_IN);
     curFuncInvocation->pushOperand(mPSLightTextureLightBounds, Operand::OPS_IN);
     curFuncInvocation->pushOperand(paramInvWidth, Operand::OPS_IN);
-    curFuncInvocation->pushOperand(paramInvHeight, Operand::OPS_IN);                    
-    curFuncInvocation->pushOperand(mPSTempDiffuseColour, Operand::OPS_INOUT, Operand::OPM_XYZ); 
-    psMain->addAtomInstance(curFuncInvocation); 
+    curFuncInvocation->pushOperand(paramInvHeight, Operand::OPS_IN);
+    curFuncInvocation->pushOperand(
+        mPSTempDiffuseColour,
+        Operand::OPS_INOUT,
+        Operand::OPM_XYZ);
+    psMain->addAtomInstance(curFuncInvocation);
 
-    if (SegmentedDynamicLightManager::getSingleton().isDebugMode())
-    {
+    if (SegmentedDynamicLightManager::singleton().isDebugMode()) {
         ParameterPtr psOutColor = psMain->resolveOutputParameter(Parameter::SPS_COLOR, -1, Parameter::SPC_COLOR_DIFFUSE, GCT_FLOAT4);
 
         FunctionInvocation* curDebugFuncInvocation = NULL;
@@ -672,10 +678,13 @@ bool RTShaderSRSSegmentedLights::addPSSegmentedTextureLightInvocation(Function* 
         curDebugFuncInvocation->pushOperand(mPSLightTextureIndexLimit, Operand::OPS_IN);
         curDebugFuncInvocation->pushOperand(mPSLightTextureLightBounds, Operand::OPS_IN);
         curDebugFuncInvocation->pushOperand(paramInvWidth, Operand::OPS_IN);
-        curDebugFuncInvocation->pushOperand(paramInvHeight, Operand::OPS_IN);   
+        curDebugFuncInvocation->pushOperand(paramInvHeight, Operand::OPS_IN);
 
-        curDebugFuncInvocation->pushOperand(psOutColor, Operand::OPS_INOUT, Operand::OPM_XYZ);  
-        psMain->addAtomInstance(curDebugFuncInvocation);    
+        curDebugFuncInvocation->pushOperand(
+            psOutColor,
+            Operand::OPS_INOUT,
+            Operand::OPM_XYZ);
+        psMain->addAtomInstance(curDebugFuncInvocation);
     }
 
     return true;
@@ -724,7 +733,8 @@ bool RTShaderSRSSegmentedLights::preAddToRenderState(const RenderState* renderSt
     if (srcPass->getLightingEnabled() == false)
         return false;
 
-    mUseSegmentedLightTexture = SegmentedDynamicLightManager::getSingleton().isActive();
+    mUseSegmentedLightTexture
+        = SegmentedDynamicLightManager::singleton().isActive();
     setTrackVertexColourType(srcPass->getVertexColourTracking());           
 
     if (srcPass->getShininess() > 0.0 &&
@@ -744,7 +754,9 @@ bool RTShaderSRSSegmentedLights::preAddToRenderState(const RenderState* renderSt
         const_cast<RenderState*>(renderState)->setLightCountAutoUpdate(false);
 
         Ogre::TextureUnitState* pLightTexture = dstPass->createTextureUnitState();
-        pLightTexture->setTextureName(SegmentedDynamicLightManager::getSingleton().getSDLTextureName(), Ogre::TEX_TYPE_2D);
+        pLightTexture->setTextureName(
+            SegmentedDynamicLightManager::singleton().getSDLTextureName(),
+            Ogre::TEX_TYPE_2D);
         pLightTexture->setTextureFiltering(Ogre::TFO_NONE);
         mLightSamplerIndex = dstPass->getNumTextureUnitStates() - 1;
     }

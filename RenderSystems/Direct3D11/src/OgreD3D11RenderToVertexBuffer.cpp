@@ -98,7 +98,7 @@ namespace Ogre {
             reallocateBuffer(targetBufferIndex);
         }
 
-        RenderSystem* targetRenderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* targetRenderSystem = Root::singleton().getRenderSystem();
 
         //Draw the object
         auto vertexBuffer = mVertexBuffers[targetBufferIndex]->_getImpl<D3D11HardwareBuffer>();

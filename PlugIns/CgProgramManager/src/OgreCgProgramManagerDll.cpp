@@ -44,13 +44,11 @@ namespace Ogre {
         cgPlugin = OGRE_NEW CgPlugin();
 
         // Register
-        Root::getSingleton().installPlugin(cgPlugin);
-
-
+        Root::singleton().installPlugin(cgPlugin);
     }
     extern "C" void _OgreCgPluginExport dllStopPlugin(void)
     {
-        Root::getSingleton().uninstallPlugin(cgPlugin);
+        Root::singleton().uninstallPlugin(cgPlugin);
         OGRE_DELETE cgPlugin;
     }
 #endif

@@ -95,7 +95,10 @@ namespace Ogre {
         
 
         // Adjust format if required
-        mFormat = TextureManager::getSingleton().getNativeFormat(mTextureType, mFormat, mUsage);
+        mFormat = TextureManager::singleton().getNativeFormat(
+            mTextureType,
+            mFormat,
+            mUsage);
 
         // Check if we can do HW mipmap generation
         mMipmapsHardwareGenerated = true;

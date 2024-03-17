@@ -122,7 +122,7 @@ bool TerrainSurface::preAddToRenderState(const RenderState* renderState, Pass* s
 {
     mTerrain =std::any_cast<const Terrain*>(srcPass->getUserObjectBindings().getUserAny("Terrain"));
 
-    SamplerPtr clampSampler = TextureManager::getSingleton().createSampler();
+    SamplerPtr clampSampler = TextureManager::singleton().createSampler();
     clampSampler->setAddressingMode(TAM_CLAMP);
 
     auto tu = dstPass->createTextureUnitState();

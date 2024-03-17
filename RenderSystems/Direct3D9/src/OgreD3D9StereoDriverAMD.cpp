@@ -46,25 +46,25 @@ namespace Ogre
 		mStereoBuffer = NULL;
 		mLeftBuffer = NULL;
 		mRightBuffer = NULL;
-		Root::getSingleton().getRenderSystem()->addListener(this);
-	}
-	//-----------------------------------------------------------------------------
-	D3D9StereoDriverAMD::~D3D9StereoDriverAMD()
-	{
-	    Root::getSingleton().getRenderSystem()->removeListener(this);
-		releaseResources();
-	}
-	//-----------------------------------------------------------------------------
-	bool D3D9StereoDriverAMD::addRenderWindow(D3D9RenderWindow* renderWindow)
-	{
-	    // Add the window to the existing map
-		mRenderWindowMap[renderWindow->name()] = renderWindow;
+        Root::singleton().getRenderSystem()->addListener(this);
+    }
+    //-----------------------------------------------------------------------------
+    D3D9StereoDriverAMD::~D3D9StereoDriverAMD()
+    {
+        Root::singleton().getRenderSystem()->removeListener(this);
+        releaseResources();
+    }
+    //-----------------------------------------------------------------------------
+    bool D3D9StereoDriverAMD::addRenderWindow(D3D9RenderWindow* renderWindow)
+    {
+        // Add the window to the existing map
+        mRenderWindowMap[renderWindow->name()] = renderWindow;
 		renderWindow->addListener(this);
 		
 		return false;
-	}
-	//-----------------------------------------------------------------------------
-	bool D3D9StereoDriverAMD::removeRenderWindow(const String& renderWindowName)
+    }
+    //-----------------------------------------------------------------------------
+    bool D3D9StereoDriverAMD::removeRenderWindow(const String& renderWindowName)
 	{
 	    // Remove the window from the existing map
 		D3D9RenderWindow* renderWindow = mRenderWindowMap[renderWindowName];
@@ -352,15 +352,23 @@ namespace Ogre
 		if (NULL == mDriverComSurface)
 		{
 			// Get the active device from the render system
-			D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
-			IDirect3DDevice9* device = renderSystem->getActiveD3D9Device();
-			if (FAILED(device->CreateOffscreenPlainSurface(10, 10, (D3DFORMAT)FOURCC_AQBS, D3DPOOL_DEFAULT, &mDriverComSurface, NULL)))
-				return false;
-		}
+            D3D9RenderSystem* renderSystem = static_cast<D3D9RenderSystem*>(
+                Root::singleton().getRenderSystem());
+            IDirect3DDevice9* device = renderSystem->getActiveD3D9Device();
+            if (FAILED(device->CreateOffscreenPlainSurface(
+                    10,
+                    10,
+                    (D3DFORMAT)FOURCC_AQBS,
+                    D3DPOOL_DEFAULT,
+                    &mDriverComSurface,
+                    NULL)))
+                return false;
+        }
 
-		// Lock the surface and the driver will allocate and return a pointer to a stereo packet
-		if (FAILED(mDriverComSurface->LockRect(&lockedRect, 0, 0)))
-			return false;
+        // Lock the surface and the driver will allocate and return a pointer to
+        // a stereo packet
+        if (FAILED(mDriverComSurface->LockRect(&lockedRect, 0, 0)))
+            return false;
 
 		// Assign the data to the stereo packet
 		stereoCommPacket = static_cast<ATIDX9STEREOCOMMPACKET*>(lockedRect.pBits);

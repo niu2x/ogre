@@ -31,11 +31,11 @@ THE SOFTWARE.
 namespace Ogre {
     //-----------------------------------------------------------------------
     template<> TextureManager* Singleton<TextureManager>::msSingleton = 0;
-    TextureManager* TextureManager::getSingletonPtr(void)
+    TextureManager* TextureManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    TextureManager& TextureManager::getSingleton(void)
+    TextureManager& TextureManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -238,7 +238,8 @@ namespace Ogre {
         OgreAssert(width && height && depth, "total size of texture must not be zero");
 
         // Check for texture support
-        const auto caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const auto caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
         if (((texType == TEX_TYPE_3D) && !caps->hasCapability(RSC_TEXTURE_3D)) ||
             ((texType == TEX_TYPE_2D_ARRAY) && !caps->hasCapability(RSC_TEXTURE_2D_ARRAY)))
             return ret;

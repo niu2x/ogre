@@ -104,8 +104,10 @@ void ApplicationContextAndroid::_fireInputEventAndroid(AInputEvent* event, int w
 
 void ApplicationContextAndroid::locateResources()
 {
-    Ogre::ArchiveManager::getSingleton().addArchiveFactory( new Ogre::APKFileSystemArchiveFactory(mAAssetMgr) );
-    Ogre::ArchiveManager::getSingleton().addArchiveFactory( new Ogre::APKZipArchiveFactory(mAAssetMgr) );
+    Ogre::ArchiveManager::singleton().addArchiveFactory(
+        new Ogre::APKFileSystemArchiveFactory(mAAssetMgr));
+    Ogre::ArchiveManager::singleton().addArchiveFactory(
+        new Ogre::APKZipArchiveFactory(mAAssetMgr));
     ApplicationContextBase::locateResources();
 }
 

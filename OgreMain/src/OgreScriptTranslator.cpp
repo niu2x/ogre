@@ -546,8 +546,8 @@ namespace Ogre{
             return;
 
         // Retrieve the translator to use
-        ScriptTranslator *translator =
-            ScriptCompilerManager::getSingleton().getTranslator(node);
+        ScriptTranslator* translator
+            = ScriptCompilerManager::singleton().getTranslator(node);
 
         if(translator)
             translator->translate(compiler, node);
@@ -1041,7 +1041,9 @@ namespace Ogre{
 
         if(!processed)
         {
-            mMaterial = MaterialManager::getSingleton().create(obj->name, compiler->getResourceGroup()).get();
+            mMaterial = MaterialManager::singleton()
+                            .create(obj->name, compiler->getResourceGroup())
+                            .get();
         }
 
         if(!mMaterial)
@@ -1084,7 +1086,7 @@ namespace Ogre{
                         // Deprecated! Only for backwards compatibility.
                         // Set strategy hard-coded to 'distance' strategy, since that was the only one available back then,
                         // when using this material keyword was still current.
-                        LodStrategy *strategy = DistanceLodSphereStrategy::getSingletonPtr();
+                        LodStrategy *strategy = DistanceLodSphereStrategy::singleton_ptr(();
                         mMaterial->setLodStrategy(strategy);
 
                         compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file,
@@ -1111,7 +1113,9 @@ namespace Ogre{
                                 compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line,
                                                    sval + ". use distance_box or pixel_count");
 
-                            LodStrategy* strategy = LodStrategyManager::getSingleton().getStrategy(sval);
+                            LodStrategy* strategy
+                                = LodStrategyManager::singleton().getStrategy(
+                                    sval);
                             if (strategy)
                                 mMaterial->setLodStrategy(strategy);
                             else
@@ -2253,7 +2257,7 @@ namespace Ogre{
         ProcessResourceNameScriptCompilerEvent evt(ProcessResourceNameScriptCompilerEvent::GPU_PROGRAM, node->name);
         compiler->_fireEvent(&evt, 0);
 
-        auto& mgr = GpuProgramManager::getSingleton();
+        auto& mgr = GpuProgramManager::singleton();
         if (auto ret = mgr.getByName(evt.mName, compiler->getResourceGroup()))
             return ret;
 
@@ -2503,7 +2507,8 @@ namespace Ogre{
             return;
         }
 
-        SamplerPtr sampler = TextureManager::getSingleton().createSampler(obj->name);
+        SamplerPtr sampler
+            = TextureManager::singleton().createSampler(obj->name);
 
         // Set the properties for the material
         for(auto & i : obj->children)
@@ -2571,7 +2576,8 @@ namespace Ogre{
                 case ID_SAMPLER_REF:
                     if(getValue(prop, compiler, sval))
                     {
-                        auto sampler = TextureManager::getSingleton().getSampler(sval);
+                        auto sampler
+                            = TextureManager::singleton().getSampler(sval);
                         if(sampler)
                             mUnit->setSampler(sampler);
                         else
@@ -3356,10 +3362,10 @@ namespace Ogre{
         }
 
         // Set the value of the source
-        ExternalTextureSourceManager::getSingleton().setCurrentPlugIn(obj->values.front()->getValue());
+        ExternalTextureSourceManager::singleton().setCurrentPlugIn(
+            obj->values.front()->getValue());
 
-        if (!ExternalTextureSourceManager::getSingleton().getCurrentPlugIn())
-        {
+        if (!ExternalTextureSourceManager::singleton().getCurrentPlugIn()) {
             compiler->addError(ScriptCompiler::CE_REFERENCETOANONEXISTINGOBJECT, node->file, node->line,
                                obj->values.front()->getValue());
             return;
@@ -3402,7 +3408,9 @@ namespace Ogre{
             + StringConverter::to_string(passIndex) + " "
             + StringConverter::to_string(texUnitIndex);
 
-        ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->set_parameter( "set_T_P_S", tps );
+        ExternalTextureSourceManager::singleton()
+            .getCurrentPlugIn()
+            ->set_parameter("set_T_P_S", tps);
 
         for(auto & i : obj->children)
         {
@@ -3417,7 +3425,9 @@ namespace Ogre{
                         str = str + " ";
                     str = str + (*j)->getValue();
                 }
-                ExternalTextureSourceManager::getSingleton().getCurrentPlugIn()->set_parameter(prop->name, str);
+                ExternalTextureSourceManager::singleton()
+                    .getCurrentPlugIn()
+                    ->set_parameter(prop->name, str);
             }
             else if(i->type == ANT_OBJECT)
             {
@@ -3425,7 +3435,7 @@ namespace Ogre{
             }
         }
 
-        ExternalTextureSourceManager::getSingleton()
+        ExternalTextureSourceManager::singleton()
             .getCurrentPlugIn()
             ->createDefinedTexture(material->name(), material->group());
     }
@@ -3472,7 +3482,7 @@ namespace Ogre{
                 compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, obj->file, obj->line, "asm. Use syntax code.");
                 break; // always supported
             }
-            if (GpuProgramManager::getSingleton().isLanguageSupported(language))
+            if (GpuProgramManager::singleton().isLanguageSupported(language))
                 break;
         }
 
@@ -3567,7 +3577,13 @@ namespace Ogre{
 
         if(!processed)
         {
-            prog = GpuProgramManager::getSingleton().create(obj->name, compiler->getResourceGroup(), gpt, language).get();
+            prog = GpuProgramManager::singleton()
+                       .create(
+                           obj->name,
+                           compiler->getResourceGroup(),
+                           gpt,
+                           language)
+                       .get();
 
             if (source.empty() && language != "unified")
             {
@@ -4146,7 +4162,9 @@ namespace Ogre{
 
         if (!processed)
         {
-            sharedParams = GpuProgramManager::getSingleton().createSharedParameters(obj->name).get();
+            sharedParams = GpuProgramManager::singleton()
+                               .createSharedParameters(obj->name)
+                               .get();
         }
 
         if (!sharedParams)
@@ -4309,7 +4327,9 @@ namespace Ogre{
 
         if(!processed)
         {
-            mSystem = ParticleSystemManager::getSingleton().createTemplate(obj->name, compiler->getResourceGroup());
+            mSystem = ParticleSystemManager::singleton().createTemplate(
+                obj->name,
+                compiler->getResourceGroup());
         }
 
         if(!mSystem)
@@ -4540,7 +4560,9 @@ namespace Ogre{
 
         if(!processed)
         {
-            mCompositor = CompositorManager::getSingleton().create(obj->name, compiler->getResourceGroup()).get();
+            mCompositor = CompositorManager::singleton()
+                              .create(obj->name, compiler->getResourceGroup())
+                              .get();
         }
 
         if(!mCompositor)
@@ -5089,7 +5111,9 @@ namespace Ogre{
                     {
                         ProcessResourceNameScriptCompilerEvent evt(ProcessResourceNameScriptCompilerEvent::MATERIAL, sval);
                         compiler->_fireEvent(&evt, 0);
-                        auto mat = MaterialManager::getSingleton().getByName(evt.mName, compiler->getResourceGroup());
+                        auto mat = MaterialManager::singleton().getByName(
+                            evt.mName,
+                            compiler->getResourceGroup());
                         if (mat)
                             mPass->setMaterial(mat);
                         else

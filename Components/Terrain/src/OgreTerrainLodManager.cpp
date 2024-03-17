@@ -55,7 +55,9 @@ namespace Ogre
     void TerrainLodManager::open(const String& filename)
     {
         if(!filename.empty())
-            mDataStream = Root::getSingleton().openFileStream(filename, mTerrain->_getDerivedResourceGroup());
+            mDataStream = Root::singleton().openFileStream(
+                filename,
+                mTerrain->_getDerivedResourceGroup());
     }
 
     void TerrainLodManager::close()
@@ -161,7 +163,7 @@ namespace Ogre
         }
         else
         {
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
                 << "Failed to prepare and load terrain LOD: " << res->message();
         }
     }
@@ -276,7 +278,7 @@ namespace Ogre
                 }
                 else
                 {
-                    Root::getSingleton().getWorkQueue()->add_task(
+                    Root::singleton().getWorkQueue()->add_task(
                         [this, req]() {
                             auto r = std::make_unique<WorkQueue::Request>(
                                 0,
@@ -285,7 +287,7 @@ namespace Ogre
                                 0,
                                 0);
                             auto res = handleRequest(std::move(r), NULL);
-                            Root::getSingleton()
+                            Root::singleton()
                                 .getWorkQueue()
                                 ->add_main_thread_task([this, res]() {
                                     handleResponse(res, NULL);
@@ -410,7 +412,7 @@ namespace Ogre
     {
         while (mIncreaseLodLevelInProgress)
         {
-            Root::getSingleton().getWorkQueue()->process_main_thread_tasks();
+            Root::singleton().getWorkQueue()->process_main_thread_tasks();
         }
     }
 }

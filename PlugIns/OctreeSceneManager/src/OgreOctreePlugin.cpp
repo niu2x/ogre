@@ -55,13 +55,13 @@ namespace Ogre
     void OctreePlugin::initialise()
     {
         // Register
-        Root::getSingleton().addSceneManagerFactory(mOctreeSMFactory);
+        Root::singleton().addSceneManagerFactory(mOctreeSMFactory);
     }
     //---------------------------------------------------------------------
     void OctreePlugin::shutdown()
     {
         // Unregister
-        Root::getSingleton().removeSceneManagerFactory(mOctreeSMFactory);
+        Root::singleton().removeSceneManagerFactory(mOctreeSMFactory);
     }
     //---------------------------------------------------------------------
     void OctreePlugin::uninstall()

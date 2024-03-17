@@ -50,12 +50,11 @@ namespace Ogre
         pczPlugin = OGRE_NEW PCZPlugin();
 
         // Register
-        Root::getSingleton().installPlugin(pczPlugin);
-
+        Root::singleton().installPlugin(pczPlugin);
     }
     extern "C" void _OgrePCZPluginExport dllStopPlugin( void )
     {
-        Root::getSingleton().uninstallPlugin(pczPlugin);
+        Root::singleton().uninstallPlugin(pczPlugin);
         OGRE_DELETE pczPlugin;
     }
 }

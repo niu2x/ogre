@@ -408,12 +408,11 @@ protected:
 
         //! [define]
         String filename = mTerrainGroup->generateFilename(x, y);
-        if (ResourceGroupManager::getSingleton().resourceExists(mTerrainGroup->getResourceGroup(), filename))
-        {
+        if (ResourceGroupManager::singleton().resourceExists(
+                mTerrainGroup->getResourceGroup(),
+                filename)) {
             mTerrainGroup->defineTerrain(x, y);
-        }
-        else
-        {
+        } else {
             Image img;
             getTerrainImage(x % 2 != 0, y % 2 != 0, img);
             mTerrainGroup->defineTerrain(x, y, &img);
@@ -491,7 +490,7 @@ protected:
 
         // Disable the lightmap for OpenGL ES 2.0. The minimum number of samplers allowed is 8(as opposed to 16 on
         // desktop). Otherwise we will run over the limit by just one. The minimum was raised to 16 in GL ES 3.0.
-        if (Ogre::Root::getSingletonPtr()->getRenderSystem()->getCapabilities()->getNumTextureUnits() < 9)
+        if (Ogre::Root::singleton_ptr(()->getRenderSystem()->getCapabilities()->getNumTextureUnits() < 9)
         {
             matProfile->setLightmapEnabled(false);
         }
@@ -518,7 +517,7 @@ protected:
         //! [tex_from_src]
         Image combined;
         combined.loadTwoImagesAsRGBA("Ground23_col.jpg", "Ground23_spec.png", "General");
-        TextureManager::getSingleton().loadImage("Ground23_diffspec", "General", combined);
+        TextureManager::singleton().loadImage("Ground23_diffspec", "General", combined);
         //! [tex_from_src]
 
         //! [textures]
@@ -597,7 +596,8 @@ protected:
                 schemRenderState->addTemplateSubRenderState(subRenderState);
 
                 mSceneMgr->setShadowTextureCasterMaterial(
-                    MaterialManager::getSingleton().getByName("PSSM/shadow_caster"));
+                    MaterialManager::singleton().getByName(
+                        "PSSM/shadow_caster"));
             }
             else
             {
@@ -701,8 +701,9 @@ protected:
         setDragLook(true);
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_ANDROID
-        MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
-        MaterialManager::getSingleton().setDefaultAnisotropy(8);
+        MaterialManager::singleton().setDefaultTextureFiltering(
+            TFO_ANISOTROPIC);
+        MaterialManager::singleton().setDefaultAnisotropy(8);
 #endif
 
         ColourValue fadeColour(0.7, 0.7, 0.8);
@@ -710,7 +711,7 @@ protected:
         mSceneMgr->setFog(Ogre::FOG_LINEAR, fadeColour, 0, 2000, 10000);
         //! [linear_fog]
 
-        LogManager::getSingleton().set_min_log_level(LogMsgLevel::TRIVIAL);
+        LogManager::singleton().set_min_log_level(LogMsgLevel::TRIVIAL);
 
         //! [light]
         Ogre::Light* l = mSceneMgr->createLight();

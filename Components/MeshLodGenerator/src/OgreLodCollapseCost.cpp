@@ -38,11 +38,12 @@ namespace Ogre
                 initVertexCollapseCost(data, &v);
             } else {
 #if OGRE_DEBUG_MODE
-                LogManager::getSingleton().stream() << "In " << data->mMeshName << " never used vertex found with ID: " << data->mCollapseCostHeap.size() << ". "
-                    << "Vertex position: ("
-                    << v.position.x << ", "
-                    << v.position.y << ", "
-                    << v.position.z << ") "
+                LogManager::singleton().stream()
+                    << "In " << data->mMeshName
+                    << " never used vertex found with ID: "
+                    << data->mCollapseCostHeap.size() << ". "
+                    << "Vertex position: (" << v.position.x << ", "
+                    << v.position.y << ", " << v.position.z << ") "
                     << "It will be excluded from Lod level calculations.";
 #endif
             }

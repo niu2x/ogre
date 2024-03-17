@@ -105,40 +105,48 @@ public:
 			for(LabelList::iterator li = mLodStatusLabelList.begin(); li != mLodStatusLabelList.end(); li++)
 			{
 				mLodInfoOverlayContainer->_removeChild(*li);
-				OverlayManager::getSingleton().destroyOverlayElement(*li);
-			}
-			mLodStatusLabelList.clear();
+                OverlayManager::singleton().destroyOverlayElement(*li);
+            }
+            mLodStatusLabelList.clear();
 
-			for (const auto& ti : mTerrainGroup->getTerrainSlots())
-			{
-				Terrain* t = ti.second->instance;
-				if (!t)
-					continue;
+            for (const auto& ti : mTerrainGroup->getTerrainSlots()) {
+                Terrain* t = ti.second->instance;
+                if (!t)
+                    continue;
 
-				Vector3 pt = mCamera->getProjectionMatrix() * (mCamera->getViewMatrix() * t->getPosition());
+                Vector3 pt = mCamera->getProjectionMatrix() * (mCamera->getViewMatrix() * t->getPosition());
 				Real x = (pt.x / 2) + 0.5f;
 				Real y = 1 - ((pt.y / 2) + 0.5f);
 
 				String lName = StringConverter::to_string(size_t(t))+"/"+"LodInfoLabel";
 
-				OverlayElement *l = OverlayManager::getSingleton().createOverlayElement("TextArea", lName);
-				l->setCaption("Target="+StringConverter::to_string(t->getTargetLodLevel())+"\nHighest="+
-					  StringConverter::to_string(t->getHighestLodLoaded())+"\nPrepared="+
-					  StringConverter::to_string(t->getHighestLodPrepared())
-					  );
-				l->setPosition(x, y);
-				l->setDimensions(0.1, 0.1);  // center text in label and its position
-				l->set_parameter("font_name", "SdkTrays/Value");
-				l->set_parameter("char_height", "0.02f");
-				l->setColour(ColourValue(1.0,0.0,0.0));
+                OverlayElement* l
+                    = OverlayManager::singleton().createOverlayElement(
+                        "TextArea",
+                        lName);
+                l->setCaption(
+                    "Target="
+                    + StringConverter::to_string(t->getTargetLodLevel())
+                    + "\nHighest="
+                    + StringConverter::to_string(t->getHighestLodLoaded())
+                    + "\nPrepared="
+                    + StringConverter::to_string(t->getHighestLodPrepared()));
+                l->setPosition(x, y);
+                l->setDimensions(
+                    0.1,
+                    0.1); // center text in label and its position
+                l->set_parameter("font_name", "SdkTrays/Value");
+                l->set_parameter("char_height", "0.02f");
+                l->setColour(ColourValue(1.0, 0.0, 0.0));
 
-				mLodInfoOverlayContainer->addChild(l);
+                mLodInfoOverlayContainer->addChild(l);
 				mLodStatusLabelList.push_back(l);
-			}
-		}
+            }
+        }
 
-		mTerrainGroup->autoUpdateLodAll(false, Real(HOLD_LOD_DISTANCE));
-		return SdkSample::frameRenderingQueued(evt);  // don't forget the parent updates!
+        mTerrainGroup->autoUpdateLodAll(false, Real(HOLD_LOD_DISTANCE));
+        return SdkSample::frameRenderingQueued(
+            evt); // don't forget the parent updates!
     }
 
 	bool keyPressed (const KeyboardEvent &e) override
@@ -203,20 +211,17 @@ public:
 				for(LabelList::iterator li = mLodStatusLabelList.begin(); li != mLodStatusLabelList.end(); li++)
 				{
 					mLodInfoOverlayContainer->_removeChild(*li);
-					OverlayManager::getSingleton().destroyOverlayElement(*li);
-				}
-				mLodStatusLabelList.clear();
-			}
-		}
-		else if (box == mAutoBox)
-		{
-			if(mTerrainGroup)
-			{
-				auto strategy = mAutoBox->isChecked() ? BY_DISTANCE : NONE;
-				mTerrainGroup->setAutoUpdateLod(TerrainAutoUpdateLodFactory::getAutoUpdateLod(strategy));
-			}
-		}
-	}
+                    OverlayManager::singleton().destroyOverlayElement(*li);
+                }
+                mLodStatusLabelList.clear();
+            }
+        } else if (box == mAutoBox) {
+            if (mTerrainGroup) {
+                auto strategy = mAutoBox->isChecked() ? BY_DISTANCE : NONE;
+                mTerrainGroup->setAutoUpdateLod(TerrainAutoUpdateLodFactory::getAutoUpdateLod(strategy));
+            }
+        }
+    }
 
 protected:
 
@@ -350,22 +355,23 @@ protected:
 		setDragLook(true);
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_ANDROID
-		MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
-		MaterialManager::getSingleton().setDefaultAnisotropy(8);
+        MaterialManager::singleton().setDefaultTextureFiltering(
+            TFO_ANISOTROPIC);
+        MaterialManager::singleton().setDefaultAnisotropy(8);
 #endif
 
 		mSceneMgr->setFog(FOG_LINEAR, ColourValue(0.7, 0.7, 0.8), 0, 4000, 10000);
 
-		LogManager::getSingleton().set_min_log_level(LogMsgLevel::TRIVIAL);
+        LogManager::singleton().set_min_log_level(LogMsgLevel::TRIVIAL);
 
-		Light* l = mSceneMgr->createLight("tstLight");
-		l->setType(Light::LT_DIRECTIONAL);
-		l->setDiffuseColour(ColourValue::White);
-		l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
+        Light* l = mSceneMgr->createLight("tstLight");
+        l->setType(Light::LT_DIRECTIONAL);
+        l->setDiffuseColour(ColourValue::White);
+        l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
 
-	    auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	    ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
-	    ln->attachObject(l);
+        auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+        ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
+        ln->attachObject(l);
 
 		mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
 
@@ -401,20 +407,22 @@ protected:
 		mSceneMgr->setSkyBox(true, "Examples/CloudyNoonSkyBox");
 
 		// setup LOD info overlay
-		mLodInfoOverlay = OverlayManager::getSingleton().create("LODInfoOverlay");
+        mLodInfoOverlay = OverlayManager::singleton().create("LODInfoOverlay");
 
-		mLodInfoOverlay->setZOrder(10);
-		mLodInfoOverlayContainer = (OverlayContainer*)OverlayManager::getSingleton().createOverlayElement("Panel", "LODInfoOverlayPanel");
-		mLodInfoOverlayContainer->setDimensions(1.0, 1.0);
-		mLodInfoOverlayContainer->setPosition(0.0, 0.0);
+        mLodInfoOverlay->setZOrder(10);
+        mLodInfoOverlayContainer
+            = (OverlayContainer*)OverlayManager::singleton()
+                  .createOverlayElement("Panel", "LODInfoOverlayPanel");
+        mLodInfoOverlayContainer->setDimensions(1.0, 1.0);
+        mLodInfoOverlayContainer->setPosition(0.0, 0.0);
 
-		mLodInfoOverlay->add2D(mLodInfoOverlayContainer);
-		mLodInfoOverlay->show();
+        mLodInfoOverlay->add2D(mLodInfoOverlayContainer);
+        mLodInfoOverlay->show();
 
-		setupControls();
-	}
+        setupControls();
+    }
 
-	void _shutdown() override
+    void _shutdown() override
 	{
 		if(mTerrainPaging)
 		{
@@ -428,18 +436,19 @@ protected:
             OGRE_DELETE mTerrainGlobals;
 
         if(mLodInfoOverlay)
-            OverlayManager::getSingleton().destroy(mLodInfoOverlay);
+            OverlayManager::singleton().destroy(mLodInfoOverlay);
 
         if(mLodInfoOverlayContainer)
         {
             for(LabelList::iterator li = mLodStatusLabelList.begin(); li != mLodStatusLabelList.end(); li++)
             {
                 mLodInfoOverlayContainer->_removeChild(*li);
-                OverlayManager::getSingleton().destroyOverlayElement(*li);
+                OverlayManager::singleton().destroyOverlayElement(*li);
             }
             mLodStatusLabelList.clear();
 
-            OverlayManager::getSingleton().destroyOverlayElement(mLodInfoOverlayContainer);
+            OverlayManager::singleton().destroyOverlayElement(
+                mLodInfoOverlayContainer);
         }
 
 		SdkSample::_shutdown();

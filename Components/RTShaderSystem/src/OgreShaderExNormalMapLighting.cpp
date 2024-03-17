@@ -259,12 +259,10 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
                 {
                     ++it;
                     // sampler reference
-                    if (auto sampler = TextureManager::getSingleton().getSampler((*it)->getString()))
-                    {
+                    if (auto sampler = TextureManager::singleton().getSampler(
+                            (*it)->getString())) {
                         normalMapTexture->setSampler(sampler);
-                    }
-                    else
-                    {
+                    } else {
                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                     }
                 }

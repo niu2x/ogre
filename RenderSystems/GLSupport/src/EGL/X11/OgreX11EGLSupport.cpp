@@ -118,7 +118,7 @@ namespace Ogre {
 
             if (mNativeDisplay == EGL_DEFAULT_DISPLAY)
             {
-                LogManager::getSingleton().log_warning("Couldn't open X display");
+                LogManager::singleton().log_warning("Couldn't open X display");
                 return mNativeDisplay;
             }
         }

@@ -95,7 +95,8 @@ namespace Ogre {
             nameStrings.push_back(name);
         }
 
-        GLSLProgram* program = GLSLProgramManager::getSingleton().getActiveProgram();
+        GLSLProgram* program
+            = GLSLProgramManager::singleton().getActiveProgram();
 
         program->setTransformFeedbackVaryings(nameStrings);
     }
@@ -134,7 +135,7 @@ namespace Ogre {
         OGRE_CHECK_GL_ERROR(glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, targetVertexBuffer->getGLBufferId()));
         // OGRE_CHECK_GL_ERROR(glBindVertexArray(VertexArray[mSourceBufferIndex]));
 
-        GLSLProgramManager::getSingleton().getActiveProgram()->activate();
+        GLSLProgramManager::singleton().getActiveProgram()->activate();
 
         // 'Render' data to the transform buffer.
         OGRE_CHECK_GL_ERROR(glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, mPrimitivesDrawnQuery));
@@ -152,7 +153,7 @@ namespace Ogre {
             this->getRenderOperation(renderOp);
         }
 
-        RenderSystem* targetRenderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* targetRenderSystem = Root::singleton().getRenderSystem();
         targetRenderSystem->_render(renderOp);
         // OGRE_CHECK_GL_ERROR(glDrawArrays(GL_POINTS, 0, 1));
 

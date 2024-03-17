@@ -39,17 +39,24 @@ THE SOFTWARE.
 #define ENABLE_EGL_CHECK 0
 
 #if ENABLE_EGL_CHECK
-    #define EGL_CHECK_ERROR \
-    { \
-        int e = eglGetError(); \
-        if ((e != 0) && (e != EGL_SUCCESS))\
-        { \
-            char msgBuf[4096]; \
-            sprintf(msgBuf, "EGL error 0x%04X in %s at line %i\n", e, __PRETTY_FUNCTION__, __LINE__); \
-            LogManager::getSingleton().log_message(msgBuf); \
-            OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, msgBuf, __PRETTY_FUNCTION__); \
-        } \
-    }
+    #define EGL_CHECK_ERROR                                                    \
+        {                                                                      \
+            int e = eglGetError();                                             \
+            if ((e != 0) && (e != EGL_SUCCESS)) {                              \
+                char msgBuf[4096];                                             \
+                sprintf(                                                       \
+                    msgBuf,                                                    \
+                    "EGL error 0x%04X in %s at line %i\n",                     \
+                    e,                                                         \
+                    __PRETTY_FUNCTION__,                                       \
+                    __LINE__);                                                 \
+                LogManager::singleton().log_message(msgBuf);                   \
+                OGRE_EXCEPT(                                                   \
+                    Exception::ERR_RENDERINGAPI_ERROR,                         \
+                    msgBuf,                                                    \
+                    __PRETTY_FUNCTION__);                                      \
+            }                                                                  \
+        }
 #else
     #define EGL_CHECK_ERROR {}
 #endif

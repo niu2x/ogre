@@ -56,7 +56,7 @@ namespace Ogre
         samplerCi.mipmapMode = VulkanMappings::getMipFilter(mMipFilter);
         samplerCi.mipLodBias = mMipmapBias;
 
-        auto caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        auto caps = Root::singleton().getRenderSystem()->getCapabilities();
         if (caps->hasCapability(RSC_ANISOTROPY))
         {
             samplerCi.anisotropyEnable = VK_TRUE;
@@ -69,7 +69,9 @@ namespace Ogre
         samplerCi.unnormalizedCoordinates = VK_FALSE;
         samplerCi.maxLod = mMipFilter == FO_NONE ? 0 : VK_LOD_CLAMP_NONE;
 
-        bool reversedZ = Root::getSingleton().getRenderSystem()->isReverseDepthBufferEnabled();
+        bool reversedZ = Root::singleton()
+                             .getRenderSystem()
+                             ->isReverseDepthBufferEnabled();
 
         auto borderBlack = VK_BORDER_COLOR_FLOAT_OPAQUE_BLACK;
         auto borderWhite = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;

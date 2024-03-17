@@ -83,11 +83,11 @@ THE SOFTWARE.
 namespace Ogre {
     //-----------------------------------------------------------------------
     template<> Root* Singleton<Root>::msSingleton = 0;
-    Root* Root::getSingletonPtr(void)
+    Root* Root::singleton_ptr((void)
     {
         return msSingleton;
     }
-    Root& Root::getSingleton(void)
+    Root& Root::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -121,7 +121,7 @@ namespace Ogre {
         mConfigFileName = configFileName;
 
         // Create log manager and default log file if there is no log manager yet
-        if(!LogManager::getSingletonPtr())
+        if(!LogManager::singleton_ptr(())
         {
             mLogManager = std::make_unique<LogManager>();
 
@@ -172,17 +172,17 @@ namespace Ogre {
 #if OGRE_PROFILING
         // Profiler
         mProfiler.reset(new Profiler());
-        Profiler::getSingleton().setTimer(mTimer.get());
+        Profiler::singleton().setTimer(mTimer.get());
 #endif
 
 
         mFileSystemArchiveFactory = std::make_unique<FileSystemArchiveFactory>();
-        ArchiveManager::getSingleton().addArchiveFactory( mFileSystemArchiveFactory.get() );
+        ArchiveManager::singleton().addArchiveFactory( mFileSystemArchiveFactory.get() );
 #   if OGRE_NO_ZIP_ARCHIVE == 0
         mZipArchiveFactory = std::make_unique<ZipArchiveFactory>();
-        ArchiveManager::getSingleton().addArchiveFactory( mZipArchiveFactory.get() );
+        ArchiveManager::singleton().addArchiveFactory( mZipArchiveFactory.get() );
         mEmbeddedZipArchiveFactory = std::make_unique<EmbeddedZipArchiveFactory>();
-        ArchiveManager::getSingleton().addArchiveFactory( mEmbeddedZipArchiveFactory.get() );
+        ArchiveManager::singleton().addArchiveFactory( mEmbeddedZipArchiveFactory.get() );
 #   endif
 
 #if OGRE_NO_DDS_CODEC == 0
@@ -229,8 +229,8 @@ namespace Ogre {
         if (!pluginFileName.empty())
             loadPlugins(pluginFileName);
 
-        LogManager::getSingleton().log_message("*-*-* OGRE Initialising");
-        LogManager::getSingleton().log_message("*-*-* Version " + mVersion);
+        LogManager::singleton().log_message("*-*-* OGRE Initialising");
+        LogManager::singleton().log_message("*-*-* Version " + mVersion);
 
         // Can't create managers until initialised
         mControllerManager = 0;
@@ -407,7 +407,7 @@ namespace Ogre {
                 }
                 catch(const InvalidParametersException& e)
                 {
-                    LogManager::getSingleton().log_error(e.description());
+                    LogManager::singleton().log_error(e.description());
                     optionError = true;
                     continue;
                 }
@@ -526,7 +526,7 @@ namespace Ogre {
         if (!mControllerManager)
             mControllerManager = std::make_unique<ControllerManager>();
 
-        PlatformInformation::log(LogManager::getSingleton().default_log());
+        PlatformInformation::log(LogManager::singleton().default_log());
         mActiveRenderer->_initialise();
 
         // Initialise timer
@@ -589,12 +589,12 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     TextureManager* Root::getTextureManager(void)
     {
-        return &TextureManager::getSingleton();
+    return &TextureManager::singleton();
     }
     //-----------------------------------------------------------------------
     MeshManager* Root::getMeshManager(void)
     {
-        return &MeshManager::getSingleton();
+    return &MeshManager::singleton();
     }
     //-----------------------------------------------------------------------
     void Root::addFrameListener(FrameListener* newListener)
@@ -676,8 +676,8 @@ namespace Ogre {
         }
 
         // Tell buffer manager to free temp buffers used this frame
-        if (HardwareBufferManager::getSingletonPtr())
-            HardwareBufferManager::getSingleton()._releaseBufferCopies();
+        if (HardwareBufferManager::singleton_ptr(())
+            HardwareBufferManager::singleton()._releaseBufferCopies();
 
         // Tell the queue to process responses
         mWorkQueue->process_main_thread_tasks();
@@ -831,7 +831,7 @@ namespace Ogre {
         mShadowTextureManager.reset();
 
         ShadowVolumeExtrudeProgram::shutdown();
-        ResourceGroupManager::getSingleton().shutdownAll();
+        ResourceGroupManager::singleton().shutdownAll();
 
         // Destroy pools
         ConvexBody::_destroyPool();
@@ -839,7 +839,7 @@ namespace Ogre {
 
         mIsInitialised = false;
 
-        LogManager::getSingleton().log_message("*-*-* OGRE Shutdown");
+        LogManager::singleton().log_message("*-*-* OGRE Shutdown");
     }
     //-----------------------------------------------------------------------
     void Root::loadPlugins( const String& pluginsfile )
@@ -853,7 +853,8 @@ namespace Ogre {
         }
         catch (Exception& e)
         {
-            LogManager::getSingleton().log_error(e.description()+" - skipping automatic plugin loading");
+            LogManager::singleton().log_error(
+                e.description() + " - skipping automatic plugin loading");
             return;
         }
 
@@ -872,8 +873,9 @@ namespace Ogre {
         if(char* val = getenv("OGRE_PLUGIN_DIR"))
         {
             pluginDir = val;
-            LogManager::getSingleton().log_message(
-                "setting PluginFolder from OGRE_PLUGIN_DIR environment variable");
+            LogManager::singleton().log_message(
+                "setting PluginFolder from OGRE_PLUGIN_DIR environment "
+                "variable");
         }
 
         pluginDir = FileSystemLayer::resolveBundlePath(pluginDir);
@@ -924,8 +926,7 @@ namespace Ogre {
             // this will call uninstallPlugin
             pFunc();
             // Unload library & destroy
-            DynLibManager::getSingleton().unload(*i);
-
+            DynLibManager::singleton().unload(*i);
         }
         mPluginLibs.clear();
 
@@ -953,7 +954,7 @@ namespace Ogre {
         {
             try
             {
-                stream = ResourceGroupManager::getSingleton().create_resource(
+                stream = ResourceGroupManager::singleton().create_resource(
                     filename,
                     groupName,
                     overwrite,
@@ -976,7 +977,7 @@ namespace Ogre {
     DataStreamPtr Root::openFileStream(const String& filename, const String& groupName)
     {
         DataStreamPtr ret;
-        if(auto rgm = ResourceGroupManager::getSingletonPtr())
+        if(auto rgm = ResourceGroupManager::singleton_ptr(())
             ret = rgm->openResource(filename, groupName, NULL, false);
 
         if(ret)
@@ -1043,35 +1044,32 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void Root::installPlugin(Plugin* plugin)
     {
-        LogManager::getSingleton().log_message(
-            "Installing plugin: " + plugin->name());
+    LogManager::singleton().log_message("Installing plugin: " + plugin->name());
 
-        mPlugins.push_back(plugin);
-        plugin->install();
+    mPlugins.push_back(plugin);
+    plugin->install();
 
-        // if rendersystem is already initialised, call rendersystem init too
-        if (mIsInitialised)
-        {
-            plugin->initialise();
+    // if rendersystem is already initialised, call rendersystem init too
+    if (mIsInitialised) {
+        plugin->initialise();
         }
 
-        LogManager::getSingleton().log_message("Plugin successfully installed");
+        LogManager::singleton().log_message("Plugin successfully installed");
     }
     //---------------------------------------------------------------------
     void Root::uninstallPlugin(Plugin* plugin)
     {
-        LogManager::getSingleton().log_message(
-            "Uninstalling plugin: " + plugin->name());
-        PluginInstanceList::iterator i =
-            std::find(mPlugins.begin(), mPlugins.end(), plugin);
-        if (i != mPlugins.end())
-        {
-            if (mIsInitialised)
-                plugin->shutdown();
-            plugin->uninstall();
-            mPlugins.erase(i);
+    LogManager::singleton().log_message(
+        "Uninstalling plugin: " + plugin->name());
+    PluginInstanceList::iterator i
+        = std::find(mPlugins.begin(), mPlugins.end(), plugin);
+    if (i != mPlugins.end()) {
+        if (mIsInitialised)
+            plugin->shutdown();
+        plugin->uninstall();
+        mPlugins.erase(i);
         }
-        LogManager::getSingleton().log_message("Plugin successfully uninstalled");
+        LogManager::singleton().log_message("Plugin successfully uninstalled");
 
     }
     //-----------------------------------------------------------------------
@@ -1079,7 +1077,7 @@ namespace Ogre {
     {
 #if OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN
         // Load plugin library
-        DynLib* lib = DynLibManager::getSingleton().load( pluginName );
+        DynLib* lib = DynLibManager::singleton().load(pluginName);
         // Store for later unload
         // Check for existence, because if called 2+ times DynLibManager returns existing entry
         if (std::find(mPluginLibs.begin(), mPluginLibs.end(), lib) == mPluginLibs.end())
@@ -1118,7 +1116,7 @@ namespace Ogre {
                 // this must call uninstallPlugin
                 pFunc();
                 // Unload library (destroyed by DynLibManager)
-                DynLibManager::getSingleton().unload(*i);
+                DynLibManager::singleton().unload(*i);
                 mPluginLibs.erase(i);
                 return;
             }
@@ -1134,7 +1132,8 @@ namespace Ogre {
     void Root::oneTimePostWindowInit(void)
     {
         // log RenderSystem caps
-        mActiveRenderer->getCapabilities()->log(LogManager::getSingleton().default_log());
+        mActiveRenderer->getCapabilities()->log(
+            LogManager::singleton().default_log());
 
         // Background loader
         mWorkQueue->startup(true);
@@ -1143,7 +1142,7 @@ namespace Ogre {
         // Init particle systems manager
         mParticleManager->_initialise();
         // Init mesh manager
-        MeshManager::getSingleton()._initialise();
+        MeshManager::singleton()._initialise();
         // Init plugins - after window creation so rsys resources available
         initialisePlugins();
         mFirstTimePostWindowInit = true;
@@ -1221,8 +1220,9 @@ namespace Ogre {
         // Save
         mMovableObjectFactoryMap[fact->getType()] = fact;
 
-        LogManager::getSingleton().log_message("MovableObjectFactory for type '" +
-            fact->getType() + "' registered.");
+        LogManager::singleton().log_message(
+            "MovableObjectFactory for type '" + fact->getType()
+            + "' registered.");
 
     }
     //---------------------------------------------------------------------

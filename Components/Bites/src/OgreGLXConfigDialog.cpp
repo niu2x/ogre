@@ -276,7 +276,8 @@ bool GLXConfigurator::CreateWindow() {
     Widget menu = XtVaCreatePopupShell("menu", simpleMenuWidgetClass, mb1,
         0, NULL);
 
-    const RenderSystemList& renderers = Root::getSingleton().getAvailableRenderers();
+    const RenderSystemList& renderers
+        = Root::singleton().getAvailableRenderers();
     for (RenderSystemList::const_iterator pRend = renderers.begin();
                     pRend != renderers.end(); pRend++) {
         // Create callback data
@@ -320,7 +321,8 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
     /* Find out number of bytes per pixel */
     switch(depth) {
     default:
-        LogManager::getSingleton().log_message("GLX backdrop: Unsupported bit depth");
+        LogManager::singleton().log_message(
+            "GLX backdrop: Unsupported bit depth");
         /* Unsupported bit depth */
         return 0;
     case 15:
@@ -352,7 +354,8 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
         PixelUtil::bulkPixelConversion(src, dst);
     } catch(Exception &e) {
         // Could not find image; never mind
-        LogManager::getSingleton().log_warning("Can not load backdrop for config dialog: " + e.description());
+        LogManager::singleton().log_warning(
+            "Can not load backdrop for config dialog: " + e.description());
         return 0;
     }
 
@@ -483,8 +486,8 @@ bool ConfigDialog::display()
 {
     GLXConfigurator test;
     /* Select previously selected rendersystem */
-    if(Root::getSingleton().getRenderSystem())
-        test.SetRenderSystem(Root::getSingleton().getRenderSystem());
+    if (Root::singleton().getRenderSystem())
+        test.SetRenderSystem(Root::singleton().getRenderSystem());
     /* Attempt to create the window */
     if(!test.CreateWindow())
         OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "Could not create configuration dialog",
@@ -496,7 +499,7 @@ bool ConfigDialog::display()
         return false;
 
     /* All done */
-    Root::getSingleton().setRenderSystem(test.mRenderer);
+    Root::singleton().setRenderSystem(test.mRenderer);
 
     return true;
 }

@@ -38,12 +38,12 @@ namespace Ogre {
     extern "C" void _OgreGLES2Export dllStartPlugin(void)
     {
         plugin = OGRE_NEW GLES2Plugin();
-        Root::getSingleton().installPlugin(plugin);
+        Root::singleton().installPlugin(plugin);
     }
 
     extern "C" void _OgreGLES2Export dllStopPlugin(void)
     {
-        Root::getSingleton().uninstallPlugin(plugin);
+        Root::singleton().uninstallPlugin(plugin);
         OGRE_DELETE plugin;
     }
 }

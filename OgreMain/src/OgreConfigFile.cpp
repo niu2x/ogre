@@ -64,8 +64,9 @@ namespace Ogre {
     void ConfigFile::loadFromResourceSystem(const String& filename, 
         const String& resourceGroup, const String& separators, bool trimWhitespace)
     {
-        DataStreamPtr stream = 
-            ResourceGroupManager::getSingleton().openResource(filename, resourceGroup);
+        DataStreamPtr stream = ResourceGroupManager::singleton().openResource(
+            filename,
+            resourceGroup);
         load(stream, separators, trimWhitespace);
     }
     //-----------------------------------------------------------------------

@@ -65,7 +65,8 @@ namespace Volume {
     {
     
         Timer t;
-        DataStreamPtr streamRead = Root::getSingleton().openFileStream(serializedVolumeFile);
+        DataStreamPtr streamRead
+            = Root::singleton().openFileStream(serializedVolumeFile);
 #if OGRE_NO_ZIP_ARCHIVE == 0
         DataStreamPtr uncompressStream(OGRE_NEW DeflateStream(serializedVolumeFile, streamRead));
         StreamSerialiser ser(uncompressStream);
@@ -107,7 +108,7 @@ namespace Volume {
 
         ser.readChunkEnd(VOLUME_CHUNK_ID);
 
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "Processed serialization in " << t.milli_seconds() << "ms.";
     }
         

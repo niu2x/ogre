@@ -167,7 +167,10 @@ public:
         drawLine(PointOnB, PointOnB + normalOnB * distance * 20, color);
     }
 
-    void reportErrorWarning(const char* warningString) override { LogManager::getSingleton().log_warning(warningString); }
+    void reportErrorWarning(const char* warningString) override
+    {
+        LogManager::singleton().log_warning(warningString);
+    }
 
     void draw3dText(const btVector3& location, const char* textString) override {}
 

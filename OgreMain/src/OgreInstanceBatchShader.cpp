@@ -91,7 +91,7 @@ namespace Ogre
                         if((retVal < 3 && entry->paramType == GpuProgramParameters::ACT_WORLD_MATRIX_ARRAY_3x4) ||
                             (retVal < 2 && entry->paramType == GpuProgramParameters::ACT_WORLD_DUALQUATERNION_ARRAY_2x4))
                         {
-                            LogManager::getSingleton().log_warning(
+                            LogManager::singleton().log_warning(
                                 "InstanceBatchShader: Mesh '"
                                 + mMeshReference->name() + "' using material '"
                                 + mMaterial->name()
@@ -136,7 +136,8 @@ namespace Ogre
         thisVertexData->vertexStart = 0;
         thisVertexData->vertexCount = baseVertexData->vertexCount * mInstancesPerBatch;
 
-        HardwareBufferManager::getSingleton().destroyVertexDeclaration( thisVertexData->vertexDeclaration );
+        HardwareBufferManager::singleton().destroyVertexDeclaration(
+            thisVertexData->vertexDeclaration);
         thisVertexData->vertexDeclaration = baseVertexData->vertexDeclaration->clone();
 
         if( mMeshReference->hasSkeleton() && mMeshReference->getSkeleton() )
@@ -155,11 +156,11 @@ namespace Ogre
         for( uint16 i=0; i<thisVertexData->vertexDeclaration->getMaxSource(); ++i )
         {
             //Create our own vertex buffer
-            HardwareVertexBufferSharedPtr vertexBuffer =
-                                            HardwareBufferManager::getSingleton().createVertexBuffer(
-                                            thisVertexData->vertexDeclaration->getVertexSize(i),
-                                            thisVertexData->vertexCount,
-                                            HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+            HardwareVertexBufferSharedPtr vertexBuffer
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    thisVertexData->vertexDeclaration->getVertexSize(i),
+                    thisVertexData->vertexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
             thisVertexData->vertexBufferBinding->setBinding( i, vertexBuffer );
 
             //Grab the base submesh data
@@ -183,11 +184,12 @@ namespace Ogre
         {
             //Now create the vertices "index ID" to individualize each instance
             const unsigned short lastSource = thisVertexData->vertexDeclaration->getMaxSource();
-            HardwareVertexBufferSharedPtr vertexBuffer =
-                                            HardwareBufferManager::getSingleton().createVertexBuffer(
-                                            thisVertexData->vertexDeclaration->getVertexSize( lastSource ),
-                                            thisVertexData->vertexCount,
-                                            HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+            HardwareVertexBufferSharedPtr vertexBuffer
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    thisVertexData->vertexDeclaration->getVertexSize(
+                        lastSource),
+                    thisVertexData->vertexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
             thisVertexData->vertexBufferBinding->setBinding( lastSource, vertexBuffer );
 
             HardwareBufferLockGuard thisLock(vertexBuffer, HardwareBuffer::HBL_DISCARD);
@@ -221,8 +223,11 @@ namespace Ogre
         HardwareIndexBuffer::IndexType indexType = HardwareIndexBuffer::IT_16BIT;
         if( mRenderOperation.vertexData->vertexCount > 65535 )
             indexType = HardwareIndexBuffer::IT_32BIT;
-        thisIndexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-            indexType, thisIndexData->indexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+        thisIndexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                indexType,
+                thisIndexData->indexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
         HardwareBufferLockGuard thisLock(thisIndexData->indexBuffer, HardwareBuffer::HBL_DISCARD);
         HardwareBufferLockGuard baseLock(baseIndexData->indexBuffer, HardwareBuffer::HBL_READ_ONLY);
@@ -258,11 +263,11 @@ namespace Ogre
         for( uint16 i=0; i<=thisVertexData->vertexDeclaration->getMaxSource(); ++i )
         {
             //Create our own vertex buffer
-            HardwareVertexBufferSharedPtr vertexBuffer =
-                                            HardwareBufferManager::getSingleton().createVertexBuffer(
-                                            thisVertexData->vertexDeclaration->getVertexSize(i),
-                                            thisVertexData->vertexCount,
-                                            HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+            HardwareVertexBufferSharedPtr vertexBuffer
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    thisVertexData->vertexDeclaration->getVertexSize(i),
+                    thisVertexData->vertexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
             thisVertexData->vertexBufferBinding->setBinding( i, vertexBuffer );
 
             VertexDeclaration::VertexElementList veList =

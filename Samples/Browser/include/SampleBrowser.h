@@ -287,7 +287,9 @@ namespace OgreBites
                 }
             } else if (b->name() == "Configure") // enter configuration screen
             {
-                mOwnsImGuiOverlay = !Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay");
+                mOwnsImGuiOverlay
+                    = !Ogre::OverlayManager::singleton().getByName(
+                        "ImGuiOverlay");
                 auto imguiOverlay = initialiseImGui();
                 imguiOverlay->addFont("SdkTrays/Caption", "Essential");
                 imguiOverlay->setZOrder(300);
@@ -359,7 +361,9 @@ namespace OgreBites
             } else if (b->name() == "Back") // leave configuration screen
             {
                 if(mOwnsImGuiOverlay)
-                    Ogre::OverlayManager::getSingleton().destroy("ImGuiOverlay"); // bring down overly to avoid interfering with samples
+                    Ogre::OverlayManager::singleton().destroy(
+                        "ImGuiOverlay"); // bring down overly to avoid
+                                         // interfering with samples
                 else
                     Ogre::ImGuiOverlay::NewFrame(); // clear dialog
 
@@ -419,14 +423,14 @@ namespace OgreBites
             {
                 for (unsigned int i = 0; i < mThumbs.size(); i++)    // destroy all thumbnails in carousel
                 {
-                    Ogre::MaterialManager::getSingleton().remove(
+                    Ogre::MaterialManager::singleton().remove(
                         mThumbs[i]->name(),
                         "Essential");
                     Widget::nukeOverlayElement(mThumbs[i]);
                 }
                 mThumbs.clear();
 
-                Ogre::OverlayManager& om = Ogre::OverlayManager::getSingleton();
+                Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
                 Ogre::String selectedCategory;
 
                 if (menu->getSelectionIndex() != -1) selectedCategory = menu->getSelectedItem();
@@ -438,7 +442,9 @@ namespace OgreBites
 
                 bool all = selectedCategory == "All";
                 Ogre::StringVector sampleTitles;
-                Ogre::MaterialPtr templateMat = Ogre::MaterialManager::getSingleton().getByName("SdkTrays/SampleThumbnail");
+                Ogre::MaterialPtr templateMat
+                    = Ogre::MaterialManager::singleton().getByName(
+                        "SdkTrays/SampleThumbnail");
 
                 // populate the sample menu and carousel with filtered samples
                 for (SampleSet::iterator i = mLoadedSamples.begin(); i != mLoadedSamples.end(); i++)
@@ -754,7 +760,10 @@ namespace OgreBites
             Sample* startupSample = loadSamples();
 
             // create template material for sample thumbnails
-            Ogre::MaterialPtr thumbMat = Ogre::MaterialManager::getSingleton().create("SdkTrays/SampleThumbnail", "Essential");
+            Ogre::MaterialPtr thumbMat
+                = Ogre::MaterialManager::singleton().create(
+                    "SdkTrays/SampleThumbnail",
+                    "Essential");
             thumbMat->setLightingEnabled(false);
             thumbMat->setDepthCheckEnabled(false);
             thumbMat->getTechnique(0)->getPass(0)->createTextureUnitState();
@@ -802,10 +811,12 @@ namespace OgreBites
         void loadResources() override
         {
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE
-            Ogre::OverlayManager::getSingleton().setPixelRatio(getDisplayDPI()/96);
+            Ogre::OverlayManager::singleton().setPixelRatio(
+                getDisplayDPI() / 96);
 #endif
 
-            Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
+            Ogre::ResourceGroupManager::singleton().initialiseResourceGroup(
+                "Essential");
             mTrayMgr = new TrayManager("BrowserControls", getRenderWindow(), this);
             mTrayMgr->showBackdrop("SdkTrays/Bands");
             mTrayMgr->getTrayContainer(TL_NONE)->hide();
@@ -813,12 +824,13 @@ namespace OgreBites
 #if ENABLE_SHADERS_CACHE == 1
             enableShaderCache();
 #endif
-            // Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+            // Ogre::TextureManager::singleton().setDefaultNumMipmaps(5);
 
             createDummyScene();
 
             mTrayMgr->showLoadingBar(1, 0);
-            Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+            Ogre::ResourceGroupManager::singleton()
+                .initialiseAllResourceGroups();
             mTrayMgr->hideLoadingBar();
         }
 
@@ -840,7 +852,10 @@ namespace OgreBites
 #else
             Ogre::ConfigFile cfg;
 #   if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-            Ogre::Archive* apk = Ogre::ArchiveManager::getSingleton().load("", "APKFileSystem", true);
+            Ogre::Archive* apk = Ogre::ArchiveManager::singleton().load(
+                "",
+                "APKFileSystem",
+                true);
             cfg.load(apk->open(mFSLayer->getConfigFilePath("samples.cfg")));
 #   else
             cfg.load(mFSLayer->getConfigFilePath("samples.cfg"));
@@ -880,7 +895,7 @@ namespace OgreBites
                 }
                 catch (Ogre::Exception& e)   // plugin couldn't be loaded
                 {
-                    Ogre::LogManager::getSingleton().log_error(e.what());
+                    Ogre::LogManager::singleton().log_error(e.what());
                     unloadedSamplePlugins.push_back(sampleDir + *i);
                     continue;
                 }
@@ -1102,7 +1117,8 @@ namespace OgreBites
         {
             SampleContext::pauseCurrentSample();
 
-            Ogre::OverlayManager::OverlayMapIterator it = Ogre::OverlayManager::getSingleton().getOverlayIterator();
+            Ogre::OverlayManager::OverlayMapIterator it
+                = Ogre::OverlayManager::singleton().getOverlayIterator();
             mHiddenOverlays.clear();
 
             while (it.hasMoreElements())

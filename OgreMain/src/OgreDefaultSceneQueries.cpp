@@ -41,7 +41,7 @@ namespace Ogre {
     void DefaultIntersectionSceneQuery::execute(IntersectionSceneQueryListener* listener)
     {
         // Iterate over all movable types
-        const auto& factories = Root::getSingleton().getMovableObjectFactories();
+        const auto& factories = Root::singleton().getMovableObjectFactories();
         auto factIt = factories.begin();
         while(factIt != factories.end())
         {
@@ -123,8 +123,8 @@ namespace Ogre {
     void DefaultAxisAlignedBoxSceneQuery::execute(SceneQueryListener* listener)
     {
         // Iterate over all movable types
-        for(const auto& factIt : Root::getSingleton().getMovableObjectFactories())
-        {
+        for (const auto& factIt :
+             Root::singleton().getMovableObjectFactories()) {
             for (const auto& objIt : mParentSceneMgr->getMovableObjects(factIt.first))
             {
                 MovableObject* a = objIt.second;
@@ -159,8 +159,8 @@ namespace Ogre {
         // required to fulfil the query
 
         // Iterate over all movable types
-        for(const auto& factIt : Root::getSingleton().getMovableObjectFactories())
-        {
+        for (const auto& factIt :
+             Root::singleton().getMovableObjectFactories()) {
             for (const auto& objIt : mParentSceneMgr->getMovableObjects(factIt.first))
             {
                 MovableObject* a = objIt.second;
@@ -180,7 +180,6 @@ namespace Ogre {
                 }
             }
         }
-
     }
     //---------------------------------------------------------------------
     DefaultSphereSceneQuery::
@@ -195,8 +194,8 @@ namespace Ogre {
     void DefaultSphereSceneQuery::execute(SceneQueryListener* listener)
     {
         // Iterate over all movable types
-        for(const auto& factIt : Root::getSingleton().getMovableObjectFactories())
-        {
+        for (const auto& factIt :
+             Root::singleton().getMovableObjectFactories()) {
             for (const auto& objIt : mParentSceneMgr->getMovableObjects(factIt.first))
             {
                 MovableObject* a = objIt.second;
@@ -229,8 +228,8 @@ namespace Ogre {
     void DefaultPlaneBoundedVolumeListSceneQuery::execute(SceneQueryListener* listener)
     {
         // Iterate over all movable types
-        for(const auto& factIt : Root::getSingleton().getMovableObjectFactories())
-        {
+        for (const auto& factIt :
+             Root::singleton().getMovableObjectFactories()) {
             for (const auto& objIt : mParentSceneMgr->getMovableObjects(factIt.first))
             {
                 MovableObject* a = objIt.second;

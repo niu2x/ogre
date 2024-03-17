@@ -61,7 +61,8 @@ namespace Ogre
         thisVertexData->vertexCount = baseVertexData->vertexCount;
         mRenderOperation.numberOfInstances = mInstancesPerBatch;
 
-        HardwareBufferManager::getSingleton().destroyVertexDeclaration(thisVertexData->vertexDeclaration );
+        HardwareBufferManager::singleton().destroyVertexDeclaration(
+            thisVertexData->vertexDeclaration);
         thisVertexData->vertexDeclaration = baseVertexData->vertexDeclaration->clone();
 
         //Reuse all vertex buffers
@@ -170,11 +171,11 @@ namespace Ogre
         }
         
         //Create our own vertex buffer
-        HardwareVertexBufferSharedPtr vertexBuffer =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-            thisVertexData->vertexDeclaration->getVertexSize(newSource),
-            thisVertexData->vertexCount,
-            HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+        HardwareVertexBufferSharedPtr vertexBuffer
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                thisVertexData->vertexDeclaration->getVertexSize(newSource),
+                thisVertexData->vertexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         thisVertexData->vertexBufferBinding->setBinding( newSource, vertexBuffer );
 
         HardwareBufferLockGuard vertexLock(vertexBuffer, HardwareBuffer::HBL_DISCARD);
@@ -279,10 +280,11 @@ namespace Ogre
         }
 
         //Create our own vertex buffer
-        mInstanceVertexBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(
-                                        thisVertexData->vertexDeclaration->getVertexSize(newSource),
-                                        mInstancesPerBatch,
-                                        HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+        mInstanceVertexBuffer
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                thisVertexData->vertexDeclaration->getVertexSize(newSource),
+                mInstancesPerBatch,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         thisVertexData->vertexBufferBinding->setBinding( newSource, mInstanceVertexBuffer );
 
         //Mark this buffer as instanced
@@ -308,7 +310,7 @@ namespace Ogre
             //Calculate the texel offsets to correct them offline
             //Awkwardly enough, the offset is needed in OpenGL too
             Vector2 texelOffsets;
-            //RenderSystem *renderSystem = Root::getSingleton().getRenderSystem();
+            // RenderSystem *renderSystem = Root::singleton().getRenderSystem();
             texelOffsets.x = /*renderSystem->getHorizontalTexelOffset()*/ -0.5f / texWidth;
             texelOffsets.y = /*renderSystem->getHorizontalTexelOffset()*/ -0.5f / texHeight;
 
@@ -395,7 +397,7 @@ namespace Ogre
     {
         size_t retVal = 0;
 
-        RenderSystem *renderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* renderSystem = Root::singleton().getRenderSystem();
         const RenderSystemCapabilities *capabilities = renderSystem->getCapabilities();
 
         //VTF & HW Instancing must be supported

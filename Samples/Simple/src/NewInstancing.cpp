@@ -110,7 +110,8 @@ void Sample_NewInstancing::setupContent()
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
     // Make this viewport work with shader generator scheme.
     mViewport->setMaterialScheme(MSN_SHADERGEN);
-    RTShader::ShaderGenerator& rtShaderGen = RTShader::ShaderGenerator::getSingleton();
+    RTShader::ShaderGenerator& rtShaderGen
+        = RTShader::ShaderGenerator::singleton();
     RTShader::RenderState* schemRenderState = rtShaderGen.getRenderState(MSN_SHADERGEN);
     RTShader::SubRenderState* subRenderState = rtShaderGen.createSubRenderState(RTShader::SRS_SHADOW_MAPPING);
     schemRenderState->addTemplateSubRenderState(subRenderState);
@@ -126,7 +127,8 @@ void Sample_NewInstancing::setupContent()
     rtShaderGen.invalidateScheme(MSN_SHADERGEN);
 
     // update scheme for FFP supporting rendersystems
-    MaterialManager::getSingleton().setActiveScheme(mViewport->getMaterialScheme());
+    MaterialManager::singleton().setActiveScheme(
+        mViewport->getMaterialScheme());
 #endif
 
     //Initialize the techniques and current mesh variables
@@ -140,7 +142,7 @@ void Sample_NewInstancing::setupContent()
     mSceneMgr->setShadowTextureSelfShadow( true );
     mSceneMgr->setShadowCasterRenderBackFaces( true );
 
-    if (Ogre::Root::getSingletonPtr()->getRenderSystem()->name().find(
+    if (Ogre::Root::singleton_ptr(()->getRenderSystem()->name().find(
             "OpenGL ES 2")
         == String::npos) {
         mSceneMgr->setShadowTextureConfig( 0, 2048, 2048, PF_DEPTH16 );
@@ -157,7 +159,7 @@ void Sample_NewInstancing::setupContent()
     mSceneMgr->setSkyBox(true, "Examples/CloudyNoonSkyBox");
 
     // create a mesh for our ground
-    MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+    MeshManager::singleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         Plane(Vector3::unit_y, 0), 10000, 10000, 20, 20, true, 1, 6, 6, Vector3::unit_z);
 
     // create a ground entity from our mesh and attach it to the origin
@@ -440,7 +442,9 @@ void Sample_NewInstancing::destroyManagers()
 //------------------------------------------------------------------------------
 void Sample_NewInstancing::cleanupContent()
 {
-    MeshManager::getSingleton().remove("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshManager::singleton().remove(
+        "ground",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     clearScene();
     destroyManagers();
 }

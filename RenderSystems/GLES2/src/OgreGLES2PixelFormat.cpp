@@ -369,7 +369,8 @@ namespace Ogre {
             }
         }
 
-        LogManager::getSingleton().stream() << "Unhandled Pixel format: 0x" << std::hex << format;
+        LogManager::singleton().stream()
+            << "Unhandled Pixel format: 0x" << std::hex << format;
         return PF_BYTE_RGBA;
     }
 }

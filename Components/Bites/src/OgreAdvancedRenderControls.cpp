@@ -12,7 +12,7 @@
 namespace OgreBites {
 AdvancedRenderControls::AdvancedRenderControls(TrayManager* trayMgr, Ogre::Camera* cam)
     : mCamera(cam), mTrayMgr(trayMgr) {
-    mRoot = Ogre::Root::getSingletonPtr();
+    mRoot = Ogre::Root::singleton_ptr(();
 
     // create a params panel for displaying sample details
     Ogre::StringVector items;
@@ -29,7 +29,7 @@ AdvancedRenderControls::AdvancedRenderControls(TrayManager* trayMgr, Ogre::Camer
     items.push_back("Poly Mode");
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
-    mShaderGenerator = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+    mShaderGenerator = Ogre::RTShader::ShaderGenerator::singleton_ptr(();
     items.push_back("RT Shaders");
     items.push_back("Lighting Model");
     items.push_back("Compact Policy");
@@ -84,34 +84,37 @@ bool AdvancedRenderControls::keyPressed(const KeyboardEvent& evt) {
         Ogre::TextureFilterOptions tfo;
         unsigned int aniso;
 
-        Ogre::FilterOptions mip = Ogre::MaterialManager::getSingleton().getDefaultTextureFiltering(Ogre::FT_MIP);
+        Ogre::FilterOptions mip
+            = Ogre::MaterialManager::singleton().getDefaultTextureFiltering(
+                Ogre::FT_MIP);
 
-        switch (Ogre::MaterialManager::getSingleton().getDefaultTextureFiltering(Ogre::FT_MAG)) {
-        case Ogre::FO_LINEAR:
-            if (mip == Ogre::FO_POINT) {
-                newVal = "Trilinear";
-                tfo = Ogre::TFO_TRILINEAR;
+        switch (Ogre::MaterialManager::singleton().getDefaultTextureFiltering(
+            Ogre::FT_MAG)) {
+            case Ogre::FO_LINEAR:
+                if (mip == Ogre::FO_POINT) {
+                    newVal = "Trilinear";
+                    tfo = Ogre::TFO_TRILINEAR;
+                    aniso = 1;
+                } else {
+                    newVal = "Anisotropic";
+                    tfo = Ogre::TFO_ANISOTROPIC;
+                    aniso = 8;
+                }
+                break;
+            case Ogre::FO_ANISOTROPIC:
+                newVal = "None";
+                tfo = Ogre::TFO_NONE;
                 aniso = 1;
-            } else {
-                newVal = "Anisotropic";
-                tfo = Ogre::TFO_ANISOTROPIC;
-                aniso = 8;
-            }
-            break;
-        case Ogre::FO_ANISOTROPIC:
-            newVal = "None";
-            tfo = Ogre::TFO_NONE;
-            aniso = 1;
-            break;
-        default:
-            newVal = "Bilinear";
-            tfo = Ogre::TFO_BILINEAR;
-            aniso = 1;
-            break;
+                break;
+            default:
+                newVal = "Bilinear";
+                tfo = Ogre::TFO_BILINEAR;
+                aniso = 1;
+                break;
         }
 
-        Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
-        Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
+        Ogre::MaterialManager::singleton().setDefaultTextureFiltering(tfo);
+        Ogre::MaterialManager::singleton().setDefaultAnisotropy(aniso);
         mDetailsPanel->setParamValue(9, newVal);
     } else if (key == 'r') // cycle polygon rendering mode
     {
@@ -137,7 +140,7 @@ bool AdvancedRenderControls::keyPressed(const KeyboardEvent& evt) {
         mDetailsPanel->setParamValue(10, newVal);
     } else if (key == SDLK_F5) // refresh all textures
     {
-        Ogre::TextureManager::getSingleton().reload_all();
+        Ogre::TextureManager::singleton().reload_all();
     }
     else if (key == SDLK_F6)   // take a screenshot
     {
@@ -146,7 +149,7 @@ bool AdvancedRenderControls::keyPressed(const KeyboardEvent& evt) {
     // Toggle visibility of profiler window
     else if (key == 'p')
     {
-        if (auto prof = Ogre::Profiler::getSingletonPtr())
+        if (auto prof = Ogre::Profiler::singleton_ptr(())
             prof->setEnabled(!prof->getEnabled());
     }
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM

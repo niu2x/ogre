@@ -87,9 +87,9 @@ namespace Ogre {
 
         // Use Quake3 file loader
         Quake3Level q3;
-        DataStreamPtr stream = 
-            ResourceGroupManager::getSingleton().openResource(name(), 
-                ResourceGroupManager::getSingleton().getWorldResourceGroupName());
+        DataStreamPtr stream = ResourceGroupManager::singleton().openResource(
+            name(),
+            ResourceGroupManager::singleton().getWorldResourceGroupName());
 
         q3.loadFromStream(stream);
 
@@ -156,9 +156,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     size_t BspLevel::calculateLoadingStages(const String& levelName)
     {
-        DataStreamPtr stream = 
-            ResourceGroupManager::getSingleton().openResource(levelName, 
-            ResourceGroupManager::getSingleton().getWorldResourceGroupName());
+        DataStreamPtr stream = ResourceGroupManager::singleton().openResource(
+            levelName,
+            ResourceGroupManager::singleton().getWorldResourceGroupName());
         return calculateLoadingStages(stream);
     }
     //-----------------------------------------------------------------------
@@ -204,8 +204,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void BspLevel::loadQuake3Level(const Quake3Level& q3lvl)
     {
-        MaterialManager& mm = MaterialManager::getSingleton();
-        ResourceGroupManager& rgm = ResourceGroupManager::getSingleton();
+        MaterialManager& mm = MaterialManager::singleton();
+        ResourceGroupManager& rgm = ResourceGroupManager::singleton();
 
         rgm._notifyCustomStageStarted("Parsing entities");
         loadEntities(q3lvl);
@@ -239,10 +239,10 @@ namespace Ogre {
 
         /// Create the vertex buffer, allow space for patches
         rgm._notifyCustomStageStarted("Setting up vertex data");
-        HardwareVertexBufferSharedPtr vbuf = HardwareBufferManager::getSingleton()
-            .createVertexBuffer(
-                sizeof(BspVertex), 
-                q3lvl.mNumVertices + mPatchVertexCount, 
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                sizeof(BspVertex),
+                q3lvl.mNumVertices + mPatchVertexCount,
                 HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         //COPY static vertex data - Note that we can't just block-copy the vertex data because we have to reorder
         //    our vertex elements; this is to ensure compatibility with older cards when using
@@ -285,8 +285,11 @@ namespace Ogre {
         // create actual hardware index buffer
         // Create enough index space to render whole level, index data is per-frame
         mRenderOp.indexData = OGRE_NEW IndexData();
-        mRenderOp.indexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-            HardwareIndexBuffer::IT_32BIT, numIndexes, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+        mRenderOp.indexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_32BIT,
+                numIndexes,
+                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
         rgm._notifyCustomStageEnded();
 
         // now build patch information
@@ -316,7 +319,8 @@ namespace Ogre {
         ResourceHandle matHandle;
         String meshName;
 
-        String resourceGroup = ResourceGroupManager::getSingleton().getWorldResourceGroupName();
+        String resourceGroup
+            = ResourceGroupManager::singleton().getWorldResourceGroupName();
         size_t progressCountdown = NUM_FACES_PER_PROGRESS_REPORT;
         size_t progressCount = 0;
 
@@ -345,7 +349,8 @@ namespace Ogre {
             tmp << q3lvl.mShaders[shadIdx].name << "#" << q3lvl.mFaces[face].lm_texture;
             shaderName = tmp.str();
 
-            MaterialPtr shadMat = MaterialManager::getSingleton().getByName(shaderName);
+            MaterialPtr shadMat
+                = MaterialManager::singleton().getByName(shaderName);
             if (!shadMat)
             {
                 // Build new material
@@ -354,7 +359,8 @@ namespace Ogre {
                 // NB no extension in Q3A(doh), have to try shader, .jpg, .tga
                 String tryName = q3lvl.mShaders[shadIdx].name;
                 // Try shader first
-                Quake3Shader* pShad = Quake3ShaderManager::getSingleton().getByName(tryName);
+                Quake3Shader* pShad
+                    = Quake3ShaderManager::singleton().getByName(tryName);
                 if (pShad)
                 {
                     shadMat = pShad->createAsMaterial(q3lvl.mFaces[face].lm_texture);
@@ -373,12 +379,13 @@ namespace Ogre {
                     Pass *shadPass = shadMat->getTechnique(0)->getPass(0);
                     // Try jpg
                     TextureUnitState* tex = 0;
-                    if (ResourceGroupManager::getSingleton().resourceExists(resourceGroup, tryName + ".jpg"))
-                    {
+                    if (ResourceGroupManager::singleton().resourceExists(
+                            resourceGroup,
+                            tryName + ".jpg")) {
                         tex = shadPass->createTextureUnitState(tryName + ".jpg");
-                    }
-                    else if (ResourceGroupManager::getSingleton().resourceExists(resourceGroup, tryName + ".tga"))
-                    {
+                    } else if (ResourceGroupManager::singleton().resourceExists(
+                                   resourceGroup,
+                                   tryName + ".tga")) {
                         tex = shadPass->createTextureUnitState(tryName + ".tga");
                     }
 
@@ -482,7 +489,7 @@ namespace Ogre {
             }
             else
             {
-                LogManager::getSingleton().log_error("Unknown Face Type");
+                LogManager::singleton().log_error("Unknown Face Type");
             }
 
             // progress reporting

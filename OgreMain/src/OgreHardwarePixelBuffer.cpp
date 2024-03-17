@@ -57,7 +57,7 @@ namespace Ogre
             for (auto rt : mSliceTRT)
             {
                 if (rt)
-                    Root::getSingleton().getRenderSystem()->destroyRenderTarget(
+                    Root::singleton().getRenderSystem()->destroyRenderTarget(
                         rt->name());
             }
         }

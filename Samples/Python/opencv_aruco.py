@@ -22,10 +22,10 @@ def set_camera_intrinsics(cam, K, imsize):
     cam.setFOVy(fovy)
 
 def create_image_background(scn_mgr):
-    tex = Ogre.TextureManager.getSingleton().create("bgtex", Ogre.RGN_DEFAULT, True)
+    tex = Ogre.TextureManager.singleton().create("bgtex", Ogre.RGN_DEFAULT, True)
     tex.setNumMipmaps(0)
 
-    mat = Ogre.MaterialManager.getSingleton().create("bgmat", Ogre.RGN_DEFAULT)
+    mat = Ogre.MaterialManager.singleton().create("bgmat", Ogre.RGN_DEFAULT)
     mat.getTechnique(0).getPass(0).createTextureUnitState().setTexture(tex)
     mat.getTechnique(0).getPass(0).setDepthWriteEnabled(False)
     mat.getTechnique(0).getPass(0).setLightingEnabled(False)
@@ -44,7 +44,7 @@ def main(ctx):
 
     ## setup Ogre for AR
     scn_mgr = ctx.getRoot().createSceneManager()
-    Ogre.RTShader.ShaderGenerator.getSingleton().addSceneManager(scn_mgr)
+    Ogre.RTShader.ShaderGenerator.singleton().addSceneManager(scn_mgr)
 
     cam = scn_mgr.createCamera("camera")
     cam.setNearClipDistance(5)

@@ -71,7 +71,7 @@ namespace Ogre {
     {
         StringStream errors;
 
-        if(!Root::getSingleton().getRenderSystem()) {
+        if (!Root::singleton().getRenderSystem()) {
             errors << "NULL RenderSystem";
         } else {
             mIsSupported = checkGPURules(errors) && checkHardwareSupport(autoManageTextureUnits, errors);
@@ -90,8 +90,8 @@ namespace Ogre {
         // Go through each pass, checking requirements
         Passes::iterator i;
         unsigned short passNum = 0;
-        const RenderSystemCapabilities* caps =
-            Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
         unsigned short numTexUnits = caps->getNumTextureUnits();
         for (i = mPasses.begin(); i != mPasses.end(); ++i, ++passNum)
         {
@@ -225,8 +225,8 @@ namespace Ogre {
     //---------------------------------------------------------------------
     bool Technique::checkGPURules(StringStream& errors)
     {
-        const RenderSystemCapabilities* caps =
-            Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         StringStream includeRules;
         bool includeRulesPresent = false;
@@ -535,7 +535,8 @@ namespace Ogre {
         if (!mShadowCasterMaterial && !mShadowCasterMaterialName.empty())
         {
             // in case we could not get material as it wasn't yet parsed/existent at that time.
-            mShadowCasterMaterial = MaterialManager::getSingleton().getByName(mShadowCasterMaterialName);
+            mShadowCasterMaterial = MaterialManager::singleton().getByName(
+                mShadowCasterMaterialName);
         }
 
         if (mShadowCasterMaterial && mShadowCasterMaterial.get() != getParent())
@@ -546,7 +547,8 @@ namespace Ogre {
         if(!mShadowReceiverMaterial && !mShadowReceiverMaterialName.empty())
         {
             // in case we could not get material as it wasn't yet parsed/existent at that time.
-            mShadowReceiverMaterial = MaterialManager::getSingleton().getByName(mShadowReceiverMaterialName);
+            mShadowReceiverMaterial = MaterialManager::singleton().getByName(
+                mShadowReceiverMaterialName);
         }
 
         if (mShadowReceiverMaterial && mShadowReceiverMaterial.get() != getParent())
@@ -685,13 +687,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Technique::setSchemeName(const String& schemeName)
     {
-        mSchemeIndex = MaterialManager::getSingleton()._getSchemeIndex(schemeName);
+        mSchemeIndex = MaterialManager::singleton()._getSchemeIndex(schemeName);
         _notifyNeedsRecompile();
     }
     //-----------------------------------------------------------------------
     const String& Technique::getSchemeName(void) const
     {
-        return MaterialManager::getSingleton()._getSchemeName(mSchemeIndex);
+        return MaterialManager::singleton()._getSchemeName(mSchemeIndex);
     }
     //-----------------------------------------------------------------------
     unsigned short Technique::_getSchemeIndex(void) const
@@ -952,8 +954,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Technique::clearIlluminationPasses(void)
     {
-        if(MaterialManager::getSingletonPtr())
-            MaterialManager::getSingleton()._notifyBeforeIlluminationPassesCleared(this);
+        if(MaterialManager::singleton_ptr(())
+            MaterialManager::singleton()._notifyBeforeIlluminationPassesCleared(this);
 
         for (auto *i : mIlluminationPasses)
         {
@@ -978,8 +980,8 @@ namespace Ogre {
             // Splitting the passes into illumination passes
             _compileIlluminationPasses();
             // Post notification, so that technique owner can post-process created passes
-            if(MaterialManager::getSingletonPtr())
-                MaterialManager::getSingleton()._notifyAfterIlluminationPassesCreated(this);
+            if(MaterialManager::singleton_ptr(())
+                MaterialManager::singleton()._notifyAfterIlluminationPassesCreated(this);
             // Mark that illumination passes compilation finished
             mIlluminationPassesCompilationPhase = targetState;
         }
@@ -1015,7 +1017,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void  Technique::setShadowCasterMaterial(const Ogre::String &name)
     {
-        setShadowCasterMaterial(MaterialManager::getSingleton().getByName(name));
+        setShadowCasterMaterial(MaterialManager::singleton().getByName(name));
         // remember the name, even if it is not created yet
         mShadowCasterMaterialName = name;
     }
@@ -1042,7 +1044,7 @@ namespace Ogre {
     void  Technique::setShadowReceiverMaterial(const Ogre::String &name)
     {
         mShadowReceiverMaterialName = name;
-        mShadowReceiverMaterial = MaterialManager::getSingleton().getByName(name);
+        mShadowReceiverMaterial = MaterialManager::singleton().getByName(name);
     }
     //---------------------------------------------------------------------
     void Technique::addGPUVendorRule(GPUVendor vendor, Technique::IncludeOrExclude includeOrExclude)

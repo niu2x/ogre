@@ -269,12 +269,11 @@ namespace Ogre {
     {
         // Have I been registered by call to Root::setRenderSystem?
         /** Don't do this anymore, just allow via Root
-        RenderSystem* regPtr = Root::getSingleton().getRenderSystem();
+        RenderSystem* regPtr = Root::singleton().getRenderSystem();
         if (!regPtr || regPtr != this)
             // Register self - library user has come to me direct
-            Root::getSingleton().setRenderSystem(this);
+            Root::singleton().setRenderSystem(this);
         */
-
 
         // Subclasses should take it from here
         // They should ALL call this superclass method from
@@ -329,7 +328,7 @@ namespace Ogre {
                 ss << p.first << "=" << p.second << " ";
             }
         }
-        LogManager::getSingleton().log_message(ss.str());
+        LogManager::singleton().log_message(ss.str());
 
         return NULL;
     }
@@ -526,7 +525,7 @@ namespace Ogre {
                                      " it says it's incompatible with that RT" );
             }
             else
-                LogManager::getSingleton().log_warning(
+                LogManager::singleton().log_warning(
                     "Couldn't create a suited DepthBuffer"
                     "for RT: "
                     + renderTarget->name());

@@ -68,10 +68,10 @@ void ApplicationContextBase::initApp()
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
     mRoot->saveConfig();
 
-    Ogre::Root::getSingleton().getRenderSystem()->_initRenderTargets();
+    Ogre::Root::singleton().getRenderSystem()->_initRenderTargets();
 
     // Clear event times
-    Ogre::Root::getSingleton().clearEventTimes();
+    Ogre::Root::singleton().clearEventTimes();
 #endif
 }
 
@@ -97,12 +97,13 @@ bool ApplicationContextBase::initialiseRTShaderSystem()
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
     if (Ogre::RTShader::ShaderGenerator::initialize())
     {
-        mShaderGenerator = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+        mShaderGenerator = Ogre::RTShader::ShaderGenerator::singleton_ptr(();
 
         // Create and register the material manager listener if it doesn't exist yet.
         if (!mMaterialMgrListener) {
             mMaterialMgrListener = new SGTechniqueResolverListener(mShaderGenerator);
-            Ogre::MaterialManager::getSingleton().add_listener(mMaterialMgrListener);
+            Ogre::MaterialManager::singleton().add_listener(
+                mMaterialMgrListener);
         }
 
         return true;
@@ -143,12 +144,14 @@ void ApplicationContextBase::destroyRTShaderSystem()
     //mShaderGenerator->flushShaderCache();
 
     // Restore default scheme.
-    Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+    Ogre::MaterialManager::singleton().setActiveScheme(
+        Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
 
     // Unregister the material manager listener.
     if (mMaterialMgrListener != NULL)
     {
-        Ogre::MaterialManager::getSingleton().remove_listener(mMaterialMgrListener);
+        Ogre::MaterialManager::singleton().remove_listener(
+            mMaterialMgrListener);
         delete mMaterialMgrListener;
         mMaterialMgrListener = NULL;
     }
@@ -204,7 +207,7 @@ bool ApplicationContextBase::oneTimeConfig()
 {
     if(mRoot->getAvailableRenderers().empty())
     {
-        Ogre::LogManager::getSingleton().log_error("No RenderSystems available");
+        Ogre::LogManager::singleton().log_error("No RenderSystems available");
         return false;
     }
 
@@ -272,12 +275,12 @@ struct ImGuiConfigDialog : Ogre::FrameListener
         ImGui::Separator();
         if (ImGui::Button("Accept"))
         {
-            Ogre::Root::getSingleton().queueEndRendering();
+            Ogre::Root::singleton().queueEndRendering();
             saveConfig = true;
         }
         ImGui::SameLine();
         if (ImGui::Button("Cancel"))
-            Ogre::Root::getSingleton().queueEndRendering();
+            Ogre::Root::singleton().queueEndRendering();
         ImGui::End();
         return true;
     }
@@ -295,7 +298,7 @@ void ApplicationContextBase::runRenderingSettingsDialog()
     createDummyScene();
 
     float vpScale = getDisplayDPI()/96;
-    Ogre::OverlayManager::getSingleton().setPixelRatio(vpScale);
+    Ogre::OverlayManager::singleton().setPixelRatio(vpScale);
     auto overlay = initialiseImGui();
     ImGui::GetIO().FontGlobalScale = std::round(vpScale); // default font does not work with fractional scaling
     overlay->show();
@@ -320,19 +323,21 @@ void ApplicationContextBase::runRenderingSettingsDialog()
 
 void ApplicationContextBase::enableShaderCache() const
 {
-    Ogre::GpuProgramManager::getSingleton().setSaveMicrocodesToCache(true);
+    Ogre::GpuProgramManager::singleton().setSaveMicrocodesToCache(true);
 
     // Load for a package version of the shaders.
     Ogre::String path = mFSLayer->getWritablePath(SHADER_CACHE_FILENAME);
     std::ifstream inFile(path.c_str(), std::ios::binary);
     if (!inFile.is_open())
     {
-        Ogre::LogManager::getSingleton().log_warning("Could not open '"+path+"'");
+        Ogre::LogManager::singleton().log_warning(
+            "Could not open '" + path + "'");
         return;
     }
-    Ogre::LogManager::getSingleton().log_message("Loading shader cache from '"+path+"'");
+    Ogre::LogManager::singleton().log_message(
+        "Loading shader cache from '" + path + "'");
     Ogre::DataStreamPtr istream(new Ogre::FileStreamDataStream(path, &inFile, false));
-    Ogre::GpuProgramManager::getSingleton().loadMicrocodeCache(istream);
+    Ogre::GpuProgramManager::singleton().loadMicrocodeCache(istream);
 }
 
 void ApplicationContextBase::addInputListener(NativeWindowType* win, InputListener* lis)
@@ -489,18 +494,20 @@ Ogre::String ApplicationContextBase::getDefaultMediaDir()
 
 void ApplicationContextBase::locateResources()
 {
-    auto& rgm = Ogre::ResourceGroupManager::getSingleton();
+    auto& rgm = Ogre::ResourceGroupManager::singleton();
     // load resource paths from config file
     Ogre::ConfigFile cf;
     Ogre::String resourcesPath = mFSLayer->getConfigFilePath("resources.cfg");
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-    Ogre::Archive* apk = Ogre::ArchiveManager::getSingleton().load("", "APKFileSystem", true);
+    Ogre::Archive* apk
+        = Ogre::ArchiveManager::singleton().load("", "APKFileSystem", true);
     cf.load(apk->open(resourcesPath));
 #else
 
     if (Ogre::FileSystemLayer::fileExists(resourcesPath) || OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN)
     {
-        Ogre::LogManager::getSingleton().log_message("Parsing '"+resourcesPath+"'");
+        Ogre::LogManager::singleton().log_message(
+            "Parsing '" + resourcesPath + "'");
         cf.load(resourcesPath);
     }
     else
@@ -534,7 +541,9 @@ void ApplicationContextBase::locateResources()
 #if OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN
             if((type == "Zip" || type == "FileSystem") && !Ogre::FileSystemLayer::fileExists(arch))
             {
-                Ogre::LogManager::getSingleton().log_warning("resource location '"+arch+"' does not exist - skipping");
+                Ogre::LogManager::singleton().log_warning(
+                    "resource location '" + arch
+                    + "' does not exist - skipping");
                 continue;
             }
 #endif
@@ -559,24 +568,26 @@ void ApplicationContextBase::locateResources()
 
 void ApplicationContextBase::loadResources()
 {
-    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+    Ogre::ResourceGroupManager::singleton().initialiseAllResourceGroups();
 }
 
 Ogre::ImGuiOverlay* ApplicationContextBase::initialiseImGui()
 {
-        if(auto overlay = Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay"))
-            return static_cast<Ogre::ImGuiOverlay*>(overlay);
+    if (auto overlay
+        = Ogre::OverlayManager::singleton().getByName("ImGuiOverlay"))
+        return static_cast<Ogre::ImGuiOverlay*>(overlay);
 
-        auto imguiOverlay = new Ogre::ImGuiOverlay();
-        Ogre::OverlayManager::getSingleton().addOverlay(imguiOverlay); // now owned by overlaymgr
+    auto imguiOverlay = new Ogre::ImGuiOverlay();
+    Ogre::OverlayManager::singleton().addOverlay(
+        imguiOverlay); // now owned by overlaymgr
 
-        // handle DPI scaling
-        float vpScale = Ogre::OverlayManager::getSingleton().getPixelRatio();
-        ImGui::GetStyle().ScaleAllSizes(vpScale);
+    // handle DPI scaling
+    float vpScale = Ogre::OverlayManager::singleton().getPixelRatio();
+    ImGui::GetStyle().ScaleAllSizes(vpScale);
 
-        mImGuiListener.reset(new ImGuiInputListener());
+    mImGuiListener.reset(new ImGuiInputListener());
 
-        return imguiOverlay;
+    return imguiOverlay;
 }
 
 void ApplicationContextBase::reconfigure(const Ogre::String &renderer, Ogre::NameValuePairList &options)
@@ -599,7 +610,7 @@ void ApplicationContextBase::reconfigure(const Ogre::String &renderer, Ogre::Nam
 
 void ApplicationContextBase::shutdown()
 {
-    const auto& gpuMgr = Ogre::GpuProgramManager::getSingleton();
+    const auto& gpuMgr = Ogre::GpuProgramManager::singleton();
     if (gpuMgr.getSaveMicrocodesToCache() && gpuMgr.isCacheDirty())
     {
         Ogre::String path = mFSLayer->getWritablePath(SHADER_CACHE_FILENAME);
@@ -607,12 +618,14 @@ void ApplicationContextBase::shutdown()
 
         if (outFile.is_open())
         {
-            Ogre::LogManager::getSingleton().log_message("Writing shader cache to "+path);
+            Ogre::LogManager::singleton().log_message(
+                "Writing shader cache to " + path);
             Ogre::DataStreamPtr ostream(new Ogre::FileStreamDataStream(path, &outFile, false));
             gpuMgr.saveMicrocodeCache(ostream);
         }
         else
-            Ogre::LogManager::getSingleton().log_warning("Cannot open shader cache for writing "+path);
+            Ogre::LogManager::singleton().log_warning(
+                "Cannot open shader cache for writing " + path);
     }
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM

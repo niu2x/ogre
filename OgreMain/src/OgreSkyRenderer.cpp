@@ -71,7 +71,8 @@ void SceneManager::SkyPlaneRenderer::setSkyPlane(
         String meshName = mSceneManager->mName + "SkyPlane";
         mSkyPlane = plane;
 
-        MaterialPtr m = MaterialManager::getSingleton().getByName(materialName, groupName);
+        MaterialPtr m
+            = MaterialManager::singleton().getByName(materialName, groupName);
         if (!m)
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
@@ -84,11 +85,12 @@ void SceneManager::SkyPlaneRenderer::setSkyPlane(
         m->load();
 
         // Set up the plane
-        MeshPtr planeMesh = MeshManager::getSingleton().getByName(meshName, groupName);
+        MeshPtr planeMesh
+            = MeshManager::singleton().getByName(meshName, groupName);
         if (planeMesh)
         {
             // Destroy the old one
-            MeshManager::getSingleton().remove(planeMesh);
+            MeshManager::singleton().remove(planeMesh);
         }
 
         // Create up vector
@@ -100,15 +102,36 @@ void SceneManager::SkyPlaneRenderer::setSkyPlane(
         if( bow > 0 )
         {
             // Build a curved skyplane
-            planeMesh = MeshManager::getSingleton().createCurvedPlane(
-                meshName, groupName, plane, gscale * 100, gscale * 100, gscale * bow * 100,
-                xsegments, ysegments, false, 1, tiling, tiling, up);
+            planeMesh = MeshManager::singleton().createCurvedPlane(
+                meshName,
+                groupName,
+                plane,
+                gscale * 100,
+                gscale * 100,
+                gscale * bow * 100,
+                xsegments,
+                ysegments,
+                false,
+                1,
+                tiling,
+                tiling,
+                up);
         }
         else
         {
-            planeMesh = MeshManager::getSingleton().createPlane(
-                meshName, groupName, plane, gscale * 100, gscale * 100, xsegments, ysegments, false,
-                1, tiling, tiling, up);
+            planeMesh = MeshManager::singleton().createPlane(
+                meshName,
+                groupName,
+                plane,
+                gscale * 100,
+                gscale * 100,
+                xsegments,
+                ysegments,
+                false,
+                1,
+                tiling,
+                tiling,
+                up);
         }
 
         // Create entity
@@ -120,7 +143,8 @@ void SceneManager::SkyPlaneRenderer::setSkyPlane(
         }
         // Create, use the same name for mesh and entity
         // manually construct as we don't want this to be destroyed on destroyAllMovableObjects
-        MovableObjectFactory* factory = Root::getSingleton().getMovableObjectFactory(MOT_ENTITY);
+        MovableObjectFactory* factory
+            = Root::singleton().getMovableObjectFactory(MOT_ENTITY);
         NameValuePairList params;
         params["mesh"] = meshName;
         mSkyPlaneEntity = static_cast<Entity*>(factory->createInstance(meshName, mSceneManager, &params));
@@ -162,7 +186,8 @@ void SceneManager::SkyBoxRenderer::setSkyBox(
 {
     if (enable)
     {
-        MaterialPtr m = MaterialManager::getSingleton().getByName(materialName, groupName);
+        MaterialPtr m
+            = MaterialManager::singleton().getByName(materialName, groupName);
         if (!m)
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
@@ -182,9 +207,10 @@ void SceneManager::SkyBoxRenderer::setSkyBox(
 
         if (!valid)
         {
-            LogManager::getSingleton().log_warning("skybox material " + materialName +
-                                                  " is not supported, defaulting");
-            m = MaterialManager::getSingleton().getDefaultSettings();
+            LogManager::singleton().log_warning(
+                "skybox material " + materialName
+                + " is not supported, defaulting");
+            m = MaterialManager::singleton().getDefaultSettings();
         }
 
         // Create node
@@ -257,7 +283,8 @@ void SceneManager::SkyDomeRenderer::setSkyDome(
 {
     if (enable)
     {
-        MaterialPtr m = MaterialManager::getSingleton().getByName(materialName, groupName);
+        MaterialPtr m
+            = MaterialManager::singleton().getByName(materialName, groupName);
         if (!m)
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
@@ -297,7 +324,8 @@ void SceneManager::SkyDomeRenderer::setSkyDome(
                 mSkyDomeEntity[i] = 0;
             }
             // construct manually so we don't have problems if destroyAllMovableObjects called
-            MovableObjectFactory* factory = Root::getSingleton().getMovableObjectFactory(MOT_ENTITY);
+            MovableObjectFactory* factory
+                = Root::singleton().getMovableObjectFactory(MOT_ENTITY);
 
             NameValuePairList params;
             params["mesh"] = planeMesh->name();
@@ -377,7 +405,7 @@ MeshPtr SceneManager::SkyDomeRenderer::createSkydomePlane(
     up = orientation * up;
 
     // Check to see if existing plane
-    MeshManager& mm = MeshManager::getSingleton();
+    MeshManager& mm = MeshManager::singleton();
     MeshPtr planeMesh = mm.getByName(meshName, groupName);
     if(planeMesh)
     {

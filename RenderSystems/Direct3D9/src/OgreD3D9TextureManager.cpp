@@ -41,14 +41,16 @@ namespace Ogre
     D3D9TextureManager::D3D9TextureManager() : TextureManager()
     {       
         // register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::singleton()._registerResourceManager(
+            mResourceType,
+            this);
     }
     
     D3D9TextureManager::~D3D9TextureManager()
     {
         // unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
-
+        ResourceGroupManager::singleton()._unregisterResourceManager(
+            mResourceType);
     }
 
     Resource* D3D9TextureManager::create_impl(const String& name, 
@@ -109,7 +111,7 @@ namespace Ogre
             format = getNativeFormat(ttype, format, usage);
 
         D3D9RenderSystem* rs = static_cast<D3D9RenderSystem*>(
-            Root::getSingleton().getRenderSystem());
+            Root::singleton().getRenderSystem());
 
         return rs->_checkTextureFilteringSupported(ttype, format, usage);
     }

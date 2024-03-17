@@ -41,7 +41,7 @@ VolumeRenderable::VolumeRenderable(size_t nSlices, float size, const String &tex
 VolumeRenderable::~VolumeRenderable()
 {
     // Remove private material
-    MaterialManager::getSingleton().remove(mTexture, "VolumeRenderable");
+    MaterialManager::singleton().remove(mTexture, "VolumeRenderable");
     // need to release IndexData and vertexData created for renderable
     delete mRenderOp.indexData;
     delete mRenderOp.vertexData;
@@ -155,18 +155,20 @@ void VolumeRenderable::initialise()
     offset += decl->addElement(0, offset, VET_FLOAT3, VES_TEXTURE_COORDINATES)
                   .size();
 
-    HardwareVertexBufferSharedPtr vbuf = 
-    HardwareBufferManager::getSingleton().createVertexBuffer(
-        offset, nvertices, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+    HardwareVertexBufferSharedPtr vbuf
+        = HardwareBufferManager::singleton().createVertexBuffer(
+            offset,
+            nvertices,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
     bind->setBinding(0, vbuf);
 
     vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
-    
-    HardwareIndexBufferSharedPtr ibuf = HardwareBufferManager::getSingleton().
-        createIndexBuffer(
-            HardwareIndexBuffer::IT_16BIT, 
-            mSlices*6, 
+
+    HardwareIndexBufferSharedPtr ibuf
+        = HardwareBufferManager::singleton().createIndexBuffer(
+            HardwareIndexBuffer::IT_16BIT,
+            mSlices * 6,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
     idata->indexBuffer = ibuf;
@@ -185,9 +187,11 @@ void VolumeRenderable::initialise()
     mRenderOp.useIndexes = true;
     
      // Create a brand new private material
-    MaterialPtr material = 
-        MaterialManager::getSingleton().create(mTexture, "VolumeRenderable",
-            false, 0); // Manual, loader
+    MaterialPtr material = MaterialManager::singleton().create(
+        mTexture,
+        "VolumeRenderable",
+        false,
+        0); // Manual, loader
 
     // Remove pre-created technique from defaults
     material->removeAllTechniques();

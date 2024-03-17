@@ -80,7 +80,7 @@ namespace Ogre {
 
                 RenderTexture *trt = new D3D11RenderTexture(name, this, zoffset, mDevice);
                 mSliceTRT.push_back(trt);
-                Root::getSingleton().getRenderSystem()->attachRenderTarget(*trt);
+                Root::singleton().getRenderSystem()->attachRenderTarget(*trt);
             }
         }
     }

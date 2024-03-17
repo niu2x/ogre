@@ -58,9 +58,11 @@ namespace Volume {
     
         Timer t;
         Image img;
-        img.load(volumeTextureName, ResourceGroupManager::getSingleton().getWorldResourceGroupName());
+        img.load(
+            volumeTextureName,
+            ResourceGroupManager::singleton().getWorldResourceGroupName());
 
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "Loaded texture in " << t.milli_seconds() << "ms.";
         t.reset();
 
@@ -83,7 +85,7 @@ namespace Volume {
         dstBox.format = PF_FLOAT32_R;
         PixelUtil::bulkPixelConversion(srcBox, dstBox);
 
-        LogManager::getSingleton().stream()
+        LogManager::singleton().stream()
             << "Processed texture in " << t.milli_seconds() << "ms.";
     }
         

@@ -45,12 +45,11 @@ extern "C" void _OgreOctreePluginExport dllStartPlugin( void )
     octreePlugin = OGRE_NEW OctreePlugin();
 
     // Register
-    Root::getSingleton().installPlugin(octreePlugin);
-
+    Root::singleton().installPlugin(octreePlugin);
 }
 extern "C" void _OgreOctreePluginExport dllStopPlugin( void )
 {
-    Root::getSingleton().uninstallPlugin(octreePlugin);
+    Root::singleton().uninstallPlugin(octreePlugin);
     OGRE_DELETE octreePlugin;
 }
 }

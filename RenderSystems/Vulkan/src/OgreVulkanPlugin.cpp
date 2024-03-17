@@ -42,7 +42,7 @@ namespace Ogre
     {
         mRenderSystem = OGRE_NEW VulkanRenderSystem();
 
-        Root::getSingleton().addRenderSystem( mRenderSystem );
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
     //---------------------------------------------------------------------
     void VulkanPlugin::initialise()
@@ -70,12 +70,12 @@ namespace Ogre
     extern "C" void _OgreVulkanExport dllStartPlugin( void )
     {
         plugin = OGRE_NEW VulkanPlugin();
-        Root::getSingleton().installPlugin( plugin );
+        Root::singleton().installPlugin(plugin);
     }
 
     extern "C" void _OgreVulkanExport dllStopPlugin( void )
     {
-        Root::getSingleton().uninstallPlugin( plugin );
+        Root::singleton().uninstallPlugin(plugin);
         OGRE_DELETE plugin;
     }
 #endif

@@ -64,20 +64,21 @@ namespace Ogre
 
         using namespace RTShader;
 
-        if (!ShaderGenerator::getSingletonPtr())
+        if (!ShaderGenerator::singleton_ptr(())
         {
-            LogManager::getSingleton().log_error(
-                "TerrainMaterialGeneratorA - Shader generation not possible: RTSS is not initialized.");
-            return;
+        LogManager::singleton().log_error(
+            "TerrainMaterialGeneratorA - Shader generation not possible: RTSS "
+            "is not initialized.");
+        return;
         }
 
         static SubRenderStateFactory* factory = nullptr;
         if(!factory)
         {
             factory = new TerrainTransformFactory;
-            ShaderGenerator::getSingleton().addSubRenderStateFactory(factory);
+            ShaderGenerator::singleton().addSubRenderStateFactory(factory);
             factory = new TerrainSurfaceFactory;
-            ShaderGenerator::getSingleton().addSubRenderStateFactory(factory);
+            ShaderGenerator::singleton().addSubRenderStateFactory(factory);
         }
 
         mMainRenderState.reset(new RenderState());
@@ -243,7 +244,7 @@ namespace Ogre
         MaterialPtr mat = terrain->_getMaterial();
         if (!mat)
         {
-            MaterialManager& matMgr = MaterialManager::getSingleton();
+            MaterialManager& matMgr = MaterialManager::singleton();
             const String& matName = terrain->getMaterialName();
             mat = matMgr.getByName(matName);
             if (!mat)
@@ -256,13 +257,14 @@ namespace Ogre
         
         // Automatically disable normal & parallax mapping if card cannot handle it
         // We do this rather than having a specific technique for it since it's simpler
-        auto rsc = Root::getSingletonPtr()->getRenderSystem()->getCapabilities();
+        auto rsc = Root::singleton_ptr(()->getRenderSystem()->getCapabilities();
         if (getRequiredLayers(terrain, mPSSM) > rsc->getNumTextureUnits())
         {
             setLayerNormalMappingEnabled(false);
             setLayerParallaxMappingEnabled(false);
-            LogManager::getSingleton().log_warning(
-                "TerrainMaterialGeneratorA: Normal mapping disabled due to lack of texture units");
+            LogManager::singleton().log_warning(
+                "TerrainMaterialGeneratorA: Normal mapping disabled due to "
+                "lack of texture units");
         }
 
         Pass* pass;
@@ -296,7 +298,8 @@ namespace Ogre
             surface->set_parameter("use_specular_mapping", std::to_string(mLayerSpecularMappingEnabled));
             if(isShadowingEnabled(HIGH_LOD, terrain))
             {
-                auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_SHADOW_MAPPING);
+                auto pssm = ShaderGenerator::singleton().createSubRenderState(
+                    SRS_SHADOW_MAPPING);
                 if(mPSSM)
                     pssm->set_parameter("split_points", mPSSM->getSplitPoints());
                 pssm->preAddToRenderState(mainRenderState.get(), pass, pass);
@@ -306,8 +309,8 @@ namespace Ogre
         }
         catch(const std::exception& e)
         {
-            LogManager::getSingleton().log_error(e.what());
-            return nullptr;
+        LogManager::singleton().log_error(e.what());
+        return nullptr;
         }
 
         pass->getUserObjectBindings().setUserAny(TargetRenderState::UserKey, mainRenderState);
@@ -333,7 +336,9 @@ namespace Ogre
                 {
                     // light count needed to enable PSSM3
                     lod1RenderState->setLightCount(1);
-                    auto pssm = ShaderGenerator::getSingleton().createSubRenderState(SRS_SHADOW_MAPPING);
+                    auto pssm
+                        = ShaderGenerator::singleton().createSubRenderState(
+                            SRS_SHADOW_MAPPING);
                     if(mPSSM)
                         pssm->set_parameter("split_points", mPSSM->getSplitPoints());
                     pssm->preAddToRenderState(lod1RenderState.get(), pass, pass);
@@ -343,13 +348,14 @@ namespace Ogre
             }
             catch(const Exception& e)
             {
-                LogManager::getSingleton().log_error(e.what());
+                LogManager::singleton().log_error(e.what());
                 return nullptr;
             }
 
             pass->getUserObjectBindings().setUserAny(TargetRenderState::UserKey, lod1RenderState);
 
-            mat->setLodLevels({TerrainGlobalOptions::getSingleton().getCompositeMapDistance()});
+            mat->setLodLevels({ TerrainGlobalOptions::singleton()
+                                    .getCompositeMapDistance() });
         }
 
         mParent->updateParams(mat, terrain);
@@ -363,7 +369,7 @@ namespace Ogre
         MaterialPtr mat = terrain->_getCompositeMapMaterial();
         if (!mat)
         {
-            MaterialManager& matMgr = MaterialManager::getSingleton();
+            MaterialManager& matMgr = MaterialManager::singleton();
 
             // it's important that the names are deterministic for a given terrain, so
             // use the terrain pointer as an ID
@@ -394,7 +400,7 @@ namespace Ogre
         }
         catch(const std::exception& e)
         {
-            LogManager::getSingleton().log_error(e.what());
+            LogManager::singleton().log_error(e.what());
             return nullptr;
         }
 

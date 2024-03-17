@@ -42,13 +42,11 @@ extern "C" void _OgreBspPluginExport dllStartPlugin(void)
     bspPlugin = OGRE_NEW Ogre::BspSceneManagerPlugin();
 
     // Register
-    Ogre::Root::getSingleton().installPlugin(bspPlugin);
-
-
+    Ogre::Root::singleton().installPlugin(bspPlugin);
 }
 extern "C" void _OgreBspPluginExport dllStopPlugin(void)
 {
-    Ogre::Root::getSingleton().uninstallPlugin(bspPlugin);
+    Ogre::Root::singleton().uninstallPlugin(bspPlugin);
     OGRE_DELETE bspPlugin;
 }
 #endif

@@ -59,9 +59,8 @@ namespace Ogre {
 
         decl->addElement(POSITION_BINDING, 0, VET_FLOAT3, VES_POSITION);
 
-
-        HardwareVertexBufferSharedPtr vbuf = 
-            HardwareBufferManager::getSingleton().createVertexBuffer(
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
                 decl->getVertexSize(POSITION_BINDING),
                 mRenderOp.vertexData->vertexCount,
                 HardwareBuffer::HBU_STATIC_WRITE_ONLY);
@@ -70,7 +69,7 @@ namespace Ogre {
         bind->setBinding(POSITION_BINDING, vbuf);
 
         // set basic white material
-        mMaterial = MaterialManager::getSingleton().getDefaultMaterial(false);
+        mMaterial = MaterialManager::singleton().getDefaultMaterial(false);
         mMaterial->load();
     }
     

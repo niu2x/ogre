@@ -36,7 +36,8 @@ namespace Ogre
     GLXContext::GLXContext(GLXGLSupport* glsupport, ::GLXFBConfig fbconfig, ::GLXDrawable drawable, ::GLXContext context) :
         mDrawable(drawable), mContext(0), mFBConfig(fbconfig), mGLSupport(glsupport), mExternalContext(false)
     {
-        GLRenderSystemCommon *renderSystem = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon* renderSystem = static_cast<GLRenderSystemCommon*>(
+            Root::singleton().getRenderSystem());
         GLXContext* mainContext = static_cast<GLXContext*>(renderSystem->_getMainContext());
         ::GLXContext shareContext = 0;
 
@@ -63,7 +64,8 @@ namespace Ogre
 
     GLXContext::~GLXContext()
     {
-        GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+            Root::singleton().getRenderSystem());
 
         if (!mExternalContext)
             glXDestroyContext(mGLSupport->getGLDisplay(), mContext);

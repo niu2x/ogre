@@ -83,10 +83,12 @@ namespace Ogre {
              "Unexpected failure at emscripten_set_canvas_element_size with selector=" + mCanvasSelector,
              "EmscriptenEGLWindow::resize");
         }
-        
-        
-        LogManager::getSingleton().log_message("EmscriptenEGLWindow::resize "+mCanvasSelector+" w:" + Ogre::StringConverter::to_string(mWidth) + " h:" + Ogre::StringConverter::to_string(mHeight));
-        
+
+        LogManager::singleton().log_message(
+            "EmscriptenEGLWindow::resize " + mCanvasSelector
+            + " w:" + Ogre::StringConverter::to_string(mWidth)
+            + " h:" + Ogre::StringConverter::to_string(mHeight));
+
         // Notify viewports of resize
         ViewportList::iterator it = mViewportList.begin();
         while( it != mViewportList.end() )
@@ -243,8 +245,9 @@ namespace Ogre {
     void EmscriptenEGLWindow::_notifySurfaceDestroyed()
     {
         mContext->setCurrent();
-        
-        static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem())->notifyOnContextLost();
+
+        static_cast<GLRenderSystemCommon*>(Root::singleton().getRenderSystem())
+            ->notifyOnContextLost();
         static_cast<EGLContext*>(mContext)->_destroyInternalResources();
         
         eglDestroySurface(mEglDisplay, mEglSurface);
@@ -307,7 +310,9 @@ namespace Ogre {
             }
             catch (Exception& e)
             {
-                LogManager::getSingleton().log_message("EmscriptenEGLWindow::_createInternalResources: setting CSAA failed");
+                LogManager::singleton().log_message(
+                    "EmscriptenEGLWindow::_createInternalResources: setting "
+                    "CSAA failed");
             }
         }
 
@@ -337,7 +342,9 @@ namespace Ogre {
             }
             catch (Exception& e)
             {
-                LogManager::getSingleton().log_message("EmscriptenEGLWindow::_createInternalResources: setting MSAA failed");
+                LogManager::singleton().log_message(
+                    "EmscriptenEGLWindow::_createInternalResources: setting "
+                    "MSAA failed");
             }
         }
         
@@ -353,8 +360,10 @@ namespace Ogre {
             mClosed = false;
             
             static_cast<EGLContext*>(mContext)->_createInternalResources(mEglDisplay, mEglConfig, mEglSurface, nullptr);
-            
-            static_cast<GLRenderSystemCommon*>(Ogre::Root::getSingleton().getRenderSystem())->resetRenderer(this);
+
+            static_cast<GLRenderSystemCommon*>(
+                Ogre::Root::singleton().getRenderSystem())
+                ->resetRenderer(this);
         }
     }
 

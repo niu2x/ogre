@@ -52,7 +52,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void RenderToVertexBuffer::setRenderToBufferMaterialName(const String& materialName)
     {
-        mMaterial = MaterialManager::getSingleton().getByName(materialName);
+        mMaterial = MaterialManager::singleton().getByName(materialName);
 
         if (!mMaterial)
             OGRE_EXCEPT( Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + materialName,
@@ -79,7 +79,7 @@ namespace Ogre {
         r2vbPass->_updateAutoParams(sceneMgr->_getAutoParamDataSource(), GPV_GLOBAL);
 
         // Bind shader parameters.
-        RenderSystem* targetRenderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* targetRenderSystem = Root::singleton().getRenderSystem();
         if (r2vbPass->hasVertexProgram())
         {
             targetRenderSystem->bindGpuProgramParameters(GPT_VERTEX_PROGRAM,

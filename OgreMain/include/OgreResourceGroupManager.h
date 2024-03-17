@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _ResourceGroupManager_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "data_stream.h"
 #include "OgreArchive.h"
 #include "OgreIteratorWrapper.h"
@@ -960,11 +960,10 @@ public:
         /// Returns the current loading listener
         ResourceLoadingListener *getLoadingListener() const;
 
-        /// @copydoc Singleton::getSingleton()
-        static ResourceGroupManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static ResourceGroupManager* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static ResourceGroupManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static ResourceGroupManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

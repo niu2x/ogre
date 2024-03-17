@@ -93,7 +93,8 @@ public:
     void sliderMoved(Slider* slider) override
     {
         if (slider->name() == "tessellationAmount") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( mMaterialMenu->getSelectedItem() );
+            MaterialPtr lMaterialPtr = MaterialManager::singleton().getByName(
+                mMaterialMenu->getSelectedItem());
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_tessellationAmount", slider->getValue() );
         }
     }
@@ -146,7 +147,9 @@ protected:
         for (std::map<String, StringVector>::iterator it = mPossibilities.begin(); it != mPossibilities.end(); it++)
         {
             // load each mesh with non-default hardware buffer usage options
-            MeshPtr mesh = MeshManager::getSingleton().load(it->first, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            MeshPtr mesh = MeshManager::singleton().load(
+                it->first,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
                 HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
 
             // build tangent vectors for our mesh
@@ -239,7 +242,9 @@ protected:
     {
         // clean up properly to avoid interfering with subsequent samples
         for (std::map<String, StringVector>::iterator it = mPossibilities.begin(); it != mPossibilities.end(); it++)
-            MeshManager::getSingleton().unload(it->first, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            MeshManager::singleton().unload(
+                it->first,
+                ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         mPossibilities.clear();
     }
 

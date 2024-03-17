@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __RENDERSYSTEMCAPABILITIESMANAGER_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 
@@ -81,10 +81,10 @@ namespace Ogre {
         /** Method used by RenderSystemCapabilitiesSerializer::parseScript */
         void _addRenderSystemCapabilities(const String& name, RenderSystemCapabilities* caps);
 
-        /// @copydoc Singleton::getSingleton()
-        static RenderSystemCapabilitiesManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static RenderSystemCapabilitiesManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static RenderSystemCapabilitiesManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static RenderSystemCapabilitiesManager* singleton_ptr((void);
 
     private:
 
@@ -94,7 +94,6 @@ namespace Ogre {
         CapabilitiesMap mCapabilitiesMap;
 
         const String mScriptPattern;
-
     };
 
     /** @} */

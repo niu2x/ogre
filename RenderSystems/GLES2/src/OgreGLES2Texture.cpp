@@ -73,8 +73,8 @@ namespace Ogre {
 
     void GLES2Texture::_createGLTexResource()
     {
-        const RenderSystemCapabilities *renderCaps =
-                Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* renderCaps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         const bool nonPowerOfTwoSupported = renderCaps->hasCapability(RSC_NON_POWER_OF_2_TEXTURES) ||
                                             ( renderCaps->getNonPOW2TexturesLimited() &&
@@ -93,7 +93,10 @@ namespace Ogre {
             mUsage |= HardwareBuffer::HBU_DYNAMIC;
 
         // Adjust format if required
-        mFormat = TextureManager::getSingleton().getNativeFormat(mTextureType, mFormat, mUsage);
+        mFormat = TextureManager::singleton().getNativeFormat(
+            mTextureType,
+            mFormat,
+            mUsage);
         GLenum texTarget = getGLES2TextureTarget();
 
         // Generate texture name

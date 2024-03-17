@@ -44,12 +44,11 @@ public:
             OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "Your graphics card does not support tesselation shaders. Sorry!",
                 "Sample_Hair:testCapabilities");
         }
-        if (!GpuProgramManager::getSingleton().isSyntaxSupported("vs_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("hs_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("ds_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("ps_5_0") &&
-            !GpuProgramManager::getSingleton().isSyntaxSupported("hlsl"))
-        {
+        if (!GpuProgramManager::singleton().isSyntaxSupported("vs_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("hs_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("ds_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("ps_5_0")
+            && !GpuProgramManager::singleton().isSyntaxSupported("hlsl")) {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "Your card does not support the shader model 5.0 needed for this sample, "
                 "so you cannot run this sample. Sorry!", "Sample_Hair::testCapabilities");
         }
@@ -88,26 +87,34 @@ public:
         }
         if (box->name() == "RenderMStrands") {
             mRenderMStrands = !mRenderMStrands;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Hair")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_RenderMStrands", mRenderMStrands );
         }
         if (box->name() == "RenderSStrands") {
             mRenderSStrands = !mRenderSStrands;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Hair")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_RenderSStrands", mRenderSStrands );
         }
         if (box->name() == "HWTessellation") {
             mHWTessellation = !mHWTessellation;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Hair")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_HWTessellation", mHWTessellation );
         }
         if (box->name() == "DynamicLOD" && mHWTessellation) {
             mDynamicLOD = !mDynamicLOD;
-            
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Hair")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_DynamicLOD", mDynamicLOD );
         }
         if (box->name() == "WindForce") {
@@ -135,23 +142,31 @@ public:
         if (slider->name() == "tessellationLOD")
             if (!mDynamicLOD && mHWTessellation)
             {
-                MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+                MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                               .getByName("Hair")
+                                               .staticCast<Material>();
                 lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_ManualLOD", slider->getValue() );
             }
         if (slider->name() == "HairWidth")
             if (!mDynamicLOD && mHWTessellation)
             {
-                MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+                MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                               .getByName("Hair")
+                                               .staticCast<Material>();
                 lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_HairWidth", slider->getValue() );
             }
         if (slider->name() == "LODRate") {
-            MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+            MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                           .getByName("Hair")
+                                           .staticCast<Material>();
             lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_LODRate", slider->getValue() );
         }
         if (slider->name() == "WindStrength")
             if (mAddWindForce)
             {
-                MaterialPtr lMaterialPtr = MaterialManager::getSingleton().getByName( "Hair" ).staticCast<Material>();
+                MaterialPtr lMaterialPtr = MaterialManager::singleton()
+                                               .getByName("Hair")
+                                               .staticCast<Material>();
                 lMaterialPtr->getTechnique(0)->getPass(0)->getTessellationHullProgramParameters()->setNamedConstant( "g_WindStrength", slider->getValue() );
             }
     }

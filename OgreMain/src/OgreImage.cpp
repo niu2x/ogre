@@ -272,7 +272,9 @@ namespace Ogre {
             strExt = strFileName.substr(pos+1);
         }
 
-        DataStreamPtr encoded = ResourceGroupManager::getSingleton().openResource(strFileName, group);
+        DataStreamPtr encoded = ResourceGroupManager::singleton().openResource(
+            strFileName,
+            group);
         return load(encoded, strExt);
 
     }

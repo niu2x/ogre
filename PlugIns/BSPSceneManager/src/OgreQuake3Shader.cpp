@@ -63,16 +63,19 @@ namespace Ogre {
     {
         String matName;
         StringStream str;
-        String resourceGroup = ResourceGroupManager::getSingleton().getWorldResourceGroupName();
+        String resourceGroup
+            = ResourceGroupManager::singleton().getWorldResourceGroupName();
 
         str << mName << "#" << lightmapNumber;
         matName = str.str();
 
-        MaterialPtr mat = MaterialManager::getSingleton().create(matName, 
-            resourceGroup);
+        MaterialPtr mat
+            = MaterialManager::singleton().create(matName, resourceGroup);
         Ogre::Pass* ogrePass = mat->getTechnique(0)->getPass(0);
 
-        LogManager::getSingleton().log_message("Using Q3 shader " + mName, LogMsgLevel::TRIVIAL);
+        LogManager::singleton().log_message(
+            "Using Q3 shader " + mName,
+            LogMsgLevel::TRIVIAL);
         for (int p = 0; p < numPasses; ++p)
         {
             TextureUnitState* t;
@@ -95,19 +98,18 @@ namespace Ogre {
                 */
                 for (unsigned int alt = 0; alt < pass[p].animNumFrames; ++alt)
                 {
-                    if (!ResourceGroupManager::getSingleton().resourceExists(
-                        resourceGroup, pass[p].frames[alt]))
-                    {
+                    if (!ResourceGroupManager::singleton().resourceExists(
+                            resourceGroup,
+                            pass[p].frames[alt])) {
                         // Try alternate extension
                         pass[p].frames[alt] = getAlternateName(pass[p].frames[alt]);
-                        if (!ResourceGroupManager::getSingleton().resourceExists(
-                            resourceGroup, pass[p].frames[alt]))
-                        { 
+                        if (!ResourceGroupManager::singleton().resourceExists(
+                                resourceGroup,
+                                pass[p].frames[alt])) {
                             // stuffed - no texture
                             continue;
                         }
                     }
-
                 }
 
                 t = ogrePass->createTextureUnitState("");
@@ -118,14 +120,14 @@ namespace Ogre {
             {
                 // Quake3 can still include alternate extension filenames e.g. jpg instead of tga
                 // Pain in the arse - have to check for failure
-                if (!ResourceGroupManager::getSingleton().resourceExists(
-                    resourceGroup, pass[p].textureName))
-                {
+                if (!ResourceGroupManager::singleton().resourceExists(
+                        resourceGroup,
+                        pass[p].textureName)) {
                     // Try alternate extension
                     pass[p].textureName = getAlternateName(pass[p].textureName);
-                    if (!ResourceGroupManager::getSingleton().resourceExists(
-                        resourceGroup, pass[p].textureName))
-                    { 
+                    if (!ResourceGroupManager::singleton().resourceExists(
+                            resourceGroup,
+                            pass[p].textureName)) {
                         // stuffed - no texture
                         continue;
                     }

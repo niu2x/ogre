@@ -48,17 +48,12 @@ namespace Ogre {
         mSyntaxCode = getTarget();
         uint32 seed = FastHash(mSyntaxCode.c_str(), mSyntaxCode.length());
         uint32 hash = _getHash(seed);
-        if ( GpuProgramManager::getSingleton().isMicrocodeAvailableInCache(hash) )
-        {
+        if (GpuProgramManager::singleton().isMicrocodeAvailableInCache(hash)) {
             getMicrocodeFromCache(hash);
-        }
-        else
-        {
+        } else {
             compileMicrocode();
 
-
-            if ( GpuProgramManager::getSingleton().getSaveMicrocodesToCache() )
-            {
+            if (GpuProgramManager::singleton().getSaveMicrocodesToCache()) {
                 addMicrocodeToCache(hash);
             }
         }
@@ -66,9 +61,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void D3D9HLSLProgram::getMicrocodeFromCache(uint32 id)
     {
-        GpuProgramManager::Microcode cacheMicrocode = 
-            GpuProgramManager::getSingleton().getMicrocodeFromCache(id);
-        
+        GpuProgramManager::Microcode cacheMicrocode
+            = GpuProgramManager::singleton().getMicrocodeFromCache(id);
+
         cacheMicrocode->seek(0);
 
         // get size the microcode
@@ -269,7 +264,7 @@ namespace Ogre {
 
 
         // add to the microcode to the cache
-        GpuProgramManager::getSingleton().addMicrocodeToCache(id, newMicrocode);
+        GpuProgramManager::singleton().addMicrocodeToCache(id, newMicrocode);
     }
     //-----------------------------------------------------------------------
     void D3D9HLSLProgram::createLowLevelImpl(void)
@@ -277,12 +272,11 @@ namespace Ogre {
         if (!mCompileError)
         {
             // Create a low-level program
-            mAssemblerProgram = 
-                GpuProgramManager::getSingleton().createProgram(
-                    mName+"/Delegate",
-                    mGroup,
-                    getTarget(),
-                    mType);
+            mAssemblerProgram = GpuProgramManager::singleton().createProgram(
+                mName + "/Delegate",
+                mGroup,
+                getTarget(),
+                mType);
             mAssemblerProgram->setSource("");
             static_cast<D3D9GpuProgram*>(mAssemblerProgram.get())->setExternalMicrocode(mMicroCode);
         }
@@ -585,8 +579,8 @@ namespace Ogre {
         for(unsigned int i = 0 ; i < profiles.size() ; i++)
         {
             String & currentProfile = profiles[i];
-            if(GpuProgramManager::getSingleton().isSyntaxSupported(currentProfile))
-            {
+            if (GpuProgramManager::singleton().isSyntaxSupported(
+                    currentProfile)) {
                 mSyntaxCode = currentProfile;
                 return;
             }

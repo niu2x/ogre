@@ -113,7 +113,8 @@ protected:
         
         // Create the occlusion queries to be used in this sample
         try {
-            RenderSystem* renderSystem = Ogre::Root::getSingleton().getRenderSystem();
+            RenderSystem* renderSystem
+                = Ogre::Root::singleton().getRenderSystem();
             mLight1QueryArea = renderSystem->createHardwareOcclusionQuery();
             mLight1QueryVisible = renderSystem->createHardwareOcclusionQuery();
             mLight2QueryArea = renderSystem->createHardwareOcclusionQuery();
@@ -131,11 +132,13 @@ protected:
 
         if (mUseOcclusionQuery == false)
         {
-            LogManager::getSingleton().log_error("Sample_Lighting - failed to create hardware occlusion query");
+            LogManager::singleton().log_error(
+                "Sample_Lighting - failed to create hardware occlusion query");
         }
         
         // Create the materials to be used by the objects used fo the occlusion query
-        MaterialPtr matBase = MaterialManager::getSingleton().getDefaultMaterial(false);
+        MaterialPtr matBase
+            = MaterialManager::singleton().getDefaultMaterial(false);
         MaterialPtr matQueryArea = matBase->clone("QueryArea");
         matQueryArea->setDepthWriteEnabled(false);
         matQueryArea->setColourWriteEnabled(false);
@@ -170,7 +173,7 @@ protected:
         track->createNodeKeyFrame(12)->setTranslate(Vector3(-50, -30, 0));
         track->createNodeKeyFrame(14)->setTranslate(Vector3(50, 30, 0));
 
-        auto& controllerMgr = ControllerManager::getSingleton();
+        auto& controllerMgr = ControllerManager::singleton();
         // Create an animation state from the animation and enable it
         auto animState = mSceneMgr->createAnimationState("Path1");
         animState->setEnabled(true);
@@ -321,7 +324,7 @@ protected:
 
     void cleanupContent() override
     {
-        RenderSystem* renderSystem = Ogre::Root::getSingleton().getRenderSystem();
+        RenderSystem* renderSystem = Ogre::Root::singleton().getRenderSystem();
         if (mLight1QueryArea != NULL)
             renderSystem->destroyHardwareOcclusionQuery(mLight1QueryArea);
         if (mLight1QueryVisible != NULL)

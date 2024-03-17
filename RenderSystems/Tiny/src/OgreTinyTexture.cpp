@@ -34,7 +34,10 @@ namespace Ogre {
             mUsage |= HardwareBuffer::HBU_DYNAMIC;
 
         // Adjust format if required.
-        mFormat = TextureManager::getSingleton().getNativeFormat(mTextureType, mFormat, mUsage);
+        mFormat = TextureManager::singleton().getNativeFormat(
+            mTextureType,
+            mFormat,
+            mUsage);
 
         mNumMipmaps = mNumRequestedMipmaps = 0;
 

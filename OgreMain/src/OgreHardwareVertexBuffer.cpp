@@ -70,7 +70,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     void HardwareVertexBuffer::setIsInstanceData( const bool val )
     {
-        RenderSystem* rs = Root::getSingleton().getRenderSystem();
+        RenderSystem* rs = Root::singleton().getRenderSystem();
 
         OgreAssert(!val || rs->getCapabilities()->hasCapability(RSC_VERTEX_BUFFER_INSTANCE_DATA),
                    "unsupported by rendersystem");
@@ -476,7 +476,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     VertexDeclaration* VertexDeclaration::clone(HardwareBufferManagerBase* mgr) const
     {
-        HardwareBufferManagerBase* pManager = mgr ? mgr : HardwareBufferManager::getSingletonPtr(); 
+        HardwareBufferManagerBase* pManager = mgr ? mgr : HardwareBufferManager::singleton_ptr((); 
         VertexDeclaration* ret = pManager->createVertexDeclaration();
 
         for (auto& e : mElementList)

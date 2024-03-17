@@ -99,8 +99,9 @@ void GLGpuNvparseProgram::loadFromSource(void)
 
         for (char* const * errors= nvparse_get_errors(); *errors; errors++)
         {
-            LogManager::getSingleton().log_message("Warning: nvparse reported the following errors:");
-            LogManager::getSingleton().log_message("\t" + String(*errors));
+            LogManager::singleton().log_message(
+                "Warning: nvparse reported the following errors:");
+            LogManager::singleton().log_message("\t" + String(*errors));
         }
         
         pos = newPos;

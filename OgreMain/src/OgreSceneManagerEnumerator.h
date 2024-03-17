@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreSceneManager.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -129,11 +129,10 @@ namespace Ogre {
 
         /// Utility method to control shutdown of the managers
         void shutdownAll(void);
-        /// @copydoc Singleton::getSingleton()
-        static SceneManagerEnumerator& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static SceneManagerEnumerator* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static SceneManagerEnumerator& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static SceneManagerEnumerator* singleton_ptr((void);
     };
 
     /** @} */

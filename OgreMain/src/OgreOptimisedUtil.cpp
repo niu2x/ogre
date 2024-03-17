@@ -113,7 +113,8 @@ namespace Ogre {
         {
             static ProfileItems results;
             static size_t index;
-            index = Root::getSingleton().getNextFrameNumber() % mOptimisedUtils.size();
+            index = Root::singleton().getNextFrameNumber()
+                % mOptimisedUtils.size();
             OptimisedUtil* impl = mOptimisedUtils[index];
             ProfileItem& profile = results[index];
 
@@ -130,8 +131,11 @@ namespace Ogre {
                 numVertices);
             profile.end();
 
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n", __FUNCTION__, index, profile.mAvgTicks));
+            LogManager::singleton().log_message(StringUtil::format(
+                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n",
+                __FUNCTION__,
+                index,
+                profile.mAvgTicks));
             // You can put break point here while running test application, to
             // watch profile results.
             ++index;    // So we can put break point here even if in release build
@@ -147,7 +151,8 @@ namespace Ogre {
         {
             static ProfileItems results;
             static size_t index;
-            index = Root::getSingleton().getNextFrameNumber() % mOptimisedUtils.size();
+            index = Root::singleton().getNextFrameNumber()
+                % mOptimisedUtils.size();
             OptimisedUtil* impl = mOptimisedUtils[index];
             ProfileItem& profile = results[index];
 
@@ -161,8 +166,11 @@ namespace Ogre {
                 morphNormals);
             profile.end();
 
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n", __FUNCTION__, index, profile.mAvgTicks));
+            LogManager::singleton().log_message(StringUtil::format(
+                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n",
+                __FUNCTION__,
+                index,
+                profile.mAvgTicks));
 
             // You can put break point here while running test application, to
             // watch profile results.
@@ -177,7 +185,8 @@ namespace Ogre {
         {
             static ProfileItems results;
             static size_t index;
-            index = Root::getSingleton().getNextFrameNumber() % mOptimisedUtils.size();
+            index = Root::singleton().getNextFrameNumber()
+                % mOptimisedUtils.size();
             OptimisedUtil* impl = mOptimisedUtils[index];
             ProfileItem& profile = results[index];
 
@@ -189,8 +198,11 @@ namespace Ogre {
                 numMatrices);
             profile.end();
 
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n", __FUNCTION__, index, profile.mAvgTicks));
+            LogManager::singleton().log_message(StringUtil::format(
+                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n",
+                __FUNCTION__,
+                index,
+                profile.mAvgTicks));
 
             // You can put break point here while running test application, to
             // watch profile results.
@@ -206,7 +218,8 @@ namespace Ogre {
         {
             static ProfileItems results;
             static size_t index;
-            index = Root::getSingleton().getNextFrameNumber() % mOptimisedUtils.size();
+            index = Root::singleton().getNextFrameNumber()
+                % mOptimisedUtils.size();
             OptimisedUtil* impl = mOptimisedUtils[index];
             ProfileItem& profile = results[index];
 
@@ -227,8 +240,11 @@ namespace Ogre {
             //      SSE         223559                  399495
             //
 
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n", __FUNCTION__, index, profile.mAvgTicks));
+            LogManager::singleton().log_message(StringUtil::format(
+                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n",
+                __FUNCTION__,
+                index,
+                profile.mAvgTicks));
 
             // You can put break point here while running test application, to
             // watch profile results.
@@ -244,7 +260,8 @@ namespace Ogre {
         {
             static ProfileItems results;
             static size_t index;
-            index = Root::getSingleton().getNextFrameNumber() % mOptimisedUtils.size();
+            index = Root::singleton().getNextFrameNumber()
+                % mOptimisedUtils.size();
             OptimisedUtil* impl = mOptimisedUtils[index];
             ProfileItem& profile = results[index];
 
@@ -265,8 +282,11 @@ namespace Ogre {
             //      SSE          47934                  63995
             //
 
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n", __FUNCTION__, index, profile.mAvgTicks));
+            LogManager::singleton().log_message(StringUtil::format(
+                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n",
+                __FUNCTION__,
+                index,
+                profile.mAvgTicks));
 
             // You can put break point here while running test application, to
             // watch profile results.
@@ -282,7 +302,8 @@ namespace Ogre {
         {
             static ProfileItems results;
             static size_t index;
-            index = Root::getSingleton().getNextFrameNumber() % mOptimisedUtils.size();
+            index = Root::singleton().getNextFrameNumber()
+                % mOptimisedUtils.size();
             OptimisedUtil* impl = mOptimisedUtils[index];
             ProfileItem& profile = results[index];
 
@@ -307,8 +328,11 @@ namespace Ogre {
             //      Point Light, SSE             56817              106663
             //
 
-            LogManager::getSingleton().log_message(StringUtil::format(
-                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n", __FUNCTION__, index, profile.mAvgTicks));
+            LogManager::singleton().log_message(StringUtil::format(
+                "OptimisedUtilProfiler: %s - impl %zu = %u avg ticks\n",
+                __FUNCTION__,
+                index,
+                profile.mAvgTicks));
 
             // You can put break point here while running test application, to
             // watch profile results.

@@ -36,11 +36,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> RenderSystemCapabilitiesManager* Singleton<RenderSystemCapabilitiesManager>::msSingleton = 0;
-    RenderSystemCapabilitiesManager* RenderSystemCapabilitiesManager::getSingletonPtr(void)
+    RenderSystemCapabilitiesManager* RenderSystemCapabilitiesManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    RenderSystemCapabilitiesManager& RenderSystemCapabilitiesManager::getSingleton(void)
+    RenderSystemCapabilitiesManager& RenderSystemCapabilitiesManager::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -98,7 +98,8 @@ namespace Ogre {
     void RenderSystemCapabilitiesManager::parseCapabilitiesFromArchive(const String& filename, const String& archiveType, bool recursive)
     {
         // get the list of .rendercaps files
-        Archive* arch = ArchiveManager::getSingleton().load(filename, archiveType, true);
+        Archive* arch
+            = ArchiveManager::singleton().load(filename, archiveType, true);
         StringVectorPtr files = arch->find(mScriptPattern, recursive);
 
         // loop through .rendercaps files and load each one

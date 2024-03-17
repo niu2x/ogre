@@ -37,10 +37,10 @@ MaterialGenerator::~MaterialGenerator()
     // we have generated fragment shaders and materials
     // so delete them
     for(ProgramMap::iterator it = mFs.begin(); it != mFs.end(); ++it) {
-        HighLevelGpuProgramManager::getSingleton().remove(it->second);
+        HighLevelGpuProgramManager::singleton().remove(it->second);
     }
     for(MaterialMap::iterator it = mMaterials.begin(); it != mMaterials.end(); ++it) {
-        MaterialManager::getSingleton().remove(it->second);
+        MaterialManager::singleton().remove(it->second);
     }
 
     delete mImpl;

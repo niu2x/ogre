@@ -33,7 +33,7 @@ THE SOFTWARE
 #include "exception.h"
 #include "string_interface.h"
 #include "font.h"
-#include "OgreFontManager.h"
+#include "font_manager.h"
 #include "OgreOverlayElement.h"
 
 namespace Ogre {
@@ -184,22 +184,22 @@ namespace Ogre {
 
         // Create dynamic since text tends to change a lot
         // positions & texcoords
-        HardwareVertexBufferSharedPtr vbuf = 
-            HardwareBufferManager::getSingleton().
-                createVertexBuffer(
-                    decl->getVertexSize(POS_TEX_BINDING), 
-                    allocatedVertexCount,
-                    HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
-                    true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(POS_TEX_BINDING),
+                allocatedVertexCount,
+                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+                true); // Workaround, using shadow buffer to avoid stall due to
+                       // buffer mapping
         bind->setBinding(POS_TEX_BINDING, vbuf);
 
         // colours
-        vbuf = HardwareBufferManager::getSingleton().
-                createVertexBuffer(
-                    decl->getVertexSize(COLOUR_BINDING), 
-                    allocatedVertexCount,
-                    HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
-                    true);//Workaround, using shadow buffer to avoid stall due to buffer mapping
+        vbuf = HardwareBufferManager::singleton().createVertexBuffer(
+            decl->getVertexSize(COLOUR_BINDING),
+            allocatedVertexCount,
+            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY,
+            true); // Workaround, using shadow buffer to avoid stall due to
+                   // buffer mapping
         bind->setBinding(COLOUR_BINDING, vbuf);
 
         // Buffers are restored, but with trash within
@@ -410,7 +410,7 @@ namespace Ogre {
         {
             // Derive parametric version of dimensions
             Real vpWidth;
-            vpWidth = (Real) (OverlayManager::getSingleton().getViewportWidth());
+            vpWidth = (Real)(OverlayManager::singleton().getViewportWidth());
 
             largestWidth *= vpWidth;
         };
@@ -433,7 +433,7 @@ namespace Ogre {
 
     void TextAreaOverlayElement::setFontName( const String& font, const String& group )
     {
-        mFont = FontManager::getSingleton().getByName(font, group);
+        mFont = FontManager::singleton().getByName(font, group);
         if (!mFont)
             OGRE_EXCEPT( Exception::ERR_ITEM_NOT_FOUND, "Could not find font " + font,
                 "TextAreaOverlayElement::setFontName" );
@@ -629,8 +629,8 @@ namespace Ogre {
     void TextAreaOverlayElement::setMetricsMode(GuiMetricsMode gmm)
     {
         Real vpWidth, vpHeight;
-        vpWidth = (Real) (OverlayManager::getSingleton().getViewportWidth());
-        vpHeight = (Real) (OverlayManager::getSingleton().getViewportHeight());
+        vpWidth = (Real)(OverlayManager::singleton().getViewportWidth());
+        vpHeight = (Real)(OverlayManager::singleton().getViewportHeight());
 
         mViewportAspectCoef = vpHeight/vpWidth;
 
@@ -658,8 +658,8 @@ namespace Ogre {
     void TextAreaOverlayElement::_update(void)
     {
         Real vpWidth, vpHeight;
-        vpWidth = (Real) (OverlayManager::getSingleton().getViewportWidth());
-        vpHeight = (Real) (OverlayManager::getSingleton().getViewportHeight());
+        vpWidth = (Real)(OverlayManager::singleton().getViewportWidth());
+        vpHeight = (Real)(OverlayManager::singleton().getViewportHeight());
 
         mViewportAspectCoef = vpHeight/vpWidth;
 

@@ -673,7 +673,8 @@ void VertexIndexToShape::addMesh(const MeshPtr& mesh, const Affine3& transform)
     mTransform = transform;
 
     if (mesh->hasSkeleton())
-        LogManager::getSingleton().log_warning("Mesh " + mesh->name() + " has a skeleton but added non animated");
+        LogManager::singleton().log_warning(
+            "Mesh " + mesh->name() + " has a skeleton but added non animated");
 
     if (mesh->sharedVertexData)
     {
@@ -707,10 +708,11 @@ void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btV
     if (mLines.getSections().empty())
     {
         const char* matName = "Ogre/Debug/LinesMat";
-        auto mat = MaterialManager::getSingleton().getByName(matName, RGN_INTERNAL);
+        auto mat
+            = MaterialManager::singleton().getByName(matName, RGN_INTERNAL);
         if (!mat)
         {
-            mat = MaterialManager::getSingleton().create(matName, RGN_INTERNAL);
+            mat = MaterialManager::singleton().create(matName, RGN_INTERNAL);
             auto p = mat->getTechnique(0)->getPass(0);
             p->setLightingEnabled(false);
             p->setVertexColourTracking(TVC_AMBIENT);

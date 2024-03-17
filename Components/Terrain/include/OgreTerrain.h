@@ -2037,12 +2037,10 @@ namespace Ogre
          */
         void setUseVertexCompressionWhenAvailable(bool enable) { mUseVertexCompressionWhenAvailable = enable; }
 
-        /// @copydoc Singleton::getSingleton()
-        static TerrainGlobalOptions& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static TerrainGlobalOptions* getSingletonPtr(void);
-
-
+        /// @copydoc Singleton::singleton()
+        static TerrainGlobalOptions& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static TerrainGlobalOptions* singleton_ptr((void);
     };
 
 

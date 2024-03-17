@@ -119,7 +119,8 @@ namespace Ogre
         
 
         // Make sure param defs are loaded
-        GpuProgramParametersSharedPtr params = GpuProgramManager::getSingleton().createParameters();
+        GpuProgramParametersSharedPtr params
+            = GpuProgramManager::singleton().createParameters();
         // Only populate named parameters if we can support this program
         if (this->isSupported())
         {
@@ -210,7 +211,7 @@ namespace Ogre
     {
         if(!defines.empty()) defines += ",";
 
-        auto renderSystem = Root::getSingleton().getRenderSystem();
+        auto renderSystem = Root::singleton().getRenderSystem();
 
         // OGRE_HLSL, OGRE_GLSL etc.
         String tmp = getLanguage();
@@ -348,7 +349,7 @@ namespace Ogre
 
             // open included file
             DataStreamPtr resource
-                = ResourceGroupManager::getSingleton().openResource(
+                = ResourceGroupManager::singleton().openResource(
                     filename,
                     resourceBeingLoaded->group(),
                     resourceBeingLoaded);

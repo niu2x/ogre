@@ -62,7 +62,10 @@ namespace Ogre
         if (mBuffer.empty())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Queue is empty !", "MaterialSerializer::exportQueued");
 
-        LogManager::getSingleton().log_message("MaterialSerializer : writing material(s) to material script : " + fileName, LogMsgLevel::NORMAL);
+        LogManager::singleton().log_message(
+            "MaterialSerializer : writing material(s) to material script : "
+                + fileName,
+            LogMsgLevel::NORMAL);
         FILE *fp;
         fp = fopen(fileName.c_str(), "w");
         if (!fp)
@@ -92,7 +95,9 @@ namespace Ogre
             fclose(locFp);
         }
 
-        LogManager::getSingleton().log_message("MaterialSerializer : done.", LogMsgLevel::NORMAL);
+        LogManager::singleton().log_message(
+            "MaterialSerializer : done.",
+            LogMsgLevel::NORMAL);
         clearQueue();
     }
     //-----------------------------------------------------------------------
@@ -131,7 +136,10 @@ namespace Ogre
             outMaterialName = pMat->name();
         }
 
-        LogManager::getSingleton().log_message("MaterialSerializer : writing material " + outMaterialName + " to queue.", LogMsgLevel::NORMAL);
+        LogManager::singleton().log_message(
+            "MaterialSerializer : writing material " + outMaterialName
+                + " to queue.",
+            LogMsgLevel::NORMAL);
 
         bool skipWriting = false;
 
@@ -782,8 +790,10 @@ namespace Ogre
         
         // Fire post section write event.
         firePassEvent(MSE_POST_WRITE, skipWriting, pPass);
-        
-        LogManager::getSingleton().log_message("MaterialSerializer : done.", LogMsgLevel::NORMAL);
+
+        LogManager::singleton().log_message(
+            "MaterialSerializer : done.",
+            LogMsgLevel::NORMAL);
     }
     //-----------------------------------------------------------------------
     String MaterialSerializer::convertFiltering(FilterOptions fo)
@@ -828,8 +838,10 @@ namespace Ogre
         fireTextureUnitStateEvent(MSE_PRE_WRITE, skipWriting, pTex);
         if (skipWriting)        
             return;
-    
-        LogManager::getSingleton().log_message("MaterialSerializer : parsing texture layer.", LogMsgLevel::NORMAL);
+
+        LogManager::singleton().log_message(
+            "MaterialSerializer : parsing texture layer.",
+            LogMsgLevel::NORMAL);
         mBuffer += "\n";
         writeAttribute(3, "texture_unit");
         // only write out name if its not equal to the default name
@@ -879,8 +891,8 @@ namespace Ogre
                     break;
                 };
 
-                if (uint32(pTex->getNumMipmaps()) != TextureManager::getSingleton().getDefaultNumMipmaps())
-                {
+                if (uint32(pTex->getNumMipmaps())
+                    != TextureManager::singleton().getDefaultNumMipmaps()) {
                     writeValue(StringConverter::to_string(pTex->getNumMipmaps()));
                 }
 
@@ -950,7 +962,7 @@ namespace Ogre
             }
 
             //filtering
-            if (TextureManager::getSingletonPtr() && (mDefaults || !pTex->isDefaultFiltering()))
+            if (TextureManager::singleton_ptr(() && (mDefaults || !pTex->isDefaultFiltering()))
             {
                 writeAttribute(4, "filtering");
                 writeValue(
@@ -1782,8 +1794,9 @@ namespace Ogre
         while (currentDef != endDef)
         {
             // get gpu program from gpu program manager
-            GpuProgramPtr program = GpuProgramManager::getSingleton().getByName(
-                *currentDef, ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+            GpuProgramPtr program = GpuProgramManager::singleton().getByName(
+                *currentDef,
+                ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
             // write gpu program definition type to buffer
             // check program type for vertex program
             // write program type

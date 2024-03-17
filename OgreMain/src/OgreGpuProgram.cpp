@@ -159,7 +159,7 @@ namespace Ogre
         if (!mLoadFromFile)
             return;
 
-        mSource = ResourceGroupManager::getSingleton()
+        mSource = ResourceGroupManager::singleton()
                       .openResource(mFilename, group(), this)
                       ->as_string();
     }
@@ -177,7 +177,7 @@ namespace Ogre
         catch (const Exception& e)
         {
             // will already have been logged
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
                 << "Program '" << name()
                 << "' is not supported: " << e.description();
 
@@ -202,7 +202,7 @@ namespace Ogre
         catch (const Exception& e)
         {
             // will already have been logged
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL)
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
                 << "Program '" << name()
                 << "' is not supported: " << e.description();
 
@@ -230,8 +230,8 @@ namespace Ogre
     //-----------------------------------------------------------------------------
     bool GpuProgram::isRequiredCapabilitiesSupported(void) const
     {
-        const RenderSystemCapabilities* caps = 
-            Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         // Basic support check
         if ((getType() == GPT_GEOMETRY_PROGRAM && !caps->hasCapability(RSC_GEOMETRY_PROGRAM)) ||
@@ -257,7 +257,7 @@ namespace Ogre
         if (mCompileError || !isRequiredCapabilitiesSupported())
             return false;
 
-        return GpuProgramManager::getSingleton().isSyntaxSupported(mSyntaxCode);
+        return GpuProgramManager::singleton().isSyntaxSupported(mSyntaxCode);
     }
     //---------------------------------------------------------------------
     void GpuProgram::createParameterMappingStructures(bool recreateIfExists)
@@ -314,10 +314,9 @@ namespace Ogre
     GpuProgramParametersSharedPtr GpuProgram::createParameters(void)
     {
         // Default implementation simply returns standard parameters.
-        GpuProgramParametersSharedPtr ret = 
-            GpuProgramManager::getSingleton().createParameters();
-        
-        
+        GpuProgramParametersSharedPtr ret
+            = GpuProgramManager::singleton().createParameters();
+
         // optionally load manually supplied named constants
         if (!mManualNamedConstantsFile.empty() && !mLoadedManualNamedConstants)
         {
@@ -325,7 +324,7 @@ namespace Ogre
             {
                 GpuNamedConstants namedConstants;
                 DataStreamPtr stream
-                    = ResourceGroupManager::getSingleton().openResource(
+                    = ResourceGroupManager::singleton().openResource(
                         mManualNamedConstantsFile,
                         group(),
                         this);
@@ -334,7 +333,7 @@ namespace Ogre
             }
             catch(const Exception& e)
             {
-                LogManager::getSingleton().stream()
+                LogManager::singleton().stream()
                     << "Unable to load manual named constants for GpuProgram "
                     << name() << ": " << e.description();
             }

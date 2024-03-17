@@ -58,7 +58,8 @@ void RsImageCodec::startup(void)
         Codec::registerCodec(codec);
     }
 
-    LogManager::getSingleton().log_message("image-rs loader - supported formats: " + exts);
+    LogManager::singleton().log_message(
+        "image-rs loader - supported formats: " + exts);
 }
 //---------------------------------------------------------------------
 void RsImageCodec::shutdown(void)

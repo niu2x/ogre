@@ -63,7 +63,8 @@ bool ProgramProcessor::postCreateGpuPrograms(ProgramSet* programSet)
     for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
         bindAutoParameters(programSet->getCpuProgram(type), programSet->getGpuProgram(type));
 
-    if(ShaderGenerator::getSingleton().getTargetLanguage().find("glsl") == String::npos)
+    if (ShaderGenerator::singleton().getTargetLanguage().find("glsl")
+        == String::npos)
         return true;
 
     for(auto type : {GPT_VERTEX_PROGRAM, GPT_FRAGMENT_PROGRAM})
@@ -165,7 +166,9 @@ bool ProgramProcessor::compactVsOutputs(Function* vsMain, Function* fsMain)
         return true;
 
     // Case compact policy is low and output slots are enough -> quit compacting process.
-    if (ShaderGenerator::getSingleton().getVertexShaderOutputsCompactPolicy() == VSOCP_LOW && outTexCoordSlots <= mMaxTexCoordSlots)
+    if (ShaderGenerator::singleton().getVertexShaderOutputsCompactPolicy()
+            == VSOCP_LOW
+        && outTexCoordSlots <= mMaxTexCoordSlots)
         return true;
 
     // Build output parameter tables - each row represents different parameter type (GCT_FLOAT1-4).
@@ -342,9 +345,10 @@ void ProgramProcessor::mergeParametersByPredefinedCombinations(ShaderParameterLi
     }
 
     // Case low/medium compacting policy -> use these simplified combinations in order to prevent splits.
-    if (ShaderGenerator::getSingleton().getVertexShaderOutputsCompactPolicy() == VSOCP_LOW ||
-        ShaderGenerator::getSingleton().getVertexShaderOutputsCompactPolicy() == VSOCP_MEDIUM)
-    {
+    if (ShaderGenerator::singleton().getVertexShaderOutputsCompactPolicy()
+            == VSOCP_LOW
+        || ShaderGenerator::singleton().getVertexShaderOutputsCompactPolicy()
+            == VSOCP_MEDIUM) {
         const int curUsedSlots = static_cast<int>(mergedParams.size());
         const int float1ParamCount = static_cast<int>(paramsTable[0].size());
         const int float2ParamCount = static_cast<int>(paramsTable[1].size());

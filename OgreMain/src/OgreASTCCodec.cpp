@@ -169,20 +169,20 @@ namespace Ogre {
 			Codec::registerCodec(msInstance);
 		}
 
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL,
-                                              "ASTC codec registering");
-	}
-	//---------------------------------------------------------------------
-	void ASTCCodec::shutdown(void)
-	{
-		if(msInstance)
-		{
-			Codec::unregisterCodec(msInstance);
-			OGRE_DELETE msInstance;
+        LogManager::singleton().log_message(
+            LogMsgLevel::NORMAL,
+            "ASTC codec registering");
+    }
+    //---------------------------------------------------------------------
+    void ASTCCodec::shutdown(void)
+    {
+        if (msInstance) {
+            Codec::unregisterCodec(msInstance);
+            OGRE_DELETE msInstance;
 			msInstance = 0;
-		}
-	}
-	//---------------------------------------------------------------------
+        }
+    }
+    //---------------------------------------------------------------------
     ASTCCodec::ASTCCodec():
         mType("astc")
     { 

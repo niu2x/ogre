@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreLodStrategy.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -135,10 +135,10 @@ namespace Ogre {
 
         Real getSquaredDepth(const MovableObject *movableObject, const Ogre::Camera *camera) const override;
 
-        /// @copydoc Singleton::getSingleton()
-        static DistanceLodSphereStrategy& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static DistanceLodSphereStrategy* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static DistanceLodSphereStrategy& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static DistanceLodSphereStrategy* singleton_ptr((void);
     };
     /** @} */
     /** @} */
@@ -168,10 +168,10 @@ namespace Ogre {
 
         Real getSquaredDepth(const MovableObject *movableObject, const Ogre::Camera *camera) const override;
 
-        /// @copydoc Singleton::getSingleton()
-        static DistanceLodBoxStrategy& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static DistanceLodBoxStrategy* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static DistanceLodBoxStrategy& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static DistanceLodBoxStrategy* singleton_ptr((void);
     };
 
     /** @} */

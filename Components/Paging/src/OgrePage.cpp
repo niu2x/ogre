@@ -89,12 +89,12 @@ namespace Ogre
     //---------------------------------------------------------------------
     void Page::touch()
     {
-        mFrameLastHeld = Root::getSingleton().getNextFrameNumber();
+        mFrameLastHeld = Root::singleton().getNextFrameNumber();
     }
     //---------------------------------------------------------------------
     bool Page::isHeld() const
     {
-        unsigned long nextFrame = Root::getSingleton().getNextFrameNumber();
+        unsigned long nextFrame = Root::singleton().getNextFrameNumber();
         unsigned long dist;
         if (nextFrame < mFrameLastHeld)
         {
@@ -120,7 +120,8 @@ namespace Ogre
         stream.read(&storedID);
         if (mID != storedID)
         {
-            LogManager::getSingleton().stream(LogMsgLevel::CRITICAL) << "Error: Tried to populate Page ID " << mID
+            LogManager::singleton().stream(LogMsgLevel::CRITICAL)
+                << "Error: Tried to populate Page ID " << mID
                 << " with data corresponding to page ID " << storedID;
             stream.undoReadChunk(CHUNK_ID);
             return false;
@@ -145,15 +146,17 @@ namespace Ogre
                 }
                 else
                 {
-                    LogManager::getSingleton().stream() << "Error preparing PageContentCollection type: " 
+                    LogManager::singleton().stream()
+                        << "Error preparing PageContentCollection type: "
                         << factoryName << " in " << *this;
                     collFact->destroyInstance(collInst);
                 }
             }
             else
             {
-                LogManager::getSingleton().stream() << "Unsupported PageContentCollection type: " 
-                    << factoryName << " in " << *this;
+                LogManager::singleton().stream()
+                    << "Unsupported PageContentCollection type: " << factoryName
+                    << " in " << *this;
                 // skip
                 stream.readChunkEnd(collChunk->id);
             }
@@ -181,9 +184,9 @@ namespace Ogre
             }
             else
             {
-                Root::getSingleton().getWorkQueue()->add_task([this]() {
+                Root::singleton().getWorkQueue()->add_task([this]() {
                     auto res = handleRequest(NULL, NULL);
-                    Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                    Root::singleton().getWorkQueue()->add_main_thread_task(
                         [this, res]() {
                             handleResponse(res, NULL);
                             delete res;
@@ -256,7 +259,8 @@ namespace Ogre
             // Background loading
             String filename = generateFilename();
 
-            DataStreamPtr stream = Root::getSingleton().openFileStream(filename, 
+            DataStreamPtr stream = Root::singleton().openFileStream(
+                filename,
                 getManager()->getPageResourceGroup());
             StreamSerialiser ser(stream);
             return prepareImpl(ser, dataToPopulate);
@@ -283,8 +287,10 @@ namespace Ogre
     //---------------------------------------------------------------------
     void Page::save(const String& filename)
     {
-        DataStreamPtr stream = Root::getSingleton().createFileStream(filename, 
-            getManager()->getPageResourceGroup(), true);
+        DataStreamPtr stream = Root::singleton().createFileStream(
+            filename,
+            getManager()->getPageResourceGroup(),
+            true);
         StreamSerialiser ser(stream);
         save(ser);
     }

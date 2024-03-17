@@ -61,7 +61,7 @@ void Sample_VolumeTerrain::setupContent(void)
     mVolumeRootNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("VolumeParent");
     Timer t;
     mVolumeRoot->load(mVolumeRootNode, mSceneMgr, "volumeTerrain.cfg", true);
-    LogManager::getSingleton().stream()
+    LogManager::singleton().stream()
         << "Loaded volume terrain in " << t.milli_seconds_cpu() << " ms";
 
     // Make this viewport work with shader generator scheme.

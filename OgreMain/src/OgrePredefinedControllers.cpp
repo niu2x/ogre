@@ -37,7 +37,7 @@ namespace Ogre
     FrameTimeControllerValue::FrameTimeControllerValue()
     {
         // Register self
-        Root::getSingleton().addFrameListener(this);
+        Root::singleton().addFrameListener(this);
         mFrameTime = 0;
         mTimeFactor = 1;
         mFrameDelay = 0;

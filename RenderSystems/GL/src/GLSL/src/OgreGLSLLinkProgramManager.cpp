@@ -39,13 +39,13 @@ namespace Ogre {
     namespace GLSL {
 
     //-----------------------------------------------------------------------
-    GLSLLinkProgramManager* GLSLLinkProgramManager::getSingletonPtr(void)
+    GLSLLinkProgramManager* GLSLLinkProgramManager::singleton_ptr((void)
     {
         return msSingleton;
     }
 
     //-----------------------------------------------------------------------
-    GLSLLinkProgramManager& GLSLLinkProgramManager::getSingleton(void)
+    GLSLLinkProgramManager& GLSLLinkProgramManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }

@@ -55,7 +55,7 @@ void DefaultWorkQueue::startup(bool force_restart)
 
     shutting_down_ = false;
 
-    LogManager::getSingleton().stream()
+    LogManager::singleton().stream()
         << "DefaultWorkQueue('" << name_ << "') initialising on thread "
         << OGRE_THREAD_CURRENT_ID << ".";
 
@@ -75,7 +75,7 @@ void DefaultWorkQueue::shutdown()
     if (!running_)
         return;
 
-    LogManager::getSingleton().stream()
+    LogManager::singleton().stream()
         << "DefaultWorkQueue('" << name_ << "') shutting down on thread "
         << OGRE_THREAD_CURRENT_ID << ".";
 
@@ -124,7 +124,7 @@ void DefaultWorkQueue::thread_main()
 {
     // default worker thread
 #if XDOG_USE_THREAD
-    LogManager::getSingleton().stream()
+    LogManager::singleton().stream()
         << "DefaultWorkQueue('" << name_ << "')::WorkerFunc - thread "
         << OGRE_THREAD_CURRENT_ID << " starting.";
 
@@ -134,7 +134,7 @@ void DefaultWorkQueue::thread_main()
         process_next_request();
     }
 
-    LogManager::getSingleton().stream()
+    LogManager::singleton().stream()
         << "DefaultWorkQueue('" << name_ << "')::WorkerFunc - thread "
         << OGRE_THREAD_CURRENT_ID << " stopped.";
 #endif
@@ -164,7 +164,7 @@ void DefaultWorkQueue::add_task(std::function<void()> task)
     task(); // no threading, just run it
 #endif
 
-    LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+    LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
         << "DefaultWorkQueueBase('" << name_
         << "') - QUEUED(thread:" << OGRE_THREAD_CURRENT_ID << ")";
 }
@@ -188,7 +188,7 @@ void DefaultWorkQueue::process_next_request()
         if (tasks_.empty())
             return;
 
-        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+        LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
             << "DefaultWorkQueueBase('" << name_
             << "') - PROCESS_TASK(thread:" << OGRE_THREAD_CURRENT_ID << ")";
 
@@ -201,7 +201,7 @@ void DefaultWorkQueue::process_next_request()
 //---------------------------------------------------------------------
 void DefaultWorkQueue::process_main_thread_tasks()
 {
-    auto ms_start = Root::getSingleton().getTimer()->milli_seconds();
+    auto ms_start = Root::singleton().getTimer()->milli_seconds();
     auto ms_current = 0;
 
     // keep going until we run out of responses or out of time
@@ -209,7 +209,7 @@ void DefaultWorkQueue::process_main_thread_tasks()
         std::function<void()> task;
         {
             OGRE_WQ_LOCK_MUTEX(response_mutex_);
-            LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
+            LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
                 << "DefaultWorkQueueBase('" << name_
                 << "') - PROCESS_MAIN_TASK";
             task = std::move(main_thread_tasks_.front());
@@ -219,7 +219,7 @@ void DefaultWorkQueue::process_main_thread_tasks()
 
         // time limit
         if (response_time_limit_ms_) {
-            ms_current = Root::getSingleton().getTimer()->milli_seconds();
+            ms_current = Root::singleton().getTimer()->milli_seconds();
             if (ms_current - ms_start > response_time_limit_ms_)
                 break;
         }

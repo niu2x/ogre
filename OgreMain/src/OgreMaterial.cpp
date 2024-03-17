@@ -44,13 +44,15 @@ namespace Ogre {
         // Override isManual, not applicable for Material (we always want to call loadImpl)
         if(isManual)
         {
-            LogManager::getSingleton().log_warning("Material " + name +
-                " was requested with isManual=true, but this is not applicable " 
-                "for materials; the flag has been reset to false");
+            LogManager::singleton().log_warning(
+                "Material " + name
+                + " was requested with isManual=true, but this is not "
+                  "applicable "
+                  "for materials; the flag has been reset to false");
         }
 
         // Initialise to default strategy
-        mLodStrategy = LodStrategyManager::getSingleton().getDefaultStrategy();
+        mLodStrategy = LodStrategyManager::singleton().getDefaultStrategy();
 
         mLodValues.push_back(0.0f);
 
@@ -164,7 +166,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     MaterialPtr Material::clone(const String& newName, const String& newGroup) const
     {
-        MaterialPtr newMat = MaterialManager::getSingleton().create(
+        MaterialPtr newMat = MaterialManager::singleton().create(
             newName,
             newGroup.empty() ? group() : newGroup);
 
@@ -212,7 +214,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Material::applyDefaults(void)
     {
-        MaterialPtr defaults = MaterialManager::getSingleton().getDefaultSettings();
+        MaterialPtr defaults
+            = MaterialManager::singleton().getDefaultSettings();
 
         if (defaults)
         {
@@ -274,7 +277,7 @@ namespace Ogre {
     unsigned short Material::getNumLodLevels(const String& schemeName) const
     {
         return getNumLodLevels(
-            MaterialManager::getSingleton()._getSchemeIndex(schemeName));
+            MaterialManager::singleton()._getSchemeIndex(schemeName));
     }
     //-----------------------------------------------------------------------
     void Material::insertSupportedTechnique(Technique* t)
@@ -298,7 +301,7 @@ namespace Ogre {
         else
         {
             Technique* ret = 0;
-            MaterialManager& matMgr = MaterialManager::getSingleton();
+            MaterialManager& matMgr = MaterialManager::singleton();
             // get scheme
             auto si = mBestTechniquesBySchemeList.find(matMgr._getActiveSchemeIndex());
             // scheme not found?
@@ -412,7 +415,9 @@ namespace Ogre {
                 if (!t->name().empty())
                     str << "(" << t->name() << ")";
                 str << " is not supported. " << compileMessages;
-                LogManager::getSingleton().log_message(str.str(), LogMsgLevel::TRIVIAL);
+                LogManager::singleton().log_message(
+                    str.str(),
+                    LogMsgLevel::TRIVIAL);
                 mUnsupportedReasons += compileMessages;
             }
             ++techNo;
@@ -423,7 +428,7 @@ namespace Ogre {
         // Did we find any?
         if (mSupportedTechniques.empty())
         {
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING)
+            LogManager::singleton().stream(LogMsgLevel::WARNING)
                 << "Warning: material " << name() << " has no supportable "
                 << "Techniques and will be blank. Explanation: \n"
                 << mUnsupportedReasons;

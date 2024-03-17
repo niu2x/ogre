@@ -25,7 +25,7 @@ def main():
     cfg = Ogre.ConfigFile()
     cfg.loadDirect("resources.cfg")
 
-    rgm = Ogre.ResourceGroupManager.getSingleton()
+    rgm = Ogre.ResourceGroupManager.singleton()
 
     for sec, settings in cfg.getSettingsBySection().items():
         for kind, loc in settings.items():
@@ -38,10 +38,10 @@ def main():
     win = root.initialise(True)
 
     Ogre.RTShader.ShaderGenerator.initialize()
-    shadergen = Ogre.RTShader.ShaderGenerator.getSingleton()
+    shadergen = Ogre.RTShader.ShaderGenerator.singleton()
 
     sgres = SGResolver(shadergen)
-    Ogre.MaterialManager.getSingleton().add_listener(sgres)
+    Ogre.MaterialManager.singleton().add_listener(sgres)
 
     rgm.initialiseAllResourceGroups()
 

@@ -142,12 +142,13 @@ ManualObject::ManualObject(const String& name)
         OgreAssert(!mCurrentSection, "You cannot call begin() again until after you call end()");
 
         // Check that a valid material was provided
-        MaterialPtr material = MaterialManager::getSingleton().getByName(materialName, groupName);
+        MaterialPtr material
+            = MaterialManager::singleton().getByName(materialName, groupName);
 
         if(!material)
         {
             logMaterialNotFound(materialName, groupName, "ManualObject", mName);
-            material = MaterialManager::getSingleton().getDefaultMaterial();
+            material = MaterialManager::singleton().getDefaultMaterial();
         }
 
         mCurrentSection = OGRE_NEW ManualObjectSection(this, material, opType);
@@ -170,8 +171,11 @@ ManualObject::ManualObject(const String& name)
       }
       else
       {
-          LogManager::getSingleton().log_message("Can't assign null material", LogMsgLevel::CRITICAL);
-          const MaterialPtr defaultMat = MaterialManager::getSingleton().getDefaultMaterial();
+          LogManager::singleton().log_message(
+              "Can't assign null material",
+              LogMsgLevel::CRITICAL);
+          const MaterialPtr defaultMat
+              = MaterialManager::singleton().getDefaultMaterial();
           mCurrentSection = OGRE_NEW ManualObjectSection(this, defaultMat, opType);
       }
 
@@ -248,7 +252,7 @@ ManualObject::ManualObject(const String& name)
             VertexDeclaration* oldDcl = rop->vertexData->vertexDeclaration;
             rop->vertexData->vertexDeclaration =
                 oldDcl->getAutoOrganisedDeclaration(false, false, false);
-            HardwareBufferManager::getSingleton().destroyVertexDeclaration(oldDcl);
+            HardwareBufferManager::singleton().destroyVertexDeclaration(oldDcl);
         }
         resizeTempVertexBufferIfNeeded(++rop->vertexData->vertexCount);
 
@@ -373,8 +377,10 @@ ManualObject::ManualObject(const String& name)
                 // to allow for user-configured growth area
                 size_t vertexCount = std::max(rop->vertexData->vertexCount, 
                     mEstVertexCount);
-                vbuf = HardwareBufferManager::getSingleton().createVertexBuffer(mDeclSize, vertexCount,
-                                                                                mBufferUsage);
+                vbuf = HardwareBufferManager::singleton().createVertexBuffer(
+                    mDeclSize,
+                    vertexCount,
+                    mBufferUsage);
                 rop->vertexData->vertexBufferBinding->setBinding(0, vbuf);
             }
             if (ibufNeedsCreating)
@@ -382,8 +388,11 @@ ManualObject::ManualObject(const String& name)
                 // Make the index buffer larger if estimated index count higher
                 // to allow for user-configured growth area
                 size_t indexCount = std::max(rop->indexData->indexCount, mEstIndexCount);
-                rop->indexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-                    indexType, indexCount, mBufferUsage);
+                rop->indexData->indexBuffer
+                    = HardwareBufferManager::singleton().createIndexBuffer(
+                        indexType,
+                        indexCount,
+                        mBufferUsage);
             }
             // Write vertex data
             vbuf->writeData(
@@ -438,7 +447,7 @@ ManualObject::ManualObject(const String& name)
                                      "defining the object; call end() first.");
         OgreAssert(!mSectionList.empty(), "No data defined to convert to a mesh.");
 
-        MeshPtr m = MeshManager::getSingleton().createManual(meshName, groupName);
+        MeshPtr m = MeshManager::singleton().createManual(meshName, groupName);
 
         for (auto sec : mSectionList)
         {
@@ -670,7 +679,8 @@ ManualObject::ManualObject(const String& name)
     {
         if (!mMaterial)
         {
-            mMaterial = static_pointer_cast<Material>(MaterialManager::getSingleton().load(mMaterialName, mGroupName));
+            mMaterial = static_pointer_cast<Material>(
+                MaterialManager::singleton().load(mMaterialName, mGroupName));
         }
         return mMaterial;
     }

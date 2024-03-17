@@ -50,7 +50,8 @@ namespace Ogre {
           mExternalContext(false)
     {
         assert(drawable);
-        GLRenderSystemCommon* renderSystem = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon* renderSystem = static_cast<GLRenderSystemCommon*>(
+            Root::singleton().getRenderSystem());
         EGLContext* mainContext = static_cast<EGLContext*>(renderSystem->_getMainContext());
         ::EGLContext shareContext = (::EGLContext) 0;
 
@@ -70,8 +71,8 @@ namespace Ogre {
 
     EGLContext::~EGLContext()
     {
-        GLRenderSystemCommon *rs =
-            static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon* rs = static_cast<GLRenderSystemCommon*>(
+            Root::singleton().getRenderSystem());
         try {
             _destroyInternalResources();
         } catch(RenderingAPIException&) {
@@ -110,7 +111,7 @@ namespace Ogre {
 
         // Initialise GL3W
         if (gleswInit())
-            LogManager::getSingleton().log_message("Failed to initialize GL3W");
+            LogManager::singleton().log_message("Failed to initialize GL3W");
     }
 #endif
 

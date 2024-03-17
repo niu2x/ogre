@@ -44,7 +44,7 @@ namespace Ogre
 
         logMessage = msg + "\n" + logMessage;
 
-        LogManager::getSingleton().log_message(LogMsgLevel::CRITICAL, logMessage);
+        LogManager::singleton().log_message(LogMsgLevel::CRITICAL, logMessage);
 
         return logMessage;
     }
@@ -66,8 +66,10 @@ namespace Ogre
                 OGRE_CHECK_GL_ERROR(glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &infologLength));
             }
 
-            else if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
-            {
+            else if (Root::singleton()
+                         .getRenderSystem()
+                         ->getCapabilities()
+                         ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)) {
                 if(glIsProgramPipelineEXT(obj))
                     OGRE_CHECK_GL_ERROR(glGetProgramPipelineivEXT(obj, GL_INFO_LOG_LENGTH, &infologLength));
             }
@@ -86,9 +88,10 @@ namespace Ogre
                 else if(glIsProgram(obj))
                 {
                     OGRE_CHECK_GL_ERROR(glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog));
-                }
-                else if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
-                {
+                } else if (Root::singleton()
+                               .getRenderSystem()
+                               ->getCapabilities()
+                               ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)) {
                     if(glIsProgramPipelineEXT(obj))
                         OGRE_CHECK_GL_ERROR(glGetProgramPipelineInfoLogEXT(obj, infologLength, &charsWritten, infoLog));
                 }

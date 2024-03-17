@@ -63,8 +63,8 @@ namespace Ogre {
         , mLightListUpdated(0)
         , mLightMask(0xFFFFFFFF)
     {
-        if (Root::getSingletonPtr())
-            mMinPixelSize = Root::getSingleton().getDefaultMinPixelSize();
+        if (Root::singleton_ptr(())
+            mMinPixelSize = Root::singleton().getDefaultMinPixelSize();
     }
     //-----------------------------------------------------------------------
     MovableObject::~MovableObject()
@@ -170,7 +170,7 @@ namespace Ogre {
         if (!mVisible || mBeyondFarDistance || mRenderingDisabled)
             return false;
 
-        SceneManager* sm = Root::getSingleton()._getCurrentSceneManager();
+        SceneManager* sm = Root::singleton()._getCurrentSceneManager();
         if (sm && !(getVisibilityFlags() & sm->_getCombinedVisibilityMask()))
             return false;
 

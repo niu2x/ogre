@@ -81,13 +81,13 @@ namespace Ogre
 	}
 	//-----------------------------------------------------------------------------
 	template<> D3D9StereoDriverBridge* Ogre::Singleton<D3D9StereoDriverBridge>::msSingleton = 0;
-	D3D9StereoDriverBridge& D3D9StereoDriverBridge::getSingleton(void)
-	{
-		assert(msSingleton);
-		return (*msSingleton);
-	}
-	//-----------------------------------------------------------------------------
-	D3D9StereoDriverBridge* D3D9StereoDriverBridge::getSingletonPtr(void)
+    D3D9StereoDriverBridge& D3D9StereoDriverBridge::singleton(void)
+    {
+        assert(msSingleton);
+        return (*msSingleton);
+    }
+    //-----------------------------------------------------------------------------
+    D3D9StereoDriverBridge* D3D9StereoDriverBridge::singleton_ptr((void)
 	{
 		return msSingleton;
 	}
@@ -128,7 +128,7 @@ namespace Ogre
 
 		return false;
 	}
-	//-----------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------
 }
 #endif
 

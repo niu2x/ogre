@@ -40,7 +40,8 @@ namespace Ogre {
     : HardwareBuffer(usage, useShadowBuffer), mTarget(target)
     {
         mSizeInBytes = sizeInBytes;
-        mRenderSystem = static_cast<GL3PlusRenderSystem*>(Root::getSingleton().getRenderSystem());
+        mRenderSystem = static_cast<GL3PlusRenderSystem*>(
+            Root::singleton().getRenderSystem());
 
         OGRE_CHECK_GL_ERROR(glGenBuffers(1, &mBufferId));
 

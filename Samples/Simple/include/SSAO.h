@@ -64,8 +64,11 @@ class _OgreSampleClassExport SSAOGBufferSchemeHandler : public Ogre::MaterialMan
 public:
     SSAOGBufferSchemeHandler()
     {
-        mGBufRefMat = Ogre::MaterialManager::getSingleton().getByName("SSAO/GBuffer");
-        RTShader::ShaderGenerator::getSingleton().validateMaterial("GBuffer", *mGBufRefMat);
+        mGBufRefMat
+            = Ogre::MaterialManager::singleton().getByName("SSAO/GBuffer");
+        RTShader::ShaderGenerator::singleton().validateMaterial(
+            "GBuffer",
+            *mGBufRefMat);
         mGBufRefMat->load();
     }
 
@@ -135,28 +138,49 @@ public:
     
     void cleanupContent() override
     {
-        MaterialManager::getSingleton().remove_listener(
+        MaterialManager::singleton().remove_listener(
             mGBufSchemeHandler,
             "GBuffer");
         delete mGBufSchemeHandler;
         mGBufSchemeHandler = NULL;
 
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentCompositor, false);
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentPost, false);
-        
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, "SSAO/GBuffer", false);
-        CompositorManager::getSingleton().removeCompositor(mViewport, "SSAO/GBuffer");
-        
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentCompositor,
+            false);
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentPost,
+            false);
+
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            "SSAO/GBuffer",
+            false);
+        CompositorManager::singleton().removeCompositor(
+            mViewport,
+            "SSAO/GBuffer");
+
         for (unsigned int i = 0; i < mCompositorNames.size(); i++)
         {
-            CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCompositorNames[i], false);
-            CompositorManager::getSingleton().removeCompositor(mViewport, mCompositorNames[i]);
+            CompositorManager::singleton().setCompositorEnabled(
+                mViewport,
+                mCompositorNames[i],
+                false);
+            CompositorManager::singleton().removeCompositor(
+                mViewport,
+                mCompositorNames[i]);
         }
         
         for (unsigned int i = 0; i < mPostNames.size(); i++)
         {
-            CompositorManager::getSingleton().setCompositorEnabled(mViewport, mPostNames[i], false);
-            CompositorManager::getSingleton().removeCompositor(mViewport, mPostNames[i]);
+            CompositorManager::singleton().setCompositorEnabled(
+                mViewport,
+                mPostNames[i],
+                false);
+            CompositorManager::singleton().removeCompositor(
+                mViewport,
+                mPostNames[i]);
         }
         
         mMeshes.clear();
@@ -177,31 +201,57 @@ protected:
      */
     void setupCompositors()
     {
-        
-        if (CompositorManager::getSingleton().addCompositor(mViewport, "SSAO/GBuffer"))
-            CompositorManager::getSingleton().setCompositorEnabled(mViewport, "SSAO/GBuffer", true);
+
+        if (CompositorManager::singleton().addCompositor(
+                mViewport,
+                "SSAO/GBuffer"))
+            CompositorManager::singleton().setCompositorEnabled(
+                mViewport,
+                "SSAO/GBuffer",
+                true);
         else
-            LogManager::getSingleton().log_message("Sample_SSAO: Failed to add GBuffer compositor\n");
-        
+            LogManager::singleton().log_message(
+                "Sample_SSAO: Failed to add GBuffer compositor\n");
+
         for (unsigned int i = 0; i < mCompositorNames.size(); i++)
         {
-            if (CompositorManager::getSingleton().addCompositor(mViewport, mCompositorNames[i]))
-                CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCompositorNames[i], false);
+            if (CompositorManager::singleton().addCompositor(
+                    mViewport,
+                    mCompositorNames[i]))
+                CompositorManager::singleton().setCompositorEnabled(
+                    mViewport,
+                    mCompositorNames[i],
+                    false);
             else
-                LogManager::getSingleton().log_message("Sample_SSAO: Failed to add compositor: " + mCompositorNames[i] + "\n");
+                LogManager::singleton().log_message(
+                    "Sample_SSAO: Failed to add compositor: "
+                    + mCompositorNames[i] + "\n");
         }
         
         for (unsigned int i = 0; i < mPostNames.size(); i++)
         {
-            
-            if (CompositorManager::getSingleton().addCompositor(mViewport, mPostNames[i]))
-                CompositorManager::getSingleton().setCompositorEnabled(mViewport, mPostNames[i], false);
+
+            if (CompositorManager::singleton().addCompositor(
+                    mViewport,
+                    mPostNames[i]))
+                CompositorManager::singleton().setCompositorEnabled(
+                    mViewport,
+                    mPostNames[i],
+                    false);
             else
-                LogManager::getSingleton().log_message("Sample_SSAO: Failed to add " + mPostNames[i] + " compositor\n");
+                LogManager::singleton().log_message(
+                    "Sample_SSAO: Failed to add " + mPostNames[i]
+                    + " compositor\n");
         }
-        
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentCompositor, true);
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentPost, true);
+
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentCompositor,
+            true);
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentPost,
+            true);
     }
     
     /**
@@ -442,7 +492,7 @@ protected:
         changePost(mPostNames[0]);
 
         mGBufSchemeHandler = new SSAOGBufferSchemeHandler();
-        MaterialManager::getSingleton().add_listener(
+        MaterialManager::singleton().add_listener(
             mGBufSchemeHandler,
             "GBuffer");
     }
@@ -464,10 +514,16 @@ protected:
      */
     void changeCompositor(const Ogre::String& compositor)
     {
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentCompositor, false);
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentCompositor,
+            false);
         mCurrentCompositor = compositor;
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentCompositor, true);
-        
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentCompositor,
+            true);
+
         if (compositor == "SSAO/CreaseShading")
         {
             mTrayMgr->getWidget(SSAO_CREASE_MINIMUM_NAME)->show();
@@ -575,10 +631,16 @@ protected:
      */
     void changePost(const Ogre::String& post)
     {
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentPost, false);
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentPost,
+            false);
         mCurrentPost = post;
-        CompositorManager::getSingleton().setCompositorEnabled(mViewport, mCurrentPost, true);
-        
+        CompositorManager::singleton().setCompositorEnabled(
+            mViewport,
+            mCurrentPost,
+            true);
+
         if (post == "SSAO/Post/CrossBilateralFilter")
         {
             mTrayMgr->getWidget(SSAO_BILATERAL_PHOTOMETRIC_EXPONENT)->show();
@@ -680,8 +742,13 @@ protected:
         if (box->name() == SSAO_MODUALTE) {
             if (box->isChecked())
             {
-                CompositorManager::getSingleton().addCompositor(mViewport, "SSAO/Post/Modulate");
-                CompositorManager::getSingleton().setCompositorEnabled(mViewport, "SSAO/Post/Modulate", true);
+                CompositorManager::singleton().addCompositor(
+                    mViewport,
+                    "SSAO/Post/Modulate");
+                CompositorManager::singleton().setCompositorEnabled(
+                    mViewport,
+                    "SSAO/Post/Modulate",
+                    true);
                 mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
                 mLight = mSceneMgr->createLight();
                 mSceneMgr->getRootSceneNode()->createChildSceneNode(Vector3(30, 80, 30))->attachObject(mLight);
@@ -690,8 +757,13 @@ protected:
             {  
                 mSceneMgr->destroyLight(mLight);
                 mLight = NULL;
-                CompositorManager::getSingleton().setCompositorEnabled(mViewport, "SSAO/Post/Modulate", false);
-                CompositorManager::getSingleton().removeCompositor(mViewport, "SSAO/Post/Modulate");
+                CompositorManager::singleton().setCompositorEnabled(
+                    mViewport,
+                    "SSAO/Post/Modulate",
+                    false);
+                CompositorManager::singleton().removeCompositor(
+                    mViewport,
+                    "SSAO/Post/Modulate");
             }
         } else if (box->name() == SSAO_SAMPLE_SPACE_NAME) {
             setUniform("SSAO/Crytek", "cSampleInScreenspace", box->isChecked());
@@ -762,9 +834,15 @@ protected:
      */
     void setUniform(const String& material, const String& uniform, float value)
     {
-        MaterialManager::getSingleton().getByName(material)->getTechnique(0)->
-        getPass(0)->getFragmentProgramParameters()->setNamedConstant(uniform, value);
-        CompositorManager::getSingleton().getCompositorChain(mViewport)->_markDirty();
+        MaterialManager::singleton()
+            .getByName(material)
+            ->getTechnique(0)
+            ->getPass(0)
+            ->getFragmentProgramParameters()
+            ->setNamedConstant(uniform, value);
+        CompositorManager::singleton()
+            .getCompositorChain(mViewport)
+            ->_markDirty();
     }
 };
 

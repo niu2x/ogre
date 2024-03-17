@@ -92,7 +92,8 @@ namespace Ogre
         String fsaaHint;
         bool enableDoubleClick = false;
 
-        D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
         int monitorIndex = rsys->getAdapterNumber();  // default to whatever was set in "Rendering Device" config option
 
         if(miscParams)
@@ -359,11 +360,11 @@ namespace Ogre
         mDepthBuffer = 0;
         mColourDepth = colourDepth;
 
-        LogManager::getSingleton().stream()
-            << "D3D9 : Created D3D9 Rendering Window '"
-            << mName << "' : " << mWidth << "x" << mHeight 
-            << ", " << mColourDepth << "bpp";
-                                    
+        LogManager::singleton().stream()
+            << "D3D9 : Created D3D9 Rendering Window '" << mName
+            << "' : " << mWidth << "x" << mHeight << ", " << mColourDepth
+            << "bpp";
+
         mActive = true;
         mClosed = false;
         setHidden(mHidden);
@@ -575,8 +576,9 @@ namespace Ogre
             // low is < 200fps in this context
             if (!mIsFullScreen)
             {
-                LogManager::getSingleton().log_warning(
-                    "D3D9: disabling VSync in windowed mode can cause timing issues at lower "
+                LogManager::singleton().log_warning(
+                    "D3D9: disabling VSync in windowed mode can cause timing "
+                    "issues at lower "
                     "frame rates, turn VSync on if you observe this problem.");
             }
             presentParams->PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
@@ -620,9 +622,9 @@ namespace Ogre
             // 16-bit depth, software stencil
             presentParams->AutoDepthStencilFormat   = D3DFMT_D16;
 
+        D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(
+            Root::singleton().getRenderSystem());
 
-        D3D9RenderSystem* rsys = static_cast<D3D9RenderSystem*>(Root::getSingleton().getRenderSystem());
-        
         rsys->determineFSAASettings(mDevice->getD3D9Device(),
             mFSAA, mFSAAHint, presentParams->BackBufferFormat, mIsFullScreen, 
             &mFSAAType, &mFSAAQuality);
@@ -952,8 +954,9 @@ namespace Ogre
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 	void D3D9RenderWindow::_validateStereo()
 	{
-		mStereoEnabled = D3D9StereoDriverBridge::getSingleton().isStereoEnabled(this->name());
-	}
+        mStereoEnabled
+            = D3D9StereoDriverBridge::singleton().isStereoEnabled(this->name());
+    }
 #endif
 	//---------------------------------------------------------------------
 }

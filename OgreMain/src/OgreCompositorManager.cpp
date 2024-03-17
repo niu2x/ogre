@@ -38,11 +38,11 @@ THE SOFTWARE.
 namespace Ogre {
 
 template<> CompositorManager* Singleton<CompositorManager>::msSingleton = 0;
-CompositorManager* CompositorManager::getSingletonPtr(void)
+CompositorManager* CompositorManager::singleton_ptr((void)
 {
     return msSingleton;
 }
-CompositorManager& CompositorManager::getSingleton(void)
+CompositorManager& CompositorManager::singleton(void)
 {  
     assert( msSingleton );  return ( *msSingleton );  
 }//-----------------------------------------------------------------------
@@ -54,7 +54,7 @@ CompositorManager::CompositorManager()
     set_load_order(110.0f);
 
     // Register with resource group manager
-    ResourceGroupManager::getSingleton()._registerResourceManager(
+    ResourceGroupManager::singleton()._registerResourceManager(
         resource_type(),
         this);
 }
@@ -67,9 +67,9 @@ CompositorManager::~CompositorManager()
 
     // Resources cleared by superclass
     // Unregister with resource group manager
-    ResourceGroupManager::getSingleton()._unregisterResourceManager(
+    ResourceGroupManager::singleton()._unregisterResourceManager(
         resource_type());
-    ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
+    ResourceGroupManager::singleton()._unregisterScriptLoader(this);
 }
 //-----------------------------------------------------------------------
 Resource* CompositorManager::create_impl(const String& name, ResourceHandle handle,
@@ -145,7 +145,7 @@ Renderable *CompositorManager::_getTexturedRectangle2D()
         /// 2D rectangle, to use for render_quad passes
         mRectangle = OGRE_NEW Rectangle2D(true, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
     }
-    RenderSystem* rs = Root::getSingleton().getRenderSystem();
+    RenderSystem* rs = Root::singleton().getRenderSystem();
     Viewport* vp = rs->_getViewport();
     Real hOffset = rs->getHorizontalTexelOffset() / (0.5f * vp->getActualWidth());
     Real vOffset = rs->getVerticalTexelOffset() / (0.5f * vp->getActualHeight());
@@ -234,11 +234,19 @@ TexturePtr CompositorManager::getPooledTexture(const String& name,
             return it->second;
         }
         // ok, we need to create a new one
-        TexturePtr newTex = TextureManager::getSingleton().createManual(
-            name, 
-            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
-            (uint)w, (uint)h, 0, f, TU_RENDERTARGET, 0,
-            srgb, aa, aaHint);
+        TexturePtr newTex = TextureManager::singleton().createManual(
+            name,
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+            TEX_TYPE_2D,
+            (uint)w,
+            (uint)h,
+            0,
+            f,
+            TU_RENDERTARGET,
+            0,
+            srgb,
+            aa,
+            aaHint);
         defMap.emplace(def, newTex);
         return newTex;
     }
@@ -291,11 +299,19 @@ TexturePtr CompositorManager::getPooledTexture(const String& name,
     if (!ret)
     {
         // ok, we need to create a new one
-        ret = TextureManager::getSingleton().createManual(
-            name, 
-            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
-            w, h, 0, f, TU_RENDERTARGET, 0,
-            srgb, aa, aaHint); 
+        ret = TextureManager::singleton().createManual(
+            name,
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+            TEX_TYPE_2D,
+            w,
+            h,
+            0,
+            f,
+            TU_RENDERTARGET,
+            0,
+            srgb,
+            aa,
+            aaHint);
 
         texList.push_back(ret);
 
@@ -391,7 +407,7 @@ void CompositorManager::freePooledTextures(bool onlyIfUnreferenced)
                 // until this routine is called again after the material no longer references the texture
                 if (j->use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
                 {
-                    TextureManager::getSingleton().remove((*j)->handle());
+                    TextureManager::singleton().remove((*j)->handle());
                     j = texList.erase(j);
                 }
                 else
@@ -406,7 +422,7 @@ void CompositorManager::freePooledTextures(bool onlyIfUnreferenced)
                 const TexturePtr& tex = j->second;
                 if (tex.use_count() == ResourceGroupManager::RESOURCE_SYSTEM_NUM_REFERENCE_COUNTS + 1)
                 {
-                    TextureManager::getSingleton().remove(tex->handle());
+                    TextureManager::singleton().remove(tex->handle());
                     texMap.erase(j++);
                 }
                 else

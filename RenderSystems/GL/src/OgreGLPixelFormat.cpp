@@ -158,7 +158,8 @@ namespace Ogre  {
     //-----------------------------------------------------------------------------    
     uint32 GLPixelUtil::optionalPO2(uint32 value)
     {
-        const RenderSystemCapabilities *caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
         if(caps->hasCapability(RSC_NON_POWER_OF_2_TEXTURES))
             return value;
         else

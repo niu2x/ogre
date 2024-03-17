@@ -157,7 +157,8 @@ namespace Ogre
                                            "SHARED_DEMAND_REFRESH_KHR",
                                            "SHARED_CONTINUOUS_REFRESH_KHR"};
 
-        LogManager::getSingleton().stream() << "[VulkanWindow] presentMode = " << c_presentModeStrs[presentMode];
+        LogManager::singleton().stream() << "[VulkanWindow] presentMode = "
+                                         << c_presentModeStrs[presentMode];
 
         //-----------------------------
         // Create swapchain
@@ -207,7 +208,7 @@ namespace Ogre
             std::swap(mWidth, mHeight);
         }
         swapchainCreateInfo.preTransform = mSurfaceTransform;
-        LogManager::getSingleton().stream() << "[VulkanWindow] SurfaceTransform = " << mSurfaceTransform;
+        LogManager::singleton().stream() << "[VulkanWindow] SurfaceTransform = " << mSurfaceTransform;
 #endif
         swapchainCreateInfo.preTransform = mSurfaceTransform;
         swapchainCreateInfo.presentMode = presentMode;
@@ -294,7 +295,8 @@ namespace Ogre
             vkAcquireNextImageKHR(mDevice->mDevice, mSwapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &imageIdx);
         if (res != VK_ERROR_OUT_OF_DATE_KHR && res != VK_SUBOPTIMAL_KHR && res != VK_SUCCESS)
         {
-            LogManager::getSingleton().log_error("vkAcquireNextImageKHR failed with" + vkResultToString(res));
+            LogManager::singleton().log_error(
+                "vkAcquireNextImageKHR failed with" + vkResultToString(res));
             return;
         }
 
@@ -444,7 +446,7 @@ namespace Ogre
         OgreAssert( mWindowHandle,  "externalWindowHandle required" );
         createSurface(mWindowHandle);
 
-        auto texMgr = TextureManager::getSingletonPtr();
+        auto texMgr = TextureManager::singleton_ptr(();
         mTexture = new VulkanTextureGpuWindow("RenderWindow", TEX_TYPE_2D, texMgr, this);;
         mTexture->setFormat(chooseSurfaceFormat(mHwGamma));
         mTexture->setHardwareGammaEnabled(mHwGamma);
@@ -563,13 +565,16 @@ namespace Ogre
 
         if( result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR && result != VK_ERROR_OUT_OF_DATE_KHR )
         {
-            LogManager::getSingleton().log_message(
-                "[VulkanWindow::swapBuffers] vkQueuePresentKHR: error presenting VkResult = " +
-                vkResultToString( result ) );
+            LogManager::singleton().log_message(
+                "[VulkanWindow::swapBuffers] vkQueuePresentKHR: error "
+                "presenting VkResult = "
+                + vkResultToString(result));
         }
 
         if( result == VK_SUBOPTIMAL_KHR || result == VK_ERROR_OUT_OF_DATE_KHR )
-            LogManager::getSingleton().log_message("[VulkanWindow::swapBuffers] swapchain suboptimal or out fo date");
+            LogManager::singleton().log_message(
+                "[VulkanWindow::swapBuffers] swapchain suboptimal or out fo "
+                "date");
 
         mSwapchainStatus = SwapchainReleased;
     }

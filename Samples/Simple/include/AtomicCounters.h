@@ -36,7 +36,9 @@ class _OgreSampleClassExport Sample_AtomicCounters : public SdkSample
 
     bool frameEnded(const FrameEvent& evt) override
     {
-        GpuProgramManager::getSingleton().getSharedParameters("CounterBuffer")->setNamedConstant("ac", 0);
+        GpuProgramManager::singleton()
+            .getSharedParameters("CounterBuffer")
+            ->setNamedConstant("ac", 0);
         return true;
     }
 
@@ -50,7 +52,8 @@ class _OgreSampleClassExport Sample_AtomicCounters : public SdkSample
         auto rect = mSceneMgr->createScreenSpaceRect();
         rect->setCorners(-w, h, w, -h, false);
 
-        MaterialPtr mat = MaterialManager::getSingleton().getByName("Example/RasterizationOrder");
+        MaterialPtr mat = MaterialManager::singleton().getByName(
+            "Example/RasterizationOrder");
         rect->setMaterial(mat);
         mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(rect);
     }

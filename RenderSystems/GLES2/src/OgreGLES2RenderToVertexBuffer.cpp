@@ -101,25 +101,26 @@ namespace Ogre {
         }
 
         auto vertexBuffer = mVertexBuffers[targetBufferIndex]->_getImpl<GLES2HardwareBuffer>();
-/*        if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
-        {
-            GLSLESProgramPipeline* programPipeline =
-                GLSLESProgramPipelineManager::getSingleton().getActiveProgramPipeline();
-            programPipeline->getVertexArrayObject()->bind();
-        }
-        else
-        {
-            GLSLESLinkProgram* linkProgram = GLSLESLinkProgramManager::getSingleton().getActiveLinkProgram();
-            linkProgram->getVertexArrayObject()->bind();
-        }
-        */
+        /*        if(Root::singleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
+                {
+                    GLSLESProgramPipeline* programPipeline =
+                        GLSLESProgramPipelineManager::singleton().getActiveProgramPipeline();
+                    programPipeline->getVertexArrayObject()->bind();
+                }
+                else
+                {
+                    GLSLESLinkProgram* linkProgram =
+           GLSLESLinkProgramManager::singleton().getActiveLinkProgram();
+                    linkProgram->getVertexArrayObject()->bind();
+                }
+                */
         // Bind the target buffer
         OGRE_CHECK_GL_ERROR(glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vertexBuffer->getGLBufferId()));
 
         // Disable rasterization
         OGRE_CHECK_GL_ERROR(glEnable(GL_RASTERIZER_DISCARD));
 
-        RenderSystem* targetRenderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* targetRenderSystem = Root::singleton().getRenderSystem();
         // Draw the object
         OGRE_CHECK_GL_ERROR(glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, mPrimitivesDrawnQuery));
 
@@ -160,7 +161,8 @@ namespace Ogre {
         {
             GLuint linkProgramId = 0;
             // Have GLSL shaders, using varying attributes
-            GLSLESProgramCommon* linkProgram = GLSLESProgramManager::getSingleton().getActiveProgram();
+            GLSLESProgramCommon* linkProgram
+                = GLSLESProgramManager::singleton().getActiveProgram();
             linkProgramId = linkProgram->getGLProgramHandle();
 
             // Note: 64 is the minimum number of interleaved attributes allowed by GL_EXT_transform_feedback

@@ -72,11 +72,11 @@ namespace Ogre
     //-------------------------------------------------------------------------
     // PCZoneFactoryManager functions
     template<> PCZoneFactoryManager* Singleton<PCZoneFactoryManager>::msSingleton = 0;
-    PCZoneFactoryManager* PCZoneFactoryManager::getSingletonPtr(void)
+    PCZoneFactoryManager* PCZoneFactoryManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    PCZoneFactoryManager& PCZoneFactoryManager::getSingleton(void)
+    PCZoneFactoryManager& PCZoneFactoryManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -92,7 +92,8 @@ namespace Ogre
     {
         String name = factory->getFactoryTypeName();
         mPCZoneFactories[name] = factory;
-        LogManager::getSingleton().log_message("PCZone Factory Type '" + name + "' registered");
+        LogManager::singleton().log_message(
+            "PCZone Factory Type '" + name + "' registered");
     }
     void PCZoneFactoryManager::unregisterPCZoneFactory(PCZoneFactory* factory)
     {
@@ -105,7 +106,8 @@ namespace Ogre
             if (zi != mPCZoneFactories.end())
             {
                 mPCZoneFactories.erase( mPCZoneFactories.find( name ) );
-                LogManager::getSingleton().log_message("PCZone Factory Type '" + name + "' unregistered");
+                LogManager::singleton().log_message(
+                    "PCZone Factory Type '" + name + "' unregistered");
             }
         }
     }

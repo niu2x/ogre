@@ -25,7 +25,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreOverlayTranslator.h"
-#include "OgreFontManager.h"
+#include "font_manager.h"
 #include "OgreScriptTranslator.h"
 #include "OgreOverlayManager.h"
 #include "OgreOverlayContainer.h"
@@ -49,7 +49,8 @@ void FontTranslator::translate(ScriptCompiler* compiler, const AbstractNodePtr& 
 
     String& name = obj->cls == "font" ? obj->name : obj->cls;
 
-    FontPtr font = FontManager::getSingleton().create(name, compiler->getResourceGroup());
+    FontPtr font
+        = FontManager::singleton().create(name, compiler->getResourceGroup());
     font->_notify_origin(obj->file);
 
     for (auto& c : obj->children)
@@ -180,8 +181,11 @@ void ElementTranslator::translate(ScriptCompiler* compiler, const AbstractNodePt
     if(!obj->bases.empty())
         templateName = obj->bases.front();
 
-    OverlayElement* newElement =
-        OverlayManager::getSingleton().createOverlayElementFromTemplate(templateName, type, name);
+    OverlayElement* newElement
+        = OverlayManager::singleton().createOverlayElementFromTemplate(
+            templateName,
+            type,
+            name);
 
     if(obj->parent && obj->parent->context.has_value())
     {
@@ -246,7 +250,7 @@ void OverlayTranslator::translate(ScriptCompiler* compiler, const AbstractNodePt
     }
 
     String& name = obj->cls == "overlay" ? obj->name : obj->cls;
-    Overlay* overlay = OverlayManager::getSingleton().create(name);
+    Overlay* overlay = OverlayManager::singleton().create(name);
     overlay->_notify_origin(obj->file);
 
     obj->context = overlay;
@@ -273,19 +277,22 @@ void OverlayTranslator::translate(ScriptCompiler* compiler, const AbstractNodePt
 OverlayTranslatorManager::OverlayTranslatorManager()
 {
 //! [font_register]
-    ScriptCompilerManager::getSingleton().addTranslatorManager(this);
-    ID_FONT = ScriptCompilerManager::getSingleton().registerCustomWordId("font");
+ScriptCompilerManager::singleton().addTranslatorManager(this);
+ID_FONT = ScriptCompilerManager::singleton().registerCustomWordId("font");
 //! [font_register]
-    ID_OVERLAY_ELEMENT = ScriptCompilerManager::getSingleton().registerCustomWordId("overlay_element");
-    ID_OVERLAY = ScriptCompilerManager::getSingleton().registerCustomWordId("overlay");
-    ID_CONTAINER = ScriptCompilerManager::getSingleton().registerCustomWordId("container");
-    ID_ELEMENT = ScriptCompilerManager::getSingleton().registerCustomWordId("element");
-    ID_TEMPLATE = ScriptCompilerManager::getSingleton().registerCustomWordId("template");
+ID_OVERLAY_ELEMENT = ScriptCompilerManager::singleton().registerCustomWordId(
+    "overlay_element");
+ID_OVERLAY = ScriptCompilerManager::singleton().registerCustomWordId("overlay");
+ID_CONTAINER
+    = ScriptCompilerManager::singleton().registerCustomWordId("container");
+ID_ELEMENT = ScriptCompilerManager::singleton().registerCustomWordId("element");
+ID_TEMPLATE
+    = ScriptCompilerManager::singleton().registerCustomWordId("template");
 }
 
 OverlayTranslatorManager::~OverlayTranslatorManager()
 {
-    ScriptCompilerManager::getSingleton().removeTranslatorManager(this);
+    ScriptCompilerManager::singleton().removeTranslatorManager(this);
 }
 
 //! [font_get_translator]

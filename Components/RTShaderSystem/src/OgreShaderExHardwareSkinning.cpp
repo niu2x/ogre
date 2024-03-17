@@ -36,11 +36,11 @@ template<> RTShader::HardwareSkinningFactory* Singleton<RTShader::HardwareSkinni
 
 namespace RTShader {
 
-HardwareSkinningFactory* HardwareSkinningFactory::getSingletonPtr(void)
+HardwareSkinningFactory* HardwareSkinningFactory::singleton_ptr((void)
 {
     return msSingleton;
 }
-HardwareSkinningFactory& HardwareSkinningFactory::getSingleton(void)
+HardwareSkinningFactory& HardwareSkinningFactory::singleton(void)
 {  
     assert( msSingleton );  return ( *msSingleton );
 }
@@ -197,8 +197,8 @@ bool HardwareSkinning::preAddToRenderState(const RenderState* renderState, Pass*
         ((mCreator == NULL) || (boneCount <= mCreator->getMaxCalculableBoneCount()));
 
     // This requires GLES3.0
-    if (ShaderGenerator::getSingleton().getTargetLanguage() == "glsles" &&
-        !GpuProgramManager::getSingleton().isSyntaxSupported("glsl300es"))
+    if (ShaderGenerator::singleton().getTargetLanguage() == "glsles"
+        && !GpuProgramManager::singleton().isSyntaxSupported("glsl300es"))
         doBoneCalculations = false;
 
     mActiveTechnique->setDoBoneCalculations(doBoneCalculations);
@@ -521,13 +521,17 @@ static bool imprintSkeletonData(const MaterialPtr& pMaterial, bool isVaild,
             //do it will be regenerated
             binding.setUserAny(HS_DATA_BIND_NAME, data);
 
-            size_t schemeCount = ShaderGenerator::getSingleton().getRTShaderSchemeCount();
+            size_t schemeCount
+                = ShaderGenerator::singleton().getRTShaderSchemeCount();
             for(size_t i = 0 ; i < schemeCount ; ++i)
             {
                 //invalidate the material so it will be recreated with the correct
                 //amount of bones and weights
-                const String& schemeName = ShaderGenerator::getSingleton().getRTShaderScheme(i);
-                ShaderGenerator::getSingleton().invalidateMaterial(schemeName, *pMaterial);
+                const String& schemeName
+                    = ShaderGenerator::singleton().getRTShaderScheme(i);
+                ShaderGenerator::singleton().invalidateMaterial(
+                    schemeName,
+                    *pMaterial);
             }
 
         }
@@ -540,8 +544,8 @@ void HardwareSkinningFactory::prepareEntityForSkinning(const Entity* pEntity, Sk
                                bool correctAntidpodalityHandling, bool shearScale)
 {
     // This requires GLES3.0
-    if (ShaderGenerator::getSingleton().getTargetLanguage() == "glsles" &&
-        !GpuProgramManager::getSingleton().isSyntaxSupported("glsl300es"))
+    if (ShaderGenerator::singleton().getTargetLanguage() == "glsles"
+        && !GpuProgramManager::singleton().isSyntaxSupported("glsl300es"))
         return;
 
     if (pEntity != NULL)

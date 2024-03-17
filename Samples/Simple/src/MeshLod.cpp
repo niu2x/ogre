@@ -44,10 +44,10 @@ void Sample_MeshLod::setupContent()
     mHullNode->scale(1.001,1.001,1.001);
     mHullEntity = NULL;
 #endif
-    if(!MeshLodGenerator::getSingletonPtr()) {
+    if(!MeshLodGenerator::singleton_ptr(()) {
         new MeshLodGenerator();
     }
-    MeshLodGenerator::getSingleton().setInjectorListener(this);
+    MeshLodGenerator::singleton().setInjectorListener(this);
 
     // setup gui
     setupControls();
@@ -58,7 +58,7 @@ void Sample_MeshLod::setupContent()
 
 void Sample_MeshLod::cleanupContent()
 {
-    MeshLodGenerator::getSingleton().removeInjectorListener();
+    MeshLodGenerator::singleton().removeInjectorListener();
     if(mMeshEntity){
         mSceneMgr->destroyEntity(mMeshEntity);
         mMeshEntity = 0;
@@ -82,7 +82,10 @@ void Sample_MeshLod::setupControls( int uimode /*= 0*/ )
     models->addItem("sibenik.mesh");
 
     // Add all meshes from popular:
-    StringVectorPtr meshes = ResourceGroupManager::getSingleton().findResourceNames("General", "*.mesh");
+    StringVectorPtr meshes
+        = ResourceGroupManager::singleton().findResourceNames(
+            "General",
+            "*.mesh");
     StringVector::iterator it, itEnd;
     it = meshes->begin();
     itEnd = meshes->end();
@@ -151,7 +154,9 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
         mSceneMgr->destroyEntity(mMeshEntity);
         mMeshEntity = 0;
     }
-    mLodConfig.mesh = MeshManager::getSingleton().load(name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    mLodConfig.mesh = MeshManager::singleton().load(
+        name,
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     if(mLodConfig.mesh->getBounds().is_null() || mLodConfig.mesh->getBoundingSphereRadius() == 0.0){
         mTrayMgr->showOkDialog("Error", "Failed to load mesh!");
         return;
@@ -187,7 +192,7 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
         mSceneMgr->destroyEntity(mHullEntity);
         // Removes from the resources list.
         mHullEntity = NULL;
-        Ogre::MeshManager::getSingleton().remove(meshHullName);
+        Ogre::MeshManager::singleton().remove(meshHullName);
     }
 
     LodConfig inputConfig(mLodConfig.mesh);
@@ -196,7 +201,8 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
     LodDataPtr data;
     LodOutputProviderPtr output;
     LodCollapserPtr collapser;
-    MeshLodGenerator::getSingleton()._resolveComponents(inputConfig, cost, data, input, output, collapser);
+    MeshLodGenerator::singleton()
+        ._resolveComponents(inputConfig, cost, data, input, output, collapser);
 
     input->initData(data.get());
     LodOutsideMarker outsideMarker(data->mVertexList, data->mMeshBoundingSphereRadius, 0.0);
@@ -210,7 +216,7 @@ void Sample_MeshLod::changeSelectedMesh( const String& name )
 bool Sample_MeshLod::loadConfig()
 {
     mLodConfig.advanced = LodConfig::Advanced();
-    mLodConfig.strategy = PixelCountLodStrategy::getSingletonPtr();
+    mLodConfig.strategy = PixelCountLodStrategy::singleton_ptr(();
     mLodConfig.levels.clear();
     mLodConfig.advanced.profile.clear();
 
@@ -249,9 +255,9 @@ void Sample_MeshLod::saveConfig()
 void Sample_MeshLod::loadAutomaticLod()
 {
     // Remove outdated Lod requests to reduce delay.
-    MeshLodGenerator::getSingleton().clearPendingLodRequests();
+    MeshLodGenerator::singleton().clearPendingLodRequests();
 
-    MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
+    MeshLodGenerator& gen = MeshLodGenerator::singleton();
     //gen.generateAutoconfiguredLodLevels(mLodConfig.mesh);
     LodConfig lodConfig;
     gen.getAutoconfig(mLodConfig.mesh, lodConfig);
@@ -276,9 +282,9 @@ void Sample_MeshLod::loadUserLod( bool useWorkLod )
     }
     mTrayMgr->destroyAllWidgetsInTray(TL_TOP);
     // Remove outdated Lod requests to reduce delay.
-    MeshLodGenerator::getSingleton().clearPendingLodRequests();
+    MeshLodGenerator::singleton().clearPendingLodRequests();
 
-    MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
+    MeshLodGenerator& gen = MeshLodGenerator::singleton();
     mLodConfig.advanced.useBackgroundQueue = ENABLE_THREADING;
     mLodConfig.advanced.useCompression = ENABLE_COMPRESSION;
     mLodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
@@ -320,13 +326,13 @@ size_t Sample_MeshLod::getUniqueVertexCount( MeshPtr mesh )
     // The vertex buffer contains the same vertex position multiple times.
     // To get the count of the vertices, which has unique positions, we can use progressive mesh.
     // It is constructing a mesh grid at the beginning, so if we reduce 0%, we will get the unique vertex count.
-    LodConfig lodConfig(mesh, PixelCountLodStrategy::getSingletonPtr());
+    LodConfig lodConfig(mesh, PixelCountLodStrategy::singleton_ptr(());
     lodConfig.advanced.useBackgroundQueue = false; // Non-threaded
     lodConfig.advanced.useCompression = ENABLE_COMPRESSION;
     lodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
     lodConfig.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
     lodConfig.createGeneratedLodLevel(0, 0);
-    MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
+    MeshLodGenerator& gen = MeshLodGenerator::singleton();
     gen.generateLodLevels(lodConfig);
     //ProgressiveMeshGenerator pm;
     //pm.generateLodLevels(lodConfig);
@@ -405,7 +411,9 @@ void Sample_MeshLod::removeInitialLodLevel()
 Real Sample_MeshLod::getCameraLODValue()
 {
     if(mLodConfig.mesh->getBoundingSphereRadius() != 0.0){
-        return PixelCountLodStrategy::getSingleton().getValue(mMeshEntity, mCamera);
+        return PixelCountLodStrategy::singleton().getValue(
+            mMeshEntity,
+            mCamera);
     } else {
         return 0.0;
     }
@@ -413,7 +421,7 @@ Real Sample_MeshLod::getCameraLODValue()
 
 void Sample_MeshLod::moveCameraToPixelDistance( Real pixels )
 {
-    PixelCountLodStrategy& strategy = PixelCountLodStrategy::getSingleton();
+    PixelCountLodStrategy& strategy = PixelCountLodStrategy::singleton();
     Real distance = mLodConfig.mesh->getBoundingSphereRadius() * 4;
     const Real epsilon = pixels * 0.000001;
     const int iterations = 64;
@@ -448,7 +456,7 @@ void Sample_MeshLod::moveCameraToPixelDistance( Real pixels )
 
 bool Sample_MeshLod::getResourceFullPath(MeshPtr& mesh, String& outPath)
 {
-    ResourceGroupManager& resourceGroupMgr = ResourceGroupManager::getSingleton();
+    ResourceGroupManager& resourceGroupMgr = ResourceGroupManager::singleton();
     String group = mesh->group();
     String name = mesh->name();
     Ogre::FileInfo* info = NULL;
@@ -488,7 +496,7 @@ void Sample_MeshLod::addToProfile( Real cost )
     config.advanced.useCompression = ENABLE_COMPRESSION;
     config.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;
     config.advanced.preventBreakingLines = PREVENT_HOLES_BREAKS;
-    MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
+    MeshLodGenerator& gen = MeshLodGenerator::singleton();
     LodCollapserPtr collapser(new LodCollapser());
     LodDataPtr data(new LodData());
     gen.generateLodLevels(config, LodCollapseCostPtr(), data, LodInputProviderPtr(), LodOutputProviderPtr(), collapser);
@@ -612,8 +620,8 @@ void Sample_MeshLod::buttonHit( OgreBites::Button* button )
         //mTrayMgr->showOkDialog("Success", "Showing mesh from: " + filename);
     } else if (button->name() == "btnSaveMesh") {
         if(!mTrayMgr->getTrayContainer(TL_TOP)->isVisible() && !mLodConfig.levels.empty()){
-            MeshLodGenerator::getSingleton().clearPendingLodRequests();
-            MeshLodGenerator& gen = MeshLodGenerator::getSingleton();
+            MeshLodGenerator::singleton().clearPendingLodRequests();
+            MeshLodGenerator& gen = MeshLodGenerator::singleton();
             mLodConfig.advanced.useBackgroundQueue = false; // Non-threaded
             mLodConfig.advanced.useCompression = ENABLE_COMPRESSION;
             mLodConfig.advanced.preventPunchingHoles = PREVENT_HOLES_BREAKS;

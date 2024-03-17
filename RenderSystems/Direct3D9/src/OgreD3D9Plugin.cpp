@@ -66,7 +66,7 @@ namespace Ogre
 
         mRenderSystem = OGRE_NEW D3D9RenderSystem( hInst );
         // Register the render system
-        Root::getSingleton().addRenderSystem( mRenderSystem );
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
     //---------------------------------------------------------------------
     void D3D9Plugin::initialise()

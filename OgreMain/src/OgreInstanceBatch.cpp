@@ -526,7 +526,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     Real InstanceBatch::getSquaredViewDepth( const Camera* cam ) const
     {
-        unsigned long currentFrameNumber = Root::getSingleton().getNextFrameNumber();
+        unsigned long currentFrameNumber
+            = Root::singleton().getNextFrameNumber();
 
         if (mCameraDistLastUpdateFrameNumber != currentFrameNumber || mCachedCamera != cam)
         {

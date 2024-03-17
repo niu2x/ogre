@@ -83,8 +83,8 @@ namespace Ogre {
 
         GL3PlusStateCacheManager* getStateCacheManager();
 
-        static GLSLProgramManager& getSingleton(void);
-        static GLSLProgramManager* getSingletonPtr(void);
+        static GLSLProgramManager& singleton(void);
+        static GLSLProgramManager* singleton_ptr((void);
     };
 
 }

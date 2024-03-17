@@ -68,7 +68,9 @@ void CompositorChain::destroyResources(void)
         destroyOriginalScene();
 
         // destory base "original scene" compositor
-        CompositorManager::getSingleton().remove(getCompositorName(), ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
+        CompositorManager::singleton().remove(
+            getCompositorName(),
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
 
         mViewport = 0;
     }
@@ -110,11 +112,15 @@ void CompositorChain::createOriginalScene()
     const String compName = getCompositorName();
 
     mOriginalSceneScheme = mViewport->getMaterialScheme();
-    CompositorPtr scene = CompositorManager::getSingleton().getByName(compName, ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
+    CompositorPtr scene = CompositorManager::singleton().getByName(
+        compName,
+        ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
     if (!scene)
     {
         /// Create base "original scene" compositor
-        scene = CompositorManager::getSingleton().create(compName, ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
+        scene = CompositorManager::singleton().create(
+            compName,
+            ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME);
         CompositionTargetPass *tp = scene->createTechnique()->getOutputTargetPass();
         auto pass = tp->createPass(CompositionPass::PT_CLEAR);
         pass->setAutomaticColour(true);
@@ -449,7 +455,7 @@ void CompositorChain::viewportDimensionsChanged(Viewport* viewport)
 void CompositorChain::viewportDestroyed(Viewport* viewport)
 {
     // this chain is now orphaned. tell compositor manager to delete it.
-    CompositorManager::getSingleton().removeCompositorChain(viewport);
+    CompositorManager::singleton().removeCompositorChain(viewport);
 }
 //-----------------------------------------------------------------------
 void CompositorChain::clearCompiledState()
@@ -480,10 +486,12 @@ void CompositorChain::_compile()
     bool compositorsEnabled = false;
 
     // force default scheme so materials for compositor quads will determined correctly
-    MaterialManager& matMgr = MaterialManager::getSingleton();
+    MaterialManager& matMgr = MaterialManager::singleton();
     String prevMaterialScheme = matMgr.getActiveScheme();
-    matMgr.setActiveScheme(Root::getSingleton().getRenderSystem()->_getDefaultViewportMaterialScheme());
-    
+    matMgr.setActiveScheme(Root::singleton()
+                               .getRenderSystem()
+                               ->_getDefaultViewportMaterialScheme());
+
     /// Set previous CompositorInstance for each compositor in the list
     CompositorInstance *lastComposition = mOriginalScene;
     mOriginalScene->mPreviousInstance = 0;

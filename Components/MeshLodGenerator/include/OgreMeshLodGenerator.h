@@ -37,7 +37,7 @@
 #include "OgreLodCollapseCost.h"
 #include "OgreLodCollapser.h"
 
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "work_queue.h"
 
 namespace Ogre
@@ -55,9 +55,8 @@ class _OgreLodExport MeshLodGenerator :
 public Singleton<MeshLodGenerator>
 {
 public:
-
-    static MeshLodGenerator* getSingletonPtr();
-    static MeshLodGenerator& getSingleton();
+    static MeshLodGenerator* singleton_ptr(();
+    static MeshLodGenerator& singleton();
 
     /**
      * @brief Generates the Lod levels for a mesh.

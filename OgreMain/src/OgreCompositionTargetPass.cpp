@@ -41,9 +41,10 @@ CompositionTargetPass::CompositionTargetPass(CompositionTechnique *parent):
     mShadowsEnabled(true),
     mOutputSlice(0)
 {
-    if (Root::getSingleton().getRenderSystem())
-    {
-        mMaterialScheme = Root::getSingleton().getRenderSystem()->_getDefaultViewportMaterialScheme();
+    if (Root::singleton().getRenderSystem()) {
+        mMaterialScheme = Root::singleton()
+                              .getRenderSystem()
+                              ->_getDefaultViewportMaterialScheme();
     }
 }
 //-----------------------------------------------------------------------

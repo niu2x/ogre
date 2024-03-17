@@ -36,12 +36,12 @@ RTShader::ProgramWriterManager* Singleton<RTShader::ProgramWriterManager>::msSin
 
 namespace RTShader {
 //-----------------------------------------------------------------------
-ProgramWriterManager* ProgramWriterManager::getSingletonPtr(void)
+ProgramWriterManager* ProgramWriterManager::singleton_ptr((void)
 {
     return msSingleton;
 }
 //-----------------------------------------------------------------------
-ProgramWriterManager& ProgramWriterManager::getSingleton(void)
+ProgramWriterManager& ProgramWriterManager::singleton(void)
 {  
     assert( msSingleton );  
     return ( *msSingleton );  

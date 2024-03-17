@@ -102,7 +102,9 @@ namespace Ogre
             // ok, need to increase the vertex buffer size, and alter some indexes
 
             // vertex buffers first
-            VertexBufferBinding* newBindings = HardwareBufferManager::getSingleton().createVertexBufferBinding();
+            VertexBufferBinding* newBindings
+                = HardwareBufferManager::singleton()
+                      .createVertexBufferBinding();
             const VertexBufferBinding::VertexBufferBindingMap& bindmap = 
                 mVData->vertexBufferBinding->getBindings();
             for (const auto & i : bindmap)
@@ -112,10 +114,12 @@ namespace Ogre
                 // the vertexStart option in vertex data
                 size_t newVertexCount = srcbuf->getNumVertices() + vertexSplits.size();
                 // Create new buffer & bind
-                HardwareVertexBufferSharedPtr newBuf = 
-                    HardwareBufferManager::getSingleton().createVertexBuffer(
-                    srcbuf->getVertexSize(), newVertexCount, srcbuf->getUsage(), 
-                    srcbuf->hasShadowBuffer());
+                HardwareVertexBufferSharedPtr newBuf
+                    = HardwareBufferManager::singleton().createVertexBuffer(
+                        srcbuf->getVertexSize(),
+                        newVertexCount,
+                        srcbuf->getUsage(),
+                        srcbuf->hasShadowBuffer());
                 newBindings->setBinding(i.first, newBuf);
 
                 // Copy existing contents (again, entire buffer, not just elements referenced)
@@ -136,7 +140,8 @@ namespace Ogre
             // Increase vertex count according to num splits
             mVData->vertexCount += vertexSplits.size();
             // Flip bindings over to new buffers (old buffers released)
-            HardwareBufferManager::getSingleton().destroyVertexBufferBinding(mVData->vertexBufferBinding);
+            HardwareBufferManager::singleton().destroyVertexBufferBinding(
+                mVData->vertexBufferBinding);
             mVData->vertexBufferBinding = newBindings;
 
             // If vertex size requires 32bit index buffer
@@ -151,10 +156,13 @@ namespace Ogre
                         size_t indexCount = srcbuf->getNumIndexes();
 
                         // convert index buffer to 32bit.
-                        HardwareIndexBufferSharedPtr newBuf =
-                            HardwareBufferManager::getSingleton().createIndexBuffer(
-                            HardwareIndexBuffer::IT_32BIT, indexCount,
-                            srcbuf->getUsage(), srcbuf->hasShadowBuffer());
+                        HardwareIndexBufferSharedPtr newBuf
+                            = HardwareBufferManager::singleton()
+                                  .createIndexBuffer(
+                                      HardwareIndexBuffer::IT_32BIT,
+                                      indexCount,
+                                      srcbuf->getUsage(),
+                                      srcbuf->hasShadowBuffer());
 
                         HardwareBufferLockGuard srcBufLock(srcbuf, HardwareBuffer::HBL_NORMAL);
                         HardwareBufferLockGuard newBufLock(newBuf, HardwareBuffer::HBL_NORMAL);
@@ -370,8 +378,8 @@ namespace Ogre
                         splitVertex = true;
                         splitBecauseOfParity = true;
 
-                        LogManager::getSingleton().stream(LogMsgLevel::TRIVIAL)
-                            << "TSC parity split - Vpar: " << vertex->parity 
+                        LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
+                            << "TSC parity split - Vpar: " << vertex->parity
                             << " Fpar: " << faceParity
                             << " faceTsU: " << faceTsU
                             << " faceTsV: " << faceTsV
@@ -379,7 +387,6 @@ namespace Ogre
                             << " vertTsU:" << vertex->tangent
                             << " vertTsV:" << vertex->binormal
                             << " vertNorm:" << vertex->norm;
-
                     }
                 }
             }
@@ -669,11 +676,13 @@ namespace Ogre
                 prevTexCoordElem->getSource());
             // Now create a new buffer, which includes the previous contents
             // plus extra space for the 3D coords
-            targetBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(
-                origBuffer->getVertexSize() + VertexElement::getTypeSize(tangentsType),
-                origBuffer->getNumVertices(),
-                origBuffer->getUsage(),
-                origBuffer->hasShadowBuffer() );
+            targetBuffer
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    origBuffer->getVertexSize()
+                        + VertexElement::getTypeSize(tangentsType),
+                    origBuffer->getNumVertices(),
+                    origBuffer->getUsage(),
+                    origBuffer->hasShadowBuffer());
             // Add the new element
             tangentsElem = &(vDecl->addElement(
                 prevTexCoordElem->getSource(),

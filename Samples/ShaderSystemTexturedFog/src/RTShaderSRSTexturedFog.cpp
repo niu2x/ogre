@@ -91,8 +91,9 @@ void RTShaderSRSTexturedFog::updateGpuProgramsParams(Renderable* rend, const Pas
         }
         else
         {
-            SceneManager* sceneMgr = ShaderGenerator::getSingleton().getActiveSceneManager();
-        
+            SceneManager* sceneMgr
+                = ShaderGenerator::singleton().getActiveSceneManager();
+
             fogMode         = sceneMgr->getFogMode();
             newFogStart     = sceneMgr->getFogStart();
             newFogEnd       = sceneMgr->getFogEnd();
@@ -220,8 +221,9 @@ bool RTShaderSRSTexturedFog::preAddToRenderState(const RenderState* renderState,
     }
     else
     {
-        SceneManager* sceneMgr = ShaderGenerator::getSingleton().getActiveSceneManager();
-        
+        SceneManager* sceneMgr
+            = ShaderGenerator::singleton().getActiveSceneManager();
+
         if (sceneMgr == NULL)
         {
             fogMode         = FOG_NONE;
@@ -247,8 +249,10 @@ bool RTShaderSRSTexturedFog::preAddToRenderState(const RenderState* renderState,
     dstPass->setFog(true, FOG_NONE, ColourValue::White, newFogDensity, newFogStart, newFogEnd); 
 
     TextureUnitState* tus = dstPass->createTextureUnitState();
-    auto tex = TextureManager::getSingleton().load(
-        mFactory->getBackgroundTextureName(), RGN_DEFAULT, TEX_TYPE_CUBE_MAP);
+    auto tex = TextureManager::singleton().load(
+        mFactory->getBackgroundTextureName(),
+        RGN_DEFAULT,
+        TEX_TYPE_CUBE_MAP);
     tus->setTexture(tex);
     mBackgroundSamplerIndex = dstPass->getNumTextureUnitStates() - 1;
 

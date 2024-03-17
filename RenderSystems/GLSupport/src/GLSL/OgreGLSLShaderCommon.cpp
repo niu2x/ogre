@@ -74,7 +74,7 @@ namespace Ogre {
         String verStr = std::to_string(mShaderVersion);
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-        auto rsc = Root::getSingleton().getRenderSystem()->getCapabilities();
+        auto rsc = Root::singleton().getRenderSystem()->getCapabilities();
         // OSX driver only supports glsl150+ in core profile, GL3+ will auto-upgrade code
         if(mShaderVersion < 150 && getLanguage() == "glsl" && rsc->isShaderProfileSupported("glsl150"))
             verStr = "150";
@@ -139,8 +139,10 @@ namespace Ogre {
     {
         // is the name valid and already loaded?
         // check with the high level program manager to see if it was loaded
-        HighLevelGpuProgramPtr hlProgram = HighLevelGpuProgramManager::getSingleton().getByName(
-            name, ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+        HighLevelGpuProgramPtr hlProgram
+            = HighLevelGpuProgramManager::singleton().getByName(
+                name,
+                ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
         if (hlProgram && hlProgram->getSyntaxCode() == "glsl")
         {
             // make sure attached program source gets loaded and compiled

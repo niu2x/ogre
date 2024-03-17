@@ -128,8 +128,10 @@ namespace Ogre {
         }
 
         // Do we know how many shared params there are yet? Or if there are any blocks defined?
-        GLSLProgramManager::getSingleton().extractUniformsFromProgram(mGLProgramHandle, params,
-                                                                      mGLUniformReferences);
+        GLSLProgramManager::singleton().extractUniformsFromProgram(
+            mGLProgramHandle,
+            params,
+            mGLUniformReferences);
 
         mUniformRefsBuilt = true;
     }

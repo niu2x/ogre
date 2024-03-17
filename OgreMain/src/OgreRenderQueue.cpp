@@ -92,7 +92,8 @@ namespace Ogre {
             RenderOperation op;
             pRend->getRenderOperation(op);
             bool useLighting = (NULL != op.vertexData->vertexDeclaration->findElementBySemantic(VES_NORMAL));
-            MaterialPtr defaultMat = MaterialManager::getSingleton().getDefaultMaterial(useLighting);
+            MaterialPtr defaultMat
+                = MaterialManager::singleton().getDefaultMaterial(useLighting);
             defaultMat->load();
             pTech = defaultMat->getBestTechnique();
         }
@@ -124,8 +125,7 @@ namespace Ogre {
         // Note: We clear dirty passes from all RenderQueues in all 
         // SceneManagers, because the following recalculation of pass hashes
         // also considers all RenderQueues and could become inconsistent, otherwise.
-        for (auto p : SceneManagerEnumerator::getSingleton().getSceneManagers())
-        {
+        for (auto p : SceneManagerEnumerator::singleton().getSceneManagers()) {
             RenderQueue* queue = p.second->getRenderQueue();
 
             for (auto & g : queue->mGroups)

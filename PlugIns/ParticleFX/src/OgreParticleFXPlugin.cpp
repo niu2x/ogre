@@ -68,32 +68,32 @@ namespace Ogre
 
         // PointEmitter
         pEmitFact = OGRE_NEW PointEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+        ParticleSystemManager::singleton().addEmitterFactory(pEmitFact);
         mEmitterFactories.push_back(pEmitFact);
 
         // BoxEmitter
         pEmitFact = OGRE_NEW BoxEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+        ParticleSystemManager::singleton().addEmitterFactory(pEmitFact);
         mEmitterFactories.push_back(pEmitFact);
 
         // EllipsoidEmitter
         pEmitFact = OGRE_NEW EllipsoidEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+        ParticleSystemManager::singleton().addEmitterFactory(pEmitFact);
         mEmitterFactories.push_back(pEmitFact);
 
         // CylinderEmitter
         pEmitFact = OGRE_NEW CylinderEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+        ParticleSystemManager::singleton().addEmitterFactory(pEmitFact);
         mEmitterFactories.push_back(pEmitFact);
 
         // RingEmitter
         pEmitFact = OGRE_NEW RingEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+        ParticleSystemManager::singleton().addEmitterFactory(pEmitFact);
         mEmitterFactories.push_back(pEmitFact);
 
         // HollowEllipsoidEmitter
         pEmitFact = OGRE_NEW HollowEllipsoidEmitterFactory();
-        ParticleSystemManager::getSingleton().addEmitterFactory(pEmitFact);
+        ParticleSystemManager::singleton().addEmitterFactory(pEmitFact);
         mEmitterFactories.push_back(pEmitFact);
 
         // -- Create all new particle affector factories --
@@ -101,53 +101,53 @@ namespace Ogre
 
         // LinearForceAffector
         pAffFact = OGRE_NEW LinearForceAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // ColourFaderAffector
         pAffFact = OGRE_NEW ColourFaderAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // ColourFaderAffector2
         pAffFact = OGRE_NEW ColourFaderAffectorFactory2();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // ColourImageAffector
         pAffFact = OGRE_NEW ColourImageAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // ColourInterpolatorAffector
         pAffFact = OGRE_NEW ColourInterpolatorAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // ScaleAffector
         pAffFact = OGRE_NEW ScaleAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // RotationAffector
         pAffFact = OGRE_NEW RotationAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
 
         // DirectionRandomiserAffector
         pAffFact = OGRE_NEW DirectionRandomiserAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // DeflectorPlaneAffector
         pAffFact = OGRE_NEW DeflectorPlaneAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
 
         // TextureAnimatorAffector
         pAffFact = OGRE_NEW TextureAnimatorAffectorFactory();
-        ParticleSystemManager::getSingleton().addAffectorFactory(pAffFact);
+        ParticleSystemManager::singleton().addAffectorFactory(pAffFact);
         mAffectorFactories.push_back(pAffFact);
     }
     //---------------------------------------------------------------------

@@ -134,7 +134,8 @@ namespace Ogre
         mFSAAType.Quality = 0;
         if((mUsage & TU_RENDERTARGET) != 0 && (mUsage & TU_DYNAMIC) == 0)
         {
-            D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(Root::getSingleton().getRenderSystem());
+            D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(
+                Root::singleton().getRenderSystem());
             // http://msdn.microsoft.com/en-us/library/windows/desktop/ff476150%28v=vs.85%29.aspx#ID3D11Device_CreateTexture2D
             // 10Level9, When using D3D11_BIND_SHADER_RESOURCE, SampleDesc.Count must be 1.
             if(rsys->_getFeatureLevel() >= D3D_FEATURE_LEVEL_10_0 || (mUsage & TU_NOT_SRV))
@@ -146,12 +147,13 @@ namespace Ogre
         {
         case TEX_TYPE_1D:
             {
-                D3D11RenderSystem* rs = (D3D11RenderSystem*)Root::getSingleton().getRenderSystem();
-                if(rs->_getFeatureLevel() >= D3D_FEATURE_LEVEL_10_0)
-                {
-                    this->_create1DTex();
-                    break; // For Feature levels that do not support 1D textures, revert to creating a 2D texture.
-                }
+            D3D11RenderSystem* rs
+                = (D3D11RenderSystem*)Root::singleton().getRenderSystem();
+            if (rs->_getFeatureLevel() >= D3D_FEATURE_LEVEL_10_0) {
+                this->_create1DTex();
+                break; // For Feature levels that do not support 1D textures,
+                       // revert to creating a 2D texture.
+            }
             }
         case TEX_TYPE_2D:
         case TEX_TYPE_CUBE_MAP:
@@ -266,7 +268,8 @@ namespace Ogre
                 desc.ArraySize          = 6;
         }
 
-        D3D11RenderSystem* rs = (D3D11RenderSystem*)Root::getSingleton().getRenderSystem();
+        D3D11RenderSystem* rs
+            = (D3D11RenderSystem*)Root::singleton().getRenderSystem();
         if(rs->_getFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
         {
             // http://msdn.microsoft.com/en-us/library/windows/desktop/ff476150%28v=vs.85%29.aspx#ID3D11Device_CreateTexture2D
@@ -395,7 +398,8 @@ namespace Ogre
 		desc.Usage			= D3D11Mappings::_getUsage(_getTextureUsage());
         desc.BindFlags      = D3D11Mappings::_getTextureBindFlags(mD3DFormat, _getTextureUsage());
 
-        D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(Root::getSingleton().getRenderSystem());
+        D3D11RenderSystem* rsys = static_cast<D3D11RenderSystem*>(
+            Root::singleton().getRenderSystem());
         if (rsys->_getFeatureLevel() < D3D_FEATURE_LEVEL_10_0)
            desc.BindFlags      &= ~D3D11_BIND_RENDER_TARGET;
 
@@ -462,9 +466,16 @@ namespace Ogre
         if (mWidth != mSrcWidth ||
             mHeight != mSrcHeight)
         {
-            LogManager::getSingleton().log_message("D3D11: ***** Dimensions altered by the render system");
-            LogManager::getSingleton().log_message("D3D11: ***** Source image dimensions : " + StringConverter::to_string(mSrcWidth) + "x" + StringConverter::to_string(mSrcHeight));
-            LogManager::getSingleton().log_message("D3D11: ***** Texture dimensions : " + StringConverter::to_string(mWidth) + "x" + StringConverter::to_string(mHeight));
+            LogManager::singleton().log_message(
+                "D3D11: ***** Dimensions altered by the render system");
+            LogManager::singleton().log_message(
+                "D3D11: ***** Source image dimensions : "
+                + StringConverter::to_string(mSrcWidth) + "x"
+                + StringConverter::to_string(mSrcHeight));
+            LogManager::singleton().log_message(
+                "D3D11: ***** Texture dimensions : "
+                + StringConverter::to_string(mWidth) + "x"
+                + StringConverter::to_string(mHeight));
         }
 
         // Create list of subsurfaces for getBuffer()
@@ -582,7 +593,8 @@ namespace Ogre
         ID3D11DepthStencilView      *depthStencilView;
         OGRE_CHECK_DX_ERROR(mDevice->CreateDepthStencilView(pBackBuffer, &descDSV, &depthStencilView ));
 
-        D3D11RenderSystem* rs = (D3D11RenderSystem*)Root::getSingleton().getRenderSystem();
+        D3D11RenderSystem* rs
+            = (D3D11RenderSystem*)Root::singleton().getRenderSystem();
         mDepthBuffer =
             new D3D11DepthBuffer(DepthBuffer::POOL_NO_DEPTH, rs, depthStencilView, mWidth, mHeight,
                                  BBDesc.SampleDesc.Count, BBDesc.SampleDesc.Quality, false);

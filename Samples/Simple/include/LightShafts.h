@@ -75,7 +75,7 @@ public:
     {
         // Just a simple circular trajectory
         const Real& SimulationTime
-            = Root::getSingleton().getTimer()->milli_seconds();
+            = Root::singleton().getTimer()->milli_seconds();
         Real Radius = 8;
 
         if (!mRotateEnable)
@@ -95,7 +95,7 @@ public:
         if (mRotateKnot)
         {
             mKnotSN->setOrientation(Quaternion(
-                Degree(Root::getSingleton().getTimer()->milli_seconds() / 50),
+                Degree(Root::singleton().getTimer()->milli_seconds() / 50),
                 Vector3(0, 1, 0)));
         }
     }
@@ -105,7 +105,8 @@ public:
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
         // Make this viewport work with shader generator scheme.
         mViewport->setMaterialScheme(MSN_SHADERGEN);
-        RTShader::ShaderGenerator& rtShaderGen = RTShader::ShaderGenerator::getSingleton();
+        RTShader::ShaderGenerator& rtShaderGen
+            = RTShader::ShaderGenerator::singleton();
         RTShader::RenderState* schemRenderState = rtShaderGen.getRenderState(MSN_SHADERGEN);
         RTShader::SubRenderState* subRenderState = rtShaderGen.createSubRenderState("SGX_IntegratedPSSM3");
         schemRenderState->addTemplateSubRenderState(subRenderState);
@@ -113,7 +114,8 @@ public:
         mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED);
         mSceneMgr->setShadowTextureSettings(256, 1, PF_FLOAT32_R);
         mSceneMgr->setShadowTextureSelfShadow( true );
-        mSceneMgr->setShadowTextureCasterMaterial(MaterialManager::getSingleton().getByName("PSSM/shadow_caster"));
+        mSceneMgr->setShadowTextureCasterMaterial(
+            MaterialManager::singleton().getByName("PSSM/shadow_caster"));
 
         auto statusPanel = mTrayMgr->createParamsPanel(TL_TOPLEFT, "HelpMessage", 200, {"Help"});
         statusPanel->setParamValue("Help", "H / F1");
@@ -138,7 +140,7 @@ public:
         mLight0->setShadowFarClipDistance(48);
         mLight0->setAttenuation(48, 1.0, 0, 0.001);
 
-        mLightShaftsMat = MaterialManager::getSingleton().getByName("LightShafts");
+        mLightShaftsMat = MaterialManager::singleton().getByName("LightShafts");
 
         // Set up our light camera
 
@@ -162,8 +164,19 @@ public:
         createLightShafts(mBillboardSet, mLightCamera, 100);
 
         // Set a floor plane
-        MeshManager::getSingleton().createPlane("FloorPlaneMesh", RGN_DEFAULT, Plane(Vector3::unit_y, 0),
-                                                250, 250, 100, 100, true, 1, 15, 15, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "FloorPlaneMesh",
+            RGN_DEFAULT,
+            Plane(Vector3::unit_y, 0),
+            250,
+            250,
+            100,
+            100,
+            true,
+            1,
+            15,
+            15,
+            Vector3::unit_z);
 
         Entity* pPlaneEnt = mSceneMgr->createEntity("Plane", "FloorPlaneMesh");
         pPlaneEnt->setMaterialName("Examples/Rockwall");
@@ -227,6 +240,6 @@ public:
 
     void cleanupContent() override
     {
-        MeshManager::getSingleton().remove("FloorPlaneMesh", RGN_DEFAULT);
+        MeshManager::singleton().remove("FloorPlaneMesh", RGN_DEFAULT);
     }
 };

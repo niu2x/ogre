@@ -629,7 +629,7 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
 {
     if(!mBorderSampler)
     {
-        mBorderSampler = TextureManager::getSingleton().createSampler();
+        mBorderSampler = TextureManager::singleton().createSampler();
         mBorderSampler->setAddressingMode(TAM_BORDER);
         mBorderSampler->setBorderColour(ColourValue::White);
         mBorderSampler->setFiltering(FT_MIP, FO_NONE); // we do not have mips. GLES2 is particularly picky here.
@@ -638,7 +638,9 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
     if (mShadowTextureConfigDirty)
     {
         destroyShadowTextures();
-        ShadowTextureManager::getSingleton().getShadowTextures(mShadowTextureConfigList, mShadowTextures);
+        ShadowTextureManager::singleton().getShadowTextures(
+            mShadowTextureConfigList,
+            mShadowTextures);
 
         // clear shadow cam - light mapping
         mShadowCamLightMapping.clear();
@@ -697,8 +699,9 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
             }
             else
             {
-                mNullShadowTexture = ShadowTextureManager::getSingleton().getNullShadowTexture(
-                    mShadowTextureConfigList[0].format);
+                mNullShadowTexture
+                    = ShadowTextureManager::singleton().getNullShadowTexture(
+                        mShadowTextureConfigList[0].format);
             }
             ++__i;
         }
@@ -726,7 +729,7 @@ void SceneManager::ShadowRenderer::destroyShadowTextures(void)
     mSceneManager->mAutoParamDataSource->setTextureProjector(NULL, 0);
 
     // Will destroy if no other scene managers referencing
-    ShadowTextureManager::getSingleton().clearUnused();
+    ShadowTextureManager::singleton().clearUnused();
 
     mShadowTextureConfigDirty = true;
 }
@@ -853,8 +856,7 @@ void SceneManager::ShadowRenderer::prepareShadowTextures(Camera* cam, Viewport* 
 
     fireShadowTexturesUpdated(std::min(lightList->size(), mShadowTextures.size()));
 
-    ShadowTextureManager::getSingleton().clearUnused();
-
+    ShadowTextureManager::singleton().clearUnused();
 }
 //---------------------------------------------------------------------
 void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* light,
@@ -1247,7 +1249,7 @@ void SceneManager::ShadowRenderer::setShadowTechnique(ShadowTechnique technique)
         // Otherwise forget it
         if (!mDestRenderSystem->getCapabilities()->hasCapability(RSC_HWSTENCIL))
         {
-            LogManager::getSingleton().log_warning(
+            LogManager::singleton().log_warning(
                 "Stencil shadows were requested, but this device does not "
                 "have a hardware stencil. Shadows disabled.");
             mShadowTechnique = SHADOWTYPE_NONE;
@@ -1255,18 +1257,21 @@ void SceneManager::ShadowRenderer::setShadowTechnique(ShadowTechnique technique)
         else if (!mShadowIndexBuffer)
         {
             // Create an estimated sized shadow index buffer
-            mShadowIndexBuffer = HardwareBufferManager::getSingleton().
-                createIndexBuffer(HardwareIndexBuffer::IT_16BIT,
-                mShadowIndexBufferSize,
-                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE,
-                false);
+            mShadowIndexBuffer
+                = HardwareBufferManager::singleton().createIndexBuffer(
+                    HardwareIndexBuffer::IT_16BIT,
+                    mShadowIndexBufferSize,
+                    HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE,
+                    false);
             // tell all meshes to prepare shadow volumes
-            MeshManager::getSingleton().setPrepareAllMeshesForShadowVolumes(true);
+            MeshManager::singleton().setPrepareAllMeshesForShadowVolumes(true);
         }
     }
 
     if (mShadowTechnique == SHADOWTYPE_TEXTURE_MODULATIVE && !mSpotFadeTexture)
-        mSpotFadeTexture = TextureManager::getSingleton().load("spot_shadow_fade.dds", RGN_INTERNAL);
+        mSpotFadeTexture = TextureManager::singleton().load(
+            "spot_shadow_fade.dds",
+            RGN_INTERNAL);
 
     if ((mShadowTechnique & SHADOWDETAILTYPE_TEXTURE) == 0)
     {
@@ -1303,21 +1308,24 @@ void SceneManager::ShadowRenderer::initShadowVolumeMaterials()
     if (!mShadowDebugPass)
     {
         ShadowVolumeExtrudeProgram::initialise();
-        MaterialPtr matDebug = MaterialManager::getSingleton().getByName("Ogre/Debug/ShadowVolumes");
+        MaterialPtr matDebug = MaterialManager::singleton().getByName(
+            "Ogre/Debug/ShadowVolumes");
         mShadowDebugPass = matDebug->getTechnique(0)->getPass(0);
         msInfiniteExtrusionParams = mShadowDebugPass->getVertexProgramParameters();
     }
 
     if (!mShadowStencilPass)
     {
-        MaterialPtr matStencil = MaterialManager::getSingleton().getByName("Ogre/StencilShadowVolumes");
+        MaterialPtr matStencil = MaterialManager::singleton().getByName(
+            "Ogre/StencilShadowVolumes");
         mShadowStencilPass = matStencil->getTechnique(0)->getPass(0);
         msFiniteExtrusionParams = mShadowStencilPass->getVertexProgramParameters();
     }
 
     if (!mShadowModulativePass)
     {
-        MaterialPtr matModStencil = MaterialManager::getSingleton().getByName("Ogre/StencilShadowModulationPass");
+        MaterialPtr matModStencil = MaterialManager::singleton().getByName(
+            "Ogre/StencilShadowModulationPass");
         matModStencil->load();
         mShadowModulativePass = matModStencil->getTechnique(0)->getPass(0);
     }
@@ -1331,17 +1339,22 @@ void SceneManager::ShadowRenderer::initShadowVolumeMaterials()
     // Also init shadow caster material for texture shadows
     if (!mShadowCasterPlainBlackPass)
     {
-        MaterialPtr matPlainBlack = MaterialManager::getSingleton().getByName("Ogre/TextureShadowCaster");
+        MaterialPtr matPlainBlack = MaterialManager::singleton().getByName(
+            "Ogre/TextureShadowCaster");
         matPlainBlack->load();
         mShadowCasterPlainBlackPass = matPlainBlack->getTechnique(0)->getPass(0);
     }
 
     if (!mShadowReceiverPass)
     {
-        MaterialPtr matShadRec = MaterialManager::getSingleton().getByName("Ogre/TextureShadowReceiver", RGN_INTERNAL);
+        MaterialPtr matShadRec = MaterialManager::singleton().getByName(
+            "Ogre/TextureShadowReceiver",
+            RGN_INTERNAL);
         if (!matShadRec)
         {
-            matShadRec = MaterialManager::getSingleton().create("Ogre/TextureShadowReceiver", RGN_INTERNAL);
+            matShadRec = MaterialManager::singleton().create(
+                "Ogre/TextureShadowReceiver",
+                RGN_INTERNAL);
             mShadowReceiverPass = matShadRec->getTechnique(0)->getPass(0);
             // Don't set lighting and blending modes here, depends on additive / modulative
             TextureUnitState* t = mShadowReceiverPass->createTextureUnitState();
@@ -1574,11 +1587,12 @@ void SceneManager::ShadowRenderer::setShadowIndexBufferSize(size_t size)
     if (mShadowIndexBuffer && size != mShadowIndexBufferSize)
     {
         // re-create shadow buffer with new size
-        mShadowIndexBuffer = HardwareBufferManager::getSingleton().
-            createIndexBuffer(HardwareIndexBuffer::IT_16BIT,
-            size,
-            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE,
-            false);
+        mShadowIndexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                HardwareIndexBuffer::IT_16BIT,
+                size,
+                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE,
+                false);
     }
     mShadowIndexBufferSize = size;
     mShadowIndexBufferUsedSize = 0;

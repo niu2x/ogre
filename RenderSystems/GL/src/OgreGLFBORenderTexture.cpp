@@ -139,7 +139,9 @@ static const uchar depthBits[] =
     {
         if(!mRenderBufferMap.empty())
         {
-            LogManager::getSingleton().log_warning("GLFBOManager destructor called, but not all renderbuffers were released.");
+            LogManager::singleton().log_warning(
+                "GLFBOManager destructor called, but not all renderbuffers "
+                "were released.");
         }
         
         glDeleteFramebuffersEXT(1, &mTempFBO);      
@@ -341,11 +343,12 @@ static const uchar depthBits[] =
 
                         for (uchar stencil = 0; stencil < STENCILFORMAT_COUNT; ++stencil)
                         {
-                            //StringStream l;
-                            //l << "Trying " << PixelUtil::getFormatName((PixelFormat)x) 
-                            //  << " D" << depthBits[depth] 
-                            //  << "S" << stencilBits[stencil];
-                            //LogManager::getSingleton().log_message(l.str());
+                            // StringStream l;
+                            // l << "Trying " <<
+                            // PixelUtil::getFormatName((PixelFormat)x)
+                            //   << " D" << depthBits[depth]
+                            //   << "S" << stencilBits[stencil];
+                            // LogManager::singleton().log_message(l.str());
 
                             if (_tryFormat(depthFormats[depth], stencilFormats[stencil]))
                             {
@@ -399,8 +402,7 @@ static const uchar depthBits[] =
                     }
                 }
 
-                LogManager::getSingleton().log_message(str.str());
-
+                LogManager::singleton().log_message(str.str());
             }
             // Delete texture and framebuffer
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -428,7 +430,8 @@ static const uchar depthBits[] =
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
-        LogManager::getSingleton().log_message("[GL] : Valid FBO targets " + fmtstring);
+        LogManager::singleton().log_message(
+            "[GL] : Valid FBO targets " + fmtstring);
     }
     void GLFBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)
     {

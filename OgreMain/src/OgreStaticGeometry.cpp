@@ -275,7 +275,7 @@ namespace Ogre {
         // Validate
         if (msh->hasManualLodLevel())
         {
-            LogManager::getSingleton().log_warning(
+            LogManager::singleton().log_warning(
                 "(StaticGeometry): Manual LOD is not supported. "
                 "Using only highest LOD level for mesh "
                 + msh->name());
@@ -421,8 +421,8 @@ namespace Ogre {
             HardwareVertexBufferSharedPtr oldBuf =
                 vd->vertexBufferBinding->getBuffer(b);
             // Create new buffer
-            HardwareVertexBufferSharedPtr newBuf =
-                HardwareBufferManager::getSingleton().createVertexBuffer(
+            HardwareVertexBufferSharedPtr newBuf
+                = HardwareBufferManager::singleton().createVertexBuffer(
                     oldBuf->getVertexSize(),
                     indexRemap.size(),
                     HardwareBuffer::HBU_STATIC);
@@ -452,9 +452,10 @@ namespace Ogre {
         }
 
         // Now create a new index buffer
-        HardwareIndexBufferSharedPtr ibuf =
-            HardwareBufferManager::getSingleton().createIndexBuffer(
-                id->indexBuffer->getType(), id->indexCount,
+        HardwareIndexBufferSharedPtr ibuf
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                id->indexBuffer->getType(),
+                id->indexCount,
                 HardwareBuffer::HBU_STATIC);
 
         HardwareBufferLockGuard srcIndexLock(id->indexBuffer,
@@ -494,7 +495,8 @@ namespace Ogre {
         if (node->creator()->getRootSceneNode()->_getFullTransform()
             != Affine3::identity) {
             // otherwise it is applied twice
-            LogManager::getSingleton().log_error("StaticGeometry - Root SceneNode transform must be IDENTITY");
+            LogManager::singleton().log_error(
+                "StaticGeometry - Root SceneNode transform must be IDENTITY");
         }
 
         for (auto mobj : node->getAttachedObjects())
@@ -866,7 +868,7 @@ namespace Ogre {
         if(!mVisible || mBeyondFarDistance)
             return false;
 
-        SceneManager* sm = Root::getSingleton()._getCurrentSceneManager();
+        SceneManager* sm = Root::singleton()._getCurrentSceneManager();
         if (sm && !(mVisibilityFlags & sm->_getCombinedVisibilityMask()))
             return false;
 
@@ -1426,8 +1428,10 @@ namespace Ogre {
 
         // create index buffer, and lock
         auto indexType = mIndexData->indexBuffer->getType();
-        mIndexData->indexBuffer = HardwareBufferManager::getSingleton()
-            .createIndexBuffer(indexType, mIndexData->indexCount,
+        mIndexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                indexType,
+                mIndexData->indexCount,
                 HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         HardwareBufferLockGuard dstIndexLock(mIndexData->indexBuffer, HardwareBuffer::HBL_DISCARD);
         uint32* p32Dest = static_cast<uint32*>(dstIndexLock.pData);
@@ -1439,8 +1443,8 @@ namespace Ogre {
         std::vector<VertexDeclaration::VertexElementList> bufferElements;
         for (b = 0; b < binds->getBufferCount(); ++b)
         {
-            HardwareVertexBufferSharedPtr vbuf =
-                HardwareBufferManager::getSingleton().createVertexBuffer(
+            HardwareVertexBufferSharedPtr vbuf
+                = HardwareBufferManager::singleton().createVertexBuffer(
                     dcl->getVertexSize(b),
                     mVertexData->vertexCount,
                     HardwareBuffer::HBU_STATIC_WRITE_ONLY);

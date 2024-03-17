@@ -118,8 +118,10 @@ namespace Ogre
                 mBodyB.clip(p);
             }
 
-            if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_DEPTH_CLAMP))
-            {
+            if (Root::singleton()
+                    .getRenderSystem()
+                    ->getCapabilities()
+                    ->hasCapability(RSC_DEPTH_CLAMP)) {
                 out_bodyB->build(mBodyB);
                 return;
             }

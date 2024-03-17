@@ -177,34 +177,36 @@ namespace Ogre {
         mCastShadows = false;
     }
     //-----------------------------------------------------------------------
-    ParticleSystem::ParticleSystem(const String& name, const String& resourceGroup)
-      : MovableObject(name),
-        mAABB(),
-        mBoundingRadius(1.0f),
-        mBoundsAutoUpdate(true),
-        mBoundsUpdateTime(10.0f),
-        mUpdateRemainTime(0),
-        mResourceGroupName(resourceGroup),
-        mIsRendererConfigured(false),
-        mSpeedFactor(1.0f),
-        mIterationInterval(0),
-        mIterationIntervalSet(false),
-        mSorted(false),
-        mLocalSpace(false),
-        mNonvisibleTimeout(0),
-        mNonvisibleTimeoutSet(false),
-        mTimeSinceLastVisible(0),
-        mLastVisibleFrame(Root::getSingleton().getNextFrameNumber()),
-        mTimeController(0),
-        mEmittedEmitterPoolInitialised(false),
-        mIsEmitting(true),
-        mRenderer(0), 
-        mCullIndividual(false),
-        mPoolSize(0),
-        mEmittedEmitterPoolSize(0)
+    ParticleSystem::ParticleSystem(
+        const String& name,
+        const String& resourceGroup)
+    : MovableObject(name)
+    , mAABB()
+    , mBoundingRadius(1.0f)
+    , mBoundsAutoUpdate(true)
+    , mBoundsUpdateTime(10.0f)
+    , mUpdateRemainTime(0)
+    , mResourceGroupName(resourceGroup)
+    , mIsRendererConfigured(false)
+    , mSpeedFactor(1.0f)
+    , mIterationInterval(0)
+    , mIterationIntervalSet(false)
+    , mSorted(false)
+    , mLocalSpace(false)
+    , mNonvisibleTimeout(0)
+    , mNonvisibleTimeoutSet(false)
+    , mTimeSinceLastVisible(0)
+    , mLastVisibleFrame(Root::singleton().getNextFrameNumber())
+    , mTimeController(0)
+    , mEmittedEmitterPoolInitialised(false)
+    , mIsEmitting(true)
+    , mRenderer(0)
+    , mCullIndividual(false)
+    , mPoolSize(0)
+    , mEmittedEmitterPoolSize(0)
     {
         setDefaultDimensions( 100, 100 );
-        mMaterial = MaterialManager::getSingleton().getDefaultMaterial();
+        mMaterial = MaterialManager::singleton().getDefaultMaterial();
         // Default to 10 particles, expect app to specify (will only be increased, not decreased)
         setParticleQuota( 10 );
         setEmittedEmitterQuota( 3 );
@@ -220,7 +222,7 @@ namespace Ogre {
         if (mTimeController)
         {
             // Destroy controller
-            ControllerManager::getSingleton().destroyController(mTimeController);
+            ControllerManager::singleton().destroyController(mTimeController);
             mTimeController = 0;
         }
 
@@ -237,7 +239,7 @@ namespace Ogre {
 
         if (mRenderer)
         {
-            ParticleSystemManager::getSingleton()._destroyRenderer(mRenderer);
+            ParticleSystemManager::singleton()._destroyRenderer(mRenderer);
             mRenderer = 0;
         }
 
@@ -245,8 +247,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     ParticleEmitter* ParticleSystem::addEmitter(const String& emitterType)
     {
-        ParticleEmitter* em = 
-            ParticleSystemManager::getSingleton()._createEmitter(emitterType, this);
+        ParticleEmitter* em = ParticleSystemManager::singleton()._createEmitter(
+            emitterType,
+            this);
         mEmitters.push_back(em);
         return em;
     }
@@ -266,7 +269,7 @@ namespace Ogre {
     {
         assert(index < mEmitters.size() && "Emitter index out of bounds!");
         ParticleEmitterList::iterator ei = mEmitters.begin() + index;
-        ParticleSystemManager::getSingleton()._destroyEmitter(*ei);
+        ParticleSystemManager::singleton()._destroyEmitter(*ei);
         mEmitters.erase(ei);
     }
     //-----------------------------------------------------------------------
@@ -274,7 +277,7 @@ namespace Ogre {
     {
         auto ei = std::find(mEmitters.begin(), mEmitters.end(), emitter);
         OgreAssert(ei != mEmitters.end(), "Emitter is not a part of ParticleSystem!");
-        ParticleSystemManager::getSingleton()._destroyEmitter(*ei);
+        ParticleSystemManager::singleton()._destroyEmitter(*ei);
         mEmitters.erase(ei);
     }
     //-----------------------------------------------------------------------
@@ -283,15 +286,17 @@ namespace Ogre {
         // DON'T delete directly, we don't know what heap these have been created on
         for (auto e : mEmitters)
         {
-            ParticleSystemManager::getSingleton()._destroyEmitter(e);
+            ParticleSystemManager::singleton()._destroyEmitter(e);
         }
         mEmitters.clear();
     }
     //-----------------------------------------------------------------------
     ParticleAffector* ParticleSystem::addAffector(const String& affectorType)
     {
-        ParticleAffector* af = 
-            ParticleSystemManager::getSingleton()._createAffector(affectorType, this);
+        ParticleAffector* af
+            = ParticleSystemManager::singleton()._createAffector(
+                affectorType,
+                this);
         mAffectors.push_back(af);
         return af;
     }
@@ -311,7 +316,7 @@ namespace Ogre {
     {
         assert(index < mAffectors.size() && "Affector index out of bounds!");
         ParticleAffectorList::iterator ai = mAffectors.begin() + index;
-        ParticleSystemManager::getSingleton()._destroyAffector(*ai);
+        ParticleSystemManager::singleton()._destroyAffector(*ai);
         mAffectors.erase(ai);
     }
     //-----------------------------------------------------------------------
@@ -320,7 +325,7 @@ namespace Ogre {
         // DON'T delete directly, we don't know what heap these have been created on
         for (auto a : mAffectors)
         {
-            ParticleSystemManager::getSingleton()._destroyAffector(a);
+            ParticleSystemManager::singleton()._destroyAffector(a);
         }
         mAffectors.clear();
     }
@@ -440,7 +445,8 @@ namespace Ogre {
         {
             // Check whether it's been more than one frame (update is ahead of
             // camera notification by one frame because of the ordering)
-            long frameDiff = Root::getSingleton().getNextFrameNumber() - mLastVisibleFrame;
+            long frameDiff
+                = Root::singleton().getNextFrameNumber() - mLastVisibleFrame;
             if (frameDiff > 1 || frameDiff < 0) // < 0 if wrap only
             {
                 mTimeSinceLastVisible += timeElapsed;
@@ -975,9 +981,8 @@ namespace Ogre {
         MovableObject::_notifyCurrentCamera(cam);
 
         // Record visible
-        if (isVisible())
-        {           
-            mLastVisibleFrame = Root::getSingleton().getNextFrameNumber();
+        if (isVisible()) {
+            mLastVisibleFrame = Root::singleton().getNextFrameNumber();
             mTimeSinceLastVisible = 0.0f;
 
             if (mSorted)
@@ -1007,28 +1012,28 @@ namespace Ogre {
         {
             // Assume visible
             mTimeSinceLastVisible = 0;
-            mLastVisibleFrame = Root::getSingleton().getNextFrameNumber();
+            mLastVisibleFrame = Root::singleton().getNextFrameNumber();
 
             // Create time controller when attached
-            ControllerManager& mgr = ControllerManager::getSingleton(); 
+            ControllerManager& mgr = ControllerManager::singleton();
             ControllerValueRealPtr updValue(OGRE_NEW ParticleSystemUpdateValue(this));
             mTimeController = mgr.createFrameTimePassthroughController(updValue);
         }
         else if (!parent && mTimeController)
         {
             // Destroy controller
-            ControllerManager::getSingleton().destroyController(mTimeController);
+            ControllerManager::singleton().destroyController(mTimeController);
             mTimeController = 0;
         }
     }
     //-----------------------------------------------------------------------
     void ParticleSystem::setMaterialName( const String& name, const String& groupName /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */)
     {
-        mMaterial = MaterialManager::getSingleton().getByName(name, groupName);
+        mMaterial = MaterialManager::singleton().getByName(name, groupName);
         if (!mMaterial)
         {
             logMaterialNotFound(name, groupName, "ParticleSystem", mName);
-            mMaterial = MaterialManager::getSingleton().getDefaultMaterial(false);
+            mMaterial = MaterialManager::singleton().getDefaultMaterial(false);
         }
         if (mIsRendererConfigured)
         {
@@ -1070,13 +1075,14 @@ namespace Ogre {
         if (mRenderer)
         {
             // Destroy existing
-            ParticleSystemManager::getSingleton()._destroyRenderer(mRenderer);
+            ParticleSystemManager::singleton()._destroyRenderer(mRenderer);
             mRenderer = 0;
         }
 
         if (!rendererName.empty())
         {
-            mRenderer = ParticleSystemManager::getSingleton()._createRenderer(rendererName);
+            mRenderer = ParticleSystemManager::singleton()._createRenderer(
+                rendererName);
             mIsRendererConfigured = false;
         }
     }
@@ -1322,7 +1328,10 @@ namespace Ogre {
                     size_t oldSize = e.size();
                     for (size_t t = oldSize; t < maxNumberOfEmitters; ++t)
                     {
-                        clonedEmitter = ParticleSystemManager::getSingleton()._createEmitter(emitter->getType(), this);
+                        clonedEmitter
+                            = ParticleSystemManager::singleton()._createEmitter(
+                                emitter->getType(),
+                                this);
                         emitter->copy_parameters_to(clonedEmitter);
                         clonedEmitter->setEmitted(emitter->isEmitted()); // is always 'true' by the way, but just in case
 
@@ -1379,7 +1388,7 @@ namespace Ogre {
         {
             for (ParticleEmitter* emitter : kv.second)
             {
-                ParticleSystemManager::getSingleton()._destroyEmitter(emitter);
+                ParticleSystemManager::singleton()._destroyEmitter(emitter);
             }
             kv.second.clear();
         }

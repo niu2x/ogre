@@ -286,11 +286,14 @@ namespace Ogre {
         //Check if index buffer is to small 
         if (preCountIndexes > indexBuffer->getNumIndexes())
         {
-            LogManager::getSingleton().log_warning(
-                "shadow index buffer size to small. Auto increasing buffer size to" +
-                StringConverter::to_string(sizeof(unsigned short) * preCountIndexes));
+            LogManager::singleton().log_warning(
+                "shadow index buffer size to small. Auto increasing buffer "
+                "size to"
+                + StringConverter::to_string(
+                    sizeof(unsigned short) * preCountIndexes));
 
-            SceneManager* pManager = Root::getSingleton()._getCurrentSceneManager();
+            SceneManager* pManager
+                = Root::singleton()._getCurrentSceneManager();
             if (pManager)
             {
                 pManager->setShadowIndexBufferSize(preCountIndexes);

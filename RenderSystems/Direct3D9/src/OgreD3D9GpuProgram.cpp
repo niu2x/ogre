@@ -146,9 +146,9 @@ namespace Ogre {
             if (mLoadFromFile)
             {
                 // find & load source code
-                DataStreamPtr stream = 
-                    ResourceGroupManager::getSingleton().openResource(
-                    mFilename, mGroup, true, this);
+                DataStreamPtr stream
+                    = ResourceGroupManager::singleton()
+                          .openResource(mFilename, mGroup, true, this);
                 mSource = stream->as_string();
             }
 
@@ -165,21 +165,18 @@ namespace Ogre {
    void D3D9GpuProgram::loadFromSource( IDirect3DDevice9* d3d9Device )
     {
         uint32 hash = _getHash();
-        if ( GpuProgramManager::getSingleton().isMicrocodeAvailableInCache(hash) )
-        {
+        if (GpuProgramManager::singleton().isMicrocodeAvailableInCache(hash)) {
             getMicrocodeFromCache( d3d9Device, hash );
-        }
-        else
-        {
+        } else {
             compileMicrocode( d3d9Device );
         }
     }
     //-----------------------------------------------------------------------
     void D3D9GpuProgram::getMicrocodeFromCache( IDirect3DDevice9* d3d9Device, uint32 id )
     {
-        GpuProgramManager::Microcode cacheMicrocode = 
-            GpuProgramManager::getSingleton().getMicrocodeFromCache(id);
-        
+        GpuProgramManager::Microcode cacheMicrocode
+            = GpuProgramManager::singleton().getMicrocodeFromCache(id);
+
         LPD3DXBUFFER microcode;
         HRESULT hr=D3DXCreateBuffer(cacheMicrocode->size(), &microcode); 
 
@@ -219,9 +216,7 @@ namespace Ogre {
             errors->Release();
             OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, message,
                 "D3D9GpuProgram::loadFromSource");
-        }
-        else if ( GpuProgramManager::getSingleton().getSaveMicrocodesToCache() )
-        {
+        } else if (GpuProgramManager::singleton().getSaveMicrocodesToCache()) {
             // create microcode
             auto newMicrocode = GpuProgramManager::createMicrocode(microcode->GetBufferSize());
 
@@ -229,7 +224,9 @@ namespace Ogre {
             memcpy(newMicrocode->getPtr(), microcode->GetBufferPointer(), microcode->GetBufferSize());
 
             // add to the microcode to the cache
-            GpuProgramManager::getSingleton().addMicrocodeToCache(_getHash(), newMicrocode);
+            GpuProgramManager::singleton().addMicrocodeToCache(
+                _getHash(),
+                newMicrocode);
         }
 
         loadFromMicrocode(d3d9Device, microcode);       
@@ -303,7 +300,7 @@ namespace Ogre {
         }
         else
         {
-            LogManager::getSingleton().log_message(
+            LogManager::singleton().log_message(
                 "Unsupported D3D9 shader '" + mName + "' was not loaded.");
 
             mMapDeviceToShader[d3d9Device] = NULL;

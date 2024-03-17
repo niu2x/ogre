@@ -35,15 +35,17 @@ public:
     void _shutdown() override
     {
         RTShader::RenderState* pMainRenderState
-            = RTShader::ShaderGenerator::getSingleton()
+            = RTShader::ShaderGenerator::singleton()
                   .create_or_retrieveRenderState(MSN_SHADERGEN)
                   .first;
         pMainRenderState->resetToBuiltinSubRenderStates();
         
         if (mSRSTextureFogFactory)
         {
-            RTShader::ShaderGenerator::getSingleton().removeAllShaderBasedTechniques();
-            RTShader::ShaderGenerator::getSingleton().removeSubRenderStateFactory(mSRSTextureFogFactory);
+            RTShader::ShaderGenerator::singleton()
+                .removeAllShaderBasedTechniques();
+            RTShader::ShaderGenerator::singleton().removeSubRenderStateFactory(
+                mSRSTextureFogFactory);
             delete mSRSTextureFogFactory;
             mSRSTextureFogFactory = NULL;
         }
@@ -74,8 +76,19 @@ protected:
         mTrayMgr->showCursor();
 
         // create a floor mesh resource
-        MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            Plane(Vector3::unit_y, -30), 1000, 1000, 10, 10, true, 1, 8, 8, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            Plane(Vector3::unit_y, -30),
+            1000,
+            1000,
+            10,
+            10,
+            true,
+            1,
+            8,
+            8,
+            Vector3::unit_z);
 
         // create a floor entity, give it a material, and place it at the origin
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");
@@ -109,7 +122,7 @@ protected:
         
     void setupShaderGenerator()
     {
-        RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::getSingletonPtr();
+        RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::singleton_ptr(();
 
         RTShader::RenderState* pMainRenderState
             = mGen->create_or_retrieveRenderState(MSN_SHADERGEN).first;
@@ -150,7 +163,7 @@ protected:
             default: textureName = "evening.jpg"; break;
             }
             mSRSTextureFogFactory->setBackgroundTextureName(textureName);
-            RTShader::ShaderGenerator* gen = RTShader::ShaderGenerator::getSingletonPtr();
+            RTShader::ShaderGenerator* gen = RTShader::ShaderGenerator::singleton_ptr(();
             gen->invalidateScheme(Ogre::MSN_SHADERGEN);
         }
     }
@@ -211,7 +224,9 @@ protected:
 
     void cleanupContent() override
     {
-        MeshManager::getSingleton().remove("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().remove(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }
 
 private:

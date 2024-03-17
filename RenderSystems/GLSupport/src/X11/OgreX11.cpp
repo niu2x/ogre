@@ -62,7 +62,8 @@ Window createXWindow(Display* display, Window parent, XVisualInfo* visualInfo, i
 
     if (fullScreen && wmFullScreen == None)
     {
-        LogManager::getSingleton().log_warning("createXWindow: Your WM has no fullscreen support");
+        LogManager::singleton().log_warning(
+            "createXWindow: Your WM has no fullscreen support");
 
         // A second best approach for outdated window managers
         attr.backing_store = NotUseful;

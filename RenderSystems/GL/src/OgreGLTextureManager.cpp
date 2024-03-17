@@ -40,7 +40,7 @@ namespace Ogre {
         : TextureManager(), mRenderSystem(renderSystem)
     {
         // register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
     }
@@ -48,7 +48,7 @@ namespace Ogre {
     GLTextureManager::~GLTextureManager()
     {
         // unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+        ResourceGroupManager::singleton()._unregisterResourceManager(
             resource_type());
     }
     //-----------------------------------------------------------------------------
@@ -63,7 +63,8 @@ namespace Ogre {
     PixelFormat GLTextureManager::getNativeFormat(TextureType ttype, PixelFormat format, int usage)
     {
         // Adjust requested parameters to capabilities
-        const RenderSystemCapabilities *caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         // Check compressed texture support
         // if a compressed format not supported, revert to PF_A8R8G8B8
@@ -84,7 +85,7 @@ namespace Ogre {
         {
             /// Get closest supported alternative
             /// If mFormat is supported it's returned
-            return GLRTTManager::getSingleton().getSupportedAlternative(format);
+            return GLRTTManager::singleton().getSupportedAlternative(format);
         }
 
         if(GLPixelUtil::getGLInternalFormat(format) == GL_NONE)

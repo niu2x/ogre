@@ -35,11 +35,11 @@ namespace Ogre {
     //------------------------------------------------------------------------
     //-----------------------------------------------------------------------
     template<> ResourceBackgroundQueue* Singleton<ResourceBackgroundQueue>::msSingleton = 0;
-    ResourceBackgroundQueue* ResourceBackgroundQueue::getSingletonPtr(void)
+    ResourceBackgroundQueue* ResourceBackgroundQueue::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ResourceBackgroundQueue& ResourceBackgroundQueue::getSingleton(void)
+    ResourceBackgroundQueue& ResourceBackgroundQueue::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -49,26 +49,29 @@ namespace Ogre {
     //------------------------------------------------------------------------
     std::future<void> ResourceBackgroundQueue::initialiseResourceGroup(const String& name)
     {
-        auto task = std::make_shared<std::packaged_task<void()>>(
-            [name]() { ResourceGroupManager::getSingleton().initialiseResourceGroup(name); });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
-        return task->get_future();
+    auto task = std::make_shared<std::packaged_task<void()>>([name]() {
+        ResourceGroupManager::singleton().initialiseResourceGroup(name);
+    });
+    Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
+    return task->get_future();
     }
     //------------------------------------------------------------------------
     std::future<void> ResourceBackgroundQueue::initialiseAllResourceGroups()
     {
-        auto task = std::make_shared<std::packaged_task<void()>>(
-            []() { ResourceGroupManager::getSingleton().initialiseAllResourceGroups(); });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
-        return task->get_future();
+    auto task = std::make_shared<std::packaged_task<void()>>([]() {
+        ResourceGroupManager::singleton().initialiseAllResourceGroups();
+    });
+    Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
+    return task->get_future();
     }
     //------------------------------------------------------------------------
     std::future<void> ResourceBackgroundQueue::prepareResourceGroup(const String& name)
     {
-        auto task = std::make_shared<std::packaged_task<void()>>(
-            [name]() { ResourceGroupManager::getSingleton().prepareResourceGroup(name); });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
-        return task->get_future();
+    auto task = std::make_shared<std::packaged_task<void()>>([name]() {
+        ResourceGroupManager::singleton().prepareResourceGroup(name);
+    });
+    Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
+    return task->get_future();
     }
     //------------------------------------------------------------------------
     std::future<void> ResourceBackgroundQueue::loadResourceGroup(const String& name)
@@ -76,15 +79,15 @@ namespace Ogre {
         auto task = std::make_shared<std::packaged_task<void()>>([name]()
         {
 #   if 0
-            ResourceGroupManager::getSingleton().loadResourceGroup(name);
+            ResourceGroupManager::singleton().loadResourceGroup(name);
 #   else
-            ResourceGroupManager::getSingleton().prepareResourceGroup(name);
-            Root::getSingleton().getWorkQueue()->add_main_thread_task([name]() {
-                ResourceGroupManager::getSingleton().loadResourceGroup(name);
-            });
+        ResourceGroupManager::singleton().prepareResourceGroup(name);
+        Root::singleton().getWorkQueue()->add_main_thread_task([name]() {
+            ResourceGroupManager::singleton().loadResourceGroup(name);
+        });
 #   endif
         });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
+        Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
         return task->get_future();
     }
     //------------------------------------------------------------------------
@@ -94,10 +97,10 @@ namespace Ogre {
             [res]()
             {
                 res->prepare(true);
-                Root::getSingleton().getWorkQueue()->add_main_thread_task(
+                Root::singleton().getWorkQueue()->add_main_thread_task(
                     [res]() { res->_fire_preparing_complete(); });
             });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
+        Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
         return task->get_future();
     }
     //------------------------------------------------------------------------
@@ -108,33 +111,33 @@ namespace Ogre {
             {
 #if 0
                 res->load(true);
-                Root::getSingleton().getWorkQueue()->add_main_thread_task([res]() { res->_fire_loading_complete(); });
+                Root::singleton().getWorkQueue()->add_main_thread_task([res]() { res->_fire_loading_complete(); });
 #else
                 res->prepare(true);
-                Root::getSingleton().getWorkQueue()->add_main_thread_task(
-                    [res]() {
-                        res->load(true);
-                        res->_fire_loading_complete();
-                    });
+                Root::singleton().getWorkQueue()->add_main_thread_task([res]() {
+                    res->load(true);
+                    res->_fire_loading_complete();
+                });
 #endif
             });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
+        Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
         return task->get_future();
     }
     //---------------------------------------------------------------------
     std::future<void> ResourceBackgroundQueue::unload(const ResourcePtr& res)
     {
         auto task = std::make_shared<std::packaged_task<void()>>([res]() { res->unload(); });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
+        Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
         return task->get_future();
     }
     //---------------------------------------------------------------------
     std::future<void> ResourceBackgroundQueue::unloadResourceGroup(const String& name)
     {
-        auto task = std::make_shared<std::packaged_task<void()>>(
-            [name]() { ResourceGroupManager::getSingleton().unloadResourceGroup(name); });
-        Root::getSingleton().getWorkQueue()->add_task([task]() { (*task)(); });
-        return task->get_future();
+    auto task = std::make_shared<std::packaged_task<void()>>([name]() {
+        ResourceGroupManager::singleton().unloadResourceGroup(name);
+    });
+    Root::singleton().getWorkQueue()->add_task([task]() { (*task)(); });
+    return task->get_future();
     }
 
 }

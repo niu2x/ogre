@@ -140,7 +140,9 @@ namespace Ogre {
     {
         if(!mRenderBufferMap.empty())
         {
-            LogManager::getSingleton().log_warning("GL3PlusFBOManager destructor called, but not all renderbuffers were released.");
+            LogManager::singleton().log_warning(
+                "GL3PlusFBOManager destructor called, but not all "
+                "renderbuffers were released.");
         }
     }
 
@@ -354,10 +356,13 @@ namespace Ogre {
                         for (uchar stencil = 0; stencil < STENCILFORMAT_COUNT; ++stencil)
                         {
                             //                            StringStream l;
-                            //                            l << "Trying " << PixelUtil::getFormatName((PixelFormat)x)
-                            //                                  << " D" << depthBits[depth]
-                            //                                  << "S" << stencilBits[stencil];
-                            //                            LogManager::getSingleton().log_message(l.str());
+                            //                            l << "Trying " <<
+                            //                            PixelUtil::getFormatName((PixelFormat)x)
+                            //                                  << " D" <<
+                            //                                  depthBits[depth]
+                            //                                  << "S" <<
+                            //                                  stencilBits[stencil];
+                            //                            LogManager::singleton().log_message(l.str());
 
                             if (hasInternalFormatQuery) {
                                 OGRE_CHECK_GL_ERROR(
@@ -399,7 +404,7 @@ namespace Ogre {
                         }
                     }
                 }
-                LogManager::getSingleton().log_message(str.str());
+                LogManager::singleton().log_message(str.str());
             }
 
             if (!hasInternalFormatQuery) {
@@ -422,7 +427,8 @@ namespace Ogre {
             if(mProps[x].valid)
                 fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
         }
-        LogManager::getSingleton().log_message("[GL] : Valid FBO targets " + fmtstring);
+        LogManager::singleton().log_message(
+            "[GL] : Valid FBO targets " + fmtstring);
     }
 
     void GL3PlusFBOManager::getBestDepthStencil(PixelFormat internalFormat, GLenum *depthFormat, GLenum *stencilFormat)

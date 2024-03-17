@@ -42,7 +42,8 @@ WaterMesh::WaterMesh(const String& inMeshName, Real planeSize, int inComplexity)
     vNormals = new Vector3[numVertices];
 
     // create mesh and submesh
-    mesh = MeshManager::getSingleton().createManual(meshName,
+    mesh = MeshManager::singleton().createManual(
+        meshName,
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     subMesh = mesh->createSubMesh();
 
@@ -60,19 +61,17 @@ WaterMesh::WaterMesh(const String& inMeshName, Real planeSize, int inComplexity)
     vdecl->addElement(2, 0, VET_FLOAT2, VES_TEXTURE_COORDINATES);
 
     // Prepare buffer for positions - todo: first attempt, slow
-    posVertexBuffer =
-         HardwareBufferManager::getSingleton().createVertexBuffer(
-            3*sizeof(float),
-            numVertices,
-            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+    posVertexBuffer = HardwareBufferManager::singleton().createVertexBuffer(
+        3 * sizeof(float),
+        numVertices,
+        HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
     vbind->setBinding(0, posVertexBuffer);
 
     // Prepare buffer for normals - write only
-    normVertexBuffer =
-         HardwareBufferManager::getSingleton().createVertexBuffer(
-            3*sizeof(float),
-            numVertices,
-            HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+    normVertexBuffer = HardwareBufferManager::singleton().createVertexBuffer(
+        3 * sizeof(float),
+        numVertices,
+        HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
     vbind->setBinding(1, normVertexBuffer);
 
     // Prepare texture coords buffer - static one
@@ -84,9 +83,9 @@ WaterMesh::WaterMesh(const String& inMeshName, Real planeSize, int inComplexity)
             texcoordsBufData[2*(y*(complexity+1)+x)+1] = 1.0f - ((float)y / (complexity)) ;
         }
     }
-    texcoordsVertexBuffer =
-         HardwareBufferManager::getSingleton().createVertexBuffer(
-            2*sizeof(float),
+    texcoordsVertexBuffer
+        = HardwareBufferManager::singleton().createVertexBuffer(
+            2 * sizeof(float),
             numVertices,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
     texcoordsVertexBuffer->writeData(0,
@@ -97,11 +96,11 @@ WaterMesh::WaterMesh(const String& inMeshName, Real planeSize, int inComplexity)
     vbind->setBinding(2, texcoordsVertexBuffer);
 
     // Prepare buffer for indices
-    indexBuffer =
-        HardwareBufferManager::getSingleton().createIndexBuffer(
-            HardwareIndexBuffer::IT_16BIT,
-            3*numFaces,
-            HardwareBuffer::HBU_STATIC, true);
+    indexBuffer = HardwareBufferManager::singleton().createIndexBuffer(
+        HardwareIndexBuffer::IT_16BIT,
+        3 * numFaces,
+        HardwareBuffer::HBU_STATIC,
+        true);
     unsigned short *faceVertexIndices = (unsigned short*)
         indexBuffer->lock(0, numFaces*3*2, HardwareBuffer::HBL_DISCARD);
     for(y=0 ; y<complexity ; y++) {
@@ -164,7 +163,9 @@ WaterMesh::~WaterMesh ()
 
     delete[] vNormals;
 
-    MeshManager::getSingleton().remove(meshName, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshManager::singleton().remove(
+        meshName,
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 }
 /* ========================================================================= */
 void WaterMesh::push(Real x, Real y, Real depth, bool absolute)

@@ -292,8 +292,11 @@ void GLSLangProgram::createLowLevelImpl()
     if (mCompileError)
         return;
 
-    mAssemblerProgram =
-        GpuProgramManager::getSingleton().createProgram(mName + "/Delegate", mGroup, mSyntaxCode, mType);
+    mAssemblerProgram = GpuProgramManager::singleton().createProgram(
+        mName + "/Delegate",
+        mGroup,
+        mSyntaxCode,
+        mType);
     String assemblyStr((char*)mAssembly.data(), mAssembly.size() * sizeof(uint32));
     mAssemblerProgram->setSource(assemblyStr);
     mAssembly.clear(); // delegate stores the data now
@@ -347,8 +350,9 @@ void GLSLangProgram::prepareImpl()
     // minimal version is 430 for explicit uniform location, but we use latest to get all features
     if (!shader.parse(&DefaultTBuiltInResource, 460, false, EShMsgSpvRules))
     {
-        LogManager::getSingleton().log_error("GLSLang compilation failed for " + mName + ":\n" +
-                                            shader.getInfoLog());
+        LogManager::singleton().log_error(
+            "GLSLang compilation failed for " + mName + ":\n"
+            + shader.getInfoLog());
         mCompileError = true;
         return;
     }
@@ -358,8 +362,9 @@ void GLSLangProgram::prepareImpl()
 
     if (!program.link(EShMsgSpvRules))
     {
-        LogManager::getSingleton().log_error("GLSLang linking failed for " + mName + ":\n" +
-                                            program.getInfoLog());
+        LogManager::singleton().log_error(
+            "GLSLang linking failed for " + mName + ":\n"
+            + program.getInfoLog());
         mCompileError = true;
         return;
     }
@@ -388,7 +393,7 @@ void GLSLangProgram::prepareImpl()
             auto uboName = String(program.getUniformBlockName(blockIdx));
             if(uboName != "OgreUniforms")
             {
-                GpuProgramManager::getSingleton().getSharedParameters(uboName);
+                GpuProgramManager::singleton().getSharedParameters(uboName);
                 // TODO: there is no public API to set the binding point and create the correct buffer yet
             }
         }
@@ -463,7 +468,7 @@ void GLSLangPlugin::initialise()
     mProgramFactory.reset(new GLSLangProgramFactory());
 
     // Register
-    GpuProgramManager::getSingleton().addFactory(mProgramFactory.get());
+    GpuProgramManager::singleton().addFactory(mProgramFactory.get());
 }
 //---------------------------------------------------------------------
 void GLSLangPlugin::shutdown()
@@ -477,8 +482,8 @@ void GLSLangPlugin::uninstall()
     {
 
         // Remove from manager safely
-        if (GpuProgramManager::getSingletonPtr())
-            GpuProgramManager::getSingleton().removeFactory(mProgramFactory.get());
+        if (GpuProgramManager::singleton_ptr(())
+            GpuProgramManager::singleton().removeFactory(mProgramFactory.get());
         mProgramFactory.reset();
     }
 }
@@ -495,11 +500,11 @@ extern "C" void _OgreGLSLangProgramManagerExport dllStartPlugin(void)
     glslangPlugin = OGRE_NEW GLSLangPlugin();
 
     // Register
-    Root::getSingleton().installPlugin(glslangPlugin);
+    Root::singleton().installPlugin(glslangPlugin);
 }
 extern "C" void _OgreGLSLangProgramManagerExport dllStopPlugin(void)
 {
-    Root::getSingleton().uninstallPlugin(glslangPlugin);
+    Root::singleton().uninstallPlugin(glslangPlugin);
     OGRE_DELETE glslangPlugin;
 }
 #endif

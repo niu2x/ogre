@@ -103,9 +103,10 @@ namespace OgreBites
 
         case WM_INITDIALOG:
             // Load saved settings
-            dlg->mImpl->mSelectedRenderSystem = Root::getSingleton().getRenderSystem();
+            dlg->mImpl->mSelectedRenderSystem
+                = Root::singleton().getRenderSystem();
             // Get all render systems
-            lstRend = &Root::getSingleton().getAvailableRenderers();
+            lstRend = &Root::singleton().getAvailableRenderers();
             pRend = lstRend->begin();            
             i = 0;
             while (pRend != lstRend->end())
@@ -302,7 +303,8 @@ namespace OgreBites
                     return TRUE;
                 }
 
-                Root::getSingleton().setRenderSystem(dlg->mImpl->mSelectedRenderSystem);
+                Root::singleton().setRenderSystem(
+                    dlg->mImpl->mSelectedRenderSystem);
 
                 EndDialog(hDlg, TRUE);
                 return TRUE;

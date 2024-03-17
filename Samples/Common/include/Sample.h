@@ -73,7 +73,7 @@ namespace OgreBites
         Sample()
 #endif
         {
-            mRoot = Ogre::Root::getSingletonPtr();
+            mRoot = Ogre::Root::singleton_ptr(();
             mWindow = 0;
             mSceneMgr = 0;
             mDone = true;
@@ -111,7 +111,7 @@ namespace OgreBites
         {
             Ogre::StringStream err;
             err << "Material: " << name << " ";
-            auto mat = Ogre::MaterialManager::getSingleton().getByName(name);
+            auto mat = Ogre::MaterialManager::singleton().getByName(name);
             if(!mat)
             {
                 err << "not found";
@@ -179,7 +179,7 @@ namespace OgreBites
         -----------------------------------------------------------------------------*/
         virtual void _shutdown()
         {
-            Ogre::ControllerManager::getSingleton().clearControllers();
+            Ogre::ControllerManager::singleton().clearControllers();
 
             if (mContentSetup)
                 cleanupContent();
@@ -229,7 +229,7 @@ namespace OgreBites
         -----------------------------------------------------------------------------*/
         virtual void createSceneManager()
         {
-            mSceneMgr = Ogre::Root::getSingleton().createSceneManager();
+            mSceneMgr = Ogre::Root::singleton().createSceneManager();
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
             mShaderGenerator->addSceneManager(mSceneMgr);
             auto mainRenderState = mShaderGenerator->getRenderState(Ogre::MSN_SHADERGEN);
@@ -263,8 +263,8 @@ namespace OgreBites
         -----------------------------------------------------------------------------*/
         virtual void unloadResources()
         {
-            for (auto& it : Ogre::ResourceGroupManager::getSingleton().getResourceManagers())
-            {
+            for (auto& it : Ogre::ResourceGroupManager::singleton()
+                                .getResourceManagers()) {
                 it.second->unloadUnreferencedResources();
             }
         }   

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define PCZONE_FACTORY_H
 
 #include "OgrePCZPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreIteratorWrapper.h"
 
 namespace Ogre
@@ -72,10 +72,10 @@ namespace Ogre
         PCZone* createPCZone(PCZSceneManager * pczsm,
                              const String& zoneType, 
                              const String& zoneName);
-        /// @copydoc Singleton::getSingleton()
-        static PCZoneFactoryManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static PCZoneFactoryManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static PCZoneFactoryManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static PCZoneFactoryManager* singleton_ptr((void);
         /* PCZoneFactory Iterator - for querying what types of PCZone
         factories are available */
         typedef std::map<String, PCZoneFactory*> PCZoneFactoryMap;

@@ -148,11 +148,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> DistanceLodSphereStrategy* Singleton<DistanceLodSphereStrategy>::msSingleton = 0;
-    DistanceLodSphereStrategy* DistanceLodSphereStrategy::getSingletonPtr(void)
+    DistanceLodSphereStrategy* DistanceLodSphereStrategy::singleton_ptr((void)
     {
         return msSingleton;
     }
-    DistanceLodSphereStrategy& DistanceLodSphereStrategy::getSingleton(void)
+    DistanceLodSphereStrategy& DistanceLodSphereStrategy::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
@@ -179,11 +179,11 @@ namespace Ogre {
 
     //-----------------------------------------------------------------------
     template<> DistanceLodBoxStrategy* Singleton<DistanceLodBoxStrategy>::msSingleton = 0;
-    DistanceLodBoxStrategy* DistanceLodBoxStrategy::getSingletonPtr(void)
+    DistanceLodBoxStrategy* DistanceLodBoxStrategy::singleton_ptr((void)
     {
         return msSingleton;
     }
-    DistanceLodBoxStrategy& DistanceLodBoxStrategy::getSingleton(void)
+    DistanceLodBoxStrategy& DistanceLodBoxStrategy::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }

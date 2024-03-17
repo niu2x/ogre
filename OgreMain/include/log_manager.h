@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "log.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre
@@ -135,11 +135,10 @@ namespace Ogre
 
         /// sets the minimal #LogMsgLevel for the default log
         void set_min_log_level(LogMsgLevel lml);
-        /// @copydoc Singleton::getSingleton()
-        static LogManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static LogManager* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static LogManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static LogManager* singleton_ptr((void);
     };
 
 

@@ -94,7 +94,7 @@ namespace Ogre {
         catch(Exception& e)
         {
             // we already compiled this once, this should not happen
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << e.what();
+            LogManager::singleton().stream(LogMsgLevel::WARNING) << e.what();
         }
     }
 #endif
@@ -131,7 +131,8 @@ namespace Ogre {
 
     void GLSLESProgram::loadFromSource()
     {
-        const RenderSystemCapabilities* caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         // Only create a shader object if glsl es is supported
         if (isSupported())
@@ -217,7 +218,8 @@ namespace Ogre {
 
         // probably we have warnings
         if (!compileInfo.empty())
-            LogManager::getSingleton().stream(LogMsgLevel::WARNING) << getResourceLogName() << " " << compileInfo;
+            LogManager::singleton().stream(LogMsgLevel::WARNING)
+                << getResourceLogName() << " " << compileInfo;
     }
 
 #if !OGRE_NO_GLES2_GLSL_OPTIMISER   
@@ -228,11 +230,13 @@ namespace Ogre {
         {
             OGRE_CHECK_GL_ERROR(glDeleteShader(mGLShaderHandle));
 
-            if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
-            {
+            if (Root::singleton()
+                    .getRenderSystem()
+                    ->getCapabilities()
+                    ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)) {
                 OGRE_CHECK_GL_ERROR(glDeleteProgram(mGLProgramHandle));
             }
-            
+
             mGLShaderHandle = 0;
             mGLProgramHandle = 0;
             mCompiled = 0;
@@ -245,16 +249,21 @@ namespace Ogre {
     {
         if (isSupported())
         {
-//            LogManager::getSingleton().log_message("Deleting shader " + StringConverter::to_string(mGLShaderHandle) +
-//                                                  " and program " + StringConverter::to_string(mGLProgramHandle));
+            //            LogManager::singleton().log_message("Deleting shader "
+            //            + StringConverter::to_string(mGLShaderHandle) +
+            //                                                  " and program "
+            //                                                  +
+            //                                                  StringConverter::to_string(mGLProgramHandle));
             OGRE_CHECK_GL_ERROR(glDeleteShader(mGLShaderHandle));
 
-            if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
-            {
+            if (Root::singleton()
+                    .getRenderSystem()
+                    ->getCapabilities()
+                    ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)) {
                 OGRE_CHECK_GL_ERROR(glDeleteProgram(mGLProgramHandle));
             }
             // destroy all programs using this shader
-            GLSLESProgramManager::getSingletonPtr()->destroyAllByShader(this);
+            GLSLESProgramManager::singleton_ptr(()->destroyAllByShader(this);
 
             
             mGLShaderHandle = 0;
@@ -271,7 +280,10 @@ namespace Ogre {
         // Therefore instead, parse the source code manually and extract the uniforms
         createParameterMappingStructures(true);
         mLogicalToPhysical.reset();
-        GLSLESProgramManager::getSingleton().extractUniformsFromGLSL(mSource, *mConstantDefs, getResourceLogName());
+        GLSLESProgramManager::singleton().extractUniformsFromGLSL(
+            mSource,
+            *mConstantDefs,
+            getResourceLogName());
     }
 
     //-----------------------------------------------------------------------
@@ -288,15 +300,19 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void GLSLESProgram::attachToProgramObject( const GLuint programObject )
     {
-//        LogManager::getSingleton().log_message("Attaching shader " + StringConverter::to_string(mGLShaderHandle) +
-//                                              " to program " + StringConverter::to_string(programObject));
+        //        LogManager::singleton().log_message("Attaching shader " +
+        //        StringConverter::to_string(mGLShaderHandle) +
+        //                                              " to program " +
+        //                                              StringConverter::to_string(programObject));
         OGRE_CHECK_GL_ERROR(glAttachShader(programObject, mGLShaderHandle));
     }
     //-----------------------------------------------------------------------
     void GLSLESProgram::detachFromProgramObject( const GLuint programObject )
     {
-//        LogManager::getSingleton().log_message("Detaching shader " + StringConverter::to_string(mGLShaderHandle) +
-//                                              " to program " + StringConverter::to_string(programObject));
+        //        LogManager::singleton().log_message("Detaching shader " +
+        //        StringConverter::to_string(mGLShaderHandle) +
+        //                                              " to program " +
+        //                                              StringConverter::to_string(programObject));
         OGRE_CHECK_GL_ERROR(glDetachShader(programObject, mGLShaderHandle));
     }
 

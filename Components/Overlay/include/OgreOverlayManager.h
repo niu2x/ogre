@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __OverlayManager_H__
 
 #include "OgreOverlayPrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "string_vector.h"
 #include "script_loader.h"
 #include "OgreFrustum.h"
@@ -201,9 +201,9 @@ namespace Ogre {
         but the implementation stays in this single compilation unit,
         preventing link errors.
         */
-        static OverlayManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static OverlayManager* getSingletonPtr(void);
+        static OverlayManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static OverlayManager* singleton_ptr((void);
     };
 
 

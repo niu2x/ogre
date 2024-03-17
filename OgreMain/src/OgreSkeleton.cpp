@@ -69,11 +69,12 @@ namespace Ogre {
         SkeletonSerializer serializer;
 
         if (creator()->verbose())
-            LogManager::getSingleton().stream()
-                << "Skeleton: Loading " << name();
+            LogManager::singleton().stream() << "Skeleton: Loading " << name();
 
-        DataStreamPtr stream = ResourceGroupManager::getSingleton()
-                                   .openResource(name(), group(), this);
+        DataStreamPtr stream = ResourceGroupManager::singleton().openResource(
+            name(),
+            group(),
+            this);
 
         serializer.importSkeleton(stream, this);
 
@@ -81,9 +82,7 @@ namespace Ogre {
         for (auto& s : mLinkedSkeletonAnimSourceList)
         {
             s.pSkeleton = static_pointer_cast<Skeleton>(
-                SkeletonManager::getSingleton().prepare(
-                    s.skeletonName,
-                    group()));
+                SkeletonManager::singleton().prepare(s.skeletonName, group()));
         }
     }
     //---------------------------------------------------------------------
@@ -648,7 +647,7 @@ namespace Ogre {
         if (is_prepared() || is_loaded()) {
             // Load immediately
             SkeletonPtr skelPtr = static_pointer_cast<Skeleton>(
-                SkeletonManager::getSingleton().prepare(skelName, group()));
+                SkeletonManager::singleton().prepare(skelName, group()));
             mLinkedSkeletonAnimSourceList.push_back(
                 LinkedSkeletonAnimationSource(skelName, scale, skelPtr));
 

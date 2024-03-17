@@ -67,15 +67,16 @@ namespace Ogre
             Technique *technique = *it;
 
             if (technique->getShadowCasterMaterial())
-                MaterialManager::getSingleton().remove( technique->getShadowCasterMaterial() );
+                MaterialManager::singleton().remove(
+                    technique->getShadowCasterMaterial());
         }
 
         //Remove cloned material
-        MaterialManager::getSingleton().remove( mMaterial );
+        MaterialManager::singleton().remove(mMaterial);
 
         //Remove the VTF texture
         if( mMatrixTexture )
-            TextureManager::getSingleton().remove( mMatrixTexture );
+            TextureManager::singleton().remove(mMatrixTexture);
 
         delete[] mTempTransformsArray3x4;
     }
@@ -277,7 +278,7 @@ namespace Ogre
         //Don't use 1D textures, as OGL goes crazy because the shader should be calling texture1D()...
         TextureType texType = TEX_TYPE_2D;
 
-        mMatrixTexture = TextureManager::getSingleton().createManual(
+        mMatrixTexture = TextureManager::singleton().createManual(
             mName + "/VTF",
             mMeshReference->group(),
             texType,
@@ -464,7 +465,8 @@ namespace Ogre
         thisVertexData->vertexStart = 0;
         thisVertexData->vertexCount = baseVertexData->vertexCount * mInstancesPerBatch;
 
-        HardwareBufferManager::getSingleton().destroyVertexDeclaration( thisVertexData->vertexDeclaration );
+        HardwareBufferManager::singleton().destroyVertexDeclaration(
+            thisVertexData->vertexDeclaration);
         thisVertexData->vertexDeclaration = baseVertexData->vertexDeclaration->clone();
 
         HWBoneIdxVec hwBoneIdx;
@@ -508,11 +510,11 @@ namespace Ogre
         for( unsigned short i=0; i<thisVertexData->vertexDeclaration->getMaxSource()+1; ++i )
         {
             //Create our own vertex buffer
-            HardwareVertexBufferSharedPtr vertexBuffer =
-                HardwareBufferManager::getSingleton().createVertexBuffer(
-                thisVertexData->vertexDeclaration->getVertexSize(i),
-                thisVertexData->vertexCount,
-                HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+            HardwareVertexBufferSharedPtr vertexBuffer
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    thisVertexData->vertexDeclaration->getVertexSize(i),
+                    thisVertexData->vertexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
             thisVertexData->vertexBufferBinding->setBinding( i, vertexBuffer );
 
             //Grab the base submesh data
@@ -552,8 +554,11 @@ namespace Ogre
         HardwareIndexBuffer::IndexType indexType = HardwareIndexBuffer::IT_16BIT;
         if( mRenderOperation.vertexData->vertexCount > 65535 )
             indexType = HardwareIndexBuffer::IT_32BIT;
-        thisIndexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-            indexType, thisIndexData->indexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+        thisIndexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                indexType,
+                thisIndexData->indexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
         HardwareBufferLockGuard thisLock(thisIndexData->indexBuffer, HardwareBuffer::HBL_DISCARD);
         HardwareBufferLockGuard baseLock(baseIndexData->indexBuffer, HardwareBuffer::HBL_READ_ONLY);
@@ -589,7 +594,7 @@ namespace Ogre
         //Calculate the texel offsets to correct them offline
         //Akwardly enough, the offset is needed in OpenGL too
         Vector2 texelOffsets;
-        //RenderSystem *renderSystem = Root::getSingleton().getRenderSystem();
+        // RenderSystem *renderSystem = Root::singleton().getRenderSystem();
         texelOffsets.x = /*renderSystem->getHorizontalTexelOffset()*/ -0.5f / (float)texWidth;
         texelOffsets.y = /*renderSystem->getVerticalTexelOffset()*/ -0.5f / (float)texHeight;
 
@@ -636,11 +641,11 @@ namespace Ogre
         }
 
         //Create our own vertex buffer
-        HardwareVertexBufferSharedPtr vertexBuffer =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-            thisVertexData->vertexDeclaration->getVertexSize(newSource),
-            thisVertexData->vertexCount,
-            HardwareBuffer::HBU_STATIC_WRITE_ONLY );
+        HardwareVertexBufferSharedPtr vertexBuffer
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                thisVertexData->vertexDeclaration->getVertexSize(newSource),
+                thisVertexData->vertexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         thisVertexData->vertexBufferBinding->setBinding( newSource, vertexBuffer );
 
         HardwareBufferLockGuard vertexLock(vertexBuffer, HardwareBuffer::HBL_DISCARD);
@@ -704,7 +709,7 @@ namespace Ogre
     {
         size_t retVal = 0;
 
-        RenderSystem *renderSystem = Root::getSingleton().getRenderSystem();
+        RenderSystem* renderSystem = Root::singleton().getRenderSystem();
         const RenderSystemCapabilities *capabilities = renderSystem->getCapabilities();
 
         //VTF must be supported

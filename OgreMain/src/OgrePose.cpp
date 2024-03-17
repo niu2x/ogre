@@ -119,9 +119,11 @@ namespace Ogre {
             bool normals = getIncludesNormals();
             if (normals)
                 vertexSize += VertexElement::getTypeSize(VET_FLOAT3);
-                
-            mBuffer = HardwareBufferManager::getSingleton().createVertexBuffer(
-                vertexSize, numVertices, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+
+            mBuffer = HardwareBufferManager::singleton().createVertexBuffer(
+                vertexSize,
+                numVertices,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
             HardwareBufferLockGuard bufLock(mBuffer, HardwareBuffer::HBL_DISCARD);
             float* pFloat = static_cast<float*>(bufLock.pData);

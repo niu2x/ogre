@@ -118,7 +118,9 @@ namespace Ogre {
         OGRE_CHECK_GL_ERROR(glSamplerParameteri(mSamplerId, GL_TEXTURE_WRAP_R,
                                                 getTextureAddressingMode(mAddressMode.w)));
 
-        bool reversedZ = Root::getSingleton().getRenderSystem()->isReverseDepthBufferEnabled();
+        bool reversedZ = Root::singleton()
+                             .getRenderSystem()
+                             ->isReverseDepthBufferEnabled();
 
         if (mAddressMode.u == TAM_BORDER || mAddressMode.v == TAM_BORDER || mAddressMode.w == TAM_BORDER)
         {
@@ -127,7 +129,7 @@ namespace Ogre {
         }
         OGRE_CHECK_GL_ERROR(glSamplerParameterf(mSamplerId, GL_TEXTURE_LOD_BIAS, mMipmapBias));
 
-        auto caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        auto caps = Root::singleton().getRenderSystem()->getCapabilities();
         if (caps->hasCapability(RSC_ANISOTROPY))
             OGRE_CHECK_GL_ERROR(
                 glSamplerParameteri(mSamplerId, GL_TEXTURE_MAX_ANISOTROPY_EXT,
@@ -168,7 +170,7 @@ namespace Ogre {
         : TextureManager(), mRenderSystem(renderSystem)
     {
         // Register with group manager
-        ResourceGroupManager::getSingleton()._registerResourceManager(
+        ResourceGroupManager::singleton()._registerResourceManager(
             resource_type(),
             this);
     }
@@ -176,7 +178,7 @@ namespace Ogre {
     GL3PlusTextureManager::~GL3PlusTextureManager()
     {
         // Unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(
+        ResourceGroupManager::singleton()._unregisterResourceManager(
             resource_type());
     }
 
@@ -216,7 +218,8 @@ namespace Ogre {
     PixelFormat GL3PlusTextureManager::getNativeFormat(TextureType ttype, PixelFormat format, int usage)
     {
         // Adjust requested parameters to capabilities
-        const RenderSystemCapabilities *caps = Root::getSingleton().getRenderSystem()->getCapabilities();
+        const RenderSystemCapabilities* caps
+            = Root::singleton().getRenderSystem()->getCapabilities();
 
         // Check compressed texture support
         // if a compressed format not supported, revert to PF_A8R8G8B8
@@ -237,7 +240,8 @@ namespace Ogre {
         {
             /// Get closest supported alternative
             /// If mFormat is supported it's returned
-            return GL3PlusRTTManager::getSingleton().getSupportedAlternative(format);
+            return GL3PlusRTTManager::singleton().getSupportedAlternative(
+                format);
         }
 
         if(GL3PlusPixelUtil::getGLInternalFormat(format) == GL_NONE)

@@ -119,7 +119,8 @@ static void APIENTRY GLDebugCallback(GLenum source,
     else if (severity == GL_DEBUG_SEVERITY_NOTIFICATION)
         debSev = "note";
 
-    Ogre::LogManager::getSingleton().stream(lml) << debSource << ":" << debType << "(" << debSev << ") - " << message;
+    Ogre::LogManager::singleton().stream(lml)
+        << debSource << ":" << debType << "(" << debSev << ") - " << message;
 }
 
 namespace Ogre {
@@ -141,7 +142,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().log_message(name() + " created.");
+        LogManager::singleton().log_message(name() + " created.");
 
         // Get our GLSupport
         mGLSupport = getGLSupport();
@@ -468,9 +469,9 @@ namespace Ogre {
         mProgramManager = new GLSLProgramManager(this);
         // Create GLSL shader factory
         mGLSLShaderFactory = new GLSLShaderFactory();
-        HighLevelGpuProgramManager::getSingleton().addFactory(mGLSLShaderFactory);
+        HighLevelGpuProgramManager::singleton().addFactory(mGLSLShaderFactory);
         mSPIRVShaderFactory = new SPIRVShaderFactory();
-        HighLevelGpuProgramManager::getSingleton().addFactory(mSPIRVShaderFactory);
+        HighLevelGpuProgramManager::singleton().addFactory(mSPIRVShaderFactory);
 
         // Use VBO's by default
         mHardwareBufferManager = new GL3PlusHardwareBufferManager();
@@ -491,7 +492,7 @@ namespace Ogre {
         RenderSystem::shutdown();
 
         // Remove from manager safely
-        if (auto progMgr = HighLevelGpuProgramManager::getSingletonPtr())
+        if (auto progMgr = HighLevelGpuProgramManager::singleton_ptr(())
         {
             if(mGLSLShaderFactory)
                 progMgr->removeFactory(mGLSLShaderFactory);
@@ -563,7 +564,9 @@ namespace Ogre {
                 if(mIsReverseDepthBufferEnabled && !hasMinGLVersion(4, 5) && !checkExtension("GL_ARB_clip_control"))
                 {
                     mIsReverseDepthBufferEnabled = false;
-                    LogManager::getSingleton().log_warning("Reversed Z-Buffer was requested, but it is not supported. Disabling.");
+                    LogManager::singleton().log_warning(
+                        "Reversed Z-Buffer was requested, but it is not "
+                        "supported. Disabling.");
                 }
             }
 
@@ -991,7 +994,8 @@ namespace Ogre {
 
         if (!mProgramManager->getActiveProgram())
         {
-            LogManager::getSingleton().log_error("Failed to create shader program.");
+            LogManager::singleton().log_error(
+                "Failed to create shader program.");
         }
 
         GLVertexArrayObject* vao =
@@ -1313,7 +1317,7 @@ namespace Ogre {
 
     void GL3PlusRenderSystem::_unregisterContext(GL3PlusContext *context)
     {
-        static_cast<GL3PlusHardwareBufferManager*>(HardwareBufferManager::getSingletonPtr())->notifyContextDestroyed(context);
+        static_cast<GL3PlusHardwareBufferManager*>(HardwareBufferManager::singleton_ptr(())->notifyContextDestroyed(context);
 
         for(auto & rt : mRenderTargets)
         {
@@ -1457,9 +1461,12 @@ namespace Ogre {
             = mCurrentContext->create_or_retrieveStateCacheManager<
                 GL3PlusStateCacheManager>();
 
-        LogManager::getSingleton().log_message("**************************************");
-        LogManager::getSingleton().log_message("***   OpenGL 3+ Renderer Started   ***");
-        LogManager::getSingleton().log_message("**************************************");
+        LogManager::singleton().log_message(
+            "**************************************");
+        LogManager::singleton().log_message(
+            "***   OpenGL 3+ Renderer Started   ***");
+        LogManager::singleton().log_message(
+            "**************************************");
     }
 
     void GL3PlusRenderSystem::_setRenderTarget(RenderTarget *target)
@@ -1570,7 +1577,8 @@ namespace Ogre {
 
         RenderSystem::bindGpuProgram(prg);
 
-        // TextureManager::ResourceMapIterator resource = TextureManager::getSingletonPtr()->getResourceIterator();
+        // TextureManager::ResourceMapIterator resource =
+        // TextureManager::singleton_ptr(()->getResourceIterator();
 
         // while(resource.hasMoreElements())
         // {
@@ -1609,7 +1617,8 @@ namespace Ogre {
         }
         catch (InvalidParametersException& e)
         {
-            LogManager::getSingleton().log_error("binding shared parameters failed: " + e.description());
+            LogManager::singleton().log_error(
+                "binding shared parameters failed: " + e.description());
             return;
         }
         catch (Exception&)
@@ -1778,21 +1787,22 @@ namespace Ogre {
         glGetIntegerv(GL_MAJOR_VERSION, &mDriverVersion.major);
         glGetIntegerv(GL_MINOR_VERSION, &mDriverVersion.minor);
 
-        LogManager::getSingleton().log_message("GL_VERSION = " + mDriverVersion.toString());
+        LogManager::singleton().log_message(
+            "GL_VERSION = " + mDriverVersion.toString());
 
         // Get vendor
         const GLubyte* pcVendor = glGetString(GL_VENDOR);
         String tmpStr = (const char*)pcVendor;
-        LogManager::getSingleton().log_message("GL_VENDOR = " + tmpStr);
+        LogManager::singleton().log_message("GL_VENDOR = " + tmpStr);
         mVendor = RenderSystemCapabilities::vendorFromString(tmpStr.substr(0, tmpStr.find(' ')));
 
         // Get renderer
         const GLubyte* pcRenderer = glGetString(GL_RENDERER);
         tmpStr = (const char*)pcRenderer;
-        LogManager::getSingleton().log_message("GL_RENDERER = " + tmpStr);
+        LogManager::singleton().log_message("GL_RENDERER = " + tmpStr);
 
         // Set extension list
-        Log::Stream log = LogManager::getSingleton().stream();
+        Log::Stream log = LogManager::singleton().stream();
         String str;
 
         GLint numExt;

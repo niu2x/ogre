@@ -55,7 +55,7 @@ namespace Ogre {
         mBillboardDataChanged(true)
     {
         setDefaultDimensions( 100, 100 );
-        mMaterial = MaterialManager::getSingleton().getDefaultMaterial();
+        mMaterial = MaterialManager::singleton().getDefaultMaterial();
         mMaterial->load();
         mCastShadows = false;
         setTextureStacksAndSlices( 1, 1 );
@@ -87,7 +87,7 @@ namespace Ogre {
         mBillboardDataChanged(true)
     {
         setDefaultDimensions( 100, 100 );
-        mMaterial = MaterialManager::getSingleton().getDefaultMaterial();
+        mMaterial = MaterialManager::singleton().getDefaultMaterial();
         mMaterial->load();
         setPoolSize( poolSize );
         mCastShadows = false;
@@ -174,7 +174,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void BillboardSet::setMaterialName( const String& name , const String& groupName /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */ )
     {
-        mMaterial = MaterialManager::getSingleton().getByName(name, groupName);
+        mMaterial = MaterialManager::singleton().getByName(name, groupName);
 
         if (!mMaterial)
             OGRE_EXCEPT( Exception::ERR_ITEM_NOT_FOUND, "Could not find material " + name,
@@ -557,10 +557,11 @@ namespace Ogre {
         if (mPointRendering && mBillboardType != BBT_POINT)
         {
 
-            LogManager::getSingleton().log_warning("BillboardSet " +
-                mName + " has point rendering enabled but is using a type "
-                "other than BBT_POINT, this may not give you the results you "
-                "expect.");
+            LogManager::singleton().log_warning(
+                "BillboardSet " + mName
+                + " has point rendering enabled but is using a type "
+                  "other than BBT_POINT, this may not give you the results you "
+                  "expect.");
         }
 
         mVertexData = std::make_unique<VertexData>();
@@ -586,12 +587,11 @@ namespace Ogre {
             decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0);
         }
 
-        mMainBuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-                decl->getVertexSize(0),
-                mVertexData->vertexCount,
-                mAutoUpdate ? HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE : 
-                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        mMainBuf = HardwareBufferManager::singleton().createVertexBuffer(
+            decl->getVertexSize(0),
+            mVertexData->vertexCount,
+            mAutoUpdate ? HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
+                        : HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         // bind position and diffuses
         binding->setBinding(0, mMainBuf);
 
@@ -601,8 +601,9 @@ namespace Ogre {
             mIndexData->indexStart = 0;
             mIndexData->indexCount = mPoolSize * 6;
 
-            mIndexData->indexBuffer = HardwareBufferManager::getSingleton().
-                createIndexBuffer(HardwareIndexBuffer::IT_16BIT,
+            mIndexData->indexBuffer
+                = HardwareBufferManager::singleton().createIndexBuffer(
+                    HardwareIndexBuffer::IT_16BIT,
                     mIndexData->indexCount,
                     HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
@@ -1108,8 +1109,11 @@ namespace Ogre {
     void BillboardSet::setPointRenderingEnabled(bool enabled)
     {
         // Override point rendering if not supported
-        if (enabled && !Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_POINT_SPRITES))
-        {
+        if (enabled
+            && !Root::singleton()
+                    .getRenderSystem()
+                    ->getCapabilities()
+                    ->hasCapability(RSC_POINT_SPRITES)) {
             enabled = false;
         }
 

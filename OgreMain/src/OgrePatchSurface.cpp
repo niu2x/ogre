@@ -317,20 +317,22 @@ namespace Ogre {
         // Allocate to the size of max level
 
         // Create mesh
-        mMesh = MeshManager::getSingleton().createManual(mMeshName);
+        mMesh = MeshManager::singleton().createManual(mMeshName);
         mMesh->sharedVertexData = OGRE_NEW VertexData();
         // Copy all vertex parameters
         mMesh->sharedVertexData->vertexStart = 0;
-        // Vertex count will be set on build() because it depends on current level
+        // Vertex count will be set on build() because it depends on current
+    level
         // NB clone the declaration because Mesh's VertexData will destroy it
         mMesh->sharedVertexData->vertexDeclaration = mDeclaration->clone();
         // Create buffer (only a single buffer)
-        // Allocate enough buffer memory for maximum subdivision, not current subdivision
-        HardwareVertexBufferSharedPtr vbuf = HardwareBufferManager::getSingleton().
-            createVertexBuffer(
-                mDeclaration->getVertexSize(0), 
-                mMaxMeshHeight * mMaxMeshWidth, // maximum size 
-                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY); // dynamic for changing level
+        // Allocate enough buffer memory for maximum subdivision, not current
+    subdivision HardwareVertexBufferSharedPtr vbuf =
+    HardwareBufferManager::singleton(). createVertexBuffer(
+                mDeclaration->getVertexSize(0),
+                mMaxMeshHeight * mMaxMeshWidth, // maximum size
+                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY); // dynamic for changing
+    level
 
         // Set binding
         mMesh->sharedVertexData->vertexBufferBinding->setBinding(0, vbuf);
@@ -340,9 +342,10 @@ namespace Ogre {
         sm->indexData->indexStart = 0;
         // Index count will be set on build()
         unsigned short iterations = (mVSide == VS_BOTH ? 2 : 1);
-        sm->indexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(
-            HardwareIndexBuffer::IT_16BIT, 
-            (mMaxMeshWidth-1) * (mMaxMeshHeight-1) * 2 * iterations * 3,  
+        sm->indexData->indexBuffer =
+    HardwareBufferManager::singleton().createIndexBuffer(
+            HardwareIndexBuffer::IT_16BIT,
+            (mMaxMeshWidth-1) * (mMaxMeshHeight-1) * 2 * iterations * 3,
             HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
 
         mMesh->load();
@@ -364,7 +367,8 @@ namespace Ogre {
             {
                 min.make_floor(*i);
                 max.make_ceil(*i);
-                maxSquaredRadius = std::max(maxSquaredRadius, i->squared_length());
+                maxSquaredRadius = std::max(maxSquaredRadius,
+    i->squared_length());
             }
 
         }

@@ -81,7 +81,9 @@ namespace Ogre {
                 {
                     mGLDisplay = display;
                     const char* exts = eglQueryDeviceStringEXT(dev, EGL_EXTENSIONS);
-                    LogManager::getSingleton().stream() << "EGL: using default display. Device extensions: " << exts;
+                    LogManager::singleton().stream()
+                        << "EGL: using default display. Device extensions: "
+                        << exts;
                     break;
                 }
             }
@@ -367,10 +369,9 @@ namespace Ogre {
 
     void EGLSupport::start()
     {
-        LogManager::getSingleton().log_message(
-            "******************************\n"
-            "*** Starting EGL Subsystem ***\n"
-            "******************************");
+        LogManager::singleton().log_message("******************************\n"
+                                            "*** Starting EGL Subsystem ***\n"
+                                            "******************************");
         initialiseExtensions();
     }
 
@@ -384,10 +385,10 @@ namespace Ogre {
         assert (mGLDisplay);
 
         const char* propStr = eglQueryString(mGLDisplay, EGL_VENDOR);
-        LogManager::getSingleton().stream() << "EGL_VENDOR = " << propStr;
+        LogManager::singleton().stream() << "EGL_VENDOR = " << propStr;
 
         propStr = eglQueryString(mGLDisplay, EGL_VERSION);
-        LogManager::getSingleton().stream() << "EGL_VERSION = " << propStr;
+        LogManager::singleton().stream() << "EGL_VERSION = " << propStr;
 
         hasEGL15 = String(propStr).find("1.5") != String::npos;
 
@@ -402,7 +403,7 @@ namespace Ogre {
         propStr = eglQueryString(mGLDisplay, EGL_EXTENSIONS);
         ext << propStr;
 
-        LogManager::getSingleton().stream() << "EGL_EXTENSIONS = " << ext.str();
+        LogManager::singleton().stream() << "EGL_EXTENSIONS = " << ext.str();
 
         String instr;
         while(ext >> instr)

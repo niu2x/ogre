@@ -30,7 +30,7 @@ protected:
         SelectMenu* objectType = mTrayMgr->createThickSelectMenu(TL_TOPLEFT, "term", "Material", gui_width, 9);
         objectType->addItem("glTF2 Shader");
         objectType->addItem("RTSS");
-        if(GpuProgramManager::getSingleton().isSyntaxSupported("glsl330"))
+        if (GpuProgramManager::singleton().isSyntaxSupported("glsl330"))
             objectType->addItem("Filament Shader");
         objectType->selectItem(0, false);
 
@@ -70,7 +70,8 @@ protected:
 
         mViewport->setBackgroundColour(ColourValue(0.05, 0.05, 0.05));
 
-        MaterialPtr mat = MaterialManager::getSingleton().getByName("DamagedHelmet");
+        MaterialPtr mat
+            = MaterialManager::singleton().getByName("DamagedHelmet");
         mParams = mat->getTechnique(0)->getPass(0)->getFragmentProgramParameters();
     }
 
@@ -88,7 +89,8 @@ protected:
         mParams->setNamedConstant("u_ScaleIBLAmbient", Vector4(float(checked)));
 
         using namespace RTShader;
-        MaterialPtr mat = MaterialManager::getSingleton().getByName("DamagedHelmet_RTSS");
+        MaterialPtr mat
+            = MaterialManager::singleton().getByName("DamagedHelmet_RTSS");
         const auto& renderstate =std::any_cast<TargetRenderStatePtr>(
             mat->getTechnique(1)->getPass(0)->getUserObjectBindings().getUserAny(TargetRenderState::UserKey));
         renderstate->getSubRenderState(SRS_IMAGE_BASED_LIGHTING)->set_parameter("luminance", checked ? "4" : "0");

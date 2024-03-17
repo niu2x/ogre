@@ -39,41 +39,47 @@ THE SOFTWARE.
 
 namespace Ogre {
     //-----------------------------------------------------------------------
-    Mesh::Mesh(ResourceManager* creator, const String& name, ResourceHandle handle,
-        const String& group, bool isManual, ManualResourceLoader* loader)
-        : Resource(creator, name, handle, group, isManual, loader),
-        mBoundRadius(0.0f),
-        mBoneBoundingRadius(0.0f),
-        mBoneAssignmentsOutOfDate(false),
-        mLodStrategy(LodStrategyManager::getSingleton().getDefaultStrategy()),
-        mHasManualLodLevel(false),
-        mNumLods(1),
-        mBufferManager(0),
-        mVertexBufferUsage(HBU_GPU_ONLY),
-        mIndexBufferUsage(HBU_GPU_ONLY),
-        mVertexBufferShadowBuffer(false),
-        mIndexBufferShadowBuffer(false),
-        mPreparedForShadowVolumes(false),
-        mEdgeListsBuilt(false),
-        mAutoBuildEdgeLists(false), // will be set to true by serializers of 1.20 and below
-        mSharedVertexDataAnimationType(VAT_NONE),
-        mSharedVertexDataAnimationIncludesNormals(false),
-        mAnimationTypesDirty(true),
-        mPosesIncludeNormals(false),
-        sharedVertexData(0)
-    {
-        // Init first (manual) lod
-        MeshLodUsage lod;
-        lod.userValue = 0; // User value not used for base LOD level
-        lod.value = getLodStrategy()->getBaseValue();
-        lod.edgeData = NULL;
-        lod.manualMesh.reset();
-        mMeshLodUsageList.push_back(lod);
-    }
+Mesh::Mesh(
+    ResourceManager* creator,
+    const String& name,
+    ResourceHandle handle,
+    const String& group,
+    bool isManual,
+    ManualResourceLoader* loader)
+: Resource(creator, name, handle, group, isManual, loader)
+, mBoundRadius(0.0f)
+, mBoneBoundingRadius(0.0f)
+, mBoneAssignmentsOutOfDate(false)
+, mLodStrategy(LodStrategyManager::singleton().getDefaultStrategy())
+, mHasManualLodLevel(false)
+, mNumLods(1)
+, mBufferManager(0)
+, mVertexBufferUsage(HBU_GPU_ONLY)
+, mIndexBufferUsage(HBU_GPU_ONLY)
+, mVertexBufferShadowBuffer(false)
+, mIndexBufferShadowBuffer(false)
+, mPreparedForShadowVolumes(false)
+, mEdgeListsBuilt(false)
+, mAutoBuildEdgeLists(false)
+, // will be set to true by serializers of 1.20 and below
+mSharedVertexDataAnimationType(VAT_NONE)
+, mSharedVertexDataAnimationIncludesNormals(false)
+, mAnimationTypesDirty(true)
+, mPosesIncludeNormals(false)
+, sharedVertexData(0)
+{
+    // Init first (manual) lod
+    MeshLodUsage lod;
+    lod.userValue = 0; // User value not used for base LOD level
+    lod.value = getLodStrategy()->getBaseValue();
+    lod.edgeData = NULL;
+    lod.manualMesh.reset();
+    mMeshLodUsageList.push_back(lod);
+}
     //-----------------------------------------------------------------------
     Mesh::~Mesh()
     {
-        if (!HardwareBufferManager::getSingletonPtr()) // LogManager might be also gone already
+        if (!HardwareBufferManager::singleton_ptr(()) // LogManager might be also gone already
         {
             printf(
                 "ERROR: '%s' is being destroyed after HardwareBufferManager. "
@@ -89,7 +95,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     HardwareBufferManagerBase* Mesh::getHardwareBufferManager()
     {
-        return mBufferManager ? mBufferManager : HardwareBufferManager::getSingletonPtr();
+        return mBufferManager ? mBufferManager : HardwareBufferManager::singleton_ptr(();
     }
     //-----------------------------------------------------------------------
     SubMesh* Mesh::createSubMesh()
@@ -177,8 +183,7 @@ namespace Ogre {
     void Mesh::post_load_impl(void)
     {
         // Prepare for shadow volumes?
-        if (MeshManager::getSingleton().getPrepareAllMeshesForShadowVolumes())
-        {
+        if (MeshManager::singleton().getPrepareAllMeshesForShadowVolumes()) {
             if (mEdgeListsBuilt || mAutoBuildEdgeLists)
             {
                 prepareForShadowVolume();
@@ -205,10 +210,10 @@ namespace Ogre {
     {
         // Load from specified 'name'
         if (creator()->verbose())
-            LogManager::getSingleton().log_message(
+            LogManager::singleton().log_message(
                 "Mesh: Loading " + name() + ".");
 
-        mFreshFromDisk = ResourceGroupManager::getSingleton().openResource(
+        mFreshFromDisk = ResourceGroupManager::singleton().openResource(
             name(),
             group(),
             this);
@@ -304,7 +309,8 @@ namespace Ogre {
 
         // New Mesh is assumed to be manually defined rather than loaded since you're cloning it for a reason
         String theGroup = newGroup.empty() ? this->group() : newGroup;
-        MeshPtr newMesh = MeshManager::getSingleton().createManual(newName, theGroup);
+        MeshPtr newMesh
+            = MeshManager::singleton().createManual(newName, theGroup);
 
         if(!newMesh) // interception by collision handler
             return newMesh;
@@ -406,10 +412,13 @@ namespace Ogre {
             if (pad)
             {
                 // Pad out the AABB a little, helps with most bounds tests
-                Vector3 scaler = (max - min) * MeshManager::getSingleton().getBoundsPaddingFactor();
+                Vector3 scaler = (max - min)
+                    * MeshManager::singleton().getBoundsPaddingFactor();
                 mAABB.set_extents(min  - scaler, max + scaler);
                 // Pad out the sphere a little too
-                mBoundRadius = mBoundRadius + (mBoundRadius * MeshManager::getSingleton().getBoundsPaddingFactor());
+                mBoundRadius = mBoundRadius
+                    + (mBoundRadius
+                       * MeshManager::singleton().getBoundsPaddingFactor());
             }
         }
     }
@@ -442,10 +451,13 @@ namespace Ogre {
             Vector3 max = mAABB.maximum();
             Vector3 min = mAABB.minimum();
             // Pad out the AABB a little, helps with most bounds tests
-            Vector3 scaler = (max - min) * MeshManager::getSingleton().getBoundsPaddingFactor();
+            Vector3 scaler = (max - min)
+                * MeshManager::singleton().getBoundsPaddingFactor();
             mAABB.set_extents(min - scaler, max + scaler);
             // Pad out the sphere a little too
-            mBoundRadius = mBoundRadius + (mBoundRadius * MeshManager::getSingleton().getBoundsPaddingFactor());
+            mBoundRadius = mBoundRadius
+                + (mBoundRadius
+                   * MeshManager::singleton().getBoundsPaddingFactor());
         }
     }
     void Mesh::_calcBoundsFromVertexBuffer(VertexData* vertexData, AxisAlignedBox& outAABB, Real& outRadius, bool extendOnly /*= false*/)
@@ -499,9 +511,7 @@ namespace Ogre {
                 // Load skeleton
                 try {
                     mSkeleton = static_pointer_cast<Skeleton>(
-                        SkeletonManager::getSingleton().load(
-                            skelName,
-                            group()));
+                        SkeletonManager::singleton().load(skelName, group()));
                 }
                 catch (...)
                 {
@@ -510,8 +520,7 @@ namespace Ogre {
                     String msg = "Unable to load skeleton '";
                     msg += skelName + "' for Mesh '" + name()
                         + "'. This Mesh will not be animated.";
-                    LogManager::getSingleton().log_error(msg);
-
+                    LogManager::singleton().log_error(msg);
                 }
 
 
@@ -675,7 +684,7 @@ namespace Ogre {
         if (maxBones > OGRE_MAX_BLEND_WEIGHTS)
         {
             // Warn that we've reduced bone assignments
-            LogManager::getSingleton().log_warning(
+            LogManager::singleton().log_warning(
                 "the mesh '" + name()
                 + "' "
                   "includes vertices with more than "
@@ -695,7 +704,7 @@ namespace Ogre {
         if (existsNonSkinnedVertices)
         {
             // Warn that we've non-skinned vertices
-            LogManager::getSingleton().log_warning(
+            LogManager::singleton().log_warning(
                 "the mesh '" + name()
                 + "' "
                   "includes vertices without bone assignments. Those vertices "
@@ -793,7 +802,8 @@ namespace Ogre {
             bindIndex = bind->getNextIndex();
         }
         // type of Weights is settable on the MeshManager.
-        VertexElementType weightsBaseType = MeshManager::getSingleton().getBlendWeightsBaseElementType();
+        VertexElementType weightsBaseType
+            = MeshManager::singleton().getBlendWeightsBaseElementType();
         VertexElementType weightsVertexElemType = VertexElement::multiplyTypeCount( weightsBaseType, numBlendWeightsPerVertex );
         HardwareVertexBufferSharedPtr vbuf = getHardwareBufferManager()->createVertexBuffer(
             sizeof( unsigned char ) * 4 + VertexElement::getTypeSize( weightsVertexElemType ),
@@ -1108,7 +1118,7 @@ namespace Ogre {
             // Load the mesh now
             try {
                 mMeshLodUsageList[index].manualMesh
-                    = MeshManager::getSingleton().load(
+                    = MeshManager::singleton().load(
                         mMeshLodUsageList[index].manualName,
                         group());
                 // get the edge data, if required
@@ -1120,7 +1130,7 @@ namespace Ogre {
             }
             catch (Exception& )
             {
-                LogManager::getSingleton().stream()
+                LogManager::singleton().stream()
                     << "Error while loading manual LOD level "
                     << mMeshLodUsageList[index].manualName
                     << " - this LOD level will not be rendered. You can "
@@ -1666,14 +1676,14 @@ namespace Ogre {
 
                 #if OGRE_DEBUG_MODE
                     // Override default log
-                    Log* log = LogManager::getSingleton().create_log(
+                    Log* log = LogManager::singleton().create_log(
                         name() + "_lod" + StringConverter::to_string(lodIndex)
                             + "_prepshadow.log",
                         false,
                         false);
                     usage.edgeData->log(log);
                     // clean up log & close file handle
-                    LogManager::getSingleton().destroy_log(log);
+                    LogManager::singleton().destroy_log(log);
                 #endif
                 }
                 else
@@ -1720,13 +1730,13 @@ namespace Ogre {
 
 #if OGRE_DEBUG_MODE
         // Override default log
-        Log* log = LogManager::getSingleton().create_log(
+        Log* log = LogManager::singleton().create_log(
             name() + "_lod0" + "_prepshadow.log",
             false,
             false);
         mMeshLodUsageList[0].edgeData->log(log);
         // clean up log & close file handle
-        LogManager::getSingleton().destroy_log(log);
+        LogManager::singleton().destroy_log(log);
 #endif
 #endif
         mEdgeListsBuilt = true;

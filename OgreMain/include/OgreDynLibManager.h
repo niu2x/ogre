@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __DynLibManager_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -78,10 +78,10 @@ namespace Ogre {
         */
         void unload(DynLib* lib);
 
-        /// @copydoc Singleton::getSingleton()
-        static DynLibManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static DynLibManager* getSingletonPtr(void);
+        /// @copydoc Singleton::singleton()
+        static DynLibManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static DynLibManager* singleton_ptr((void);
     };
     /** @} */
     /** @} */

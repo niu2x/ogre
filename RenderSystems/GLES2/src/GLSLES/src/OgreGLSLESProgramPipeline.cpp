@@ -79,8 +79,11 @@ namespace Ogre
 
             // Validate pipeline
             GLSLES::logObjectInfo( getCombinedName() + String("GLSL program pipeline result : "), mGLProgramHandle );
-            if(mShaders[GPT_VERTEX_PROGRAM] && mShaders[GPT_FRAGMENT_PROGRAM] && Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_DEBUG))
-            {
+            if (mShaders[GPT_VERTEX_PROGRAM] && mShaders[GPT_FRAGMENT_PROGRAM]
+                && Root::singleton()
+                       .getRenderSystem()
+                       ->getCapabilities()
+                       ->hasCapability(RSC_DEBUG)) {
                 glLabelObjectEXT(GL_PROGRAM_PIPELINE_OBJECT_EXT, mGLProgramHandle, 0,
                              (mShaders[GPT_VERTEX_PROGRAM]->name() + "/" + mShaders[GPT_FRAGMENT_PROGRAM]->name()).c_str());
             }
@@ -110,7 +113,8 @@ namespace Ogre
                 String paramStr = mVertexProgram->getGLSLProgram()->parameter("use_optimiser");
                 if((paramStr == "true") || paramStr.empty())
                 {
-                    GLSLESProgramPipelineManager::getSingleton().optimiseShaderSource(mVertexProgram);
+                    GLSLESProgramPipelineManager::singleton()
+                        .optimiseShaderSource(mVertexProgram);
                 }
             }
 
@@ -119,7 +123,8 @@ namespace Ogre
                 String paramStr = mFragmentProgram->getGLSLProgram()->parameter("use_optimiser");
                 if((paramStr == "true") || paramStr.empty())
                 {
-                    GLSLESProgramPipelineManager::getSingleton().optimiseShaderSource(mFragmentProgram);
+                    GLSLESProgramPipelineManager::singleton()
+                        .optimiseShaderSource(mFragmentProgram);
                 }
             }
 #endif

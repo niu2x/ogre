@@ -1238,8 +1238,8 @@ namespace Ogre
             // no children were within their LOD ranges, so we should consider our own
             Vector3 localPos = cam->getDerivedPosition() - mLocalCentre - mTerrain->getPosition();
             Real dist;
-            if (TerrainGlobalOptions::getSingleton().getUseRayBoxDistanceCalculation())
-            {
+            if (TerrainGlobalOptions::singleton()
+                    .getUseRayBoxDistanceCalculation()) {
                 // Get distance to this terrain node (to closest point of the box)
                 // head towards centre of the box (note, box may not cover mLocalCentre because of height)
                 Vector3 dir(mAABB.center() - localPos);
@@ -1249,9 +1249,7 @@ namespace Ogre
 
                 // ray will always intersect, we just want the distance
                 dist = intersectRes.second;
-            }
-            else
-            {
+            } else {
                 // distance to tile centre
                 dist = localPos.length();
                 // deduct half the radius of the box, assume that on average the
@@ -1467,7 +1465,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     bool TerrainQuadTreeNode::getCastShadows(void) const
     {
-        return TerrainGlobalOptions::getSingleton().getCastsDynamicShadows();
+        return TerrainGlobalOptions::singleton().getCastsDynamicShadows();
     }
     //---------------------------------------------------------------------
     const String& TerrainQuadTreeNode::getMovableType(void) const

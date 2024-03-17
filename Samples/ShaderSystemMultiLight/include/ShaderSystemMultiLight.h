@@ -69,18 +69,20 @@ public:
 
     void _shutdown() override
     {
-        delete SegmentedDynamicLightManager::getSingletonPtr();
+        delete SegmentedDynamicLightManager::singleton_ptr(();
 
         RTShader::RenderState* pMainRenderState
-            = RTShader::ShaderGenerator::getSingleton()
+            = RTShader::ShaderGenerator::singleton()
                   .create_or_retrieveRenderState(MSN_SHADERGEN)
                   .first;
         pMainRenderState->resetToBuiltinSubRenderStates();
         
         if (mSRSSegLightFactory)
         {
-            RTShader::ShaderGenerator::getSingleton().removeAllShaderBasedTechniques();
-            RTShader::ShaderGenerator::getSingleton().removeSubRenderStateFactory(mSRSSegLightFactory);
+            RTShader::ShaderGenerator::singleton()
+                .removeAllShaderBasedTechniques();
+            RTShader::ShaderGenerator::singleton().removeSubRenderStateFactory(
+                mSRSSegLightFactory);
             delete mSRSSegLightFactory;
             mSRSSegLightFactory = NULL;
         }
@@ -102,8 +104,14 @@ public:
             if (mTwirlLights)
             {
                 mLights[i].dirnode->setDirection(
-                    Quaternion(Degree(ControllerManager::getSingleton().getElapsedTime() * 150 + 360 * i / (float)mLights.size()), Vector3::unit_y) *
-                    Vector3(0,-1,-1).normalised_copy(), Node::TS_WORLD);
+                    Quaternion(
+                        Degree(
+                            ControllerManager::singleton().getElapsedTime()
+                                * 150
+                            + 360 * i / (float)mLights.size()),
+                        Vector3::unit_y)
+                        * Vector3(0, -1, -1).normalised_copy(),
+                    Node::TS_WORLD);
             }
             else
             {
@@ -130,8 +138,19 @@ protected:
         mTrayMgr->showCursor();
 
         // create a floor mesh resource
-        MeshManager::getSingleton().createPlane("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-            Plane(Vector3::unit_y, -30), 1000, 1000, 10, 10, true, 1, 8, 8, Vector3::unit_z);
+        MeshManager::singleton().createPlane(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+            Plane(Vector3::unit_y, -30),
+            1000,
+            1000,
+            10,
+            10,
+            true,
+            1,
+            8,
+            8,
+            Vector3::unit_z);
 
         // create a floor entity, give it a material, and place it at the origin
         Entity* floor = mSceneMgr->createEntity("Floor", "floor");
@@ -150,16 +169,18 @@ protected:
         
     void cleanupContent() override
     {
-        MeshManager::getSingleton().remove("floor", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        MeshManager::singleton().remove(
+            "floor",
+            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }
 
     void setupShaderGenerator()
     {
         new SegmentedDynamicLightManager;
 
-        SegmentedDynamicLightManager::getSingleton().setSceneManager(mSceneMgr);
+        SegmentedDynamicLightManager::singleton().setSceneManager(mSceneMgr);
 
-        RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::getSingletonPtr();
+        RTShader::ShaderGenerator* mGen = RTShader::ShaderGenerator::singleton_ptr(();
 
         RTShader::RenderState* pMainRenderState
             = mGen->create_or_retrieveRenderState(MSN_SHADERGEN).first;
@@ -271,10 +292,12 @@ protected:
 
     void setDebugModeState(bool state)
     {
-        bool needInvalidate = SegmentedDynamicLightManager::getSingleton().setDebugMode(state);
+        bool needInvalidate
+            = SegmentedDynamicLightManager::singleton().setDebugMode(state);
         if (needInvalidate)
         {
-            RTShader::ShaderGenerator::getSingleton().invalidateScheme(MSN_SHADERGEN);
+            RTShader::ShaderGenerator::singleton().invalidateScheme(
+                MSN_SHADERGEN);
         }
     }
 

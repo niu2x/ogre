@@ -43,7 +43,10 @@ namespace Ogre {
 
     void GLSLProgram::bindFixedAttributes(GLuint program)
     {
-        GLint maxAttribs = Root::getSingleton().getRenderSystem()->getCapabilities()->getNumVertexAttributes();
+        GLint maxAttribs = Root::singleton()
+                               .getRenderSystem()
+                               ->getCapabilities()
+                               ->getNumVertexAttributes();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
         // must query active attributes on OSX to avoid warning spam
@@ -68,8 +71,10 @@ namespace Ogre {
     {
         // Get program object ID.
         GLuint programId;
-        if (Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS))
-        {
+        if (Root::singleton()
+                .getRenderSystem()
+                ->getCapabilities()
+                ->hasCapability(RSC_SEPARATE_SHADER_OBJECTS)) {
             //TODO include tessellation stages
             auto glslGpuProgram = mShaders[GPT_GEOMETRY_PROGRAM];
             if (!glslGpuProgram)
@@ -78,15 +83,15 @@ namespace Ogre {
             programId = glslGpuProgram->getGLProgramHandle();
 
             // force re-link
-            GpuProgramManager::getSingleton().removeMicrocodeFromCache(glslGpuProgram->_getHash());
+            GpuProgramManager::singleton().removeMicrocodeFromCache(
+                glslGpuProgram->_getHash());
             glslGpuProgram->resetLinked();
-        }
-        else
-        {
+        } else {
             programId = getGLProgramHandle();
 
             // force re-link
-            GpuProgramManager::getSingleton().removeMicrocodeFromCache(getCombinedHash());
+            GpuProgramManager::singleton().removeMicrocodeFromCache(
+                getCombinedHash());
         }
         mLinked = false;
 
@@ -114,8 +119,9 @@ for (const auto & nameString : nameStrings)
         {
             OGRE_CHECK_GL_ERROR(
                 glGetTransformFeedbackVarying(programId, i, 64, &Length, &Size, &Type, Name));
-            LogManager::getSingleton().stream() << "Varying " << i << ": " << Name << " " << Length
-                                                << " " << Size << " " << Type;
+            LogManager::singleton().stream()
+                << "Varying " << i << ": " << Name << " " << Length << " "
+                << Size << " " << Type;
             // Validated = (Size == 1) && (Type == GL_FLOAT_VEC3);
             // std::cout << Validated << " " << GL_FLOAT_VEC3 << std::endl;
         }
@@ -127,11 +133,11 @@ for (const auto & nameString : nameStrings)
         if (!GpuProgramManager::canGetCompiledShaderBuffer())
             return false;
 
-        if (!GpuProgramManager::getSingleton().isMicrocodeAvailableInCache(id))
+        if (!GpuProgramManager::singleton().isMicrocodeAvailableInCache(id))
             return false;
 
-        GpuProgramManager::Microcode cacheMicrocode =
-            GpuProgramManager::getSingleton().getMicrocodeFromCache(id);
+        GpuProgramManager::Microcode cacheMicrocode
+            = GpuProgramManager::singleton().getMicrocodeFromCache(id);
 
         cacheMicrocode->seek(0);
 
@@ -159,7 +165,7 @@ for (const auto & nameString : nameStrings)
 
     void GLSLProgram::writeMicrocodeToCache(uint32 id, GLuint programHandle)
     {
-        if (!GpuProgramManager::getSingleton().getSaveMicrocodesToCache())
+        if (!GpuProgramManager::singleton().getSaveMicrocodesToCache())
             return;
 
         // get buffer size
@@ -175,7 +181,7 @@ for (const auto & nameString : nameStrings)
                                                newMicrocode->getPtr() + sizeof(GLenum)));
 
         // add to the microcode to the cache
-        GpuProgramManager::getSingleton().addMicrocodeToCache(id, newMicrocode);
+        GpuProgramManager::singleton().addMicrocodeToCache(id, newMicrocode);
     }
 
 } // namespace Ogre

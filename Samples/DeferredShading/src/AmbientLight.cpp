@@ -39,7 +39,8 @@ AmbientLight::AmbientLight()
     setBoundingBox(AxisAlignedBox(-10000,-10000,-10000,10000,10000,10000));
     mRadius = 15000;
 
-    mMatPtr = MaterialManager::getSingleton().getByName("DeferredShading/AmbientLight");
+    mMatPtr = MaterialManager::singleton().getByName(
+        "DeferredShading/AmbientLight");
     assert(mMatPtr);
     mMatPtr->load();
 }

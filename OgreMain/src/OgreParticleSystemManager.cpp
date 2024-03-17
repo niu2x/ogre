@@ -39,11 +39,11 @@ namespace Ogre {
     BillboardParticleRendererFactory* mBillboardRendererFactory = 0;
     //-----------------------------------------------------------------------
     template<> ParticleSystemManager* Singleton<ParticleSystemManager>::msSingleton = 0;
-    ParticleSystemManager* ParticleSystemManager::getSingletonPtr(void)
+    ParticleSystemManager* ParticleSystemManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    ParticleSystemManager& ParticleSystemManager::getSingleton(void)
+    ParticleSystemManager& ParticleSystemManager::singleton(void)
     {  
         assert( msSingleton );  return ( *msSingleton );  
     }
@@ -52,7 +52,7 @@ namespace Ogre {
     {
         
         mFactory = OGRE_NEW ParticleSystemFactory();
-        Root::getSingleton().addMovableObjectFactory(mFactory);
+        Root::singleton().addMovableObjectFactory(mFactory);
     }
     //-----------------------------------------------------------------------
     ParticleSystemManager::~ParticleSystemManager()
@@ -69,7 +69,7 @@ namespace Ogre {
         if (mFactory)
         {
             // delete particle system factory
-            Root::getSingleton().removeMovableObjectFactory(mFactory);
+            Root::singleton().removeMovableObjectFactory(mFactory);
             OGRE_DELETE mFactory;
             mFactory = 0;
         }
@@ -81,7 +81,8 @@ namespace Ogre {
 
         String name = factory->name();
         mEmitterFactories[name] = factory;
-        LogManager::getSingleton().log_message("Particle Emitter Type '" + name + "' registered");
+        LogManager::singleton().log_message(
+            "Particle Emitter Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addAffectorFactory(ParticleAffectorFactory* factory)
@@ -89,14 +90,16 @@ namespace Ogre {
 
         String name = factory->name();
         mAffectorFactories[name] = factory;
-        LogManager::getSingleton().log_message("Particle Affector Type '" + name + "' registered");
+        LogManager::singleton().log_message(
+            "Particle Affector Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addRendererFactory(ParticleSystemRendererFactory* factory)
     {
         String name = factory->getType();
         mRendererFactories[name] = factory;
-        LogManager::getSingleton().log_message("Particle Renderer Type '" + name + "' registered");
+        LogManager::singleton().log_message(
+            "Particle Renderer Type '" + name + "' registered");
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addTemplate(const String& name, ParticleSystem* sysTemplate)
@@ -166,7 +169,9 @@ namespace Ogre {
         if (mSystemTemplates.find(name) != mSystemTemplates.end())
         {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WINRT
-            LogManager::getSingleton().log_message("ParticleSystem template with name '" + name + "' already exists.");
+            LogManager::singleton().log_message(
+                "ParticleSystem template with name '" + name
+                + "' already exists.");
             return NULL;
 #else
             OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, 
@@ -365,8 +370,9 @@ namespace Ogre {
             {
                 String templateName = ni->second;
                 // create using manager
-                return ParticleSystemManager::getSingleton().createSystemImpl(
-                        name, templateName);
+                return ParticleSystemManager::singleton().createSystemImpl(
+                    name,
+                    templateName);
             }
         }
         // Not template based, look for quota & resource name
@@ -386,8 +392,10 @@ namespace Ogre {
             }
         }
         // create using manager
-        return ParticleSystemManager::getSingleton().createSystemImpl(
-                name, quota, resourceGroup);
+        return ParticleSystemManager::singleton().createSystemImpl(
+            name,
+            quota,
+            resourceGroup);
                 
 
     }

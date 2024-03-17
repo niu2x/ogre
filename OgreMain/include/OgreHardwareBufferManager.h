@@ -31,7 +31,7 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include "OgreSingleton.h"
+#include "singleton.h"
 #include "OgreHardwareIndexBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "threading/thread_header.h"
@@ -305,11 +305,10 @@ namespace Ogre {
         HardwareBufferManager();
         ~HardwareBufferManager();
 
-        /// @copydoc Singleton::getSingleton()
-        static HardwareBufferManager& getSingleton(void);
-        /// @copydoc Singleton::getSingleton()
-        static HardwareBufferManager* getSingletonPtr(void);
-
+        /// @copydoc Singleton::singleton()
+        static HardwareBufferManager& singleton(void);
+        /// @copydoc Singleton::singleton()
+        static HardwareBufferManager* singleton_ptr((void);
     };
 
     /** @} */

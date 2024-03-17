@@ -115,11 +115,14 @@ bool IntegratedPSSM3::preAddToRenderState(const RenderState* renderState,
         renderState->getLightCount() == 0)
         return false;
 
-    mIsD3D9 = ShaderGenerator::getSingleton().getTargetLanguage() == "hlsl" &&
-              !GpuProgramManager::getSingleton().isSyntaxSupported("vs_4_0_level_9_1");
+    mIsD3D9 = ShaderGenerator::singleton().getTargetLanguage() == "hlsl"
+        && !GpuProgramManager::singleton().isSyntaxSupported(
+            "vs_4_0_level_9_1");
 
     PixelFormat shadowTexFormat = PF_UNKNOWN;
-    const auto& configs = ShaderGenerator::getSingleton().getActiveSceneManager()->getShadowTextureConfigList();
+    const auto& configs = ShaderGenerator::singleton()
+                              .getActiveSceneManager()
+                              ->getShadowTextureConfigList();
     if (!configs.empty())
         shadowTexFormat = configs[0].format; // assume first texture is representative
     mUseTextureCompare = PixelUtil::isDepth(shadowTexFormat) && !mIsD3D9;
@@ -128,8 +131,8 @@ bool IntegratedPSSM3::preAddToRenderState(const RenderState* renderState,
     if(mMultiLightCount > 1)
         mShadowTextureParamsList.resize(mMultiLightCount);
 
-    auto shadowSampler = TextureManager::getSingleton().getSampler(mUseTextureCompare ? "Ogre/DepthShadowSampler"
-                                                                                      : "Ogre/ShadowSampler");
+    auto shadowSampler = TextureManager::singleton().getSampler(
+        mUseTextureCompare ? "Ogre/DepthShadowSampler" : "Ogre/ShadowSampler");
     for (auto& p : mShadowTextureParamsList)
     {
         TextureUnitState* curShadowTexture = dstPass->createTextureUnitState();

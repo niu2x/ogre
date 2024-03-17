@@ -44,7 +44,10 @@ namespace Ogre {
 
     void GLSLESProgramCommon::bindFixedAttributes(GLuint program)
     {
-        GLint maxAttribs = Root::getSingleton().getRenderSystem()->getCapabilities()->getNumVertexAttributes();
+        GLint maxAttribs = Root::singleton()
+                               .getRenderSystem()
+                               ->getCapabilities()
+                               ->getNumVertexAttributes();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
         // must query active attributes on OSX to avoid warning spam
@@ -71,10 +74,11 @@ namespace Ogre {
         if (!GpuProgramManager::canGetCompiledShaderBuffer())
             return false;
 
-        if (!GpuProgramManager::getSingleton().isMicrocodeAvailableInCache(id))
+        if (!GpuProgramManager::singleton().isMicrocodeAvailableInCache(id))
             return false;
 
-        GpuProgramManager::Microcode cacheMicrocode = GpuProgramManager::getSingleton().getMicrocodeFromCache(id);
+        GpuProgramManager::Microcode cacheMicrocode
+            = GpuProgramManager::singleton().getMicrocodeFromCache(id);
 
         // turns out we need this param when loading
         GLenum binaryFormat = 0;
@@ -84,7 +88,10 @@ namespace Ogre {
         // get size of binary
         cacheMicrocode->read(&binaryFormat, sizeof(GLenum));
 
-        if(!Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_CAN_GET_COMPILED_SHADER_BUFFER))
+        if (!Root::singleton()
+                 .getRenderSystem()
+                 ->getCapabilities()
+                 ->hasCapability(RSC_CAN_GET_COMPILED_SHADER_BUFFER))
             return false;
 
         GLint binaryLength = static_cast<GLint>(cacheMicrocode->size() - sizeof(GLenum));
@@ -105,7 +112,7 @@ namespace Ogre {
         if(!GpuProgramManager::canGetCompiledShaderBuffer())
             return;
 
-        if(!GpuProgramManager::getSingleton().getSaveMicrocodesToCache())
+        if (!GpuProgramManager::singleton().getSaveMicrocodesToCache())
             return;
 
         // Add to the microcode to the cache
@@ -121,7 +128,7 @@ namespace Ogre {
                                                   newMicrocode->getPtr() + sizeof(GLenum)));
 
         // Add to the microcode to the cache
-        GpuProgramManager::getSingleton().addMicrocodeToCache(id, newMicrocode);
+        GpuProgramManager::singleton().addMicrocodeToCache(id, newMicrocode);
     }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID || OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN

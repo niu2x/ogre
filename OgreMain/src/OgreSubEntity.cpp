@@ -45,7 +45,7 @@ namespace Ogre {
         mHardwarePoseCount = 0;
         mIndexStart = 0;
         mIndexEnd = 0;
-        setMaterial(MaterialManager::getSingleton().getDefaultMaterial());
+        setMaterial(MaterialManager::singleton().getDefaultMaterial());
     }
     SubEntity::~SubEntity() = default; // ensure unique_ptr destructors are in cpp
     //-----------------------------------------------------------------------
@@ -61,7 +61,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void SubEntity::setMaterialName( const String& name, const String& groupName /* = ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME */)
     {
-        MaterialPtr material = MaterialManager::getSingleton().getByName(name, groupName);
+        MaterialPtr material
+            = MaterialManager::singleton().getByName(name, groupName);
 
         if( !material )
         {
@@ -70,7 +71,7 @@ namespace Ogre {
                 groupName,
                 "SubEntity of",
                 mParentEntity->name());
-            material = MaterialManager::getSingleton().getDefaultMaterial();
+            material = MaterialManager::singleton().getDefaultMaterial();
         }
 
         setMaterial( material );
@@ -82,12 +83,12 @@ namespace Ogre {
         
         if (!mMaterialPtr)
         {
-            LogManager::getSingleton().log_error(
+            LogManager::singleton().log_error(
                 "Can't assign nullptr material "
                 "to SubEntity of '"
                 + mParentEntity->name() + "'. Falling back to default");
 
-            mMaterialPtr = MaterialManager::getSingleton().getDefaultMaterial();
+            mMaterialPtr = MaterialManager::singleton().getDefaultMaterial();
         }
         
         // Ensure new material loaded (will not load again if already loaded)

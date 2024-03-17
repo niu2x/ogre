@@ -102,7 +102,9 @@ namespace Ogre
 
         if (mLinked)
         {
-            GLSLProgramManager::getSingleton().getStateCacheManager()->bindGLProgramPipeline(mGLProgramPipelineHandle);
+            GLSLProgramManager::singleton()
+                .getStateCacheManager()
+                ->bindGLProgramPipeline(mGLProgramPipelineHandle);
         }
     }
 

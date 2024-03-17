@@ -166,7 +166,7 @@ namespace Ogre {
     {
         size_t i;
 
-        LogManager::getSingleton().log_message(name() + " created.");
+        LogManager::singleton().log_message(name() + " created.");
 
         mRenderAttribsBound.reserve(100);
         mRenderInstanceAttribsBound.reserve(100);
@@ -836,8 +836,9 @@ namespace Ogre {
         {
             // NFZ - check for GLSL vertex and fragment shader support successful
             mGLSLProgramFactory = new GLSL::GLSLProgramFactory();
-            HighLevelGpuProgramManager::getSingleton().addFactory(mGLSLProgramFactory);
-            LogManager::getSingleton().log_message("GLSL support detected");
+            HighLevelGpuProgramManager::singleton().addFactory(
+                mGLSLProgramFactory);
+            LogManager::singleton().log_message("GLSL support detected");
         }
 
         if(caps->hasCapability(RSC_HWOCCLUSION) && !GLAD_GL_ARB_occlusion_query)
@@ -885,7 +886,9 @@ namespace Ogre {
                 glDrawBuffers = glDrawBuffersATI;
 
             // Create FBO manager
-            LogManager::getSingleton().log_message("GL: Using GL_EXT_framebuffer_object for rendering to textures (best)");
+            LogManager::singleton().log_message(
+                "GL: Using GL_EXT_framebuffer_object for rendering to textures "
+                "(best)");
             mRTTManager = new GLFBOManager(false);
             //TODO: Check if we're using OpenGL 3.0 and add RSC_RTT_DEPTHBUFFER_RESOLUTION_LESSEQUAL flag
         }
@@ -898,7 +901,8 @@ namespace Ogre {
                 {
                     // Use PBuffers
                     mRTTManager = new GLPBRTTManager(mGLSupport, primary);
-                    LogManager::getSingleton().log_warning("GL: Using PBuffers for rendering to textures");
+                    LogManager::singleton().log_warning(
+                        "GL: Using PBuffers for rendering to textures");
 
                     //TODO: Depth buffer sharing in pbuffer is left unsupported
                 }
@@ -907,8 +911,13 @@ namespace Ogre {
             {
                 // No pbuffer support either -- fallback to simplest copying from framebuffer
                 mRTTManager = new GLCopyingRTTManager();
-                LogManager::getSingleton().log_warning("GL: Using framebuffer copy for rendering to textures (worst)");
-                LogManager::getSingleton().log_warning("GL: RenderTexture size is restricted to size of framebuffer. If you are on Linux, consider using GLX instead of SDL.");
+                LogManager::singleton().log_warning(
+                    "GL: Using framebuffer copy for rendering to textures "
+                    "(worst)");
+                LogManager::singleton().log_warning(
+                    "GL: RenderTexture size is restricted to size of "
+                    "framebuffer. If you are on Linux, consider using GLX "
+                    "instead of SDL.");
 
                 //Copy method uses the main depth buffer but no other depth buffer
                 caps->setCapability(RSC_RTT_MAIN_DEPTHBUFFER_ATTACHABLE);
@@ -930,8 +939,8 @@ namespace Ogre {
         if (mGLSLProgramFactory)
         {
             // Remove from manager safely
-            if (HighLevelGpuProgramManager::getSingletonPtr())
-                HighLevelGpuProgramManager::getSingleton().removeFactory(mGLSLProgramFactory);
+            if (HighLevelGpuProgramManager::singleton_ptr(())
+                HighLevelGpuProgramManager::singleton().removeFactory(mGLSLProgramFactory);
             delete mGLSLProgramFactory;
             mGLSLProgramFactory = 0;
         }
@@ -1097,9 +1106,9 @@ namespace Ogre {
             = mCurrentContext
                   ->create_or_retrieveStateCacheManager<GLStateCacheManager>();
 
-        LogManager::getSingleton().log_message("***************************");
-        LogManager::getSingleton().log_message("*** GL Renderer Started ***");
-        LogManager::getSingleton().log_message("***************************");
+        LogManager::singleton().log_message("***************************");
+        LogManager::singleton().log_message("*** GL Renderer Started ***");
+        LogManager::singleton().log_message("***************************");
     }
 
 
@@ -2621,7 +2630,8 @@ namespace Ogre {
             if(fsaa_active)
             {
                 mStateCacheManager->setEnabled(GL_MULTISAMPLE_ARB, true);
-                LogManager::getSingleton().log_message("Using FSAA from GL_ARB_multisample extension.");
+                LogManager::singleton().log_message(
+                    "Using FSAA from GL_ARB_multisample extension.");
             }            
         }
 
@@ -2956,12 +2966,12 @@ namespace Ogre {
 			String errorString = "GLRenderSystem::setDrawBuffer(" 
 				+ Ogre::StringConverter::to_string(colourBuffer) + "): " + errorCode;
 
-			Ogre::LogManager::getSingleton().log_message(errorString);			
-			result = false;
-		}
+            Ogre::LogManager::singleton().log_message(errorString);
+            result = false;
+        }
 
-		return result;
-	}
+        return result;
+    }
 #endif
 
     void GLRenderSystem::_copyContentsToMemory(Viewport* vp, const Box& src, const PixelBox &dst, RenderWindow::FrameBuffer buffer)
@@ -3005,18 +3015,19 @@ namespace Ogre {
 
         String tmpStr = (const char*)pcVer;
         mDriverVersion.fromString(tmpStr.substr(0, tmpStr.find(' ')));
-        LogManager::getSingleton().log_message("GL_VERSION = " + mDriverVersion.toString());
+        LogManager::singleton().log_message(
+            "GL_VERSION = " + mDriverVersion.toString());
 
         // Get vendor
         const GLubyte* pcVendor = glGetString(GL_VENDOR);
         tmpStr = (const char*)pcVendor;
-        LogManager::getSingleton().log_message("GL_VENDOR = " + tmpStr);
+        LogManager::singleton().log_message("GL_VENDOR = " + tmpStr);
         mVendor = RenderSystemCapabilities::vendorFromString(tmpStr.substr(0, tmpStr.find(' ')));
 
         // Get renderer
         const GLubyte* pcRenderer = glGetString(GL_RENDERER);
         tmpStr = (const char*)pcRenderer;
-        LogManager::getSingleton().log_message("GL_RENDERER = " + tmpStr);
+        LogManager::singleton().log_message("GL_RENDERER = " + tmpStr);
 
         // Set extension list
         StringStream ext;
@@ -3024,7 +3035,8 @@ namespace Ogre {
 
         const GLubyte* pcExt = glGetString(GL_EXTENSIONS);
         assert(pcExt && "Problems getting GL extension string using glGetString");
-        LogManager::getSingleton().log_message("GL_EXTENSIONS = " + String((const char*)pcExt));
+        LogManager::singleton().log_message(
+            "GL_EXTENSIONS = " + String((const char*)pcExt));
 
         ext << pcExt;
 

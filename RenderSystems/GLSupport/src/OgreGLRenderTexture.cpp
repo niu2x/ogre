@@ -43,7 +43,7 @@ namespace Ogre {
         : mFB(0), mMultisampleFB(0), mNumSamples(fsaa)
     {
         auto* rs = static_cast<GLRenderSystemCommon*>(
-            Root::getSingleton().getRenderSystem());
+            Root::singleton().getRenderSystem());
         mContext = rs->_getCurrentContext();
 
         // Initialise state
@@ -89,11 +89,11 @@ namespace Ogre {
         return mColour[0].buffer->getFormat();
     }
 
-    GLRTTManager* GLRTTManager::getSingletonPtr(void)
+    GLRTTManager* GLRTTManager::singleton_ptr((void)
     {
         return msSingleton;
     }
-    GLRTTManager& GLRTTManager::getSingleton(void)
+    GLRTTManager& GLRTTManager::singleton(void)
     {
         assert( msSingleton );  return ( *msSingleton );
     }
