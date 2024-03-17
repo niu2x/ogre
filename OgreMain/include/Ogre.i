@@ -46,6 +46,8 @@ using namespace std;
 #define OGRE_STATIC_MUTEX(arg)
 #define OGRE_MUTEX(arg)
 
+typedef long int time_t;
+
 %feature("autodoc", "1");
 %feature("director") *::Listener;
 #ifdef SWIGPYTHON
@@ -182,6 +184,10 @@ JNIEnv* OgreJNIGetEnv() {
 #endif
 
 #ifdef SWIGCSHARP
+typedef uint32_t uint32;
+typedef uint16_t uint16;
+typedef uint8_t uint8;
+
 %ignore Ogre::HardwareBuffer::UsageEnum;
 %ignore Ogre::TextureUsage;
 %ignore Ogre::GpuConstantType;
@@ -581,6 +587,7 @@ SHARED_PTR(StringInterface);
             SHARED_PTR(HighLevelGpuProgram);
             %include "OgreHighLevelGpuProgram.h"
 %include "OgreRenderSystemCapabilities.h"
+%ignore getPropertyName;
 %include "OgreScriptCompiler.h"
 %ignore Ogre::TextureUnitState::setCubicTexture;
 %ignore Ogre::TextureUnitState::setCubicTextureName;
