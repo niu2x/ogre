@@ -87,13 +87,14 @@ namespace Ogre
 
         copyDeformerMap(deformers);
 
-        SkeletonPtr skeleton = SkeletonManager::getSingleton().create("export",
+        SkeletonPtr skeleton = SkeletonManager::singleton().create(
+            "export",
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         // construct the hierarchy
         buildBoneHierarchy(skeleton.get(), deformers, animList);
 
         // progress report
-        ProgressManager::getSingleton().progress();
+        ProgressManager::singleton().progress();
 
         establishInitialTransforms(deformers);
 
@@ -101,7 +102,7 @@ namespace Ogre
         mAABB.reset();
         createAnimations(skeleton.get(), deformers, framesPerSecond, animList, mAABB);
         // progress report
-        ProgressManager::getSingleton().progress();
+        ProgressManager::singleton().progress();
 
         // Optimise
         skeleton->optimiseAllAnimations();
@@ -109,7 +110,7 @@ namespace Ogre
         SkeletonSerializer ser;
         ser.exportSkeleton(skeleton.get(), skeletonFileName);
         // progress report
-        ProgressManager::getSingleton().progress();
+        ProgressManager::singleton().progress();
 
         LogOgreAndXSI(L"** OGRE Skeleton Export Complete **");
 

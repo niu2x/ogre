@@ -137,13 +137,15 @@ void Lwo2MeshWriter::doExportMaterials()
         lwSurface *surface = object->surfaces[i];
 
         // Create deferred material so no load
-        MaterialPtr ogreMat = MaterialManager::getSingleton().getByName(surface->name);
-        
+        MaterialPtr ogreMat
+            = MaterialManager::singleton().getByName(surface->name);
+
         if (!ogreMat)
         {
-            ogreMat = MaterialManager::getSingleton().create(surface->name, 
+            ogreMat = MaterialManager::singleton().create(
+                surface->name,
                 ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-            
+
             ogreMat->setAmbient
             (
                 surface->color.rgb[0],
@@ -239,7 +241,9 @@ Skeleton *Lwo2MeshWriter::doExportSkeleton(const String &skelName, int l)
 
     if (!bones.size()) return NULL; // no bones means no skeleton
 
-    SkeletonPtr ogreskel = Ogre::SkeletonManager::getSingleton().create(skelName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    SkeletonPtr ogreskel = Ogre::SkeletonManager::singleton().create(
+        skelName,
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     unsigned int i;
     // Create all the bones in turn
@@ -307,7 +311,7 @@ Skeleton *Lwo2MeshWriter::doExportSkeleton(const String &skelName, int l)
     return ogreskel;
 */
     if (ogreskel)
-        Ogre::SkeletonManager::getSingleton().remove(ogreskel->handle());
+        Ogre::SkeletonManager::singleton().remove(ogreskel->handle());
 
     return NULL;
 }
@@ -334,9 +338,12 @@ VertexData *Lwo2MeshWriter::setupVertexData(unsigned short vertexCount, VertexDa
         {
             HardwareVertexBufferSharedPtr srcbuf = vbi->second;
             // create new buffer with the same settings
-            HardwareVertexBufferSharedPtr dstBuf = 
-                HardwareBufferManager::getSingleton().createVertexBuffer(
-                    srcbuf->getVertexSize(), srcbuf->getNumVertices() + vertexCount, srcbuf->getUsage(), srcbuf->isSystemMemory());
+            HardwareVertexBufferSharedPtr dstBuf
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    srcbuf->getVertexSize(),
+                    srcbuf->getNumVertices() + vertexCount,
+                    srcbuf->getUsage(),
+                    srcbuf->isSystemMemory());
 
             // copy data
             dstBuf->copyData(*srcbuf, 0, 0, srcbuf->getSizeInBytes(), true);
@@ -368,15 +375,30 @@ VertexData *Lwo2MeshWriter::setupVertexData(unsigned short vertexCount, VertexDa
         VertexDeclaration* decl = vertexData->vertexDeclaration;
         
         decl->addElement(POSITION_BINDING, 0, VET_FLOAT3, VES_POSITION);
-        HardwareVertexBufferSharedPtr pbuf = HardwareBufferManager::getSingleton().createVertexBuffer(decl->getVertexSize(POSITION_BINDING), vertexData->vertexCount, HardwareBuffer::HBU_DYNAMIC, false);
+        HardwareVertexBufferSharedPtr pbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(POSITION_BINDING),
+                vertexData->vertexCount,
+                HardwareBuffer::HBU_DYNAMIC,
+                false);
         bind->setBinding(POSITION_BINDING, pbuf);
         
         decl->addElement(NORMAL_BINDING, 0, VET_FLOAT3, VES_NORMAL);
-        HardwareVertexBufferSharedPtr nbuf = HardwareBufferManager::getSingleton().createVertexBuffer(decl->getVertexSize(NORMAL_BINDING), vertexData->vertexCount, HardwareBuffer::HBU_DYNAMIC, false);
+        HardwareVertexBufferSharedPtr nbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(NORMAL_BINDING),
+                vertexData->vertexCount,
+                HardwareBuffer::HBU_DYNAMIC,
+                false);
         bind->setBinding(NORMAL_BINDING, nbuf);
         
         decl->addElement(TEXCOORD_BINDING, 0, VET_FLOAT2, VES_TEXTURE_COORDINATES);
-        HardwareVertexBufferSharedPtr tbuf = HardwareBufferManager::getSingleton().createVertexBuffer(decl->getVertexSize(TEXCOORD_BINDING), vertexData->vertexCount, HardwareBuffer::HBU_DYNAMIC, false);
+        HardwareVertexBufferSharedPtr tbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(TEXCOORD_BINDING),
+                vertexData->vertexCount,
+                HardwareBuffer::HBU_DYNAMIC,
+                false);
         bind->setBinding(TEXCOORD_BINDING, tbuf);
     }   
     return vertexData;
@@ -630,7 +652,10 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
 
     bool SeparateLayers = flags[UseSeparateLayers] && ml > 1;
 
-    if (!SeparateLayers) ogreMesh = Ogre::MeshManager::getSingleton().create(ndest, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    if (!SeparateLayers)
+        ogreMesh = Ogre::MeshManager::singleton().create(
+            ndest,
+            Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     Ogre::Vector3 boundingBoxMin(FLT_MAX, FLT_MAX, FLT_MAX);
     Ogre::Vector3 boundingBoxMax(FLT_MIN, FLT_MIN, FLT_MIN);
@@ -648,18 +673,17 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
                                  object->layers[ol]->bboxmax.y,
                                  object->layers[ol]->bboxmax.z);
 
-        if (SeparateLayers)
-        {   
-            ogreMesh = Ogre::MeshManager::getSingleton().create(ndest, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        if (SeparateLayers) {
+            ogreMesh = Ogre::MeshManager::singleton().create(
+                ndest,
+                Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             ogreMesh->_setBounds(Ogre::AxisAlignedBox(currentMin, currentMax));
             ogreMesh->_setBoundingSphereRadius(Ogre::Math::Sqrt(std::max(currentMin.squared_length(), currentMax.squared_length())));
-        }
-        else
-        {
+        } else {
             boundingBoxMin.make_floor(currentMin);
             boundingBoxMax.make_ceil(currentMax);
         }
-        
+
         for (unsigned int s = 0; s < object->surfaces.size(); s++)
         {
             lwSurface *surface = object->surfaces[s];
@@ -687,7 +711,11 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
             ogreSubMesh->useSharedVertices = flags[UseSharedVertexData] && points.size() < POINTLIMIT;
 
             ogreSubMesh->indexData->indexCount = polygons.size() * 3;
-            ogreSubMesh->indexData->indexBuffer = HardwareBufferManager::getSingleton().createIndexBuffer(HardwareIndexBuffer::IT_16BIT, ogreSubMesh->indexData->indexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+            ogreSubMesh->indexData->indexBuffer
+                = HardwareBufferManager::singleton().createIndexBuffer(
+                    HardwareIndexBuffer::IT_16BIT,
+                    ogreSubMesh->indexData->indexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
             ogreSubMesh->setMaterialName(surface->name);
             
 
@@ -754,7 +782,7 @@ bool Lwo2MeshWriter::writeLwo2Mesh(lwObject *nobject, char *ndest)
 
         ogreMesh->unload();
 
-        Ogre::MeshManager::getSingleton().remove(ogreMesh->handle());
+        Ogre::MeshManager::singleton().remove(ogreMesh->handle());
         if (flags[ExportSkeleton] && skeleton) delete skeleton;
 
         if (!SeparateLayers) break;

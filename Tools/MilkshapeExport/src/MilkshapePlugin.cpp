@@ -296,7 +296,7 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     // Create singletons
     Ogre::SkeletonManager skelMgr;
     Ogre::DefaultHardwareBufferManager defHWBufMgr;
-    Ogre::LogManager& logMgr = Ogre::LogManager::getSingleton();
+    Ogre::LogManager& logMgr = Ogre::LogManager::singleton();
     Ogre::MeshManager meshMgr;
 
 
@@ -327,7 +327,8 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
         return /*0*/;
 
     logMgr.log_message("Creating Mesh object...");
-    Ogre::MeshPtr ogreMesh = Ogre::MeshManager::getSingleton().create("export", 
+    Ogre::MeshPtr ogreMesh = Ogre::MeshManager::singleton().create(
+        "export",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     logMgr.log_message("Mesh object created.");
 
@@ -382,15 +383,24 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
         decl->addElement(NORMAL_BINDING, 0, Ogre::VET_FLOAT3, Ogre::VES_NORMAL);
         decl->addElement(TEXCOORD_BINDING, 0, Ogre::VET_FLOAT2, Ogre::VES_TEXTURE_COORDINATES);
         // Create buffers
-        Ogre::HardwareVertexBufferSharedPtr pbuf = Ogre::HardwareBufferManager::getSingleton().
-            createVertexBuffer(decl->getVertexSize(POSITION_BINDING), ogreSubMesh->vertexData->vertexCount,
-                Ogre::HardwareBuffer::HBU_DYNAMIC, false);
-        Ogre::HardwareVertexBufferSharedPtr nbuf = Ogre::HardwareBufferManager::getSingleton().
-            createVertexBuffer(decl->getVertexSize(NORMAL_BINDING), ogreSubMesh->vertexData->vertexCount,
-                Ogre::HardwareBuffer::HBU_DYNAMIC, false);
-        Ogre::HardwareVertexBufferSharedPtr tbuf = Ogre::HardwareBufferManager::getSingleton().
-            createVertexBuffer(decl->getVertexSize(TEXCOORD_BINDING), ogreSubMesh->vertexData->vertexCount,
-                Ogre::HardwareBuffer::HBU_DYNAMIC, false);
+        Ogre::HardwareVertexBufferSharedPtr pbuf
+            = Ogre::HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(POSITION_BINDING),
+                ogreSubMesh->vertexData->vertexCount,
+                Ogre::HardwareBuffer::HBU_DYNAMIC,
+                false);
+        Ogre::HardwareVertexBufferSharedPtr nbuf
+            = Ogre::HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(NORMAL_BINDING),
+                ogreSubMesh->vertexData->vertexCount,
+                Ogre::HardwareBuffer::HBU_DYNAMIC,
+                false);
+        Ogre::HardwareVertexBufferSharedPtr tbuf
+            = Ogre::HardwareBufferManager::singleton().createVertexBuffer(
+                decl->getVertexSize(TEXCOORD_BINDING),
+                ogreSubMesh->vertexData->vertexCount,
+                Ogre::HardwareBuffer::HBU_DYNAMIC,
+                false);
         bind->setBinding(POSITION_BINDING, pbuf);
         bind->setBinding(NORMAL_BINDING, nbuf);
         bind->setBinding(TEXCOORD_BINDING, tbuf);
@@ -498,9 +508,11 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
             nbuf->lock(Ogre::HardwareBuffer::HBL_DISCARD));
         ogreSubMesh->indexData->indexCount = msMesh_GetTriangleCount (pMesh) * 3;
         // Always use 16-bit buffers, Milkshape can't handle more anyway
-        Ogre::HardwareIndexBufferSharedPtr ibuf = Ogre::HardwareBufferManager::getSingleton().
-            createIndexBuffer(Ogre::HardwareIndexBuffer::IT_16BIT,
-            ogreSubMesh->indexData->indexCount, Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        Ogre::HardwareIndexBufferSharedPtr ibuf
+            = Ogre::HardwareBufferManager::singleton().createIndexBuffer(
+                Ogre::HardwareIndexBuffer::IT_16BIT,
+                ogreSubMesh->indexData->indexCount,
+                Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         ogreSubMesh->indexData->indexBuffer = ibuf;
         unsigned short *pIdx = static_cast<unsigned short*>(
             ibuf->lock(Ogre::HardwareBuffer::HBL_DISCARD));
@@ -611,9 +623,9 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
     serializer.exportMesh(ogreMesh.get(), szFile);
     logMgr.log_message("Export successful");
 
-    Ogre::MeshManager::getSingleton().remove(ogreMesh->handle());
+    Ogre::MeshManager::singleton().remove(ogreMesh->handle());
     if (pSkel)
-        Ogre::SkeletonManager::getSingleton().remove(pSkel->handle());
+        Ogre::SkeletonManager::singleton().remove(pSkel->handle());
 
     if (exportMaterials && msModel_GetMaterialCount(pModel) > 0)
     {
@@ -624,7 +636,7 @@ void MilkshapePlugin::doExportMesh(msModel* pModel)
 
 Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshPtr& mesh)
 {
-    Ogre::LogManager &logMgr = Ogre::LogManager::getSingleton();
+    Ogre::LogManager& logMgr = Ogre::LogManager::singleton();
     Ogre::String msg;
 
     //
@@ -660,7 +672,8 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
 
     // Set up
     logMgr.log_message("Trying to create Skeleton object");
-    Ogre::SkeletonPtr ogreskel = Ogre::SkeletonManager::getSingleton().create(skelName, 
+    Ogre::SkeletonPtr ogreskel = Ogre::SkeletonManager::singleton().create(
+        skelName,
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     logMgr.log_message("Skeleton object created");
 
@@ -697,14 +710,13 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
         qfinal = qz * qy * qx;
         ogrebone->setOrientation(qfinal);
 
-        Ogre::LogManager::getSingleton().stream()
-            << "Bone #" << i << ": " <<
-            "Name='" << bone->szName << "' " <<
-            "Position: " << bonePos << " " <<
-            "Ms3d Rotation: {" << msBoneRot[0] << ", " << msBoneRot[1] << ", " << msBoneRot[2] << "} " <<
-            "Orientation: " << qfinal;
-
-
+        Ogre::LogManager::singleton().stream()
+            << "Bone #" << i << ": "
+            << "Name='" << bone->szName << "' "
+            << "Position: " << bonePos << " "
+            << "Ms3d Rotation: {" << msBoneRot[0] << ", " << msBoneRot[1]
+            << ", " << msBoneRot[2] << "} "
+            << "Orientation: " << qfinal;
     }
     // Now we've created all the bones, link them up
     logMgr.log_message("Establishing bone hierarchy..");
@@ -760,7 +772,7 @@ Ogre::SkeletonPtr MilkshapePlugin::doExportSkeleton(msModel* pModel, Ogre::MeshP
 
 
     msg = "Linking mesh to skeleton file '" + skelName + "'";
-    Ogre::LogManager::getSingleton().log_message(msg);
+    Ogre::LogManager::singleton().log_message(msg);
 
     mesh->_notifySkeleton(ogreskel);
 
@@ -802,12 +814,14 @@ bool MilkshapePlugin::locateSkeleton(Ogre::MeshPtr& mesh)
     skelName = skelName.substr(lastSlash+1);
 
     Ogre::String msg = "Linking mesh to skeleton file '" + skelName + "'";
-    Ogre::LogManager::getSingleton().log_message(msg);
+    Ogre::LogManager::singleton().log_message(msg);
 
     // Create a dummy skeleton for Mesh to link to (saves it trying to load it)
-    Ogre::SkeletonPtr pSkel = Ogre::SkeletonManager::getSingleton().create(skelName, 
+    Ogre::SkeletonPtr pSkel = Ogre::SkeletonManager::singleton().create(
+        skelName,
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    Ogre::LogManager::getSingleton().log_message("Dummy Skeleton object created for link.");
+    Ogre::LogManager::singleton().log_message(
+        "Dummy Skeleton object created for link.");
 
     mesh->_notifySkeleton(pSkel);
 
@@ -824,7 +838,7 @@ struct SplitAnimationStruct
 
 void MilkshapePlugin::doExportMaterials(msModel* pModel)
 {
-    Ogre::LogManager& logMgr = Ogre::LogManager::getSingleton();
+    Ogre::LogManager& logMgr = Ogre::LogManager::singleton();
     Ogre::MaterialManager matMgrSgl;
     Ogre::String msg;
 
@@ -911,7 +925,7 @@ Ogre::ColourValue MilkshapePlugin::msVec4ToColourValue(float prop[4])
 void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogreskel)
 {
 
-    Ogre::LogManager& logMgr = Ogre::LogManager::getSingleton();
+    Ogre::LogManager& logMgr = Ogre::LogManager::singleton();
     std::vector<SplitAnimationStruct> splitInfo;
     Ogre::String msg;
 
@@ -1033,14 +1047,13 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
         // Create animation
         frameTime = currSplit.end - currSplit.start;
         realTime = frameTime / fps;
-        Ogre::LogManager::getSingleton().stream()
+        Ogre::LogManager::singleton().stream()
             << "Trying to create Animation object for animation "
-            <<  currSplit.name << " For Frames " << currSplit.start << " to "
+            << currSplit.name << " For Frames " << currSplit.start << " to "
             << currSplit.end << " inclusive. ";
 
-        Ogre::LogManager::getSingleton().stream()
-            << "Frame time = "
-            << frameTime << ", Seconds = " << realTime;
+        Ogre::LogManager::singleton().stream()
+            << "Frame time = " << frameTime << ", Seconds = " << realTime;
 
         Ogre::Animation *ogreanim =
             ogreskel->createAnimation(currSplit.name, realTime);
@@ -1117,12 +1130,14 @@ void MilkshapePlugin::doExportAnimations(msModel* pModel, Ogre::SkeletonPtr& ogr
                     kfQ = qz * qy * qx;
                     ogrekey->setRotation(kfQ);
 
-                    Ogre::LogManager::getSingleton().stream()
+                    Ogre::LogManager::singleton().stream()
                         << "KeyFrame details: Adjusted Frame Time=" << frameTime
-                        << " Seconds: " << realTime << " Position=" << kfPos << " " 
-                        << "Ms3d Rotation= {" << currRotKey->Rotation[0] << ", " 
-                        << currRotKey->Rotation[1] << ", " << currRotKey->Rotation[2] 
-                        << "} " << "Orientation=" << kfQ;
+                        << " Seconds: " << realTime << " Position=" << kfPos
+                        << " "
+                        << "Ms3d Rotation= {" << currRotKey->Rotation[0] << ", "
+                        << currRotKey->Rotation[1] << ", "
+                        << currRotKey->Rotation[2] << "} "
+                        << "Orientation=" << kfQ;
                 } // keyframe creation
 
             } // keys

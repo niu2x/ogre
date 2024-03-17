@@ -191,7 +191,8 @@ UpgradeOptions parseOpts(UnaryOptionList& unOpts, BinaryOptionList& binOpts)
         } else if (bi->second == "1.0") {
             opts.targetVersion = MESH_VERSION_1_0;
         } else {
-            LogManager::getSingleton().log_error("Unrecognised target mesh version '" + bi->second + "'");
+            LogManager::singleton().log_error(
+                "Unrecognised target mesh version '" + bi->second + "'");
         }
     }
 
@@ -275,7 +276,7 @@ void recalcBounds(Mesh* mesh)
 
 void printLodConfig(const LodConfig& lodConfig)
 {
-    auto logMgr = LogManager::getSingletonPtr();
+    auto logMgr = LogManager::singleton_ptr();
     logMgr->log_message("LOD config summary:");
     logMgr->log_message(" - lodConfig.strategy=" + lodConfig.strategy->name());
     String reductionMethod("Unknown");
@@ -287,7 +288,7 @@ void printLodConfig(const LodConfig& lodConfig)
         reductionMethod = "VRM_COLLAPSE_COST";
     }
     String distQuantity;
-    if (lodConfig.strategy == PixelCountLodStrategy::getSingletonPtr()) {
+    if (lodConfig.strategy == PixelCountLodStrategy::singleton_ptr()) {
         distQuantity = "px";
     }
     for (unsigned short i = 0; i < lodConfig.levels.size(); i++) {
@@ -316,7 +317,7 @@ void buildLod(UpgradeOptions& opts, MeshPtr& mesh)
     int numLod;
     LodConfig lodConfig;
     lodConfig.mesh = mesh;
-    lodConfig.strategy = DistanceLodBoxStrategy::getSingletonPtr();
+    lodConfig.strategy = DistanceLodBoxStrategy::singleton_ptr();
 
     // not interactive: read parameters from console
     numLod = opts.numLods;
@@ -346,9 +347,9 @@ void buildLod(UpgradeOptions& opts, MeshPtr& mesh)
     }
     printLodConfig(lodConfig);
 
-    LogManager::getSingleton().log_message("Generating LOD levels...");
+    LogManager::singleton().log_message("Generating LOD levels...");
     gen.generateLodLevels(lodConfig);
-    LogManager::getSingleton().log_message("Generating LOD levels... success");
+    LogManager::singleton().log_message("Generating LOD levels... success");
 }
 
 void checkColour(VertexData* vdata, bool& hasColour, bool& hasAmbiguousColour,
@@ -409,7 +410,7 @@ struct MeshResourceCreator : public MeshSerializerListener
 		}
         else {
             // create material because we do not load any .material files
-            MaterialManager::getSingleton().create_or_retrieve(
+            MaterialManager::singleton().create_or_retrieve(
                 *name,
                 mesh->group());
         }
@@ -423,7 +424,7 @@ struct MeshResourceCreator : public MeshSerializerListener
         }
 
         // create skeleton because we do not load any .skeleton files
-        SkeletonManager::getSingleton().create_or_retrieve(
+        SkeletonManager::singleton().create_or_retrieve(
             *name,
             mesh->group(),
             true);
@@ -487,13 +488,13 @@ int main(int numargs, char** args)
 
         String source(args[startIdx]);
 
-        MaterialManager::getSingleton().initialise();
+        MaterialManager::singleton().initialise();
         MeshSerializer meshSerializer;
         MeshResourceCreator resCreator;
         meshSerializer.setListener(&resCreator);
         SkeletonSerializer skeletonSerializer;
         // don't pad during upgrade
-        MeshManager::getSingleton().setBoundsPaddingFactor(0.0f);
+        MeshManager::singleton().setBoundsPaddingFactor(0.0f);
 
         // Load the mesh
         struct stat tagStat;
@@ -511,7 +512,9 @@ int main(int numargs, char** args)
                 "Unexpected error while reading file " + source, "OgreMeshUpgrader");
         fclose( pFile );
 
-        MeshPtr meshPtr = MeshManager::getSingleton().createManual("TmpConversionMesh", RGN_DEFAULT);
+        MeshPtr meshPtr = MeshManager::singleton().createManual(
+            "TmpConversionMesh",
+            RGN_DEFAULT);
         Mesh* mesh = meshPtr.get();
 
         DataStreamPtr stream(memstream);
@@ -595,7 +598,7 @@ int main(int numargs, char** args)
     }
     catch (Exception& e)
     {
-        LogManager::getSingleton().log_error(e.description());
+        LogManager::singleton().log_error(e.description());
         retCode = 1;
     }
 

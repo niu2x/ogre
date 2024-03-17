@@ -47,13 +47,12 @@ namespace OgreMayaExporter
             assert( msSingleton );
             msSingleton = 0;  
         }
-        static T& getSingleton(){
-            assert( msSingleton );  
-            return ( *msSingleton ); 
+        static T& singleton()
+        {
+            assert(msSingleton);
+            return (*msSingleton);
         }
-        static T* getSingletonPtr(){ 
-            return msSingleton; 
-        }
+        static T* singleton_ptr() { return msSingleton; }
     };
 
 }; // end namespace

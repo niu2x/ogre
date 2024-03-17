@@ -520,7 +520,8 @@ namespace OgreMayaExporter
         MStatus stat;
         // Construct skeleton
         MString name = "exportSkeleton";
-        Ogre::SkeletonPtr pSkeleton = Ogre::SkeletonManager::getSingleton().create(name.asChar(), 
+        Ogre::SkeletonPtr pSkeleton = Ogre::SkeletonManager::singleton().create(
+            name.asChar(),
             Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         // Create skeleton bones
         stat = createOgreBones(pSkeleton,params);

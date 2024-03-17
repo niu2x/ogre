@@ -217,7 +217,7 @@ void parseShape(Mesh *mesh, const Shape *sh, Matrix4 mat)
 {
 try
 {
-    LogManager &log = LogManager::getSingleton();
+    LogManager& log = LogManager::singleton();
     log.log_message("Found a Shape...");
 
     IndexedFaceSet *ifs = dynamic_cast<IndexedFaceSet *>(sh->geometry);
@@ -315,7 +315,7 @@ try
     log.log_message("Done with this SubMesh.");
 }
 catch (const char *e) {
-    LogManager::getSingleton().log_message(e);
+    LogManager::singleton().log_message(e);
 }
 }
 
@@ -347,24 +347,28 @@ void copyToSubMesh(SubMesh *sub, const TriVec &triangles, const VertVec &vertice
         offset += VertexElement::getTypeSize(VET_FLOAT2);
     }
 
-    HardwareVertexBufferSharedPtr vbuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-            offset, nvertices, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+    HardwareVertexBufferSharedPtr vbuf
+        = HardwareBufferManager::singleton().createVertexBuffer(
+            offset,
+            nvertices,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
     ABGR* colors = NULL;
     HardwareVertexBufferSharedPtr cbuf;
     if(color) {
-        cbuf = HardwareBufferManager::getSingleton().createVertexBuffer(VertexElement::getTypeSize(VET_COLOUR),
-                nvertices, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        cbuf = HardwareBufferManager::singleton().createVertexBuffer(
+            VertexElement::getTypeSize(VET_COLOUR),
+            nvertices,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         colors = (ABGR*)cbuf->lock(HardwareBuffer::HBL_DISCARD);
 
         decl->addElement(1, 0, VET_COLOUR, VES_DIFFUSE);
     }
 
-    HardwareIndexBufferSharedPtr ibuf = HardwareBufferManager::getSingleton().
-            createIndexBuffer(
+    HardwareIndexBufferSharedPtr ibuf
+        = HardwareBufferManager::singleton().createIndexBuffer(
             HardwareIndexBuffer::IT_16BIT,
-            nfaces*3,
+            nfaces * 3,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
     uint16* faces = (uint16*)ibuf->lock(HardwareBuffer::HBL_DISCARD);
@@ -527,14 +531,16 @@ Ogre::MaterialPtr parseMaterial(const Appearance *app, const String &name)
     vrmllib::Material *vm = app ? dynamic_cast<vrmllib::Material *>(app->material) : 0;
     vrmllib::ImageTexture *texture = app ? dynamic_cast<vrmllib::ImageTexture *>(app->texture) : 0;
 
-    MaterialPtr m = MaterialManager::getSingleton().getByName(name,
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MaterialPtr m = MaterialManager::singleton().getByName(
+        name,
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     if(m.get()) {
         return m;
     }
 
-    m = MaterialManager::getSingleton().create(name,
+    m = MaterialManager::singleton().create(
+        name,
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
     ColourValue diffuse = texture ? ColourValue::White : col(vm->diffuseColor);
@@ -560,11 +566,13 @@ Ogre::MaterialPtr parseMaterial(const Appearance *app, const String &name)
         String texName = texture->url.front();
         size_t pos = texName.find_last_of("/\\");
         if (pos != texName.npos) {
-            LogManager::getSingleton().log_message("Stripping path from texture " + texName);
+            LogManager::singleton().log_message(
+                "Stripping path from texture " + texName);
             texName.erase(0, pos+1);
         }
 
-        LogManager::getSingleton().log_message("Adding texture layer for " + texName);
+        LogManager::singleton().log_message(
+            "Adding texture layer for " + texName);
 
         Ogre::TextureUnitState *l = p->createTextureUnitState(texName);
         l->setTextureAddressingMode(texture->repeatS ?

@@ -90,7 +90,7 @@ namespace Ogre {
     {
         LogOgreAndXSI("Exporting " + matEntry->name);
 
-        MaterialPtr mat = MaterialManager::getSingleton().create(
+        MaterialPtr mat = MaterialManager::singleton().create(
             matEntry->name,
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         Technique* t = mat->createTechnique();

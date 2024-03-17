@@ -202,13 +202,14 @@ XmlOptions parseArgs(int numArgs, char **args)
     if (numArgs > startIndex+1)
         dest = args[startIndex+1];
     if (numArgs > startIndex+2) {
-        LogManager::getSingleton().log_error("Too many command-line arguments supplied");
+        LogManager::singleton().log_error(
+            "Too many command-line arguments supplied");
         exit(1);
     }
 
     if (!source)
     {
-        LogManager::getSingleton().log_error("Missing source file");
+        LogManager::singleton().log_error("Missing source file");
         exit(1);
     }
     // Work out what kind of conversion this is
@@ -266,13 +267,13 @@ void meshToXML(const XmlOptions& opts, MeshSerializer& meshSerializer)
 
     if (!stream)
     {
-        LogManager::getSingleton().log_error("Unable to load file " + opts.source);
+        LogManager::singleton().log_error("Unable to load file " + opts.source);
         exit(1);
     }
 
-    MeshPtr mesh = MeshManager::getSingleton().create("conversion", 
+    MeshPtr mesh = MeshManager::singleton().create(
+        "conversion",
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    
 
     meshSerializer.importMesh(stream, mesh.get());
    
@@ -280,8 +281,9 @@ void meshToXML(const XmlOptions& opts, MeshSerializer& meshSerializer)
     xmlMeshSerializer.exportMesh(mesh.get(), opts.dest);
 
     // Clean up the conversion mesh
-    MeshManager::getSingleton().remove("conversion",
-                                       ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    MeshManager::singleton().remove(
+        "conversion",
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 }
 
 void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
@@ -293,13 +295,14 @@ void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
     // Some double-parsing here but never mind
     if (!doc.load_file(opts.source.c_str()))
     {
-        LogManager::getSingleton().log_error("Unable to load file " + opts.source);
+        LogManager::singleton().log_error("Unable to load file " + opts.source);
         exit (1);
     }
     pugi::xml_node root = doc.document_element();
     if (StringUtil::starts_with("mesh", root.name()))
     {
-        MeshPtr newMesh = MeshManager::getSingleton().createManual("conversion", 
+        MeshPtr newMesh = MeshManager::singleton().createManual(
+            "conversion",
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         XMLMeshSerializer xmlMeshSerializer;
@@ -322,11 +325,12 @@ void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
         meshSerializer.exportMesh(newMesh, opts.dest, opts.endian);
 
         // Clean up the conversion mesh
-        MeshManager::getSingleton().remove("conversion", RGN_DEFAULT);
+        MeshManager::singleton().remove("conversion", RGN_DEFAULT);
     }
     else if (StringUtil::starts_with("skeleton", root.name()))
     {
-        SkeletonPtr newSkel = SkeletonManager::getSingleton().create("conversion", RGN_DEFAULT);
+        SkeletonPtr newSkel
+            = SkeletonManager::singleton().create("conversion", RGN_DEFAULT);
 
         XMLSkeletonSerializer xmlSkeletonSerializer;
         xmlSkeletonSerializer.importSkeleton(opts.source, newSkel.get());
@@ -338,7 +342,7 @@ void XMLToBinary(const XmlOptions& opts, MeshSerializer& meshSerializer)
         skeletonSerializer.exportSkeleton(newSkel.get(), opts.dest, SKELETON_VERSION_LATEST, opts.endian);
 
         // Clean up the conversion skeleton
-        SkeletonManager::getSingleton().remove("conversion", RGN_DEFAULT);
+        SkeletonManager::singleton().remove("conversion", RGN_DEFAULT);
     }
 }
 
@@ -347,11 +351,12 @@ void skeletonToXML(const XmlOptions& opts)
     auto stream = Root::openFileStream(opts.source);
     if (!stream)
     {
-        LogManager::getSingleton().log_error("Unable to load file " + opts.source);
+        LogManager::singleton().log_error("Unable to load file " + opts.source);
         exit(1);
     }
 
-    SkeletonPtr skel = SkeletonManager::getSingleton().create("conversion", RGN_DEFAULT);
+    SkeletonPtr skel
+        = SkeletonManager::singleton().create("conversion", RGN_DEFAULT);
 
     SkeletonSerializer skeletonSerializer;
     skeletonSerializer.importSkeleton(stream, skel.get());
@@ -360,7 +365,7 @@ void skeletonToXML(const XmlOptions& opts)
     xmlSkeletonSerializer.exportSkeleton(skel.get(), opts.dest);
 
     // Clean up the conversion skeleton
-    SkeletonManager::getSingleton().remove("conversion", RGN_DEFAULT);
+    SkeletonManager::singleton().remove("conversion", RGN_DEFAULT);
 }
 
 struct MeshResourceCreator : public MeshSerializerListener
@@ -369,29 +374,31 @@ struct MeshResourceCreator : public MeshSerializerListener
     {
         if (name->empty())
         {
-            LogManager::getSingleton().log_warning("one of the SubMeshes is using an empty material name. "
-                                                  "See https://ogrecave.github.io/ogre/api/latest/_mesh-_tools.html#autotoc_md32");
+            LogManager::singleton().log_warning(
+                "one of the SubMeshes is using an empty material name. "
+                "See "
+                "https://ogrecave.github.io/ogre/api/latest/"
+                "_mesh-_tools.html#autotoc_md32");
             // here, we explicitly want to allow fixing that
             return;
         }
 
         // create material because we do not load any .material files
-        MaterialManager::getSingleton().create_or_retrieve(
-            *name,
-            mesh->group());
+        MaterialManager::singleton().create_or_retrieve(*name, mesh->group());
     }
 
     void processSkeletonName(Mesh *mesh, String *name) override
     {
         if (name->empty())
         {
-            LogManager::getSingleton().log_warning("the mesh is using an empty skeleton name.");
+            LogManager::singleton().log_warning(
+                "the mesh is using an empty skeleton name.");
             // here, we explicitly want to allow fixing that
             return;
         }
 
         // create skeleton because we do not load any .skeleton files
-        SkeletonManager::getSingleton().create_or_retrieve(
+        SkeletonManager::singleton().create_or_retrieve(
             *name,
             mesh->group(),
             true);
@@ -426,7 +433,7 @@ int main(int numargs, char** args)
         // use the log specified by the cmdline params
         logMgr.set_default_log(logMgr.create_log(opts.logFile, false, !opts.quietMode));
 
-        MaterialManager::getSingleton().initialise();
+        MaterialManager::singleton().initialise();
 
         MeshSerializer meshSerializer;
         MeshResourceCreator resCreator;
@@ -455,7 +462,7 @@ int main(int numargs, char** args)
     }
     catch(Exception& e)
     {
-        LogManager::getSingleton().log_error(e.description());
+        LogManager::singleton().log_error(e.description());
         retCode = 1;
     }
 

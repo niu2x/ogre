@@ -69,8 +69,9 @@ Exporter::~Exporter()
 void Exporter::exportMesh(std::string fileName, std::string skelName)
 {
     // Construct mesh
-    MeshPtr pMesh = MeshManager::getSingleton().createManual(fileName, ResourceGroupManager::
-        DEFAULT_RESOURCE_GROUP_NAME);
+    MeshPtr pMesh = MeshManager::singleton().createManual(
+        fileName,
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     pMesh->setSkeletonName(skelName);
 
     // We'll assume we want to export the entire scene
@@ -167,10 +168,12 @@ void Exporter::exportSubMesh(Mesh *pMesh, CSLMesh* XSIMesh)
     bool use32BitIndexes = false;
     if (mUniqueVertices.size() > 65536)
         use32BitIndexes = true;
-    sm->indexData->indexBuffer =
-        HardwareBufferManager::getSingleton().createIndexBuffer(
-        use32BitIndexes ? HardwareIndexBuffer::IT_32BIT : HardwareIndexBuffer::IT_16BIT,
-        triArray->GetTriangleCount() * 3, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+    sm->indexData->indexBuffer
+        = HardwareBufferManager::singleton().createIndexBuffer(
+            use32BitIndexes ? HardwareIndexBuffer::IT_32BIT
+                            : HardwareIndexBuffer::IT_16BIT,
+            triArray->GetTriangleCount() * 3,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
     if (use32BitIndexes)
     {
         uint32* pIdx = static_cast<uint32*>(
@@ -304,10 +307,11 @@ void Exporter::writeIndexes(T* buf)
 //-----------------------------------------------------------------------------
 void Exporter::createVertexBuffer(VertexData* vd, unsigned short bufIdx)
 {
-    HardwareVertexBufferSharedPtr vbuf = HardwareBufferManager::getSingleton().createVertexBuffer(
-        vd->vertexDeclaration->getVertexSize(bufIdx),
-        vd->vertexCount, 
-        HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+    HardwareVertexBufferSharedPtr vbuf
+        = HardwareBufferManager::singleton().createVertexBuffer(
+            vd->vertexDeclaration->getVertexSize(bufIdx),
+            vd->vertexCount,
+            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
     vd->vertexBufferBinding->setBinding(bufIdx, vbuf);
     size_t vertexSize = vd->vertexDeclaration->getVertexSize(bufIdx);
 
@@ -409,9 +413,11 @@ size_t Exporter::create_or_retrieveUniqueVertex(
 void Exporter::exportBones(std::string fileName)
 {       
     // Construct skeleton
-    SkeletonPtr pSkel = SkeletonManager::getSingleton().create( fileName, ResourceGroupManager::
-        DEFAULT_RESOURCE_GROUP_NAME, true);
-        
+    SkeletonPtr pSkel = SkeletonManager::singleton().create(
+        fileName,
+        ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        true);
+
     // Recursively traverse the bone tree   
     root = false;
     recurseBones(pSkel.get(), SceneRoot);

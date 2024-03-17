@@ -107,7 +107,7 @@ namespace OgreMayaExporter
                 if (i < tmpStrArray.length()-1)
                     name += "_";
             }
-            Material* pMaterial = MaterialSet::getSingleton().getMaterial(name);
+            Material* pMaterial = MaterialSet::singleton().getMaterial(name);
             //if the material has already been created, update the pointer
             if (pMaterial)
                 m_pMaterial = pMaterial;
@@ -117,7 +117,7 @@ namespace OgreMayaExporter
                 pMaterial = new Material();
                 pMaterial->load(pShader,uvsets,params);
                 m_pMaterial = pMaterial;
-                MaterialSet::getSingleton().addMaterial(pMaterial);
+                MaterialSet::singleton().addMaterial(pMaterial);
             }
             //delete temporary shader
             delete pShader;
@@ -126,7 +126,7 @@ namespace OgreMayaExporter
         {
             std::cout << "Unsupported material, replacing with default lambert\n";
             std::cout.flush();
-            m_pMaterial = MaterialSet::getSingleton().getDefaultMaterial();
+            m_pMaterial = MaterialSet::singleton().getDefaultMaterial();
         }
         
         //loading complete
@@ -371,9 +371,10 @@ namespace OgreMayaExporter
             use32BitIndexes = true;
         }
         // Create a new index buffer
-        pSubmesh->indexData->indexBuffer = 
-            Ogre::HardwareBufferManager::getSingleton().createIndexBuffer(
-                use32BitIndexes ? Ogre::HardwareIndexBuffer::IT_32BIT : Ogre::HardwareIndexBuffer::IT_16BIT,
+        pSubmesh->indexData->indexBuffer
+            = Ogre::HardwareBufferManager::singleton().createIndexBuffer(
+                use32BitIndexes ? Ogre::HardwareIndexBuffer::IT_32BIT
+                                : Ogre::HardwareIndexBuffer::IT_16BIT,
                 pSubmesh->indexData->indexCount,
                 Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         // Fill the index buffer with faces data
@@ -470,10 +471,11 @@ namespace OgreMayaExporter
     // Create an Ogre compatible vertex buffer
     MStatus Submesh::createOgreVertexBuffer(Ogre::SubMesh* pSubmesh,Ogre::VertexDeclaration* pDecl,const std::vector<vertex>& vertices)
     {
-        Ogre::HardwareVertexBufferSharedPtr vbuf = 
-            Ogre::HardwareBufferManager::getSingleton().createVertexBuffer(pDecl->getVertexSize(0),
-            pSubmesh->vertexData->vertexCount, 
-            Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        Ogre::HardwareVertexBufferSharedPtr vbuf
+            = Ogre::HardwareBufferManager::singleton().createVertexBuffer(
+                pDecl->getVertexSize(0),
+                pSubmesh->vertexData->vertexCount,
+                Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         pSubmesh->vertexData->vertexBufferBinding->setBinding(0, vbuf);
         size_t vertexSize = pDecl->getVertexSize(0);
         char* pBase = static_cast<char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_DISCARD));

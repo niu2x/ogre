@@ -126,14 +126,15 @@ AssOptions parseArgs(int numArgs, char** args)
         dest = args[startIndex + 1];
     if (numArgs > startIndex + 2)
     {
-        LogManager::getSingleton().log_error("Too many command-line arguments supplied");
+        LogManager::singleton().log_error(
+            "Too many command-line arguments supplied");
         help();
         exit(1);
     }
 
     if (!source)
     {
-        LogManager::getSingleton().log_error("Missing source file");
+        LogManager::singleton().log_error("Missing source file");
         help();
         exit(1);
     }
@@ -188,7 +189,7 @@ int main(int numargs, char** args)
         // use the log specified by the cmdline params
         logMgr.set_default_log(logMgr.create_log(opts.logFile, false, true));
 
-        MaterialManager::getSingleton().initialise();
+        MaterialManager::singleton().initialise();
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
         RTShader::ShaderGenerator::initialize();
@@ -200,7 +201,9 @@ int main(int numargs, char** args)
         String basename, ext, path;
         StringUtil::split_full_filename(opts.source, &basename, &ext, &path);
 
-        MeshPtr mesh = MeshManager::getSingleton().createManual(basename + "." + ext, RGN_DEFAULT);
+        MeshPtr mesh = MeshManager::singleton().createManual(
+            basename + "." + ext,
+            RGN_DEFAULT);
         SkeletonPtr skeleton;
 
         AssimpLoader loader;
@@ -228,14 +231,14 @@ int main(int numargs, char** args)
         // queue up the materials for serialise
         MaterialSerializer ms;
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
-        auto& shadergen = RTShader::ShaderGenerator::getSingleton();
+        auto& shadergen = RTShader::ShaderGenerator::singleton();
         shadergen.setTargetLanguage("glsl"); // must be valid, but otherwise arbitrary
         shadergen.getRenderState(MSN_SHADERGEN)->setLightCountAutoUpdate(false);
         shadergen.validateScheme(MSN_SHADERGEN);
         ms.add_listener(shadergen.getMaterialSerializerListener());
 #endif
         for (const String& name : exportNames)
-            ms.queueForExport(MaterialManager::getSingleton().getByName(name));
+            ms.queueForExport(MaterialManager::singleton().getByName(name));
 
         if (!exportNames.empty())
             ms.exportQueued(path + basename + ".material");
@@ -244,7 +247,7 @@ int main(int numargs, char** args)
     }
     catch (Exception& e)
     {
-        LogManager::getSingleton().log_error(e.description());
+        LogManager::singleton().log_error(e.description());
         retCode = 1;
     }
 

@@ -1206,7 +1206,8 @@ namespace OgreMayaExporter
             return MS::kFailure;
         }
         // Construct mesh
-        Ogre::MeshPtr pMesh = Ogre::MeshManager::getSingleton().createManual(m_name.asChar(), 
+        Ogre::MeshPtr pMesh = Ogre::MeshManager::singleton().createManual(
+            m_name.asChar(),
             Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         // Write shared geometry data
         if (params.useSharedGeom)
@@ -1359,10 +1360,11 @@ namespace OgreMayaExporter
     // Create an Ogre compatible vertex buffer
     MStatus Mesh::createOgreVertexBuffer(Ogre::MeshPtr pMesh,Ogre::VertexDeclaration* pDecl,const std::vector<vertex>& vertices)
     {
-        Ogre::HardwareVertexBufferSharedPtr vbuf = 
-            Ogre::HardwareBufferManager::getSingleton().createVertexBuffer(pDecl->getVertexSize(0),
-            pMesh->sharedVertexData->vertexCount, 
-            Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        Ogre::HardwareVertexBufferSharedPtr vbuf
+            = Ogre::HardwareBufferManager::singleton().createVertexBuffer(
+                pDecl->getVertexSize(0),
+                pMesh->sharedVertexData->vertexCount,
+                Ogre::HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         pMesh->sharedVertexData->vertexBufferBinding->setBinding(0, vbuf);
         size_t vertexSize = pDecl->getVertexSize(0);
         char* pBase = static_cast<char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_DISCARD));
@@ -1531,10 +1533,14 @@ namespace OgreMayaExporter
                     // Create a new keyframe
                     Ogre::VertexMorphKeyFrame* pKeyframe = pTrack->createVertexMorphKeyFrame(t->m_vertexKeyframes[k].time);
                     // Create vertex buffer for current keyframe
-                    Ogre::HardwareVertexBufferSharedPtr pBuffer = Ogre::HardwareBufferManager::getSingleton().createVertexBuffer(
-                        Ogre::VertexElement::getTypeSize(Ogre::VET_FLOAT3),
-                        t->m_vertexKeyframes[k].positions.size(),
-                        Ogre::HardwareBuffer::HBU_STATIC, true);
+                    Ogre::HardwareVertexBufferSharedPtr pBuffer
+                        = Ogre::HardwareBufferManager::singleton()
+                              .createVertexBuffer(
+                                  Ogre::VertexElement::getTypeSize(
+                                      Ogre::VET_FLOAT3),
+                                  t->m_vertexKeyframes[k].positions.size(),
+                                  Ogre::HardwareBuffer::HBU_STATIC,
+                                  true);
                     float* pFloat = static_cast<float*>(pBuffer->lock(Ogre::HardwareBuffer::HBL_DISCARD));
                     // Fill the vertex buffer with vertex positions
                     std::vector<vertexPosition>& positions = t->m_vertexKeyframes[k].positions;

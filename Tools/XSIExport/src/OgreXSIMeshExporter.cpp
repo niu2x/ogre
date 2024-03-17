@@ -117,7 +117,8 @@ namespace Ogre {
         X3DObject sceneRoot(mXsiApp.GetActiveSceneRoot());
 
         // Construct mesh
-        mMesh = MeshManager::getSingleton().createManual("XSIExport", 
+        mMesh = MeshManager::singleton().createManual(
+            "XSIExport",
             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         mMaterialPrefix = materialPrefix;
@@ -129,7 +130,7 @@ namespace Ogre {
         // Find all PolygonMesh objects
         buildPolygonMeshList(exportChildren);
         // progress report
-        ProgressManager::getSingleton().progress();
+        ProgressManager::singleton().progress();
 
         // notify of skeleton beforehand
         if (!skeletonName.empty())
@@ -142,13 +143,13 @@ namespace Ogre {
             vertexAnimation, animList, fps);
 
         // progress report
-        ProgressManager::getSingleton().progress();
+        ProgressManager::singleton().progress();
 
         if (lod)
         {
             ProgressiveMesh::generateLodLevels(mMesh.get(), lod->distances, lod->quota, lod->reductionValue);
             // progress report
-            ProgressManager::getSingleton().progress();
+            ProgressManager::singleton().progress();
         }
 
         if(edgeLists)
@@ -156,7 +157,7 @@ namespace Ogre {
             LogOgreAndXSI(L"Calculating edge lists");
             mMesh->buildEdgeList();
             // progress report
-            ProgressManager::getSingleton().progress();
+            ProgressManager::singleton().progress();
         }
 
         if(tangents)
@@ -173,8 +174,7 @@ namespace Ogre {
                 LogOgreAndXSI(L"Could not derive tangents parameters");
             }
             // progress report
-            ProgressManager::getSingleton().progress();
-
+            ProgressManager::singleton().progress();
         }
 
         cleanupPolygonMeshList();
@@ -196,7 +196,7 @@ namespace Ogre {
         serializer.exportMesh(mMesh.get(), fileName);
 
         // progress report
-        ProgressManager::getSingleton().progress();
+        ProgressManager::singleton().progress();
 
         mMesh.reset();
 
@@ -593,7 +593,7 @@ namespace Ogre {
             prog += progPerTri;
             while (prog >= 1.0f)
             {
-                ProgressManager::getSingleton().progress();
+                ProgressManager::singleton().progress();
                 prog -= 1.0f;
             }
 
@@ -1147,11 +1147,12 @@ namespace Ogre {
             use32BitIndexes = true;
         }
 
-        sm->indexData->indexBuffer = 
-            HardwareBufferManager::getSingleton().createIndexBuffer(
-            use32BitIndexes ? HardwareIndexBuffer::IT_32BIT : HardwareIndexBuffer::IT_16BIT,
-            sm->indexData->indexCount,
-            HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+        sm->indexData->indexBuffer
+            = HardwareBufferManager::singleton().createIndexBuffer(
+                use32BitIndexes ? HardwareIndexBuffer::IT_32BIT
+                                : HardwareIndexBuffer::IT_16BIT,
+                sm->indexData->indexCount,
+                HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         if (use32BitIndexes)
         {
             uint32* pIdx = static_cast<uint32*>(
@@ -1452,10 +1453,10 @@ namespace Ogre {
     void XsiMeshExporter::createVertexBuffer(VertexData* vd, 
         unsigned short bufIdx, UniqueVertexList& uniqueVertexList)
     {
-        HardwareVertexBufferSharedPtr vbuf = 
-            HardwareBufferManager::getSingleton().createVertexBuffer(
+        HardwareVertexBufferSharedPtr vbuf
+            = HardwareBufferManager::singleton().createVertexBuffer(
                 vd->vertexDeclaration->getVertexSize(bufIdx),
-                vd->vertexCount, 
+                vd->vertexCount,
                 HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         vd->vertexBufferBinding->setBinding(bufIdx, vbuf);
         size_t vertexSize = vd->vertexDeclaration->getVertexSize(bufIdx);

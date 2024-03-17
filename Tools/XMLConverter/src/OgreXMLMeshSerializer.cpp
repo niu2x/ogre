@@ -56,7 +56,8 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void XMLMeshSerializer::importMesh(const String& filename, Mesh* pMesh)
     {
-        LogManager::getSingleton().log_message("XMLMeshSerializer reading mesh data from " + filename + "...");
+        LogManager::singleton().log_message(
+            "XMLMeshSerializer reading mesh data from " + filename + "...");
         mMesh = pMesh;
         mColourElementType = VET_UBYTE4_NORM;
         pugi::xml_document mXMLDoc;
@@ -119,35 +120,38 @@ namespace Ogre {
         if (elem)
             readAnimations(elem, mMesh);
 
-        LogManager::getSingleton().log_message("XMLMeshSerializer import successful.");
-        
+        LogManager::singleton().log_message(
+            "XMLMeshSerializer import successful.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::exportMesh(const Mesh* pMesh, const String& filename)
     {
-        LogManager::getSingleton().log_message("XMLMeshSerializer writing mesh data to " + filename + "...");
-        
+        LogManager::singleton().log_message(
+            "XMLMeshSerializer writing mesh data to " + filename + "...");
+
         mMesh = const_cast<Mesh*>(pMesh);
 
         pugi::xml_document mXMLDoc;
         pugi::xml_node rootNode = mXMLDoc.append_child("mesh");
 
-        LogManager::getSingleton().log_message("Populating DOM...");
+        LogManager::singleton().log_message("Populating DOM...");
 
-            
-           
         // Write to DOM
         writeMesh(pMesh, rootNode);
-        LogManager::getSingleton().log_message("DOM populated, writing XML file..");
+        LogManager::singleton().log_message(
+            "DOM populated, writing XML file..");
 
         // Write out to a file
         if(! mXMLDoc.save_file(filename.c_str()) )
         {
-            LogManager::getSingleton().log_message("XMLMeshSerializer failed writing the XML file.", LogMsgLevel::CRITICAL);
+            LogManager::singleton().log_message(
+                "XMLMeshSerializer failed writing the XML file.",
+                LogMsgLevel::CRITICAL);
         }
         else
         {
-            LogManager::getSingleton().log_message("XMLMeshSerializer export successful.");
+            LogManager::singleton().log_message(
+                "XMLMeshSerializer export successful.");
         }
     }
     //---------------------------------------------------------------------
@@ -164,24 +168,25 @@ namespace Ogre {
         pugi::xml_node subMeshesNode = rootNode.append_child("submeshes");
         for (size_t i = 0; i < pMesh->getNumSubMeshes(); ++i)
         {
-            LogManager::getSingleton().log_message("Writing submesh...");
+            LogManager::singleton().log_message("Writing submesh...");
             writeSubMesh(subMeshesNode, pMesh->getSubMesh(i));
-            LogManager::getSingleton().log_message("Submesh exported.");
+            LogManager::singleton().log_message("Submesh exported.");
         }
 
         // Write skeleton info if required
         if (pMesh->hasSkeleton())
         {
-            LogManager::getSingleton().log_message("Exporting skeleton link...");
+            LogManager::singleton().log_message("Exporting skeleton link...");
             // Write skeleton link
             writeSkeletonLink(rootNode, pMesh->getSkeletonName());
-            LogManager::getSingleton().log_message("Skeleton link exported.");
+            LogManager::singleton().log_message("Skeleton link exported.");
 
             // Write bone assignments
             const auto& boneAssigns = pMesh->getBoneAssignments();
             if (!boneAssigns.empty())
             {
-                LogManager::getSingleton().log_message("Exporting shared geometry bone assignments...");
+                LogManager::singleton().log_message(
+                    "Exporting shared geometry bone assignments...");
                 pugi::xml_node boneAssignNode = rootNode.append_child("boneassignments");
 
                 for (const auto& e : boneAssigns)
@@ -189,14 +194,15 @@ namespace Ogre {
                     writeBoneAssignment(boneAssignNode, &e.second);
                 }
 
-                LogManager::getSingleton().log_message("Shared geometry bone assignments exported.");
+                LogManager::singleton().log_message(
+                    "Shared geometry bone assignments exported.");
             }
         }
         if (pMesh->getNumLodLevels() > 1)
         {
-            LogManager::getSingleton().log_message("Exporting LOD information...");
+            LogManager::singleton().log_message("Exporting LOD information...");
             writeLodInfo(rootNode, pMesh);
-            LogManager::getSingleton().log_message("LOD information exported.");
+            LogManager::singleton().log_message("LOD information exported.");
         }
         // Write submesh names
         writeSubMeshNames(rootNode, pMesh);
@@ -349,7 +355,8 @@ namespace Ogre {
         // Bone assignments
         if (mMesh->hasSkeleton())
         {
-            LogManager::getSingleton().log_message("Exporting dedicated geometry bone assignments...");
+            LogManager::singleton().log_message(
+                "Exporting dedicated geometry bone assignments...");
 
             pugi::xml_node boneAssignNode = subMeshNode.append_child("boneassignments");
             for (const auto& e : s->getBoneAssignments())
@@ -357,8 +364,8 @@ namespace Ogre {
                 writeBoneAssignment(boneAssignNode, &e.second);
             }
         }
-        LogManager::getSingleton().log_message("Dedicated geometry bone assignments exported.");
-
+        LogManager::singleton().log_message(
+            "Dedicated geometry bone assignments exported.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::writeGeometry(pugi::xml_node& mParentNode, const VertexData* vertexData)
@@ -644,7 +651,7 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readSubMeshes(pugi::xml_node& mSubmeshesNode)
     {
-        LogManager::getSingleton().log_message("Reading submeshes...");
+        LogManager::singleton().log_message("Reading submeshes...");
         assert(mMesh->getNumSubMeshes() == 0);
         for (pugi::xml_node& smElem : mSubmeshesNode.children())
         {
@@ -655,12 +662,14 @@ namespace Ogre {
             if (mat && mat[0] != '\0')
             {
                 // we do not load any materials - so create a dummy here to just store the name
-                sm->setMaterial(MaterialManager::getSingleton().create(mat, RGN_DEFAULT));
+                sm->setMaterial(
+                    MaterialManager::singleton().create(mat, RGN_DEFAULT));
             }
             else
             {
-                LogManager::getSingleton().log_error(
-                    "empty material name encountered. This violates the specs and can lead to crashes.");
+                LogManager::singleton().log_error(
+                    "empty material name encountered. This violates the specs "
+                    "and can lead to crashes.");
             }
 
             // Read operation type
@@ -726,9 +735,9 @@ namespace Ogre {
                 const char *claimedCount_ = faces.attribute("count").value();
                 if (StringConverter::parse_int32(claimedCount_)!=actualCount)
                 {
-                    LogManager::getSingleton().stream(LogMsgLevel::WARNING)
-                        << "WARNING: face count (" << actualCount << ") " <<
-                        "is not as claimed (" << claimedCount_ << ")";
+                    LogManager::singleton().stream(LogMsgLevel::WARNING)
+                        << "WARNING: face count (" << actualCount << ") "
+                        << "is not as claimed (" << claimedCount_ << ")";
                 }
 
 
@@ -758,10 +767,11 @@ namespace Ogre {
                     }
 
                     // Allocate space
-                    HardwareIndexBufferSharedPtr ibuf = HardwareBufferManager::getSingleton().
-                        createIndexBuffer(
-                            use32BitIndexes? HardwareIndexBuffer::IT_32BIT : HardwareIndexBuffer::IT_16BIT, 
-                            sm->indexData->indexCount, 
+                    HardwareIndexBufferSharedPtr ibuf
+                        = HardwareBufferManager::singleton().createIndexBuffer(
+                            use32BitIndexes ? HardwareIndexBuffer::IT_32BIT
+                                            : HardwareIndexBuffer::IT_16BIT,
+                            sm->indexData->indexCount,
                             HardwareBuffer::HBU_DYNAMIC,
                             false);
                     sm->indexData->indexBuffer = ibuf;
@@ -832,12 +842,12 @@ namespace Ogre {
                 readBoneAssignments(boneAssigns, sm);
 
         }
-        LogManager::getSingleton().log_message("Submeshes done.");
+        LogManager::singleton().log_message("Submeshes done.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readGeometry(pugi::xml_node& mGeometryNode, VertexData* vertexData)
     {
-        LogManager::getSingleton().log_message("Reading geometry...");
+        LogManager::singleton().log_message("Reading geometry...");
         unsigned char *pVert;
         float *pFloat;
         uint16 *pShort;
@@ -942,7 +952,8 @@ namespace Ogre {
                             vtype = VET_UBYTE4_NORM;
                         else 
                         {
-                            auto err = LogManager::getSingleton().stream(LogMsgLevel::CRITICAL);
+                            auto err = LogManager::singleton().stream(
+                                LogMsgLevel::CRITICAL);
                             err << "Did not recognise texture_coord_dimensions value of \""<<attrib<<"\"\n";
                             err << "Falling back to default of VET_FLOAT2\n";
                         }
@@ -956,16 +967,19 @@ namespace Ogre {
             int actualVertexCount = std::distance(vbElem.begin(), vbElem.end());
             if (actualVertexCount!=claimedVertexCount)
             {
-                LogManager::getSingleton().stream(LogMsgLevel::WARNING)
-                    << "WARNING: vertex count (" << actualVertexCount 
+                LogManager::singleton().stream(LogMsgLevel::WARNING)
+                    << "WARNING: vertex count (" << actualVertexCount
                     << ") is not as claimed (" << claimedVertexCount << ")";
             }
 
             vertexData->vertexCount = actualVertexCount;
             // Now create the vertex buffer
-            HardwareVertexBufferSharedPtr vbuf = HardwareBufferManager::getSingleton().
-                createVertexBuffer(offset, vertexData->vertexCount, 
-                    HardwareBuffer::HBU_STATIC_WRITE_ONLY, false);
+            HardwareVertexBufferSharedPtr vbuf
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    offset,
+                    vertexData->vertexCount,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY,
+                    false);
             // Bind it
             bind->setBinding(bufCount, vbuf);
             // Lock it
@@ -1243,22 +1257,21 @@ namespace Ogre {
             mMesh->_setBounds(newBox, false);
             mMesh->_setBoundingSphereRadius(std::max(Math::Sqrt(maxSquaredRadius), currRadius));
         }
-        
 
-        LogManager::getSingleton().log_message("Geometry done...");
+        LogManager::singleton().log_message("Geometry done...");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readSkeletonLink(pugi::xml_node& mSkelNode)
     {
         String name = mSkelNode.attribute("name").value();
         // create dummy, because we do not load external resources
-        auto skel = SkeletonManager::getSingleton().create(name, mMesh->group());
+        auto skel = SkeletonManager::singleton().create(name, mMesh->group());
         mMesh->_notifySkeleton(skel);
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readBoneAssignments(pugi::xml_node& mBoneAssignmentsNode)
     {
-        LogManager::getSingleton().log_message("Reading bone assignments...");
+        LogManager::singleton().log_message("Reading bone assignments...");
 
         // Iterate over all children (vertexboneassignment entries)
         for (pugi::xml_node& elem : mBoneAssignmentsNode.children())
@@ -1271,12 +1284,12 @@ namespace Ogre {
             mMesh->addBoneAssignment(vba);
         }
 
-        LogManager::getSingleton().log_message("Bone assignments done.");
+        LogManager::singleton().log_message("Bone assignments done.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readSubMeshNames(pugi::xml_node& mMeshNamesNode, Mesh *sm)
     {
-        LogManager::getSingleton().log_message("Reading mesh names...");
+        LogManager::singleton().log_message("Reading mesh names...");
 
         // Iterate over all children (vertexboneassignment entries)
         for (pugi::xml_node& elem : mMeshNamesNode.children())
@@ -1287,12 +1300,12 @@ namespace Ogre {
             sm->nameSubMesh(meshName, index);
         }
 
-        LogManager::getSingleton().log_message("Mesh names done.");
+        LogManager::singleton().log_message("Mesh names done.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readBoneAssignments(pugi::xml_node& mBoneAssignmentsNode, SubMesh* sm)
     {
-        LogManager::getSingleton().log_message("Reading bone assignments...");
+        LogManager::singleton().log_message("Reading bone assignments...");
         // Iterate over all children (vertexboneassignment entries)
         for (pugi::xml_node& elem : mBoneAssignmentsNode.children())
         {
@@ -1303,7 +1316,7 @@ namespace Ogre {
 
             sm->addBoneAssignment(vba);
         }
-        LogManager::getSingleton().log_message("Bone assignments done.");
+        LogManager::singleton().log_message("Bone assignments done.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::writeLodInfo(pugi::xml_node& mMeshNode, const Mesh* pMesh)
@@ -1462,15 +1475,16 @@ namespace Ogre {
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readLodInfo(pugi::xml_node&  lodNode)
     {
-        
-        LogManager::getSingleton().log_message("Parsing LOD information...");
+
+        LogManager::singleton().log_message("Parsing LOD information...");
 
         const char* val = lodNode.attribute("strategy").as_string(NULL);
         // This attribute is optional to maintain backwards compatibility
         if (val)
         {
             String strategyName = val;
-            LodStrategy *strategy = LodStrategyManager::getSingleton().getStrategy(strategyName);
+            LodStrategy* strategy
+                = LodStrategyManager::singleton().getStrategy(strategyName);
             mMesh->setLodStrategy(strategy);
         }
 
@@ -1498,9 +1512,8 @@ namespace Ogre {
             }
             ++i;
         }
-        
-        LogManager::getSingleton().log_message("LOD information done.");
-        
+
+        LogManager::singleton().log_message("LOD information done.");
     }
     //---------------------------------------------------------------------
     void XMLMeshSerializer::readLodUsageManual(pugi::xml_node& manualNode, unsigned short index)
@@ -1513,7 +1526,9 @@ namespace Ogre {
         {
             val = manualNode.attribute("fromdepthsquared").as_string(NULL);
             if (val)
-                LogManager::getSingleton().log_warning("'fromdepthsquared' attribute has been renamed to 'value'.");
+                LogManager::singleton().log_warning(
+                    "'fromdepthsquared' attribute has been renamed to "
+                    "'value'.");
             // user values are non-squared
             usage.userValue = Math::Sqrt(StringConverter::parse_real(val));
         }
@@ -1546,7 +1561,9 @@ namespace Ogre {
         {
             val = genNode.attribute("fromdepthsquared").value();
             if (val)
-                LogManager::getSingleton().log_warning("'fromdepthsquared' attribute has been renamed to 'value'.");
+                LogManager::singleton().log_warning(
+                    "'fromdepthsquared' attribute has been renamed to "
+                    "'value'.");
             // user values are non-squared
             usage.userValue = Math::Sqrt(StringConverter::parse_real(val));
         }
@@ -1577,10 +1594,11 @@ namespace Ogre {
                     mMesh->getSubMesh(subidx)->indexData->indexBuffer->getType();
                 bool use32bitindexes = (itype == HardwareIndexBuffer::IT_32BIT);
 
-                // Assign memory: this will be deleted by the submesh 
-                ibuf = HardwareBufferManager::getSingleton().
-                    createIndexBuffer(
-                        itype, numFaces * 3, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
+                // Assign memory: this will be deleted by the submesh
+                ibuf = HardwareBufferManager::singleton().createIndexBuffer(
+                    itype,
+                    numFaces * 3,
+                    HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
                 unsigned short *pShort = 0;
                 unsigned int *pInt = 0;
@@ -1632,7 +1650,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     void XMLMeshSerializer::readExtremes(pugi::xml_node& extremesNode, Mesh *m)
     {
-        LogManager::getSingleton().log_message("Reading extremes...");
+        LogManager::singleton().log_message("Reading extremes...");
 
         // Iterate over all children (submesh_extreme list)
         for (pugi::xml_node& elem : extremesNode.children())
@@ -1651,7 +1669,7 @@ namespace Ogre {
             }
         }
 
-        LogManager::getSingleton().log_message("Extremes done.");
+        LogManager::singleton().log_message("Extremes done.");
     }
     //-----------------------------------------------------------------------------
     void XMLMeshSerializer::readPoses(pugi::xml_node& posesNode, Mesh *m)
@@ -1845,10 +1863,12 @@ namespace Ogre {
 
             size_t vertexSize = sizeof(float) * (includesNormals ? 6 : 3);
             // create a vertex buffer
-            HardwareVertexBufferSharedPtr vbuf = 
-                HardwareBufferManager::getSingleton().createVertexBuffer(
-                vertexSize, vertexCount, 
-                HardwareBuffer::HBU_STATIC, true);
+            HardwareVertexBufferSharedPtr vbuf
+                = HardwareBufferManager::singleton().createVertexBuffer(
+                    vertexSize,
+                    vertexCount,
+                    HardwareBuffer::HBU_STATIC,
+                    true);
 
             float* pFloat = static_cast<float*>(
                 vbuf->lock(HardwareBuffer::HBL_DISCARD));
