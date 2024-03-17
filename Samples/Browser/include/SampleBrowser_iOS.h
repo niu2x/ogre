@@ -130,7 +130,7 @@ namespace OgreBites
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Reset event times and reallocate the date and displaylink objects
-    Ogre::Root::getSingleton().clearEventTimes();
+    Ogre::Root::singleton().clearEventTimes();
     mDate = [[NSDate alloc] init];
     mLastFrameTime = DISPLAYLINK_FRAME_INTERVAL; // Reset the timer
 
@@ -141,7 +141,7 @@ namespace OgreBites
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    Ogre::Root::getSingleton().saveConfig();
+    Ogre::Root::singleton().saveConfig();
 
     [mDate release];
     mDate = nil;
@@ -161,7 +161,7 @@ namespace OgreBites
 
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {
-        Ogre::Root::getSingleton().renderOneFrame((Ogre::Real)differenceInSeconds);
+        Ogre::Root::singleton().renderOneFrame((Ogre::Real)differenceInSeconds);
     });
 }
 
