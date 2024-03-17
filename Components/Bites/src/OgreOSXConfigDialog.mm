@@ -107,7 +107,7 @@ namespace OgreBites {
 	bool ConfigDialog::display()
 	{
         // Select previously selected rendersystem
-        mImpl->mSelectedRenderSystem = Root::getSingleton().getRenderSystem();
+        mImpl->mSelectedRenderSystem = Root::singleton().getRenderSystem();
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         initialise(mImpl->mWindowDelegate);
 
@@ -125,8 +125,8 @@ namespace OgreBites {
 
         // Set the rendersystem
         String selectedRenderSystemName = String([[[[mImpl->mWindowDelegate getRenderSystemsPopUp] selectedItem] title] UTF8String]);
-        RenderSystem *rs = Root::getSingleton().getRenderSystemByName(selectedRenderSystemName);
-        Root::getSingleton().setRenderSystem(rs);
+        RenderSystem *rs = Root::singleton().getRenderSystemByName(selectedRenderSystemName);
+        Root::singleton().setRenderSystem(rs);
         
         // Relinquish control of the table
         [[mImpl->mWindowDelegate getOptionsTable] setDataSource:nil];
@@ -257,7 +257,7 @@ namespace OgreBites {
         [tableBox release];
 
         // Add renderers to the drop down
-        const RenderSystemList& renderers = Root::getSingleton().getAvailableRenderers();
+        const RenderSystemList& renderers = Root::singleton().getAvailableRenderers();
         for (RenderSystemList::const_iterator pRend = renderers.begin(); pRend != renderers.end(); ++pRend)
         {
             NSString *renderSystemName = [[NSString alloc] initWithCString:(*pRend)->name().c_str() encoding:NSASCIIStringEncoding];
@@ -275,7 +275,7 @@ namespace OgreBites {
 
     // Get detected option values and add them to our config dictionary
     String selectedRenderSystemName = String([[[mRenderSystemsPopUp selectedItem] title] UTF8String]);
-    RenderSystem *rs = Root::getSingleton().getRenderSystemByName(selectedRenderSystemName);
+    RenderSystem *rs = Root::singleton().getRenderSystemByName(selectedRenderSystemName);
     const ConfigOptionMap& opts = rs->getConfigOptions();
     for (ConfigOptionMap::const_iterator pOpt = opts.begin(); pOpt != opts.end(); ++pOpt)
     {
@@ -328,7 +328,7 @@ namespace OgreBites {
         String value = String([[[mOptionsPopUp selectedItem] title] UTF8String]);
         String name = String([[[[mOptions keyEnumerator] allObjects] objectAtIndex:[mOptionsTable selectedRow]] UTF8String]);
         
-        Root::getSingleton().getRenderSystemByName(selectedRenderSystemName)->setConfigOption(name, value);
+        Root::singleton().getRenderSystemByName(selectedRenderSystemName)->setConfigOption(name, value);
     }
 }
 
@@ -392,7 +392,7 @@ namespace OgreBites {
     if([mRenderSystemsPopUp numberOfItems] > 0)
     {
         String selectedRenderSystemName = String([[[mRenderSystemsPopUp selectedItem] title] UTF8String]);
-        const ConfigOptionMap& opts = Root::getSingleton().getRenderSystemByName(selectedRenderSystemName)->getConfigOptions();
+        const ConfigOptionMap& opts = Root::singleton().getRenderSystemByName(selectedRenderSystemName)->getConfigOptions();
 
         // Select the item that is the current config option, if there is no current setting, just pick the top of the list
         ConfigOptionMap::const_iterator it = opts.find([key UTF8String]);

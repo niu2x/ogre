@@ -226,12 +226,12 @@ namespace Ogre {
         if(mViewController.view != mView)
             mViewController.view = mView;
 
-        GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+        GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::singleton().getRenderSystem());
         EAGLSharegroup *group = nil;
         if ((option = miscParams->find("externalSharegroup")) != miscParams->end())
         {
             group = (__bridge EAGLSharegroup *)(void*)StringConverter::parse_size_t(option->second);
-            LogManager::getSingleton().log_message("iOS: Using an external EAGLSharegroup");
+            LogManager::singleton().log_message("iOS: Using an external EAGLSharegroup");
         }
         else
         {
@@ -273,7 +273,7 @@ namespace Ogre {
         ss  << "iOS: Window created " << widthPt << " x " << heightPt
             << " with backing store size " << mContext->mBackingWidth << " x " << mContext->mBackingHeight
             << " using content scaling factor " << std::fixed << std::setprecision(1) << getViewPointToPixelScale();
-        LogManager::getSingleton().log_message(ss.str());
+        LogManager::singleton().log_message(ss.str());
         
         SAFE_ARC_AUTORELEASE_POOL_END()
     }
@@ -334,14 +334,14 @@ namespace Ogre {
             {
                 mWindow = (__bridge UIWindow *)(void*)StringConverter::parse_size_t(opt->second);
                 mIsExternal = true;
-                LogManager::getSingleton().log_message("iOS: Using an external window handle");
+                LogManager::singleton().log_message("iOS: Using an external window handle");
             }
         
             if ((opt = miscParams->find("externalViewHandle")) != end)
             {
                 mView = (__bridge EAGL2View *)(void*)StringConverter::parse_size_t(opt->second);
                 mUsingExternalView = true;
-                LogManager::getSingleton().log_message("iOS: Using an external view handle");
+                LogManager::singleton().log_message("iOS: Using an external view handle");
             }
         
             if ((opt = miscParams->find("externalViewControllerHandle")) != end)
@@ -350,7 +350,7 @@ namespace Ogre {
                 if(mViewController.view != nil)
                     mView = (EAGL2View *)mViewController.view;
                 mUsingExternalViewController = true;
-                LogManager::getSingleton().log_message("iOS: Using an external view controller handle");
+                LogManager::singleton().log_message("iOS: Using an external view controller handle");
             }
 		}
         
@@ -463,7 +463,7 @@ namespace Ogre {
 		}
 
 		// Switch context if different from current one
-		RenderSystem* rsys = Root::getSingleton().getRenderSystem();
+		RenderSystem* rsys = Root::singleton().getRenderSystem();
 		rsys->_setViewport(this->getViewport(0));
 
         OGRE_CHECK_GL_ERROR(glBindRenderbuffer(GL_RENDERBUFFER, mContext->mViewRenderbuffer));

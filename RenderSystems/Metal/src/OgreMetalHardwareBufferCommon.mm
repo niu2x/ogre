@@ -81,7 +81,7 @@ namespace Ogre
     {
         if ((options == HBL_READ_ONLY || options == HBL_NORMAL) && mBuffer.storageMode == MTLStorageModePrivate)
         {
-            LogManager::getSingleton().log_warning("HardwareBuffer - UNIMPLEMENTED implicit GPU to HOST copy (slow)");
+            LogManager::singleton().log_warning("HardwareBuffer - UNIMPLEMENTED implicit GPU to HOST copy (slow)");
         }
 
         void *retPtr = mBuffer.contents;

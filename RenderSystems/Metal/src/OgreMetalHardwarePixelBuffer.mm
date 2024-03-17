@@ -251,7 +251,7 @@ namespace Ogre {
             << " format=" << PixelUtil::getFormatName(mFormat)
             << " MTLformat=" << format
             << " rowPitch=" << mRowPitch;
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+        LogManager::singleton().log_message(LogMsgLevel::NORMAL, str.str());
 #endif
 
         // Set up a pixel box
@@ -276,7 +276,7 @@ namespace Ogre {
                                                                   mHwGamma );
                 mSliceTRT.push_back(trt);
                 // RenderTexture** val = &mSliceTRT[0];
-                Root::getSingleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[zoffset]);
+                Root::singleton().getRenderSystem()->attachRenderTarget(*mSliceTRT[zoffset]);
             }
         }
     }
@@ -410,7 +410,7 @@ namespace Ogre {
         << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
         << " format: " << PixelUtil::getFormatName(mFormat)
         << " data format: " << PixelUtil::getFormatName(data.format);
-        LogManager::getSingleton().log_message(LogMsgLevel::NORMAL, str.str());
+        LogManager::singleton().log_message(LogMsgLevel::NORMAL, str.str());
 #endif
     }
 
@@ -443,7 +443,7 @@ namespace Ogre {
         if( mTexture.storageMode == MTLStorageModePrivate )
         {
             MetalRenderSystem *renderSystem =
-                    static_cast<MetalRenderSystem*>( Root::getSingleton().getRenderSystem() );
+                    static_cast<MetalRenderSystem*>( Root::singleton().getRenderSystem() );
             MetalDevice *device = renderSystem->getActiveDevice();
 
             MTLResourceOptions resourceOptions = MTLResourceCPUCacheModeDefaultCache|

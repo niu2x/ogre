@@ -73,13 +73,13 @@ namespace Ogre
         TextureManager(),
         mDevice( device )
     {
-        ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
+        ResourceGroupManager::singleton()._registerResourceManager(mResourceType, this);
     }
 
     MetalTextureManager::~MetalTextureManager()
     {
         // unregister with group manager
-        ResourceGroupManager::getSingleton()._unregisterResourceManager(mResourceType);
+        ResourceGroupManager::singleton()._unregisterResourceManager(mResourceType);
     }
 
     Resource* MetalTextureManager::create_impl(const String& name,

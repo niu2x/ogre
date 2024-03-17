@@ -148,7 +148,7 @@ namespace Ogre {
             if( error )
                 errorDesc = [error localizedDescription].UTF8String;
 
-            LogManager::getSingleton().log_error(
+            LogManager::singleton().log_error(
                         "Metal Compiler in " + mName + ":\n" + errorDesc );
         }
         else
@@ -160,7 +160,7 @@ namespace Ogre {
                 String errorDesc;
                 if( error )
                     errorDesc = [error localizedDescription].UTF8String;
-                LogManager::getSingleton().log_warning(
+                LogManager::singleton().log_warning(
                             "Metal SL Compiler in " + mName + ":\n" + errorDesc );
             }
         }
@@ -171,13 +171,13 @@ namespace Ogre {
         if( !mFunction )
         {
             mCompiled = false;
-            LogManager::getSingleton().log_error(
+            LogManager::singleton().log_error(
                         "retriving entry point '" + mEntryPoint + "' in shader " + mName );
         }
 
         // Log a message that the shader compiled successfully.
         if( mCompiled && checkErrors )
-            LogManager::getSingleton().log_message( "Shader " + mName + " compiled successfully." );
+            LogManager::singleton().log_message( "Shader " + mName + " compiled successfully." );
 
         mCompileError = !mCompiled;
 
@@ -268,7 +268,7 @@ namespace Ogre {
         }
         case GPT_FRAGMENT_PROGRAM:
         {
-            GpuProgramPtr shader = GpuProgramManager::getSingleton().
+            GpuProgramPtr shader = GpuProgramManager::singleton().
                     getByName( mShaderReflectionPairHint );
             if( !shader )
             {
@@ -420,7 +420,7 @@ namespace Ogre {
     {
         if( mType == GPT_FRAGMENT_PROGRAM && mShaderReflectionPairHint.empty() )
         {
-            LogManager::getSingleton().log_message(
+            LogManager::singleton().log_message(
                         "WARNING: Pixel Shader '" + mName + "' without shader_reflection_pair_hint. "
                         "If this is intentional, use build_parameters_from_reflection false to hide "
                         "this warning.");

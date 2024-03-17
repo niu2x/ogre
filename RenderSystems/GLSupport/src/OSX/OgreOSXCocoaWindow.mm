@@ -303,7 +303,7 @@ namespace Ogre {
 
             mGLPixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
             
-            GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+            GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::singleton().getRenderSystem());
             CocoaContext *mainContext = (CocoaContext*)rs->_getMainContext();
             NSOpenGLContext *shareContext = mainContext == 0 ? nil : mainContext->getContext();
             mGLContext = [[NSOpenGLContext alloc] initWithFormat:mGLPixelFormat shareContext:shareContext];
@@ -338,7 +338,7 @@ namespace Ogre {
             {
                 mView = [(NSWindow*)externalWindowHandle contentView];
                 mUseOgreGLView = [mView isKindOfClass:[OgreGLView class]];
-                LogManager::getSingleton().log_message(mUseOgreGLView ?
+                LogManager::singleton().log_message(mUseOgreGLView ?
                     "Mac Cocoa Window: Rendering on an external NSWindow with nested OgreGLView" :
                     "Mac Cocoa Window: Rendering on an external NSWindow with nested NSView");
             }
@@ -347,7 +347,7 @@ namespace Ogre {
                 assert([externalWindowHandle isKindOfClass:[NSView class]]);
                 mView = (NSView*)externalWindowHandle;
                 mUseOgreGLView = [mView isKindOfClass:[OgreGLView class]];
-                LogManager::getSingleton().log_message(mUseOgreGLView ?
+                LogManager::singleton().log_message(mUseOgreGLView ?
                     "Mac Cocoa Window: Rendering on an external OgreGLView" :
                     "Mac Cocoa Window: Rendering on an external NSView");
             }
@@ -400,7 +400,7 @@ namespace Ogre {
         ss  << "Cocoa: Window created " << widthPt << " x " << heightPt
         << " with backing store size " << mWidth << " x " << mHeight
         << " using content scaling factor " << std::fixed << std::setprecision(1) << getViewPointToPixelScale();
-        LogManager::getSingleton().log_message(ss.str());
+        LogManager::singleton().log_message(ss.str());
     }
 
     unsigned int CocoaWindow::getWidth() const
@@ -670,7 +670,7 @@ namespace Ogre {
 
         _setWindowParameters(widthPt, heightPt);
 
-//        GL3PlusRenderSystem *rs = static_cast<GL3PlusRenderSystem*>(Root::getSingleton().getRenderSystem());
+//        GL3PlusRenderSystem *rs = static_cast<GL3PlusRenderSystem*>(Root::singleton().getRenderSystem());
 //        rs->clearFrameBuffer(FBT_COLOUR);
 
         // Show window
@@ -679,7 +679,7 @@ namespace Ogre {
 
     void CocoaWindow::createWindowFromExternal(NSView *viewRef)
     {
-        LogManager::getSingleton().log_message("Creating external window");
+        LogManager::singleton().log_message("Creating external window");
 
         NSRect viewBounds = [mView convertRectToBacking:[mView bounds]];
 

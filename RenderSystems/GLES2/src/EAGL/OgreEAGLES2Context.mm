@@ -81,7 +81,7 @@ namespace Ogre {
     EAGLES2Context::~EAGLES2Context()
     {
         GLRenderSystemCommon *rs =
-            static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+            static_cast<GLRenderSystemCommon*>(Root::singleton().getRenderSystem());
 
         rs->_unregisterContext(this);
 
@@ -98,7 +98,7 @@ namespace Ogre {
 
     bool EAGLES2Context::createFramebuffer()
     {
-        GLES2RenderSystem *rs = static_cast<GLES2RenderSystem*>(Root::getSingleton().getRenderSystem());
+        GLES2RenderSystem *rs = static_cast<GLES2RenderSystem*>(Root::singleton().getRenderSystem());
         bool packedDepthStencil = rs->hasMinGLVersion(3, 0) || rs->checkExtension("GL_OES_packed_depth_stencil");
 
         destroyFramebuffer();

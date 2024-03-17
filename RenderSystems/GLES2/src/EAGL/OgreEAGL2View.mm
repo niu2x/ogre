@@ -62,7 +62,7 @@ using namespace Ogre;
     [super layoutSubviews];
     
     // Get the window using the name that we saved
-    RenderWindow *window = static_cast<RenderWindow *>(Root::getSingleton().getRenderSystem()->getRenderTarget(mWindowName));
+    RenderWindow *window = static_cast<RenderWindow *>(Root::singleton().getRenderSystem()->getRenderTarget(mWindowName));
 
     if(window != NULL)
     {

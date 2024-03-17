@@ -52,7 +52,7 @@ namespace Ogre
     {
         mRenderSystem = OGRE_NEW MetalRenderSystem();
 
-        Root::getSingleton().addRenderSystem(mRenderSystem);
+        Root::singleton().addRenderSystem(mRenderSystem);
     }
     //---------------------------------------------------------------------
     void MetalPlugin::initialise()

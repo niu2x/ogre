@@ -39,12 +39,12 @@ namespace Ogre
 	extern "C" void _OgreMetalExport dllStartPlugin(void) throw()
     {
 		plugin = OGRE_NEW MetalPlugin();
-        Root::getSingleton().installPlugin(plugin);
+        Root::singleton().installPlugin(plugin);
     }
 
 	extern "C" void _OgreMetalExport dllStopPlugin(void)
     {
-        Root::getSingleton().uninstallPlugin(plugin);
+        Root::singleton().uninstallPlugin(plugin);
         OGRE_DELETE plugin;
     }
 }

@@ -160,7 +160,7 @@ namespace Ogre
                 mCurrentDrawable = [mMetalLayer nextDrawable];
                 if( !mCurrentDrawable )
                 {
-                    LogManager::getSingleton().log_message( "Metal ERROR: Failed to get a drawable!",
+                    LogManager::singleton().log_message( "Metal ERROR: Failed to get a drawable!",
                                                            LogMsgLevel::CRITICAL );
                     //We're unable to render. Skip frame.
                     //dispatch_semaphore_signal( _inflight_semaphore );
@@ -212,7 +212,7 @@ namespace Ogre
             opt = miscParams->find("externalWindowHandle");
             if( opt != end )
             {
-                LogManager::getSingleton().log_message("Mac Cocoa Window: Rendering on an external NSWindow*");
+                LogManager::singleton().log_message("Mac Cocoa Window: Rendering on an external NSWindow*");
                 mWindow = (__bridge NSWindow*)reinterpret_cast<void*>(StringConverter::parse_size_t(opt->second));
                 assert( mWindow &&
                        "Unable to get a pointer to the parent NSWindow."

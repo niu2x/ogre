@@ -42,7 +42,7 @@ namespace Ogre
 
 	CocoaContext::~CocoaContext()
 	{
-	    GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::getSingleton().getRenderSystem());
+	    GLRenderSystemCommon *rs = static_cast<GLRenderSystemCommon*>(Root::singleton().getRenderSystem());
         rs->_unregisterContext(this);
 
         if(mNSGLPixelFormat)

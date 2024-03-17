@@ -79,7 +79,7 @@ namespace Ogre
     void MetalTexture::createMetalTexResource(void)
     {
         // Adjust format if required
-        mFormat = TextureManager::getSingleton().getNativeFormat( mTextureType, mFormat, mUsage );
+        mFormat = TextureManager::singleton().getNativeFormat( mTextureType, mFormat, mUsage );
         const MTLTextureType texTarget = getMetalTextureTarget();
 
         if(mTextureType == TEX_TYPE_1D )

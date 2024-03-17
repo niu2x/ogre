@@ -97,8 +97,8 @@ namespace Ogre
         if( mMetalProgramFactory )
         {
             // Remove from manager safely
-            if( HighLevelGpuProgramManager::getSingletonPtr() )
-                HighLevelGpuProgramManager::getSingleton().removeFactory( mMetalProgramFactory );
+            if( HighLevelGpuProgramManager::singleton_ptr(() )
+                HighLevelGpuProgramManager::singleton().removeFactory( mMetalProgramFactory );
             OGRE_DELETE mMetalProgramFactory;
             mMetalProgramFactory = 0;
         }
@@ -266,7 +266,7 @@ namespace Ogre
         {
             if( [mActiveDevice->mDevice supportsFeatureSet:featureSets[i].featureSet] )
             {
-                LogManager::getSingleton().log_message( "Supports: " + String(featureSets[i].name) );
+                LogManager::singleton().log_message( "Supports: " + String(featureSets[i].name) );
                 driverVersion.major = featureSets[i].major;
                 driverVersion.minor = featureSets[i].minor;
             }
@@ -315,8 +315,8 @@ namespace Ogre
 
             mInitialized = true;
 
-            mDefaultVP = GpuProgramManager::getSingleton().createProgram("MetalDefaultVP", RGN_INTERNAL, "metal", GPT_VERTEX_PROGRAM).get();
-            mDefaultFP = GpuProgramManager::getSingleton().createProgram("MetalDefaultFP", RGN_INTERNAL, "metal", GPT_FRAGMENT_PROGRAM).get();
+            mDefaultVP = GpuProgramManager::singleton().createProgram("MetalDefaultVP", RGN_INTERNAL, "metal", GPT_VERTEX_PROGRAM).get();
+            mDefaultFP = GpuProgramManager::singleton().createProgram("MetalDefaultFP", RGN_INTERNAL, "metal", GPT_FRAGMENT_PROGRAM).get();
             mDefaultVP->setSourceFile("DefaultShaders.metal");
             mDefaultVP->set_parameter("entry_point", "default_vp");
             mDefaultFP->setSourceFile("DefaultShaders.metal");
@@ -1158,7 +1158,7 @@ namespace Ogre
     {
         //DepthBuffer::DefaultDepthBufferFormat = PF_D32_FLOAT_X24_S8_UINT;
         mMetalProgramFactory = new MetalProgramFactory( &mDevice );
-        HighLevelGpuProgramManager::getSingleton().addFactory( mMetalProgramFactory );
+        HighLevelGpuProgramManager::singleton().addFactory( mMetalProgramFactory );
     }
     //-------------------------------------------------------------------------
     void MetalRenderSystem::setStencilState(const StencilState& state)
