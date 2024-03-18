@@ -58,7 +58,7 @@ enum class ParameterType {
     MATRIX3,
     MATRIX4,
     QUATERNION,
-    COLOURVALUE
+    ColorValue
 };
 
 /// @deprecated directly pass parameter name

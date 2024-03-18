@@ -189,7 +189,7 @@ void Font::put_text(
     BillboardSet* bbs,
     String text,
     float height,
-    const ColourValue& colour)
+    const ColorValue& colour)
 {
     // ensure loaded
     load();
@@ -439,7 +439,7 @@ void Font::load_resource(Resource* res)
 
     Image img(PixelFormat::BYTE_LA, finalWidth, finalHeight);
     // Reset content (transparent)
-    img.setTo(ColourValue::ZERO);
+    img.setTo(ColorValue::ZERO);
 
     uint32 l = 0, m = 0;
     for (const CodePointRange& range : code_point_range_list_) {

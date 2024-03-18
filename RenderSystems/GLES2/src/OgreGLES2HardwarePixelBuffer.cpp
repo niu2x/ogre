@@ -64,7 +64,7 @@ namespace Ogre {
             // do conversion in temporary buffer
             allocateBuffer();
             converted = mBuffer.get_sub_volume(src);
-            PixelUtil::bulkPixelConversion(src, converted);
+            PixelUtil::bulk_pixel_conversion(src, converted);
         }
         else
         {
@@ -104,7 +104,7 @@ namespace Ogre {
                     Image::FILTER_BILINEAR);
             } else {
                 // Just copy the bit that we need
-                PixelUtil::bulkPixelConversion(
+                PixelUtil::bulk_pixel_conversion(
                     mBuffer.get_sub_volume(srcBox),
                     dst);
             }
@@ -183,11 +183,11 @@ namespace Ogre {
         size_t dataSize = 0;
         if(mTarget == GL_TEXTURE_2D_ARRAY)
         {
-            dataSize = PixelUtil::getMemorySize(dest.width(), dest.height(), dest.depth(), data.format);
+            dataSize = PixelUtil::get_memory_size(dest.width(), dest.height(), dest.depth(), data.format);
         }
         else
         {
-            dataSize = PixelUtil::getMemorySize(data.width(), data.height(), mDepth, data.format);
+            dataSize = PixelUtil::get_memory_size(data.width(), data.height(), mDepth, data.format);
         }
 
         // Upload data to PBO
@@ -199,8 +199,7 @@ namespace Ogre {
         void* pdata = data.get_top_left_front_pixel_ptr();
 #endif
 
-        if (PixelUtil::isCompressed(data.format))
-        {
+        if (PixelUtil::is_compressed(data.format)) {
             if (data.format != mFormat || !data.is_consecutive())
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Compressed images must be consecutive, in the source format",
@@ -242,9 +241,7 @@ namespace Ogre {
                         pdata));
                     break;
             }
-        }
-        else
-        {
+        } else {
             if (data.width() != data.row_pitch) {
                 if(!hasGLES30)
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
@@ -265,7 +262,8 @@ namespace Ogre {
                     (data.slice_pitch / data.width())));
             }
 
-            if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+            if ((data.width() * PixelUtil::get_num_elem_bytes(data.format))
+                & 3) {
                 // Standard alignment of 4 is not right
                 OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
             }
@@ -318,14 +316,13 @@ namespace Ogre {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "only download of entire buffer is supported by GL ES",
                         "GLES2TextureBuffer::download");
 
-        if(PixelUtil::isCompressed(data.format))
-        {
+        if (PixelUtil::is_compressed(data.format)) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                         "Compressed images cannot be downloaded by GL ES",
                         "GLES2TextureBuffer::download");
         }
 
-        if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+        if ((data.width() * PixelUtil::get_num_elem_bytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             OGRE_CHECK_GL_ERROR(glPixelStorei(GL_PACK_ALIGNMENT, 1));
         }
@@ -338,7 +335,7 @@ namespace Ogre {
 
         // Construct a temp PixelBox that is RGBA because GL_RGBA/GL_UNSIGNED_BYTE is the only combination that is
         // guaranteed to work on all platforms.
-        size_t sizeInBytes = PixelUtil::getMemorySize(
+        size_t sizeInBytes = PixelUtil::get_memory_size(
             data.width(),
             data.height(),
             data.depth(),
@@ -363,7 +360,7 @@ namespace Ogre {
                 break;
         }
 
-        PixelUtil::bulkPixelConversion(tempBox, data);
+        PixelUtil::bulk_pixel_conversion(tempBox, data);
 
         delete[] tempBox.data;
         tempBox.data = 0;

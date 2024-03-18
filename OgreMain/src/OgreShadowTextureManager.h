@@ -33,7 +33,7 @@ Torus Knot Software Ltd.
 // Precompiler options
 #include "OgrePrerequisites.h"
 #include "singleton.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 namespace Ogre
 {

@@ -271,7 +271,7 @@ namespace Ogre
         Pass* pass;
         pass = mat->createTechnique()->createPass();
         pass->getUserObjectBindings().setUserAny("Terrain", terrain);
-        pass->setSpecular(ColourValue::White);
+        pass->setSpecular(ColorValue::White);
         pass->setShininess(32); // user param
 
         if(mLayerSpecularMappingEnabled)

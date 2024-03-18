@@ -30,8 +30,7 @@ THE SOFTWARE.
 #define __Ogre_TerrainMaterialGenerator_H__
 
 #include "OgreTerrainPrerequisites.h"
-#include "OgrePixelFormat.h"
-
+#include "pixel_format.h"
 
 namespace Ogre
 {

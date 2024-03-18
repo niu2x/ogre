@@ -93,8 +93,8 @@ template<unsigned int elemsize> struct NearestResampler {
 // default floating-point linear resampler, does format conversion
 struct LinearResampler {
     static void scale(const PixelBox& src, const PixelBox& dst) {
-        size_t srcelemsize = PixelUtil::getNumElemBytes(src.format);
-        size_t dstelemsize = PixelUtil::getNumElemBytes(dst.format);
+        size_t srcelemsize = PixelUtil::get_num_elem_bytes(src.format);
+        size_t dstelemsize = PixelUtil::get_num_elem_bytes(dst.format);
 
         // srcdata stays at beginning, pdst is a moving pointer
         uchar* srcdata = (uchar*)src.get_top_left_front_pixel_ptr();
@@ -136,12 +136,12 @@ struct LinearResampler {
                     uint32 sx1 = temp >> 16;                    // src x #1
                     uint32 sx2 = std::min(sx1+1,src.width()-1);// src x #2
                     float sxf = (temp & 0xFFFF) / 65536.f; // weight of #2
-                
-                    ColourValue x1y1z1, x2y1z1, x1y2z1, x2y2z1;
-                    ColourValue x1y1z2, x2y1z2, x1y2z2, x2y2z2;
+
+                    ColorValue x1y1z1, x2y1z1, x1y2z1, x2y2z1;
+                    ColorValue x1y1z2, x2y1z2, x1y2z2, x2y2z2;
 
 #define UNPACK(dst, x, y, z)                                                   \
-    PixelUtil::unpackColour(                                                   \
+    PixelUtil::unpack_color(                                                   \
         &dst,                                                                  \
         src.format,                                                            \
         srcdata                                                                \
@@ -153,17 +153,17 @@ struct LinearResampler {
                     UNPACK(x1y2z2,sx1,sy2,sz2); UNPACK(x2y2z2,sx2,sy2,sz2);
 #undef UNPACK
 
-                    ColourValue accum =
-                        x1y1z1 * ((1.0f - sxf)*(1.0f - syf)*(1.0f - szf)) +
-                        x2y1z1 * (        sxf *(1.0f - syf)*(1.0f - szf)) +
-                        x1y2z1 * ((1.0f - sxf)*        syf *(1.0f - szf)) +
-                        x2y2z1 * (        sxf *        syf *(1.0f - szf)) +
-                        x1y1z2 * ((1.0f - sxf)*(1.0f - syf)*        szf ) +
-                        x2y1z2 * (        sxf *(1.0f - syf)*        szf ) +
-                        x1y2z2 * ((1.0f - sxf)*        syf *        szf ) +
-                        x2y2z2 * (        sxf *        syf *        szf );
+                    ColorValue accum
+                        = x1y1z1 * ((1.0f - sxf) * (1.0f - syf) * (1.0f - szf))
+                        + x2y1z1 * (sxf * (1.0f - syf) * (1.0f - szf))
+                        + x1y2z1 * ((1.0f - sxf) * syf * (1.0f - szf))
+                        + x2y2z1 * (sxf * syf * (1.0f - szf))
+                        + x1y1z2 * ((1.0f - sxf) * (1.0f - syf) * szf)
+                        + x2y1z2 * (sxf * (1.0f - syf) * szf)
+                        + x1y2z2 * ((1.0f - sxf) * syf * szf)
+                        + x2y2z2 * (sxf * syf * szf);
 
-                    PixelUtil::packColour(accum, dst.format, pdst);
+                    PixelUtil::pack_color(accum, dst.format, pdst);
 
                     pdst += dstelemsize;
                 }
@@ -180,9 +180,9 @@ struct LinearResampler {
 struct LinearResampler_Float32 {
     static void scale(const PixelBox& src, const PixelBox& dst) {
         size_t srcchannels
-            = PixelUtil::getNumElemBytes(src.format) / sizeof(float);
+            = PixelUtil::get_num_elem_bytes(src.format) / sizeof(float);
         size_t dstchannels
-            = PixelUtil::getNumElemBytes(dst.format) / sizeof(float);
+            = PixelUtil::get_num_elem_bytes(dst.format) / sizeof(float);
         // assert(srcchannels == 3 || srcchannels == 4);
         // assert(dstchannels == 3 || dstchannels == 4);
 

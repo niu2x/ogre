@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreVulkanUtils.h"
 
 #include "exception.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreViewport.h"

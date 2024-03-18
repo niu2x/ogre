@@ -126,13 +126,13 @@ namespace Ogre {
             size_t tempDataSize = image->size();
             tempData = OGRE_ALLOC_T(unsigned char, tempDataSize, Ogre::MEMCATEGORY_GENERAL);
             Ogre::PixelBox pbOut(image->getPixelBox(), format, tempData);
-            PixelUtil::bulkPixelConversion(image->getPixelBox(), pbOut);
+            PixelUtil::bulk_pixel_conversion(image->getPixelBox(), pbOut);
 
             inputData = tempData;
         }
 
         // Save to PNG
-        int channels = PixelUtil::getComponentCount(format);
+        int channels = PixelUtil::get_component_count(format);
         int len;
         uchar* data = stbi_write_png_to_mem(inputData, image->getRowSpan(), image->width(), image->height(), channels, &len);
 

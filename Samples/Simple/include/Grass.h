@@ -59,8 +59,11 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
     class LightPulse : public ControllerValue<float>
  {
  public:
-
-     LightPulse(Light* light, Billboard* billboard, const ColourValue& maxColour, Real maxSize)
+     LightPulse(
+         Light* light,
+         Billboard* billboard,
+         const ColorValue& maxColour,
+         Real maxSize)
      {
          mLight = light;
          mBillboard = billboard;
@@ -78,7 +81,7 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
          mIntensity = value;
 
          // calculate new colour and apply it to the light and billboard
-         ColourValue newColour = mMaxColour * mIntensity;
+         ColorValue newColour = mMaxColour * mIntensity;
          mLight->setDiffuseColour(newColour);
          mBillboard->setColour(newColour);
 
@@ -91,7 +94,7 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
 
      Light* mLight;
      Billboard* mBillboard;
-     ColourValue mMaxColour;
+     ColorValue mMaxColour;
      Real mMaxSize;
      Real mIntensity;
  };
@@ -217,9 +220,9 @@ class _OgreSampleClassExport Sample_Grass : public SdkSample
 
  void setupLighting()
  {
-     mSceneMgr->setAmbientLight(ColourValue::Black);  // turn off ambient light
+     mSceneMgr->setAmbientLight(ColorValue::Black); // turn off ambient light
 
-     ColourValue lightColour(1, 1, 0.3);
+     ColorValue lightColour(1, 1, 0.3);
 
      // create a light
      Light* light = mSceneMgr->createLight();

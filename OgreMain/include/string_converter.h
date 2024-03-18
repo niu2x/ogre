@@ -58,21 +58,22 @@ namespace Ogre {
     /** \addtogroup General
     *  @{
     */
-    /** Class for converting the core Ogre data types to/from Strings.
+/** Class for converting the core Ogre data types to/from Strings.
 
-        The code for converting values to and from strings is here as a separate
-        class to avoid coupling String to other datatypes (and vice-versa) which reduces
-        compilation dependency: important given how often the core types are used.
-    @par
-        This class is mainly used for parsing settings in text files. External applications
-        can also use it to interface with classes which use the StringInterface template
-        class.
-    @par
-        The String formats of each of the major types is listed with the methods. The basic types
-        like int and Real just use the underlying C runtime library atof and atoi family methods,
-        however custom types like Vector3, ColourValue and Matrix4 are also supported by this class
-        using custom formats.
-    */
+    The code for converting values to and from strings is here as a separate
+    class to avoid coupling String to other datatypes (and vice-versa) which
+reduces compilation dependency: important given how often the core types are
+used.
+@par
+    This class is mainly used for parsing settings in text files. External
+applications can also use it to interface with classes which use the
+StringInterface template class.
+@par
+    The String formats of each of the major types is listed with the methods.
+The basic types like int and Real just use the underlying C runtime library atof
+and atoi family methods, however custom types like Vector3, ColorValue and
+Matrix4 are also supported by this class using custom formats.
+*/
 class StringConverter {
 public:
     static String to_string(int32_t val) { return std::to_string(val); };
@@ -191,11 +192,11 @@ public:
         Format is "w x y z" (i.e. 4x Real values, space delimited)
     */
     static String to_string(const Quaternion& val);
-    /** Converts a ColourValue to a String.
+    /** Converts a ColorValue to a String.
 
         Format is "r g b a" (i.e. 4x Real values, space delimited).
     */
-    static String to_string(const ColourValue& val);
+    static String to_string(const ColorValue& val);
     /** Converts a StringVector to a string.
 
         Strings must not contain spaces since space is used as a delimiter in
@@ -206,7 +207,7 @@ public:
     /** Converts a String to a basic value type
         @return whether the conversion was successful
     */
-    static bool parse(const String& str, ColourValue& v);
+    static bool parse(const String& str, ColorValue& v);
     static bool parse(const String& str, Quaternion& v);
     static bool parse(const String& str, Matrix4& v);
     static bool parse(const String& str, Matrix3& v);
@@ -369,17 +370,17 @@ public:
         Quaternion ret;
         return parse(val, ret) ? ret : defaultValue;
     }
-    /** Parses a ColourValue out of a String.
+    /** Parses a ColorValue out of a String.
 
         Format is "r g b a" (i.e. 4x Real values, space delimited), or "r g b"
        which implies an alpha value of 1.0 (opaque). Failure to parse returns
-       ColourValue::Black.
+       ColorValue::Black.
     */
-    static ColourValue parse_colour_value(
+    static ColorValue parse_colour_value(
         const String& val,
-        const ColourValue& defaultValue = ColourValue::Black)
+        const ColorValue& defaultValue = ColorValue::Black)
     {
-        ColourValue ret;
+        ColorValue ret;
         return parse(val, ret) ? ret : defaultValue;
     }
 
@@ -403,7 +404,7 @@ inline String to_string(const Quaternion& v)
 {
     return StringConverter::to_string(v);
 }
-inline String to_string(const ColourValue& v)
+inline String to_string(const ColorValue& v)
 {
     return StringConverter::to_string(v);
 }

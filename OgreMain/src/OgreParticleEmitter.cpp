@@ -80,7 +80,7 @@ namespace Ogre
         mMaxSpeed = mMinSpeed = 1;
         mMaxTTL = mMinTTL = 5;
         mPosition = Vector3::zero;
-        mColourRangeStart = mColourRangeEnd = ColourValue::White;
+        mColourRangeStart = mColourRangeEnd = ColorValue::White;
         mEnabled = true;
         mRemainder = 0;
         mName = BLANKSTRING;
@@ -191,12 +191,14 @@ namespace Ogre
         mMaxTTL = maxTtl;
     }
     //-----------------------------------------------------------------------
-    void ParticleEmitter::setColour(const ColourValue& inColour)
+    void ParticleEmitter::setColour(const ColorValue& inColour)
     {
         mColourRangeStart = mColourRangeEnd = inColour;
     }
     //-----------------------------------------------------------------------
-    void ParticleEmitter::setColour(const ColourValue& colourStart, const ColourValue& colourEnd)
+    void ParticleEmitter::setColour(
+        const ColorValue& colourStart,
+        const ColorValue& colourEnd)
     {
         mColourRangeStart = colourStart;
         mColourRangeEnd = colourEnd;
@@ -365,7 +367,11 @@ namespace Ogre
         if (mColourRangeStart != mColourRangeEnd)
         {
             // Randomise
-            ColourValue t(Math::UnitRandom(), Math::UnitRandom(), Math::UnitRandom(), Math::UnitRandom());
+            ColorValue t(
+                Math::UnitRandom(),
+                Math::UnitRandom(),
+                Math::UnitRandom(),
+                Math::UnitRandom());
             destColour = (mColourRangeStart + t * (mColourRangeEnd - mColourRangeStart)).as_BYTE();
         }
         else
@@ -383,16 +389,27 @@ namespace Ogre
             "from the emitters direction, in degrees." , ParameterType::REAL),
             &msAngleCmd);
 
-        dict->add_parameter(ParameterDef("colour", 
-            "The colour of emitted particles.", ParameterType::COLOURVALUE),
+        dict->add_parameter(
+            ParameterDef(
+                "colour",
+                "The colour of emitted particles.",
+                ParameterType::ColorValue),
             &msColourCmd);
 
-        dict->add_parameter(ParameterDef("colour_range_start", 
-            "The start of a range of colours to be assigned to emitted particles.", ParameterType::COLOURVALUE),
+        dict->add_parameter(
+            ParameterDef(
+                "colour_range_start",
+                "The start of a range of colours to be assigned to emitted "
+                "particles.",
+                ParameterType::ColorValue),
             &msColourRangeStartCmd);
 
-        dict->add_parameter(ParameterDef("colour_range_end", 
-            "The end of a range of colours to be assigned to emitted particles.", ParameterType::COLOURVALUE),
+        dict->add_parameter(
+            ParameterDef(
+                "colour_range_end",
+                "The end of a range of colours to be assigned to emitted "
+                "particles.",
+                ParameterType::ColorValue),
             &msColourRangeEndCmd);
 
         dict->add_parameter(ParameterDef("direction", 
@@ -403,9 +420,14 @@ namespace Ogre
             "The up vector of the emitter." , ParameterType::VECTOR3),
             &msUpCmd);
 
-        dict->add_parameter(ParameterDef("direction_position_reference", 
-            "The reference position to calculate the direction of emitted particles "
-            "based on their position. Good for explosions and implosions (use negative velocity)" , ParameterType::COLOURVALUE),
+        dict->add_parameter(
+            ParameterDef(
+                "direction_position_reference",
+                "The reference position to calculate the direction of emitted "
+                "particles "
+                "based on their position. Good for explosions and implosions "
+                "(use negative velocity)",
+                ParameterType::ColorValue),
             &msDirPositionRefCmd);
 
         dict->add_parameter(ParameterDef("emission_rate", 
@@ -525,27 +547,27 @@ namespace Ogre
         mMaxTTL = max;
     }
     //-----------------------------------------------------------------------
-    const ColourValue& ParticleEmitter::getColour(void) const
+    const ColorValue& ParticleEmitter::getColour(void) const
     {
         return mColourRangeStart;
     }
     //-----------------------------------------------------------------------
-    const ColourValue& ParticleEmitter::getColourRangeStart(void) const
+    const ColorValue& ParticleEmitter::getColourRangeStart(void) const
     {
         return mColourRangeStart;
     }
     //-----------------------------------------------------------------------
-    const ColourValue& ParticleEmitter::getColourRangeEnd(void) const
+    const ColorValue& ParticleEmitter::getColourRangeEnd(void) const
     {
         return mColourRangeEnd;
     }
     //-----------------------------------------------------------------------
-    void ParticleEmitter::setColourRangeStart(const ColourValue& val)
+    void ParticleEmitter::setColourRangeStart(const ColorValue& val)
     {
         mColourRangeStart = val;
     }
     //-----------------------------------------------------------------------
-    void ParticleEmitter::setColourRangeEnd(const ColourValue& val )
+    void ParticleEmitter::setColourRangeEnd(const ColorValue& val)
     {
         mColourRangeEnd = val;
     }

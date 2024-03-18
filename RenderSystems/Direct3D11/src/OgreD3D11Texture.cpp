@@ -255,8 +255,7 @@ namespace Ogre
         desc.CPUAccessFlags = D3D11Mappings::_getAccessFlags(_getTextureUsage());
         desc.MiscFlags      = D3D11Mappings::_getTextureMiscFlags(desc.BindFlags, getTextureType(), _getTextureUsage());
 
-        if (PixelUtil::isDepth(mFormat))
-        {
+        if (PixelUtil::is_depth(mFormat)) {
             desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL;
             desc.Usage = D3D11_USAGE_DEFAULT;
             desc.CPUAccessFlags        = 0;
@@ -572,8 +571,7 @@ namespace Ogre
             assert(false);
         }
 
-        if (!PixelUtil::isDepth(mBuffer->getFormat()))
-        {
+        if (!PixelUtil::is_depth(mBuffer->getFormat())) {
             OGRE_CHECK_DX_ERROR(mDevice->CreateRenderTargetView(pBackBuffer, &RTVDesc,
                                                                 mRenderTargetView.ReleaseAndGetAddressOf()));
             return;
@@ -601,7 +599,10 @@ namespace Ogre
         mDepthBuffer->_notifyRenderTargetAttached(this);
     }
 
-    uint D3D11RenderTexture::getNumberOfViews() const { return PixelUtil::isDepth(mBuffer->getFormat()) ? 0 : 1; }
+    uint D3D11RenderTexture::getNumberOfViews() const
+    {
+        return PixelUtil::is_depth(mBuffer->getFormat()) ? 0 : 1;
+    }
 
     ID3D11Texture2D* D3D11RenderTexture::getSurface(uint index) const
     {
@@ -624,7 +625,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     D3D11RenderTexture::~D3D11RenderTexture()
     {
-        if (mDepthBuffer && PixelUtil::isDepth (mBuffer->getFormat ()))
+        if (mDepthBuffer && PixelUtil::is_depth(mBuffer->getFormat()))
             delete mDepthBuffer;
     }
 

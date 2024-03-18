@@ -183,7 +183,7 @@ namespace Ogre {
         void writeSceneBlendFactor(SceneBlendFactor src, SceneBlendFactor dest);
         void writeSceneBlendFactor(SceneBlendFactor sbf);
         void writeCompareFunction(const CompareFunction cf);
-        void writeColourValue(const ColourValue &colour, bool writeAlpha = false);
+        void writeColorValue(const ColorValue& colour, bool writeAlpha = false);
         void writeLayerBlendOperationEx(const LayerBlendOperationEx op);
         void writeLayerBlendSource(const LayerBlendSource lbs);
         

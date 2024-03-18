@@ -165,7 +165,10 @@ namespace Ogre
         static PropertyType getTypeForValue(const Vector2& val) { return PROP_VECTOR2; }
         static PropertyType getTypeForValue(const Vector3& val) { return PROP_VECTOR3; }
         static PropertyType getTypeForValue(const Vector4& val) { return PROP_VECTOR4; }
-        static PropertyType getTypeForValue(const ColourValue& val) { return PROP_COLOUR; }
+        static PropertyType getTypeForValue(const ColorValue& val)
+        {
+            return PROP_COLOUR;
+        }
         static PropertyType getTypeForValue(const bool& val) { return PROP_BOOL; }
         static PropertyType getTypeForValue(const Quaternion& val) { return PROP_QUATERNION; }
         static PropertyType getTypeForValue(const Matrix3& val) { return PROP_MATRIX3; }

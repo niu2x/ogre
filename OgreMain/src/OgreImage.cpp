@@ -124,17 +124,16 @@ namespace Ogre {
         return *this;
     }
 
-    void Image::setTo(const ColourValue& col)
+    void Image::setTo(const ColorValue& col)
     {
         OgreAssert(mBuffer, "No image data loaded");
-        if(col == ColourValue::ZERO)
-        {
+        if (col == ColorValue::ZERO) {
             memset(mBuffer, 0, size());
             return;
         }
 
         uchar rawCol[4 * sizeof(float)]; // max packed size currently is 4*float
-        PixelUtil::packColour(col, mFormat, rawCol);
+        PixelUtil::pack_color(col, mFormat, rawCol);
         for(size_t p = 0; p < mBufSize; p += mPixelSize)
         {
             memcpy(mBuffer + p, rawCol, mPixelSize);
@@ -197,7 +196,7 @@ namespace Ogre {
         OgreAssert(mBuffer, "No image data loaded");
         
         mNumMipmaps = 0; // Image operations lose precomputed mipmaps
-        PixelUtil::bulkPixelVerticalFlip(getPixelBox());
+        PixelUtil::bulk_pixel_vertical_flip(getPixelBox());
 
         return *this;
     }
@@ -213,11 +212,11 @@ namespace Ogre {
         mHeight = uHeight;
         mDepth = depth;
         mFormat = eFormat;
-        mPixelSize = static_cast<uchar>(PixelUtil::getNumElemBytes( mFormat ));
+        mPixelSize = static_cast<uchar>(PixelUtil::get_num_elem_bytes(mFormat));
         mNumMipmaps = numMipMaps;
         mFlags = 0;
         // Set flags
-        if (PixelUtil::isCompressed(eFormat))
+        if (PixelUtil::is_compressed(eFormat))
             mFlags |= IF_COMPRESSED;
         if (mDepth != 1)
             mFlags |= IF_3D_TEXTURE;
@@ -327,7 +326,7 @@ namespace Ogre {
         pCodec->decode(stream, this);
 
         // compute the pixel size
-        mPixelSize = static_cast<uchar>(PixelUtil::getNumElemBytes( mFormat ));
+        mPixelSize = static_cast<uchar>(PixelUtil::get_num_elem_bytes(mFormat));
         // make sure we delete
         mAutoDelete = true;
 
@@ -354,7 +353,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------
     bool Image::getHasAlpha(void) const
     {
-        return PixelUtil::getFlags(mFormat) & PFF_HAS_ALPHA;
+        return PixelUtil::get_flags(mFormat) & PFF_HAS_ALPHA;
     }
     //-----------------------------------------------------------------------------
     void Image::applyGamma( uchar *buffer, Real gamma, size_t size, uchar bpp )
@@ -400,8 +399,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Image::scale(const PixelBox &src, const PixelBox &scaled, Filter filter) 
     {
-        assert(PixelUtil::isAccessible(src.format));
-        assert(PixelUtil::isAccessible(scaled.format));
+        assert(PixelUtil::is_accessible(src.format));
+        assert(PixelUtil::is_accessible(scaled.format));
         Image buf; // For auto-delete
         // Assume no intermediate buffer needed
         PixelBox temp = scaled;
@@ -420,7 +419,7 @@ namespace Ogre {
                 temp = buf.getPixelBox();
             }
             // super-optimized: no conversion
-            switch (PixelUtil::getNumElemBytes(src.format)) {
+            switch (PixelUtil::get_num_elem_bytes(src.format)) {
                 case 1:
                     NearestResampler<1>::scale(src, temp);
                     break;
@@ -451,7 +450,7 @@ namespace Ogre {
             }
             if (temp.data != scaled.data) {
                 // Blit temp buffer
-                PixelUtil::bulkPixelConversion(temp, scaled);
+                PixelUtil::bulk_pixel_conversion(temp, scaled);
             }
             break;
 
@@ -480,7 +479,7 @@ namespace Ogre {
                         temp = buf.getPixelBox();
                     }
                     // super-optimized: byte-oriented math, no conversion
-                    switch (PixelUtil::getNumElemBytes(src.format)) {
+                    switch (PixelUtil::get_num_elem_bytes(src.format)) {
                         case 1:
                             LinearResampler_Byte<1>::scale(src, temp);
                             break;
@@ -499,7 +498,7 @@ namespace Ogre {
                     }
                     if (temp.data != scaled.data) {
                         // Blit temp buffer
-                        PixelUtil::bulkPixelConversion(temp, scaled);
+                        PixelUtil::bulk_pixel_conversion(temp, scaled);
                     }
                     break;
                 case PixelFormat::FLOAT32_RGB:
@@ -520,20 +519,20 @@ namespace Ogre {
         }
     }
 
-    //-----------------------------------------------------------------------------    
+    //-----------------------------------------------------------------------------
 
-    ColourValue Image::getColourAt(uint32 x, uint32 y, uint32 z) const
+    ColorValue Image::getColourAt(uint32 x, uint32 y, uint32 z) const
     {
-        ColourValue rval;
-        PixelUtil::unpackColour(&rval, mFormat, getData(x, y, z));
+        ColorValue rval;
+        PixelUtil::unpack_color(&rval, mFormat, getData(x, y, z));
         return rval;
     }
 
-    //-----------------------------------------------------------------------------    
-    
-    void Image::setColourAt(ColourValue const &cv, uint32 x, uint32 y, uint32 z)
+    //-----------------------------------------------------------------------------
+
+    void Image::setColourAt(ColorValue const& cv, uint32 x, uint32 y, uint32 z)
     {
-        PixelUtil::packColour(cv, mFormat, getData(x, y, z));
+        PixelUtil::pack_color(cv, mFormat, getData(x, y, z));
     }
 
     //-----------------------------------------------------------------------------    
@@ -569,7 +568,11 @@ namespace Ogre {
                 finalHeight = height;
                 finalDepth = depth;
             }
-            fullFaceSize += PixelUtil::getMemorySize(width, height, depth, getFormat());
+            fullFaceSize += PixelUtil::get_memory_size(
+                width,
+                height,
+                depth,
+                getFormat());
 
             /// Half size in each dimension
             if(width!=1) width /= 2;
@@ -595,7 +598,8 @@ namespace Ogre {
         size_t size = 0;
         for(uint32 mip=0; mip<=mipmaps; ++mip)
         {
-            size += PixelUtil::getMemorySize(width, height, depth, format)*faces; 
+            size += PixelUtil::get_memory_size(width, height, depth, format)
+                * faces;
             if(width!=1) width /= 2;
             if(height!=1) height /= 2;
             if(depth!=1) depth /= 2;
@@ -638,11 +642,15 @@ namespace Ogre {
                    "Images must have the same number of surfaces");
 
         // Format check
-        OgreAssert(PixelUtil::getComponentCount(fmt) == 4, "Target format must have 4 components");
+        OgreAssert(
+            PixelUtil::get_component_count(fmt) == 4,
+            "Target format must have 4 components");
 
-        OgreAssert(!(PixelUtil::isCompressed(fmt) || PixelUtil::isCompressed(rgb.getFormat()) ||
-                     PixelUtil::isCompressed(alpha.getFormat())),
-                   "Compressed formats are not supported in this method");
+        OgreAssert(
+            !(PixelUtil::is_compressed(fmt)
+              || PixelUtil::is_compressed(rgb.getFormat())
+              || PixelUtil::is_compressed(alpha.getFormat())),
+            "Compressed formats are not supported in this method");
 
         uint32 numFaces = rgb.getNumFaces();
         create(fmt, rgb.width(), rgb.height(), rgb.depth(), numFaces, rgb.getNumMipmaps());
@@ -654,7 +662,7 @@ namespace Ogre {
                 // convert the RGB first
                 PixelBox srcRGB = rgb.getPixelBox(face, mip);
                 PixelBox dst = getPixelBox(face, mip);
-                PixelUtil::bulkPixelConversion(srcRGB, dst);
+                PixelUtil::bulk_pixel_conversion(srcRGB, dst);
 
                 // now selectively add the alpha
                 PixelBox srcAlpha = alpha.getPixelBox(face, mip);
@@ -666,18 +674,22 @@ namespace Ogre {
                     {
                         for (uint32 x = 0; x < mWidth; ++x)
                         {
-                            ColourValue colRGBA, colA;
+                            ColorValue colRGBA, colA;
                             // read RGB back from dest to save having another pointer
-                            PixelUtil::unpackColour(&colRGBA, mFormat, pdst);
-                            PixelUtil::unpackColour(&colA, alpha.getFormat(), psrcAlpha);
+                            PixelUtil::unpack_color(&colRGBA, mFormat, pdst);
+                            PixelUtil::unpack_color(
+                                &colA,
+                                alpha.getFormat(),
+                                psrcAlpha);
 
                             // combine RGB from alpha source texture
                             colRGBA.a = (colA.r + colA.g + colA.b) / 3.0f;
 
-                            PixelUtil::packColour(colRGBA, mFormat, pdst);
-                            
-                            psrcAlpha += PixelUtil::getNumElemBytes(alpha.getFormat());
-                            pdst += PixelUtil::getNumElemBytes(mFormat);
+                            PixelUtil::pack_color(colRGBA, mFormat, pdst);
+
+                            psrcAlpha += PixelUtil::get_num_elem_bytes(
+                                alpha.getFormat());
+                            pdst += PixelUtil::get_num_elem_bytes(mFormat);
                         }
                     }
                 }

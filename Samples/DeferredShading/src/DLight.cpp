@@ -81,7 +81,7 @@ void DLight::setAttenuation(float c, float b, float a)
     rebuildGeometry(outerRadius);
 }
 //-----------------------------------------------------------------------
-void DLight::setSpecularColour(const ColourValue &col)
+void DLight::setSpecularColour(const ColorValue& col)
 {
     //setCustomParameter(2, Vector4(col.r, col.g, col.b, col.a));
     /// There is a specular component? Set material accordingly

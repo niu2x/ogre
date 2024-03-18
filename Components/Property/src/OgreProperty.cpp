@@ -37,24 +37,11 @@ namespace Ogre
     //---------------------------------------------------------------------
     const String& PropertyDef::getTypeName(PropertyType theType)
     {
-        static const String sPropNames[] = {
-            "short",
-            "unsigned short",
-            "int",
-            "unsigned int",
-            "long",
-            "unsigned long",
-            "Real",
-            "String",
-            "Vector2",
-            "Vector3",
-            "Vector4",
-            "ColourValue",
-            "bool",
-            "Quaternion",
-            "Matrix3",
-            "Matrix4"
-        };
+        static const String sPropNames[]
+            = { "short",   "unsigned short", "int",     "unsigned int",
+                "long",    "unsigned long",  "Real",    "String",
+                "Vector2", "Vector3",        "Vector4", "ColorValue",
+                "bool",    "Quaternion",     "Matrix3", "Matrix4" };
 
         return sPropNames[(int)theType];
     }
@@ -146,7 +133,8 @@ namespace Ogre
                 val.val = Ogre::Any(static_cast<Property<Ogre::Vector4>*>(i->second)->get());
                 break;
             case PROP_COLOUR:
-                val.val = Ogre::Any(static_cast<Property<Ogre::ColourValue>*>(i->second)->get());
+                val.val = Ogre::Any(
+                    static_cast<Property<Ogre::ColorValue>*>(i->second)->get());
                 break;
             case PROP_BOOL:
                 val.val = Ogre::Any(static_cast<Property<bool>*>(i->second)->get());
@@ -225,7 +213,8 @@ namespace Ogre
                     static_cast<Property<Ogre::Vector4>*>(j->second)->set(std::any_cast<Ogre::Vector4>(i->second.val));
                     break;
                 case PROP_COLOUR:
-                    static_cast<Property<Ogre::ColourValue>*>(j->second)->set(std::any_cast<Ogre::ColourValue>(i->second.val));
+                    static_cast<Property<Ogre::ColorValue>*>(j->second)->set(
+                        std::any_cast<Ogre::ColorValue>(i->second.val));
                     break;
                 case PROP_BOOL:
                     static_cast<Property<bool>*>(j->second)->set(std::any_cast<bool>(i->second.val));

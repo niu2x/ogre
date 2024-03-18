@@ -447,23 +447,32 @@ namespace Ogre {
     #define ALL_TECHNIQUES(fncall) for(auto t : mTechniques) t->fncall
     void Material::setPointSize(Real ps) { ALL_TECHNIQUES(setPointSize(ps)); }
     //-----------------------------------------------------------------------
-    void Material::setAmbient(float red, float green, float blue) { setAmbient(ColourValue(red, green, blue)); }
+    void Material::setAmbient(float red, float green, float blue)
+    {
+        setAmbient(ColorValue(red, green, blue));
+    }
     //-----------------------------------------------------------------------
-    void Material::setAmbient(const ColourValue& ambient) { ALL_TECHNIQUES(setAmbient(ambient)); }
+    void Material::setAmbient(const ColorValue& ambient)
+    {
+        ALL_TECHNIQUES(setAmbient(ambient));
+    }
     //-----------------------------------------------------------------------
     void Material::setDiffuse(float red, float green, float blue, float alpha)
     {
         ALL_TECHNIQUES(setDiffuse(red, green, blue, alpha));
     }
     //-----------------------------------------------------------------------
-    void Material::setDiffuse(const ColourValue& diffuse) { setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a); }
+    void Material::setDiffuse(const ColorValue& diffuse)
+    {
+        setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+    }
     //-----------------------------------------------------------------------
     void Material::setSpecular(float red, float green, float blue, float alpha)
     {
         ALL_TECHNIQUES(setSpecular(red, green, blue, alpha));
     }
     //-----------------------------------------------------------------------
-    void Material::setSpecular(const ColourValue& specular)
+    void Material::setSpecular(const ColorValue& specular)
     {
         setSpecular(specular.r, specular.g, specular.b, specular.a);
     }
@@ -472,10 +481,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Material::setSelfIllumination(float red, float green, float blue)
     {
-        setSelfIllumination(ColourValue(red, green, blue));
+        setSelfIllumination(ColorValue(red, green, blue));
     }
     //-----------------------------------------------------------------------
-    void Material::setSelfIllumination(const ColourValue& selfIllum) { ALL_TECHNIQUES(setSelfIllumination(selfIllum)); }
+    void Material::setSelfIllumination(const ColorValue& selfIllum)
+    {
+        ALL_TECHNIQUES(setSelfIllumination(selfIllum));
+    }
     //-----------------------------------------------------------------------
     void Material::setDepthCheckEnabled(bool enabled) { ALL_TECHNIQUES(setDepthCheckEnabled(enabled)); }
     //-----------------------------------------------------------------------
@@ -498,8 +510,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Material::setShadingMode(ShadeOptions mode) { ALL_TECHNIQUES(setShadingMode(mode)); }
     //-----------------------------------------------------------------------
-    void Material::setFog(bool overrideScene, FogMode mode, const ColourValue& colour, Real expDensity,
-                          Real linearStart, Real linearEnd)
+    void Material::setFog(
+        bool overrideScene,
+        FogMode mode,
+        const ColorValue& colour,
+        Real expDensity,
+        Real linearStart,
+        Real linearEnd)
     {
         ALL_TECHNIQUES(setFog(overrideScene, mode, colour, expDensity, linearStart, linearEnd));
     }

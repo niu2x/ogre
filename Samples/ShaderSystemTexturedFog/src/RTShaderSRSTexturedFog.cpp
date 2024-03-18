@@ -208,7 +208,7 @@ bool RTShaderSRSTexturedFog::preAddToRenderState(const RenderState* renderState,
         return false;
 
     FogMode fogMode;
-    ColourValue newFogColour;
+    ColorValue newFogColour;
     Real newFogStart, newFogEnd, newFogDensity;
 
     if (srcPass->getFogOverride())
@@ -246,7 +246,13 @@ bool RTShaderSRSTexturedFog::preAddToRenderState(const RenderState* renderState,
     
     
     // Override scene fog since it will happen in shader.
-    dstPass->setFog(true, FOG_NONE, ColourValue::White, newFogDensity, newFogStart, newFogEnd); 
+    dstPass->setFog(
+        true,
+        FOG_NONE,
+        ColorValue::White,
+        newFogDensity,
+        newFogStart,
+        newFogEnd);
 
     TextureUnitState* tus = dstPass->createTextureUnitState();
     auto tex = TextureManager::singleton().load(

@@ -290,9 +290,11 @@ namespace Ogre
         void bindGpuProgramParameters(GpuProgramType gptype, const GpuProgramParametersPtr& params, uint16 mask);
 
         void setScissorTest(bool enabled, const Rect& rect = Rect());
-        void clearFrameBuffer(unsigned int buffers, 
-            const ColourValue& colour = ColourValue::Black, 
-            float depth = 1.0f, unsigned short stencil = 0);
+        void clearFrameBuffer(
+            unsigned int buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            unsigned short stencil = 0);
         HardwareOcclusionQuery* createHardwareOcclusionQuery(void);
         Real getMinimumDepthInputValue(void);
         Real getMaximumDepthInputValue(void);

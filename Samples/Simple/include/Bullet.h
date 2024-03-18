@@ -36,7 +36,7 @@ public:
         // without light we would just get a black screen
         Light* light = mSceneMgr->createLight("MainLight");
         mSceneMgr->getRootSceneNode()->createChildSceneNode(Vector3(0, 10, 15))->attachObject(light);
-        mSceneMgr->setAmbientLight(ColourValue(0.7, 0.7, 0.7));
+        mSceneMgr->setAmbientLight(ColorValue(0.7, 0.7, 0.7));
 
         mCamera->setNearClipDistance(0.05);
         mTrayMgr->showCursor();

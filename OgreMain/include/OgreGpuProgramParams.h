@@ -501,8 +501,9 @@ namespace Ogre {
         void setNamedConstant(const String& name, const Matrix4* m, uint32 numEntries);
         void setNamedConstant(const String& name, const float *val, uint32 count);
         void setNamedConstant(const String& name, const double *val, uint32 count);
-        /** @copydoc GpuProgramParameters::setNamedConstant(const String& name, const ColourValue& colour) */
-        void setNamedConstant(const String& name, const ColourValue& colour);
+        /** @copydoc GpuProgramParameters::setNamedConstant(const String& name,
+         * const ColorValue& colour) */
+        void setNamedConstant(const String& name, const ColorValue& colour);
         void setNamedConstant(const String& name, const int *val, uint32 count);
         void setNamedConstant(const String& name, const uint *val, uint32 count);
         /// Get a pointer to the 'nth' item in the float buffer
@@ -1328,12 +1329,12 @@ namespace Ogre {
             @param numEntries Number of Matrix4 entries
         */
         void setConstant(size_t index, const Matrix4* m, size_t numEntries);
-        /** Sets a ColourValue parameter to the program.
-            @param index The logical constant index at which to place the parameter (each constant is
-            a 4D float)
+        /** Sets a ColorValue parameter to the program.
+            @param index The logical constant index at which to place the
+           parameter (each constant is a 4D float)
             @param colour The value to set
         */
-        void setConstant(size_t index, const ColourValue& colour);
+        void setConstant(size_t index, const ColorValue& colour);
         /** Sets a multiple value constant floating-point parameter to the program.
             @param index The logical constant index at which to start placing parameters (each constant is
             a 4D float)
@@ -1437,14 +1438,17 @@ namespace Ogre {
             @param numEntries Number of Matrix4 entries
         */
         void _writeRawConstant(size_t physicalIndex, const TransformBaseReal* m, size_t numEntries);
-        /** Write a ColourValue parameter to the program.
-            @param physicalIndex The physical buffer index at which to place the parameter
+        /** Write a ColorValue parameter to the program.
+            @param physicalIndex The physical buffer index at which to place the
+           parameter
             @param colour The value to set
             @param count The number of floats to write; if for example
             the uniform constant 'slot' is smaller than a Vector4
         */
-        void _writeRawConstant(size_t physicalIndex, const ColourValue& colour,
-                               size_t count = 4);
+        void _writeRawConstant(
+            size_t physicalIndex,
+            const ColorValue& colour,
+            size_t count = 4);
         /// @}
 
         /** Read a series of floating point values from the underlying float
@@ -1671,7 +1675,7 @@ namespace Ogre {
         /// @overload
         void setNamedConstant(const String& name, const Matrix4& val);
         /// @overload
-        void setNamedConstant(const String& name, const ColourValue& colour);
+        void setNamedConstant(const String& name, const ColorValue& colour);
         /** Sets a list of Matrix4 parameters to the program.
             @param name The name of the parameter; this must be the first index of an array,
             for examples 'matrices[0]'

@@ -339,8 +339,8 @@ namespace Ogre {
         unsigned long nonVisibleColour;
         Root& r = Root::singleton();
 
-        r.convertColourValue(ColourValue::White, &visibleColour);
-        r.convertColourValue(ColourValue::Blue, &nonVisibleColour);
+        r.convertColorValue(ColorValue::White, &visibleColour);
+        r.convertColorValue(ColorValue::Blue, &nonVisibleColour);
         if (mShowNodeAABs)
         {
             // Add set of lines

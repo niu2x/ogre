@@ -108,8 +108,7 @@ namespace Ogre {
             return format;
         }
 
-        if(PixelUtil::isDepth(format))
-        {
+        if (PixelUtil::is_depth(format)) {
             switch (format)
             {
                 default:
@@ -122,12 +121,9 @@ namespace Ogre {
                     format = PixelFormat::FLOAT32_R;
                     break;
             }
-        }
-        else
-        {
+        } else {
             /// Find first alternative
-            switch (PixelUtil::getComponentType(format))
-            {
+            switch (PixelUtil::get_component_type(format)) {
                 case PixelComponentType::BYTE:
                     format = PixelFormat::BYTE_RGBA; // native endian
                     break;

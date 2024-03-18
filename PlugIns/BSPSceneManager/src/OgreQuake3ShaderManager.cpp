@@ -275,7 +275,7 @@ Quake3ShaderManager* Quake3ShaderManager::singleton_ptr(void)
             g = atof(params[2].c_str());
             b = atof(params[3].c_str());
             pShader->fog = true;
-            pShader->fogColour = ColourValue(r,g,b);
+            pShader->fogColour = ColorValue(r, g, b);
             pShader->fogDistance = atof(params[4].c_str());
 
         }

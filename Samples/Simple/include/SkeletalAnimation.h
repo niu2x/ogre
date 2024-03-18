@@ -182,7 +182,7 @@ protected:
 #endif
 
         // add a little ambient lighting
-        mSceneMgr->setAmbientLight(ColourValue(0.3, 0.3, 0.3));
+        mSceneMgr->setAmbientLight(ColorValue(0.3, 0.3, 0.3));
 
         SceneNode* lightsBbsNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         BillboardSet* bbs;

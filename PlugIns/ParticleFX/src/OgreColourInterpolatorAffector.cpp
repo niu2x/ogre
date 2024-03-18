@@ -45,7 +45,7 @@ namespace Ogre {
         {
             // set default colour to transparent grey, transparent since we might not want to display the particle here
             // grey because when a colour component is 0.5f the maximum difference to another colour component is 0.5f
-            mColourAdj[i]   = ColourValue(0.5f, 0.5f, 0.5f, 0.0f);
+            mColourAdj[i] = ColorValue(0.5f, 0.5f, 0.5f, 0.0f);
             mTimeAdj[i]     = 1.0f;
         }
 
@@ -99,12 +99,13 @@ namespace Ogre {
     }
     
     //-----------------------------------------------------------------------
-    void ColourInterpolatorAffector::setColourAdjust(size_t index, ColourValue colour)
+    void
+    ColourInterpolatorAffector::setColourAdjust(size_t index, ColorValue colour)
     {
         mColourAdj[index] = colour;
     }
     //-----------------------------------------------------------------------
-    ColourValue ColourInterpolatorAffector::getColourAdjust(size_t index) const
+    ColorValue ColourInterpolatorAffector::getColourAdjust(size_t index) const
     {
         return mColourAdj[index];
     }

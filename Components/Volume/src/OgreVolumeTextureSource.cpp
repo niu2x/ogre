@@ -83,7 +83,7 @@ namespace Volume {
         auto dstBox = srcBox;
         dstBox.data = (uchar*)mData;
         dstBox.format = PixelFormat::FLOAT32_R;
-        PixelUtil::bulkPixelConversion(srcBox, dstBox);
+        PixelUtil::bulk_pixel_conversion(srcBox, dstBox);
 
         LogManager::singleton().stream()
             << "Processed texture in " << t.milli_seconds() << "ms.";

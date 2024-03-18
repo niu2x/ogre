@@ -48,14 +48,17 @@ namespace Ogre {
     {
     }
     //-----------------------------------------------------------------------
-    Billboard::Billboard(const Vector3& position, BillboardSet* owner, const ColourValue& colour)
-        : mOwnDimensions(false)
-        , mUseTexcoordRect(false)
-        , mTexcoordIndex(0)
-        , mPosition(position)
-        , mDirection(Vector3::zero)
-        , mColour(colour.as_BYTE())
-        , mRotation(0)
+    Billboard::Billboard(
+        const Vector3& position,
+        BillboardSet* owner,
+        const ColorValue& colour)
+    : mOwnDimensions(false)
+    , mUseTexcoordRect(false)
+    , mTexcoordIndex(0)
+    , mPosition(position)
+    , mDirection(Vector3::zero)
+    , mColour(colour.as_BYTE())
+    , mRotation(0)
     {
     }
     //-----------------------------------------------------------------------

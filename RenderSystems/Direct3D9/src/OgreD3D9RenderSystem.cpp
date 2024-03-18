@@ -101,10 +101,9 @@ namespace Ogre
 		{
 			for(int j = 0 ; j < 2 ; j++)
 			{
-				mManualBlendColours[i][j] = ColourValue::ZERO;
-			}
-
-		}
+                mManualBlendColours[i][j] = ColorValue::ZERO;
+            }
+        }
 
         // Create the resource manager.
         mResourceManager = OGRE_NEW D3D9ResourceManager();
@@ -211,7 +210,9 @@ namespace Ogre
                     hr = __SetFloatRenderState( D3DRS_FOGEND, ptr[2] );
                     break;
                 case GpuProgramParameters::ACT_FOG_COLOUR:
-                    hr = __SetRenderState( D3DRS_FOGCOLOR, ColourValue(ptr[0], ptr[1], ptr[2], ptr[3]).getAsARGB());
+                    hr = __SetRenderState(
+                        D3DRS_FOGCOLOR,
+                        ColorValue(ptr[0], ptr[1], ptr[2], ptr[3]).getAsARGB());
                     break;
                 case GpuProgramParameters::ACT_AMBIENT_LIGHT_COLOUR:
                     hr = __SetRenderState( D3DRS_AMBIENT, D3DCOLOR_COLORVALUE( ptr[0], ptr[1], ptr[2], 1.0f ) );
@@ -1339,7 +1340,7 @@ namespace Ogre
                 anySupported = true;
                 LogManager::singleton().stream()
                     << "D3D9: Vertex texture format supported - "
-                    << PixelUtil::getFormatName(pf);
+                    << PixelUtil::get_format_name(pf);
             }
         }
 
@@ -3349,8 +3350,11 @@ namespace Ogre
         }
     }
     //---------------------------------------------------------------------
-    void D3D9RenderSystem::clearFrameBuffer(unsigned int buffers, 
-        const ColourValue& colour, float depth, unsigned short stencil)
+    void D3D9RenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         DWORD flags = 0;
         if (buffers & FBT_COLOUR)

@@ -245,21 +245,17 @@ namespace Ogre
     void D3D11Mappings::setPixelBoxMapping(PixelBox& box, const D3D11_MAPPED_SUBRESOURCE& mapping)
     {
         // The main issue - pitches D3D11 are in bytes, but Ogre stores them in elements, therefore conversion is required
-        size_t elemSize = PixelUtil::getNumElemBytes(box.format);
+        size_t elemSize = PixelUtil::get_num_elem_bytes(box.format);
         if(elemSize != 0)
         {
             assert(0 == mapping.row_pitch % elemSize);
             assert(0 == mapping.DepthPitch % elemSize);
             box.row_pitch = mapping.row_pitch / elemSize;
             box.slice_pitch = mapping.DepthPitch / elemSize;
-        }
-        else if(PixelUtil::isCompressed(box.format))
-        {
+        } else if (PixelUtil::is_compressed(box.format)) {
             box.row_pitch = box.width();
             box.slice_pitch = box.width() * box.height();
-        }
-        else
-        {
+        } else {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid pixel format", "setPixelBoxMapping");
         }
         box.data = (uchar*)mapping.pData;

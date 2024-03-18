@@ -533,7 +533,7 @@ namespace Ogre {
                         elem.baseVertexPointerToElement(pVert, &pColour);
                         dataNode = vertexNode.append_child("colour_diffuse");
                         {
-                            ColourValue cv;
+                            ColorValue cv;
                             elem.getType() == VET_COLOUR_ABGR ? cv.set_as_ABGR(*pColour) : cv.set_as_ARGB(*pColour);
                             dataNode.append_attribute("value") = StringConverter::to_string(cv).c_str();
                         }
@@ -542,7 +542,7 @@ namespace Ogre {
                         elem.baseVertexPointerToElement(pVert, &pColour);
                         dataNode = vertexNode.append_child("colour_specular");
                         {
-                            ColourValue cv;
+                            ColorValue cv;
                             elem.getType() == VET_COLOUR_ABGR ? cv.set_as_ABGR(*pColour) : cv.set_as_ARGB(*pColour);
                             dataNode.append_attribute("value") = StringConverter::to_string(cv).c_str();
                         }
@@ -599,7 +599,7 @@ namespace Ogre {
                         case VET_UBYTE4_NORM:
                             elem.baseVertexPointerToElement(pVert, &pColour);
                             {
-                                ColourValue cv;
+                                ColorValue cv;
                                 elem.getType() == VET_COLOUR_ARGB ? cv.set_as_ARGB(*pColour) : cv.set_as_ABGR(*pColour);
                                 dataNode.append_attribute("u") = StringConverter::to_string(cv).c_str();
                             }
@@ -1220,7 +1220,9 @@ namespace Ogre {
                         case VET_UBYTE4_NORM:
                             {
                                 elem.baseVertexPointerToElement(pVert, &pCol);
-                                ColourValue cv = StringConverter::parse_colour_value(xmlElem.attribute("u").value());
+                                ColorValue cv
+                                    = StringConverter::parse_colour_value(
+                                        xmlElem.attribute("u").value());
                                 *pCol++ = cv.as_ABGR();
                             }
                             break;

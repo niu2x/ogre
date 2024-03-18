@@ -45,10 +45,9 @@ The wiki article explaining this demo can be found here :
 using namespace Ogre;
 using namespace OgreBites;
 
-const ColourValue SAMPLE_COLORS[] =
-{   ColourValue::Red, ColourValue::Green, ColourValue::Blue,
-    ColourValue::White, ColourValue(1,1,0,1), ColourValue(1,0,1,1)
-};
+const ColorValue SAMPLE_COLORS[]
+    = { ColorValue::Red,   ColorValue::Green,      ColorValue::Blue,
+        ColorValue::White, ColorValue(1, 1, 0, 1), ColorValue(1, 0, 1, 1) };
 
 class _OgreSampleClassExport Sample_DeferredShading : public SdkSample, public RenderTargetListener
 {
@@ -170,7 +169,7 @@ protected:
             ln->attachObject(knotLight);
             knotLight->setType(Light::LT_SPOTLIGHT);
             knotLight->setDiffuseColour(SAMPLE_COLORS[i]);
-            knotLight->setSpecularColour(ColourValue::White);
+            knotLight->setSpecularColour(ColorValue::White);
             knotLight->setSpotlightRange(Degree(25), Degree(45), 1);
             knotLight->setAttenuation(6, 1, 0.2, 0);
         }
@@ -232,7 +231,7 @@ protected:
         mSystem = 0;
 
         // Set ambient light
-        mSceneMgr->setAmbientLight(ColourValue(0.15, 0.00, 0.00));
+        mSceneMgr->setAmbientLight(ColorValue(0.15, 0.00, 0.00));
         // Skybox
         mSceneMgr->setSkyBox(true, "DeferredDemo/SkyBox", 500);
         // Create main, static light

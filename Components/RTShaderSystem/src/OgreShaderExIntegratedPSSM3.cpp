@@ -125,8 +125,8 @@ bool IntegratedPSSM3::preAddToRenderState(const RenderState* renderState,
                               ->getShadowTextureConfigList();
     if (!configs.empty())
         shadowTexFormat = configs[0].format; // assume first texture is representative
-    mUseTextureCompare = PixelUtil::isDepth(shadowTexFormat) && !mIsD3D9;
-    mUseColourShadows = PixelUtil::getComponentType(shadowTexFormat)
+    mUseTextureCompare = PixelUtil::is_depth(shadowTexFormat) && !mIsD3D9;
+    mUseColourShadows = PixelUtil::get_component_type(shadowTexFormat)
         == PixelComponentType::BYTE; // use colour shadowmaps for byte textures
 
     if(mMultiLightCount > 1)

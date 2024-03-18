@@ -585,23 +585,32 @@ namespace Ogre {
     #define ALL_PASSES(fncall) for(auto p : mPasses) p->fncall
     void Technique::setPointSize(Real ps) { ALL_PASSES(setPointSize(ps)); }
     //-----------------------------------------------------------------------
-    void Technique::setAmbient(float red, float green, float blue) { setAmbient(ColourValue(red, green, blue)); }
+    void Technique::setAmbient(float red, float green, float blue)
+    {
+        setAmbient(ColorValue(red, green, blue));
+    }
     //-----------------------------------------------------------------------
-    void Technique::setAmbient(const ColourValue& ambient) { ALL_PASSES(setAmbient(ambient)); }
+    void Technique::setAmbient(const ColorValue& ambient)
+    {
+        ALL_PASSES(setAmbient(ambient));
+    }
     //-----------------------------------------------------------------------
     void Technique::setDiffuse(float red, float green, float blue, float alpha)
     {
         ALL_PASSES(setDiffuse(red, green, blue, alpha));
     }
     //-----------------------------------------------------------------------
-    void Technique::setDiffuse(const ColourValue& diffuse) { setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a); }
+    void Technique::setDiffuse(const ColorValue& diffuse)
+    {
+        setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+    }
     //-----------------------------------------------------------------------
     void Technique::setSpecular(float red, float green, float blue, float alpha)
     {
         ALL_PASSES(setSpecular(red, green, blue, alpha));
     }
     //-----------------------------------------------------------------------
-    void Technique::setSpecular(const ColourValue& specular)
+    void Technique::setSpecular(const ColorValue& specular)
     {
         setSpecular(specular.r, specular.g, specular.b, specular.a);
     }
@@ -610,10 +619,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Technique::setSelfIllumination(float red, float green, float blue)
     {
-        setSelfIllumination(ColourValue(red, green, blue));
+        setSelfIllumination(ColorValue(red, green, blue));
     }
     //-----------------------------------------------------------------------
-    void Technique::setSelfIllumination(const ColourValue& selfIllum) { ALL_PASSES(setSelfIllumination(selfIllum)); }
+    void Technique::setSelfIllumination(const ColorValue& selfIllum)
+    {
+        ALL_PASSES(setSelfIllumination(selfIllum));
+    }
     //-----------------------------------------------------------------------
     void Technique::setDepthCheckEnabled(bool enabled) { ALL_PASSES(setDepthCheckEnabled(enabled)); }
     //-----------------------------------------------------------------------
@@ -636,8 +648,13 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Technique::setShadingMode(ShadeOptions mode) { ALL_PASSES(setShadingMode(mode)); }
     //-----------------------------------------------------------------------
-    void Technique::setFog(bool overrideScene, FogMode mode, const ColourValue& colour, Real expDensity,
-                           Real linearStart, Real linearEnd)
+    void Technique::setFog(
+        bool overrideScene,
+        FogMode mode,
+        const ColorValue& colour,
+        Real expDensity,
+        Real linearStart,
+        Real linearEnd)
     {
         ALL_PASSES(setFog(overrideScene, mode, colour, expDensity, linearStart, linearEnd));
     }
@@ -771,10 +788,10 @@ namespace Ogre {
                     else
                     {
                         // Split off any ambient part
-                        if (p->getAmbient() != ColourValue::Black ||
-                            p->getSelfIllumination() != ColourValue::Black ||
-                            p->getAlphaRejectFunction() != CMPF_ALWAYS_PASS)
-                        {
+                        if (p->getAmbient() != ColorValue::Black
+                            || p->getSelfIllumination() != ColorValue::Black
+                            || p->getAlphaRejectFunction()
+                                != CMPF_ALWAYS_PASS) {
                             // Copy existing pass
                             Pass* newPass = OGRE_NEW Pass(this, p->getIndex(), *p);
                             if (newPass->getAlphaRejectFunction() != CMPF_ALWAYS_PASS)
@@ -800,7 +817,7 @@ namespace Ogre {
                             // just trust that the author is using light bindings, which
                             // we will ensure there are none in the ambient pass
                             newPass->setDiffuse(0, 0, 0, newPass->getDiffuse().a);  // Preserving alpha
-                            newPass->setSpecular(ColourValue::Black);
+                            newPass->setSpecular(ColorValue::Black);
 
                             // Calculate hash value for new pass, because we are compiling
                             // illumination passes on demand, which will loss hash calculate
@@ -815,15 +832,14 @@ namespace Ogre {
 
                             mIlluminationPasses.push_back(iPass);
                             haveAmbient = true;
-
                         }
 
                         if (!haveAmbient)
                         {
                             // Make up a new basic pass
                             Pass* newPass = OGRE_NEW Pass(this, p->getIndex());
-                            newPass->setAmbient(ColourValue::Black);
-                            newPass->setDiffuse(ColourValue::Black);
+                            newPass->setAmbient(ColorValue::Black);
+                            newPass->setDiffuse(ColorValue::Black);
 
                             // Calculate hash value for new pass, because we are compiling
                             // illumination passes on demand, which will loss hash calculate
@@ -857,10 +873,9 @@ namespace Ogre {
                     else
                     {
                         // Split off per-light details (can only be done for one)
-                        if (p->getLightingEnabled() &&
-                            (p->getDiffuse() != ColourValue::Black ||
-                            p->getSpecular() != ColourValue::Black))
-                        {
+                        if (p->getLightingEnabled()
+                            && (p->getDiffuse() != ColorValue::Black
+                                || p->getSpecular() != ColorValue::Black)) {
                             // Copy existing pass
                             Pass* newPass = OGRE_NEW Pass(this, p->getIndex(), *p);
                             if (newPass->getAlphaRejectFunction() != CMPF_ALWAYS_PASS)
@@ -884,8 +899,8 @@ namespace Ogre {
                                 newPass->setFragmentProgram("");
                             // Cannot remove vertex program, have to assume that
                             // it will process diffuse lights, ambient will be turned off
-                            newPass->setAmbient(ColourValue::Black);
-                            newPass->setSelfIllumination(ColourValue::Black);
+                            newPass->setAmbient(ColorValue::Black);
+                            newPass->setSelfIllumination(ColorValue::Black);
                             // must be additive
                             newPass->setSceneBlending(SceneBlendFactor::ONE, SceneBlendFactor::ONE);
 
@@ -901,7 +916,6 @@ namespace Ogre {
                             iPass->stage = iStage;
 
                             mIlluminationPasses.push_back(iPass);
-
                         }
                         // This means the end of per-light passes
                         iStage = IS_DECAL;
@@ -925,10 +939,10 @@ namespace Ogre {
                         {
                             // Copy the pass and tweak away the lighting parts
                             Pass* newPass = OGRE_NEW Pass(this, p->getIndex(), *p);
-                            newPass->setAmbient(ColourValue::Black);
+                            newPass->setAmbient(ColorValue::Black);
                             newPass->setDiffuse(0, 0, 0, newPass->getDiffuse().a);  // Preserving alpha
-                            newPass->setSpecular(ColourValue::Black);
-                            newPass->setSelfIllumination(ColourValue::Black);
+                            newPass->setSpecular(ColorValue::Black);
+                            newPass->setSelfIllumination(ColorValue::Black);
                             newPass->setLightingEnabled(false);
                             newPass->setIteratePerLight(false, false);
                             // modulate

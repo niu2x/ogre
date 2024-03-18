@@ -344,10 +344,14 @@ namespace Ogre {
         */
         Billboard* createBillboard(
             const Vector3& position,
-            const ColourValue& colour = ColourValue::White );
+            const ColorValue& colour = ColorValue::White);
 
         /// @overload
-        Billboard* createBillboard(Real x, Real y, Real z, const ColourValue& colour = ColourValue::White)
+        Billboard* createBillboard(
+            Real x,
+            Real y,
+            Real z,
+            const ColorValue& colour = ColorValue::White)
         {
             return createBillboard(Vector3(x, y, z), colour);
         }

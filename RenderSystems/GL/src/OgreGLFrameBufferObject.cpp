@@ -123,7 +123,8 @@ namespace Ogre {
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, ss.str(), "GLFrameBufferObject::initialise");
                 }
 
-                bool isDepth = PixelUtil::isDepth(mColour[x].buffer->getFormat());
+                bool isDepth
+                    = PixelUtil::is_depth(mColour[x].buffer->getFormat());
                 mColour[x].buffer->bindToFramebuffer(
                     isDepth ? GL_DEPTH_ATTACHMENT_EXT : (GL_COLOR_ATTACHMENT0_EXT + x), mColour[x].zoffset);
             }
@@ -136,8 +137,7 @@ namespace Ogre {
         }
 
         // Now deal with depth / stencil
-        if (mMultisampleFB && !PixelUtil::isDepth(getFormat()))
-        {
+        if (mMultisampleFB && !PixelUtil::is_depth(getFormat())) {
             // Bind multisample buffer
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, mMultisampleFB);
 
@@ -152,7 +152,6 @@ namespace Ogre {
                 mMultisampleColourBuffer.zoffset);
 
             // depth & stencil will be dealt with below
-
         }
 
         // Depth buffer is not handled here anymore.
@@ -166,7 +165,8 @@ namespace Ogre {
             // Fill attached colour buffers
             if(mColour[x].buffer)
             {
-                bool isDepth = PixelUtil::isDepth(mColour[x].buffer->getFormat());
+                bool isDepth
+                    = PixelUtil::is_depth(mColour[x].buffer->getFormat());
                 bufs[x] = isDepth ? GL_NONE : (GL_COLOR_ATTACHMENT0_EXT + x);
                 // Keep highest used buffer + 1
                 if(!isDepth)

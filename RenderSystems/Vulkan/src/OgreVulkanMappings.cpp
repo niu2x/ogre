@@ -28,7 +28,7 @@ Copyright (c) 2000-present Torus Knot Software Ltd
 
 #include "OgreVulkanMappings.h"
 
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 namespace Ogre
 {
@@ -417,7 +417,8 @@ namespace Ogre
     //-----------------------------------------------------------------------------------
     VkImageAspectFlags VulkanMappings::getImageAspect(PixelFormat pf, const bool bPreferDepthOverStencil)
     {
-        int ret = PixelUtil::isDepth(pf) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
+        int ret = PixelUtil::is_depth(pf) ? VK_IMAGE_ASPECT_DEPTH_BIT
+                                          : VK_IMAGE_ASPECT_COLOR_BIT;
         if (pf == PixelFormat::DEPTH24_STENCIL8)
             ret |= VK_IMAGE_ASPECT_STENCIL_BIT;
         return ret;
@@ -436,13 +437,10 @@ namespace Ogre
         if( texture->getUsage() & TU_RENDERTARGET )
         {
             // texAccessFlags |= VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
-            if( !PixelUtil::isDepth( texture->getFormat() ) )
-            {
+            if (!PixelUtil::is_depth(texture->getFormat())) {
                 texAccessFlags |=
                     VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-            }
-            else
-            {
+            } else {
                 texAccessFlags |= VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
                                   VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
             }

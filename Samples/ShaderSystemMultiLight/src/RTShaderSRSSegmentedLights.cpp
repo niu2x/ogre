@@ -35,8 +35,8 @@ RTShaderSRSSegmentedLights::RTShaderSRSSegmentedLights()
     mUseSegmentedLightTexture       = false;
     mLightSamplerIndex = 0;
 
-    msBlankLight.setDiffuseColour(ColourValue::Black);
-    msBlankLight.setSpecularColour(ColourValue::Black);
+    msBlankLight.setDiffuseColour(ColorValue::Black);
+    msBlankLight.setSpecularColour(ColorValue::Black);
     msBlankLight.setAttenuation(0,1,0,0);
 }
 
@@ -77,7 +77,7 @@ void RTShaderSRSSegmentedLights::updateGpuProgramsParams(Renderable* rend, const
 
         Light*      srcLight = NULL;
         Vector4     vParameter;
-        ColourValue colour;
+        ColorValue colour;
 
         // Search a matching light from the current sorted lights of the given renderable.
         for (unsigned int j = curSearchLightIndex; j < pLightList->size(); ++j)
@@ -735,16 +735,13 @@ bool RTShaderSRSSegmentedLights::preAddToRenderState(const RenderState* renderSt
 
     mUseSegmentedLightTexture
         = SegmentedDynamicLightManager::singleton().isActive();
-    setTrackVertexColourType(srcPass->getVertexColourTracking());           
+    setTrackVertexColourType(srcPass->getVertexColourTracking());
 
-    if (srcPass->getShininess() > 0.0 &&
-        srcPass->getSpecular() != ColourValue::Black)
-    {
+    if (srcPass->getShininess() > 0.0
+        && srcPass->getSpecular() != ColorValue::Black) {
         setSpecularEnable(true);
-    }
-    else
-    {
-        setSpecularEnable(false);   
+    } else {
+        setSpecularEnable(false);
     }
 
     setLightCount(renderState->getLightCount());

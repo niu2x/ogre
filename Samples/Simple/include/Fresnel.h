@@ -63,7 +63,8 @@ protected:
         mCameraNode->setPosition(-50, 125, 760);
         mCameraMan->setTopSpeed(280);
 
-        mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));  // set ambient light
+        mSceneMgr->setAmbientLight(
+            ColorValue(0.5, 0.5, 0.5)); // set ambient light
 
         mSceneMgr->setSkyBox(true, "Examples/CloudyNoonSkyBox");  // set a skybox
 

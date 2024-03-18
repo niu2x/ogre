@@ -220,10 +220,14 @@ namespace Ogre {
         static VertexElementType getBaseType(VertexElementType multiType);
 
         /// @deprecated do not use
-        OGRE_DEPRECATED static void convertColourValue(VertexElementType srcType, VertexElementType dstType, uint32* ptr);
+        OGRE_DEPRECATED static void convertColorValue(
+            VertexElementType srcType,
+            VertexElementType dstType,
+            uint32* ptr);
 
-        /// @deprecated use ColourValue::as_ABGR()
-        OGRE_DEPRECATED static uint32 convertColourValue(const ColourValue& src, VertexElementType)
+        /// @deprecated use ColorValue::as_ABGR()
+        OGRE_DEPRECATED static uint32
+        convertColorValue(const ColorValue& src, VertexElementType)
         {
             return src.as_ABGR();
         }

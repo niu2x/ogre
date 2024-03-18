@@ -229,7 +229,10 @@ Ogre::ManualObject* RoomObject::createRoom(Ogre::SceneManager *scene,
                                            Ogre::Vector3 dimensions,
                                            Ogre::Vector3 doorDimensions)
 {
-    addMaterial(name, Ogre::ColourValue(1,1,1,.75), Ogre::SceneBlendType::TRANSPARENT_ALPHA);
+    addMaterial(
+        name,
+        Ogre::ColorValue(1, 1, 1, .75),
+        Ogre::SceneBlendType::TRANSPARENT_ALPHA);
 
     Ogre::ManualObject* room = scene->createManualObject(name); 
 
@@ -240,7 +243,7 @@ Ogre::ManualObject* RoomObject::createRoom(Ogre::SceneManager *scene,
 
 //  Ogre::Real fade=.5;
     Ogre::Real solid=.8;
-    Ogre::ColourValue color = ColourValue(0, 0, solid, solid);
+    Ogre::ColorValue color = ColorValue(0, 0, solid, solid);
 
     // copy to room
     for (auto & point : points)
@@ -256,9 +259,10 @@ Ogre::ManualObject* RoomObject::createRoom(Ogre::SceneManager *scene,
     return room;
 }
 
-void RoomObject::addMaterial(const Ogre::String &mat, 
-                             const Ogre::ColourValue &clr, 
-                             Ogre::SceneBlendType sbt)
+void RoomObject::addMaterial(
+    const Ogre::String& mat,
+    const Ogre::ColorValue& clr,
+    Ogre::SceneBlendType sbt)
 {
     static int init=false;
     if(init)

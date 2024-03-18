@@ -182,9 +182,13 @@ private:
     void addPSSampleTexelInvocation(TextureUnitParams* textureUnitParams, Function* psMain,
         const ParameterPtr& texel, int groupOrder);
 
-    ParameterPtr getPSArgument(ParameterPtr texel, LayerBlendSource blendSrc, const ColourValue& colourValue,
-                               Real alphaValue, bool isAlphaArgument) const;
-    
+    ParameterPtr getPSArgument(
+        ParameterPtr texel,
+        LayerBlendSource blendSrc,
+        const ColorValue& ColorValue,
+        Real alphaValue,
+        bool isAlphaArgument) const;
+
     /** 
     Determines if the given texture unit state need to use texture transformation matrix.
     */

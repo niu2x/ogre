@@ -39,7 +39,7 @@ public:
 
     void exportScene(SceneNode* rootNode, const String& outFileName);
 
-    const Ogre::ColourValue& getBackgroundColour() { return mBackgroundColour; }
+    const Ogre::ColorValue& getBackgroundColour() { return mBackgroundColour; }
 
 protected:
     void writeNode(pugi::xml_node& parentXML, const SceneNode* node);
@@ -76,7 +76,7 @@ protected:
     Ogre::SceneManager* mSceneMgr;
     Ogre::SceneNode* mAttachNode;
     Ogre::String m_sGroupName;
-    Ogre::ColourValue mBackgroundColour;
+    Ogre::ColorValue mBackgroundColour;
 };
 
 class _OgreDotScenePluginExport DotScenePlugin : public Plugin

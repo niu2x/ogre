@@ -507,7 +507,7 @@ protected:
         mTerrainGlobals->setCompositeMapAmbient(mSceneMgr->getAmbientLight());
         mTerrainGlobals->setCompositeMapDiffuse(l->getDiffuseColour());
         //! [composite_lighting]
-        // mTerrainGlobals->setCompositeMapAmbient(ColourValue::Red);
+        // mTerrainGlobals->setCompositeMapAmbient(ColorValue::Red);
 
         // Configure default import settings for if we use imported image
         //! [import_settings]
@@ -733,7 +733,7 @@ protected:
         MaterialManager::singleton().setDefaultAnisotropy(8);
 #endif
 
-        ColourValue fadeColour(0.7, 0.7, 0.8);
+        ColorValue fadeColour(0.7, 0.7, 0.8);
         //! [linear_fog]
         mSceneMgr->setFog(Ogre::FOG_LINEAR, fadeColour, 0, 2000, 10000);
         //! [linear_fog]
@@ -743,14 +743,14 @@ protected:
         //! [light]
         Ogre::Light* l = mSceneMgr->createLight();
         l->setType(Ogre::Light::LT_DIRECTIONAL);
-        l->setDiffuseColour(ColourValue::White);
-        l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
+        l->setDiffuseColour(ColorValue::White);
+        l->setSpecularColour(ColorValue(0.4, 0.4, 0.4));
 
         Ogre::SceneNode* ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
         ln->attachObject(l);
         //! [light]
-        mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
+        mSceneMgr->setAmbientLight(ColorValue(0.2, 0.2, 0.2));
 
         //! [terrain_create]
         mTerrainGroup = new Ogre::TerrainGroup(mSceneMgr, Ogre::Terrain::ALIGN_X_Z, TERRAIN_SIZE, TERRAIN_WORLD_SIZE);

@@ -70,11 +70,14 @@ namespace Ogre {
     void ColourFaderAffector::_affectParticles(ParticleSystem* pSystem, Real timeElapsed)
     {
         // Scale adjustments by time
-        auto dc = ColourValue(mRedAdj, mGreenAdj, mBlueAdj, mAlphaAdj) * timeElapsed;
+        auto dc
+            = ColorValue(mRedAdj, mGreenAdj, mBlueAdj, mAlphaAdj) * timeElapsed;
 
         for (auto p : pSystem->_getActiveParticles())
         {
-            p->mColour = (ColourValue((uchar*)&p->mColour) + dc).saturate_copy().as_BYTE();
+            p->mColour = (ColorValue((uchar*)&p->mColour) + dc)
+                             .saturate_copy()
+                             .as_BYTE();
         }
     }
     //-----------------------------------------------------------------------

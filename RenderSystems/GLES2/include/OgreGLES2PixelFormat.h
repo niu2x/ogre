@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __GLES2PixelFormat_H__
 
 #include "OgreGLES2Prerequisites.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 namespace Ogre {
     /**

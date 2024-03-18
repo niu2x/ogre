@@ -29,7 +29,7 @@ namespace Ogre {
         else
         {
             scaled = mBuffer.get_sub_volume(dstBox);
-            PixelUtil::bulkPixelConversion(src, scaled);
+            PixelUtil::bulk_pixel_conversion(src, scaled);
         }
     }
 
@@ -51,7 +51,9 @@ namespace Ogre {
         else
         {
             // Just copy the bit that we need
-            PixelUtil::bulkPixelConversion(mBuffer.get_sub_volume(srcBox), dst);
+            PixelUtil::bulk_pixel_conversion(
+                mBuffer.get_sub_volume(srcBox),
+                dst);
         }
     }
 }

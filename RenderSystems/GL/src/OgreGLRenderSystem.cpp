@@ -2532,8 +2532,11 @@ namespace Ogre {
         glScissor(rect.left, top, rect.width(), rect.height());
     }
     //---------------------------------------------------------------------
-    void GLRenderSystem::clearFrameBuffer(unsigned int buffers,
-                                          const ColourValue& colour, float depth, unsigned short stencil)
+    void GLRenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         bool colourMask =
             !(mCurrentBlend.writeR && mCurrentBlend.writeG && mCurrentBlend.writeB && mCurrentBlend.writeA);
@@ -3009,7 +3012,7 @@ namespace Ogre {
         glPixelStorei(GL_PACK_ALIGNMENT, 4);
         glPixelStorei(GL_PACK_ROW_LENGTH, 0);
 
-        PixelUtil::bulkPixelVerticalFlip(dst);
+        PixelUtil::bulk_pixel_vertical_flip(dst);
     }
 	//---------------------------------------------------------------------
     void GLRenderSystem::initialiseExtensions(void)

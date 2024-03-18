@@ -86,7 +86,7 @@ namespace Ogre
             mNumMipmaps = mNumRequestedMipmaps = 0;
 
         // If we can do automip generation and the user desires this, do so
-        mMipmapsHardwareGenerated = !PixelUtil::isCompressed( mFormat );
+        mMipmapsHardwareGenerated = !PixelUtil::is_compressed(mFormat);
 
         MTLTextureDescriptor *desc = [MTLTextureDescriptor new];
         desc.mipmapLevelCount   = mNumMipmaps + 1u;
@@ -200,14 +200,11 @@ namespace Ogre
         #if OGRE_DEBUG_MODE
             RenderTarget *renderTarget = mSurfaceList[0]->getRenderTarget();
             assert( dynamic_cast<MetalRenderTexture*>( renderTarget ) );
-            if( PixelUtil::isDepth( renderTarget->suggestPixelFormat() ) )
-            {
+            if (PixelUtil::is_depth(renderTarget->suggestPixelFormat())) {
                 MetalDepthBuffer *depthBuffer = static_cast<MetalDepthBuffer*>(
                             renderTarget->getDepthBuffer() );
                 assert( depthBuffer->mDepthAttachmentDesc.loadAction != MTLLoadActionClear );
-            }
-            else
-            {
+            } else {
                 MetalRenderTexture *renderTexture = static_cast<MetalRenderTexture*>( renderTarget );
                 assert( renderTexture->mColourAttachmentDesc.loadAction != MTLLoadActionClear );
             }

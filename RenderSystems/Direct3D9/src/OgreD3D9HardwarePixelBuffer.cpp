@@ -109,13 +109,12 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DSurface9 *sur
     // Default
     mRowPitch = mWidth;
     mSlicePitch = mHeight*mWidth;
-    mSizeInBytes = PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);  
-    
+    mSizeInBytes = PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
+
     if(mUsage & TU_RENDERTARGET)
     {
         updateRenderTexture(writeGamma, fsaa, srcName);
-        if (PixelUtil::isDepth(mFormat))
-        {
+        if (PixelUtil::is_depth(mFormat)) {
             // create null colour surface
             dev->CreateRenderTarget(desc.Width, desc.Height, D3DFMT_NULL, D3DMULTISAMPLE_NONE, 0, false,
                                     &bufferResources->nullSurface, NULL);
@@ -182,7 +181,7 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DVolume9 *volu
     // Default
     mRowPitch = mWidth;
     mSlicePitch = mHeight*mWidth;
-    mSizeInBytes = PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);
+    mSizeInBytes = PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
 
     if (isNewBuffer && mOwnerTexture->isManuallyLoaded())
     {
@@ -256,20 +255,16 @@ void D3D9HardwarePixelBuffer::unlockDeviceAccess()
 // Util functions to convert a D3D locked box to a pixel box
 void fromD3DLock(PixelBox &rval, const D3DLOCKED_RECT &lrect)
 {
-    size_t bpp = PixelUtil::getNumElemBytes(rval.format);
+    size_t bpp = PixelUtil::get_num_elem_bytes(rval.format);
     if (bpp != 0)
     {
         rval.row_pitch = lrect.Pitch / bpp;
         rval.slice_pitch = rval.row_pitch * rval.height();
         assert((lrect.Pitch % bpp)==0);
-    }
-    else if (PixelUtil::isCompressed(rval.format))
-    {
+    } else if (PixelUtil::is_compressed(rval.format)) {
         rval.row_pitch = rval.width();
         rval.slice_pitch = rval.width() * rval.height();
-    }
-    else
-    {
+    } else {
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Invalid pixel format", "fromD3DLock");
     }
@@ -278,21 +273,17 @@ void fromD3DLock(PixelBox &rval, const D3DLOCKED_RECT &lrect)
 }
 void fromD3DLock(PixelBox &rval, const D3DLOCKED_BOX &lbox)
 {
-    size_t bpp = PixelUtil::getNumElemBytes(rval.format);
+    size_t bpp = PixelUtil::get_num_elem_bytes(rval.format);
     if (bpp != 0)
     {
         rval.row_pitch = lbox.row_pitch / bpp;
         rval.slice_pitch = lbox.slice_pitch / bpp;
         assert((lbox.row_pitch % bpp) == 0);
         assert((lbox.slice_pitch % bpp) == 0);
-    }
-    else if (PixelUtil::isCompressed(rval.format))
-    {
+    } else if (PixelUtil::is_compressed(rval.format)) {
         rval.row_pitch = rval.width();
         rval.slice_pitch = rval.width() * rval.height();
-    }
-    else
-    {
+    } else {
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Invalid pixel format", "fromD3DLock");
     }
@@ -659,16 +650,17 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
     // convert to pixelbuffer's native format if necessary
     if (D3D9Mappings::_getPF(src.format) == D3DFMT_UNKNOWN)
     {
-        buf.reset(OGRE_NEW MemoryDataStream(
-            PixelUtil::getMemorySize(src.width(), src.height(), src.depth(),
+        buf.reset(OGRE_NEW MemoryDataStream(PixelUtil::get_memory_size(
+            src.width(),
+            src.height(),
+            src.depth(),
             mFormat)));
         converted = PixelBox(src.width(), src.height(), src.depth(), mFormat, buf->getPtr());
-        PixelUtil::bulkPixelConversion(src, converted);
+        PixelUtil::bulk_pixel_conversion(src, converted);
     }
 
     size_t rowWidth;
-    if (PixelUtil::isCompressed(converted.format))
-    {
+    if (PixelUtil::is_compressed(converted.format)) {
         // if the row doesn't divide by 4 - there is padding to 4
         if (converted.row_pitch % 4 > 0) {
             converted.row_pitch += 4 - converted.row_pitch % 4;
@@ -683,11 +675,9 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
             rowWidth = (converted.row_pitch / 4) * 16;
         }
 
-    }
-    else
-    {
+    } else {
         rowWidth = converted.row_pitch
-            * PixelUtil::getNumElemBytes(converted.format);
+            * PixelUtil::get_num_elem_bytes(converted.format);
     }
 
     if (dstBufferResources->surface)
@@ -711,8 +701,7 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
         srcBox = toD3DBOX(converted);
         destBox = toD3DBOX(dstBox);
         size_t sliceWidth;
-        if (PixelUtil::isCompressed(converted.format))
-        {
+        if (PixelUtil::is_compressed(converted.format)) {
             // D3D wants the width of one slice of cells in bytes
             if (converted.format == PixelFormat::DXT1) {
                 // 64 bits (8 bytes) per 4x4 block
@@ -722,11 +711,9 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
                 sliceWidth = (converted.slice_pitch / 16) * 16;
             }
 
-        }
-        else
-        {
+        } else {
             sliceWidth = converted.slice_pitch
-                * PixelUtil::getNumElemBytes(converted.format);
+                * PixelUtil::get_num_elem_bytes(converted.format);
         }
 
         if(D3DXLoadVolumeFromMemory(dstBufferResources->volume, NULL, &destBox, 
@@ -855,7 +842,7 @@ void D3D9HardwarePixelBuffer::blitToMemory(const Box &srcBox, const PixelBox &ds
         // Copy it
         PixelBox locked(dst.width(), dst.height(), dst.depth(), tmpFormat);
         fromD3DLock(locked, lrect);
-        PixelUtil::bulkPixelConversion(locked, dst);
+        PixelUtil::bulk_pixel_conversion(locked, dst);
         surface->UnlockRect();
         // Release temporary surface and texture
         surface->Release();
@@ -912,7 +899,7 @@ void D3D9HardwarePixelBuffer::blitToMemory(const Box &srcBox, const PixelBox &ds
         // Copy it
         PixelBox locked(dst.width(), dst.height(), dst.depth(), tmpFormat);
         fromD3DLock(locked, lbox);
-        PixelUtil::bulkPixelConversion(locked, dst);
+        PixelUtil::bulk_pixel_conversion(locked, dst);
         surface->UnlockBox();
         // Release temporary surface and texture
         surface->Release();

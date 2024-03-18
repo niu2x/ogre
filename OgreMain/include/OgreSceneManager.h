@@ -545,7 +545,7 @@ namespace Ogre {
 
         // Fog
         FogMode mFogMode;
-        ColourValue mFogColour;
+        ColorValue mFogColour;
         Real mFogStart;
         Real mFogEnd;
         Real mFogDensity;
@@ -780,7 +780,7 @@ namespace Ogre {
             RenderSystem* mDestRenderSystem;
 
             ShadowTechnique mShadowTechnique;
-            ColourValue mShadowColour;
+            ColorValue mShadowColour;
 
             /// A pass designed to let us render shadow colour on white for texture shadows
             Pass* mShadowCasterPlainBlackPass;
@@ -873,7 +873,7 @@ namespace Ogre {
             void initShadowVolumeMaterials();
             void setShadowTextureCasterMaterial(const MaterialPtr& mat);
             void setShadowTextureReceiverMaterial(const MaterialPtr& mat);
-            void setShadowColour(const ColourValue& colour);
+            void setShadowColour(const ColorValue& colour);
             void updateSplitOptions(RenderQueue* queue);
             void render(RenderQueueGroup* group, QueuedRenderableCollection::OrganisationMode om);
 
@@ -1564,21 +1564,23 @@ namespace Ogre {
 
         /** Sets the ambient light level to be used for the scene.
 
-                This sets the colour and intensity of the ambient light in the scene, i.e. the
-                light which is 'sourceless' and illuminates all objects equally.
-                The colour of an object is affected by a combination of the light in the scene,
-                and the amount of light that object reflects (in this case based on the Material::ambient
-                property).
+                This sets the colour and intensity of the ambient light in the
+           scene, i.e. the light which is 'sourceless' and illuminates all
+           objects equally. The colour of an object is affected by a combination
+           of the light in the scene, and the amount of light that object
+           reflects (in this case based on the Material::ambient property).
 
-                By default the ambient light in the scene is ColourValue::Black, i.e. no ambient light. This
-                means that any objects rendered with a Material which has lighting enabled (see Material::setLightingEnabled)
-                will not be visible unless you have some dynamic lights in your scene.
+                By default the ambient light in the scene is ColorValue::Black,
+           i.e. no ambient light. This means that any objects rendered with a
+           Material which has lighting enabled (see
+           Material::setLightingEnabled) will not be visible unless you have
+           some dynamic lights in your scene.
         */
-        void setAmbientLight(const ColourValue& colour);
+        void setAmbientLight(const ColorValue& colour);
 
         /** Returns the ambient light level to be used for the scene.
         */
-        const ColourValue& getAmbientLight(void) const;
+        const ColorValue& getAmbientLight(void) const;
 
         /// @name World Geometry
         /// @{
@@ -2046,8 +2048,11 @@ namespace Ogre {
                 FOG_LINEAR.
         */
         void setFog(
-            FogMode mode = FOG_NONE, const ColourValue& colour = ColourValue::White,
-            Real expDensity = 0.001f, Real linearStart = 0.0f, Real linearEnd = 1.0f);
+            FogMode mode = FOG_NONE,
+            const ColorValue& colour = ColorValue::White,
+            Real expDensity = 0.001f,
+            Real linearStart = 0.0f,
+            Real linearEnd = 1.0f);
 
         /** Returns the fog mode for the scene.
         */
@@ -2055,7 +2060,7 @@ namespace Ogre {
 
         /** Returns the fog colour for the scene.
         */
-        const ColourValue& getFogColour(void) const;
+        const ColorValue& getFogColour(void) const;
 
         /** Returns the fog start distance for the scene.
         */
@@ -2508,14 +2513,17 @@ namespace Ogre {
             This colour provided is used as a modulative value to darken the
             areas.
         */
-        void setShadowColour(const ColourValue& colour) { mShadowRenderer.setShadowColour(colour); }
+        void setShadowColour(const ColorValue& colour)
+        {
+            mShadowRenderer.setShadowColour(colour);
+        }
         /** Get the colour used to modulate areas in shadow. 
         @remarks This is only applicable for shadow techniques which involve 
         darkening the area in shadow, as opposed to masking out the light. 
         This colour provided is used as a modulative value to darken the
         areas.
         */
-        const ColourValue& getShadowColour(void) const;
+        const ColorValue& getShadowColour(void) const;
         /** Sets the distance a shadow volume is extruded for a directional light.
 
             Although directional lights are essentially infinite, there are many

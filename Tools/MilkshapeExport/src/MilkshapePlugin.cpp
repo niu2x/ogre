@@ -891,9 +891,9 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
             Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         logMgr.log_message("Created.");
 
-        ogremat->setAmbient(msVec4ToColourValue(mat->Ambient));
-        ogremat->setDiffuse(msVec4ToColourValue(mat->Diffuse));
-        ogremat->setSpecular(msVec4ToColourValue(mat->Specular));
+        ogremat->setAmbient(msVec4ToColorValue(mat->Ambient));
+        ogremat->setDiffuse(msVec4ToColorValue(mat->Diffuse));
+        ogremat->setSpecular(msVec4ToColorValue(mat->Specular));
         ogremat->setShininess(mat->fShininess);
 
         if (0 < strlen(mat->szDiffuseTexture))
@@ -911,9 +911,9 @@ void MilkshapePlugin::doExportMaterials(msModel* pModel)
     matSer.exportQueued(matName);
 }
 
-Ogre::ColourValue MilkshapePlugin::msVec4ToColourValue(float prop[4])
+Ogre::ColorValue MilkshapePlugin::msVec4ToColorValue(float prop[4])
 {
-    Ogre::ColourValue colour;
+    Ogre::ColorValue colour;
     colour.r = prop[0];
     colour.g = prop[1];
     colour.b = prop[2];

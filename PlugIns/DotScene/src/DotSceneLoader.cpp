@@ -101,12 +101,15 @@ Quaternion parseQuaternion(const pugi::xml_node& XMLNode)
     return orientation;
 }
 
-ColourValue parseColour(pugi::xml_node& XMLNode)
+ColorValue parseColour(pugi::xml_node& XMLNode)
 {
-    return ColourValue(StringConverter::parse_real(XMLNode.attribute("r").value()),
-                       StringConverter::parse_real(XMLNode.attribute("g").value()),
-                       StringConverter::parse_real(XMLNode.attribute("b").value()),
-                       XMLNode.attribute("a") != NULL ? StringConverter::parse_real(XMLNode.attribute("a").value()) : 1);
+    return ColorValue(
+        StringConverter::parse_real(XMLNode.attribute("r").value()),
+        StringConverter::parse_real(XMLNode.attribute("g").value()),
+        StringConverter::parse_real(XMLNode.attribute("b").value()),
+        XMLNode.attribute("a") != NULL
+            ? StringConverter::parse_real(XMLNode.attribute("a").value())
+            : 1);
 }
 
 struct DotSceneCodec : public Codec
@@ -132,7 +135,11 @@ struct DotSceneCodec : public Codec
 
 } // namespace
 
-DotSceneLoader::DotSceneLoader() : mSceneMgr(0), mBackgroundColour(ColourValue::Black) {}
+DotSceneLoader::DotSceneLoader()
+: mSceneMgr(0)
+, mBackgroundColour(ColorValue::Black)
+{
+}
 
 DotSceneLoader::~DotSceneLoader() {}
 
@@ -807,7 +814,7 @@ void DotSceneLoader::processFog(pugi::xml_node& XMLNode)
         mode = (FogMode)StringConverter::parse_int32(sMode);
 
     // Process colourDiffuse (?)
-    ColourValue colourDiffuse = ColourValue::White;
+    ColorValue colourDiffuse = ColorValue::White;
 
     if (auto pElement = XMLNode.child("colour"))
         colourDiffuse = parseColour(pElement);
@@ -1064,7 +1071,7 @@ static void write(pugi::xml_node& node, const Vector3& v)
     node.append_attribute("z") = StringConverter::to_string(v.z).c_str();
 }
 
-static void write(pugi::xml_node& node, const ColourValue& c)
+static void write(pugi::xml_node& node, const ColorValue& c)
 {
     node.append_attribute("r") = StringConverter::to_string(c.r).c_str();
     node.append_attribute("g") = StringConverter::to_string(c.g).c_str();

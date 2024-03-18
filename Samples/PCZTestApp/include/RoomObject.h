@@ -24,9 +24,10 @@ class RoomObject
     };
 
 private:
-    void    addMaterial(const Ogre::String& mat, 
-                        const Ogre::ColourValue &clr, 
-                        Ogre::SceneBlendType sbt);
+    void addMaterial(
+        const Ogre::String& mat,
+        const Ogre::ColorValue& clr,
+        Ogre::SceneBlendType sbt);
     void    createPoints(Ogre::Vector3 dimensions,
                          Ogre::Vector3 doorDimensions);
     void    createWalls(Ogre::ManualObject* room,

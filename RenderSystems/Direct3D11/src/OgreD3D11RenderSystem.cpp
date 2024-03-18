@@ -2529,8 +2529,11 @@ namespace Ogre
         mRasterizerDescChanged=true;
     }
     //---------------------------------------------------------------------
-    void D3D11RenderSystem::clearFrameBuffer(unsigned int buffers, 
-        const ColourValue& colour, float depth, unsigned short stencil)
+    void D3D11RenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         D3D11RenderTarget* d3d11RenderTarget = dynamic_cast<D3D11RenderTarget*>(mActiveRenderTarget);
         if (mActiveRenderTarget && d3d11RenderTarget)

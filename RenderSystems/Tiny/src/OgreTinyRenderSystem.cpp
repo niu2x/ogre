@@ -316,7 +316,9 @@ namespace Ogre {
         if(normal)
             var_normal[gl_VertexID] = uniform_MVIT.linear() * *normal;
     }
-    bool TinyRenderSystem::DefaultShader::fragment(const vec3& bar, ColourValue& gl_FragColor)
+    bool TinyRenderSystem::DefaultShader::fragment(
+        const vec3& bar,
+        ColorValue& gl_FragColor)
     {
         if(image)
         {
@@ -327,7 +329,7 @@ namespace Ogre {
             if(tex[3] < 1)
                 return true;
 
-            gl_FragColor = ColourValue(tex.ptr());
+            gl_FragColor = ColorValue(tex.ptr());
         }
 
         if(uniform_doLighting)
@@ -427,9 +429,11 @@ namespace Ogre {
 
     }
 
-    void TinyRenderSystem::clearFrameBuffer(unsigned int buffers,
-                                               const ColourValue& colour,
-                                               float depth, unsigned short stencil)
+    void TinyRenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         if (buffers & FBT_COLOUR)
         {
@@ -437,7 +441,7 @@ namespace Ogre {
         }
         if (buffers & FBT_DEPTH)
         {
-            mActiveDepthBuffer->setTo(ColourValue(depth));
+            mActiveDepthBuffer->setTo(ColorValue(depth));
         }
     }
 

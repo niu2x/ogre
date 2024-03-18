@@ -180,13 +180,12 @@ bool CompositionTechnique::isSupported(bool acceptTextureDegradation)
             && !td->formatList.empty()) {
             PixelFormat nativeFormat = texMgr.getNativeFormat( td->type, td->formatList.front(),
                                                                 TU_RENDERTARGET );
-            size_t nativeBits = PixelUtil::getNumElemBits( nativeFormat );
+            size_t nativeBits = PixelUtil::get_num_elem_bits(nativeFormat);
             for( PixelFormatList::iterator pfi = td->formatList.begin()+1;
                     pfi != td->formatList.end(); ++pfi )
             {
                 PixelFormat nativeTmp = texMgr.getNativeFormat( td->type, *pfi, TU_RENDERTARGET );
-                if( PixelUtil::getNumElemBits( nativeTmp ) != nativeBits )
-                {
+                if (PixelUtil::get_num_elem_bits(nativeTmp) != nativeBits) {
                     return false;
                 }
             }

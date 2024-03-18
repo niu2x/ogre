@@ -99,15 +99,11 @@ Ogre::Vector3 mLightRotationAxes[NUM_LIGHTS] = {
 Ogre::Real mLightSpeeds[NUM_LIGHTS] = { 30};
 
 // Colours for the lights
-Ogre::ColourValue mDiffuseLightColours[NUM_LIGHTS] =
-{
-    Ogre::ColourValue(0.6, 0.6, 0.6)
-};
+Ogre::ColorValue mDiffuseLightColours[NUM_LIGHTS]
+    = { Ogre::ColorValue(0.6, 0.6, 0.6) };
 
-Ogre::ColourValue mSpecularLightColours[NUM_LIGHTS] =
-{
-    Ogre::ColourValue(0.5, 0.5, 0.5)
-};
+Ogre::ColorValue mSpecularLightColours[NUM_LIGHTS]
+    = { Ogre::ColorValue(0.5, 0.5, 0.5) };
 
 // Which lights are enabled
 bool mLightState[NUM_LIGHTS] =
@@ -189,7 +185,7 @@ void Sample_Ocean::setupContent(void)
 void Sample_Ocean::setupScene()
 {
     // Set ambient light
-    mSceneMgr->setAmbientLight(Ogre::ColourValue(0.3, 0.3, 0.3));
+    mSceneMgr->setAmbientLight(Ogre::ColorValue(0.3, 0.3, 0.3));
     mSceneMgr->setSkyBox(true, "SkyBox", 1000);
 
     mMainNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -286,7 +282,7 @@ void Sample_Ocean::sliderMoved(Slider* slider)
             case MAT_SPECULAR:
                 {
                     // get the specular values from the material pass
-                    ColourValue OldSpec(mActivePass->getSpecular());
+                    ColorValue OldSpec(mActivePass->getSpecular());
                     OldSpec[ActiveShaderDef.ElementIndex] = val;
                     mActivePass->setSpecular( OldSpec );
                 }
@@ -296,7 +292,7 @@ void Sample_Ocean::sliderMoved(Slider* slider)
             case MAT_DIFFUSE:
                 {
                     // get the specular values from the material pass
-                    ColourValue OldSpec(mActivePass->getDiffuse());
+                    ColorValue OldSpec(mActivePass->getDiffuse());
                     OldSpec[ActiveShaderDef.ElementIndex] = val;
                     mActivePass->setDiffuse( OldSpec );
                 }
@@ -305,7 +301,7 @@ void Sample_Ocean::sliderMoved(Slider* slider)
             case MAT_AMBIENT:
                 {
                     // get the specular values from the material pass
-                    ColourValue OldSpec(mActivePass->getAmbient());
+                    ColorValue OldSpec(mActivePass->getAmbient());
                     OldSpec[ActiveShaderDef.ElementIndex] = val;
                     mActivePass->setAmbient( OldSpec );
                 }
@@ -400,7 +396,8 @@ void Sample_Ocean::changePage(int pageNum /* = -1 : toggle */)
                                 {
                                     // get the specular values from the material pass
 
-                                    Ogre::ColourValue OldSpec(mActivePass->getSpecular());
+                                    Ogre::ColorValue OldSpec(
+                                        mActivePass->getSpecular());
                                     uniformVal = OldSpec[ActiveShaderDef.ElementIndex];
                                 }
                                 break;
@@ -409,7 +406,8 @@ void Sample_Ocean::changePage(int pageNum /* = -1 : toggle */)
                                 {
                                     // get the diffuse values from the material pass
 
-                                    Ogre::ColourValue OldSpec(mActivePass->getDiffuse());
+                                    Ogre::ColorValue OldSpec(
+                                        mActivePass->getDiffuse());
                                     uniformVal = OldSpec[ActiveShaderDef.ElementIndex];
                                 }
                                 break;
@@ -418,7 +416,8 @@ void Sample_Ocean::changePage(int pageNum /* = -1 : toggle */)
                                 {
                                     // get the ambient values from the material pass
 
-                                    Ogre::ColourValue OldSpec(mActivePass->getAmbient());
+                                    Ogre::ColorValue OldSpec(
+                                        mActivePass->getAmbient());
                                     uniformVal = OldSpec[ActiveShaderDef.ElementIndex];
                                 }
                                 break;
@@ -435,8 +434,10 @@ void Sample_Ocean::changePage(int pageNum /* = -1 : toggle */)
                                 {
                                     // get the ambient values from the material pass
 
-                                    //ColourValue OldSpec(mActivePass->gete());
-                                    //activeScrollWidget->setScrollPosition( OldSpec.val[ActiveShaderDef->ElementIndex] );
+                                    // ColorValue OldSpec(mActivePass->gete());
+                                    // activeScrollWidget->setScrollPosition(
+                                    // OldSpec.val[ActiveShaderDef->ElementIndex]
+                                    // );
                                 }
                                 break;
                         }

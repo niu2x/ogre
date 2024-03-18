@@ -981,8 +981,11 @@ namespace Ogre
         #endif
     }
     //-------------------------------------------------------------------------
-    void MetalRenderSystem::clearFrameBuffer( unsigned int buffers, const ColourValue& colour,
-                                             float depth, unsigned short stencil )
+    void MetalRenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         if( buffers & FBT_COLOUR )
         {

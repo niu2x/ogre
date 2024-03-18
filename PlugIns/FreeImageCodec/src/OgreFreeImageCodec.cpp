@@ -179,7 +179,7 @@ namespace Ogre {
                 // load the data in it's existing format, but that doesn't work,
                 // FreeImage needs to have data in RGB[A] (big endian) and
                 // BGR[A] (little endian), always.
-                if (PixelUtil::hasAlpha(determiningFormat)) {
+                if (PixelUtil::has_alpha(determiningFormat)) {
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
                     requiredFormat = PixelFormat::BYTE_RGBA;
 #else
@@ -244,9 +244,12 @@ namespace Ogre {
         };
 
         // Check support for this image type & bit depth
-        if (!FreeImage_FIFSupportsExportType((FREE_IMAGE_FORMAT)mFreeImageType, imageType) ||
-            !FreeImage_FIFSupportsExportBPP((FREE_IMAGE_FORMAT)mFreeImageType, (int)PixelUtil::getNumElemBits(requiredFormat)))
-        {
+        if (!FreeImage_FIFSupportsExportType(
+                (FREE_IMAGE_FORMAT)mFreeImageType,
+                imageType)
+            || !FreeImage_FIFSupportsExportBPP(
+                (FREE_IMAGE_FORMAT)mFreeImageType,
+                (int)PixelUtil::get_num_elem_bits(requiredFormat))) {
             // Ok, need to allocate a fallback
             // Only deal with RGBA -> RGB for now
             switch (requiredFormat)
@@ -260,7 +263,6 @@ namespace Ogre {
                 default:
                     break;
             };
-
         }
 
         bool conversionRequired = false;
@@ -268,7 +270,8 @@ namespace Ogre {
         unsigned char* srcData = image->getData();
 
         // Check BPP
-        unsigned bpp = static_cast<unsigned>(PixelUtil::getNumElemBits(requiredFormat));
+        unsigned bpp = static_cast<unsigned>(
+            PixelUtil::get_num_elem_bits(requiredFormat));
         if (!FreeImage_FIFSupportsExportBPP((FREE_IMAGE_FORMAT)mFreeImageType, (int)bpp))
         {
             if (bpp == 32 && image->getHasAlpha() && FreeImage_FIFSupportsExportBPP((FREE_IMAGE_FORMAT)mFreeImageType, 24))
@@ -299,7 +302,7 @@ namespace Ogre {
                 MEMCATEGORY_GENERAL);
             // perform conversion and reassign source
             PixelBox newSrc = image->getPixelBox();
-            PixelUtil::bulkPixelConversion(newSrc, convBox);
+            PixelUtil::bulk_pixel_conversion(newSrc, convBox);
             srcData = convBox.data;
         }
 
@@ -330,8 +333,8 @@ namespace Ogre {
         }
 
         size_t dstPitch = FreeImage_GetPitch(ret);
-        size_t srcPitch = image->width() * PixelUtil::getNumElemBytes(requiredFormat);
-
+        size_t srcPitch
+            = image->width() * PixelUtil::get_num_elem_bytes(requiredFormat);
 
         // Copy data, invert scanlines and respect FreeImage pitch
         uchar* pDst = FreeImage_GetBits(ret);

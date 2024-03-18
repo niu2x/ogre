@@ -76,7 +76,7 @@ protected:
 
     /** Set the specular colour
      */
-    void setSpecularColour(const Ogre::ColourValue &col);
+    void setSpecularColour(const Ogre::ColorValue& col);
 
     /// The light that this DLight renders
     Ogre::Light* mParentLight;

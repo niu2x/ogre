@@ -120,7 +120,7 @@ namespace Ogre {
         @note
             Only used if this instance is using vertex colours.
         */
-        virtual void setInitialColour(size_t chainIndex, const ColourValue& col);
+        virtual void setInitialColour(size_t chainIndex, const ColorValue& col);
         /** Set the starting ribbon colour. 
         @param chainIndex The index of the chain
         @param r,b,g,a The initial colour
@@ -129,13 +129,17 @@ namespace Ogre {
         */
         virtual void setInitialColour(size_t chainIndex, float r, float g, float b, float a = 1.0);
         /** Get the starting ribbon colour. */
-        const ColourValue& getInitialColour(size_t chainIndex) const { return mInitialColour.at(chainIndex); }
+        const ColorValue& getInitialColour(size_t chainIndex) const
+        {
+            return mInitialColour.at(chainIndex);
+        }
 
         /** Enables / disables fading the trail using colour. 
         @param chainIndex The index of the chain
         @param valuePerSecond The amount to subtract from colour each second
         */
-        virtual void setColourChange(size_t chainIndex, const ColourValue& valuePerSecond);
+        virtual void
+        setColourChange(size_t chainIndex, const ColorValue& valuePerSecond);
 
         /** Set the starting ribbon width in world units. 
         @param chainIndex The index of the chain
@@ -160,7 +164,10 @@ namespace Ogre {
         virtual void setColourChange(size_t chainIndex, float r, float g, float b, float a);
 
         /** Get the per-second fading amount */
-        const ColourValue& getColourChange(size_t chainIndex) const { return mDeltaColour.at(chainIndex); }
+        const ColorValue& getColourChange(size_t chainIndex) const
+        {
+            return mDeltaColour.at(chainIndex);
+        }
 
         /// @see Node::Listener::nodeUpdated
         void nodeUpdated(const Node* node) override;
@@ -193,12 +200,12 @@ namespace Ogre {
         Real mElemLength;
         /// Squared length of each element
         Real mSquaredElemLength;
-        typedef std::vector<ColourValue> ColourValueList;
+        typedef std::vector<ColorValue> ColorValueList;
         typedef std::vector<Real> RealList;
         /// Initial colour of the ribbon
-        ColourValueList mInitialColour;
+        ColorValueList mInitialColour;
         /// fade amount per second
-        ColourValueList mDeltaColour;
+        ColorValueList mDeltaColour;
         /// Initial width of the ribbon
         RealList mInitialWidth;
         /// Delta width of the ribbon

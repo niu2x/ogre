@@ -75,8 +75,7 @@ namespace Ogre
 
         mRenderTargets[attachment] = target;
 
-        if(PixelUtil::isDepth(target->suggestPixelFormat()))
-        {
+        if (PixelUtil::is_depth(target->suggestPixelFormat())) {
             attachDepthBuffer(target->getDepthBuffer());
             return;
         }

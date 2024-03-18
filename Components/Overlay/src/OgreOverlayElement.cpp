@@ -688,15 +688,9 @@ namespace Ogre {
         _positionsOutOfDate();
     }
     //-----------------------------------------------------------------------
-    void OverlayElement::setColour(const ColourValue& col)
-    {
-        mColour = col;
-    }
+    void OverlayElement::setColour(const ColorValue& col) { mColour = col; }
     //-----------------------------------------------------------------------
-    const ColourValue& OverlayElement::getColour(void) const
-    {
-        return mColour;
-    }
+    const ColorValue& OverlayElement::getColour(void) const { return mColour; }
     //-----------------------------------------------------------------------
     void OverlayElement::setMetricsMode(GuiMetricsMode gmm)
     {

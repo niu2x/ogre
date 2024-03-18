@@ -80,8 +80,8 @@ namespace Ogre
                     .getRenderSystem()
                     ->getCapabilities()
                     ->hasCapability(RSC_MRT_SAME_BIT_DEPTHS)
-                && (PixelUtil::getNumElemBits(mRenderTargets[y]->getFormat())
-                    != PixelUtil::getNumElemBits(buffer->getFormat()))) {
+                && (PixelUtil::get_num_elem_bits(mRenderTargets[y]->getFormat())
+                    != PixelUtil::get_num_elem_bits(buffer->getFormat()))) {
                 OGRE_EXCEPT(
                     Exception::ERR_INVALIDPARAMS, 
                     "MultiRenderTarget surfaces are not of same bit depth and hardware requires it", 
@@ -90,8 +90,7 @@ namespace Ogre
             }
         }
 
-        if(PixelUtil::isDepth(target->suggestPixelFormat()))
-        {
+        if (PixelUtil::is_depth(target->suggestPixelFormat())) {
             mDepthTarget = target;
             mDepthBufferPoolId = DepthBuffer::POOL_DEFAULT; // we want attachDepthBuffer to happen
             return;

@@ -143,7 +143,12 @@ void Sample_ShaderSystem::itemSelected(SelectMenu* menu)
 
         if (curModeIndex >= FOG_NONE && curModeIndex <= FOG_LINEAR)
         {
-            mSceneMgr->setFog((FogMode)curModeIndex, ColourValue(1.0, 1.0, 1.0, 0.0), 0.0015, 350.0, 1500.0);
+            mSceneMgr->setFog(
+                (FogMode)curModeIndex,
+                ColorValue(1.0, 1.0, 1.0, 0.0),
+                0.0015,
+                350.0,
+                1500.0);
         }       
     }
     else if (menu == mShadowMenu)
@@ -230,7 +235,7 @@ void Sample_ShaderSystem::setupContent()
 
 
     // Set ambient lighting.
-    mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
+    mSceneMgr->setAmbientLight(ColorValue(0.2, 0.2, 0.2));
 
     // Setup the sky box,
     mSceneMgr->setSkyBox(true, "Examples/SceneSkyBox2");
@@ -573,12 +578,14 @@ void Sample_ShaderSystem::generateShaders(Entity* entity)
 
             if (mSpecularEnable)
             {
-                curPass->setSpecular(!cookTorrance ? ColourValue::White : ColourValue(0.1, 0.0));
+                curPass->setSpecular(
+                    !cookTorrance ? ColorValue::White : ColorValue(0.1, 0.0));
                 curPass->setShininess(32.0);
             }
             else
             {
-                curPass->setSpecular(!cookTorrance ? ColourValue::Black : ColourValue(1.0, 0.0));
+                curPass->setSpecular(
+                    !cookTorrance ? ColorValue::Black : ColorValue(1.0, 0.0));
                 curPass->setShininess(0.0);
             }
             

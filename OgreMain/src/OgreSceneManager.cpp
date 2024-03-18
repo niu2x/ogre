@@ -1951,13 +1951,13 @@ void SceneManager::renderSingleObject(Renderable* rend, const Pass* pass,
     resetViewProjMode();
 }
 //-----------------------------------------------------------------------
-void SceneManager::setAmbientLight(const ColourValue& colour)
+void SceneManager::setAmbientLight(const ColorValue& colour)
 {
     mGpuParamsDirty |= GPV_GLOBAL;
     mAutoParamDataSource->setAmbientLightColour(colour);
 }
 //-----------------------------------------------------------------------
-const ColourValue& SceneManager::getAmbientLight(void) const
+const ColorValue& SceneManager::getAmbientLight(void) const
 {
     return mAutoParamDataSource->getAmbientLightColour();
 }
@@ -1971,7 +1971,12 @@ ViewPoint SceneManager::getSuggestedViewpoint(bool random)
     return vp;
 }
 //-----------------------------------------------------------------------
-void SceneManager::setFog(FogMode mode, const ColourValue& colour, Real density, Real start, Real end)
+void SceneManager::setFog(
+    FogMode mode,
+    const ColorValue& colour,
+    Real density,
+    Real start,
+    Real end)
 {
     mFogMode = mode;
     mFogColour = colour;
@@ -1985,10 +1990,7 @@ FogMode SceneManager::getFogMode(void) const
     return mFogMode;
 }
 //-----------------------------------------------------------------------
-const ColourValue& SceneManager::getFogColour(void) const
-{
-    return mFogColour;
-}
+const ColorValue& SceneManager::getFogColour(void) const { return mFogColour; }
 //-----------------------------------------------------------------------
 Real SceneManager::getFogStart(void) const
 {
@@ -2766,7 +2768,7 @@ void SceneManager::resetLightClip()
     mDestRenderSystem->setClipPlanes(PlaneList());
 }
 //---------------------------------------------------------------------
-const ColourValue& SceneManager::getShadowColour(void) const
+const ColorValue& SceneManager::getShadowColour(void) const
 {
     return mShadowRenderer.mShadowColour;
 }

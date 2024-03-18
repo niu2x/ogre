@@ -68,19 +68,17 @@ namespace Ogre {
 
         // Check compressed texture support
         // if a compressed format not supported, revert to PixelFormat::A8R8G8B8
-        if(PixelUtil::isCompressed(format) &&
-            !caps->hasCapability( RSC_TEXTURE_COMPRESSION_DXT ))
-        {
+        if (PixelUtil::is_compressed(format)
+            && !caps->hasCapability(RSC_TEXTURE_COMPRESSION_DXT)) {
             return PixelFormat::BYTE_RGBA;
         }
         // if floating point textures not supported, revert to
         // PixelFormat::A8R8G8B8
-        if(PixelUtil::isFloatingPoint(format) &&
-            !caps->hasCapability( RSC_TEXTURE_FLOAT ))
-        {
+        if (PixelUtil::is_floating_point(format)
+            && !caps->hasCapability(RSC_TEXTURE_FLOAT)) {
             return PixelFormat::BYTE_RGBA;
         }
-        
+
         // Check if this is a valid rendertarget format
         if( usage & TU_RENDERTARGET )
         {
@@ -108,7 +106,8 @@ namespace Ogre {
             return false;
 
         // Assume non-floating point is supported always
-        if (!PixelUtil::isFloatingPoint(getNativeFormat(ttype, format, usage)))
+        if (!PixelUtil::is_floating_point(
+                getNativeFormat(ttype, format, usage)))
             return true;
 
         // check for floating point extension

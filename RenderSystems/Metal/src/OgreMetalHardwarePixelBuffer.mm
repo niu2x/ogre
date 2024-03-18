@@ -123,22 +123,28 @@ namespace Ogre {
             {
                 const PixelFormat newFormat = src.format == PixelFormat::R8G8B8 ? PixelFormat::X8R8G8B8 : PixelFormat::X8B8G8R8;
                 freeScaledBuffer = true;
-                size_t scaledSize = PixelUtil::getMemorySize( src.width(), src.height(),
-                                                              src.depth(), newFormat );
+                size_t scaledSize = PixelUtil::get_memory_size(
+                    src.width(),
+                    src.height(),
+                    src.depth(),
+                    newFormat);
                 scaled.format = newFormat;
                 scaled.data = new uint8[scaledSize];
                 scaled.setConsecutive();
-                PixelUtil::bulkPixelConversion(src, scaled);
+                PixelUtil::bulk_pixel_conversion(src, scaled);
             }
             else if (src.format == PixelFormat::BYTE_LA)
             {
                 freeScaledBuffer = true;
-                size_t scaledSize = PixelUtil::getMemorySize( src.width(), src.height(),
-                                                              src.depth(), PixelFormat::A8R8G8B8 );
+                size_t scaledSize = PixelUtil::get_memory_size(
+                    src.width(),
+                    src.height(),
+                    src.depth(),
+                    PixelFormat::A8R8G8B8);
                 scaled.format = PixelFormat::A8R8G8B8;
                 scaled.data = new uint8[scaledSize];
                 scaled.setConsecutive();
-                PixelUtil::bulkPixelConversion(src, scaled);
+                PixelUtil::bulk_pixel_conversion(src, scaled);
             }
         }
 
@@ -187,7 +193,9 @@ namespace Ogre {
             else
             {
                 // Just copy the bit that we need
-                PixelUtil::bulkPixelConversion(mBuffer.get_sub_volume(srcBox), dst);
+                PixelUtil::bulk_pixel_conversion(
+                    mBuffer.get_sub_volume(srcBox),
+                    dst);
             }
             freeBuffer();
         }
@@ -247,10 +255,10 @@ namespace Ogre {
         std::stringstream str;
         str << "MetalHardwarePixelBuffer constructed for texture " << baseName
             << " face " << mFace << " level " << mLevel << ":"
-            << " width=" << mWidth << " height="<< mHeight << " depth=" << mDepth
-            << " format=" << PixelUtil::getFormatName(mFormat)
-            << " MTLformat=" << format
-            << " rowPitch=" << mRowPitch;
+            << " width=" << mWidth << " height=" << mHeight
+            << " depth=" << mDepth
+            << " format=" << PixelUtil::get_format_name(mFormat)
+            << " MTLformat=" << format << " rowPitch=" << mRowPitch;
         LogManager::singleton().log_message(LogMsgLevel::NORMAL, str.str());
 #endif
 
@@ -287,15 +295,18 @@ namespace Ogre {
 
     void MetalTextureBuffer::upload(const PixelBox &data, const Box &dest)
     {
-        if(PixelUtil::isCompressed(data.format) && (NSUInteger)mLevel == mTexture.mipmapLevelCount)
+        if (PixelUtil::is_compressed(data.format)
+            && (NSUInteger)mLevel == mTexture.mipmapLevelCount)
             return;
 
         // Calculate size for all mip levels of the texture
-        size_t bytesPerImage = PixelUtil::getMemorySize( dest.width(), dest.height(),
-                                                         1, data.format );
+        size_t bytesPerImage = PixelUtil::get_memory_size(
+            dest.width(),
+            dest.height(),
+            1,
+            data.format);
 
-        if (!PixelUtil::isCompressed(data.format))
-        {
+        if (!PixelUtil::is_compressed(data.format)) {
             if (data.width() != data.row_pitch) {
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Unsupported texture format",
@@ -309,7 +320,8 @@ namespace Ogre {
             }
         }
 
-        NSUInteger rowPitch = PixelUtil::getMemorySize(data.width(), 1, 1, data.format);
+        NSUInteger rowPitch
+            = PixelUtil::get_memory_size(data.width(), 1, 1, data.format);
 
         // PVR textures should have 0 row size and data size
         if( data.format == PixelFormat::PVRTC2_2BPP ||
@@ -399,15 +411,13 @@ namespace Ogre {
 #if OGRE_DEBUG_MODE
         std::stringstream str;
         str << "MetalTextureBuffer::upload: "
-        << " pixel buffer: " << mBufferId
-        << " bytes: " << mSizeInBytes
-        << " dest depth: " << dest.depth()
-        << " dest front: " << dest.front
-        << " bytesPerImage: " << bytesPerImage
-        << " face: " << mFace << " level: " << mLevel
-        << " width: " << mWidth << " height: "<< mHeight << " depth: " << mDepth
-        << " format: " << PixelUtil::getFormatName(mFormat)
-        << " data format: " << PixelUtil::getFormatName(data.format);
+            << " pixel buffer: " << mBufferId << " bytes: " << mSizeInBytes
+            << " dest depth: " << dest.depth() << " dest front: " << dest.front
+            << " bytesPerImage: " << bytesPerImage << " face: " << mFace
+            << " level: " << mLevel << " width: " << mWidth
+            << " height: " << mHeight << " depth: " << mDepth
+            << " format: " << PixelUtil::get_format_name(mFormat)
+            << " data format: " << PixelUtil::get_format_name(data.format);
         LogManager::singleton().log_message(LogMsgLevel::NORMAL, str.str());
 #endif
     }
@@ -429,11 +439,14 @@ namespace Ogre {
 
         nanosleep(&tim, &tim2);
 
-        NSUInteger bytesPerPixel = PixelUtil::getNumElemBytes(data.format);
+        NSUInteger bytesPerPixel = PixelUtil::get_num_elem_bytes(data.format);
 
         // Construct a temp PixelBox
-        size_t sizeInBytes = PixelUtil::getMemorySize( data.width(), data.height(),
-                                                       data.depth(), mFormat );
+        size_t sizeInBytes = PixelUtil::get_memory_size(
+            data.width(),
+            data.height(),
+            data.depth(),
+            mFormat);
 
         PixelBox tempBox = PixelBox( data.width(), data.height(), data.depth(), mFormat );
         tempBox.data = new uint8[sizeInBytes];
@@ -474,7 +487,7 @@ namespace Ogre {
         }
 
         // Convert to the target pixel format and vertically flip
-        PixelUtil::bulkPixelConversion(tempBox, data);
+        PixelUtil::bulk_pixel_conversion(tempBox, data);
 
         delete[] (uint8*) tempBox.data;
         tempBox.data = 0;
@@ -524,12 +537,11 @@ namespace Ogre {
         // Fall back to normal MetalHardwarePixelBuffer::blitFromMemory in case
         // - Either source or target is luminance due doesn't looks like supported by hardware
         // - the source dimensions match the destination ones, in which case no scaling is needed
-        if(PixelUtil::isLuminance(src_orig.format) ||
-           PixelUtil::isLuminance(mFormat) ||
-           (src_orig.width() == dstBox.width() &&
-            src_orig.height() == dstBox.height() &&
-            src_orig.depth() == dstBox.depth()))
-        {
+        if (PixelUtil::is_luminance(src_orig.format)
+            || PixelUtil::is_luminance(mFormat)
+            || (src_orig.width() == dstBox.width()
+                && src_orig.height() == dstBox.height()
+                && src_orig.depth() == dstBox.depth())) {
             MetalHardwarePixelBuffer::blitFromMemory(src_orig, dstBox);
             return;
         }

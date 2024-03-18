@@ -139,7 +139,7 @@ public:
                     0.1); // center text in label and its position
                 l->set_parameter("font_name", "SdkTrays/Value");
                 l->set_parameter("char_height", "0.02f");
-                l->setColour(ColourValue(1.0, 0.0, 0.0));
+                l->setColour(ColorValue(1.0, 0.0, 0.0));
 
                 mLodInfoOverlayContainer->addChild(l);
                 mLodStatusLabelList.push_back(l);
@@ -363,20 +363,21 @@ protected:
         MaterialManager::singleton().setDefaultAnisotropy(8);
 #endif
 
-		mSceneMgr->setFog(FOG_LINEAR, ColourValue(0.7, 0.7, 0.8), 0, 4000, 10000);
+        mSceneMgr
+            ->setFog(FOG_LINEAR, ColorValue(0.7, 0.7, 0.8), 0, 4000, 10000);
 
         LogManager::singleton().set_min_log_level(LogMsgLevel::TRIVIAL);
 
         Light* l = mSceneMgr->createLight("tstLight");
         l->setType(Light::LT_DIRECTIONAL);
-        l->setDiffuseColour(ColourValue::White);
-        l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
+        l->setDiffuseColour(ColorValue::White);
+        l->setSpecularColour(ColorValue(0.4, 0.4, 0.4));
 
         auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         ln->setDirection(Vector3(0.55, -0.3, 0.75).normalised_copy());
         ln->attachObject(l);
 
-        mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
+        mSceneMgr->setAmbientLight(ColorValue(0.2, 0.2, 0.2));
 
         mTerrainGroup = OGRE_NEW TerrainGroup(
             mSceneMgr,

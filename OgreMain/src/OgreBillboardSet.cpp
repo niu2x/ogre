@@ -108,7 +108,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Billboard* BillboardSet::createBillboard(
         const Vector3& position,
-        const ColourValue& colour )
+        const ColorValue& colour)
     {
         if( mActiveBillboards == mBillboardPool.size() )
         {

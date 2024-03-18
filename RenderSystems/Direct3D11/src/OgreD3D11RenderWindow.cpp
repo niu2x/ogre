@@ -346,7 +346,7 @@ namespace Ogre
 
         // Read the data out of the texture
         PixelBox locked = D3D11Mappings::getPixelBoxWithMapping(srcBoxDx11, BBDesc.Format, mapped);
-        PixelUtil::bulkPixelConversion(locked, dst);
+        PixelUtil::bulk_pixel_conversion(locked, dst);
 
         // Release the staging texture
         mDevice.GetImmediateContext()->Unmap(stagingTexture.Get(), srcSubresource);

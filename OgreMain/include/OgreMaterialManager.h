@@ -215,22 +215,24 @@ namespace Ogre {
 
         /** Returns a pointer to the default Material settings.
 
-            The default settings begin as a single Technique with a single, non-programmable Pass:
+            The default settings begin as a single Technique with a single,
+           non-programmable Pass:
 
-            - ambient = ColourValue::White
-            - diffuse = ColourValue::White
-            - specular = ColourValue::Black
-            - emissive = ColourValue::Black
+            - ambient = ColorValue::White
+            - diffuse = ColorValue::White
+            - specular = ColorValue::Black
+            - emissive = ColorValue::Black
             - shininess = 0 (not shiny)
             - No texture unit settings (& hence no textures)
             - SourceBlendFactor = Ogre::SceneBlendFactor::ONE
-            - DestBlendFactor = Ogre::SceneBlendFactor::ZERO (no blend, replace with new colour)
+            - DestBlendFactor = Ogre::SceneBlendFactor::ZERO (no blend, replace
+           with new colour)
             - Depth buffer checking on
             - Depth buffer writing on
             - Depth buffer comparison function = Ogre::CMPF_LESS_EQUAL
             - Colour buffer writing on for all channels
             - Culling mode = Ogre::CULL_CLOCKWISE
-            - Ambient lighting = ColourValue(0.5, 0.5, 0.5) (mid-grey)
+            - Ambient lighting = ColorValue(0.5, 0.5, 0.5) (mid-grey)
             - Dynamic lighting enabled
             - Gourad shading mode
             - Bilinear texture filtering

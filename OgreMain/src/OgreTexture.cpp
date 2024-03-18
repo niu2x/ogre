@@ -123,10 +123,7 @@ namespace Ogre {
         mDesiredFormat = pf;
     }
     //--------------------------------------------------------------------------
-    bool Texture::hasAlpha(void) const
-    {
-        return PixelUtil::hasAlpha(mFormat);
-    }
+    bool Texture::hasAlpha(void) const { return PixelUtil::has_alpha(mFormat); }
     //--------------------------------------------------------------------------
     void Texture::setDesiredIntegerBitDepth(ushort bits)
     {
@@ -161,7 +158,8 @@ namespace Ogre {
     //--------------------------------------------------------------------------
     size_t Texture::calculate_size(void) const
     {
-        return getNumFaces() * PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);
+        return getNumFaces()
+            * PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
     }
     //--------------------------------------------------------------------------
     uint32 Texture::getNumFaces(void) const
@@ -190,7 +188,10 @@ namespace Ogre {
             mFormat = mDesiredFormat;
         } else {
             // Get the format according with desired bit depth
-            mFormat = PixelUtil::getFormatForBitDepths(mSrcFormat, mDesiredIntegerBitDepth, mDesiredFloatBitDepth);
+            mFormat = PixelUtil::get_format_for_bit_depths(
+                mSrcFormat,
+                mDesiredIntegerBitDepth,
+                mDesiredFloatBitDepth);
         }
 
         // The custom mipmaps in the image clamp the request
@@ -229,7 +230,7 @@ namespace Ogre {
             // Say what we're doing
             Log::Stream str = LogManager::singleton().stream();
             str << "Texture '" << name() << "': Loading " << faces << " faces"
-                << "(" << PixelUtil::getFormatName(images[0]->getFormat())
+                << "(" << PixelUtil::get_format_name(images[0]->getFormat())
                 << "," << images[0]->width() << "x" << images[0]->height()
                 << "x" << images[0]->depth() << ")";
             if (!(mMipmapsHardwareGenerated && mNumMipmaps == 0))
@@ -254,8 +255,10 @@ namespace Ogre {
 
             // Print data about first destination surface
             const auto& buf = getBuffer(0, 0);
-            str << " Internal format is " << PixelUtil::getFormatName(buf->getFormat()) << ","
-                << buf->width() << "x" << buf->height() << "x" << buf->depth() << ".";
+            str << " Internal format is "
+                << PixelUtil::get_format_name(buf->getFormat()) << ","
+                << buf->width() << "x" << buf->height() << "x" << buf->depth()
+                << ".";
         }
 
         // Main loading loop
@@ -292,7 +295,7 @@ namespace Ogre {
                     // Do not overwrite original image but do gamma correction in temporary buffer
                     Image tmp(src.format, src.width(), height(), src.depth());
                     PixelBox corrected = tmp.getPixelBox();
-                    PixelUtil::bulkPixelConversion(src, corrected);
+                    PixelUtil::bulk_pixel_conversion(src, corrected);
 
                     Image::applyGamma(
                         corrected.data,
@@ -316,7 +319,7 @@ namespace Ogre {
         // Update size (the final size, not including temp space)
         set_size(
             getNumFaces()
-            * PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat));
+            * PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat));
     }
     //-----------------------------------------------------------------------------
     uint32 Texture::getMaxMipmaps() const {
@@ -492,9 +495,9 @@ namespace Ogre {
         // If compressed and 0 custom mipmap, disable auto mip generation and
         // disable software mipmap creation.
         // Not supported by GLES.
-        if (PixelUtil::isCompressed(loadedImages[0].getFormat()) &&
-            !renderCaps->hasCapability(RSC_AUTOMIPMAP_COMPRESSED) && loadedImages[0].getNumMipmaps() == 0)
-        {
+        if (PixelUtil::is_compressed(loadedImages[0].getFormat())
+            && !renderCaps->hasCapability(RSC_AUTOMIPMAP_COMPRESSED)
+            && loadedImages[0].getNumMipmaps() == 0) {
             mNumMipmaps = mNumRequestedMipmaps = 0;
             // Disable flag for auto mip generation
             mUsage &= ~TU_AUTOMIPMAP;

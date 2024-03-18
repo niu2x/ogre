@@ -39,16 +39,17 @@ THE SOFTWARE.
 namespace Ogre {
     const size_t BillboardChain::SEGMENT_EMPTY = std::numeric_limits<size_t>::max();
     //-----------------------------------------------------------------------
-    BillboardChain::Element::Element(const Vector3 &_position,
+    BillboardChain::Element::Element(
+        const Vector3& _position,
         float _width,
         float _texCoord,
-        const ColourValue &_colour,
-        const Quaternion &_orientation) :
-    position(_position),
-        width(_width),
-        texCoord(_texCoord),
-        colour(_colour),
-        orientation(_orientation)
+        const ColorValue& _colour,
+        const Quaternion& _orientation)
+    : position(_position)
+    , width(_width)
+    , texCoord(_texCoord)
+    , colour(_colour)
+    , orientation(_orientation)
     {
     }
     //-----------------------------------------------------------------------

@@ -79,12 +79,13 @@ static void triangle(const mat4& Viewport, const vec4 clip_verts[3], IShader& sh
             if(depthCheck && frag_depth > *zbuffer.getData<float>(x, y))
                 continue;
 
-            ColourValue fragColour;
+            ColorValue fragColour;
             bool discard = shader.fragment(bc_clip, fragColour);
             if (discard) continue;
             auto& dst = *image.getData<vec3b>(x, y);
             if(blendAdd)
-                fragColour += ColourValue(vec4b(dst[0], dst[1], dst[2], 0).ptr());
+                fragColour
+                    += ColorValue(vec4b(dst[0], dst[1], dst[2], 0).ptr());
             fragColour.saturate();
             fragColour *= 255;
 

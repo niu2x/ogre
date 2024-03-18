@@ -67,7 +67,10 @@ String gBaseName; // base name of the input file (no path or extension)
 
 // conversion functions:
 inline Vector3 vec(const vrmllib::vec3 &v) { return Vector3(v.x, v.y, v.z); }
-inline ColourValue col(const vrmllib::col3 &c) { return ColourValue(c.r, c.g, c.b); }
+inline ColorValue col(const vrmllib::col3& c)
+{
+    return ColorValue(c.r, c.g, c.b);
+}
 inline void copyVec(Real *d, const Vector3 &s) { d[0] = s.x; d[1] = s.y; d[2] = s.z; }
 inline void copyVec(Real *d, const vec2 &s) { d[0] = s.x; d[1] = s.y; }
 
@@ -407,7 +410,7 @@ void copyToSubMesh(SubMesh *sub, const TriVec &triangles, const VertVec &vertice
 
         if (color) {
             col3 c = color->color[v.colour];
-            ColourValue cv(c.r, c.g, c.b);
+            ColorValue cv(c.r, c.g, c.b);
             colors[i] = cv.as_ABGR();
         }
     }
@@ -543,11 +546,11 @@ Ogre::MaterialPtr parseMaterial(const Appearance *app, const String &name)
         name,
         ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-    ColourValue diffuse = texture ? ColourValue::White : col(vm->diffuseColor);
-        // diffuse colour is unused by VRML when a texture is avaliable,
-        // set to white to give the same effect in OGRE
+    ColorValue diffuse = texture ? ColorValue::White : col(vm->diffuseColor);
+    // diffuse colour is unused by VRML when a texture is avaliable,
+    // set to white to give the same effect in OGRE
 
-    ColourValue a = diffuse;
+    ColorValue a = diffuse;
     a.r *= vm->ambientIntensity;
     a.g *= vm->ambientIntensity;
     a.b *= vm->ambientIntensity;

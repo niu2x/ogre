@@ -49,8 +49,8 @@ protected:
         mTrayMgr->showCursor();
 
         Light* light = mSceneMgr->createLight();
-        light->setDiffuseColour(ColourValue::White);
-        light->setSpecularColour(ColourValue::White);
+        light->setDiffuseColour(ColorValue::White);
+        light->setSpecularColour(ColorValue::White);
 
         mSceneMgr->getRootSceneNode()
             ->createChildSceneNode(Vector3(4, 1, 6))
@@ -68,7 +68,7 @@ protected:
         SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         node->attachObject(mEntity);
 
-        mViewport->setBackgroundColour(ColourValue(0.05, 0.05, 0.05));
+        mViewport->setBackgroundColour(ColorValue(0.05, 0.05, 0.05));
 
         MaterialPtr mat
             = MaterialManager::singleton().getByName("DamagedHelmet");

@@ -485,7 +485,7 @@ namespace OgreMayaExporter
         float* pFloat;
         Ogre::RGBA* pRGBA;
         // Fill the vertex buffer with shared geometry data
-        Ogre::ColourValue col;
+        Ogre::ColorValue col;
         float ucoord, vcoord;
         for (long vi=0; vi<vertices.size(); vi++)
         {
@@ -511,9 +511,11 @@ namespace OgreMayaExporter
                 case Ogre::VES_DIFFUSE:
                     {
                         elem.baseVertexPointerToElement(pBase, &pRGBA);
-                        Ogre::ColourValue col(v.r, v.g, v.b, v.a);
-                        *pRGBA = Ogre::VertexElement::convertColourValue(col, 
-                            Ogre::VertexElement::getBestColourVertexElementType());
+                        Ogre::ColorValue col(v.r, v.g, v.b, v.a);
+                        *pRGBA = Ogre::VertexElement::convertColorValue(
+                            col,
+                            Ogre::VertexElement::
+                                getBestColourVertexElementType());
                     }
                     break;
                 case Ogre::VES_TEXTURE_COORDINATES:

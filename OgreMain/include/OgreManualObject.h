@@ -329,7 +329,7 @@ namespace Ogre
 
         /** Add a vertex colour to a vertex.
         */
-        void colour(const ColourValue& col)
+        void colour(const ColorValue& col)
         {
             OgreAssert(mCurrentSection, "You must call begin() before this method");
             if (mFirstVertex && !mCurrentUpdating)
@@ -339,7 +339,10 @@ namespace Ogre
             mTempVertex.colour = col;
         }
         /// @overload
-        void colour(float r, float g, float b, float a = 1.0f) { colour(ColourValue(r, g, b, a)); };
+        void colour(float r, float g, float b, float a = 1.0f)
+        {
+            colour(ColorValue(r, g, b, a));
+        };
 
         /** Add a vertex index to construct faces / lines / points via indexing
             rather than just by a simple list of vertices. 
@@ -630,7 +633,7 @@ namespace Ogre
             Vector3f normal;
             Vector3f tangent;
             Vector4f texCoord[OGRE_MAX_TEXTURE_COORD_SETS];
-            ColourValue colour;
+            ColorValue colour;
         };
         /// Temp storage
         TempVertex mTempVertex;

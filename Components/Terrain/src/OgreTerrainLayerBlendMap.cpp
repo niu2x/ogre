@@ -55,11 +55,12 @@ namespace Ogre
         // because we can't guarantee what precise format the RS gives us
         unsigned char rgbaShift[4];
         PixelFormat fmt = mBuffer->getFormat();
-        PixelUtil::getBitShifts(fmt, rgbaShift);
+        PixelUtil::get_bit_shifts(fmt, rgbaShift);
         mChannelOffset = rgbaShift[mChannel] / 8; // /8 to convert to bytes
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
         // invert (dealing bytewise)
-        mChannelOffset = PixelUtil::getNumElemBytes(fmt) - mChannelOffset - 1;
+        mChannelOffset
+            = PixelUtil::get_num_elem_bytes(fmt) - mChannelOffset - 1;
 #endif
         download();
 
@@ -74,7 +75,7 @@ namespace Ogre
         Box box(0, 0, mBuffer->width(), mBuffer->height());
         uint8* pSrc = mBuffer->lock(box, HardwareBuffer::HBL_READ_ONLY).data;
         pSrc += mChannelOffset;
-        size_t srcInc = PixelUtil::getNumElemBytes(mBuffer->getFormat());
+        size_t srcInc = PixelUtil::get_num_elem_bytes(mBuffer->getFormat());
         for (size_t y = box.top; y < box.bottom; ++y)
         {
             for (size_t x = box.left; x < box.right; ++x)
@@ -173,7 +174,7 @@ namespace Ogre
             float* pSrcBase = mData.getData<float>(mDirtyBox.left, mDirtyBox.top);
             uint8* pDstBase = mBuffer->lock(mDirtyBox, HardwarePixelBuffer::HBL_NORMAL).data;
             pDstBase += mChannelOffset;
-            size_t dstInc = PixelUtil::getNumElemBytes(mBuffer->getFormat());
+            size_t dstInc = PixelUtil::get_num_elem_bytes(mBuffer->getFormat());
             for (size_t y = 0; y < mDirtyBox.height(); ++y)
             {
                 float* pSrc = pSrcBase + y * mBuffer->width();
@@ -223,7 +224,7 @@ namespace Ogre
 
         // pixel conversion
         PixelBox dstMemBox = mData.getPixelBox().get_sub_volume(dstBox);
-        PixelUtil::bulkPixelConversion(*srcBox, dstMemBox);
+        PixelUtil::bulk_pixel_conversion(*srcBox, dstMemBox);
 
         if (srcBox != &src)
         {

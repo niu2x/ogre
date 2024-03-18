@@ -192,7 +192,10 @@ void DeferredShadingSystem::createResources(void)
 
     if (!GpuProgramManager::singleton().isSyntaxSupported("hlsl")) {
         // need to clear depth to 1.0 for GL
-        mGBufferInstance->getTechnique()->getTargetPass(0)->getPass(0)->setClearColour(ColourValue(0.0, 0.0, 0.0, 1.0));
+        mGBufferInstance->getTechnique()
+            ->getTargetPass(0)
+            ->getPass(0)
+            ->setClearColour(ColorValue(0.0, 0.0, 0.0, 1.0));
     }
 
     // Create filters

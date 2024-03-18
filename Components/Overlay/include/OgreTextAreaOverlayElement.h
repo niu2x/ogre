@@ -89,28 +89,28 @@ namespace Ogre
             the entire text. Also see setColourBottom and 
             setColourTop which allow you to set a colour gradient.
         */
-        void setColour(const ColourValue& col) override;
+        void setColour(const ColorValue& col) override;
 
         /** Gets the colour of the text. */
-        const ColourValue& getColour(void) const override;
+        const ColorValue& getColour(void) const override;
         /** Sets the colour of the bottom of the letters.
 
             By setting a separate top and bottom colour, you
             can create a text area which has a graduated colour
             effect to it.
         */
-        void setColourBottom(const ColourValue& col);
+        void setColourBottom(const ColorValue& col);
         /** Gets the colour of the bottom of the letters. */
-        const ColourValue& getColourBottom(void) const;
+        const ColorValue& getColourBottom(void) const;
         /** Sets the colour of the top of the letters.
 
             By setting a separate top and bottom colour, you
             can create a text area which has a graduated colour
             effect to it.
         */
-        void setColourTop(const ColourValue& col);
+        void setColourTop(const ColorValue& col);
         /** Gets the colour of the top of the letters. */
-        const ColourValue& getColourTop(void) const;
+        const ColorValue& getColourTop(void) const;
 
         inline void setAlignment( Alignment a )
         {
@@ -151,8 +151,8 @@ namespace Ogre
         Real mViewportAspectCoef;
 
         /// Colours to use for the vertices
-        ColourValue mColourBottom;
-        ColourValue mColourTop;
+        ColorValue mColourBottom;
+        ColorValue mColourTop;
         bool mColoursChanged;
 
 

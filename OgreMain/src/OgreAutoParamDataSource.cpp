@@ -35,53 +35,51 @@ THE SOFTWARE.
 
 namespace Ogre {
     //-----------------------------------------------------------------------------
-    AutoParamDataSource::AutoParamDataSource()
-        : mWorldMatrixCount(0),
-         mWorldMatrixArray(0),
-         mWorldMatrixDirty(true),
-         mViewMatrixDirty(true),
-         mProjMatrixDirty(true),
-         mWorldViewMatrixDirty(true),
-         mViewProjMatrixDirty(true),
-         mWorldViewProjMatrixDirty(true),
-         mInverseWorldMatrixDirty(true),
-         mInverseWorldViewMatrixDirty(true),
-         mInverseViewMatrixDirty(true),
-         mInverseTransposeWorldMatrixDirty(true),
-         mInverseTransposeWorldViewMatrixDirty(true),
-         mCameraPositionDirty(true),
-         mCameraPositionObjectSpaceDirty(true),
-         mAmbientLight(ColourValue::Black),
-         mPassNumber(0),
-         mSceneDepthRangeDirty(true),
-         mLodCameraPositionDirty(true),
-         mLodCameraPositionObjectSpaceDirty(true),
-         mCurrentRenderable(0),
-         mCurrentCamera(0), 
-         mCameraRelativeRendering(false),
-         mCurrentLightList(0),
-         mCurrentRenderTarget(0),
-         mCurrentViewport(0), 
-         mCurrentSceneManager(0),
-         mMainCamBoundsInfo(0),
-         mCurrentPass(0),
-         mDummyNode(NULL)
-    {
-        mBlankLight.setDiffuseColour(ColourValue::Black);
-        mBlankLight.setSpecularColour(ColourValue::Black);
-        mBlankLight.setAttenuation(0,1,0,0);
-        mDummyNode.attachObject(&mBlankLight);
-        for(size_t i = 0; i < OGRE_MAX_SIMULTANEOUS_LIGHTS; ++i)
-        {
-            mTextureViewProjMatrixDirty[i] = true;
-            mTextureWorldViewProjMatrixDirty[i] = true;
-            mSpotlightViewProjMatrixDirty[i] = true;
-            mSpotlightWorldViewProjMatrixDirty[i] = true;
-            mCurrentTextureProjector[i] = 0;
-            mShadowCamDepthRangesDirty[i] = false;
-        }
-
+AutoParamDataSource::AutoParamDataSource()
+: mWorldMatrixCount(0)
+, mWorldMatrixArray(0)
+, mWorldMatrixDirty(true)
+, mViewMatrixDirty(true)
+, mProjMatrixDirty(true)
+, mWorldViewMatrixDirty(true)
+, mViewProjMatrixDirty(true)
+, mWorldViewProjMatrixDirty(true)
+, mInverseWorldMatrixDirty(true)
+, mInverseWorldViewMatrixDirty(true)
+, mInverseViewMatrixDirty(true)
+, mInverseTransposeWorldMatrixDirty(true)
+, mInverseTransposeWorldViewMatrixDirty(true)
+, mCameraPositionDirty(true)
+, mCameraPositionObjectSpaceDirty(true)
+, mAmbientLight(ColorValue::Black)
+, mPassNumber(0)
+, mSceneDepthRangeDirty(true)
+, mLodCameraPositionDirty(true)
+, mLodCameraPositionObjectSpaceDirty(true)
+, mCurrentRenderable(0)
+, mCurrentCamera(0)
+, mCameraRelativeRendering(false)
+, mCurrentLightList(0)
+, mCurrentRenderTarget(0)
+, mCurrentViewport(0)
+, mCurrentSceneManager(0)
+, mMainCamBoundsInfo(0)
+, mCurrentPass(0)
+, mDummyNode(NULL)
+{
+    mBlankLight.setDiffuseColour(ColorValue::Black);
+    mBlankLight.setSpecularColour(ColorValue::Black);
+    mBlankLight.setAttenuation(0, 1, 0, 0);
+    mDummyNode.attachObject(&mBlankLight);
+    for (size_t i = 0; i < OGRE_MAX_SIMULTANEOUS_LIGHTS; ++i) {
+        mTextureViewProjMatrixDirty[i] = true;
+        mTextureWorldViewProjMatrixDirty[i] = true;
+        mSpotlightViewProjMatrixDirty[i] = true;
+        mSpotlightWorldViewProjMatrixDirty[i] = true;
+        mCurrentTextureProjector[i] = 0;
+        mShadowCamDepthRangesDirty[i] = false;
     }
+}
     //-----------------------------------------------------------------------------
 	const Camera* AutoParamDataSource::getCurrentCamera() const
 	{
@@ -160,20 +158,23 @@ namespace Ogre {
         return static_cast<float>(getLight(index)._getIndexInFrame());
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getLightDiffuseColour(size_t index) const
+    const ColorValue&
+    AutoParamDataSource::getLightDiffuseColour(size_t index) const
     {
         return getLight(index).getDiffuseColour();
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getLightSpecularColour(size_t index) const
+    const ColorValue&
+    AutoParamDataSource::getLightSpecularColour(size_t index) const
     {
         return getLight(index).getSpecularColour();
     }
     //-----------------------------------------------------------------------------
-    const ColourValue AutoParamDataSource::getLightDiffuseColourWithPower(size_t index) const
+    const ColorValue
+    AutoParamDataSource::getLightDiffuseColourWithPower(size_t index) const
     {
         const Light& l = getLight(index);
-        ColourValue scaled(l.getDiffuseColour());
+        ColorValue scaled(l.getDiffuseColour());
         Real power = l.getPowerScale();
         // scale, but not alpha
         scaled.r *= power;
@@ -182,10 +183,11 @@ namespace Ogre {
         return scaled;
     }
     //-----------------------------------------------------------------------------
-    const ColourValue AutoParamDataSource::getLightSpecularColourWithPower(size_t index) const
+    const ColorValue
+    AutoParamDataSource::getLightSpecularColourWithPower(size_t index) const
     {
         const Light& l = getLight(index);
-        ColourValue scaled(l.getSpecularColour());
+        ColorValue scaled(l.getSpecularColour());
         Real power = l.getPowerScale();
         // scale, but not alpha
         scaled.r *= power;
@@ -518,7 +520,7 @@ namespace Ogre {
         return mLodCameraPositionObjectSpace;
     }
     //-----------------------------------------------------------------------------
-    void AutoParamDataSource::setAmbientLightColour(const ColourValue& ambient)
+    void AutoParamDataSource::setAmbientLightColour(const ColorValue& ambient)
     {
         mAmbientLight = ambient;
     }
@@ -533,7 +535,7 @@ namespace Ogre {
         return getLight(index).getCastShadows() ? 1.0f : 0.0f;
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getAmbientLightColour(void) const
+    const ColorValue& AutoParamDataSource::getAmbientLightColour(void) const
     {
         return mAmbientLight;
         
@@ -581,22 +583,22 @@ namespace Ogre {
         return Vector4f(size[0], size[1], 1 / size[0], 1 / size[1]);
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getSurfaceAmbientColour(void) const
+    const ColorValue& AutoParamDataSource::getSurfaceAmbientColour(void) const
     {
         return mCurrentPass->getAmbient();
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getSurfaceDiffuseColour(void) const
+    const ColorValue& AutoParamDataSource::getSurfaceDiffuseColour(void) const
     {
         return mCurrentPass->getDiffuse();
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getSurfaceSpecularColour(void) const
+    const ColorValue& AutoParamDataSource::getSurfaceSpecularColour(void) const
     {
         return mCurrentPass->getSpecular();
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getSurfaceEmissiveColour(void) const
+    const ColorValue& AutoParamDataSource::getSurfaceEmissiveColour(void) const
     {
         return mCurrentPass->getSelfIllumination();
     }
@@ -611,22 +613,27 @@ namespace Ogre {
         return static_cast<Real>(static_cast<unsigned int>(mCurrentPass->getAlphaRejectValue())) / 255.0f;
     }
     //-----------------------------------------------------------------------------
-    ColourValue AutoParamDataSource::getDerivedAmbientLightColour(void) const
+    ColorValue AutoParamDataSource::getDerivedAmbientLightColour(void) const
     {
         auto result = getAmbientLightColour() * getSurfaceAmbientColour();
         result.a = getSurfaceDiffuseColour().a;
         return result;
     }
     //-----------------------------------------------------------------------------
-    ColourValue AutoParamDataSource::getDerivedSceneColour(void) const
+    ColorValue AutoParamDataSource::getDerivedSceneColour(void) const
     {
-        ColourValue result = getDerivedAmbientLightColour() + getSurfaceEmissiveColour();
+        ColorValue result
+            = getDerivedAmbientLightColour() + getSurfaceEmissiveColour();
         result.a = getSurfaceDiffuseColour().a;
         return result;
     }
     //-----------------------------------------------------------------------------
-    void AutoParamDataSource::setFog(FogMode mode, const ColourValue& colour,
-        Real expDensity, Real linearStart, Real linearEnd)
+    void AutoParamDataSource::setFog(
+        FogMode mode,
+        const ColorValue& colour,
+        Real expDensity,
+        Real linearStart,
+        Real linearEnd)
     {
         (void)mode; // ignored
         mFogColour = colour;
@@ -636,7 +643,7 @@ namespace Ogre {
         mFogParams[3] = linearEnd != linearStart ? 1 / (linearEnd - linearStart) : 0;
     }
     //-----------------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getFogColour(void) const
+    const ColorValue& AutoParamDataSource::getFogColour(void) const
     {
         return mFogColour;
     }
@@ -1133,7 +1140,7 @@ namespace Ogre {
             return dummy;
     }
     //---------------------------------------------------------------------
-    const ColourValue& AutoParamDataSource::getShadowColour() const
+    const ColorValue& AutoParamDataSource::getShadowColour() const
     {
         return mCurrentSceneManager->getShadowColour();
     }

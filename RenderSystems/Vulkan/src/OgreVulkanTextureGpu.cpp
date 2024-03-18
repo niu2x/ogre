@@ -165,9 +165,13 @@ namespace Ogre
         if(src.format != mFormat)
         {
             std::vector<uint8> buffer;
-            buffer.resize(PixelUtil::getMemorySize(src.width(), src.height(), src.depth(), mFormat));
+            buffer.resize(PixelUtil::get_memory_size(
+                src.width(),
+                src.height(),
+                src.depth(),
+                mFormat));
             PixelBox converted = PixelBox(src.width(), src.height(), src.depth(), mFormat, buffer.data());
-            PixelUtil::bulkPixelConversion(src, converted);
+            PixelUtil::bulk_pixel_conversion(src, converted);
             blitFromMemory(converted, dstBox); // recursive call
             return;
         }
@@ -182,7 +186,7 @@ namespace Ogre
     {
         OgreAssert(srcBox.getSize() == dst.getSize(), "scaling currently not supported");
         auto src = lock(srcBox, HBL_READ_ONLY);
-        PixelUtil::bulkPixelConversion(src, dst);
+        PixelUtil::bulk_pixel_conversion(src, dst);
         unlock();
     }
 
@@ -243,7 +247,7 @@ namespace Ogre
 
         imageInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
 
-        if (PixelUtil::isDepth(mFormat))
+        if (PixelUtil::is_depth(mFormat))
             imageInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
         else if(mUsage & TU_RENDERTARGET)
             imageInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
@@ -277,7 +281,7 @@ namespace Ogre
         imageBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         imageBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
-        if( PixelUtil::isDepth( mFormat ) )
+        if (PixelUtil::is_depth(mFormat))
             imageBarrier.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
         vkCmdPipelineBarrier( device->mGraphicsQueue.mCurrentCmdBuffer,
@@ -596,15 +600,11 @@ namespace Ogre
         imageViewCi.viewType = texType;
         imageViewCi.format = VulkanMappings::get( mFormat, mHwGamma );
 
-        if (PixelUtil::isLuminance(mFormat) && !PixelUtil::isDepth(mFormat))
-        {
-            if (PixelUtil::getComponentCount(mFormat) == 2)
-            {
+        if (PixelUtil::is_luminance(mFormat) && !PixelUtil::is_depth(mFormat)) {
+            if (PixelUtil::get_component_count(mFormat) == 2) {
                 imageViewCi.components = {VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_R,
                                           VK_COMPONENT_SWIZZLE_G};
-            }
-            else
-            {
+            } else {
                 imageViewCi.components = {VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_R,
                                           VK_COMPONENT_SWIZZLE_ONE};
             }
@@ -639,8 +639,9 @@ namespace Ogre
             flagRestriction.usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
             if (mUsage & TU_RENDERTARGET)
             {
-                flagRestriction.usage |= PixelUtil::isDepth(mFormat) ? VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
-                                                                     : VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+                flagRestriction.usage |= PixelUtil::is_depth(mFormat)
+                    ? VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
+                    : VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
             }
         }
 
@@ -696,9 +697,9 @@ namespace Ogre
         imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
         imageInfo.samples = VkSampleCountFlagBits( mFSAA );
         imageInfo.flags = 0;
-        imageInfo.usage |= PixelUtil::isDepth( mFormat )
-                               ? VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
-                               : VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+        imageInfo.usage |= PixelUtil::is_depth(mFormat)
+            ? VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
+            : VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
         VulkanDevice* device = static_cast<VulkanTextureGpuManager*>(mCreator)->getDevice();
 
@@ -716,7 +717,7 @@ namespace Ogre
         imageBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         imageBarrier.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-        if( PixelUtil::isDepth( mFormat ) )
+        if (PixelUtil::is_depth(mFormat))
             imageBarrier.newLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
         imageBarrier.image = mMsaaTextureName;
@@ -745,7 +746,7 @@ namespace Ogre
 
         target->setFSAA(1, "");
 
-        bool depthTarget = PixelUtil::isDepth(target->getFormat());
+        bool depthTarget = PixelUtil::is_depth(target->getFormat());
 
         if(!depthTarget)
         {

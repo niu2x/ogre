@@ -41,8 +41,8 @@ namespace Ogre {
         GLRenderTexture(name, target, writeGamma, fsaa),
         mManager(manager)
     {
-        mPBFormat = PixelUtil::getComponentType(target.buffer->getFormat());
-        
+        mPBFormat = PixelUtil::get_component_type(target.buffer->getFormat());
+
         mManager->requestPBuffer(mPBFormat, mWidth, mHeight);
     }
     GLPBRenderTexture::~GLPBRenderTexture()

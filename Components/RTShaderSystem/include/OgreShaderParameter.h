@@ -385,8 +385,8 @@ public:
         }
     }
 
-    /** Update the GPU parameter with the given value. */   
-    void setGpuParameter(const ColourValue& val)  
+    /** Update the GPU parameter with the given value. */
+    void setGpuParameter(const ColorValue& val)
     { 
         if (mParamsPtr != NULL)
         {

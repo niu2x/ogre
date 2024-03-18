@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -100,7 +100,7 @@ namespace Ogre {
          *
          * format conversion is performed as needed
          */
-        void setTo(const ColourValue& col);
+        void setTo(const ColorValue& col);
 
         /** Flips (mirrors) the image around the Y-axis. 
 
@@ -139,16 +139,17 @@ namespace Ogre {
         */                 
         Image & flipAroundX();
 
-        /** Stores a pointer to raw data in memory. The pixel format has to be specified.
+        /** Stores a pointer to raw data in memory. The pixel format has to be
+           specified.
 
-                This method loads an image into memory held in the object. The 
+                This method loads an image into memory held in the object. The
                 pixel format will be either greyscale or RGB with an optional
                 Alpha component.
-                The type can be determined by calling getFormat().             
+                The type can be determined by calling getFormat().
             @note
                 Whilst typically your image is likely to be a simple 2D image,
                 you can define complex images including cube maps, volume maps,
-                and images including custom mip levels. The layout of the 
+                and images including custom mip levels. The layout of the
                 internal memory should be:
                 <ul><li>face 0, mip 0 (top), width x height (x depth)</li>
                 <li>face 0, mip 1, width/2 x height/2 (x depth/2)</li>
@@ -172,18 +173,20 @@ namespace Ogre {
             @param autoDelete
                 If memory associated with this buffer is to be destroyed
                 with the Image object. Note: it's important that if you set
-                this option to true, that you allocated the memory using OGRE_ALLOC_T
-                with a category of MEMCATEGORY_GENERAL to ensure the freeing of memory 
-                matches up.
+                this option to true, that you allocated the memory using
+           OGRE_ALLOC_T with a category of MEMCATEGORY_GENERAL to ensure the
+           freeing of memory matches up.
             @param numFaces
-                The number of faces the image data has inside (6 for cubemaps, 1 otherwise)
+                The number of faces the image data has inside (6 for cubemaps, 1
+           otherwise)
             @param numMipMaps
                 The number of mipmaps the image data has inside
             @note
-                 The memory associated with this buffer is NOT destroyed with the
-                 Image object, unless autoDelete is set to true.
+                 The memory associated with this buffer is NOT destroyed with
+           the Image object, unless autoDelete is set to true.
 
-                The size of the buffer must be numFaces * PixelUtil::getMemorySize(width, height, depth, format)
+                The size of the buffer must be numFaces *
+           PixelUtil::get_memory_size(width, height, depth, format)
          */
         Image& loadDynamicImage(uchar* data, uint32 width, uint32 height, uint32 depth, PixelFormat format,
                                 bool autoDelete = false, uint32 numFaces = 1, uint32 numMipMaps = 0);
@@ -196,11 +199,12 @@ namespace Ogre {
         /** Loads raw data from a stream. See the function
             loadDynamicImage for a description of the parameters.
 
-                The size of the buffer must be numFaces * PixelUtil::getMemorySize(width, height, depth, format)
+                The size of the buffer must be numFaces *
+           PixelUtil::get_memory_size(width, height, depth, format)
             @note
                 Whilst typically your image is likely to be a simple 2D image,
                 you can define complex images including cube maps
-                and images including custom mip levels. The layout of the 
+                and images including custom mip levels. The layout of the
                 internal memory should be:
                 <ul><li>face 0, mip 0 (top), width x height (x depth)</li>
                 <li>face 0, mip 1, width/2 x height/2 (x depth/2)</li>
@@ -417,14 +421,14 @@ namespace Ogre {
          * is only valid for cubemaps and volume textures. This uses the first (largest)
          * mipmap.
          */
-        ColourValue getColourAt(uint32 x, uint32 y, uint32 z) const;
-        
+        ColorValue getColourAt(uint32 x, uint32 y, uint32 z) const;
+
         /**
          * Set colour value at a certain location in the image. The z coordinate
          * is only valid for cubemaps and volume textures. This uses the first (largest)
          * mipmap.
          */
-        void setColourAt(ColourValue const &cv, uint32 x, uint32 y, uint32 z);
+        void setColourAt(ColorValue const& cv, uint32 x, uint32 y, uint32 z);
 
         /**
          * Get a PixelBox encapsulating the image data of a mipmap

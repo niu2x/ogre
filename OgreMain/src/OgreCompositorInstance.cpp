@@ -113,15 +113,24 @@ void CompositorInstance::setAlive(bool value)
 class RSClearOperation: public CompositorInstance::RenderSystemOperation
 {
 public:
-    RSClearOperation(uint32 inBuffers, ColourValue inColour, Real inDepth, unsigned short inStencil, CompositorChain *inChain):
-        chain(inChain), buffers(inBuffers), colour(inColour), depth(inDepth), stencil(inStencil)
+    RSClearOperation(
+        uint32 inBuffers,
+        ColorValue inColour,
+        Real inDepth,
+        unsigned short inStencil,
+        CompositorChain* inChain)
+    : chain(inChain)
+    , buffers(inBuffers)
+    , colour(inColour)
+    , depth(inDepth)
+    , stencil(inStencil)
     {}
     /// Automatic colour from original viewport background colour
     CompositorChain* chain;
     /// Which buffers to clear (FrameBufferType)
     uint32 buffers;
     /// Colour to clear in case FBT_COLOUR is set
-    ColourValue colour;
+    ColorValue colour;
     /// Depth to set in case FBT_DEPTH is set
     Real depth;
     /// Stencil value to set in case FBT_STENCIL is set
@@ -734,7 +743,7 @@ void CompositorInstance::createResources(bool forResizeOnly)
                             *p,
                             fsaa,
                             fsaaHint,
-                            hwGamma && !PixelUtil::isFloatingPoint(*p),
+                            hwGamma && !PixelUtil::is_floating_point(*p),
                             assignedTextures,
                             this,
                             def->scope,
@@ -752,7 +761,7 @@ void CompositorInstance::createResources(bool forResizeOnly)
                             *p,
                             TU_RENDERTARGET,
                             0,
-                            hwGamma && !PixelUtil::isFloatingPoint(*p),
+                            hwGamma && !PixelUtil::is_floating_point(*p),
                             fsaa,
                             fsaaHint);
                     }
@@ -777,9 +786,10 @@ void CompositorInstance::createResources(bool forResizeOnly)
 
                 // space in the name mixup the cegui in the compositor demo
                 // this is an auto generated name - so no spaces can't hart us.
-                std::replace( texName.begin(), texName.end(), ' ', '_' ); 
-                
-                hwGamma = hwGamma && !PixelUtil::isFloatingPoint(def->formatList[0]);
+                std::replace(texName.begin(), texName.end(), ' ', '_');
+
+                hwGamma = hwGamma
+                    && !PixelUtil::is_floating_point(def->formatList[0]);
 
                 TexturePtr tex;
                 if (def->pooled)
@@ -866,7 +876,7 @@ void CompositorInstance::setupRenderTarget(RenderTarget* rendTarget, uint16 dept
     
     v->setClearEveryFrame( false );
     v->setOverlaysEnabled( false );
-    v->setBackgroundColour( ColourValue( 0, 0, 0, 0 ) );
+    v->setBackgroundColour(ColorValue(0, 0, 0, 0));
 }
 
 //---------------------------------------------------------------------

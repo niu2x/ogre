@@ -5,7 +5,7 @@
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreRenderable.h"
 #include "bitwise.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "OgreRoot.h"
 #include "OgreViewport.h"
 
@@ -295,7 +295,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
     {
         //assign first row with number of indexes in the block
         float maxRow = (float)(mSegmentedLightGrid[j].size() - 1 + SDL_TEXTURE_DATA_ROWS);
-        PixelUtil::packColour(
+        PixelUtil::pack_color(
             maxRow,
             0.0f,
             0.0f,
@@ -335,7 +335,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                     spotInvAngleRange = 1.0f / (float)(theta - phi);
                 }
 
-                PixelUtil::packColour(
+                PixelUtil::pack_color(
                     (float)position.x,
                     (float)position.y,
                     (float)position.z,
@@ -344,7 +344,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                     pData);
                 pData += 4;
 
-                PixelUtil::packColour(
+                PixelUtil::pack_color(
                     (float)direction.x,
                     (float)direction.y,
                     (float)direction.z,
@@ -353,7 +353,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                     pData);
                 pData += 4;
 
-                PixelUtil::packColour(
+                PixelUtil::pack_color(
                     pLight->getDiffuseColour().r * spotIntensity,
                     pLight->getDiffuseColour().g * spotIntensity,
                     pLight->getDiffuseColour().b * spotIntensity,
@@ -366,7 +366,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
             else
             {
                 //assign position zero with zero width
-                PixelUtil::packColour(
+                PixelUtil::pack_color(
                     0.0f,
                     0.0f,
                     0.0f,
@@ -376,7 +376,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                 pData += 4;         
                 for(int d = 0 ; d < (SDL_LIGHT_DATA_SIZE - 1) ; ++d)
                 {
-                    PixelUtil::packColour(
+                    PixelUtil::pack_color(
                         0.0f,
                         0.0f,
                         0.0f,

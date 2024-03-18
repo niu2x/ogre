@@ -32,7 +32,8 @@ public:
 
         auto rcvmat = MaterialManager::singleton().getDefaultMaterial()->clone(
             "rcvmat");
-        rcvmat->getTechnique(0)->getPass(0)->setSpecular(ColourValue::White * 0.25);
+        rcvmat->getTechnique(0)->getPass(0)->setSpecular(
+            ColorValue::White * 0.25);
         rcvmat->getTechnique(0)->getPass(0)->setShininess(80);
 
         auto srcmat

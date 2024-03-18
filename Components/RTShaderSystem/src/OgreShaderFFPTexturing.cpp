@@ -373,8 +373,12 @@ void FFPTexturing::addPSSampleTexelInvocation(TextureUnitParams* textureUnitPara
 }
 
 //-----------------------------------------------------------------------
-ParameterPtr FFPTexturing::getPSArgument(ParameterPtr texel, LayerBlendSource blendSrc, const ColourValue& colourValue,
-                                         Real alphaValue, bool isAlphaArgument) const
+ParameterPtr FFPTexturing::getPSArgument(
+    ParameterPtr texel,
+    LayerBlendSource blendSrc,
+    const ColorValue& ColorValue,
+    Real alphaValue,
+    bool isAlphaArgument) const
 {
     switch(blendSrc)
     {
@@ -392,10 +396,10 @@ ParameterPtr FFPTexturing::getPSArgument(ParameterPtr texel, LayerBlendSource bl
             }
 
             return ParameterFactory::createConstParam(Vector4(
-                (Real)colourValue.r,
-                (Real)colourValue.g,
-                (Real)colourValue.b,
-                (Real)colourValue.a));
+                (Real)ColorValue.r,
+                (Real)ColorValue.g,
+                (Real)ColorValue.b,
+                (Real)ColorValue.a));
     }
 
     return ParameterPtr();

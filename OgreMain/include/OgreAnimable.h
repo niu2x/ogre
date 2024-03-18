@@ -111,7 +111,7 @@ namespace Ogre {
         /// Internal method to set a value as base
         virtual void setAsBaseValue(const Any& val);
         /// Internal method to set a value as base
-        virtual void setAsBaseValue(const ColourValue& val)
+        virtual void setAsBaseValue(const ColorValue& val)
         { 
             mBaseValueReal[0] = val.r;
             mBaseValueReal[1] = val.g;
@@ -164,8 +164,9 @@ namespace Ogre {
         virtual void setValue(const Quaternion&) {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "", "");
         }
-        /// Set value 
-        virtual void setValue(const ColourValue&) {
+        /// Set value
+        virtual void setValue(const ColorValue&)
+        {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "", "");
         }
         /// Set value 
@@ -204,8 +205,9 @@ namespace Ogre {
         virtual void applyDeltaValue(const Quaternion&) {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "", "");
         }
-        /// Apply delta value 
-        virtual void applyDeltaValue(const ColourValue&) {
+        /// Apply delta value
+        virtual void applyDeltaValue(const ColorValue&)
+        {
             OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, "", "");
         }
         /// Apply delta value

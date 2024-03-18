@@ -40,7 +40,9 @@ void DefaultDebugDrawer::beginLines()
     else if (mLines.getCurrentVertexCount() == 0)
         mLines.beginUpdate(0);
 }
-void DefaultDebugDrawer::drawWireBox(const AxisAlignedBox& aabb, const ColourValue& colour)
+void DefaultDebugDrawer::drawWireBox(
+    const AxisAlignedBox& aabb,
+    const ColorValue& colour)
 {
     beginLines();
 
@@ -113,7 +115,9 @@ void DefaultDebugDrawer::drawAxes(const Affine3& pose, float size)
         Vector3(0.7, 0.15, 0)
     };
 
-    ColourValue col[3] = {ColourValue(1, 0, 0, 0.8), ColourValue(0, 1, 0, 0.8), ColourValue(0, 0, 1, 0.8)};
+    ColorValue col[3] = { ColorValue(1, 0, 0, 0.8),
+                          ColorValue(0, 1, 0, 0.8),
+                          ColorValue(0, 0, 1, 0.8) };
 
     Matrix3 rot[6];
 

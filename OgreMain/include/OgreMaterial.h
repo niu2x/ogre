@@ -341,7 +341,7 @@ namespace Ogre {
         void setAmbient(float red, float green, float blue);
 
         /// @overload
-        void setAmbient(const ColourValue& ambient);
+        void setAmbient(const ColorValue& ambient);
 
         /** Sets the diffuse colour reflectance properties of every Pass in every Technique.
         @note
@@ -355,7 +355,7 @@ namespace Ogre {
         void setDiffuse(float red, float green, float blue, float alpha);
 
         /// @overload
-        void setDiffuse(const ColourValue& diffuse);
+        void setDiffuse(const ColorValue& diffuse);
 
         /** Sets the specular colour reflectance properties of every Pass in every Technique.
         @note
@@ -369,7 +369,7 @@ namespace Ogre {
         void setSpecular(float red, float green, float blue, float alpha);
 
         /// @overload
-        void setSpecular(const ColourValue& specular);
+        void setSpecular(const ColorValue& specular);
 
         /** Sets the shininess properties of every Pass in every Technique.
         @note
@@ -394,7 +394,7 @@ namespace Ogre {
         void setSelfIllumination(float red, float green, float blue);
 
         /// @overload
-        void setSelfIllumination(const ColourValue& selfIllum);
+        void setSelfIllumination(const ColorValue& selfIllum);
 
         /** Sets whether or not each Pass renders with depth-buffer checking on or not.
         @note
@@ -501,8 +501,10 @@ namespace Ogre {
         void setFog(
             bool overrideScene,
             FogMode mode = FOG_NONE,
-            const ColourValue& colour = ColourValue::White,
-            Real expDensity = 0.001f, Real linearStart = 0.0f, Real linearEnd = 1.0f );
+            const ColorValue& colour = ColorValue::White,
+            Real expDensity = 0.001f,
+            Real linearStart = 0.0f,
+            Real linearEnd = 1.0f);
 
         /** Sets the depth bias to be used for each Pass.
         @note

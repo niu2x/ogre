@@ -283,9 +283,13 @@ namespace Ogre {
         if(src.format != mFormat)
         {
             std::vector<uint8> buffer;
-            buffer.resize(PixelUtil::getMemorySize(src.width(), src.height(), src.depth(), mFormat));
+            buffer.resize(PixelUtil::get_memory_size(
+                src.width(),
+                src.height(),
+                src.depth(),
+                mFormat));
             PixelBox converted = PixelBox(src.width(), src.height(), src.depth(), mFormat, buffer.data());
-            PixelUtil::bulkPixelConversion(src, converted);
+            PixelUtil::bulk_pixel_conversion(src, converted);
             blitFromMemory(converted, dst); // recursive call
             return;
         }
@@ -310,15 +314,23 @@ namespace Ogre {
         if (mUsage & HBU_DYNAMIC) // i.e. UpdateSubresource can not be used
         {
             Ogre::PixelBox locked = lock(dst, HBL_DISCARD);
-            PixelUtil::bulkPixelConversion(src, locked); // compressed formats are handled using per slice granularity, pitches are honoured
+            PixelUtil::bulk_pixel_conversion(
+                src,
+                locked); // compressed formats are handled using per slice
+                         // granularity, pitches are honoured
             unlock();
         }
         else
         {
             D3D11_BOX dstBox = getSubresourceBox(dst);
             UINT dstSubresource = getSubresourceIndex(dst.front);
-            UINT srcRowPitch = PixelUtil::getMemorySize(src.width(), 1, 1, src.format);
-            UINT srcDepthPitch = PixelUtil::getMemorySize(src.width(), src.height(), 1, src.format); // H * rowPitch is invalid for compressed formats
+            UINT srcRowPitch
+                = PixelUtil::get_memory_size(src.width(), 1, 1, src.format);
+            UINT srcDepthPitch = PixelUtil::get_memory_size(
+                src.width(),
+                src.height(),
+                1,
+                src.format); // H * rowPitch is invalid for compressed formats
 
             mDevice.GetImmediateContext()->UpdateSubresource(
                 mParentTexture->getTextureResource(),
@@ -404,7 +416,7 @@ namespace Ogre {
         
         // Read the data out of the texture.
         PixelBox locked = D3D11Mappings::getPixelBoxWithMapping(srcBoxDx11, desc.Format, mapped);
-        PixelUtil::bulkPixelConversion(locked, dst);
+        PixelUtil::bulk_pixel_conversion(locked, dst);
 
         // Release the staging texture
         mDevice.GetImmediateContext()->Unmap(stagingTexture.Get(), srcSubresource);

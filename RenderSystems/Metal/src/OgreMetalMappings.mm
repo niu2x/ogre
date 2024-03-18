@@ -243,10 +243,11 @@ namespace Ogre
             depthFormat = MTLPixelFormatDepth32Float;
             break;
         default:
-            OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
-                         "PixelFormat '" + PixelUtil::getFormatName( pf ) +
-                         "' is not a valid depth buffer format",
-                         "MetalRenderSystem::_createDepthBufferFor" );
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "PixelFormat '" + PixelUtil::get_format_name(pf)
+                    + "' is not a valid depth buffer format",
+                "MetalRenderSystem::_createDepthBufferFor");
         }
 
         outDepth = depthFormat;

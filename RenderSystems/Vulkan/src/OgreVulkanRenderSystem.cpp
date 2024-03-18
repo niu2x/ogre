@@ -50,7 +50,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 
 #include "OgreVulkanWindow.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 #define USE_VALIDATION_LAYERS 0
 
@@ -1402,8 +1402,11 @@ namespace Ogre
             mCurrentRenderPassDescriptor = rtt->getRenderPassDescriptor();
         }
     }
-    void VulkanRenderSystem::clearFrameBuffer(unsigned int buffers, const ColourValue& colour, float depth,
-                                              unsigned short stencil)
+    void VulkanRenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         mCurrentRenderPassDescriptor->setClearColour(colour);
         mCurrentRenderPassDescriptor->setClearDepth(depth);

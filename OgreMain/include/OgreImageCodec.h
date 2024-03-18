@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _ImageCodec_H__
 
 #include "OgreCodec.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "bitwise.h"
 
 namespace Ogre {

@@ -281,7 +281,7 @@ namespace Ogre {
         {
             pass->setLightingEnabled(param.GetValue());
 
-            ColourValue tmpColour;
+            ColorValue tmpColour;
             xsishader.GetColorParameterValue(L"Ambient", tmpColour.r, tmpColour.g, 
                 tmpColour.b, tmpColour.a);
             pass->setAmbient(tmpColour);

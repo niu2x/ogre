@@ -269,7 +269,11 @@ namespace Ogre {
                 for(size_t i = 0; i < image->getNumFaces(); ++i)
                 {
                     // Load directly
-                    size_t pvrSize = PixelUtil::getMemorySize(width, height, depth, format);
+                    size_t pvrSize = PixelUtil::get_memory_size(
+                        width,
+                        height,
+                        depth,
+                        format);
                     stream->read(destPtr, pvrSize);
                     destPtr = static_cast<void*>(static_cast<uchar*>(destPtr) + pvrSize);
                 }

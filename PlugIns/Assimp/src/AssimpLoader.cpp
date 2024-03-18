@@ -1250,7 +1250,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
 
         if (col)
         {
-            PixelUtil::packColour(
+            PixelUtil::pack_color(
                 col->r,
                 col->g,
                 col->b,

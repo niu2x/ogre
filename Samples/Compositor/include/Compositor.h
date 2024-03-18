@@ -411,7 +411,7 @@ void Sample_Compositor::setupScene(void)
     Ogre::MovableObject::setDefaultVisibilityFlags(0x00000001);
 
     // Set ambient light
-    mSceneMgr->setAmbientLight(Ogre::ColourValue(0.3, 0.3, 0.2));
+    mSceneMgr->setAmbientLight(Ogre::ColorValue(0.3, 0.3, 0.2));
 
     Ogre::Light* l = mSceneMgr->createLight(Light::LT_DIRECTIONAL);
     l->setDiffuseColour(1, 1, 0.8);

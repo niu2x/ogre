@@ -83,11 +83,11 @@ class _OgreSampleClassExport Sample_DualQuaternion : public SdkSample
         // Set shadow properties.
         mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
         mSceneMgr->setShadowTextureSize(2048);
-        mSceneMgr->setShadowColour(ColourValue(0.6, 0.6, 0.6));
+        mSceneMgr->setShadowColour(ColorValue(0.6, 0.6, 0.6));
         mSceneMgr->setShadowTextureCount(1);
 
         // Add a little ambient lighting.
-        mSceneMgr->setAmbientLight(ColourValue(0.2, 0.2, 0.2));
+        mSceneMgr->setAmbientLight(ColorValue(0.2, 0.2, 0.2));
 
         SceneNode* lightsBbsNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
         BillboardSet* bbs;

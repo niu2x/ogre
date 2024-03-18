@@ -469,7 +469,8 @@ namespace Ogre {
         // The following code is adapted from Apple Technical Q & A QA1704
         // http://developer.apple.com/library/ios/#qa/qa1704/_index.html
         NSInteger width = dst.width(), height = dst.height();
-        NSInteger dataLength = width * height * PixelUtil::getComponentCount(dst.format);
+        NSInteger dataLength
+            = width * height * PixelUtil::get_component_count(dst.format);
         GLubyte *data = (GLubyte*)malloc(dataLength * sizeof(GLubyte));
         GLenum format = GLES2PixelUtil::getGLOriginFormat(dst.format);
         GLenum type = GLES2PixelUtil::getGLOriginDataType(dst.format);
@@ -499,10 +500,18 @@ namespace Ogre {
         // otherwise, use kCGImageAlphaPremultipliedLast
         CGDataProviderRef ref = CGDataProviderCreateWithData(NULL, data, dataLength, NULL);
         CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-        CGImageRef iref = CGImageCreate(width, height, 8, PixelUtil::getNumElemBits(dst.format),
-                                        width * PixelUtil::getComponentCount(dst.format), colorspace,
-                                        kCGBitmapByteOrderDefault,
-                                        ref, NULL, YES, kCGRenderingIntentDefault);
+        CGImageRef iref = CGImageCreate(
+            width,
+            height,
+            8,
+            PixelUtil::get_num_elem_bits(dst.format),
+            width * PixelUtil::get_component_count(dst.format),
+            colorspace,
+            kCGBitmapByteOrderDefault,
+            ref,
+            NULL,
+            YES,
+            kCGRenderingIntentDefault);
 
         // OpenGL ES measures data in PIXELS
         // Create a graphics context with the target size measured in POINTS

@@ -356,7 +356,7 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
 
         memset(data, 0, dst.get_consecutive_size());
         dst.bottom = src.bottom;
-        PixelUtil::bulkPixelConversion(src, dst);
+        PixelUtil::bulk_pixel_conversion(src, dst);
     } catch(Exception &e) {
         // Could not find image; never mind
         LogManager::singleton().log_warning(

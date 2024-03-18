@@ -73,33 +73,33 @@ public:
     bool queryResult(MovableObject* object) override;
 };
 
-SceneManager::ShadowRenderer::ShadowRenderer(SceneManager* owner) :
-mSceneManager(owner),
-mShadowTechnique(SHADOWTYPE_NONE),
-mShadowColour(ColourValue(0.25, 0.25, 0.25)),
-mShadowCasterPlainBlackPass(0),
-mShadowReceiverPass(0),
-mShadowModulativePass(0),
-mShadowDebugPass(0),
-mShadowStencilPass(0),
-mShadowIndexBufferSize(51200),
-mShadowIndexBufferUsedSize(0),
-mShadowTextureCustomCasterPass(0),
-mShadowTextureCustomReceiverPass(0),
-mFullScreenQuad(0),
-mShadowAdditiveLightClip(false),
-mDebugShadows(false),
-mShadowMaterialInitDone(false),
-mShadowUseInfiniteFarPlane(true),
-mShadowDirLightExtrudeDist(10000),
-mDefaultShadowFarDist(0),
-mDefaultShadowFarDistSquared(0),
-mShadowTextureOffset(0.6),
-mShadowTextureFadeStart(0.7),
-mShadowTextureFadeEnd(0.9),
-mShadowTextureSelfShadow(false),
-mShadowTextureConfigDirty(true),
-mShadowCasterRenderBackFaces(true)
+SceneManager::ShadowRenderer::ShadowRenderer(SceneManager* owner)
+: mSceneManager(owner)
+, mShadowTechnique(SHADOWTYPE_NONE)
+, mShadowColour(ColorValue(0.25, 0.25, 0.25))
+, mShadowCasterPlainBlackPass(0)
+, mShadowReceiverPass(0)
+, mShadowModulativePass(0)
+, mShadowDebugPass(0)
+, mShadowStencilPass(0)
+, mShadowIndexBufferSize(51200)
+, mShadowIndexBufferUsedSize(0)
+, mShadowTextureCustomCasterPass(0)
+, mShadowTextureCustomReceiverPass(0)
+, mFullScreenQuad(0)
+, mShadowAdditiveLightClip(false)
+, mDebugShadows(false)
+, mShadowMaterialInitDone(false)
+, mShadowUseInfiniteFarPlane(true)
+, mShadowDirLightExtrudeDist(10000)
+, mDefaultShadowFarDist(0)
+, mDefaultShadowFarDistSquared(0)
+, mShadowTextureOffset(0.6)
+, mShadowTextureFadeStart(0.7)
+, mShadowTextureFadeEnd(0.9)
+, mShadowTextureSelfShadow(false)
+, mShadowTextureConfigDirty(true)
+, mShadowCasterRenderBackFaces(true)
 {
     mShadowCasterQueryListener = std::make_unique<ShadowCasterSceneQueryListener>(mSceneManager);
 
@@ -116,7 +116,7 @@ mShadowCasterRenderBackFaces(true)
 
 SceneManager::ShadowRenderer::~ShadowRenderer() {}
 
-void SceneManager::ShadowRenderer::setShadowColour(const ColourValue& colour)
+void SceneManager::ShadowRenderer::setShadowColour(const ColorValue& colour)
 {
     mShadowColour = colour;
 }
@@ -277,7 +277,7 @@ void SceneManager::ShadowRenderer::renderModulativeStencilShadowedQueueGroupObje
     }
 
     // Override auto param ambient to force vertex programs to use shadow colour
-    ColourValue currAmbient = mSceneManager->getAmbientLight();
+    ColorValue currAmbient = mSceneManager->getAmbientLight();
     mSceneManager->setAmbientLight(mShadowColour);
 
     // Iterate over lights, render all volumes to stencil
@@ -329,11 +329,11 @@ void SceneManager::ShadowRenderer::renderTextureShadowCasterQueueGroupObjects(
     // Iterate through priorities
 
     // Override auto param ambient to force vertex programs and fixed function to
-    ColourValue currAmbient = mSceneManager->getAmbientLight();
+    ColorValue currAmbient = mSceneManager->getAmbientLight();
     if (mShadowTechnique & SHADOWDETAILTYPE_ADDITIVE)
     {
         // Use simple black / white mask if additive
-        mSceneManager->setAmbientLight(ColourValue::Black);
+        mSceneManager->setAmbientLight(ColorValue::Black);
     }
     else
     {
@@ -606,8 +606,8 @@ void SceneManager::ShadowRenderer::renderTextureShadowReceiverQueueGroupObjects(
     // Iterate through priorities
 
     // Override auto param ambient to force vertex programs to go full-bright
-    ColourValue currAmbient = mSceneManager->getAmbientLight();
-    mSceneManager->setAmbientLight(ColourValue::White);
+    ColorValue currAmbient = mSceneManager->getAmbientLight();
+    mSceneManager->setAmbientLight(ColorValue::White);
     auto visitor = mSceneManager->getQueuedRenderableVisitor();
 
     for (const auto& pg : pGroup->getPriorityGroups())
@@ -631,7 +631,7 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
     {
         mBorderSampler = TextureManager::singleton().createSampler();
         mBorderSampler->setAddressingMode(TAM_BORDER);
-        mBorderSampler->setBorderColour(ColourValue::White);
+        mBorderSampler->setBorderColour(ColorValue::White);
         mBorderSampler->setFiltering(FT_MIP, FO_NONE); // we do not have mips. GLES2 is particularly picky here.
     }
 
@@ -657,7 +657,7 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
             RenderTexture *shadowRTT = shadowTex->getBuffer()->getRenderTarget();
 
             //Set appropriate depth buffer
-            if(!PixelUtil::isDepth(shadowRTT->suggestPixelFormat()))
+            if (!PixelUtil::is_depth(shadowRTT->suggestPixelFormat()))
                 shadowRTT->setDepthBufferPool( mShadowTextureConfigList[__i].depthBufferPoolId );
 
             // Create camera for this texture, but note that we have to rebind
@@ -755,7 +755,13 @@ void SceneManager::ShadowRenderer::prepareShadowTextures(Camera* cam, Viewport* 
     if ((mShadowTechnique & SHADOWDETAILTYPE_ADDITIVE) == 0)
     {
         // set fogging to hide the shadow edge
-        mShadowReceiverPass->setFog(true, FOG_LINEAR, ColourValue::White, 0, fadeStart, fadeEnd);
+        mShadowReceiverPass->setFog(
+            true,
+            FOG_LINEAR,
+            ColorValue::White,
+            0,
+            fadeStart,
+            fadeEnd);
     }
     else
     {
@@ -835,7 +841,7 @@ void SceneManager::ShadowRenderer::prepareShadowTextures(Camera* cam, Viewport* 
                 light->getCustomShadowCameraSetup()->getShadowCamera(mSceneManager, cam, vp, light, texCam, j);
 
             // Setup background colour
-            shadowView->setBackgroundColour(ColourValue::White);
+            shadowView->setBackgroundColour(ColorValue::White);
 
             // Fire shadow caster update, callee can alter camera settings
             fireShadowTexturesPreCaster(light, texCam, j);
@@ -1054,7 +1060,8 @@ void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* lig
             mDestRenderSystem->setStencilState(StencilState());
 
             auto shadowColour = mShadowColour;
-            mShadowColour = zfailAlgo ? ColourValue(0.7, 0.0, 0.2) : ColourValue(0.0, 0.7, 0.2);
+            mShadowColour = zfailAlgo ? ColorValue(0.7, 0.0, 0.2)
+                                      : ColorValue(0.0, 0.7, 0.2);
             mSceneManager->_setPass(mShadowDebugPass);
             renderShadowVolumeObjects(shadowRenderables, mShadowDebugPass, &lightList, flags,
                 true, false, false);
@@ -1414,9 +1421,8 @@ const Pass* SceneManager::ShadowRenderer::deriveShadowCasterPass(const Pass* pas
                 LayerBlendOperationEx::SOURCE1,
                 LayerBlendSource::MANUAL,
                 LayerBlendSource::CURRENT,
-                mShadowTechnique & SHADOWDETAILTYPE_ADDITIVE
-                    ? ColourValue::Black
-                    : mShadowColour);
+                mShadowTechnique & SHADOWDETAILTYPE_ADDITIVE ? ColorValue::Black
+                                                             : mShadowColour);
         }
         // Remove any extras
         while (retPass->getNumTextureUnitStates() > origPassTUCount)

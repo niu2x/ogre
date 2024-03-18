@@ -410,7 +410,7 @@ namespace Ogre
                     if (pPass->getVertexColourTracking() & TVC_AMBIENT)
                         writeValue("vertexcolour");
                     else
-                        writeColourValue(pPass->getAmbient(), true);
+                        writeColorValue(pPass->getAmbient(), true);
                 }
 
                 // Diffuse
@@ -425,7 +425,7 @@ namespace Ogre
                     if (pPass->getVertexColourTracking() & TVC_DIFFUSE)
                         writeValue("vertexcolour");
                     else
-                        writeColourValue(pPass->getDiffuse(), true);
+                        writeColorValue(pPass->getDiffuse(), true);
                 }
 
                 // Specular
@@ -444,7 +444,7 @@ namespace Ogre
                     }
                     else
                     {
-                        writeColourValue(pPass->getSpecular(), true);
+                        writeColorValue(pPass->getSpecular(), true);
                     }
                     writeValue(StringConverter::to_string(pPass->getShininess()));
 
@@ -462,7 +462,7 @@ namespace Ogre
                     if (pPass->getVertexColourTracking() & TVC_EMISSIVE)
                         writeValue("vertexcolour");
                     else
-                        writeColourValue(pPass->getSelfIllumination(), true);
+                        writeColorValue(pPass->getSelfIllumination(), true);
                 }
             }
 
@@ -743,7 +743,7 @@ namespace Ogre
 
                     if (pPass->getFogMode() != FOG_NONE)
                     {
-                        writeColourValue(pPass->getFogColour());
+                        writeColorValue(pPass->getFogColour());
                         writeValue(StringConverter::to_string(pPass->getFogDensity()));
                         writeValue(StringConverter::to_string(pPass->getFogStart()));
                         writeValue(StringConverter::to_string(pPass->getFogEnd()));
@@ -897,7 +897,8 @@ namespace Ogre
                 }
 
                 if (pTex->getDesiredFormat() != PixelFormat::UNKNOWN) {
-                    writeValue(PixelUtil::getFormatName(pTex->getDesiredFormat()));
+                    writeValue(
+                        PixelUtil::get_format_name(pTex->getDesiredFormat()));
                 }
             }
 
@@ -951,13 +952,10 @@ namespace Ogre
             }
 
             //border colour
-            const ColourValue& borderColour =
-                pTex->getTextureBorderColour();
-            if (mDefaults ||
-                borderColour != ColourValue::Black)
-            {
+            const ColorValue& borderColour = pTex->getTextureBorderColour();
+            if (mDefaults || borderColour != ColorValue::Black) {
                 writeAttribute(4, "tex_border_colour");
-                writeColourValue(borderColour, true);
+                writeColorValue(borderColour, true);
             }
 
             //filtering
@@ -998,10 +996,14 @@ namespace Ogre
                     writeValue(StringConverter::to_string(pTex->getColourBlendMode().factor));
                 if (pTex->getColourBlendMode().source1
                     == LayerBlendSource::MANUAL)
-                    writeColourValue(pTex->getColourBlendMode().colourArg1, false);
+                    writeColorValue(
+                        pTex->getColourBlendMode().colourArg1,
+                        false);
                 if (pTex->getColourBlendMode().source2
                     == LayerBlendSource::MANUAL)
-                    writeColourValue(pTex->getColourBlendMode().colourArg2, false);
+                    writeColorValue(
+                        pTex->getColourBlendMode().colourArg2,
+                        false);
 
                 //colour_op_multipass_fallback
                 writeAttribute(4, "colour_op_multipass_fallback");
@@ -1342,7 +1344,9 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void MaterialSerializer::writeColourValue(const ColourValue &colour, bool writeAlpha)
+    void MaterialSerializer::writeColorValue(
+        const ColorValue& colour,
+        bool writeAlpha)
     {
         writeValue(StringConverter::to_string(colour.r));
         writeValue(StringConverter::to_string(colour.g));

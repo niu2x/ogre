@@ -54,8 +54,8 @@ void Sample_VolumeTerrain::setupContent(void)
     ln->setDirection(1, -1, 1);
     ln->attachObject(directionalLight0);
 
-    mSceneMgr->setAmbientLight(Ogre::ColourValue::White);
-   
+    mSceneMgr->setAmbientLight(Ogre::ColorValue::White);
+
     // Volume
     mVolumeRoot = OGRE_NEW Chunk();
     mVolumeRootNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("VolumeParent");

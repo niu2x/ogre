@@ -95,7 +95,10 @@ namespace Ogre {
 
         /** Normal constructor as called by BillboardSet.
         */
-        Billboard(const Vector3& position, BillboardSet* owner, const ColourValue& colour = ColourValue::White);
+        Billboard(
+            const Vector3& position,
+            BillboardSet* owner,
+            const ColorValue& colour = ColorValue::White);
 
         /** Get the rotation of the billboard.
 
@@ -143,11 +146,14 @@ namespace Ogre {
                 base colour of the material allowing more varied billboards. The default colour is white.
                 The tinting is effected using vertex colours.
         */
-        void setColour(const ColourValue& colour) { mColour = colour.as_BYTE(); }
+        void setColour(const ColorValue& colour) { mColour = colour.as_BYTE(); }
 
         /** Gets the colour of this billboard.
         */
-        ColourValue getColour(void) const { return ColourValue((const uchar*)&mColour); }
+        ColorValue getColour(void) const
+        {
+            return ColorValue((const uchar*)&mColour);
+        }
 
         /** Returns true if this billboard deviates from the BillboardSet's default dimensions (i.e. if the
             Billboard::setDimensions method has been called for this instance).

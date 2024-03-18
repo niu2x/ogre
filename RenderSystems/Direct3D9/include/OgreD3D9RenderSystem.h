@@ -110,7 +110,7 @@ namespace Ogre
         } mTexStageDesc[OGRE_MAX_TEXTURE_LAYERS];
 
         /// Saved manual colour blends
-        ColourValue mManualBlendColours[OGRE_MAX_TEXTURE_LAYERS][2];
+        ColorValue mManualBlendColours[OGRE_MAX_TEXTURE_LAYERS][2];
 
         // Array of up to 8 lights, indexed as per API
         // Note that a null value indicates a free slot
@@ -312,9 +312,11 @@ namespace Ogre
             const GpuProgramParametersPtr& params, uint16 variabilityMask);
 
         void setScissorTest(bool enabled, const Rect& rect = Rect());
-        void clearFrameBuffer(unsigned int buffers, 
-            const ColourValue& colour = ColourValue::Black, 
-            float depth = 1.0f, unsigned short stencil = 0);
+        void clearFrameBuffer(
+            unsigned int buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            unsigned short stencil = 0);
         void setClipPlane (ushort index, Real A, Real B, Real C, Real D);
         void enableClipPlane (ushort index, bool enable);
         HardwareOcclusionQuery* createHardwareOcclusionQuery();

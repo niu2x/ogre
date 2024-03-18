@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreMath.h"
 #include "OgreCamera.h"
 #include "OgreImage.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "OgreSceneManager.h"
 #include "OgreSceneNode.h"
 #include "exception.h"
@@ -95,24 +95,24 @@ namespace Ogre
     TerrainGlobalOptions::~TerrainGlobalOptions() {}
     //---------------------------------------------------------------------
     TerrainGlobalOptions::TerrainGlobalOptions()
-        : mSkirtSize(30)
-        , mLightMapDir(Vector3(1, -1, 0).normalised_copy())
-        , mCastsShadows(false)
-        , mMaxPixelError(3.0)
-        , mRenderQueueGroup(RENDER_QUEUE_MAIN)
-        , mVisibilityFlags(0xFFFFFFFF)
-        , mQueryFlags(0xFFFFFFFF)
-        , mUseRayBoxDistanceCalculation(false)
-        , mLayerBlendMapSize(1024)
-        , mDefaultLayerTextureWorldSize(10)
-        , mDefaultGlobalColourMapSize(1024)
-        , mLightmapSize(1024)
-        , mCompositeMapSize(1024)
-        , mCompositeMapAmbient(ColourValue::White)
-        , mCompositeMapDiffuse(ColourValue::White)
-        , mCompositeMapDistance(4000)
-        , mResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
-        , mUseVertexCompressionWhenAvailable(true)
+    : mSkirtSize(30)
+    , mLightMapDir(Vector3(1, -1, 0).normalised_copy())
+    , mCastsShadows(false)
+    , mMaxPixelError(3.0)
+    , mRenderQueueGroup(RENDER_QUEUE_MAIN)
+    , mVisibilityFlags(0xFFFFFFFF)
+    , mQueryFlags(0xFFFFFFFF)
+    , mUseRayBoxDistanceCalculation(false)
+    , mLayerBlendMapSize(1024)
+    , mDefaultLayerTextureWorldSize(10)
+    , mDefaultGlobalColourMapSize(1024)
+    , mLightmapSize(1024)
+    , mCompositeMapSize(1024)
+    , mCompositeMapAmbient(ColorValue::White)
+    , mCompositeMapDiffuse(ColorValue::White)
+    , mCompositeMapDistance(4000)
+    , mResourceGroup(ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME)
+    , mUseVertexCompressionWhenAvailable(true)
     {
     }
     //---------------------------------------------------------------------
@@ -856,7 +856,7 @@ namespace Ogre
             {
                 uint32 srcy = mSize - i - 1;
                 float* pDst = mHeightData + i * mSize;
-                PixelUtil::bulkPixelConversion(
+                PixelUtil::bulk_pixel_conversion(
                     img->getData(0, srcy),
                     img->getFormat(),
                     pDst,
@@ -2772,9 +2772,9 @@ namespace Ogre
         Box box(0, 0, destBuffer->width(), destBuffer->height());
 
         uint8* pDestBase = destBuffer->lock(box, HardwareBuffer::HBL_NORMAL).data;
-        PixelUtil::getBitShifts(destBuffer->getFormat(), rgbaShift);
+        PixelUtil::get_bit_shifts(destBuffer->getFormat(), rgbaShift);
         uint8* pDest = pDestBase + rgbaShift[destChannel] / 8;
-        size_t destInc = PixelUtil::getNumElemBytes(destBuffer->getFormat());
+        size_t destInc = PixelUtil::get_num_elem_bytes(destBuffer->getFormat());
 
         size_t srcInc;
         uint8* pSrc;
@@ -2787,9 +2787,9 @@ namespace Ogre
         else
         {
             pSrc = srcBuffer->lock(box, HardwareBuffer::HBL_READ_ONLY).data;
-            PixelUtil::getBitShifts(srcBuffer->getFormat(), rgbaShift);
+            PixelUtil::get_bit_shifts(srcBuffer->getFormat(), rgbaShift);
             pSrc += rgbaShift[srcChannel] / 8;
-            srcInc = PixelUtil::getNumElemBytes(srcBuffer->getFormat());
+            srcInc = PixelUtil::get_num_elem_bytes(srcBuffer->getFormat());
         }
 
         for (size_t y = box.top; y < box.bottom; ++y)
@@ -2815,9 +2815,9 @@ namespace Ogre
         Box box(0, 0, buffer->width(), buffer->height());
 
         uint8* pData = buffer->lock(box, HardwareBuffer::HBL_NORMAL).data;
-        PixelUtil::getBitShifts(buffer->getFormat(), rgbaShift);
+        PixelUtil::get_bit_shifts(buffer->getFormat(), rgbaShift);
         pData += rgbaShift[channel] / 8;
-        size_t inc = PixelUtil::getNumElemBytes(buffer->getFormat());
+        size_t inc = PixelUtil::get_num_elem_bytes(buffer->getFormat());
 
         for (size_t y = box.top; y < box.bottom; ++y)
         {

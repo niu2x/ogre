@@ -147,7 +147,8 @@ protected:
 
     void setupLights()
     {
-        mSceneMgr->setAmbientLight(ColourValue::Black);   // disable ambient lighting
+        mSceneMgr->setAmbientLight(
+            ColorValue::Black); // disable ambient lighting
 
         // create pivot nodes
         mLightPivot1 = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -164,7 +165,7 @@ protected:
         // create white flare
         bbs = mSceneMgr->createBillboardSet();
         bbs->setMaterialName("Examples/Flare");
-        bbs->createBillboard(200, 0, 0)->setColour(ColourValue::White);
+        bbs->createBillboard(200, 0, 0)->setColour(ColorValue::White);
 
         mLightPivot1->attachObject(bbs);
 
@@ -176,7 +177,7 @@ protected:
         // create white flare
         bbs = mSceneMgr->createBillboardSet();
         bbs->setMaterialName("Examples/Flare");
-        bbs->createBillboard(50, 200, 50)->setColour(ColourValue::Red);
+        bbs->createBillboard(50, 200, 50)->setColour(ColorValue::Red);
 
         mLightPivot2->attachObject(bbs);
     }

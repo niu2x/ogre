@@ -87,14 +87,18 @@ namespace Ogre {
         public:
             Element() {}
 
-            Element(const Vector3& position, float width, float texCoord, const ColourValue& colour,
-                    const Quaternion& orientation);
+            Element(
+                const Vector3& position,
+                float width,
+                float texCoord,
+                const ColorValue& colour,
+                const Quaternion& orientation);
 
             Vector3 position;
             float width;
             /// U or V texture coord depending on options
             float texCoord;
-            ColourValue colour;
+            ColorValue colour;
             /// Only used when mFaceCamera == false
             Quaternion orientation;
         };

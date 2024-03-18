@@ -94,7 +94,7 @@ namespace Ogre {
         // Calculate size for all mip levels of the texture.
         uint32 width, height, depth;
 
-        if ((mWidth * PixelUtil::getNumElemBytes(mFormat)) & 3) {
+        if ((mWidth * PixelUtil::get_num_elem_bytes(mFormat)) & 3) {
             // Standard alignment of 4 is not right for some formats.
             OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
         }
@@ -114,14 +114,10 @@ namespace Ogre {
         typedef std::array<GLint, 4> SwizzleMask;
         SwizzleMask swizzleMask;
 
-        if (PixelUtil::isLuminance(mFormat))
-        {
-            if (PixelUtil::getComponentCount(mFormat) == 2)
-            {
+        if (PixelUtil::is_luminance(mFormat)) {
+            if (PixelUtil::get_component_count(mFormat) == 2) {
                 swizzleMask = SwizzleMask{GL_RED, GL_RED, GL_RED, GL_GREEN};
-            }
-            else
-            {
+            } else {
                 swizzleMask = SwizzleMask{GL_RED, GL_RED, GL_RED, GL_ONE};
             }
         } else if (mFormat == PixelFormat::A8) {
@@ -139,24 +135,24 @@ namespace Ogre {
 
         // Allocate texture storage so that glTexSubImageXD can be
         // used to upload the texture.
-        if (PixelUtil::isCompressed(mFormat))
-        {
+        if (PixelUtil::is_compressed(mFormat)) {
             // Compressed formats
             GLsizei size;
 
             for (uint32 mip = 0; mip <= mNumMipmaps; mip++)
             {
-                size = static_cast<GLsizei>(PixelUtil::getMemorySize(width, height, depth, mFormat));
+                size = static_cast<GLsizei>(
+                    PixelUtil::get_memory_size(width, height, depth, mFormat));
                 // std::stringstream str;
                 // str << "GL3PlusTexture::create - " <<
                 // StringConverter::to_string(mTextureID)
                 // << " bytes: " <<
-                // StringConverter::to_string(PixelUtil::getMemorySize(mWidth,
+                // StringConverter::to_string(PixelUtil::get_memory_size(mWidth,
                 // mHeight, mDepth, mFormat))
                 // << " Mip: " + StringConverter::to_string(mip)
                 // << " Width: " << StringConverter::to_string(width)
                 // << " Height: " << StringConverter::to_string(height)
-                // << " Format " << PixelUtil::getFormatName(mFormat)
+                // << " Format " << PixelUtil::get_format_name(mFormat)
                 // << " Internal Format: 0x" << std::hex << format
                 // << " Origin Format: 0x" << std::hex <<
                 // GL3PlusPixelUtil::getGLOriginFormat(mFormat)
@@ -210,9 +206,7 @@ namespace Ogre {
                     depth = depth / 2;
                 }
             }
-        }
-        else
-        {
+        } else {
             if (mRenderSystem->hasMinGLVersion(4, 2) || mRenderSystem->checkExtension("GL_ARB_texture_storage"))
             {
                 switch(mTextureType)
@@ -248,7 +242,7 @@ namespace Ogre {
                     //                    str << "GL3PlusTexture::create - " <<
                     //                    StringConverter::to_string(mTextureID)
                     //                    << " bytes: " <<
-                    //                    StringConverter::to_string(PixelUtil::getMemorySize(width,
+                    //                    StringConverter::to_string(PixelUtil::get_memory_size(width,
                     //                    height, depth, mFormat))
                     //                    << " Mip: " +
                     //                    StringConverter::to_string(mip)
@@ -257,7 +251,7 @@ namespace Ogre {
                     //                    << " Height: " <<
                     //                    StringConverter::to_string(height)
                     //                    << " Format " <<
-                    //                    PixelUtil::getFormatName(mFormat)
+                    //                    PixelUtil::get_format_name(mFormat)
                     //                    << " Internal Format: 0x" << std::hex
                     //                    << format
                     //                    << " Origin Format: 0x" << std::hex <<
@@ -331,8 +325,7 @@ namespace Ogre {
 
         // Generate mipmaps after all texture levels have been loaded
         // This is required for compressed formats such as DXT
-        if (PixelUtil::isCompressed(mFormat) && mUsage & TU_AUTOMIPMAP)
-        {
+        if (PixelUtil::is_compressed(mFormat) && mUsage & TU_AUTOMIPMAP) {
             OGRE_CHECK_GL_ERROR(glGenerateMipmap(getGL3PlusTextureTarget()));
         }
 

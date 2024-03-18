@@ -115,7 +115,7 @@ namespace Ogre {
         ManualCullingMode cullMode;
 
         bool fog;
-        ColourValue fogColour;
+        ColorValue fogColour;
         Real fogDistance;
 
     };

@@ -128,10 +128,10 @@ namespace Ogre {
         GLenum format = GLPixelUtil::getGLOriginFormat(mFormat);
         GLenum datatype = GLPixelUtil::getGLOriginDataType(mFormat);
 
-        if(PixelUtil::isCompressed(mFormat))
-        {
+        if (PixelUtil::is_compressed(mFormat)) {
             // Compressed formats
-            GLsizei size = static_cast<GLsizei>(PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat));
+            GLsizei size = static_cast<GLsizei>(
+                PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat));
             // Provide temporary buffer filled with zeroes as glCompressedTexImageXD does not
             // accept a 0 pointer like normal glTexImageXD
             // Run through this process for every mipmap to pregenerate mipmap piramid
@@ -139,7 +139,8 @@ namespace Ogre {
             
             for(uint32 mip=0; mip<=mNumMipmaps; mip++)
             {
-                size = static_cast<GLsizei>(PixelUtil::getMemorySize(width, height, depth, mFormat));
+                size = static_cast<GLsizei>(
+                    PixelUtil::get_memory_size(width, height, depth, mFormat));
                 switch(mTextureType)
                 {
                     case TEX_TYPE_1D:
@@ -180,9 +181,7 @@ namespace Ogre {
                 if(depth>1 && mTextureType != TEX_TYPE_2D_ARRAY)
                     depth = depth/2;
             }
-        }
-        else
-        {
+        } else {
             // Run through this process to pregenerate mipmap pyramid
             for(uint32 mip=0; mip<=mNumMipmaps; mip++)
             {

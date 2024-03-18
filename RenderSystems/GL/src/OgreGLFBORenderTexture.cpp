@@ -308,12 +308,12 @@ static const uchar depthBits[] =
                 continue;
 
             // No test for compressed formats
-            if(PixelUtil::isCompressed((PixelFormat)x))
+            if (PixelUtil::is_compressed((PixelFormat)x))
                 continue;
 
             // Buggy ATI cards *crash* on non-RGB(A) formats
             int depths[4];
-            PixelUtil::getBitDepths((PixelFormat)x, depths);
+            PixelUtil::get_bit_depths((PixelFormat)x, depths);
             if(fmt!=GL_NONE && mATIMode && (!depths[0] || !depths[1] || !depths[2]))
                 continue;
 
@@ -330,7 +330,7 @@ static const uchar depthBits[] =
             {
                 mProps[x].valid = true;
                 StringStream str;
-                str << "FBO " << PixelUtil::getFormatName((PixelFormat)x) 
+                str << "FBO " << PixelUtil::get_format_name((PixelFormat)x)
                     << " depth/stencil support: ";
 
                 // For each depth/stencil formats
@@ -344,7 +344,7 @@ static const uchar depthBits[] =
                         {
                             // StringStream l;
                             // l << "Trying " <<
-                            // PixelUtil::getFormatName((PixelFormat)x)
+                            // PixelUtil::get_format_name((PixelFormat)x)
                             //   << " D" << depthBits[depth]
                             //   << "S" << stencilBits[stencil];
                             // LogManager::singleton().log_message(l.str());
@@ -426,7 +426,7 @@ static const uchar depthBits[] =
         String fmtstring = "";
         for (size_t x = 0; x < (int)PixelFormat::COUNT; ++x) {
             if(mProps[x].valid)
-                fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
+                fmtstring += PixelUtil::get_format_name((PixelFormat)x) + " ";
         }
         LogManager::singleton().log_message(
             "[GL] : Valid FBO targets " + fmtstring);
@@ -438,7 +438,7 @@ static const uchar depthBits[] =
         /// [best supported for internal format]
         size_t bestmode=0;
         int bestscore=-1;
-        bool requestDepthOnly = PixelUtil::isDepth(internalFormat);
+        bool requestDepthOnly = PixelUtil::is_depth(internalFormat);
         for(size_t mode=0; mode<props.modes.size(); mode++)
         {
 #if 0

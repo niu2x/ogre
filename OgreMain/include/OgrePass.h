@@ -151,10 +151,10 @@ namespace Ogre {
         uint32 mHash; /// Pass hash
         //-------------------------------------------------------------------------
         // Colour properties, only applicable in fixed-function passes
-        ColourValue mAmbient;
-        ColourValue mDiffuse;
-        ColourValue mSpecular;
-        ColourValue mEmissive;
+        ColorValue mAmbient;
+        ColorValue mDiffuse;
+        ColorValue mSpecular;
+        ColorValue mEmissive;
         float mShininess;
         TrackVertexColourType mTracking;
         //-------------------------------------------------------------------------
@@ -220,7 +220,7 @@ namespace Ogre {
 
         //-------------------------------------------------------------------------
         // Fog
-        ColourValue mFogColour;
+        ColorValue mFogColour;
         float mFogStart;
         float mFogEnd;
         float mFogDensity;
@@ -309,7 +309,7 @@ namespace Ogre {
         void setAmbient(float red, float green, float blue);
 
         /// @overload
-        void setAmbient(const ColourValue& ambient) { mAmbient = ambient; }
+        void setAmbient(const ColorValue& ambient) { mAmbient = ambient; }
 
         /** Sets the diffuse colour reflectance properties of this pass.
 
@@ -327,7 +327,7 @@ namespace Ogre {
         void setDiffuse(float red, float green, float blue, float alpha);
 
         /// @overload
-        void setDiffuse(const ColourValue& diffuse) { mDiffuse = diffuse; }
+        void setDiffuse(const ColorValue& diffuse) { mDiffuse = diffuse; }
 
         /** Sets the specular colour reflectance properties of this pass.
 
@@ -346,7 +346,7 @@ namespace Ogre {
         void setSpecular(float red, float green, float blue, float alpha);
 
         /// @overload
-        void setSpecular(const ColourValue& specular) { mSpecular = specular; }
+        void setSpecular(const ColorValue& specular) { mSpecular = specular; }
 
         /** Sets the shininess of the pass, affecting the size of specular highlights.
 
@@ -379,12 +379,18 @@ namespace Ogre {
         void setSelfIllumination(float red, float green, float blue);
 
         /// @overload
-        void setSelfIllumination(const ColourValue& selfIllum) { mEmissive = selfIllum; }
+        void setSelfIllumination(const ColorValue& selfIllum)
+        {
+            mEmissive = selfIllum;
+        }
 
         /// @copydoc setSelfIllumination
         void setEmissive(float red, float green, float blue) { setSelfIllumination(red, green, blue); }
         /// @overload
-        void setEmissive(const ColourValue& emissive) { setSelfIllumination(emissive); }
+        void setEmissive(const ColorValue& emissive)
+        {
+            setSelfIllumination(emissive);
+        }
 
         /** Sets which material properties follow the vertex colour
          */
@@ -392,25 +398,28 @@ namespace Ogre {
 
         /** Gets the ambient colour reflectance of the pass.
          */
-        const ColourValue& getAmbient(void) const { return mAmbient; }
+        const ColorValue& getAmbient(void) const { return mAmbient; }
 
         /** Gets the diffuse colour reflectance of the pass.
          */
-        const ColourValue& getDiffuse(void) const { return mDiffuse; }
+        const ColorValue& getDiffuse(void) const { return mDiffuse; }
 
         /** Gets the specular colour reflectance of the pass.
          */
-        const ColourValue& getSpecular(void) const { return mSpecular; }
+        const ColorValue& getSpecular(void) const { return mSpecular; }
 
         /** Gets the self illumination colour of the pass.
          */
-        const ColourValue& getSelfIllumination(void) const { return mEmissive; }
+        const ColorValue& getSelfIllumination(void) const { return mEmissive; }
 
         /** Gets the self illumination colour of the pass.
             @see
             getSelfIllumination
         */
-        const ColourValue& getEmissive(void) const { return getSelfIllumination(); }
+        const ColorValue& getEmissive(void) const
+        {
+            return getSelfIllumination();
+        }
 
         /** Gets the 'shininess' property of the pass (affects specular highlights).
          */
@@ -950,8 +959,10 @@ namespace Ogre {
         void setFog(
             bool overrideScene,
             FogMode mode = FOG_NONE,
-            const ColourValue& colour = ColourValue::White,
-            float expDensity = 0.001f, float linearStart = 0.0f, float linearEnd = 1.0f );
+            const ColorValue& colour = ColorValue::White,
+            float expDensity = 0.001f,
+            float linearStart = 0.0f,
+            float linearEnd = 1.0f);
 
         /** Returns true if this pass is to override the scene fog settings.
          */
@@ -965,7 +976,7 @@ namespace Ogre {
 
         /** Returns the fog colour for the scene.
          */
-        const ColourValue& getFogColour(void) const { return mFogColour; }
+        const ColorValue& getFogColour(void) const { return mFogColour; }
 
         /** Returns the fog start distance for this pass.
             @note

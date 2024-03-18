@@ -74,7 +74,7 @@ protected:
         mSceneMgr->setSkyBox(true, "Examples/StormySkyBox");  // add a skybox
 
         // setup some basic lighting for our scene
-        mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+        mSceneMgr->setAmbientLight(ColorValue(0.5, 0.5, 0.5));
         mSceneMgr->getRootSceneNode()
             ->createChildSceneNode(Vector3(20, 80, 50))
             ->attachObject(mSceneMgr->createLight());

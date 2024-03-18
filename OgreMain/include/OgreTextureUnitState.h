@@ -195,18 +195,18 @@ namespace Ogre {
 
         /** Sets the texture border colour.
 
-            The default is ColourValue::Black, and this value only used when addressing mode
-            is TAM_BORDER.
+            The default is ColorValue::Black, and this value only used when
+           addressing mode is TAM_BORDER.
         */
-        void setBorderColour(const ColourValue& colour)
+        void setBorderColour(const ColorValue& colour)
         {
             mBorderColour = colour;
             mDirty = true;
         }
-        const ColourValue& getBorderColour(void) const { return mBorderColour; }
+        const ColorValue& getBorderColour(void) const { return mBorderColour; }
 
     protected:
-        ColourValue mBorderColour;
+        ColorValue mBorderColour;
         /// Texture anisotropy.
         unsigned int mMaxAniso;
         /// Mipmap bias (always float, not Real).
@@ -658,9 +658,15 @@ namespace Ogre {
         /// @copydoc Sampler::setAddressingMode
         void setTextureAddressingMode( const Sampler::UVWAddressingMode& uvw) { _getLocalSampler()->setAddressingMode(uvw); }
         /// @copydoc Sampler::setBorderColour
-        void setTextureBorderColour(const ColourValue& colour) { _getLocalSampler()->setBorderColour(colour); }
+        void setTextureBorderColour(const ColorValue& colour)
+        {
+            _getLocalSampler()->setBorderColour(colour);
+        }
         /// @copydoc Sampler::getBorderColour
-        const ColourValue& getTextureBorderColour() const { return mSampler->getBorderColour(); }
+        const ColorValue& getTextureBorderColour() const
+        {
+            return mSampler->getBorderColour();
+        }
         /// @copydoc Sampler::setFiltering(TextureFilterOptions)
         void setTextureFiltering(TextureFilterOptions filterType)
         {
@@ -770,8 +776,8 @@ namespace Ogre {
             LayerBlendSource source1 = LayerBlendSource::TEXTURE,
             LayerBlendSource source2 = LayerBlendSource::CURRENT,
 
-            const ColourValue& arg1 = ColourValue::White,
-            const ColourValue& arg2 = ColourValue::White,
+            const ColorValue& arg1 = ColorValue::White,
+            const ColorValue& arg2 = ColorValue::White,
 
             Real manualBlend = 0.0);
 

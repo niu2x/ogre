@@ -458,8 +458,8 @@ protected:
      */
     void setupContent() override
     {
-        mViewport->setBackgroundColour(ColourValue(0.5, 0.5, 0.5, 1));
-        
+        mViewport->setBackgroundColour(ColorValue(0.5, 0.5, 0.5, 1));
+
         // set our camera to orbit around the origin and show cursor
         mCameraMan->setStyle(CS_FREELOOK);
         mCameraMan->setTopSpeed(20.0);
@@ -749,7 +749,7 @@ protected:
                     mViewport,
                     "SSAO/Post/Modulate",
                     true);
-                mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+                mSceneMgr->setAmbientLight(ColorValue(0.5, 0.5, 0.5));
                 mLight = mSceneMgr->createLight();
                 mSceneMgr->getRootSceneNode()->createChildSceneNode(Vector3(30, 80, 30))->attachObject(mLight);
             }

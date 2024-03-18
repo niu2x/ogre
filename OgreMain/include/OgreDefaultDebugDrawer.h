@@ -36,7 +36,9 @@ public:
     void drawSceneNode(const SceneNode* node) override;
     void drawFrustum(const Frustum* frust) override;
     /// Allows the rendering of a wireframe bounding box.
-    void drawWireBox(const AxisAlignedBox& aabb, const ColourValue& colour = ColourValue::White);
+    void drawWireBox(
+        const AxisAlignedBox& aabb,
+        const ColorValue& colour = ColorValue::White);
     /// draw coordinate axes
     void drawAxes(const Affine3& pose, float size = 1.0f);
     /// Specifes the size of the axes drawn by drawBone()

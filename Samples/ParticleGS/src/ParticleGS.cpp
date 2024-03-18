@@ -131,7 +131,7 @@ struct FireworkParticle
         mCameraNode->setPosition(0,35,-100);
         mCameraNode->lookAt(Vector3(0,35,0), Node::TS_PARENT);
 
-        mSceneMgr->setAmbientLight(ColourValue(0.7, 0.7, 0.7));
+        mSceneMgr->setAmbientLight(ColorValue(0.7, 0.7, 0.7));
 
         createProceduralParticleSystem();
         mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(mParticleSystem);

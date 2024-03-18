@@ -98,8 +98,9 @@ protected:
 
     void setupLights()
     {
-        
-        mSceneMgr->setAmbientLight(ColourValue(0.1, 0.1, 0.1));  // Dim ambient lighting
+
+        mSceneMgr->setAmbientLight(
+            ColorValue(0.1, 0.1, 0.1)); // Dim ambient lighting
 
         // Create a ribbon trail that our lights will leave behind
         NameValuePairList params;

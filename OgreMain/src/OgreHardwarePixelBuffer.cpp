@@ -44,7 +44,8 @@ namespace Ogre
         // Default
         mRowPitch = mWidth;
         mSlicePitch = mHeight*mWidth;
-        mSizeInBytes = PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);
+        mSizeInBytes
+            = PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
     }
     
     //-----------------------------------------------------------------------------    

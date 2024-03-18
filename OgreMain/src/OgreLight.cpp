@@ -31,32 +31,35 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     Light::Light() : Light(BLANKSTRING) {}
     //-----------------------------------------------------------------------
-    Light::Light(const String& name) : MovableObject(name),
+    Light::Light(const String& name)
+    : MovableObject(name)
+    ,
 #ifdef OGRE_NODELESS_POSITIONING
-        mPosition(Vector3::zero),
-        mDirection(Vector3::negative_unit_z),
-        mDerivedPosition(Vector3::zero),
-        mDerivedDirection(Vector3::negative_unit_z),
-        mDerivedCamRelativeDirty(false),
-        mDerivedTransformDirty(false),
+    mPosition(Vector3::zero)
+    , mDirection(Vector3::negative_unit_z)
+    , mDerivedPosition(Vector3::zero)
+    , mDerivedDirection(Vector3::negative_unit_z)
+    , mDerivedCamRelativeDirty(false)
+    , mDerivedTransformDirty(false)
+    ,
 #endif
-        mDiffuse(ColourValue::White),
-        mSpecular(ColourValue::Black),
-        mSpotOuter(Degree(40.0f)),
-        mSpotInner(Degree(30.0f)),
-        mSpotFalloff(1.0f),
-        mSpotNearClip(0.0f),
-        mAttenuation(100000.f, 1.f, 0.f, 0.f),
-        mShadowFarDist(0),
-        mShadowFarDistSquared(0),
-        mIndexInFrame(0),
-        mShadowNearClipDist(-1),
-        mShadowFarClipDist(-1),
-        mCameraToBeRelativeTo(0),
-        mPowerScale(1.0f),
-        mSourceSize(0, 0),
-        mLightType(LT_POINT),
-        mOwnShadowFarDist(false)
+    mDiffuse(ColorValue::White)
+    , mSpecular(ColorValue::Black)
+    , mSpotOuter(Degree(40.0f))
+    , mSpotInner(Degree(30.0f))
+    , mSpotFalloff(1.0f)
+    , mSpotNearClip(0.0f)
+    , mAttenuation(100000.f, 1.f, 0.f, 0.f)
+    , mShadowFarDist(0)
+    , mShadowFarDistSquared(0)
+    , mIndexInFrame(0)
+    , mShadowNearClipDist(-1)
+    , mShadowFarClipDist(-1)
+    , mCameraToBeRelativeTo(0)
+    , mPowerScale(1.0f)
+    , mSourceSize(0, 0)
+    , mLightType(LT_POINT)
+    , mOwnShadowFarDist(false)
     {
         //mMinPixelSize should always be zero for lights otherwise lights will disapear
         mMinPixelSize = 0;
@@ -160,15 +163,12 @@ namespace Ogre {
         mDiffuse.g = green;
     }
     //-----------------------------------------------------------------------
-    void Light::setDiffuseColour(const ColourValue& colour)
+    void Light::setDiffuseColour(const ColorValue& colour)
     {
         mDiffuse = colour;
     }
     //-----------------------------------------------------------------------
-    const ColourValue& Light::getDiffuseColour(void) const
-    {
-        return mDiffuse;
-    }
+    const ColorValue& Light::getDiffuseColour(void) const { return mDiffuse; }
     //-----------------------------------------------------------------------
     void Light::setSpecularColour(float red, float green, float blue)
     {
@@ -177,15 +177,12 @@ namespace Ogre {
         mSpecular.g = green;
     }
     //-----------------------------------------------------------------------
-    void Light::setSpecularColour(const ColourValue& colour)
+    void Light::setSpecularColour(const ColorValue& colour)
     {
         mSpecular = colour;
     }
     //-----------------------------------------------------------------------
-    const ColourValue& Light::getSpecularColour(void) const
-    {
-        return mSpecular;
-    }
+    const ColorValue& Light::getSpecularColour(void) const { return mSpecular; }
     //-----------------------------------------------------------------------
     void Light::setPowerScale(Real power)
     {
@@ -517,18 +514,18 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    class LightDiffuseColourValue : public AnimableValue
-    {
+    class LightDiffuseColorValue : public AnimableValue {
     protected:
         Light* mLight;
     public:
-        LightDiffuseColourValue(Light* l) :AnimableValue(COLOUR) 
+        LightDiffuseColorValue(Light* l)
+        : AnimableValue(COLOUR)
         { mLight = l; }
-        void setValue(const ColourValue& val) override
+        void setValue(const ColorValue& val) override
         {
             mLight->setDiffuseColour(val);
         }
-        void applyDeltaValue(const ColourValue& val) override
+        void applyDeltaValue(const ColorValue& val) override
         {
             setValue(mLight->getDiffuseColour() + val);
         }
@@ -536,21 +533,20 @@ namespace Ogre {
         {
             setAsBaseValue(mLight->getDiffuseColour());
         }
-
     };
     //-----------------------------------------------------------------------
-    class LightSpecularColourValue : public AnimableValue
-    {
+    class LightSpecularColorValue : public AnimableValue {
     protected:
         Light* mLight;
     public:
-        LightSpecularColourValue(Light* l) :AnimableValue(COLOUR) 
+        LightSpecularColorValue(Light* l)
+        : AnimableValue(COLOUR)
         { mLight = l; }
-        void setValue(const ColourValue& val) override
+        void setValue(const ColorValue& val) override
         {
             mLight->setSpecularColour(val);
         }
-        void applyDeltaValue(const ColourValue& val) override
+        void applyDeltaValue(const ColorValue& val) override
         {
             setValue(mLight->getSpecularColour() + val);
         }
@@ -558,7 +554,6 @@ namespace Ogre {
         {
             setAsBaseValue(mLight->getSpecularColour());
         }
-
     };
     //-----------------------------------------------------------------------
     class LightAttenuationValue : public AnimableValue
@@ -652,13 +647,11 @@ namespace Ogre {
     {
         if (valueName == "diffuseColour")
         {
-            return AnimableValuePtr(
-                OGRE_NEW LightDiffuseColourValue(this));
+            return AnimableValuePtr(OGRE_NEW LightDiffuseColorValue(this));
         }
         else if(valueName == "specularColour")
         {
-            return AnimableValuePtr(
-                OGRE_NEW LightSpecularColourValue(this));
+            return AnimableValuePtr(OGRE_NEW LightSpecularColorValue(this));
         }
         else if (valueName == "attenuation")
         {

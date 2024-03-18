@@ -31,25 +31,32 @@ THE SOFTWARE.
 
 namespace Ogre {
     //---------------------------------------------------------------------
-    Viewport::Viewport(Camera* cam, RenderTarget* target, float left, float top, float width, float height, int ZOrder)
-        : mCamera(cam)
-        , mTarget(target)
-        , mRelRect(left, top, left + width, top + height)
-        // Actual dimensions will update later
-        , mZOrder(ZOrder)
-        , mBackColour(ColourValue::Black)
-        , mDepthClearValue(1)
-        , mClearEveryFrame(true)
-        , mClearBuffers(FBT_COLOUR | FBT_DEPTH)
-        , mUpdated(false)
-        , mShowOverlays(true)
-        , mShowSkies(true)
-        , mShowShadows(true)
-        , mVisibilityMask(0xFFFFFFFF)
-        , mMaterialSchemeName(MaterialManager::DEFAULT_SCHEME_NAME)
-        , mIsAutoUpdated(true)
-		, mColourBuffer(CBT_BACK)
-    {           
+Viewport::Viewport(
+    Camera* cam,
+    RenderTarget* target,
+    float left,
+    float top,
+    float width,
+    float height,
+    int ZOrder)
+: mCamera(cam)
+, mTarget(target)
+, mRelRect(left, top, left + width, top + height)
+// Actual dimensions will update later
+, mZOrder(ZOrder)
+, mBackColour(ColorValue::Black)
+, mDepthClearValue(1)
+, mClearEveryFrame(true)
+, mClearBuffers(FBT_COLOUR | FBT_DEPTH)
+, mUpdated(false)
+, mShowOverlays(true)
+, mShowSkies(true)
+, mShowShadows(true)
+, mVisibilityMask(0xFFFFFFFF)
+, mMaterialSchemeName(MaterialManager::DEFAULT_SCHEME_NAME)
+, mIsAutoUpdated(true)
+, mColourBuffer(CBT_BACK)
+{
 #if OGRE_PLATFORM != OGRE_PLATFORM_ANDROID
         LogManager::singleton().stream(LogMsgLevel::TRIVIAL)
             << "Creating viewport on target '" << target->name() << "'"
@@ -67,7 +74,7 @@ namespace Ogre {
 
         // notify camera
         if(cam) cam->_notifyViewport(this);
-    }
+}
     //---------------------------------------------------------------------
     Viewport::~Viewport()
     {
@@ -151,7 +158,11 @@ namespace Ogre {
         mClearBuffers = inClear ? inBuffers : 0;
     }
     //---------------------------------------------------------------------
-    void Viewport::clear(uint32 buffers, const ColourValue& col, float depth, uint16 stencil)
+    void Viewport::clear(
+        uint32 buffers,
+        const ColorValue& col,
+        float depth,
+        uint16 stencil)
     {
         RenderSystem* rs = Root::singleton().getRenderSystem();
         if (rs)

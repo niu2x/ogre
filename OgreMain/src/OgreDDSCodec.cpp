@@ -245,7 +245,7 @@ namespace {
                 // No crazy FOURCC or 565 et al. file formats at this stage
                 notImplemented = true;
                 notImplementedString
-                    = PixelUtil::getFormatName(image->getFormat());
+                    = PixelUtil::get_format_name(image->getFormat());
                 break;
         }       
 
@@ -403,7 +403,7 @@ namespace {
                 PixelBox
                     dst(image->size() / 3, 1, 1, PixelFormat::R8G8B8, tmpData);
 
-                PixelUtil::bulkPixelConversion( src, dst );
+                PixelUtil::bulk_pixel_conversion(src, dst);
 
                 dataPtr = tmpData;
             }
@@ -599,12 +599,11 @@ namespace {
         for (int i = (int)PixelFormat::UNKNOWN + 1; i < (int)PixelFormat::COUNT;
              ++i) {
             PixelFormat pf = static_cast<PixelFormat>(i);
-            if (PixelUtil::getNumElemBits(pf) == rgbBits)
-            {
+            if (PixelUtil::get_num_elem_bits(pf) == rgbBits) {
                 uint64 testMasks[4];
-                PixelUtil::getBitMasks(pf, testMasks);
+                PixelUtil::get_bit_masks(pf, testMasks);
                 int testBits[4];
-                PixelUtil::getBitDepths(pf, testBits);
+                PixelUtil::get_bit_depths(pf, testBits);
                 if (testMasks[0] == rMask && testMasks[1] == gMask &&
                     testMasks[2] == bMask && 
                     // for alpha, deal with 'X8' formats by checking bit counts
@@ -619,34 +618,36 @@ namespace {
             "DDSCodec::convertPixelFormat");
     }
     //---------------------------------------------------------------------
-    void DDSCodec::unpackDXTColour(PixelFormat pf, const DXTColourBlock& block, 
-        ColourValue* pCol) const
+    void DDSCodec::unpackDXTColour(
+        PixelFormat pf,
+        const DXTColourBlock& block,
+        ColorValue* pCol) const
     {
         // Note - we assume all values have already been endian swapped
 
         // Colour lookup table
-        ColourValue derivedColours[4];
+        ColorValue derivedColours[4];
 
         if (pf == PixelFormat::DXT1 && block.colour_0 <= block.colour_1) {
             // 1-bit alpha
-            PixelUtil::unpackColour(
+            PixelUtil::unpack_color(
                 &(derivedColours[0]),
                 PixelFormat::R5G6B5,
                 &(block.colour_0));
-            PixelUtil::unpackColour(
+            PixelUtil::unpack_color(
                 &(derivedColours[1]),
                 PixelFormat::R5G6B5,
                 &(block.colour_1));
             // one intermediate colour, half way between the other two
             derivedColours[2] = (derivedColours[0] + derivedColours[1]) / 2;
             // transparent colour
-            derivedColours[3] = ColourValue::ZERO;
+            derivedColours[3] = ColorValue::ZERO;
         } else {
-            PixelUtil::unpackColour(
+            PixelUtil::unpack_color(
                 &(derivedColours[0]),
                 PixelFormat::R5G6B5,
                 &(block.colour_0));
-            PixelUtil::unpackColour(
+            PixelUtil::unpack_color(
                 &(derivedColours[1]),
                 PixelFormat::R5G6B5,
                 &(block.colour_1));
@@ -668,7 +669,7 @@ namespace {
                     pCol[(row * 4) + x] = derivedColours[colIdx];
                 } else {
                     // alpha has already been read (alpha precedes colour)
-                    ColourValue& col = pCol[(row * 4) + x];
+                    ColorValue& col = pCol[(row * 4) + x];
                     col.r = derivedColours[colIdx].r;
                     col.g = derivedColours[colIdx].g;
                     col.b = derivedColours[colIdx].b;
@@ -681,7 +682,8 @@ namespace {
     }
     //---------------------------------------------------------------------
     void DDSCodec::unpackDXTAlpha(
-        const DXTExplicitAlphaBlock& block, ColourValue* pCol) const
+        const DXTExplicitAlphaBlock& block,
+        ColorValue* pCol) const
     {
         // Note - we assume all values have already been endian swapped
         
@@ -703,7 +705,8 @@ namespace {
     }
     //---------------------------------------------------------------------
     void DDSCodec::unpackDXTAlpha(
-        const DXTInterpolatedAlphaBlock& block, ColourValue* pCol) const
+        const DXTInterpolatedAlphaBlock& block,
+        ColorValue* pCol) const
     {
         // Adaptive 3-bit alpha part
         float derivedAlphas[8];
@@ -832,8 +835,7 @@ namespace {
                 header.pixelFormat.alphaMask : 0);
         }
 
-        if (PixelUtil::isCompressed(sourceFormat))
-        {
+        if (PixelUtil::is_compressed(sourceFormat)) {
             if (Root::singleton().getRenderSystem() == NULL
                 || !Root::singleton()
                         .getRenderSystem()
@@ -881,8 +883,7 @@ namespace {
                 // Use original format
                 format = sourceFormat;
             }
-        }
-        else // not compressed
+        } else // not compressed
         {
             // Don't test against DDPF_RGB since greyscale DDS doesn't set this
             // just derive any other kind of format
@@ -904,10 +905,9 @@ namespace {
 
             for(size_t mip = 0; mip <= num_mipmaps; ++mip)
             {
-                size_t dstPitch = width * PixelUtil::getNumElemBytes(format);
-                
-                if (PixelUtil::isCompressed(sourceFormat))
-                {
+                size_t dstPitch = width * PixelUtil::get_num_elem_bytes(format);
+
+                if (PixelUtil::is_compressed(sourceFormat)) {
                     // Compressed data
                     if (decompressDXT)
                     {
@@ -915,8 +915,8 @@ namespace {
                         DXTInterpolatedAlphaBlock iAlpha;
                         DXTExplicitAlphaBlock eAlpha;
                         // 4x4 block of decompressed colour
-                        ColourValue tempColours[16];
-                        size_t destBpp = PixelUtil::getNumElemBytes(format);
+                        ColorValue tempColours[16];
+                        size_t destBpp = PixelUtil::get_num_elem_bytes(format);
 
                         // slices are done individually
                         for(size_t z = 0; z < depth; ++z)
@@ -964,8 +964,10 @@ namespace {
                                     {
                                         for (size_t bx = 0; bx < sx; ++bx)
                                         {
-                                            PixelUtil::packColour(tempColours[by*4+bx],
-                                                format, destPtr);
+                                            PixelUtil::pack_color(
+                                                tempColours[by * 4 + bx],
+                                                format,
+                                                destPtr);
                                             destPtr = static_cast<void*>(
                                                 static_cast<uchar*>(destPtr) + destBpp);
                                         }
@@ -1000,14 +1002,16 @@ namespace {
                     {
                         // load directly
                         // DDS format lies! sizeOrPitch is not always set for DXT!!
-                        size_t dxtSize = PixelUtil::getMemorySize(width, height, depth, format);
+                        size_t dxtSize = PixelUtil::get_memory_size(
+                            width,
+                            height,
+                            depth,
+                            format);
                         stream->read(destPtr, dxtSize);
                         destPtr = static_cast<void*>(static_cast<uchar*>(destPtr) + dxtSize);
                     }
 
-                }
-                else
-                {
+                } else {
                     // Note: We assume the source and destination have the same pitch
                     for (size_t z = 0; z < depth; ++z)
                     {

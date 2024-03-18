@@ -88,7 +88,9 @@ bool GLDepthBufferCommon::isCompatible(RenderTarget* renderTarget) const
                     bSameStencil = stencilFormat == mStencilBuffer->getGLFormat();
             }
 
-            retVal = PixelUtil::isDepth(internalFormat) ? bSameDepth : (bSameDepth && bSameStencil);
+            retVal = PixelUtil::is_depth(internalFormat)
+                ? bSameDepth
+                : (bSameDepth && bSameStencil);
         }
     }
 

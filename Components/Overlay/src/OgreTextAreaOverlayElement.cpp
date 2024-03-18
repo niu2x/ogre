@@ -107,7 +107,9 @@ namespace Ogre {
     #define UNICODE_SPACE 0x0020
     //---------------------------------------------------------------------
     TextAreaOverlayElement::TextAreaOverlayElement(const String& name)
-        : OverlayElement(name), mColourBottom(ColourValue::White), mColourTop(ColourValue::White)
+    : OverlayElement(name)
+    , mColourBottom(ColorValue::White)
+    , mColourTop(ColorValue::White)
     {
         mTransparent = false;
         mAlignment = Left;
@@ -567,36 +569,36 @@ namespace Ogre {
             &msCmdAlignment);
     }
     //---------------------------------------------------------------------
-    void TextAreaOverlayElement::setColour(const ColourValue& col)
+    void TextAreaOverlayElement::setColour(const ColorValue& col)
     {
         mColourBottom = mColourTop = col;
         mColoursChanged = true;
     }
     //---------------------------------------------------------------------
-    const ColourValue& TextAreaOverlayElement::getColour(void) const
+    const ColorValue& TextAreaOverlayElement::getColour(void) const
     {
         // Either one
         return mColourTop;
     }
     //---------------------------------------------------------------------
-    void TextAreaOverlayElement::setColourBottom(const ColourValue& col)
+    void TextAreaOverlayElement::setColourBottom(const ColorValue& col)
     {
         mColourBottom = col;
         mColoursChanged = true;
     }
     //---------------------------------------------------------------------
-    const ColourValue& TextAreaOverlayElement::getColourBottom(void) const
+    const ColorValue& TextAreaOverlayElement::getColourBottom(void) const
     {
         return mColourBottom;
     }
     //---------------------------------------------------------------------
-    void TextAreaOverlayElement::setColourTop(const ColourValue& col)
+    void TextAreaOverlayElement::setColourTop(const ColorValue& col)
     {
         mColourTop = col;
         mColoursChanged = true;
     }
     //---------------------------------------------------------------------
-    const ColourValue& TextAreaOverlayElement::getColourTop(void) const
+    const ColorValue& TextAreaOverlayElement::getColourTop(void) const
     {
         return mColourTop;
     }

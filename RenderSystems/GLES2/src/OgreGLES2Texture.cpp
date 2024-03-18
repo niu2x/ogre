@@ -110,7 +110,7 @@ namespace Ogre {
                 glLabelObjectEXT(GL_TEXTURE, mTextureID, -1, name().c_str()));
 
         // If we can do automip generation and the user desires this, do so
-        mMipmapsHardwareGenerated = !PixelUtil::isCompressed(mFormat);
+        mMipmapsHardwareGenerated = !PixelUtil::is_compressed(mFormat);
 
         // glGenerateMipmap require all mip levels to be prepared. So override how many this texture has.
         if((mUsage & TU_AUTOMIPMAP) && mMipmapsHardwareGenerated && mNumRequestedMipmaps)
@@ -128,17 +128,13 @@ namespace Ogre {
         // Set up texture swizzling (not available in WebGL2)
         if (hasGLES30 && (OGRE_PLATFORM != OGRE_PLATFORM_EMSCRIPTEN))
         {
-            if(PixelUtil::isLuminance(mFormat))
-            {
-                if (PixelUtil::getComponentCount(mFormat) == 2)
-                {
+            if (PixelUtil::is_luminance(mFormat)) {
+                if (PixelUtil::get_component_count(mFormat) == 2) {
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_R, GL_RED));
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_G, GL_RED));
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_B, GL_RED));
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_A, GL_GREEN));
-                }
-                else
-                {
+                } else {
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_R, GL_RED));
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_G, GL_RED));
                     OGRE_CHECK_GL_ERROR(glTexParameteri(texTarget, GL_TEXTURE_SWIZZLE_B, GL_RED));
@@ -159,12 +155,12 @@ namespace Ogre {
         uint32 width = mWidth;
         uint32 height = mHeight;
         uint32 depth = mDepth;
-        
-        if (PixelUtil::isCompressed(mFormat))
-        {
+
+        if (PixelUtil::is_compressed(mFormat)) {
             // Compressed formats
-            GLsizei size = static_cast<GLsizei>(PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat));
-            
+            GLsizei size = static_cast<GLsizei>(
+                PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat));
+
             // Provide temporary buffer filled with zeroes as glCompressedTexImageXD does not
             // accept a 0 pointer like normal glTexImageXD
             // Run through this process for every mipmap to pregenerate mipmap pyramid
@@ -172,8 +168,9 @@ namespace Ogre {
             std::vector<uint8> tmpdata(size);
             for (uint32 mip = 0; mip <= mNumMipmaps; mip++)
             {
-                size = static_cast<GLsizei>(PixelUtil::getMemorySize(width, height, depth, mFormat));
-                
+                size = static_cast<GLsizei>(
+                    PixelUtil::get_memory_size(width, height, depth, mFormat));
+
                 switch(mTextureType)
                 {
                     case TEX_TYPE_1D:

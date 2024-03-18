@@ -73,7 +73,7 @@ namespace Ogre {
         GLenum mTextureTypes[OGRE_MAX_TEXTURE_LAYERS];
 
         /// Saved manual colour blends
-        ColourValue mManualBlendColours[OGRE_MAX_TEXTURE_LAYERS][2];
+        ColorValue mManualBlendColours[OGRE_MAX_TEXTURE_LAYERS][2];
 
         /// Number of fixed-function texture units
         unsigned short mFixedFunctionTextureUnits;
@@ -246,9 +246,11 @@ namespace Ogre {
                                       const GpuProgramParametersPtr& params, uint16 variabilityMask) override;
 
         void setScissorTest(bool enabled, const Rect& rect = Rect()) override ;
-        void clearFrameBuffer(unsigned int buffers, 
-                              const ColourValue& colour = ColourValue::Black, 
-                              float depth = 1.0f, unsigned short stencil = 0) override;
+        void clearFrameBuffer(
+            unsigned int buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            unsigned short stencil = 0) override;
         HardwareOcclusionQuery* createHardwareOcclusionQuery(void) override;
 
         // ----------------------------------

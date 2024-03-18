@@ -41,13 +41,18 @@ protected:
             mViewport->getMaterialScheme());
 #endif
         // set background and some fog
-        mViewport->setBackgroundColour(ColourValue(1.0f, 1.0f, 0.8f));
-        mSceneMgr->setFog(Ogre::FOG_LINEAR, ColourValue(1.0f, 1.0f, 0.8f), 0, 15, 100);
+        mViewport->setBackgroundColour(ColorValue(1.0f, 1.0f, 0.8f));
+        mSceneMgr->setFog(
+            Ogre::FOG_LINEAR,
+            ColorValue(1.0f, 1.0f, 0.8f),
+            0,
+            15,
+            100);
 
         // set shadow properties
         mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED);
         mSceneMgr->setShadowTexturePixelFormat(PixelFormat::DEPTH16);
-        mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
+        mSceneMgr->setShadowColour(ColorValue(0.5, 0.5, 0.5));
         mSceneMgr->setShadowTextureSize(1024);
         mSceneMgr->setShadowTextureCount(1);
         mSceneMgr->setShadowDirLightTextureOffset(0);
@@ -58,14 +63,14 @@ protected:
         mCameraMan->setStyle(CS_MANUAL);
 
         // use a small amount of ambient lighting
-        mSceneMgr->setAmbientLight(ColourValue(0.3, 0.3, 0.3));
+        mSceneMgr->setAmbientLight(ColorValue(0.3, 0.3, 0.3));
 
         // add a bright light above the scene
         Light* light = mSceneMgr->createLight(Light::LT_POINT);
         mSceneMgr->getRootSceneNode()
             ->createChildSceneNode(Vector3(-10, 40, 20))
             ->attachObject(light);
-        light->setSpecularColour(ColourValue::White);
+        light->setSpecularColour(ColorValue::White);
 
         // create a floor mesh resource
         MeshManager::singleton().createPlane(

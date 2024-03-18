@@ -78,7 +78,7 @@ void TinyWindow::copyContentsToMemory(const Box& src, const PixelBox& dst, Frame
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box");
     }
 
-    PixelUtil::bulkPixelConversion(
+    PixelUtil::bulk_pixel_conversion(
         mBuffer.getPixelBox().get_sub_volume(src),
         dst);
 }

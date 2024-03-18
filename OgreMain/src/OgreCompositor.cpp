@@ -216,7 +216,7 @@ void Compositor::createGlobalTextures()
                         *p,
                         TU_RENDERTARGET,
                         0,
-                        def->hwGammaWrite && !PixelUtil::isFloatingPoint(*p),
+                        def->hwGammaWrite && !PixelUtil::is_floating_point(*p),
                         def->fsaa);
 
                     RenderTexture* rt = tex->getBuffer()->getRenderTarget();
@@ -253,7 +253,7 @@ void Compositor::createGlobalTextures()
                     TU_RENDERTARGET,
                     0,
                     def->hwGammaWrite
-                        && !PixelUtil::isFloatingPoint(def->formatList[0]),
+                        && !PixelUtil::is_floating_point(def->formatList[0]),
                     def->fsaa);
 
                 rendTarget = tex->getBuffer()->getRenderTarget();

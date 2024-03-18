@@ -1852,8 +1852,8 @@ namespace Ogre
         uint16 mDefaultGlobalColourMapSize;
         uint16 mLightmapSize;
         uint16 mCompositeMapSize;
-        ColourValue mCompositeMapAmbient;
-        ColourValue mCompositeMapDiffuse;
+        ColorValue mCompositeMapAmbient;
+        ColorValue mCompositeMapDiffuse;
         Real mCompositeMapDistance;
         String mResourceGroup;
         bool mUseVertexCompressionWhenAvailable;
@@ -1877,14 +1877,26 @@ namespace Ogre
         const Vector3& getLightMapDirection() const { return mLightMapDir; }
         /** Set the shadow map light direction to use (world space). */
         void setLightMapDirection(const Vector3& v) { mLightMapDir = v; }
-        /// Get the composite map ambient light to use 
-        const ColourValue& getCompositeMapAmbient() const { return mCompositeMapAmbient; }
-        /// Set the composite map ambient light to use 
-        void setCompositeMapAmbient(const ColourValue& c) { mCompositeMapAmbient = c; }
-        /// Get the composite map iffuse light to use 
-        const ColourValue& getCompositeMapDiffuse() const { return mCompositeMapDiffuse; }
-        /// Set the composite map diffuse light to use 
-        void setCompositeMapDiffuse(const ColourValue& c) { mCompositeMapDiffuse = c; }
+        /// Get the composite map ambient light to use
+        const ColorValue& getCompositeMapAmbient() const
+        {
+            return mCompositeMapAmbient;
+        }
+        /// Set the composite map ambient light to use
+        void setCompositeMapAmbient(const ColorValue& c)
+        {
+            mCompositeMapAmbient = c;
+        }
+        /// Get the composite map iffuse light to use
+        const ColorValue& getCompositeMapDiffuse() const
+        {
+            return mCompositeMapDiffuse;
+        }
+        /// Set the composite map diffuse light to use
+        void setCompositeMapDiffuse(const ColorValue& c)
+        {
+            mCompositeMapDiffuse = c;
+        }
         /// Get the distance at which to start using a composite map if present
         Real getCompositeMapDistance() const { return mCompositeMapDistance; }
         /// Set the distance at which to start using a composite map if present

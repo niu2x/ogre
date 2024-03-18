@@ -1217,9 +1217,11 @@ namespace Ogre {
         OGRE_CHECK_GL_ERROR(glScissor(rect.left, top, rect.width(), rect.height()));
     }
 
-    void GLES2RenderSystem::clearFrameBuffer(unsigned int buffers,
-                                            const ColourValue& colour,
-                                            float depth, unsigned short stencil)
+    void GLES2RenderSystem::clearFrameBuffer(
+        unsigned int buffers,
+        const ColorValue& colour,
+        float depth,
+        unsigned short stencil)
     {
         uchar* colourWrite = mStateCacheManager->getColourMask();
         bool colourMask = !colourWrite[0] || !colourWrite[1] ||
@@ -1784,7 +1786,7 @@ namespace Ogre {
         glPixelStorei(GL_PACK_ALIGNMENT, 4);
         glPixelStorei(GL_PACK_ROW_LENGTH_NV, 0);
 
-        PixelUtil::bulkPixelVerticalFlip(dst);
+        PixelUtil::bulk_pixel_vertical_flip(dst);
     }
 
     void GLES2RenderSystem::initialiseExtensions(void)

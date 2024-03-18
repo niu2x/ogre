@@ -271,7 +271,10 @@ namespace Ogre {
             "VertexElement::multiplyTypeCount");
     }
     //--------------------------------------------------------------------------
-    void VertexElement::convertColourValue(VertexElementType srcType, VertexElementType dstType, uint32* ptr)
+    void VertexElement::convertColorValue(
+        VertexElementType srcType,
+        VertexElementType dstType,
+        uint32* ptr)
     {
         if (srcType == dstType)
             return;

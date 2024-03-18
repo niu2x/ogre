@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "log_manager.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 #include "OgreVulkanExports.h"
 #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX

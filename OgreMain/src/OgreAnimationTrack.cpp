@@ -251,7 +251,10 @@ namespace Ogre {
         case AnimableValue::QUATERNION:
             return Math::lerp(std::any_cast<Quaternion>(v0), std::any_cast<Quaternion>(v1), t);
         case AnimableValue::COLOUR:
-            return Math::lerp(std::any_cast<ColourValue>(v0), std::any_cast<ColourValue>(v1), t);
+            return Math::lerp(
+                std::any_cast<ColorValue>(v0),
+                std::any_cast<ColorValue>(v1),
+                t);
         case AnimableValue::RADIAN:
             return Math::lerp(std::any_cast<Radian>(v0), std::any_cast<Radian>(v1), t);
         }
@@ -313,7 +316,7 @@ namespace Ogre {
         case AnimableValue::QUATERNION:
             return std::any_cast<Quaternion>(v) * s;
         case AnimableValue::COLOUR:
-            return std::any_cast<ColourValue>(v) * s;
+            return std::any_cast<ColorValue>(v) * s;
         case AnimableValue::RADIAN:
             return std::any_cast<Radian>(v) * s;
         }

@@ -72,9 +72,9 @@ namespace Ogre {
 
         void _affectParticles(ParticleSystem* pSystem, Real timeElapsed) override;
 
-        void setColourAdjust(size_t index, ColourValue colour);
-        ColourValue getColourAdjust(size_t index) const;
-        
+        void setColourAdjust(size_t index, ColorValue colour);
+        ColorValue getColourAdjust(size_t index) const;
+
         void setTimeAdjust(size_t index, Real time);
         Real getTimeAdjust(size_t index) const;
         
@@ -85,7 +85,7 @@ namespace Ogre {
         void _initParticle(Particle* pParticle) override;
 
     protected:
-        ColourValue             mColourAdj[MAX_STAGES];
+        ColorValue mColourAdj[MAX_STAGES];
         Real                    mTimeAdj[MAX_STAGES];
 
     };

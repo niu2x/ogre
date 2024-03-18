@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreVulkanTextureGpuWindow.h"
 #include "OgreVulkanUtils.h"
 
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "vector.h"
 #include "OgreRoot.h"
 
@@ -159,12 +159,9 @@ namespace Ogre
 
         if( textureFlags & TU_RENDERTARGET )
         {
-            if( PixelUtil::isDepth( format ) )
-            {
+            if (PixelUtil::is_depth(format)) {
                 features |= VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT;
-            }
-            else
-            {
+            } else {
                 features |= VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT |
                             VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT;
             }

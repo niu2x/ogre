@@ -49,10 +49,11 @@ void Sample_VolumeTex::setupContent()
         PixelFormat::BYTE_RGBA);
 
     // Set ambient light
-    mSceneMgr->setAmbientLight(ColourValue(0.6, 0.6, 0.6));
+    mSceneMgr->setAmbientLight(ColorValue(0.6, 0.6, 0.6));
     mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox", 50 );
 
-    //mRoot->getRenderSystem()->clearFrameBuffer(FBT_COLOUR, ColourValue(255,255,255,0));
+    // mRoot->getRenderSystem()->clearFrameBuffer(FBT_COLOUR,
+    // ColorValue(255,255,255,0));
 
     // Create a light
     Light* l = mSceneMgr->createLight("MainLight");
@@ -147,7 +148,7 @@ void Sample_VolumeTex::generate()
     d.str("");
     d << "PixelBox " << pb.width() << " " << pb.height() << " " << pb.depth()
       << " " << pb.row_pitch << " " << pb.slice_pitch << " " << pb.data << " "
-      << PixelUtil::getFormatName(pb.format);
+      << PixelUtil::get_format_name(pb.format);
     LogManager::singleton().log_message(d.str());
 
     Ogre::uint32 *pbptr = reinterpret_cast<Ogre::uint32*>(pb.data);
@@ -171,7 +172,7 @@ void Sample_VolumeTex::generate()
                     if(val > vcut)
                         val = vcut;
 
-                    PixelUtil::packColour(
+                    PixelUtil::pack_color(
                         (float)x / pb.width(),
                         (float)y / pb.height(),
                         (float)z / pb.depth(),

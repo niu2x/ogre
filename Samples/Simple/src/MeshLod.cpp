@@ -27,7 +27,7 @@ void Sample_MeshLod::setupContent()
 {
     mCameraMan->setStyle(CS_ORBIT);
 
-    mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));  // set ambient light
+    mSceneMgr->setAmbientLight(ColorValue(0.5, 0.5, 0.5)); // set ambient light
 
     // make the scene's main light come from above
     Light* l = mSceneMgr->createLight();

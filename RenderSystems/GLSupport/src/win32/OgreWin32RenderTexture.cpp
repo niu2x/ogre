@@ -114,7 +114,7 @@ namespace Ogre {
         if(mUseBind)
         {
             // Only provide bind type when actually binding
-            bttype = PixelUtil::hasAlpha(mInternalFormat)?
+            bttype = PixelUtil::has_alpha(mInternalFormat)?
                 WGL_BIND_TO_TEXTURE_RGBA_ARB : WGL_BIND_TO_TEXTURE_RGB_ARB;
         }
         int texformat = hasAlpha?

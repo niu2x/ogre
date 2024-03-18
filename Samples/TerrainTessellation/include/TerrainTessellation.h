@@ -169,7 +169,7 @@ protected:
         mTerrainGlobals->getDefaultMaterialGenerator()->setLightmapEnabled(false);
 
         mTerrainGlobals->setCompositeMapAmbient(mSceneMgr->getAmbientLight());
-        //mTerrainGlobals->setCompositeMapAmbient(ColourValue::Red);
+        // mTerrainGlobals->setCompositeMapAmbient(ColorValue::Red);
         mTerrainGlobals->setCompositeMapDiffuse(l->getDiffuseColour());
 
         // Configure default import settings for if we use imported image
@@ -228,7 +228,8 @@ protected:
             TFO_ANISOTROPIC);
         MaterialManager::singleton().setDefaultAnisotropy(7);
 
-        mSceneMgr->setFog(FOG_LINEAR, ColourValue(0.7, 0.7, 0.8), 0, 4000, 10000);
+        mSceneMgr
+            ->setFog(FOG_LINEAR, ColorValue(0.7, 0.7, 0.8), 0, 4000, 10000);
 
         mTrayMgr->showCursor();
         
@@ -245,8 +246,8 @@ protected:
         Light* l = mSceneMgr->createLight("tstLight");
         l->setType(Light::LT_DIRECTIONAL);
         l->setDirection(lightdir);
-        l->setDiffuseColour(ColourValue::White);
-        l->setSpecularColour(ColourValue(0.4, 0.4, 0.4));
+        l->setDiffuseColour(ColorValue::White);
+        l->setSpecularColour(ColorValue(0.4, 0.4, 0.4));
 
         configureTerrainDefaults(l);
 
@@ -273,8 +274,8 @@ protected:
 
     void setupLights()
     {
-        mSceneMgr->setAmbientLight(ColourValue::Black); 
-        mViewport->setBackgroundColour(ColourValue(0.41f, 0.41f, 0.41f));
+        mSceneMgr->setAmbientLight(ColorValue::Black);
+        mViewport->setBackgroundColour(ColorValue(0.41f, 0.41f, 0.41f));
     }
 
     void setupControls()

@@ -62,8 +62,9 @@ namespace Ogre
 
         if (mAddressMode.u == TAM_BORDER || mAddressMode.v == TAM_BORDER || mAddressMode.w == TAM_BORDER)
         {
-            auto borderColour =
-                (reversedZ && mCompareEnabled) ? ColourValue::White - mBorderColour : mBorderColour;
+            auto borderColour = (reversedZ && mCompareEnabled)
+                ? ColorValue::White - mBorderColour
+                : mBorderColour;
             memcpy(desc.BorderColor, borderColour.ptr(), sizeof(float)*4);
         }
 

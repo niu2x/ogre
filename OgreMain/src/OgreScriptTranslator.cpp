@@ -607,7 +607,11 @@ namespace Ogre{
         return StringConverter::parse(node->getString(), *result);
     }
     //-------------------------------------------------------------------------
-    bool ScriptTranslator::getColour(AbstractNodeList::const_iterator i, AbstractNodeList::const_iterator end, ColourValue *result, int maxEntries)
+    bool ScriptTranslator::getColour(
+        AbstractNodeList::const_iterator i,
+        AbstractNodeList::const_iterator end,
+        ColorValue* result,
+        int maxEntries)
     {
         int n = 0;
         while(i != end && n < maxEntries)
@@ -1392,7 +1396,7 @@ namespace Ogre{
                         }
                         else
                         {
-                            ColourValue val = ColourValue::White;
+                            ColorValue val = ColorValue::White;
                             if(getColour(prop->values.begin(), prop->values.end(), &val))
                                 mPass->setAmbient(val);
                             else
@@ -1420,7 +1424,7 @@ namespace Ogre{
                         }
                         else
                         {
-                            ColourValue val = ColourValue::White;
+                            ColorValue val = ColorValue::White;
                             if(getColour(prop->values.begin(), prop->values.end(), &val))
                                 mPass->setDiffuse(val);
                             else
@@ -1465,7 +1469,7 @@ namespace Ogre{
                             }
                             else
                             {
-                                ColourValue val;
+                                ColorValue val;
                                 if(getColour(prop->values.begin(), prop->values.end(), &val))
                                 {
                                     if(prop->values.size() == 4)
@@ -1515,7 +1519,7 @@ namespace Ogre{
                         }
                         else
                         {
-                            ColourValue val(0.0f, 0.0f, 0.0f, 1.0f);
+                            ColorValue val(0.0f, 0.0f, 0.0f, 1.0f);
                             if(getColour(prop->values.begin(), prop->values.end(), &val))
                                 mPass->setSelfIllumination(val);
                             else
@@ -1821,7 +1825,7 @@ namespace Ogre{
                         if(getBoolean(prop->values.front(), &val))
                         {
                             FogMode mode = FOG_NONE;
-                            ColourValue clr = ColourValue::White;
+                            ColorValue clr = ColorValue::White;
                             Real dens = 0.001, start = 0.0f, end = 1.0f;
 
                             if(i1 != prop->values.end())
@@ -2410,7 +2414,7 @@ namespace Ogre{
             }
             else
             {
-                ColourValue val;
+                ColorValue val;
                 if(getColour(prop->values.begin(), prop->values.end(), &val))
                     sampler->setBorderColour(val);
                 else
@@ -2653,7 +2657,10 @@ namespace Ogre{
                                     default:
                                         if(!StringConverter::parse(atom->value, mipmaps))
                                         {
-                                            format = PixelUtil::getFormatFromName(atom->value, true);
+                                            format = PixelUtil::
+                                                get_format_from_name(
+                                                    atom->value,
+                                                    true);
 
                                             if (format == PixelFormat::UNKNOWN)
                                                 compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS,
@@ -2883,7 +2890,8 @@ namespace Ogre{
                         LayerBlendSource source1, source2;
                         if (getValue(*i0, op) && getValue(*i1, source1) && getValue(*i2, source2))
                         {
-                            ColourValue arg1 = ColourValue::White, arg2 = ColourValue::White;
+                            ColorValue arg1 = ColorValue::White,
+                                       arg2 = ColorValue::White;
                             Real manualBlend = 0.0f;
 
                             if (op == LayerBlendOperationEx::BLEND_MANUAL) {
@@ -4770,7 +4778,10 @@ namespace Ogre{
                                 else
                                 {
                                     // pixel format?
-                                    PixelFormat format = PixelUtil::getFormatFromName(atom->value, true);
+                                    PixelFormat format
+                                        = PixelUtil::get_format_from_name(
+                                            atom->value,
+                                            true);
                                     if (format == PixelFormat::UNKNOWN) {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, atom->value);
                                         return;
@@ -5093,7 +5104,7 @@ namespace Ogre{
                             compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line);
                             return;
                         }
-                        ColourValue val;
+                        ColorValue val;
                         if (prop->values.front()->type == ANT_ATOM &&
                             ((AtomAbstractNode*)prop->values.front().get())->id == ID_AUTO)
                             mPass->setAutomaticColour(true);

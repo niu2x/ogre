@@ -97,9 +97,9 @@ namespace Ogre {
             {
                 // Linear interpolation
                 const Real      fract       = float_index - (Real)index;
-             
-                ColourValue from=mColourImage.getColourAt(index, 0, 0),
-                            to=mColourImage.getColourAt(index+1, 0, 0);
+
+                ColorValue from = mColourImage.getColourAt(index, 0, 0),
+                           to = mColourImage.getColourAt(index + 1, 0, 0);
 
                 p->mColour = Math::lerp(from, to, fract).as_BYTE();
             }
@@ -119,8 +119,7 @@ namespace Ogre {
 
         PixelFormat format = mColourImage.getFormat();
 
-        if ( !PixelUtil::isAccessible(format) )
-        {
+        if (!PixelUtil::is_accessible(format)) {
             OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS, "Error: Image is not accessible (rgba) image.",
                     "ColourImageAffector::_loadImage" );
         }

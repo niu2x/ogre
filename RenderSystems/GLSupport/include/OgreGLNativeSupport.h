@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreGLSupportPrerequisites.h"
 #include "OgreConfigOptionMap.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "exception.h"
 #include "OgreGLRenderSystemCommon.h"
 

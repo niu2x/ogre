@@ -40,7 +40,7 @@ namespace Ogre {
             return *img.getData<const vec4b>(mod(uvi[0], img.width()), mod(uvi[1], img.height()));
         }
 
-        virtual bool fragment(const vec3& bar, ColourValue& gl_FragColor) = 0;
+        virtual bool fragment(const vec3& bar, ColorValue& gl_FragColor) = 0;
     };
 
     /**
@@ -59,7 +59,7 @@ namespace Ogre {
             mat4 uniform_Tex;
             mat4 uniform_MVIT;
             vec3 uniform_lightDir;
-            ColourValue uniform_ambientCol;
+            ColorValue uniform_ambientCol;
 
             bool uniform_doLighting;
 
@@ -70,7 +70,7 @@ namespace Ogre {
 
             void vertex(const vec4& vertex, const vec2* uv, const vec3* normal, int gl_VertexID,
                         vec4& gl_Position);
-            bool fragment(const vec3& bar, ColourValue& gl_FragColor) override;
+            bool fragment(const vec3& bar, ColorValue& gl_FragColor) override;
         } mDefaultShader;
 
         bool mDepthTest;
@@ -146,9 +146,11 @@ namespace Ogre {
 
         void setScissorTest(bool enabled, const Rect& rect = Rect()) override;
 
-        void clearFrameBuffer(unsigned int buffers,
-                              const ColourValue& colour = ColourValue::Black,
-                              float depth = 1.0f, unsigned short stencil = 0) override;
+        void clearFrameBuffer(
+            unsigned int buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            unsigned short stencil = 0) override;
         HardwareOcclusionQuery* createHardwareOcclusionQuery(void) override;
 
         /**

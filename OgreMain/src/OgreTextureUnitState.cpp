@@ -37,15 +37,15 @@ namespace Ogre {
     static SamplerPtr DUMMY_SAMPLER = std::make_shared<Sampler>();
 
     Sampler::Sampler()
-        : mBorderColour(ColourValue::Black)
-        , mMaxAniso(1)
-        , mMipmapBias(0)
-        , mMinFilter(FO_LINEAR)
-        , mMagFilter(FO_LINEAR)
-        , mMipFilter(FO_POINT)
-        , mCompareFunc(CMPF_GREATER_EQUAL)
-        , mCompareEnabled(false)
-        , mDirty(true)
+    : mBorderColour(ColorValue::Black)
+    , mMaxAniso(1)
+    , mMipmapBias(0)
+    , mMinFilter(FO_LINEAR)
+    , mMagFilter(FO_LINEAR)
+    , mMipFilter(FO_POINT)
+    , mCompareFunc(CMPF_GREATER_EQUAL)
+    , mCompareEnabled(false)
+    , mDirty(true)
     {
         setAddressingMode(TAM_WRAP);
     }
@@ -530,11 +530,12 @@ namespace Ogre {
         mTextureCoordSetIndex = set;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setColourOperationEx(LayerBlendOperationEx op,
+    void TextureUnitState::setColourOperationEx(
+        LayerBlendOperationEx op,
         LayerBlendSource source1,
         LayerBlendSource source2,
-        const ColourValue& arg1,
-        const ColourValue& arg2,
+        const ColorValue& arg1,
+        const ColorValue& arg2,
         Real manualBlend)
     {
         mColourBlendMode.operation = op;

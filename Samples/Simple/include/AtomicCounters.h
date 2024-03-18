@@ -44,7 +44,7 @@ class _OgreSampleClassExport Sample_AtomicCounters : public SdkSample
 
     void setupContent() override
     {
-        mViewport->setBackgroundColour(ColourValue(0.3, 0.3, 0.3));
+        mViewport->setBackgroundColour(ColorValue(0.3, 0.3, 0.3));
 
         float w = 480.0 / mWindow->width();
         float h = 480.0 / mWindow->height();

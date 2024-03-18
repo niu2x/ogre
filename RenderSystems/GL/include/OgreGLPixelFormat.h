@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __GLPIXELFORMAT_H__
 
 #include "OgreGLPrerequisites.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 namespace Ogre {
     
     /**

@@ -113,7 +113,7 @@ namespace Ogre {
         Real mHeight;
         MaterialPtr mMaterial;
         DisplayString mCaption;
-        ColourValue mColour;
+        ColorValue mColour;
         RealRect mClippingRegion;
 
         GuiMetricsMode mMetricsMode;
@@ -360,10 +360,10 @@ namespace Ogre {
         However, being a common requirement it is in the top-level interface to avoid
         having to set it via the StringInterface all the time.
         */
-        virtual void setColour(const ColourValue& col);
+        virtual void setColour(const ColorValue& col);
 
         /** Gets the colour for this element. */
-        virtual const ColourValue& getColour(void) const;
+        virtual const ColorValue& getColour(void) const;
 
         /** Tells this element how to interpret the position and dimension values it is given.
 

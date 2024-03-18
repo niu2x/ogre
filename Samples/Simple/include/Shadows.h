@@ -43,14 +43,19 @@ class LightWibbler : public ControllerValue<float>
 protected:
     Light* mLight;
     Billboard* mBillboard;
-    ColourValue mColourRange;
-    ColourValue mMinColour;
+    ColorValue mColourRange;
+    ColorValue mMinColour;
     Real mMinSize;
     Real mSizeRange;
     float intensity;
 public:
-    LightWibbler(Light* light, Billboard* billboard, const ColourValue& minColour, 
-        const ColourValue& maxColour, Real minSize, Real maxSize)
+    LightWibbler(
+        Light* light,
+        Billboard* billboard,
+        const ColorValue& minColour,
+        const ColorValue& maxColour,
+        Real minSize,
+        Real maxSize)
     {
         mLight = light;
         mBillboard = billboard;
@@ -71,7 +76,7 @@ public:
         intensity = value;
 
         // Attenuate the brightness of the light
-        ColourValue newColour = mMinColour + (mColourRange * intensity);
+        ColorValue newColour = mMinColour + (mColourRange * intensity);
 
         mLight->setDiffuseColour(newColour);
         mBillboard->setColour(newColour);
@@ -94,8 +99,8 @@ protected:
     Light* mSunLight;
     SceneNode* mLightNode;
     AnimationState* mLightAnimationState;
-    ColourValue mMinLightColour;
-    ColourValue mMaxLightColour;
+    ColorValue mMinLightColour;
+    ColorValue mMaxLightColour;
     Real mMinFlareSize;
     Real mMaxFlareSize;
     ControllerFloat* mController;
@@ -160,7 +165,7 @@ protected:
             mCurrentShadowTechnique = SHADOWTYPE_TEXTURE_MODULATIVE;
         }
         // Set ambient light off
-        mSceneMgr->setAmbientLight(ColourValue(0.0, 0.0, 0.0));
+        mSceneMgr->setAmbientLight(ColorValue(0.0, 0.0, 0.0));
 
         // Fixed light, dim
         mSunLight = mSceneMgr->createLight(Light::LT_SPOTLIGHT);
@@ -298,7 +303,7 @@ protected:
         pPlaneEnt->setCastShadows(false);
         mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(pPlaneEnt);
         mSceneMgr->setShadowTextureSettings(1024, 2);
-        mSceneMgr->setShadowColour(ColourValue(0.5, 0.5, 0.5));
+        mSceneMgr->setShadowColour(ColorValue(0.5, 0.5, 0.5));
         //mSceneMgr->setShowDebugShadows(true);
 
         setupGUI();

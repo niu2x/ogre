@@ -101,12 +101,15 @@ namespace Ogre {
     void ColourFaderAffector2::_affectParticles(ParticleSystem* pSystem, Real timeElapsed)
     {
         // Scale adjustments by time
-        auto dc1 = ColourValue(mRedAdj1, mGreenAdj1, mBlueAdj1, mAlphaAdj1) * timeElapsed;
-        auto dc2 = ColourValue(mRedAdj2, mGreenAdj2, mBlueAdj2, mAlphaAdj2) * timeElapsed;
+        auto dc1 = ColorValue(mRedAdj1, mGreenAdj1, mBlueAdj1, mAlphaAdj1)
+            * timeElapsed;
+        auto dc2 = ColorValue(mRedAdj2, mGreenAdj2, mBlueAdj2, mAlphaAdj2)
+            * timeElapsed;
 
         for (auto p : pSystem->_getActiveParticles())
         {
-            p->mColour = (ColourValue((uchar*)&p->mColour) + (p->mTimeToLive > StateChangeVal ? dc1 : dc2))
+            p->mColour = (ColorValue((uchar*)&p->mColour)
+                          + (p->mTimeToLive > StateChangeVal ? dc1 : dc2))
                              .saturate_copy()
                              .as_BYTE();
         }

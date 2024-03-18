@@ -718,8 +718,9 @@ namespace Ogre
         /** Reports the number of vertices passed to the renderer since the last _beginGeometryCount call. */
         virtual unsigned int _getVertexCount(void) const;
 
-        /// @deprecated use ColourValue::getAsBYTE()
-        OGRE_DEPRECATED static void convertColourValue(const ColourValue& colour, uint32* pDest)
+        /// @deprecated use ColorValue::getAsBYTE()
+        OGRE_DEPRECATED static void
+        convertColorValue(const ColorValue& colour, uint32* pDest)
         {
             *pDest = colour.as_BYTE();
         }
@@ -889,8 +890,12 @@ namespace Ogre
         @param depth The value to initialise the depth buffer with, if enabled
         @param stencil The value to initialise the stencil buffer with, if enabled.
         */
-        virtual void clearFrameBuffer(uint32 buffers, const ColourValue& colour = ColourValue::Black,
-                                      float depth = 1.0f, uint16 stencil = 0) = 0;
+        virtual void clearFrameBuffer(
+            uint32 buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            uint16 stencil = 0)
+            = 0;
         /** Returns the horizontal texel offset value required for mapping 
         texel origins to pixel origins in this rendersystem.
 

@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------
@@ -354,8 +354,8 @@ TextureManager& TextureManager::singleton(void)
         PixelFormat supportedFormat = getNativeFormat(ttype, format, usage);
 
         // Assume that same or greater number of bits means quality not degraded
-        return PixelUtil::getNumElemBits(supportedFormat) >= PixelUtil::getNumElemBits(format);
-        
+        return PixelUtil::get_num_elem_bits(supportedFormat)
+            >= PixelUtil::get_num_elem_bits(format);
     }
 
     bool TextureManager::isHardwareFilteringSupported(TextureType ttype, PixelFormat format,
@@ -380,7 +380,7 @@ TextureManager& TextureManager::singleton(void)
         Image pixels(PixelFormat::R5G6B5, 8, 8);
 
         // Yellow/black stripes
-        const ColourValue black(0, 0, 0), yellow(1, 1, 0);
+        const ColorValue black(0, 0, 0), yellow(1, 1, 0);
         for (uint32 y = 0; y < pixels.height(); ++y)
         {
             for (uint32 x = 0; x < pixels.width(); ++x)

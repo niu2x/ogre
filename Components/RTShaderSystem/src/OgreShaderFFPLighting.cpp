@@ -337,23 +337,22 @@ bool FFPLighting::preAddToRenderState(const RenderState* renderState, Pass* srcP
 	
 	setTrackVertexColourType(srcPass->getVertexColourTracking());
 
-	mSpecularEnable = srcPass->getShininess() > 0.0 && srcPass->getSpecular() != ColourValue::Black;
+    mSpecularEnable = srcPass->getShininess() > 0.0
+        && srcPass->getSpecular() != ColorValue::Black;
 
-	// Case this pass should run once per light(s) -> override the light policy.
-	if (srcPass->getIteratePerLight())
-	{		
-		mLightCount = srcPass->getLightCountPerIteration();
-	}
+    // Case this pass should run once per light(s) -> override the light policy.
+    if (srcPass->getIteratePerLight()) {
+        mLightCount = srcPass->getLightCountPerIteration();
+    }
 
-	if(srcPass->getMaxSimultaneousLights() == 0)
-	{
-		mLightCount = 0;
-	}
+    if (srcPass->getMaxSimultaneousLights() == 0) {
+        mLightCount = 0;
+    }
 
-	if (renderState->haveAreaLights())
-		mLtcLUT1SamplerIndex = ensureLtcLUTPresent(dstPass);
+    if (renderState->haveAreaLights())
+        mLtcLUT1SamplerIndex = ensureLtcLUTPresent(dstPass);
 
-	return true;
+    return true;
 }
 
 bool FFPLighting::set_parameter(const String& name, const String& value)

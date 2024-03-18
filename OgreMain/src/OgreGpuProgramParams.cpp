@@ -497,7 +497,9 @@ namespace Ogre
         _setNamedConstant(name, m[0][0], 16 * numEntries);
     }
     //---------------------------------------------------------------------
-    void GpuSharedParameters::setNamedConstant(const String& name, const ColourValue& colour)
+    void GpuSharedParameters::setNamedConstant(
+        const String& name,
+        const ColorValue& colour)
     {
         _setNamedConstant(name, colour.ptr(), 4);
     }
@@ -896,7 +898,8 @@ namespace Ogre
 
     }
     //-----------------------------------------------------------------------------
-    void GpuProgramParameters::setConstant(size_t index, const ColourValue& colour)
+    void
+    GpuProgramParameters::setConstant(size_t index, const ColorValue& colour)
     {
         setConstant(index, colour.ptr(), 1);
     }
@@ -1003,8 +1006,10 @@ namespace Ogre
 
     }
     //-----------------------------------------------------------------------------
-    void GpuProgramParameters::_writeRawConstant(size_t physicalIndex,
-                                                 const ColourValue& colour, size_t count)
+    void GpuProgramParameters::_writeRawConstant(
+        size_t physicalIndex,
+        const ColorValue& colour,
+        size_t count)
     {
         // write either the number requested (for packed types) or up to 4
         _writeRawConstants(physicalIndex, colour.ptr(), std::min(count, (size_t)4));
@@ -2070,25 +2075,33 @@ namespace Ogre
                     break;
                 case ACT_LIGHT_DIFFUSE_COLOUR_ARRAY:
                     for (size_t l = 0; l < ac.data; ++l)
-                        _writeRawConstant(ac.physicalIndex + l*sizeof(ColourValue),
-                                          source->getLightDiffuseColour(l), ac.elementCount);
+                        _writeRawConstant(
+                            ac.physicalIndex + l * sizeof(ColorValue),
+                            source->getLightDiffuseColour(l),
+                            ac.elementCount);
                     break;
 
                 case ACT_LIGHT_SPECULAR_COLOUR_ARRAY:
                     for (size_t l = 0; l < ac.data; ++l)
-                        _writeRawConstant(ac.physicalIndex + l*sizeof(ColourValue),
-                                          source->getLightSpecularColour(l), ac.elementCount);
+                        _writeRawConstant(
+                            ac.physicalIndex + l * sizeof(ColorValue),
+                            source->getLightSpecularColour(l),
+                            ac.elementCount);
                     break;
                 case ACT_LIGHT_DIFFUSE_COLOUR_POWER_SCALED_ARRAY:
                     for (size_t l = 0; l < ac.data; ++l)
-                        _writeRawConstant(ac.physicalIndex + l*sizeof(ColourValue),
-                                          source->getLightDiffuseColourWithPower(l), ac.elementCount);
+                        _writeRawConstant(
+                            ac.physicalIndex + l * sizeof(ColorValue),
+                            source->getLightDiffuseColourWithPower(l),
+                            ac.elementCount);
                     break;
 
                 case ACT_LIGHT_SPECULAR_COLOUR_POWER_SCALED_ARRAY:
                     for (size_t l = 0; l < ac.data; ++l)
-                        _writeRawConstant(ac.physicalIndex + l*sizeof(ColourValue),
-                                          source->getLightSpecularColourWithPower(l), ac.elementCount);
+                        _writeRawConstant(
+                            ac.physicalIndex + l * sizeof(ColorValue),
+                            source->getLightSpecularColourWithPower(l),
+                            ac.elementCount);
                     break;
 
                 case ACT_LIGHT_POSITION_ARRAY:
@@ -2161,17 +2174,21 @@ namespace Ogre
                 case ACT_DERIVED_LIGHT_DIFFUSE_COLOUR_ARRAY:
                     for (size_t l = 0; l < ac.data; ++l)
                     {
-                        _writeRawConstant(ac.physicalIndex + l*sizeof(ColourValue),
-                                          source->getLightDiffuseColourWithPower(l) * source->getSurfaceDiffuseColour(),
-                                          ac.elementCount);
+                        _writeRawConstant(
+                            ac.physicalIndex + l * sizeof(ColorValue),
+                            source->getLightDiffuseColourWithPower(l)
+                                * source->getSurfaceDiffuseColour(),
+                            ac.elementCount);
                     }
                     break;
                 case ACT_DERIVED_LIGHT_SPECULAR_COLOUR_ARRAY:
                     for (size_t l = 0; l < ac.data; ++l)
                     {
-                        _writeRawConstant(ac.physicalIndex + l*sizeof(ColourValue),
-                                          source->getLightSpecularColourWithPower(l) * source->getSurfaceSpecularColour(),
-                                          ac.elementCount);
+                        _writeRawConstant(
+                            ac.physicalIndex + l * sizeof(ColorValue),
+                            source->getLightSpecularColourWithPower(l)
+                                * source->getSurfaceSpecularColour(),
+                            ac.elementCount);
                     }
                     break;
                 case ACT_TEXTURE_VIEWPROJ_MATRIX:
@@ -2299,7 +2316,9 @@ namespace Ogre
             _writeRawConstant(withArrayOffset(def, name), m, numEntries);
     }
     //---------------------------------------------------------------------------
-    void GpuProgramParameters::setNamedConstant(const String& name, const ColourValue& colour)
+    void GpuProgramParameters::setNamedConstant(
+        const String& name,
+        const ColorValue& colour)
     {
         // look up, and throw an exception if we're not ignoring missing
         const GpuConstantDefinition* def =

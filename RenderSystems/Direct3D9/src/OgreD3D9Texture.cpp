@@ -309,7 +309,8 @@ namespace Ogre
     /****************************************************************************************/
     size_t D3D9Texture::calculateSize(void) const
     {
-        size_t instanceSize = getNumFaces() * PixelUtil::getMemorySize(mWidth, mHeight, mDepth, mFormat);
+        size_t instanceSize = getNumFaces()
+            * PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
 
         return instanceSize * mMapDeviceToTextureResources.size();
     }
@@ -363,7 +364,7 @@ namespace Ogre
             mUsage |= TU_DYNAMIC;
         }
 
-        if(!PixelUtil::isDepth(mFormat))
+        if (!PixelUtil::is_depth(mFormat))
             mFormat = TextureManager::singleton().getNativeFormat(
                 mTextureType,
                 mFormat,
@@ -473,8 +474,7 @@ namespace Ogre
         else
             textureResources = allocateTextureResources(d3d9Device);
 
-        if(PixelUtil::isDepth(mFormat))
-        {
+        if (PixelUtil::is_depth(mFormat)) {
             usage = D3DUSAGE_DEPTHSTENCIL;
             mD3DPool = D3DPOOL_DEFAULT;
             // we cannot resolve depth on D3D9
@@ -1374,8 +1374,7 @@ namespace Ogre
             auto device = D3D9RenderSystem::getActiveD3D9Device();
             auto d3dBuffer = static_cast<D3D9HardwarePixelBuffer*>(mBuffer);
 
-            if(PixelUtil::isDepth(mBuffer->getFormat()))
-            {
+            if (PixelUtil::is_depth(mBuffer->getFormat())) {
                 *static_cast<IDirect3DSurface9**>(pData) = d3dBuffer->getNullSurface(device);
                 return;
             }

@@ -124,7 +124,9 @@ namespace Ogre {
 
         if (mAddressMode.u == TAM_BORDER || mAddressMode.v == TAM_BORDER || mAddressMode.w == TAM_BORDER)
         {
-            auto borderColour = (reversedZ && mCompareEnabled) ? ColourValue::White - mBorderColour : mBorderColour;
+            auto borderColour = (reversedZ && mCompareEnabled)
+                ? ColorValue::White - mBorderColour
+                : mBorderColour;
             OGRE_CHECK_GL_ERROR(glSamplerParameterfv( mSamplerId, GL_TEXTURE_BORDER_COLOR, borderColour.ptr()));
         }
         OGRE_CHECK_GL_ERROR(glSamplerParameterf(mSamplerId, GL_TEXTURE_LOD_BIAS, mMipmapBias));
@@ -223,16 +225,14 @@ namespace Ogre {
 
         // Check compressed texture support
         // if a compressed format not supported, revert to PixelFormat::A8R8G8B8
-        if(PixelUtil::isCompressed(format) &&
-           !caps->hasCapability( RSC_TEXTURE_COMPRESSION_DXT ))
-        {
+        if (PixelUtil::is_compressed(format)
+            && !caps->hasCapability(RSC_TEXTURE_COMPRESSION_DXT)) {
             return PixelFormat::BYTE_RGBA;
         }
         // if floating point textures not supported, revert to
         // PixelFormat::A8R8G8B8
-        if (PixelUtil::isFloatingPoint(format) &&
-            !caps->hasCapability(RSC_TEXTURE_FLOAT))
-        {
+        if (PixelUtil::is_floating_point(format)
+            && !caps->hasCapability(RSC_TEXTURE_FLOAT)) {
             return PixelFormat::BYTE_RGBA;
         }
 

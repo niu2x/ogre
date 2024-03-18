@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreVulkanPrerequisites.h"
 
 #include "OgreCommon.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 #include "OgreHeaderPrefix.h"
 
@@ -101,8 +101,9 @@ namespace Ogre
 
         void calculateSharedKey( void );
 
-        static VkClearColorValue getClearColour( const ColourValue &clearColour,
-                                                 PixelFormatGpu pixelFormat );
+        static VkClearColorValue getClearColour(
+            const ColorValue& clearColour,
+            PixelFormatGpu pixelFormat);
         void setupColourAttachment( const size_t idx, VulkanFrameBufferDescValue &fboDesc,
                                     VkAttachmentDescription *attachments, uint32 &currAttachmIdx,
                                     VkAttachmentReference *colourAttachRefs,
@@ -120,14 +121,14 @@ namespace Ogre
 
         virtual void entriesModified( bool createFbo );
 
-        virtual void setClearColour( uint8 idx, const ColourValue &clearColour );
+        virtual void setClearColour(uint8 idx, const ColorValue& clearColour);
         virtual void setClearDepth( float clearDepth );
         virtual void setClearStencil( uint32 clearStencil );
 
         /// Sets the clear colour to all entries. In some APIs may be faster
         /// than calling setClearColour( idx, clearColour ) for each entry
         /// individually.
-        virtual void setClearColour( const ColourValue &clearColour );
+        virtual void setClearColour(const ColorValue& clearColour);
 
         VkRenderPass getRenderPass() const;
 

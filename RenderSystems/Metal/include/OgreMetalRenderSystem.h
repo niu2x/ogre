@@ -147,9 +147,11 @@ namespace Ogre
         void bindGpuProgram(GpuProgram* prg);
         virtual void bindGpuProgramParameters(GpuProgramType gptype,
             const GpuProgramParametersPtr& params, uint16 variabilityMask);
-        virtual void clearFrameBuffer(unsigned int buffers,
-            const ColourValue& colour = ColourValue::Black,
-            float depth = 1.0f, unsigned short stencil = 0);
+        virtual void clearFrameBuffer(
+            unsigned int buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            unsigned short stencil = 0);
 
         virtual Real getMinimumDepthInputValue(void);
         virtual Real getMaximumDepthInputValue(void);

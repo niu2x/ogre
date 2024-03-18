@@ -70,7 +70,7 @@ namespace Ogre {
         //            << " face: " << mFace << " level: " << mLevel
         //            << " width: " << mWidth << " height: "<< mHeight << "
         //            depth: " << mDepth
-        //            << " format: " << PixelUtil::getFormatName(mFormat)
+        //            << " format: " << PixelUtil::get_format_name(mFormat)
         //            << "(internal 0x" << std::hex << value << ")";
         //        LogManager::singleton().log_message(LogMsgLevel::NORMAL,
         //        str.str());
@@ -127,7 +127,7 @@ namespace Ogre {
 
         PixelBox tmp(data.width(), data.height(), data.height(), data.format);
         tmp.data = buffer.lockImpl(0, dataSize, HardwareBuffer::HBL_DISCARD);
-        PixelUtil::bulkPixelConversion(data, tmp);
+        PixelUtil::bulk_pixel_conversion(data, tmp);
         buffer.unlockImpl(dataSize);
 
         // std::stringstream str;
@@ -140,7 +140,7 @@ namespace Ogre {
         // << " face: " << mFace << " level: " << mLevel
         // << " width: " << mWidth << " height: "<< mHeight << " depth: " <<
         // mDepth
-        // << " format: " << PixelUtil::getFormatName(mFormat);
+        // << " format: " << PixelUtil::get_format_name(mFormat);
         // LogManager::singleton().log_message(LogMsgLevel::NORMAL, str.str());
 
         void* pdata = NULL;
@@ -148,8 +148,7 @@ namespace Ogre {
         void* pdata = data.get_top_left_front_pixel_ptr();
 #endif
 
-        if (PixelUtil::isCompressed(data.format))
-        {
+        if (PixelUtil::is_compressed(data.format)) {
             if (data.format != mFormat || !data.is_consecutive())
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Compressed images must be consecutive and in the designated source format",
@@ -203,9 +202,7 @@ namespace Ogre {
                 break;
             }
 
-        }
-        else
-        {
+        } else {
 #ifndef USE_PBO
             if (data.width() != data.row_pitch)
                 OGRE_CHECK_GL_ERROR(
@@ -215,15 +212,15 @@ namespace Ogre {
                     GL_UNPACK_IMAGE_HEIGHT,
                     (data.slice_pitch / data.width())));
 #endif
-            if ((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+            if ((data.width() * PixelUtil::get_num_elem_bytes(data.format))
+                & 3) {
                 // Standard alignment of 4 is not right.
                 OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
             }
 
             GLenum type = GL3PlusPixelUtil::getGLOriginDataType(data.format);
 
-            if (PixelUtil::isDepth(data.format))
-            {
+            if (PixelUtil::is_depth(data.format)) {
                 switch (GL3PlusPixelUtil::getGLInternalFormat(data.format))
                 {
                     case GL_DEPTH_COMPONENT16:
@@ -310,14 +307,13 @@ namespace Ogre {
         //        << " face: " << mFace << " level: " << mLevel
         //        << " width: " << mWidth << " height: "<< mHeight << " depth: "
         //        << mDepth
-        //        << " format: " << PixelUtil::getFormatName(mFormat);
+        //        << " format: " << PixelUtil::get_format_name(mFormat);
         //        LogManager::singleton().log_message(LogMsgLevel::NORMAL,
         //        str.str());
 
         mRenderSystem->_getStateCacheManager()->bindGLTexture(mTarget, mTextureID);
 
-        if (PixelUtil::isCompressed(data.format))
-        {
+        if (PixelUtil::is_compressed(data.format)) {
             if (data.format != mFormat || !data.is_consecutive())
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Compressed images must be consecutive, in the source format",
@@ -325,10 +321,9 @@ namespace Ogre {
             // Data must be consecutive and at beginning of buffer as PixelStorei not allowed
             // for compressed formate
             OGRE_CHECK_GL_ERROR(glGetCompressedTexImage(mFaceTarget, mLevel, 0));
-        }
-        else
-        {
-            if ((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+        } else {
+            if ((data.width() * PixelUtil::get_num_elem_bytes(data.format))
+                & 3) {
                 // Standard alignment of 4 is not right
                 OGRE_CHECK_GL_ERROR(glPixelStorei(GL_PACK_ALIGNMENT, 1));
             }
@@ -350,7 +345,8 @@ namespace Ogre {
                 data.get_top_left_front_pixel_ptr());
         else
         {
-            size_t srcOffset = 0, elemSizeInBytes = PixelUtil::getNumElemBytes(data.format);
+            size_t srcOffset = 0,
+                   elemSizeInBytes = PixelUtil::get_num_elem_bytes(data.format);
             for(size_t z = 0; z < mDepth; ++z)
                 for(size_t y = 0; y < mHeight; ++y)
                 {
@@ -429,7 +425,7 @@ namespace Ogre {
         mRenderSystem->_getStateCacheManager()->bindGLFrameBuffer( GL_DRAW_FRAMEBUFFER, tempFBO[0] );
         mRenderSystem->_getStateCacheManager()->bindGLFrameBuffer( GL_READ_FRAMEBUFFER, tempFBO[1] );
 
-        bool isDepth = PixelUtil::isDepth(mFormat);
+        bool isDepth = PixelUtil::is_depth(mFormat);
 
         // Process each destination slice
         for(uint32 slice = dstBox.front; slice < dstBox.back; ++slice)
@@ -561,7 +557,7 @@ namespace Ogre {
             // source format for GL. Do conversion in temporary buffer.
             allocateBuffer();
             converted = mBuffer.get_sub_volume(src);
-            PixelUtil::bulkPixelConversion(src, converted);
+            PixelUtil::bulk_pixel_conversion(src, converted);
         }
         else
         {
@@ -601,7 +597,7 @@ namespace Ogre {
                     Image::FILTER_BILINEAR);
             } else {
                 // Just copy the bit that we need
-                PixelUtil::bulkPixelConversion(
+                PixelUtil::bulk_pixel_conversion(
                     mBuffer.get_sub_volume(srcBox),
                     dst);
             }

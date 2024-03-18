@@ -103,9 +103,9 @@ namespace Ogre {
         /// Initial time-to-live of particles (max)
         Real mMaxTTL;
         /// Initial colour of particles (range start)
-        ColourValue mColourRangeStart;
+        ColorValue mColourRangeStart;
         /// Initial colour of particles (range end)
-        ColourValue mColourRangeEnd;
+        ColorValue mColourRangeEnd;
 
         /// Whether this emitter is currently enabled (defaults to true)
         bool mEnabled;
@@ -348,7 +348,7 @@ namespace Ogre {
             a range of colours to be assigned to particles.
         @param colour The colour which all particles will be given on emission.
         */
-        virtual void setColour(const ColourValue& colour);
+        virtual void setColour(const ColorValue& colour);
         /** Sets the range of colours for emitted particles.
 
             Particles have an initial colour on emission which the emitter sets. This method sets
@@ -358,17 +358,18 @@ namespace Ogre {
         @param colourStart The start of the colour range
         @param colourEnd The end of the colour range
         */
-        virtual void setColour(const ColourValue& colourStart, const ColourValue& colourEnd);
+        virtual void
+        setColour(const ColorValue& colourStart, const ColorValue& colourEnd);
         /** Sets the minimum colour of particles to be emitted. */
-        virtual void setColourRangeStart(const ColourValue& colour);
+        virtual void setColourRangeStart(const ColorValue& colour);
         /** Sets the maximum colour of particles to be emitted. */
-        virtual void setColourRangeEnd(const ColourValue& colour);
+        virtual void setColourRangeEnd(const ColorValue& colour);
         /** Gets the colour of particles to be emitted. */
-        virtual const ColourValue& getColour(void) const;
+        virtual const ColorValue& getColour(void) const;
         /** Gets the minimum colour of particles to be emitted. */
-        virtual const ColourValue& getColourRangeStart(void) const;
+        virtual const ColorValue& getColourRangeStart(void) const;
         /** Gets the maximum colour of particles to be emitted. */
-        virtual const ColourValue& getColourRangeEnd(void) const;
+        virtual const ColorValue& getColourRangeEnd(void) const;
 
         /** Gets the number of particles which this emitter would like to emit based on the time elapsed.
 

@@ -163,8 +163,8 @@ protected:
 
     void setupLights()
     {
-        mSceneMgr->setAmbientLight(ColourValue::Black); 
-        mViewport->setBackgroundColour(ColourValue(0.41f, 0.41f, 0.41f));
+        mSceneMgr->setAmbientLight(ColorValue::Black);
+        mViewport->setBackgroundColour(ColorValue(0.41f, 0.41f, 0.41f));
 
         // create pivot nodes
         mLightPivot1 = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -188,7 +188,7 @@ protected:
         // create white flare
         bbs = mSceneMgr->createBillboardSet();
         bbs->setMaterialName("Examples/Flare");
-        bbs->createBillboard(200, 0, 0)->setColour(ColourValue::White);
+        bbs->createBillboard(200, 0, 0)->setColour(ColorValue::White);
         mLightPivot1->attachObject(bbs);
 
         // create red light
@@ -200,7 +200,7 @@ protected:
         // create white flare
         bbs = mSceneMgr->createBillboardSet();
         bbs->setMaterialName("Examples/Flare");
-        bbs->createBillboard(-200, 0, 0)->setColour(ColourValue::Red);
+        bbs->createBillboard(-200, 0, 0)->setColour(ColorValue::Red);
         mLightPivot2->attachObject(bbs);
     }
 

@@ -52,7 +52,7 @@ protected:
     void setupContent() override
     {
         // setup some basic lighting for our scene
-        mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
+        mSceneMgr->setAmbientLight(ColorValue(0.5, 0.5, 0.5));
         mSceneMgr->getRootSceneNode()
             ->createChildSceneNode(Vector3(100, 100, 100))
             ->attachObject(mSceneMgr->createLight());

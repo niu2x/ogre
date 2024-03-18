@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreRenderOperation.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 
 #ifdef __OBJC__
     @protocol MTLBlitCommandEncoder;

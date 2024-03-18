@@ -563,8 +563,12 @@ namespace Ogre
         static DataStreamPtr openFileStream(const String& filename,
                 const String& groupName = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-        /// @deprecated use ColourValue::getAsBYTE()
-        OGRE_DEPRECATED static void convertColourValue(const ColourValue& colour, uint32* pDest) { *pDest = colour.as_BYTE(); }
+        /// @deprecated use ColorValue::getAsBYTE()
+        OGRE_DEPRECATED static void
+        convertColorValue(const ColorValue& colour, uint32* pDest)
+        {
+            *pDest = colour.as_BYTE();
+        }
 
         /** Retrieves a pointer to the window that was created automatically
 

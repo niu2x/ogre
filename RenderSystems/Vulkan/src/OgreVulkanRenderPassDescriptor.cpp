@@ -74,8 +74,9 @@ namespace Ogre
         mSharedFboItor = newItor;
     }
     //-----------------------------------------------------------------------------------
-    VkClearColorValue VulkanRenderPassDescriptor::getClearColour( const ColourValue &clearColour,
-                                                                  PixelFormatGpu pixelFormat )
+    VkClearColorValue VulkanRenderPassDescriptor::getClearColour(
+        const ColorValue& clearColour,
+        PixelFormatGpu pixelFormat)
     {
         const bool isInteger = PixelUtil::isInteger( pixelFormat );
         const bool isSigned = false;//PixelUtil::isSigned( pixelFormat );
@@ -443,7 +444,9 @@ namespace Ogre
             setupFbo( mSharedFboItor->second );
     }
     //-----------------------------------------------------------------------------------
-    void VulkanRenderPassDescriptor::setClearColour( uint8 idx, const ColourValue &clearColour )
+    void VulkanRenderPassDescriptor::setClearColour(
+        uint8 idx,
+        const ColorValue& clearColour)
     {
         //RenderPassDescriptor::setClearColour( idx, clearColour );
 
@@ -484,7 +487,8 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------------------
-    void VulkanRenderPassDescriptor::setClearColour( const ColourValue &clearColour )
+    void
+    VulkanRenderPassDescriptor::setClearColour(const ColorValue& clearColour)
     {
         const size_t numColourEntries = mNumColourEntries;
         size_t attachmentIdx = 0u;

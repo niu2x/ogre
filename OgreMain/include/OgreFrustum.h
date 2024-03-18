@@ -139,7 +139,7 @@ namespace Ogre
         /// Signal to update view information.
         virtual void invalidateView(void) const;
 
-        ColourValue mDebugColour;
+        ColorValue mDebugColour;
         /// Pointer to a reflection plane (automatically updated)
         const MovablePlane* mLinkedReflectPlane;
         /// Pointer to oblique projection plane (automatically updated)
@@ -427,8 +427,8 @@ namespace Ogre
         const String& getMovableType(void) const override;
         void _notifyCurrentCamera(Camera* cam) override;
 
-        void setDebugColour(const ColourValue& col) { mDebugColour = col; }
-        const ColourValue& getDebugColour() const { return mDebugColour; }
+        void setDebugColour(const ColorValue& col) { mDebugColour = col; }
+        const ColorValue& getDebugColour() const { return mDebugColour; }
 
         typedef Vector3 Corners[8];
 

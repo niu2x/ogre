@@ -228,7 +228,7 @@ namespace Ogre {
         return stream.str();
     }
     //-----------------------------------------------------------------------
-    String StringConverter::to_string(const ColourValue& val)
+    String StringConverter::to_string(const ColorValue& val)
     {
         StringStream stream;
         stream << val.r << " " << val.g << " " << val.b << " " << val.a;
@@ -366,7 +366,7 @@ namespace Ogre {
         return parseReals(val, ret.ptr(), 4);
     }
     //-----------------------------------------------------------------------
-    bool StringConverter::parse(const String& val, ColourValue& ret)
+    bool StringConverter::parse(const String& val, ColorValue& ret)
     {
         // Split on space
         std::vector<String> vec = StringUtil::split(val);

@@ -31,7 +31,7 @@ Copyright (c) 2000-2016 Torus Knot Software Ltd
 
 #include "OgreMetalPrerequisites.h"
 
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "blend_mode.h"
 #include "OgreGpuProgramParams.h"
 #include "OgreRenderSystem.h"

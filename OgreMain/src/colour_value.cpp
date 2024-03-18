@@ -29,18 +29,18 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-    const ColourValue ColourValue::ZERO = ColourValue(0.0,0.0,0.0,0.0);
-    const ColourValue ColourValue::Black = ColourValue(0.0,0.0,0.0);
-    const ColourValue ColourValue::White = ColourValue(1.0,1.0,1.0);
-    const ColourValue ColourValue::Red = ColourValue(1.0,0.0,0.0);
-    const ColourValue ColourValue::Green = ColourValue(0.0,1.0,0.0);
-    const ColourValue ColourValue::Blue = ColourValue(0.0,0.0,1.0);
+const ColorValue ColorValue::ZERO = ColorValue(0.0, 0.0, 0.0, 0.0);
+const ColorValue ColorValue::Black = ColorValue(0.0, 0.0, 0.0);
+const ColorValue ColorValue::White = ColorValue(1.0, 1.0, 1.0);
+const ColorValue ColorValue::Red = ColorValue(1.0, 0.0, 0.0);
+const ColorValue ColorValue::Green = ColorValue(0.0, 1.0, 0.0);
+const ColorValue ColorValue::Blue = ColorValue(0.0, 0.0, 1.0);
 
-    //---------------------------------------------------------------------
+//---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    ABGR ColourValue::as_ABGR(void) const
+ABGR ColorValue::as_ABGR(void) const
 #else
-    RGBA ColourValue::as_RGBA(void) const
+RGBA ColorValue::as_RGBA(void) const
 #endif
     {
         uint8_t val8;
@@ -69,9 +69,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    BGRA ColourValue::as_BGRA(void) const
+    BGRA ColorValue::as_BGRA(void) const
 #else
-    ARGB ColourValue::as_ARGB(void) const
+    ARGB ColorValue::as_ARGB(void) const
 #endif
     {
         uint8_t val8;
@@ -101,9 +101,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    ARGB ColourValue::as_ARGB(void) const
+    ARGB ColorValue::as_ARGB(void) const
 #else
-    BGRA ColourValue::as_BGRA(void) const
+    BGRA ColorValue::as_BGRA(void) const
 #endif
     {
         uint8_t val8;
@@ -133,9 +133,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    RGBA ColourValue::as_RGBA(void) const
+    RGBA ColorValue::as_RGBA(void) const
 #else
-    ABGR ColourValue::as_ABGR(void) const
+    ABGR ColorValue::as_ABGR(void) const
 #endif
     {
         uint8_t val8;
@@ -165,9 +165,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::set_as_ABGR(ABGR val32)
+    void ColorValue::set_as_ABGR(ABGR val32)
 #else
-    void ColourValue::set_as_RGBA(RGBA val32)
+    void ColorValue::set_as_RGBA(RGBA val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -187,9 +187,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::set_as_BGRA(BGRA val32)
+    void ColorValue::set_as_BGRA(BGRA val32)
 #else
-    void ColourValue::set_as_ARGB(ARGB val32)
+    void ColorValue::set_as_ARGB(ARGB val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -209,9 +209,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::set_as_ARGB(ARGB val32)
+    void ColorValue::set_as_ARGB(ARGB val32)
 #else
-    void ColourValue::set_as_BGRA(BGRA val32)
+    void ColorValue::set_as_BGRA(BGRA val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -231,9 +231,9 @@ namespace Ogre {
     }
     //---------------------------------------------------------------------
 #if OGRE_ENDIAN == OGRE_ENDIAN_BIG
-    void ColourValue::set_as_RGBA(RGBA val32)
+    void ColorValue::set_as_RGBA(RGBA val32)
 #else
-    void ColourValue::set_as_ABGR(ABGR val32)
+    void ColorValue::set_as_ABGR(ABGR val32)
 #endif
     {
         // Convert from 32bit pattern
@@ -252,7 +252,7 @@ namespace Ogre {
         r = float(val32 & 0xFF) / 255.0f;
     }
     //---------------------------------------------------------------------
-    void ColourValue::set_as_HSB(float hue, float saturation, float brightness)
+    void ColorValue::set_as_HSB(float hue, float saturation, float brightness)
     {
         // wrap hue
         hue = std::fmod(hue, 1.0f);
@@ -331,7 +331,8 @@ namespace Ogre {
 
     }
     //---------------------------------------------------------------------
-    void ColourValue::as_HSB(float* hue, float* saturation, float* brightness) const
+    void
+    ColorValue::as_HSB(float* hue, float* saturation, float* brightness) const
     {
 
         float vMin = std::min(r, std::min(g, b));

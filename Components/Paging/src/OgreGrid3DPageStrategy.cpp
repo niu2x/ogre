@@ -390,7 +390,7 @@ namespace Ogre
                 mo->begin(matName, RenderOperation::OT_LINE_STRIP);
             }
 
-            ColourValue vcol = ColourValue::Green;
+            ColorValue vcol = ColorValue::Green;
             mo->position(corners[0]); mo->colour(vcol); // First Square...
             mo->position(corners[1]); mo->colour(vcol);
             mo->position(corners[3]); mo->colour(vcol);

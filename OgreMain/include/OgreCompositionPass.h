@@ -133,11 +133,11 @@ namespace Ogre {
         /** Set the viewport clear colour (defaults to 0,0,0,0) 
             @note applies when PassType is CLEAR
          */
-        void setClearColour(const ColourValue &val);
+        void setClearColour(const ColorValue& val);
         /** Get the viewport clear colour (defaults to 0,0,0,0) 
             @note applies when PassType is CLEAR
          */
-        const ColourValue &getClearColour() const;
+        const ColorValue& getClearColour() const;
         /** Set the clear colour to be the background colour of the original viewport
         @note applies when PassType is CLEAR
         */
@@ -367,7 +367,7 @@ namespace Ogre {
             /// Clear buffers
             uint32 buffers;
             /// Clear colour
-            ColourValue colour;
+            ColorValue colour;
             /// Clear colour with the colour of the original viewport. Overrides mClearColour
             bool automaticColour;
             /// Clear depth
@@ -376,8 +376,11 @@ namespace Ogre {
             uint16 stencil;
 
             ClearData()
-                : buffers(FBT_COLOUR | FBT_DEPTH), colour(ColourValue::ZERO), automaticColour(false),
-                  depth(1.0f), stencil(0)
+            : buffers(FBT_COLOUR | FBT_DEPTH)
+            , colour(ColorValue::ZERO)
+            , automaticColour(false)
+            , depth(1.0f)
+            , stencil(0)
             {
             }
         } mClear;

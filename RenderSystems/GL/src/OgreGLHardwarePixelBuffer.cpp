@@ -55,7 +55,7 @@ void GLTextureBuffer::_blitFromMemory(const PixelBox &src, const Box &dst)
         // do conversion in temporary buffer
         allocateBuffer();
         converted = mBuffer.get_sub_volume(src);
-        PixelUtil::bulkPixelConversion(src, converted);
+        PixelUtil::bulk_pixel_conversion(src, converted);
     }
     else
     {
@@ -91,7 +91,9 @@ void GLTextureBuffer::blitToMemory(const Box &srcBox, const PixelBox &dst)
                 Image::FILTER_BILINEAR);
         } else {
             // Just copy the bit that we need
-            PixelUtil::bulkPixelConversion(mBuffer.get_sub_volume(srcBox), dst);
+            PixelUtil::bulk_pixel_conversion(
+                mBuffer.get_sub_volume(srcBox),
+                dst);
         }
         freeBuffer();
     }
@@ -118,7 +120,7 @@ GLTextureBuffer::GLTextureBuffer(GLRenderSystem* renderSystem, GLTexture* parent
     str << "GLHardwarePixelBuffer constructed for texture " << mTextureID
         << " face " << mFace << " level " << mLevel << ": "
         << "width=" << mWidth << " height="<< mHeight << " depth=" << mDepth
-        << "format=" << PixelUtil::getFormatName(mFormat) << "(internal 0x"
+        << "format=" << PixelUtil::get_format_name(mFormat) << "(internal 0x"
         << std::hex << value << ")";
     LogManager::singleton().log_message(
                 LogMsgLevel::NORMAL, str.str());
@@ -162,8 +164,7 @@ GLTextureBuffer::~GLTextureBuffer()
 void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
 {
     mRenderSystem->_getStateCacheManager()->bindGLTexture( mTarget, mTextureID );
-    if(PixelUtil::isCompressed(data.format))
-    {
+    if (PixelUtil::is_compressed(data.format)) {
         if (data.format != mFormat || !data.is_consecutive())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Compressed images must be consecutive, in the source format",
@@ -260,10 +261,8 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 }
                 break;
         }
-        
-    }
-    else
-    {
+
+    } else {
         if (data.width() != data.row_pitch)
             glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch);
         if (data.width() > 0
@@ -271,7 +270,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
             glPixelStorei(
                 GL_UNPACK_IMAGE_HEIGHT,
                 (data.slice_pitch / data.width()));
-        if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+        if ((data.width() * PixelUtil::get_num_elem_bytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         }
@@ -303,7 +302,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                     GLPixelUtil::getGLOriginFormat(data.format), GLPixelUtil::getGLOriginDataType(data.format),
                     pdata);
                 break;
-        }   
+        }
     }
 
     // TU_AUTOMIPMAP is only enabled when there are no custom mips
@@ -325,8 +324,7 @@ void GLTextureBuffer::download(const PixelBox &data)
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "only download of entire buffer is supported by GL",
             "GLTextureBuffer::download");
     mRenderSystem->_getStateCacheManager()->bindGLTexture( mTarget, mTextureID );
-    if(PixelUtil::isCompressed(data.format))
-    {
+    if (PixelUtil::is_compressed(data.format)) {
         if (data.format != mFormat || !data.is_consecutive())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Compressed images must be consecutive, in the source format",
@@ -334,16 +332,14 @@ void GLTextureBuffer::download(const PixelBox &data)
         // Data must be consecutive and at beginning of buffer as PixelStorei not allowed
         // for compressed formate
         glGetCompressedTexImageARB(mFaceTarget, mLevel, data.data);
-    } 
-    else
-    {
+    } else {
         if (data.width() != data.row_pitch)
             glPixelStorei(GL_PACK_ROW_LENGTH, data.row_pitch);
         if (data.height() * data.width() != data.slice_pitch)
             glPixelStorei(
                 GL_PACK_IMAGE_HEIGHT,
                 (data.slice_pitch / data.width()));
-        if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+        if ((data.width() * PixelUtil::get_num_elem_bytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_PACK_ALIGNMENT, 1);
         }

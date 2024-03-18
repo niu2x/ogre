@@ -69,8 +69,8 @@ protected:
 
         setupShaderGenerator();
 
-        mSceneMgr->setFog(FOG_LINEAR, ColourValue::White, 0, 500, 1000);
-        
+        mSceneMgr->setFog(FOG_LINEAR, ColorValue::White, 0, 500, 1000);
+
         mCameraNode->setPosition(0, -20, 470);
 
         mTrayMgr->showCursor();
@@ -151,7 +151,12 @@ protected:
     {
         if (slider->name() == FOG_DISTANCE_SLIDER) {
             Real fogDist = slider->getValue();
-            mSceneMgr->setFog(mSceneMgr->getFogMode(), ColourValue::White, 0, fogDist * 0.5f, fogDist);
+            mSceneMgr->setFog(
+                mSceneMgr->getFogMode(),
+                ColorValue::White,
+                0,
+                fogDist * 0.5f,
+                fogDist);
         }
         if (slider->name() == FOG_BACKGROUND_SLIDER) {
             String textureName;
@@ -177,7 +182,12 @@ protected:
         {
             //With our shader the 3 middle parameters don't really make a difference. Only the first and last do.
             FogMode mode = mSceneMgr->getFogMode() == FOG_NONE ? FOG_LINEAR : FOG_NONE;
-            mSceneMgr->setFog(mode, ColourValue::White, 0, mSceneMgr->getFogStart(), mSceneMgr->getFogEnd());
+            mSceneMgr->setFog(
+                mode,
+                ColorValue::White,
+                0,
+                mSceneMgr->getFogStart(),
+                mSceneMgr->getFogEnd());
         }
         if (cbName == ACTIVATE_SKY_BUTTON)
         {

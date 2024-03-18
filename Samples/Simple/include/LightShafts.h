@@ -129,7 +129,7 @@ public:
         mCamera->setNearClipDistance(1);
 
         // add a little ambient lighting
-        mSceneMgr->setAmbientLight(ColourValue(0.1, 0.1, 0.1));
+        mSceneMgr->setAmbientLight(ColorValue(0.1, 0.1, 0.1));
 
         // Set up light 0
         Light* mLight0 = mSceneMgr->createLight(Light::LT_SPOTLIGHT);
@@ -218,8 +218,12 @@ public:
         for (int k = 0; k < NumberOfPlanes; k++)
         {
             CurrentBB = billboard->createBillboard(
-                Vector3(0, 0, -LightCamera->getNearClipDistance() - k * DistanceBetweenPlanes),
-                ColourValue::White);
+                Vector3(
+                    0,
+                    0,
+                    -LightCamera->getNearClipDistance()
+                        - k * DistanceBetweenPlanes),
+                ColorValue::White);
             CurrentBB->setDimensions(NearWidth + k * WidthStep, NearHeigth + k * HeigthStep);
         }
 

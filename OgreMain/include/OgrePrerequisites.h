@@ -90,7 +90,7 @@ namespace Ogre {
     class Bone;
     class Camera;
     class Codec;
-    class ColourValue;
+    class ColorValue;
     class ConfigDialog;
     template <typename T> class Controller;
     typedef Controller<float> ControllerFloat;

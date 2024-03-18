@@ -40,7 +40,7 @@ using namespace OgreBites;
 static void prepareCircleMaterial()
 {
     Image bmap(PixelFormat::L8, 256, 256);
-    bmap.setTo(ColourValue(0.5));
+    bmap.setTo(ColorValue(0.5));
     for(int b=0;b<16;b++) {
         int x0 = b % 4 ;
         int y0 = b / 4 ;
@@ -100,8 +100,8 @@ protected:
     {
         sceneMgr = mSceneMgr ;
         // Set ambient light
-        mSceneMgr->setAmbientLight(ColourValue(0.75, 0.75, 0.75));
-        
+        mSceneMgr->setAmbientLight(ColorValue(0.75, 0.75, 0.75));
+
         // Create a light
         // Accept default settings: point light, white diffuse, just set position
         Light* l = mSceneMgr->createLight("MainLight");
@@ -152,10 +152,10 @@ protected:
         // Create a new animation state to track this
         mAnimState = mSceneMgr->createAnimationState("WaterLight");
         mAnimState->setEnabled(true);
-        
+
         // Put in a bit of fog for the hell of it
-        //mSceneMgr->setFog(FOG_EXP, ColourValue::White, 0.0002);
-        
+        // mSceneMgr->setFog(FOG_EXP, ColorValue::White, 0.0002);
+
         // Let there be rain
         particleSystem = mSceneMgr->createParticleSystem("rain",
                                                          "Examples/Water/Rain");

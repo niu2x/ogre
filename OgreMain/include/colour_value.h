@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#ifndef _COLOURVALUE_H__
-#define _COLOURVALUE_H__
+#ifndef _COLORVALUE_H__
+#define _COLORVALUE_H__
 
 #include "OgrePrerequisites.h"
 
@@ -54,32 +54,40 @@ namespace Ogre {
             transparency. In this case, 0.0 is completely transparent and 1.0 is
             fully opaque.
     */
-    class ColourValue
-    {
+    class ColorValue {
     public:
-        static const ColourValue ZERO;
-        static const ColourValue Black;
-        static const ColourValue White;
-        static const ColourValue Red;
-        static const ColourValue Green;
-        static const ColourValue Blue;
+        static const ColorValue ZERO;
+        static const ColorValue Black;
+        static const ColorValue White;
+        static const ColorValue Red;
+        static const ColorValue Green;
+        static const ColorValue Blue;
 
-        explicit ColourValue( float red = 1.0f,
-                    float green = 1.0f,
-                    float blue = 1.0f,
-                    float alpha = 1.0f ) : r(red), g(green), b(blue), a(alpha)
+        explicit ColorValue(
+            float red = 1.0f,
+            float green = 1.0f,
+            float blue = 1.0f,
+            float alpha = 1.0f)
+        : r(red)
+        , g(green)
+        , b(blue)
+        , a(alpha)
         { }
 
-        explicit ColourValue(const uint8_t* byte) : r(byte[0]), g(byte[1]), b(byte[2]), a(byte[3])
+        explicit ColorValue(const uint8_t* byte)
+        : r(byte[0])
+        , g(byte[1])
+        , b(byte[2])
+        , a(byte[3])
         {
             *this /= 255;
         }
 
-        bool operator==(const ColourValue& rhs) const
+        bool operator==(const ColorValue& rhs) const
         {
             return (r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a);
         }
-        bool operator!=(const ColourValue& rhs) const { return !(*this == rhs); }
+        bool operator!=(const ColorValue& rhs) const { return !(*this == rhs); }
 
         /// @name conversions from/ to native-endian packed formats
         /// @{
@@ -146,9 +154,9 @@ namespace Ogre {
 
         /** As saturate, except that this colour value is unaffected and
             the saturated colour value is returned as a copy. */
-        ColourValue saturate_copy(void) const
+        ColorValue saturate_copy(void) const
         {
-            ColourValue ret = *this;
+            ColorValue ret = *this;
             ret.saturate();
             return ret;
         }
@@ -182,9 +190,9 @@ namespace Ogre {
 
         
         // arithmetic operations
-        ColourValue operator + ( const ColourValue& other ) const
+        ColorValue operator+(const ColorValue& other) const
         {
-            ColourValue sum;
+            ColorValue sum;
 
             sum.r = r + other.r;
             sum.g = g + other.g;
@@ -194,9 +202,9 @@ namespace Ogre {
             return sum;
         }
 
-        ColourValue operator - ( const ColourValue& other ) const
+        ColorValue operator-(const ColorValue& other) const
         {
-            ColourValue diff;
+            ColorValue diff;
 
             diff.r = r - other.r;
             diff.g = g - other.g;
@@ -206,9 +214,9 @@ namespace Ogre {
             return diff;
         }
 
-        ColourValue operator * (float scalar ) const
+        ColorValue operator*(float scalar) const
         {
-            ColourValue prod;
+            ColorValue prod;
 
             prod.r = scalar*r;
             prod.g = scalar*g;
@@ -218,9 +226,9 @@ namespace Ogre {
             return prod;
         }
 
-        ColourValue operator * ( const ColourValue& rhs) const
+        ColorValue operator*(const ColorValue& rhs) const
         {
-            ColourValue prod;
+            ColorValue prod;
 
             prod.r = rhs.r * r;
             prod.g = rhs.g * g;
@@ -230,9 +238,9 @@ namespace Ogre {
             return prod;
         }
 
-        ColourValue operator / ( const ColourValue& rhs) const
+        ColorValue operator/(const ColorValue& rhs) const
         {
-            ColourValue prod;
+            ColorValue prod;
 
             prod.r = r / rhs.r;
             prod.g = g / rhs.g;
@@ -242,11 +250,11 @@ namespace Ogre {
             return prod;
         }
 
-        ColourValue operator / (float scalar ) const
+        ColorValue operator/(float scalar) const
         {
             assert( scalar != 0.0 );
 
-            ColourValue kDiv;
+            ColorValue kDiv;
 
             float fInv = 1.0f / scalar;
             kDiv.r = r * fInv;
@@ -257,9 +265,9 @@ namespace Ogre {
             return kDiv;
         }
 
-        friend ColourValue operator * (float scalar, const ColourValue& other )
+        friend ColorValue operator*(float scalar, const ColorValue& other)
         {
-            ColourValue prod;
+            ColorValue prod;
 
             prod.r = scalar * other.r;
             prod.g = scalar * other.g;
@@ -270,7 +278,7 @@ namespace Ogre {
         }
 
         // arithmetic updates
-        ColourValue& operator += ( const ColourValue& other )
+        ColorValue& operator+=(const ColorValue& other)
         {
             r += other.r;
             g += other.g;
@@ -280,7 +288,7 @@ namespace Ogre {
             return *this;
         }
 
-        ColourValue& operator -= ( const ColourValue& other )
+        ColorValue& operator-=(const ColorValue& other)
         {
             r -= other.r;
             g -= other.g;
@@ -290,7 +298,7 @@ namespace Ogre {
             return *this;
         }
 
-        ColourValue& operator *= (float scalar )
+        ColorValue& operator*=(float scalar)
         {
             r *= scalar;
             g *= scalar;
@@ -299,7 +307,7 @@ namespace Ogre {
             return *this;
         }
 
-        ColourValue& operator /= (float scalar )
+        ColorValue& operator/=(float scalar)
         {
             assert( scalar != 0.0 );
 
@@ -329,15 +337,15 @@ namespace Ogre {
 
         /** Function for writing to a stream.
         */
-        inline friend std::ostream& operator <<
-            ( std::ostream& o, const ColourValue& c )
+        inline friend std::ostream&
+        operator<<(std::ostream& o, const ColorValue& c)
         {
-            o << "ColourValue(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";
+            o << "ColorValue(" << c.r << ", " << c.g << ", " << c.b << ", "
+              << c.a << ")";
             return o;
         }
 
-        float r,g,b,a;
-
+        float r, g, b, a;
     };
     /** @} */
     /** @} */

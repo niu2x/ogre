@@ -156,14 +156,14 @@ namespace Ogre
         mNullTextureList.push_back(shadowTex);
 
         // lock & populate the texture based on format
-        if(PixelUtil::isDepth(format))
+        if (PixelUtil::is_depth(format))
             return shadowTex;
 
         HardwareBufferLockGuard shadowTexLock(shadowTex->getBuffer(), HardwareBuffer::HBL_DISCARD);
         const PixelBox& box = shadowTex->getBuffer()->getCurrentLock();
 
         // set high-values across all bytes of the format
-        PixelUtil::packColour(
+        PixelUtil::pack_color(
             1.0f,
             1.0f,
             1.0f,

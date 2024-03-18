@@ -34,8 +34,8 @@ public:
 protected:
 
     void setupContent() override
-    {     
-        mViewport->setBackgroundColour(ColourValue::White);
+    {
+        mViewport->setBackgroundColour(ColorValue::White);
 
         // set our camera to orbit around the origin and show cursor
         mCameraMan->setStyle(CS_ORBIT);

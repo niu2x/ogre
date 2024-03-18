@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __CompositionTechnique_H__
 
 #include "OgrePrerequisites.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

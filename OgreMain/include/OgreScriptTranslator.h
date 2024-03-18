@@ -83,9 +83,14 @@ namespace Ogre{
         /// Converts the node to an integer and returns true if successful
         static bool getInt(const AbstractNodePtr &node, int *result); 
         /// Converts the node to an unsigned integer and returns true if successful
-        static bool getUInt(const AbstractNodePtr &node, uint32 *result); 
-        /// Converts the range of nodes to a ColourValue and returns true if successful
-        static bool getColour(AbstractNodeList::const_iterator i, AbstractNodeList::const_iterator end, ColourValue *result, int maxEntries = 4);
+        static bool getUInt(const AbstractNodePtr& node, uint32* result);
+        /// Converts the range of nodes to a ColorValue and returns true if
+        /// successful
+        static bool getColour(
+            AbstractNodeList::const_iterator i,
+            AbstractNodeList::const_iterator end,
+            ColorValue* result,
+            int maxEntries = 4);
         /// Converts the node to a SceneBlendFactor enum and returns true if successful
         static bool getSceneBlendFactor(const AbstractNodePtr &node, SceneBlendFactor *sbf);
         /// Converts the node to a CompareFunction enum and returns true if successful

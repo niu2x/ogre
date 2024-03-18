@@ -321,7 +321,7 @@ public:
         BillboardSet* bbs,
         String text,
         float height,
-        const ColourValue& colour = ColourValue::White);
+        const ColorValue& colour = ColorValue::White);
 
     /** Sets whether the colour of this font is multiplied with alpha as it is
        generated from a true type font.

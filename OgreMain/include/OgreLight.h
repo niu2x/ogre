@@ -144,11 +144,11 @@ namespace Ogre {
         void setDiffuseColour(float red, float green, float blue);
 
         /// @overload
-        void setDiffuseColour(const ColourValue& colour);
+        void setDiffuseColour(const ColorValue& colour);
 
         /** Returns the colour of the diffuse light given off by this light source (see setDiffuseColour for more info).
         */
-        const ColourValue& getDiffuseColour(void) const;
+        const ColorValue& getDiffuseColour(void) const;
 
         /** Sets the colour of the specular light given off by this source.
 
@@ -162,11 +162,11 @@ namespace Ogre {
         void setSpecularColour(float red, float green, float blue);
 
         /// @overload
-        void setSpecularColour(const ColourValue& colour);
+        void setSpecularColour(const ColorValue& colour);
 
         /** Returns the colour of specular light given off by this light source.
         */
-        const ColourValue& getSpecularColour(void) const;
+        const ColorValue& getSpecularColour(void) const;
 
         /** Sets the attenuation parameters of the light source i.e. how it diminishes with distance.
 
@@ -587,8 +587,8 @@ namespace Ogre {
         /// Internal method for synchronising with parent node (if any)
         virtual void update(void) const;
 #endif
-        ColourValue mDiffuse;
-        ColourValue mSpecular;
+        ColorValue mDiffuse;
+        ColorValue mSpecular;
 
         Radian mSpotOuter;
         Radian mSpotInner;

@@ -117,58 +117,58 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------------
     Pass::Pass(Technique* parent, unsigned short index)
-        : mParent(parent)
-        , mHash(0)
-        , mAmbient(ColourValue::White)
-        , mDiffuse(ColourValue::White)
-        , mSpecular(ColourValue::Black)
-        , mEmissive(ColourValue::Black)
-        , mShininess(0)
-        , mTracking(TVC_NONE)
-        , mHashDirtyQueued(false)
-        , mDepthCheck(true)
-        , mDepthWrite(true)
-        , mAlphaToCoverageEnabled(false)
-        , mTransparentSorting(true)
-        , mTransparentSortingForced(false)
-        , mLightingEnabled(true)
-        , mIteratePerLight(false)
-        , mRunOnlyForOneLightType(false)
-        , mPolygonModeOverrideable(true)
-        , mFogOverride(false)
-        , mQueuedForDeletion(false)
-        , mLightScissoring(false)
-        , mLightClipPlanes(false)
-        , mPointSpritesEnabled(false)
-        , mPointAttenuationEnabled(false)
-        , mContentTypeLookupBuilt(false)
-        , mAlphaRejectVal(0)
-        , mDepthBiasConstant(0.0f)
-        , mDepthBiasSlopeScale(0.0f)
-        , mDepthBiasPerIteration(0.0f)
-        , mDepthFunc(CMPF_LESS_EQUAL)
-        , mAlphaRejectFunc(CMPF_ALWAYS_PASS)
-        , mCullMode(CULL_CLOCKWISE)
-        , mManualCullMode(MANUAL_CULL_BACK)
-        , mMaxSimultaneousLights(OGRE_MAX_SIMULTANEOUS_LIGHTS)
-        , mStartLight(0)
-        , mLightsPerIteration(1)
-        , mIndex(index)
-        , mLightMask(0xFFFFFFFF)
-        , mFogColour(ColourValue::White)
-        , mFogStart(0.0)
-        , mFogEnd(1.0)
-        , mFogDensity(0.001)
-        , mLineWidth(1.0f)
-        , mPassIterationCount(1)
-        , mPointMinSize(0.0f)
-        , mPointMaxSize(0.0f)
-        , mPointAttenution(1.0f, 1.0f, 0.0f, 0.0f)
-        , mShadeOptions(SO_GOURAUD)
-        , mPolygonMode(PM_SOLID)
-        , mIlluminationStage(IS_UNKNOWN)
-        , mOnlyLightType(Light::LT_POINT)
-        , mFogMode(FOG_NONE)
+    : mParent(parent)
+    , mHash(0)
+    , mAmbient(ColorValue::White)
+    , mDiffuse(ColorValue::White)
+    , mSpecular(ColorValue::Black)
+    , mEmissive(ColorValue::Black)
+    , mShininess(0)
+    , mTracking(TVC_NONE)
+    , mHashDirtyQueued(false)
+    , mDepthCheck(true)
+    , mDepthWrite(true)
+    , mAlphaToCoverageEnabled(false)
+    , mTransparentSorting(true)
+    , mTransparentSortingForced(false)
+    , mLightingEnabled(true)
+    , mIteratePerLight(false)
+    , mRunOnlyForOneLightType(false)
+    , mPolygonModeOverrideable(true)
+    , mFogOverride(false)
+    , mQueuedForDeletion(false)
+    , mLightScissoring(false)
+    , mLightClipPlanes(false)
+    , mPointSpritesEnabled(false)
+    , mPointAttenuationEnabled(false)
+    , mContentTypeLookupBuilt(false)
+    , mAlphaRejectVal(0)
+    , mDepthBiasConstant(0.0f)
+    , mDepthBiasSlopeScale(0.0f)
+    , mDepthBiasPerIteration(0.0f)
+    , mDepthFunc(CMPF_LESS_EQUAL)
+    , mAlphaRejectFunc(CMPF_ALWAYS_PASS)
+    , mCullMode(CULL_CLOCKWISE)
+    , mManualCullMode(MANUAL_CULL_BACK)
+    , mMaxSimultaneousLights(OGRE_MAX_SIMULTANEOUS_LIGHTS)
+    , mStartLight(0)
+    , mLightsPerIteration(1)
+    , mIndex(index)
+    , mLightMask(0xFFFFFFFF)
+    , mFogColour(ColorValue::White)
+    , mFogStart(0.0)
+    , mFogEnd(1.0)
+    , mFogDensity(0.001)
+    , mLineWidth(1.0f)
+    , mPassIterationCount(1)
+    , mPointMinSize(0.0f)
+    , mPointMaxSize(0.0f)
+    , mPointAttenution(1.0f, 1.0f, 0.0f, 0.0f)
+    , mShadeOptions(SO_GOURAUD)
+    , mPolygonMode(PM_SOLID)
+    , mIlluminationStage(IS_UNKNOWN)
+    , mOnlyLightType(Light::LT_POINT)
+    , mFogMode(FOG_NONE)
     {
         // init the hash inline
         _recalculateHash();
@@ -626,7 +626,13 @@ namespace Ogre {
         return mManualCullMode;
     }
     //-----------------------------------------------------------------------
-    void Pass::setFog(bool overrideScene, FogMode mode, const ColourValue& colour, float density, float start, float end)
+    void Pass::setFog(
+        bool overrideScene,
+        FogMode mode,
+        const ColorValue& colour,
+        float density,
+        float start,
+        float end)
     {
         mFogOverride = overrideScene;
         if (overrideScene)
@@ -1062,9 +1068,10 @@ namespace Ogre {
         // programs are expected to indicate they are ambient only by
         // setting the state so it matches one of the conditions above, even
         // though this state is not used in rendering.
-        return (!mLightingEnabled || !getColourWriteEnabled() ||
-            (mDiffuse == ColourValue::Black &&
-             mSpecular == ColourValue::Black));
+        return (
+            !mLightingEnabled || !getColourWriteEnabled()
+            || (mDiffuse == ColorValue::Black
+                && mSpecular == ColorValue::Black));
     }
     //-----------------------------------------------------------------------
     const String& Pass::getResourceGroup(void) const

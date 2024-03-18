@@ -203,8 +203,11 @@ namespace Ogre
 
         void _setViewport(Viewport *vp) override;
         void _setRenderTarget(RenderTarget *target) override;
-        void clearFrameBuffer(unsigned int buffers, const ColourValue& colour = ColourValue::Black,
-                              float depth = 1.0f, unsigned short stencil = 0) override;
+        void clearFrameBuffer(
+            unsigned int buffers,
+            const ColorValue& colour = ColorValue::Black,
+            float depth = 1.0f,
+            unsigned short stencil = 0) override;
         void setScissorTest(bool enabled, const Rect& rect = Rect()) override;
         void setStencilState(const StencilState& state) override;
         void _setPolygonMode(PolygonMode level) override;

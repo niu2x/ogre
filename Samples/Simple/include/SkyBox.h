@@ -24,7 +24,7 @@ protected:
     void setupContent() override
     {
         // setup some basic lighting for our scene
-        mSceneMgr->setAmbientLight(ColourValue(0.3, 0.3, 0.3));
+        mSceneMgr->setAmbientLight(ColorValue(0.3, 0.3, 0.3));
         mSceneMgr->getRootSceneNode()
             ->createChildSceneNode(Vector3(20, 80, 50))
             ->attachObject(mSceneMgr->createLight());
@@ -50,7 +50,7 @@ protected:
             emitter->setEmissionRate(25);
             emitter->setParticleVelocity(25);
             emitter->setDirection(Vector3::negative_unit_z);
-            emitter->setColour(ColourValue::White, ColourValue::Red);
+            emitter->setColour(ColorValue::White, ColorValue::Red);
             emitter->setPosition(Vector3(i == 0 ? 5.7 : -18, 0, 0));
         }
 

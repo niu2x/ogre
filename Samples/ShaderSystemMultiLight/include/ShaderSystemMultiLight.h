@@ -204,11 +204,11 @@ protected:
 
     void setupLights()
     {
-        mSceneMgr->setAmbientLight(ColourValue(0.1, 0.1, 0.1));
+        mSceneMgr->setAmbientLight(ColorValue(0.1, 0.1, 0.1));
         // set the single directional light
         Light* light = mSceneMgr->createLight();
         light->setType(Light::LT_DIRECTIONAL);
-        light->setDiffuseColour(ColourValue(0.1, 0.1, 0.1));
+        light->setDiffuseColour(ColorValue(0.1, 0.1, 0.1));
         light->setCastShadows(false);
         
         auto ln = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -254,8 +254,7 @@ protected:
             state.track->createNodeKeyFrame(i * animTimeBetweenPoints)->setTranslate(framePos);
         }
 
-
-        ColourValue lightColor(rand01(), rand01(), rand01());
+        ColorValue lightColor(rand01(), rand01(), rand01());
         float complement = 1 - std::max<float>(std::max<float>(lightColor.r, lightColor.g), lightColor.b);
         lightColor.r += complement;
         lightColor.g += complement;

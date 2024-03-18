@@ -146,7 +146,7 @@ public:
         mCamera->setNearClipDistance(2);
 
         // Set ambient light
-        mSceneMgr->setAmbientLight(ColourValue(0.25, 0.25, 0.25));
+        mSceneMgr->setAmbientLight(ColorValue(0.25, 0.25, 0.25));
 
         // Create a skybox
         mSceneMgr->setSkyBox(true, "Examples/CloudyNoonSkyBox", 500 );
@@ -164,7 +164,7 @@ public:
         // Fog
         // NB it's VERY important to set this before calling setWorldGeometry 
         // because the vertex program picked will be different
-        ColourValue fadeColour(0.101, 0.125, 0.1836);
+        ColorValue fadeColour(0.101, 0.125, 0.1836);
         mSceneMgr->setFog( FOG_LINEAR, fadeColour, .001, 500, 1000);
         mViewport->setBackgroundColour(fadeColour);
 

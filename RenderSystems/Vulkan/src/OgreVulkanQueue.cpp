@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreVulkanWindow.h"
 
 #include "exception.h"
-#include "OgrePixelFormat.h"
+#include "pixel_format.h"
 #include "string_interface.h"
 
 #include "OgreVulkanUtils.h"
@@ -528,13 +528,10 @@ namespace Ogre
 
                 if( texture->getUsage() & TU_RENDERTARGET )
                 {
-                    if( !PixelUtil::isDepth( texture->getFormat() ) )
-                    {
+                    if (!PixelUtil::is_depth(texture->getFormat())) {
                         texAccessFlags |= VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
                         srcStage |= VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-                    }
-                    else
-                    {
+                    } else {
                         texAccessFlags |= VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
                         srcStage |= VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT |
                                     VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;

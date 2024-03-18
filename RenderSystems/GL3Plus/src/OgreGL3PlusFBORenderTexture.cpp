@@ -308,7 +308,7 @@ namespace Ogre {
                 continue;
 
             // No test for compressed formats
-            if(PixelUtil::isCompressed((PixelFormat)x))
+            if (PixelUtil::is_compressed((PixelFormat)x))
                 continue;
 
             if (hasInternalFormatQuery) {
@@ -332,7 +332,7 @@ namespace Ogre {
             {
                 mProps[x].valid = true;
                 StringStream str;
-                str << "FBO " << PixelUtil::getFormatName((PixelFormat)x)
+                str << "FBO " << PixelUtil::get_format_name((PixelFormat)x)
                     << " depth/stencil support: ";
 
                 // For each depth/stencil formats
@@ -356,7 +356,7 @@ namespace Ogre {
                         {
                             //                            StringStream l;
                             //                            l << "Trying " <<
-                            //                            PixelUtil::getFormatName((PixelFormat)x)
+                            //                            PixelUtil::get_format_name((PixelFormat)x)
                             //                                  << " D" <<
                             //                                  depthBits[depth]
                             //                                  << "S" <<
@@ -423,7 +423,7 @@ namespace Ogre {
         String fmtstring = "";
         for (size_t x = 0; x < (int)PixelFormat::COUNT; ++x) {
             if(mProps[x].valid)
-                fmtstring += PixelUtil::getFormatName((PixelFormat)x)+" ";
+                fmtstring += PixelUtil::get_format_name((PixelFormat)x) + " ";
         }
         LogManager::singleton().log_message(
             "[GL] : Valid FBO targets " + fmtstring);
@@ -436,7 +436,7 @@ namespace Ogre {
         // [best supported for internal format]
         size_t bestmode=0;
         int bestscore=-1;
-        bool requestDepthOnly = PixelUtil::isDepth(internalFormat);
+        bool requestDepthOnly = PixelUtil::is_depth(internalFormat);
         for(size_t mode=0; mode<props.modes.size(); mode++)
         {
             int desirability = 0;

@@ -173,8 +173,8 @@ namespace Ogre
 
         BillboardChain::setNumberOfChains(numChains);
 
-        mInitialColour.resize(numChains, ColourValue::White);
-        mDeltaColour.resize(numChains, ColourValue::ZERO);
+        mInitialColour.resize(numChains, ColorValue::White);
+        mDeltaColour.resize(numChains, ColorValue::ZERO);
         mInitialWidth.resize(numChains, 10);
         mDeltaWidth.resize(numChains, 0);
 
@@ -211,14 +211,14 @@ namespace Ogre
         }
     }
     //-----------------------------------------------------------------------
-    void RibbonTrail::setInitialColour(size_t chainIndex, const ColourValue& col)
+    void RibbonTrail::setInitialColour(size_t chainIndex, const ColorValue& col)
     {
         setInitialColour(chainIndex, col.r, col.g, col.b, col.a);
     }
     //-----------------------------------------------------------------------
     void RibbonTrail::setInitialColour(size_t chainIndex, float r, float g, float b, float a)
     {
-        mInitialColour.at(chainIndex) = ColourValue(r, g, b, a);
+        mInitialColour.at(chainIndex) = ColorValue(r, g, b, a);
     }
     //-----------------------------------------------------------------------
     void RibbonTrail::setInitialWidth(size_t chainIndex, Real width)
@@ -226,7 +226,9 @@ namespace Ogre
         mInitialWidth.at(chainIndex) = width;
     }
     //-----------------------------------------------------------------------
-    void RibbonTrail::setColourChange(size_t chainIndex, const ColourValue& valuePerSecond)
+    void RibbonTrail::setColourChange(
+        size_t chainIndex,
+        const ColorValue& valuePerSecond)
     {
         setColourChange(chainIndex, 
             valuePerSecond.r, valuePerSecond.g, valuePerSecond.b, valuePerSecond.a);
@@ -234,7 +236,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void RibbonTrail::setColourChange(size_t chainIndex, float r, float g, float b, float a)
     {
-        mDeltaColour.at(chainIndex) = ColourValue(r, g, b, a);
+        mDeltaColour.at(chainIndex) = ColorValue(r, g, b, a);
         manageController();
     }
     //-----------------------------------------------------------------------
@@ -249,8 +251,7 @@ namespace Ogre
         bool needController = false;
         for (size_t i = 0; i < mChainCount; ++i)
         {
-            if (mDeltaWidth[i] != 0 || mDeltaColour[i] != ColourValue::ZERO)
-            {
+            if (mDeltaWidth[i] != 0 || mDeltaColour[i] != ColorValue::ZERO) {
                 needController = true;
                 break;
             }

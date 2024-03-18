@@ -103,8 +103,8 @@ namespace Ogre {
         mutable bool mSpotlightViewProjMatrixDirty[OGRE_MAX_SIMULTANEOUS_LIGHTS];
         mutable bool mSpotlightWorldViewProjMatrixDirty[OGRE_MAX_SIMULTANEOUS_LIGHTS];
         mutable bool mShadowCamDepthRangesDirty[OGRE_MAX_SIMULTANEOUS_LIGHTS];
-        ColourValue mAmbientLight;
-        ColourValue mFogColour;
+        ColorValue mAmbientLight;
+        ColorValue mFogColour;
         Vector4f mFogParams;
         Vector4f mPointParams;
         int mPassNumber;
@@ -182,28 +182,33 @@ namespace Ogre {
         float getLightNumber(size_t index) const;
         float getLightCount() const;
         float getLightCastsShadows(size_t index) const;
-        const ColourValue& getLightDiffuseColour(size_t index) const;
-        const ColourValue& getLightSpecularColour(size_t index) const;
-        const ColourValue getLightDiffuseColourWithPower(size_t index) const;
-        const ColourValue getLightSpecularColourWithPower(size_t index) const;
+        const ColorValue& getLightDiffuseColour(size_t index) const;
+        const ColorValue& getLightSpecularColour(size_t index) const;
+        const ColorValue getLightDiffuseColourWithPower(size_t index) const;
+        const ColorValue getLightSpecularColourWithPower(size_t index) const;
         Vector3 getLightPosition(size_t index) const;
         Vector4 getLightAs4DVector(size_t index) const;
         Vector3 getLightDirection(size_t index) const;
         Real getLightPowerScale(size_t index) const;
         Vector4f getLightAttenuation(size_t index) const;
         Vector4f getSpotlightParams(size_t index) const;
-        void setAmbientLightColour(const ColourValue& ambient);
-        const ColourValue& getAmbientLightColour(void) const;
-        const ColourValue& getSurfaceAmbientColour(void) const;
-        const ColourValue& getSurfaceDiffuseColour(void) const;
-        const ColourValue& getSurfaceSpecularColour(void) const;
-        const ColourValue& getSurfaceEmissiveColour(void) const;
+        void setAmbientLightColour(const ColorValue& ambient);
+        const ColorValue& getAmbientLightColour(void) const;
+        const ColorValue& getSurfaceAmbientColour(void) const;
+        const ColorValue& getSurfaceDiffuseColour(void) const;
+        const ColorValue& getSurfaceSpecularColour(void) const;
+        const ColorValue& getSurfaceEmissiveColour(void) const;
         Real getSurfaceShininess(void) const;
         Real getSurfaceAlphaRejectionValue(void) const;
-        ColourValue getDerivedAmbientLightColour(void) const;
-        ColourValue getDerivedSceneColour(void) const;
-        void setFog(FogMode mode, const ColourValue& colour, Real expDensity, Real linearStart, Real linearEnd);
-        const ColourValue& getFogColour(void) const;
+        ColorValue getDerivedAmbientLightColour(void) const;
+        ColorValue getDerivedSceneColour(void) const;
+        void setFog(
+            FogMode mode,
+            const ColorValue& colour,
+            Real expDensity,
+            Real linearStart,
+            Real linearEnd);
+        const ColorValue& getFogColour(void) const;
         const Vector4f& getFogParams(void) const;
         void setPointParameters(bool attenuation, const Vector4f& params);
         const Vector4f& getPointParams() const;
@@ -221,7 +226,7 @@ namespace Ogre {
         Real getShadowExtrusionDistance(void) const;
         const Vector4& getSceneDepthRange() const;
         const Vector4& getShadowSceneDepthRange(size_t index) const;
-        const ColourValue& getShadowColour() const;
+        const ColorValue& getShadowColour() const;
         Matrix4 getInverseViewProjMatrix(void) const;
         Matrix4 getInverseTransposeViewProjMatrix() const;
         Matrix4 getTransposeViewProjMatrix() const;

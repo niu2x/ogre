@@ -52,8 +52,11 @@ namespace Ogre {
             setValue(Quaternion(mBaseValueReal));
             break;
         case COLOUR:
-            setValue(ColourValue(mBaseValueReal[0], mBaseValueReal[1],
-                mBaseValueReal[2], mBaseValueReal[3]));
+            setValue(ColorValue(
+                mBaseValueReal[0],
+                mBaseValueReal[1],
+                mBaseValueReal[2],
+                mBaseValueReal[3]));
             break;
         case RADIAN:        
             setValue(Radian(mBaseValueReal[0]));
@@ -84,7 +87,7 @@ namespace Ogre {
             setAsBaseValue(std::any_cast<Quaternion>(val));
             break;
         case COLOUR:
-            setAsBaseValue(std::any_cast<ColourValue>(val));
+            setAsBaseValue(std::any_cast<ColorValue>(val));
             break;
         case RADIAN:
             setAsBaseValue(std::any_cast<Radian>(val));
@@ -115,7 +118,7 @@ namespace Ogre {
             setValue(std::any_cast<Quaternion>(val));
             break;
         case COLOUR:
-            setValue(std::any_cast<ColourValue>(val));
+            setValue(std::any_cast<ColorValue>(val));
             break;
         case RADIAN:
             setValue(std::any_cast<Radian>(val));
@@ -146,7 +149,7 @@ namespace Ogre {
             applyDeltaValue(std::any_cast<Quaternion>(val));
             break;
         case COLOUR:
-            applyDeltaValue(std::any_cast<ColourValue>(val));
+            applyDeltaValue(std::any_cast<ColorValue>(val));
             break;
         case RADIAN:
             applyDeltaValue(std::any_cast<Radian>(val));

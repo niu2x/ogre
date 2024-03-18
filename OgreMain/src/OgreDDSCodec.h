@@ -60,11 +60,18 @@ namespace Ogre {
             uint32 gMask, uint32 bMask, uint32 aMask) const;
 
         /// Unpack DXT colours into array of 16 colour values
-        void unpackDXTColour(PixelFormat pf, const DXTColourBlock& block, ColourValue* pCol) const;
+        void unpackDXTColour(
+            PixelFormat pf,
+            const DXTColourBlock& block,
+            ColorValue* pCol) const;
         /// Unpack DXT alphas into array of 16 colour values
-        void unpackDXTAlpha(const DXTExplicitAlphaBlock& block, ColourValue* pCol) const;
+        void unpackDXTAlpha(
+            const DXTExplicitAlphaBlock& block,
+            ColorValue* pCol) const;
         /// Unpack DXT alphas into array of 16 colour values
-        void unpackDXTAlpha(const DXTInterpolatedAlphaBlock& block, ColourValue* pCol) const;
+        void unpackDXTAlpha(
+            const DXTInterpolatedAlphaBlock& block,
+            ColorValue* pCol) const;
 
         /// Single registered codec instance
         static DDSCodec* msInstance;
