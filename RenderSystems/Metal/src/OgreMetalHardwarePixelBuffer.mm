@@ -77,7 +77,7 @@ namespace Ogre {
             // Download the old contents of the texture
             download(mBuffer);
         }
-        return mBuffer.getSubVolume(lockBox);
+        return mBuffer.get_sub_volume(lockBox);
     }
 
     void MetalHardwarePixelBuffer::unlockImpl(void)
@@ -109,7 +109,7 @@ namespace Ogre {
             // Scale to destination size.
             // This also does pixel format conversion if needed
             allocateBuffer();
-            scaled = mBuffer.getSubVolume(dstBox);
+            scaled = mBuffer.get_sub_volume(dstBox);
             Image::scale(src, scaled, Image::FILTER_BILINEAR);
         }
         else
@@ -182,12 +182,12 @@ namespace Ogre {
                 srcBox.depth() != dst.depth())
             {
                 // We need scaling
-                Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
+                Image::scale(mBuffer.get_sub_volume(srcBox), dst, Image::FILTER_BILINEAR);
             }
             else
             {
                 // Just copy the bit that we need
-                PixelUtil::bulkPixelConversion(mBuffer.getSubVolume(srcBox), dst);
+                PixelUtil::bulkPixelConversion(mBuffer.get_sub_volume(srcBox), dst);
             }
             freeBuffer();
         }
