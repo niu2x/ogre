@@ -452,7 +452,7 @@ namespace Ogre {
     {
         if(src.right > mWidth || src.bottom > mHeight || src.front != 0 || src.back != 1
         || dst.width() != src.width() || dst.height() != src.height() || dst.depth() != 1
-        || dst.width() != dst.rowPitch /* GLES2 does not support GL_PACK_ROW_LENGTH, nor iOS supports GL_NV_pack_subimage */)
+        || dst.width() != dst.row_pitch() /* GLES2 does not support GL_PACK_ROW_LENGTH, nor iOS supports GL_NV_pack_subimage */)
 		{
 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box.");
 		}
@@ -522,7 +522,7 @@ namespace Ogre {
         CGContextDrawImage(context, CGRectMake(0.0, 0.0, widthInPoints, heightInPoints), iref);
 
         // Retrieve the UIImage from the current context
-        memcpy(dst.data, CGBitmapContextGetData(context), CGBitmapContextGetBytesPerRow(context) * height); // TODO: support dst.rowPitch != dst.width() case
+        memcpy(dst.data, CGBitmapContextGetData(context), CGBitmapContextGetBytesPerRow(context) * height); // TODO: support dst.row_pitch() != dst.width() case
         UIGraphicsEndImageContext();
 
         // Clean up
