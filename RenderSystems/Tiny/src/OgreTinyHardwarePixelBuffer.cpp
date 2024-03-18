@@ -23,12 +23,12 @@ namespace Ogre {
         {
             // Scale to destination size.
             // This also does pixel format conversion if needed.
-            scaled = mBuffer.getSubVolume(dstBox);
+            scaled = mBuffer.get_sub_volume(dstBox);
             Image::scale(src, scaled, Image::FILTER_BILINEAR);
         }
         else
         {
-            scaled = mBuffer.getSubVolume(dstBox);
+            scaled = mBuffer.get_sub_volume(dstBox);
             PixelUtil::bulkPixelConversion(src, scaled);
         }
     }
@@ -43,12 +43,15 @@ namespace Ogre {
         if(srcBox.getSize() != dst.getSize())
         {
             // We need scaling
-            Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
+            Image::scale(
+                mBuffer.get_sub_volume(srcBox),
+                dst,
+                Image::FILTER_BILINEAR);
         }
         else
         {
             // Just copy the bit that we need
-            PixelUtil::bulkPixelConversion(mBuffer.getSubVolume(srcBox), dst);
+            PixelUtil::bulkPixelConversion(mBuffer.get_sub_volume(srcBox), dst);
         }
     }
 }

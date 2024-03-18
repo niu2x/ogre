@@ -81,8 +81,8 @@ namespace Volume {
 
         mData = OGRE_ALLOC_T(float, mWidth * mHeight * mDepth, MEMCATEGORY_GENERAL);
         auto dstBox = srcBox;
-        dstBox.data = (uchar*)mData;
-        dstBox.format = PixelFormat::FLOAT32_R;
+        dstBox.set_data((uchar*)mData);
+        dstBox.set_format(PixelFormat::FLOAT32_R);
         PixelUtil::bulkPixelConversion(srcBox, dstBox);
 
         LogManager::singleton().stream()

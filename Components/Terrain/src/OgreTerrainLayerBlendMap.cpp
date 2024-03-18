@@ -222,7 +222,7 @@ namespace Ogre
         }
 
         // pixel conversion
-        PixelBox dstMemBox = mData.getPixelBox().getSubVolume(dstBox);
+        PixelBox dstMemBox = mData.getPixelBox().get_sub_volume(dstBox);
         PixelUtil::bulkPixelConversion(*srcBox, dstMemBox);
 
         if (srcBox != &src)

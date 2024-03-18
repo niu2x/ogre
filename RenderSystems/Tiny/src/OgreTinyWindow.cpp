@@ -78,6 +78,8 @@ void TinyWindow::copyContentsToMemory(const Box& src, const PixelBox& dst, Frame
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box");
     }
 
-    PixelUtil::bulkPixelConversion(mBuffer.getPixelBox().getSubVolume(src), dst);
+    PixelUtil::bulkPixelConversion(
+        mBuffer.getPixelBox().get_sub_volume(src),
+        dst);
 }
 } // namespace Ogre

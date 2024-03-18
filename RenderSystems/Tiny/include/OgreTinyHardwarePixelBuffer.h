@@ -16,7 +16,10 @@ namespace Ogre {
         TinyHardwarePixelBuffer(const PixelBox& data, Usage usage);
 
         /// Lock a box
-        PixelBox lockImpl(const Box &lockBox,  LockOptions options) override {  return mBuffer.getSubVolume(lockBox); }
+        PixelBox lockImpl(const Box& lockBox, LockOptions options) override
+        {
+            return mBuffer.get_sub_volume(lockBox);
+        }
 
         /// Unlock a box
         void unlockImpl(void) override {}

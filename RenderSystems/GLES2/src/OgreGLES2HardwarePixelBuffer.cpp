@@ -63,7 +63,7 @@ namespace Ogre {
             // Extents match, but format is not accepted as valid source format for GL
             // do conversion in temporary buffer
             allocateBuffer();
-            converted = mBuffer.getSubVolume(src);
+            converted = mBuffer.get_sub_volume(src);
             PixelUtil::bulkPixelConversion(src, converted);
         }
         else
@@ -98,10 +98,15 @@ namespace Ogre {
             download(mBuffer);
             if (srcBox.size() != dst.size()) {
                 // We need scaling
-                Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
+                Image::scale(
+                    mBuffer.get_sub_volume(srcBox),
+                    dst,
+                    Image::FILTER_BILINEAR);
             } else {
                 // Just copy the bit that we need
-                PixelUtil::bulkPixelConversion(mBuffer.getSubVolume(srcBox), dst);
+                PixelUtil::bulkPixelConversion(
+                    mBuffer.get_sub_volume(srcBox),
+                    dst);
             }
             freeBuffer();
         }

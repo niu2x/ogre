@@ -501,6 +501,8 @@ public:
 
     void set_format(PixelFormat fmt) { format_ = fmt; }
 
+    void set_data(uint8_t* data) { data_ = data; }
+
 private:
     /// The data pointer
     uchar* data_;

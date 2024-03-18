@@ -162,8 +162,14 @@ namespace Ogre
         HardwareBufferLockGuard shadowTexLock(shadowTex->getBuffer(), HardwareBuffer::HBL_DISCARD);
         const PixelBox& box = shadowTex->getBuffer()->getCurrentLock();
 
-        // set high-values across all bytes of the format 
-        PixelUtil::packColour( 1.0f, 1.0f, 1.0f, 1.0f, shadowTex->getFormat(), box.data );
+        // set high-values across all bytes of the format
+        PixelUtil::packColour(
+            1.0f,
+            1.0f,
+            1.0f,
+            1.0f,
+            shadowTex->getFormat(),
+            box.data());
 
         return shadowTex;
     

@@ -31,7 +31,7 @@ THE SOFTWARE.
 // NB VC6 can't handle these templates
 #if OGRE_COMPILER != OGRE_COMPILER_MSVC || OGRE_COMP_VER >= 1300
 
-    #define FMTCONVERTERID(from, to) ((((int)from) << 8) | ((int)to))
+    #define FMTCONVERTERID(from, to) ((((int)(from)) << 8) | ((int)(to)))
 /** \addtogroup Core
 *  @{
 */
@@ -613,9 +613,8 @@ struct X8B8G8R8toR8G8B8A8 : public PixelConverter<
             return 1;
 
 inline int doOptimizedConversion(const Ogre::PixelBox &src, const Ogre::PixelBox &dst)
-{;
-    switch(FMTCONVERTERID(src.format, dst.format))
-    {
+{
+    switch (FMTCONVERTERID(src.format(), dst.format())) {
         // Register converters here
         CASECONVERTER(A8R8G8B8toA8B8G8R8);
         CASECONVERTER(A8R8G8B8toB8G8R8A8);
@@ -666,7 +665,7 @@ inline int doOptimizedConversion(const Ogre::PixelBox &src, const Ogre::PixelBox
             return 0;
     }
 }
-#undef CASECONVERTER
+    #undef CASECONVERTER
 /** @} */
 /** @} */
 

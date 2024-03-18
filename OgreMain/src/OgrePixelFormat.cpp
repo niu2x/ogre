@@ -38,14 +38,14 @@ namespace Ogre {
     //-----------------------------------------------------------------------
 size_t PixelBox::get_consecutive_size() const
 {
-    return PixelUtil::getMemorySize(width(), height(), depth(), format);
+    return PixelUtil::getMemorySize(width(), height(), depth(), format_);
 }
 PixelBox
 PixelBox::get_sub_volume(const Box& def, bool resetOrigin /* = true */) const
 {
     OgreAssert(contains(def), "");
 
-    if (PixelUtil::isCompressed(format)
+    if (PixelUtil::isCompressed(format_)
         && (def.left != left || def.top != top || def.right != right
             || def.bottom != bottom))
         OGRE_EXCEPT(
@@ -55,38 +55,39 @@ PixelBox::get_sub_volume(const Box& def, bool resetOrigin /* = true */) const
             "PixelBox::getSubVolume");
 
     // Calculate new pixelbox and optionally reset origin.
-    PixelBox rval(def, format, data);
+    PixelBox rval(def, format_, data_);
     rval.row_pitch_ = row_pitch_;
-        rval.slice_pitch) = slice_pitch);
+    rval.slice_pitch_ = slice_pitch_;
 
-        if(resetOrigin)
-        {
-            if(PixelUtil::isCompressed(format))
-            {
-                if(rval.front > 0)
-                {
-                    rval.data = (uint8*)rval.data + rval.front * PixelUtil::getMemorySize(width(), height(), 1, format);
-                    rval.back -= rval.front;
-                    rval.front = 0;
-                }
-            }
-            else
-            {
-                rval.data = rval.get_top_left_front_pixel_ptr();
-                rval.right -= rval.left;
-                rval.bottom -= rval.top;
+    if (resetOrigin) {
+        if (PixelUtil::isCompressed(format_)) {
+            if (rval.front > 0) {
+                rval.data_ = (uint8*)rval.data_
+                    + rval.front
+                        * PixelUtil::getMemorySize(
+                            width(),
+                            height(),
+                            1,
+                            format_);
                 rval.back -= rval.front;
-                rval.front = rval.top = rval.left = 0;
+                rval.front = 0;
             }
+        } else {
+            rval.data_ = rval.get_top_left_front_pixel_ptr();
+            rval.right -= rval.left;
+            rval.bottom -= rval.top;
+            rval.back -= rval.front;
+            rval.front = rval.top = rval.left = 0;
         }
+    }
 
         return rval;
 }
 uchar* PixelBox::get_top_left_front_pixel_ptr() const
 {
-    return data
-        + (left + top * rowPitch + front * slicePitch)
-        * PixelUtil::getNumElemBytes(format);
+    return data_
+        + (left + top * row_pitch_ + front * slice_pitch_)
+        * PixelUtil::getNumElemBytes(format_);
 }
     //-----------------------------------------------------------------------
     /**
@@ -666,31 +667,37 @@ uchar* PixelBox::get_top_left_front_pixel_ptr() const
         OgreAssert(src.size() == dst.size(), "");
 
         // Check for compressed formats, we don't support decompression, compression or recoding
-        if(PixelUtil::isCompressed(src.format) || PixelUtil::isCompressed(dst.format))
-        {
-            OgreAssert(src.format == dst.format && src.isConsecutive() && dst.isConsecutive(),
-                       "This method can not be used to compress or decompress images");
+        if (PixelUtil::isCompressed(src.format())
+            || PixelUtil::isCompressed(dst.format())) {
+            OgreAssert(
+                src.format() == dst.format() && src.is_consecutive()
+                    && dst.is_consecutive(),
+                "This method can not be used to compress or decompress images");
             // we can copy with slice granularity, useful for Tex2DArray handling
-            size_t bytesPerSlice = getMemorySize(src.width(), src.height(), 1, src.format);
-            memcpy(dst.data + bytesPerSlice * dst.front, src.data + bytesPerSlice * src.front,
-                   bytesPerSlice * src.depth());
+            size_t bytesPerSlice
+                = getMemorySize(src.width(), src.height(), 1, src.format());
+            memcpy(
+                dst.data() + bytesPerSlice * dst.front,
+                src.data() + bytesPerSlice * src.front,
+                bytesPerSlice * src.depth());
             return;
         }
 
         // The easy case
-        if(src.format == dst.format) {
+        if (src.format() == dst.format()) {
             uint8* srcptr = src.get_top_left_front_pixel_ptr();
             uint8* dstptr = dst.get_top_left_front_pixel_ptr();
 
             // Everything consecutive?
-            if(src.isConsecutive() && dst.isConsecutive())
-            {
-                memcpy(dstptr, srcptr, src.getConsecutiveSize());
+            if (src.is_consecutive() && dst.is_consecutive()) {
+                memcpy(dstptr, srcptr, src.get_consecutive_size());
                 return;
             }
 
-            const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
-            const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
+            const size_t srcPixelSize
+                = PixelUtil::getNumElemBytes(src.format());
+            const size_t dstPixelSize
+                = PixelUtil::getNumElemBytes(dst.format());
 
             // Calculate pitches+skips in bytes
             const size_t srcRowPitchBytes = src.row_pitch() * srcPixelSize;
@@ -721,23 +728,23 @@ uchar* PixelBox::get_top_left_front_pixel_ptr() const
         // Converting to PixelFormat::X8R8G8B8 is exactly the same as converting
         // to PixelFormat::A8R8G8B8. (same with PixelFormat::X8B8G8R8 and
         // PixelFormat::A8B8G8R8)
-        if (dst.format == PixelFormat::X8R8G8B8
-            || dst.format == PixelFormat::X8B8G8R8) {
+        if (dst.format() == PixelFormat::X8R8G8B8
+            || dst.format() == PixelFormat::X8B8G8R8) {
             // Do the same conversion, with PixelFormat::A8R8G8B8, which has a
             // lot of optimized conversions
             PixelBox tempdst = dst;
-            tempdst.format = dst.format == PixelFormat::X8R8G8B8
-                ? PixelFormat::A8R8G8B8
-                : PixelFormat::A8B8G8R8;
+            tempdst.set_format(
+                dst.format() == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8
+                                                      : PixelFormat::A8B8G8R8);
             bulkPixelConversion(src, tempdst);
             return;
         }
         // Converting from PixelFormat::X8R8G8B8 is exactly the same as
         // converting from PixelFormat::A8R8G8B8, given that the destination
         // format does not have alpha.
-        if ((src.format == PixelFormat::X8R8G8B8
-             || src.format == PixelFormat::X8B8G8R8)
-            && !hasAlpha(dst.format)) {
+        if ((src.format() == PixelFormat::X8R8G8B8
+             || src.format() == PixelFormat::X8B8G8R8)
+            && !hasAlpha(dst.format())) {
             // Do the same conversion, with PixelFormat::A8R8G8B8, which has a
             // lot of optimized conversions
             PixelBox tempsrc = src;
@@ -848,8 +855,11 @@ uchar* PixelBox::get_top_left_front_pixel_ptr() const
         return cv;
     }
 
-    void
-    PixelBox::set_color(ColourValue const& cv, size_t x, size_t y, size_t z)
+    void PixelBox::set_color(
+        const Ogre::ColourValue& cv,
+        size_t x,
+        size_t y,
+        size_t z)
     {
         size_t pixelSize = PixelUtil::getNumElemBytes(format_);
         size_t pixelOffset
