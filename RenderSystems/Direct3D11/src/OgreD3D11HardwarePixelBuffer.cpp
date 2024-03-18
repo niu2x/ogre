@@ -321,8 +321,12 @@ namespace Ogre {
             UINT srcDepthPitch = PixelUtil::getMemorySize(src.width(), src.height(), 1, src.format); // H * rowPitch is invalid for compressed formats
 
             mDevice.GetImmediateContext()->UpdateSubresource(
-                mParentTexture->getTextureResource(), dstSubresource, &dstBox,
-                src.getTopLeftFrontPixelPtr(), srcRowPitch, srcDepthPitch);
+                mParentTexture->getTextureResource(),
+                dstSubresource,
+                &dstBox,
+                src.get_top_left_front_pixel_ptr(),
+                srcRowPitch,
+                srcDepthPitch);
         }
 
         if(mDevice.isError())

@@ -145,7 +145,9 @@ void Sample_VolumeTex::generate()
     buffer->lock(HardwareBuffer::HBL_NORMAL);
     const PixelBox &pb = buffer->getCurrentLock();
     d.str("");
-    d << "PixelBox " << pb.width() << " " << pb.height() << " " << pb.depth() << " " << pb.rowPitch << " " << pb.slicePitch << " " << pb.data << " " << PixelUtil::getFormatName(pb.format);
+    d << "PixelBox " << pb.width() << " " << pb.height() << " " << pb.depth()
+      << " " << pb.row_pitch() << " " << pb.slice_pitch() << " " << pb.data
+      << " " << PixelUtil::getFormatName(pb.format);
     LogManager::singleton().log_message(d.str());
 
     Ogre::uint32 *pbptr = reinterpret_cast<Ogre::uint32*>(pb.data);
@@ -178,9 +180,9 @@ void Sample_VolumeTex::generate()
                         &pbptr[x]);
                 }
             }
-            pbptr += pb.rowPitch;
+            pbptr += pb.row_pitch();
         }
-        pbptr += pb.getSliceSkip();
+        pbptr += pb.get_slice_skip();
     }
     buffer->unlock();
 }

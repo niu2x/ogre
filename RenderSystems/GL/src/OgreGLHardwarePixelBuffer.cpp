@@ -242,16 +242,19 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
     }
     else
     {
-        if(data.width() != data.rowPitch)
-            glPixelStorei(GL_UNPACK_ROW_LENGTH, data.rowPitch);
-        if(data.width() > 0 && data.height()*data.width() != data.slicePitch)
-            glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, (data.slicePitch/data.width()));
+        if (data.width() != data.row_pitch())
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch());
+        if (data.width() > 0
+            && data.height() * data.width() != data.slice_pitch())
+            glPixelStorei(
+                GL_UNPACK_IMAGE_HEIGHT,
+                (data.slice_pitch() / data.width()));
         if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         }
 
-        void* pdata = data.getTopLeftFrontPixelPtr();
+        void* pdata = data.get_top_left_front_pixel_ptr();
 
         switch(mTarget) {
             case GL_TEXTURE_1D:
@@ -312,18 +315,23 @@ void GLTextureBuffer::download(const PixelBox &data)
     } 
     else
     {
-        if(data.width() != data.rowPitch)
-            glPixelStorei(GL_PACK_ROW_LENGTH, data.rowPitch);
-        if(data.height()*data.width() != data.slicePitch)
-            glPixelStorei(GL_PACK_IMAGE_HEIGHT, (data.slicePitch/data.width()));
+        if (data.width() != data.row_pitch())
+            glPixelStorei(GL_PACK_ROW_LENGTH, data.row_pitch());
+        if (data.height() * data.width() != data.slice_pitch())
+            glPixelStorei(
+                GL_PACK_IMAGE_HEIGHT,
+                (data.slice_pitch() / data.width()));
         if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_PACK_ALIGNMENT, 1);
         }
         // We can only get the entire texture
-        glGetTexImage(mFaceTarget, mLevel, 
-            GLPixelUtil::getGLOriginFormat(data.format), GLPixelUtil::getGLOriginDataType(data.format),
-            data.getTopLeftFrontPixelPtr());
+        glGetTexImage(
+            mFaceTarget,
+            mLevel,
+            GLPixelUtil::getGLOriginFormat(data.format),
+            GLPixelUtil::getGLOriginDataType(data.format),
+            data.get_top_left_front_pixel_ptr());
         // Restore defaults
         glPixelStorei(GL_PACK_ROW_LENGTH, 0);
         glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);

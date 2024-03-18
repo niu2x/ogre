@@ -53,12 +53,16 @@ template <class U> struct PixelBoxConverter
     static const int ID = U::ID;
     static void conversion(const Ogre::PixelBox &src, const Ogre::PixelBox &dst)
     {
-        typename U::SrcType *srcptr = reinterpret_cast<typename U::SrcType*>(src.data)
-            + (src.left + src.top * src.rowPitch + src.front * src.slicePitch);
-        typename U::DstType *dstptr = reinterpret_cast<typename U::DstType*>(dst.data)
-            + (dst.left + dst.top * dst.rowPitch + dst.front * dst.slicePitch);
-        const size_t srcSliceSkip = src.getSliceSkip();
-        const size_t dstSliceSkip = dst.getSliceSkip();
+        typename U::SrcType* srcptr
+            = reinterpret_cast<typename U::SrcType*>(src.data())
+            + (src.left + src.top * src.row_pitch()
+               + src.front * src.slice_pitch());
+        typename U::DstType* dstptr
+            = reinterpret_cast<typename U::DstType*>(dst.data())
+            + (dst.left + dst.top * dst.row_pitch()
+               + dst.front * dst.slice_pitch());
+        const size_t srcSliceSkip = src.get_slice_skip();
+        const size_t dstSliceSkip = dst.get_slice_skip();
         const size_t k = src.right - src.left;
         for(size_t z=src.front; z<src.back; z++) 
         {
@@ -68,8 +72,8 @@ template <class U> struct PixelBoxConverter
                 {
                     dstptr[x] = U::pixelConvert(srcptr[x]);
                 }
-                srcptr += src.rowPitch;
-                dstptr += dst.rowPitch;
+                srcptr += src.row_pitch();
+                dstptr += dst.row_pitch();
             }
             srcptr += srcSliceSkip;
             dstptr += dstSliceSkip;

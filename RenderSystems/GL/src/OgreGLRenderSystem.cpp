@@ -2987,8 +2987,8 @@ namespace Ogre {
         // Switch context if different from current one
         _setViewport(vp);
 
-        if(dst.width() != dst.rowPitch)
-            glPixelStorei(GL_PACK_ROW_LENGTH, dst.rowPitch);
+        if (dst.width() != dst.row_pitch())
+            glPixelStorei(GL_PACK_ROW_LENGTH, dst.row_pitch());
         // Must change the packing to ensure no overruns!
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
@@ -2996,9 +2996,14 @@ namespace Ogre {
 
         uint32_t height = vp->getTarget()->height();
 
-        glReadPixels((GLint)src.left, (GLint)(height - src.bottom),
-                     (GLsizei)dst.width(), (GLsizei)dst.height(),
-                     format, type, dst.getTopLeftFrontPixelPtr());
+        glReadPixels(
+            (GLint)src.left,
+            (GLint)(height - src.bottom),
+            (GLsizei)dst.width(),
+            (GLsizei)dst.height(),
+            format,
+            type,
+            dst.get_top_left_front_pixel_ptr());
 
         // restore default alignment
         glPixelStorei(GL_PACK_ALIGNMENT, 4);

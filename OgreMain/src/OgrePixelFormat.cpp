@@ -36,21 +36,28 @@ namespace {
 namespace Ogre {
 
     //-----------------------------------------------------------------------
-    size_t PixelBox::getConsecutiveSize() const
-    {
-        return PixelUtil::getMemorySize(width(), height(), depth(), format);
-    }
-    PixelBox PixelBox::getSubVolume(const Box &def, bool resetOrigin /* = true */) const
-    {
-        OgreAssert(contains(def), "");
+size_t PixelBox::get_consecutive_size() const
+{
+    return PixelUtil::getMemorySize(width(), height(), depth(), format);
+}
+PixelBox
+PixelBox::get_sub_volume(const Box& def, bool resetOrigin /* = true */) const
+{
+    OgreAssert(contains(def), "");
 
-        if(PixelUtil::isCompressed(format) && (def.left != left || def.top != top || def.right != right || def.bottom != bottom))
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Cannot return subvolume of compressed PixelBuffer with less than slice granularity", "PixelBox::getSubVolume");
+    if (PixelUtil::isCompressed(format)
+        && (def.left != left || def.top != top || def.right != right
+            || def.bottom != bottom))
+        OGRE_EXCEPT(
+            Exception::ERR_INVALIDPARAMS,
+            "Cannot return subvolume of compressed PixelBuffer with less than "
+            "slice granularity",
+            "PixelBox::getSubVolume");
 
-        // Calculate new pixelbox and optionally reset origin.
-        PixelBox rval(def, format, data);
-        rval.rowPitch = rowPitch;
-        rval.slicePitch = slicePitch;
+    // Calculate new pixelbox and optionally reset origin.
+    PixelBox rval(def, format, data);
+    rval.row_pitch_ = row_pitch_;
+        rval.slice_pitch) = slice_pitch);
 
         if(resetOrigin)
         {
@@ -65,7 +72,7 @@ namespace Ogre {
             }
             else
             {
-                rval.data = rval.getTopLeftFrontPixelPtr();
+                rval.data = rval.get_top_left_front_pixel_ptr();
                 rval.right -= rval.left;
                 rval.bottom -= rval.top;
                 rval.back -= rval.front;
@@ -74,11 +81,13 @@ namespace Ogre {
         }
 
         return rval;
-    }
-    uchar* PixelBox::getTopLeftFrontPixelPtr() const
-    {
-        return data + (left + top * rowPitch + front * slicePitch) * PixelUtil::getNumElemBytes(format);
-    }
+}
+uchar* PixelBox::get_top_left_front_pixel_ptr() const
+{
+    return data
+        + (left + top * rowPitch + front * slicePitch)
+        * PixelUtil::getNumElemBytes(format);
+}
     //-----------------------------------------------------------------------
     /**
     * Directly get the description record for provided pixel format. For debug builds,
@@ -670,8 +679,8 @@ namespace Ogre {
 
         // The easy case
         if(src.format == dst.format) {
-            uint8 *srcptr = src.getTopLeftFrontPixelPtr();
-            uint8 *dstptr = dst.getTopLeftFrontPixelPtr();
+            uint8* srcptr = src.get_top_left_front_pixel_ptr();
+            uint8* dstptr = dst.get_top_left_front_pixel_ptr();
 
             // Everything consecutive?
             if(src.isConsecutive() && dst.isConsecutive())
@@ -684,13 +693,15 @@ namespace Ogre {
             const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
 
             // Calculate pitches+skips in bytes
-            const size_t srcRowPitchBytes = src.rowPitch*srcPixelSize;
-            //const size_t srcRowSkipBytes = src.getRowSkip()*srcPixelSize;
-            const size_t srcSliceSkipBytes = src.getSliceSkip()*srcPixelSize;
+            const size_t srcRowPitchBytes = src.row_pitch() * srcPixelSize;
+            // const size_t srcRowSkipBytes = src.get_row_skip()*srcPixelSize;
+            const size_t srcSliceSkipBytes
+                = src.get_slice_skip() * srcPixelSize;
 
-            const size_t dstRowPitchBytes = dst.rowPitch*dstPixelSize;
-            //const size_t dstRowSkipBytes = dst.getRowSkip()*dstPixelSize;
-            const size_t dstSliceSkipBytes = dst.getSliceSkip()*dstPixelSize;
+            const size_t dstRowPitchBytes = dst.row_pitch() * dstPixelSize;
+            // const size_t dstRowSkipBytes = dst.get_row_skip()*dstPixelSize;
+            const size_t dstSliceSkipBytes
+                = dst.get_slice_skip() * dstPixelSize;
 
             // Otherwise, copy per row
             const size_t rowSize = src.width()*srcPixelSize;
@@ -730,9 +741,9 @@ namespace Ogre {
             // Do the same conversion, with PixelFormat::A8R8G8B8, which has a
             // lot of optimized conversions
             PixelBox tempsrc = src;
-            tempsrc.format = src.format == PixelFormat::X8R8G8B8
-                ? PixelFormat::A8R8G8B8
-                : PixelFormat::A8B8G8R8;
+            tempsrc.set_format(
+                src.format() == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8
+                                                      : PixelFormat::A8B8G8R8);
             bulkPixelConversion(tempsrc, dst);
             return;
         }
@@ -747,19 +758,19 @@ namespace Ogre {
         }
 #endif
 
-        const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
-        const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
-        uint8* srcptr = src.getTopLeftFrontPixelPtr();
-        uint8* dstptr = dst.getTopLeftFrontPixelPtr();
+        const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format());
+        const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format());
+        uint8* srcptr = src.get_top_left_front_pixel_ptr();
+        uint8* dstptr = dst.get_top_left_front_pixel_ptr();
 
         // Old way, not taking into account box dimensions
         //uint8 *srcptr = static_cast<uint8*>(src.data), *dstptr = static_cast<uint8*>(dst.data);
 
         // Calculate pitches+skips in bytes
-        const size_t srcRowSkipBytes = src.getRowSkip()*srcPixelSize;
-        const size_t srcSliceSkipBytes = src.getSliceSkip()*srcPixelSize;
-        const size_t dstRowSkipBytes = dst.getRowSkip()*dstPixelSize;
-        const size_t dstSliceSkipBytes = dst.getSliceSkip()*dstPixelSize;
+        const size_t srcRowSkipBytes = src.get_row_skip() * srcPixelSize;
+        const size_t srcSliceSkipBytes = src.get_slice_skip() * srcPixelSize;
+        const size_t dstRowSkipBytes = dst.get_row_skip() * dstPixelSize;
+        const size_t dstSliceSkipBytes = dst.get_slice_skip() * dstPixelSize;
 
         // The brute force fallback
         float r = 0, g = 0, b = 0, a = 1;
@@ -769,8 +780,8 @@ namespace Ogre {
             {
                 for(size_t x=src.left; x<src.right; x++)
                 {
-                    unpackColour(&r, &g, &b, &a, src.format, srcptr);
-                    packColour(r, g, b, a, dst.format, dstptr);
+                    unpackColour(&r, &g, &b, &a, src.format(), srcptr);
+                    packColour(r, g, b, a, dst.format(), dstptr);
                     srcptr += srcPixelSize;
                     dstptr += dstPixelSize;
                 }
@@ -785,16 +796,18 @@ namespace Ogre {
     void PixelUtil::bulkPixelVerticalFlip(const PixelBox &box)
     {
         // Check for compressed formats, we don't support decompression, compression or recoding
-        OgreAssert(!PixelUtil::isCompressed(box.format), "This method can not be used for compressed formats");
-        
-        const size_t pixelSize = PixelUtil::getNumElemBytes(box.format);
+        OgreAssert(
+            !PixelUtil::isCompressed(box.format()),
+            "This method can not be used for compressed formats");
+
+        const size_t pixelSize = PixelUtil::getNumElemBytes(box.format());
         const size_t copySize = box.width() * pixelSize;
 
         // Calculate pitches in bytes
-        const size_t rowPitchBytes = box.rowPitch * pixelSize;
-        const size_t slicePitchBytes = box.slicePitch * pixelSize;
+        const size_t rowPitchBytes = box.row_pitch() * pixelSize;
+        const size_t slicePitchBytes = box.slice_pitch() * pixelSize;
 
-        uint8 *basesrcptr = box.getTopLeftFrontPixelPtr();
+        uint8* basesrcptr = box.get_top_left_front_pixel_ptr();
         uint8 *basedstptr = basesrcptr + (box.bottom - box.top - 1) * rowPitchBytes;
         uint8* tmpptr = (uint8*)OGRE_MALLOC_SIMD(copySize, MEMCATEGORY_GENERAL);
         
@@ -820,22 +833,28 @@ namespace Ogre {
         OGRE_FREE_SIMD(tmpptr, MEMCATEGORY_GENERAL);
     }
 
-    ColourValue PixelBox::getColourAt(size_t x, size_t y, size_t z) const
+    ColourValue PixelBox::get_color(size_t x, size_t y, size_t z) const
     {
         ColourValue cv;
 
-        size_t pixelSize = PixelUtil::getNumElemBytes(format);
-        size_t pixelOffset = pixelSize * (z * slicePitch + y * rowPitch + x);
-        PixelUtil::unpackColour(&cv, format, (unsigned char *)data + pixelOffset);
+        size_t pixelSize = PixelUtil::getNumElemBytes(format_);
+        size_t pixelOffset
+            = pixelSize * (z * slice_pitch_ + y * row_pitch_ + x);
+        PixelUtil::unpackColour(
+            &cv,
+            format_,
+            (unsigned char*)data_ + pixelOffset);
 
         return cv;
     }
 
-    void PixelBox::setColourAt(ColourValue const &cv, size_t x, size_t y, size_t z)
+    void
+    PixelBox::set_color(ColourValue const& cv, size_t x, size_t y, size_t z)
     {
-        size_t pixelSize = PixelUtil::getNumElemBytes(format);
-        size_t pixelOffset = pixelSize * (z * slicePitch + y * rowPitch + x);
-        PixelUtil::packColour(cv, format, (unsigned char *)data + pixelOffset);
+        size_t pixelSize = PixelUtil::getNumElemBytes(format_);
+        size_t pixelOffset
+            = pixelSize * (z * slice_pitch_ + y * row_pitch_ + x);
+        PixelUtil::packColour(cv, format_, (unsigned char*)data_ + pixelOffset);
     }
 
 }

@@ -383,10 +383,10 @@ class PixelBox : public Box, public ImageAlloc {
 public:
     /// Parameter constructor for setting the members manually
     PixelBox()
-    : data(NULL)
-    , rowPitch(0)
-    , slicePitch(0)
-    , format(PixelFormat::UNKNOWN)
+    : data_(NULL)
+    , row_pitch_(0)
+    , slice_pitch_(0)
+    , format_(PixelFormat::UNKNOWN)
     {
     }
     
@@ -399,10 +399,10 @@ public:
     */
     PixelBox(const Box& extents, PixelFormat pixelFormat, void* pixelData = 0)
     : Box(extents)
-    , data((uchar*)pixelData)
-    , format(pixelFormat)
+    , data_((uchar*)pixelData)
+    , format_(pixelFormat)
     {
-        setConsecutive();
+        set_consecutive();
     }
     /** Constructor providing width, height and depth. This constructor
         assumes the pixel data is laid out consecutively in memory. (this
@@ -420,60 +420,49 @@ public:
         PixelFormat pixelFormat,
         void* pixelData = 0)
     : Box(0, 0, 0, width, height, depth)
-    , data((uchar*)pixelData)
-    , format(pixelFormat)
+    , data_((uchar*)pixelData)
+    , format_(pixelFormat)
     {
-        setConsecutive();
+        set_consecutive();
     }
 
-    /// The data pointer
-    uchar* data;
-    /** Number of elements between the leftmost pixel of one row and the left
-        pixel of the next. This value must always be equal to width()
-       (consecutive) for compressed formats.
-    */
-    size_t rowPitch;
-    /** Number of elements between the top left pixel of one (depth) slice and
-        the top left pixel of the next. This can be a negative value. Must be a
-       multiple of rowPitch. This value must always be equal to
-       width()*height() (consecutive) for compressed formats.
-    */
-    size_t slicePitch;
-    /// The pixel format
-    PixelFormat format;
-    /** Set the rowPitch and slicePitch so that the buffer is laid out
+    size_t slice_pitch() const { return slice_pitch_; }
+
+    size_t row_pitch() const { return row_pitch_; }
+
+    /** Set the row_pitch_ and slice_pitch_ so that the buffer is laid out
        consecutive in memory.
     */
-    void setConsecutive()
+    void set_consecutive()
     {
-        rowPitch = width();
-        slicePitch = width() * height();
+        row_pitch_ = width();
+        slice_pitch_ = width() * height();
     }
     /** Get the number of elements between one past the rightmost pixel of
         one row and the leftmost pixel of the next row. (IE this is zero if rows
         are consecutive).
     */
-    size_t getRowSkip() const { return rowPitch - width(); }
+    size_t get_row_skip() const { return row_pitch_ - width(); }
     /** Get the number of elements between one past the right bottom pixel of
         one slice and the left top pixel of the next slice. (IE this is zero if
        slices are consecutive).
     */
-    size_t getSliceSkip() const
+    size_t get_slice_skip() const
     {
-        return slicePitch - (height() * rowPitch);
+        return slice_pitch_ - (height() * row_pitch_);
     }
 
     /** Return whether this buffer is laid out consecutive in memory (ie the
        pitches are equal to the dimensions)
     */
-    bool isConsecutive() const
+    bool is_consecutive() const
     {
-        return rowPitch == width() && slicePitch == width() * height();
+        return row_pitch_ == width() && slice_pitch_ == width() * height();
     }
     /** Return the size (in bytes) this image would take if it was
         laid out consecutive in memory
     */
-    size_t getConsecutiveSize() const;
+    size_t get_consecutive_size() const;
     /** Return a subvolume of this PixelBox.
         @param def  Defines the bounds of the subregion to return
         @param resetOrigin Whether to reset left/top/front of returned PixelBox
@@ -486,26 +475,48 @@ public:
             the data of object.
         @throws Exception(ERR_INVALIDPARAMS) if def is not fully contained
     */
-    PixelBox getSubVolume(const Box& def, bool resetOrigin = true) const;
+    PixelBox get_sub_volume(const Box& def, bool resetOrigin = true) const;
 
     /** Return a data pointer pointing to top left front pixel of the pixel box.
         @remarks Non consecutive pixel boxes are supported.
      */
-    uchar* getTopLeftFrontPixelPtr() const;
+    uchar* get_top_left_front_pixel_ptr() const;
+    uchar* data() const { return data_; }
 
     /**
      * Get colour value from a certain location in the PixelBox. The z
      * coordinate is only valid for cubemaps and volume textures. This uses the
      * first (largest) mipmap.
      */
-    ColourValue getColourAt(size_t x, size_t y, size_t z) const;
+    ColourValue get_color(size_t x, size_t y, size_t z) const;
 
     /**
      * Set colour value at a certain location in the PixelBox. The z coordinate
      * is only valid for cubemaps and volume textures. This uses the first
      * (largest) mipmap.
      */
-    void setColourAt(ColourValue const& cv, size_t x, size_t y, size_t z);
+    void set_color(const ColourValue& cv, size_t x, size_t y, size_t z);
+
+    PixelFormat format() const { return format_; }
+
+    void set_format(PixelFormat fmt) { format_ = fmt; }
+
+private:
+    /// The data pointer
+    uchar* data_;
+    /** Number of elements between the leftmost pixel of one row and the left
+        pixel of the next. This value must always be equal to width()
+       (consecutive) for compressed formats.
+    */
+    size_t row_pitch_;
+    /** Number of elements between the top left pixel of one (depth) slice and
+        the top left pixel of the next. This can be a negative value. Must be a
+       multiple of rowPitch. This value must always be equal to
+       width()*height() (consecutive) for compressed formats.
+    */
+    size_t slice_pitch_;
+    /// The pixel format
+    PixelFormat format_;
 };
 
     /**

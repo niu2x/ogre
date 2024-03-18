@@ -145,7 +145,7 @@ namespace Ogre {
 
         void* pdata = NULL;
 #else
-        void* pdata = data.getTopLeftFrontPixelPtr();
+        void* pdata = data.get_top_left_front_pixel_ptr();
 #endif
 
         if (PixelUtil::isCompressed(data.format))
@@ -195,10 +195,13 @@ namespace Ogre {
         else
         {
 #ifndef USE_PBO
-            if (data.width() != data.rowPitch)
-                OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_ROW_LENGTH, data.rowPitch));
-            if (data.height() * data.width() != data.slicePitch)
-                OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, (data.slicePitch/data.width())));
+            if (data.width() != data.row_pitch())
+                OGRE_CHECK_GL_ERROR(
+                    glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch()));
+            if (data.height() * data.width() != data.slice_pitch())
+                OGRE_CHECK_GL_ERROR(glPixelStorei(
+                    GL_UNPACK_IMAGE_HEIGHT,
+                    (data.slice_pitch() / data.width())));
 #endif
             if ((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
                 // Standard alignment of 4 is not right.
@@ -326,15 +329,22 @@ namespace Ogre {
 
         // Copy to destination buffer
         if(data.isConsecutive())
-            buffer.readData(0, data.getConsecutiveSize(), data.getTopLeftFrontPixelPtr());
+            buffer.readData(
+                0,
+                data.getConsecutiveSize(),
+                data.get_top_left_front_pixel_ptr());
         else
         {
             size_t srcOffset = 0, elemSizeInBytes = PixelUtil::getNumElemBytes(data.format);
             for(size_t z = 0; z < mDepth; ++z)
                 for(size_t y = 0; y < mHeight; ++y)
                 {
-                    buffer.readData(srcOffset, mWidth * elemSizeInBytes,
-                        (uint8*)data.getTopLeftFrontPixelPtr() + (z * data.slicePitch + y * data.rowPitch) * elemSizeInBytes);
+                    buffer.readData(
+                        srcOffset,
+                        mWidth * elemSizeInBytes,
+                        (uint8*)data.get_top_left_front_pixel_ptr()
+                            + (z * data.slice_pitch() + y * data.row_pitch())
+                                * elemSizeInBytes);
                     srcOffset += mWidth * elemSizeInBytes;
                 }
         }

@@ -1505,8 +1505,9 @@ namespace Ogre
         }
 
         PixelBox srcBox(src.width(), src.height(), 1, format, lockedRect.pBits);
-        srcBox.rowPitch = lockedRect.Pitch / PixelUtil::getNumElemBytes(format);
-        srcBox.slicePitch = desc.Height * srcBox.rowPitch;
+        srcBox.row_pitch()
+            = lockedRect.Pitch / PixelUtil::getNumElemBytes(format);
+        srcBox.slice_pitch() = desc.Height * srcBox.row_pitch();
 
         PixelUtil::bulkPixelConversion(srcBox, dst);
 
