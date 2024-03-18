@@ -193,7 +193,7 @@ void WaterMesh::push(Real x, Real y, Real depth, bool absolute)
 #undef _PREP
 }
 /* ========================================================================= */
-Real WaterMesh::getHeight(Real x, Real y)
+Real WaterMesh::height(Real x, Real y)
 {
 #define hat(_x,_y) buf[3*((int)_y*(complexity+1)+(int)(_x))]
     float *buf = vertexBuffers[currentBuffNumber] ;

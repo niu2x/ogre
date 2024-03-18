@@ -257,9 +257,9 @@ namespace Ogre {
         // Now deal with the data
         void *destPtr = image->getData();
         
-        uint width = image->getWidth();
-        uint height = image->getHeight();
-        uint depth = image->getDepth();
+        uint width = image->width();
+        uint height = image->height();
+        uint depth = image->depth();
 
         // All mips for a surface, then each face
         for(size_t mip = 0; mip <= image->getNumMipmaps(); ++mip)

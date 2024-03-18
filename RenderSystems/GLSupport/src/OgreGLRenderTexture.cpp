@@ -74,15 +74,15 @@ namespace Ogre {
             initialise();
     }
 
-    uint32 GLFrameBufferObjectCommon::getWidth() const
+    uint32 GLFrameBufferObjectCommon::width() const
     {
         assert(mColour[0].buffer);
-        return mColour[0].buffer->getWidth();
+        return mColour[0].buffer->width();
     }
-    uint32 GLFrameBufferObjectCommon::getHeight() const
+    uint32 GLFrameBufferObjectCommon::height() const
     {
         assert(mColour[0].buffer);
-        return mColour[0].buffer->getHeight();
+        return mColour[0].buffer->height();
     }
     PixelFormat GLFrameBufferObjectCommon::getFormat() const
     {
@@ -156,7 +156,7 @@ namespace Ogre {
     {
         if(surface.buffer == 0)
             return;
-        RBFormat key(surface.buffer->getGLFormat(), surface.buffer->getWidth(), surface.buffer->getHeight(), surface.numSamples);
+        RBFormat key(surface.buffer->getGLFormat(), surface.buffer->width(), surface.buffer->height(), surface.numSamples);
         RenderBufferMap::iterator it = mRenderBufferMap.find(key);
         if(it != mRenderBufferMap.end())
         {

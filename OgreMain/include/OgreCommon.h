@@ -574,19 +574,16 @@ namespace Ogre {
         }
 
         /// Get the width of this box
-        uint32 getWidth() const { return right - left; }
+        uint32 width() const { return right - left; }
         /// Get the height of this box
-        uint32 getHeight() const { return bottom - top; }
+        uint32 height() const { return bottom - top; }
         /// Get the depth of this box
-        uint32 getDepth() const { return back - front; }
+        uint32 depth() const { return back - front; }
 
         /// origin (top, left, front) of the box
-        Vector3i getOrigin() const { return Vector3i(left, top, front); }
+        Vector3i origin() const { return Vector3i(left, top, front); }
         /// size (width, height, depth) of the box
-        Vector3i size() const
-        {
-            return Vector3i(getWidth(), getHeight(), getDepth());
-        }
+        Vector3i size() const { return Vector3i(width(), height(), depth()); }
     };
 
     /** Locate command-line options of the unary form '-blah' and of the

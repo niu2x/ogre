@@ -70,8 +70,8 @@ namespace Ogre {
 
         /// Accessors
         int32 getFSAA() const { return mNumSamples; }
-        uint32 getWidth() const;
-        uint32 getHeight() const;
+        uint32 width() const;
+        uint32 height() const;
         PixelFormat getFormat() const;
 
         GLContext* getContext() const { return mContext; }

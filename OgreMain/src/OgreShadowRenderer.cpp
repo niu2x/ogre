@@ -663,7 +663,7 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
             // Create camera for this texture, but note that we have to rebind
             // in prepareShadowTextures to coexist with multiple SMs
             Camera* cam = mSceneManager->createCamera(camName);
-            cam->setAspectRatio((Real)shadowTex->getWidth() / (Real)shadowTex->getHeight());
+            cam->setAspectRatio((Real)shadowTex->width() / (Real)shadowTex->height());
             auto camNode = mSceneManager->getRootSceneNode()->createChildSceneNode();
             camNode->attachObject(cam);
             mShadowTextureCameras.push_back(cam);
@@ -671,7 +671,7 @@ void SceneManager::ShadowRenderer::ensureShadowTexturesCreated()
             // use separate culling camera, in case a focused shadow setup is used
             // in which case we want to keep the original light frustum for culling
             Camera* cullCam = mSceneManager->createCamera(camName+"/Cull");
-            cullCam->setAspectRatio((Real)shadowTex->getWidth() / (Real)shadowTex->getHeight());
+            cullCam->setAspectRatio((Real)shadowTex->width() / (Real)shadowTex->height());
             cam->setCullingFrustum(cullCam);
             camNode->attachObject(cullCam);
 

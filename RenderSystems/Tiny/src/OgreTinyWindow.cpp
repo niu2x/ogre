@@ -73,7 +73,7 @@ void TinyWindow::copyContentsToMemory(const Box& src, const PixelBox& dst, Frame
         return;
 
     if (src.right > mWidth || src.bottom > mHeight || src.front != 0 || src.back != 1 ||
-        dst.getWidth() != src.getWidth() || dst.getHeight() != src.getHeight() || dst.getDepth() != 1)
+        dst.width() != src.width() || dst.height() != src.height() || dst.depth() != 1)
     {
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box");
     }

@@ -59,7 +59,7 @@ namespace Ogre
 
         if( mWidth )
         {
-            if( mWidth != target->getWidth() && mHeight != target->getHeight() &&
+            if( mWidth != target->width() && mHeight != target->height() &&
                 mFSAA != target->getFSAA() )
             {
                 OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
@@ -68,8 +68,8 @@ namespace Ogre
             }
         }
 
-        mWidth  = target->getWidth();
-        mHeight = target->getHeight();
+        mWidth  = target->width();
+        mHeight = target->height();
         mFSAA   = target->getFSAA();
 
         assert( dynamic_cast<MetalRenderTexture*>( target ) );

@@ -147,11 +147,11 @@ namespace Ogre {
         /** Gets one of the relative dimensions of the viewport, a value
             between 0.0 and 1.0.
         */
-        float getWidth(void) const { return mRelRect.width(); }
+        float width(void) const { return mRelRect.width(); }
         /** Gets one of the relative dimensions of the viewport, a value
             between 0.0 and 1.0.
         */
-        float getHeight(void) const { return mRelRect.height(); }
+        float height(void) const { return mRelRect.height(); }
         /** Gets one of the actual dimensions of the viewport, a value in
             pixels.
         */

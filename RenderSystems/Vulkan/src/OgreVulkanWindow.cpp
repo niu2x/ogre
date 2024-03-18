@@ -178,8 +178,8 @@ namespace Ogre
         swapchainCreateInfo.minImageCount = minImageCount;
         swapchainCreateInfo.imageFormat = VulkanMappings::get(mTexture->getFormat());
         swapchainCreateInfo.imageColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
-        swapchainCreateInfo.imageExtent.width = getWidth();
-        swapchainCreateInfo.imageExtent.height = getHeight();
+        swapchainCreateInfo.imageExtent.width = width();
+        swapchainCreateInfo.imageExtent.height = height();
         swapchainCreateInfo.imageArrayLayers = 1u;
         swapchainCreateInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
         swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
@@ -337,8 +337,8 @@ namespace Ogre
     {
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
         // read size from handle
-        auto width = ANativeWindow_getWidth((ANativeWindow*)mWindowHandle);
-        auto height = ANativeWindow_getHeight((ANativeWindow*)mWindowHandle);
+        auto width = ANativeWindow_width((ANativeWindow*)mWindowHandle);
+        auto height = ANativeWindow_height((ANativeWindow*)mWindowHandle);
         resize(width, height);
 #endif
     }

@@ -48,8 +48,8 @@ namespace Ogre
     {
         mData.create(
             PixelFormat::FLOAT32_R,
-            mBuffer->getWidth(),
-            mBuffer->getHeight());
+            mBuffer->width(),
+            mBuffer->height());
 
         // we know which of RGBA we need to look at, now find it in the format
         // because we can't guarantee what precise format the RS gives us
@@ -71,7 +71,7 @@ namespace Ogre
     {
         float* pDst = mData.getData<float>();
         // Download data
-        Box box(0, 0, mBuffer->getWidth(), mBuffer->getHeight());
+        Box box(0, 0, mBuffer->width(), mBuffer->height());
         uint8* pSrc = mBuffer->lock(box, HardwareBuffer::HBL_READ_ONLY).data;
         pSrc += mChannelOffset;
         size_t srcInc = PixelUtil::getNumElemBytes(mBuffer->getFormat());
@@ -102,14 +102,14 @@ namespace Ogre
     //---------------------------------------------------------------------
     void TerrainLayerBlendMap::convertUVToImageSpace(Real x, Real y, size_t* outX, size_t* outY)
     {
-        *outX = (unsigned long)(x * (mBuffer->getWidth() - 1));
-        *outY = (unsigned long)(y * (mBuffer->getHeight() - 1));
+        *outX = (unsigned long)(x * (mBuffer->width() - 1));
+        *outY = (unsigned long)(y * (mBuffer->height() - 1));
     }
     //---------------------------------------------------------------------
     void TerrainLayerBlendMap::convertImageToUVSpace(size_t x, size_t y, Real* outX, Real* outY)
     {
-        *outX = x / (Real)(mBuffer->getWidth() - 1);
-        *outY = y / (Real)(mBuffer->getHeight() - 1);
+        *outX = x / (Real)(mBuffer->width() - 1);
+        *outY = y / (Real)(mBuffer->height() - 1);
     }
     //---------------------------------------------------------------------
     void TerrainLayerBlendMap::convertImageToTerrainSpace(size_t x, size_t y, Real* outX, Real* outY)
@@ -143,8 +143,8 @@ namespace Ogre
     void TerrainLayerBlendMap::dirty()
     {
         Rect rect;
-        rect.top = 0; rect.bottom = mBuffer->getHeight();
-        rect.left = 0; rect.right = mBuffer->getWidth();
+        rect.top = 0; rect.bottom = mBuffer->height();
+        rect.left = 0; rect.right = mBuffer->width();
         dirtyRect(rect);
 
     }
@@ -174,11 +174,11 @@ namespace Ogre
             uint8* pDstBase = mBuffer->lock(mDirtyBox, HardwarePixelBuffer::HBL_NORMAL).data;
             pDstBase += mChannelOffset;
             size_t dstInc = PixelUtil::getNumElemBytes(mBuffer->getFormat());
-            for (size_t y = 0; y < mDirtyBox.getHeight(); ++y)
+            for (size_t y = 0; y < mDirtyBox.height(); ++y)
             {
-                float* pSrc = pSrcBase + y * mBuffer->getWidth();
-                uint8* pDst = pDstBase + y * mBuffer->getWidth() * dstInc;
-                for (size_t x = 0; x < mDirtyBox.getWidth(); ++x)
+                float* pSrc = pSrcBase + y * mBuffer->width();
+                uint8* pDst = pDstBase + y * mBuffer->width() * dstInc;
+                for (size_t x = 0; x < mDirtyBox.width(); ++x)
                 {
                     *pDst = static_cast<uint8>(*pSrc++ * 255);
                     pDst += dstInc;
@@ -192,11 +192,11 @@ namespace Ogre
             // mDirtyBox is in image space, convert to terrain units
             Rect compositeMapRect;
             float blendToTerrain
-                = (float)mParent->size() / (float)mBuffer->getWidth();
+                = (float)mParent->size() / (float)mBuffer->width();
             compositeMapRect.left = (mDirtyBox.left * blendToTerrain);
             compositeMapRect.right = (mDirtyBox.right * blendToTerrain + 1);
-            compositeMapRect.top = ((mBuffer->getHeight() - mDirtyBox.bottom) * blendToTerrain);
-            compositeMapRect.bottom = ((mBuffer->getHeight() - mDirtyBox.top) * blendToTerrain + 1);
+            compositeMapRect.top = ((mBuffer->height() - mDirtyBox.bottom) * blendToTerrain);
+            compositeMapRect.bottom = ((mBuffer->height() - mDirtyBox.top) * blendToTerrain + 1);
             mParent->_dirtyCompositeMapRect(compositeMapRect);
             mParent->updateCompositeMapWithDelay();
 
@@ -207,13 +207,13 @@ namespace Ogre
     {
         const PixelBox* srcBox = &src;
 
-        if (srcBox->getWidth() != dstBox.getWidth() || srcBox->getHeight() != dstBox.getHeight())
+        if (srcBox->width() != dstBox.width() || srcBox->height() != dstBox.height())
         {
             // we need to rescale src to dst size first (also confvert format)
-            void* tmpData = OGRE_MALLOC(dstBox.getWidth() * dstBox.getHeight(), MEMCATEGORY_GENERAL);
+            void* tmpData = OGRE_MALLOC(dstBox.width() * dstBox.height(), MEMCATEGORY_GENERAL);
             srcBox = OGRE_NEW PixelBox(
-                dstBox.getWidth(),
-                dstBox.getHeight(),
+                dstBox.width(),
+                dstBox.height(),
                 1,
                 PixelFormat::L8,
                 tmpData);

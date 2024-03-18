@@ -50,8 +50,8 @@ namespace Ogre
             modeCount--;
         }
 
-        unsigned int getWidth() const { return mDisplayMode.Width; }
-        unsigned int getHeight() const { return mDisplayMode.Height; }
+        unsigned int width() const { return mDisplayMode.Width; }
+        unsigned int height() const { return mDisplayMode.Height; }
         D3DFORMAT getFormat() const { return mDisplayMode.Format; }
         unsigned int getRefreshRate() const { return mDisplayMode.RefreshRate; }
         D3DDISPLAYMODE getDisplayMode() const { return mDisplayMode; }

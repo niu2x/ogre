@@ -44,7 +44,7 @@ THE SOFTWARE.
 
 - (id)initWithGLOSXWindow:(Ogre::RenderWindow*)w
 {
-	if((self = [super initWithFrame:NSMakeRect(0, 0, w->getWidth(), w->getHeight())]))
+	if((self = [super initWithFrame:NSMakeRect(0, 0, w->width(), w->height())]))
     {
         window = w;
     }

@@ -106,7 +106,7 @@ DataStreamPtr RsImageCodec::encode(const Any& input) const
     size_t len;
     uchar* data = NULL;
 
-    rs_image_encode(inputData, image->size(), image->getWidth(), image->getHeight(), t, mType.c_str(), &data, &len);
+    rs_image_encode(inputData, image->size(), image->width(), image->height(), t, mType.c_str(), &data, &len);
 
     if (!data)
     {

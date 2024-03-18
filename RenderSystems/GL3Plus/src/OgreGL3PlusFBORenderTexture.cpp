@@ -47,8 +47,8 @@ namespace Ogre {
         mFB.bindSurface(0, target);
 
         // Get attributes
-        mWidth = mFB.getWidth();
-        mHeight = mFB.getHeight();
+        mWidth = mFB.width();
+        mHeight = mFB.height();
     }
 
     void GL3PlusFBORenderTexture::getCustomAttribute(const String& name, void* pData)

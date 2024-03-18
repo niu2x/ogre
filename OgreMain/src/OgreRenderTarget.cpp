@@ -85,11 +85,11 @@ namespace Ogre {
         height = mHeight;
     }
 
-    unsigned int RenderTarget::getWidth(void) const
+    unsigned int RenderTarget::width(void) const
     {
         return mWidth;
     }
-    unsigned int RenderTarget::getHeight(void) const
+    unsigned int RenderTarget::height(void) const
     {
         return mHeight;
     }

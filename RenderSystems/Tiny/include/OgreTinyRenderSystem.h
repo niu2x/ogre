@@ -36,8 +36,8 @@ namespace Ogre {
 
         static const vec4b& sample2D(const Image& img, const vec2& uv)
         {
-            Vector2i uvi(uv.x * (img.getWidth() - 1), uv.y * (img.getHeight() - 1));
-            return *img.getData<const vec4b>(mod(uvi[0], img.getWidth()), mod(uvi[1], img.getHeight()));
+            Vector2i uvi(uv.x * (img.width() - 1), uv.y * (img.height() - 1));
+            return *img.getData<const vec4b>(mod(uvi[0], img.width()), mod(uvi[1], img.height()));
         }
 
         virtual bool fragment(const vec3& bar, ColourValue& gl_FragColor) = 0;

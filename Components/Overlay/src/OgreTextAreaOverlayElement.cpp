@@ -415,7 +415,7 @@ namespace Ogre {
             largestWidth *= vpWidth;
         };
 
-        if (getWidth() < largestWidth)
+        if (width() < largestWidth)
             setWidth(largestWidth);
     }
 

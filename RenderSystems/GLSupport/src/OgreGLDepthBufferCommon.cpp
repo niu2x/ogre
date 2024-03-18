@@ -13,7 +13,7 @@ GLDepthBufferCommon::GLDepthBufferCommon(uint16 poolId, GLRenderSystemCommon* re
                                          GLContext* creatorContext, GLHardwarePixelBufferCommon* depth,
                                          GLHardwarePixelBufferCommon* stencil, const RenderTarget* target,
                                          bool manual)
-    : DepthBuffer(poolId, target->getWidth(), target->getHeight(), target->getFSAA(), manual),
+    : DepthBuffer(poolId, target->width(), target->height(), target->getFSAA(), manual),
       mCreatorContext(creatorContext), mDepthBuffer(depth), mStencilBuffer(stencil),
       mRenderSystem(renderSystem)
 {
@@ -46,8 +46,8 @@ bool GLDepthBufferCommon::isCompatible(RenderTarget* renderTarget) const
     }
     else
     {
-        if (this->getWidth() != renderTarget->getWidth() ||
-            this->getHeight() != renderTarget->getHeight() || this->getFSAA() != renderTarget->getFSAA())
+        if (this->width() != renderTarget->width() ||
+            this->height() != renderTarget->height() || this->getFSAA() != renderTarget->getFSAA())
             return false;
     }
 

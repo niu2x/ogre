@@ -134,7 +134,7 @@ namespace Ogre {
         // Save to PNG
         int channels = PixelUtil::getComponentCount(format);
         int len;
-        uchar* data = stbi_write_png_to_mem(inputData, image->getRowSpan(), image->getWidth(), image->getHeight(), channels, &len);
+        uchar* data = stbi_write_png_to_mem(inputData, image->getRowSpan(), image->width(), image->height(), channels, &len);
 
         if(tempData)
         {

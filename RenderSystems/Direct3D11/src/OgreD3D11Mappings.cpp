@@ -255,8 +255,8 @@ namespace Ogre
         }
         else if(PixelUtil::isCompressed(box.format))
         {
-            box.rowPitch = box.getWidth();
-            box.slicePitch = box.getWidth() * box.getHeight();
+            box.rowPitch = box.width();
+            box.slicePitch = box.width() * box.height();
         }
         else
         {

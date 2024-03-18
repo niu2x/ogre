@@ -91,8 +91,8 @@ namespace Ogre
 
         /// Gets the pool id in which this DepthBuffer lives
         virtual uint16 getPoolId() const;
-        virtual uint32 getWidth() const;
-        virtual uint32 getHeight() const;
+        virtual uint32 width() const;
+        virtual uint32 height() const;
         uint32 getFSAA() const { return mFsaa; }
 
         /** Manual DepthBuffers are cleared in RenderSystem's destructor. Non-manual ones are released

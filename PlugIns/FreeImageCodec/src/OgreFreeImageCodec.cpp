@@ -303,8 +303,8 @@ namespace Ogre {
 
         ret = FreeImage_AllocateT(
             imageType, 
-            static_cast<int>(image->getWidth()),
-            static_cast<int>(image->getHeight()),
+            static_cast<int>(image->width()),
+            static_cast<int>(image->height()),
             bpp);
 
         if (!ret)
@@ -327,14 +327,14 @@ namespace Ogre {
         }
 
         size_t dstPitch = FreeImage_GetPitch(ret);
-        size_t srcPitch = image->getWidth() * PixelUtil::getNumElemBytes(requiredFormat);
+        size_t srcPitch = image->width() * PixelUtil::getNumElemBytes(requiredFormat);
 
 
         // Copy data, invert scanlines and respect FreeImage pitch
         uchar* pDst = FreeImage_GetBits(ret);
-        for (size_t y = 0; y < image->getHeight(); ++y)
+        for (size_t y = 0; y < image->height(); ++y)
         {
-            uchar* pSrc = srcData + (image->getHeight() - y - 1) * srcPitch;
+            uchar* pSrc = srcData + (image->height() - y - 1) * srcPitch;
             memcpy(pDst, pSrc, srcPitch);
             pDst += dstPitch;
         }
@@ -531,15 +531,15 @@ namespace Ogre {
 
         // only 2D formats handled by this codec
         // no mipmaps in non-DDS
-        image->create(format, FreeImage_GetWidth(fiBitmap), FreeImage_GetHeight(fiBitmap));
+        image->create(format, FreeImage_width(fiBitmap), FreeImage_height(fiBitmap));
 
         // Final data - invert image and trim pitch at the same time
         size_t dstPitch =  image->getRowSpan();
 
         uchar* pDst = image->getData();
-        for (size_t y = 0; y < image->getHeight(); ++y)
+        for (size_t y = 0; y < image->height(); ++y)
         {
-            uchar* pSrc = srcData + (image->getHeight() - y - 1) * srcPitch;
+            uchar* pSrc = srcData + (image->height() - y - 1) * srcPitch;
             memcpy(pDst, pSrc, dstPitch);
             pDst += dstPitch;
         }

@@ -67,7 +67,7 @@ struct OgreAndroidBridge
                 mPinchGesture.GetPointers(p1, p2);
                 float curr = (p1 - p2).length();
 
-                if(fabs(curr - len)/mBrowser.getRenderWindow()->getWidth() > 0.01) {
+                if(fabs(curr - len)/mBrowser.getRenderWindow()->width() > 0.01) {
                     wheel = (curr - len) > 0 ? 1 : -1;
                     len = curr;
                 }

@@ -430,7 +430,7 @@ namespace Ogre {
             OGRE_EXCEPT( Exception::ERR_ITEM_NOT_FOUND, "Could not find texture " + StringConverter::to_string(frame),
             "TextureUnitState::getTextureDimensions" );
 
-        return {tex->getWidth(), tex->getHeight()};
+        return {tex->width(), tex->height()};
     }
     //-----------------------------------------------------------------------
     void TextureUnitState::setCurrentFrame(unsigned int frameNumber)

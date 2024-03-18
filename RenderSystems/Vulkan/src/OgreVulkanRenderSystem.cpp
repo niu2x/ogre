@@ -1362,8 +1362,8 @@ namespace Ogre
             {
                 // Convert "upper-left" corner to "lower-left"
                 std::swap(vpRect.top, vpRect.bottom);
-                vpRect.top = target->getHeight() - vpRect.top;
-                vpRect.bottom = target->getHeight() - vpRect.bottom;
+                vpRect.top = target->height() - vpRect.top;
+                vpRect.bottom = target->height() - vpRect.bottom;
             }
 
             if (auto win = dynamic_cast<VulkanWindow*>(mActiveRenderTarget))

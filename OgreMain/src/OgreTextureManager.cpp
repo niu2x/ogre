@@ -381,9 +381,9 @@ TextureManager& TextureManager::singleton(void)
 
         // Yellow/black stripes
         const ColourValue black(0, 0, 0), yellow(1, 1, 0);
-        for (uint32 y = 0; y < pixels.getHeight(); ++y)
+        for (uint32 y = 0; y < pixels.height(); ++y)
         {
-            for (uint32 x = 0; x < pixels.getWidth(); ++x)
+            for (uint32 x = 0; x < pixels.width(); ++x)
             {
                 pixels.setColourAt((((x + y) % 8) < 4) ? black : yellow, x, y, 0);
             }

@@ -148,7 +148,7 @@ namespace Ogre {
         _positionsOutOfDate();
     }
     //---------------------------------------------------------------------
-    Real OverlayElement::getWidth(void) const
+    Real OverlayElement::width(void) const
     {
         if (mMetricsMode != GMM_RELATIVE)
         {
@@ -174,7 +174,7 @@ namespace Ogre {
         _positionsOutOfDate();
     }
     //---------------------------------------------------------------------
-    Real OverlayElement::getHeight(void) const
+    Real OverlayElement::height(void) const
     {
         if (mMetricsMode != GMM_RELATIVE)
         {

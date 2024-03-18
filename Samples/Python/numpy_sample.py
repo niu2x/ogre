@@ -52,8 +52,8 @@ def main():
     root.startRendering()
     
     ## [ogre_to_np]
-    mem = np.empty((win.getHeight(), win.getWidth(), 3), dtype=np.uint8)
-    pb = Ogre.PixelBox(win.getWidth(), win.getHeight(), 1, Ogre.PixelFormat::BYTE_RGB, mem)
+    mem = np.empty((win.height(), win.width(), 3), dtype=np.uint8)
+    pb = Ogre.PixelBox(win.width(), win.height(), 1, Ogre.PixelFormat::BYTE_RGB, mem)
     win.copyContentsToMemory(pb, pb)
     ## [ogre_to_np]
     

@@ -403,7 +403,7 @@ namespace Ogre {
         LogManager::singleton().log_message(ss.str());
     }
 
-    unsigned int CocoaWindow::getWidth() const
+    unsigned int CocoaWindow::width() const
     {
         // keep mWidth in sync with reality
         OgreAssertDbg(mView == nil || int(mWidth) == _getPixelFromPoint([mView frame].size.width),
@@ -412,7 +412,7 @@ namespace Ogre {
         return mWidth;
     }
 
-    unsigned int CocoaWindow::getHeight() const
+    unsigned int CocoaWindow::height() const
     {
         // keep mHeight in sync with reality
         OgreAssertDbg(mView == nil || int(mHeight) == _getPixelFromPoint([mView frame].size.height),

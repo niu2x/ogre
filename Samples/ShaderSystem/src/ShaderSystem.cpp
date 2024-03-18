@@ -972,7 +972,7 @@ void Sample_ShaderSystem::pickTargetObject( const MouseButtonEvent &evt )
 {
     int xPos   = evt.x;
     int yPos   = evt.y;
-    int width  = mWindow->getWidth(), height = mWindow->getHeight();
+    int width  = mWindow->width(), height = mWindow->height();
 
     Ray mouseRay = mCamera->getCameraToViewportRay(xPos / float(width), yPos/float(height));
     mRayQuery->setRay(mouseRay);

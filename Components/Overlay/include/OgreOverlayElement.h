@@ -219,12 +219,12 @@ namespace Ogre {
         /** Sets the width of this element in relation to the current #GuiMetricsMode. */
         void setWidth(Real width);
         /** Gets the width of this element in relation to the current #GuiMetricsMode. */
-        Real getWidth(void) const;
+        Real width(void) const;
 
         /** Sets the height of this element in relation to the current #GuiMetricsMode. */
         void setHeight(Real height);
         /** Gets the height of this element in relation to the current #GuiMetricsMode. */
-        Real getHeight(void) const;
+        Real height(void) const;
 
         /** Sets the left of this element in relation to the current #GuiMetricsMode. */
         void setLeft(Real left);
@@ -241,9 +241,9 @@ namespace Ogre {
         /** Gets the top of this element in relation to the screen (where 0 = far top, 1.0 = far bottom)  */
         Real _getTop(void) const { return mTop; }
         /** Gets the width of this element in relation to the screen (where 1.0 = screen width)  */
-        Real _getWidth(void) const { return mWidth; }
+        Real _width(void) const { return mWidth; }
         /** Gets the height of this element in relation to the screen (where 1.0 = screen height)  */
-        Real _getHeight(void) const { return mHeight; }
+        Real _height(void) const { return mHeight; }
         /** Sets the left of this element in relation to the screen (where 1.0 = screen width) */
         void _setLeft(Real left);
         /** Sets the top of this element in relation to the screen (where 1.0 = screen height) */

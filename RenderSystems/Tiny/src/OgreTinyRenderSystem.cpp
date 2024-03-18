@@ -191,7 +191,7 @@ namespace Ogre {
             // Unlike D3D9, OGL doesn't allow sharing the main depth buffer, so keep them separate.
             // Only Copy does, but Copy means only one depth buffer...
             auto *depthBuffer = new TinyDepthBuffer( DepthBuffer::POOL_DEFAULT,
-                                                                      win->getWidth(), win->getHeight(),
+                                                                      win->width(), win->height(),
                                                                       win->getFSAA(), true );
 
             mDepthBufferPool[depthBuffer->getPoolId()].push_back( depthBuffer );
@@ -206,7 +206,7 @@ namespace Ogre {
     DepthBuffer* TinyRenderSystem::_createDepthBufferFor( RenderTarget *rt )
     {
         // No "custom-quality" multisample for now in GL
-        return new TinyDepthBuffer(0, rt->getWidth(), rt->getHeight(), rt->getFSAA(), false);
+        return new TinyDepthBuffer(0, rt->width(), rt->height(), rt->getFSAA(), false);
     }
 
     MultiRenderTarget* TinyRenderSystem::createMultiRenderTarget(const String & name)
@@ -259,8 +259,8 @@ namespace Ogre {
             {
                 // Convert "upper-left" corner to "lower-left"
                 std::swap(vpRect.top, vpRect.bottom);
-                vpRect.top = target->getHeight() - vpRect.top;
-                vpRect.bottom = target->getHeight() - vpRect.bottom;
+                vpRect.top = target->height() - vpRect.top;
+                vpRect.bottom = target->height() - vpRect.bottom;
             }
 
             mVP.make_transform({vpRect.left + vpRect.width() / 2.f, vpRect.top + vpRect.height() / 2.f, 0.5},

@@ -306,7 +306,7 @@ namespace OgreBites
         */
         unsigned int getHeightInLines()
         {
-            return (unsigned int) ((mElement->getHeight() - 2 * mPadding - mCaptionBar->getHeight() + 5) / mTextArea->getCharHeight());
+            return (unsigned int) ((mElement->height() - 2 * mPadding - mCaptionBar->height() + 5) / mTextArea->getCharHeight());
         }
 
         void _cursorPressed(const Ogre::Vector2& cursorPos) override;

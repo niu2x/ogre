@@ -89,7 +89,7 @@ namespace Ogre
                 if (usedTextures.find(tex.get()) != usedTextures.end())
                     continue;
 
-                if (config.width == tex->getWidth() && config.height == tex->getHeight()
+                if (config.width == tex->width() && config.height == tex->height()
                     && config.format == tex->getFormat() && config.fsaa == tex->getFSAA())
                 {
                     // Ok, a match

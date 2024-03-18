@@ -60,7 +60,7 @@ public:
     void push(Real x, Real y, Real depth, bool absolute=false) ;
 
     /** gets height at given x and y, takes average value of the closes nodes */
-    Real getHeight(Real x, Real y);
+    Real height(Real x, Real y);
 
     /** updates mesh */
     void updateMesh(Real timeSinceLastFrame) ;

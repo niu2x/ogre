@@ -617,8 +617,8 @@ namespace Ogre {
             GLuint depthFormat, stencilFormat;
             _getDepthStencilFormatFor(fbo->getFormat(), &depthFormat, &stencilFormat);
 
-            GL3PlusRenderBuffer *depthBuffer = new GL3PlusRenderBuffer( depthFormat, fbo->getWidth(),
-                                                                        fbo->getHeight(), fbo->getFSAA() );
+            GL3PlusRenderBuffer *depthBuffer = new GL3PlusRenderBuffer( depthFormat, fbo->width(),
+                                                                        fbo->height(), fbo->getFSAA() );
 
             GL3PlusRenderBuffer *stencilBuffer = NULL;
             if ( depthFormat == GL_DEPTH24_STENCIL8 || depthFormat == GL_DEPTH32F_STENCIL8)
@@ -628,8 +628,8 @@ namespace Ogre {
             }
             else if(stencilFormat)
             {
-                stencilBuffer = new GL3PlusRenderBuffer( stencilFormat, fbo->getWidth(),
-                                                         fbo->getHeight(), fbo->getFSAA() );
+                stencilBuffer = new GL3PlusRenderBuffer( stencilFormat, fbo->width(),
+                                                         fbo->height(), fbo->getFSAA() );
             }
 
             return new GLDepthBufferCommon(0, this, mCurrentContext, depthBuffer, stencilBuffer,
@@ -781,8 +781,8 @@ namespace Ogre {
             {
                 // Convert "upper-left" corner to "lower-left"
                 std::swap(vpRect.top, vpRect.bottom);
-                vpRect.top = target->getHeight() - vpRect.top;
-                vpRect.bottom = target->getHeight() - vpRect.bottom;
+                vpRect.top = target->height() - vpRect.top;
+                vpRect.bottom = target->height() - vpRect.bottom;
             }
             mStateCacheManager->setViewport(vpRect);
 
@@ -1174,7 +1174,7 @@ namespace Ogre {
         bool flipping = mActiveRenderTarget->requiresTextureFlipping();
 
         //  GL measures from the bottom, not the top
-        long targetHeight = mActiveRenderTarget->getHeight();
+        long targetHeight = mActiveRenderTarget->height();
         long top = flipping ? rect.top : targetHeight - rect.bottom;
         // NB GL uses width / height rather than right / bottom
         OGRE_CHECK_GL_ERROR(glScissor(rect.left, top, rect.width(), rect.height()));
@@ -1225,7 +1225,7 @@ namespace Ogre {
 
         Rect vpRect = mActiveViewport->getActualDimensions();
         bool needScissorBox =
-            vpRect != Rect(0, 0, mActiveRenderTarget->getWidth(), mActiveRenderTarget->getHeight());
+            vpRect != Rect(0, 0, mActiveRenderTarget->width(), mActiveRenderTarget->height());
         if (needScissorBox)
         {
             // Should be enable scissor test due the clear region is
@@ -1762,16 +1762,16 @@ namespace Ogre {
         // Switch context if different from current one
         _setViewport(vp);
 
-        if(dst.getWidth() != dst.rowPitch)
+        if(dst.width() != dst.rowPitch)
             glPixelStorei(GL_PACK_ROW_LENGTH, dst.rowPitch);
         // Must change the packing to ensure no overruns!
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-        uint32_t height = vp->getTarget()->getHeight();
+        uint32_t height = vp->getTarget()->height();
 
         glReadBuffer((buffer == RenderWindow::FB_FRONT)? GL_FRONT : GL_BACK);
         glReadPixels((GLint)src.left, (GLint)(height - src.bottom),
-                     (GLsizei)dst.getWidth(), (GLsizei)dst.getHeight(),
+                     (GLsizei)dst.width(), (GLsizei)dst.height(),
                      format, type, dst.getTopLeftFrontPixelPtr());
 
         // restore default alignment

@@ -952,14 +952,14 @@ namespace Ogre
     
 
         // Case size has been changed.
-        if (renderWindow->getWidth() != renderWindowResources->presentParameters.BackBufferWidth ||
-            renderWindow->getHeight() != renderWindowResources->presentParameters.BackBufferHeight)
+        if (renderWindow->width() != renderWindowResources->presentParameters.BackBufferWidth ||
+            renderWindow->height() != renderWindowResources->presentParameters.BackBufferHeight)
         {           
-            if (renderWindow->getWidth() > 0)
-                renderWindowResources->presentParameters.BackBufferWidth = renderWindow->getWidth();
+            if (renderWindow->width() > 0)
+                renderWindowResources->presentParameters.BackBufferWidth = renderWindow->width();
 
-            if (renderWindow->getHeight() > 0)
-                renderWindowResources->presentParameters.BackBufferHeight = renderWindow->getHeight();
+            if (renderWindow->height() > 0)
+                renderWindowResources->presentParameters.BackBufferHeight = renderWindow->height();
 
             invalidate(renderWindow);
         }               
@@ -1117,8 +1117,8 @@ namespace Ogre
             }
             else
             {
-                uint targetWidth  = renderWindow->getWidth();
-                uint targetHeight = renderWindow->getHeight();
+                uint targetWidth  = renderWindow->width();
+                uint targetHeight = renderWindow->height();
 
                 if (targetWidth == 0)
                     targetWidth = 1;
@@ -1289,8 +1289,8 @@ namespace Ogre
         RenderWindowResources* resources = it->second;
         bool swapChain = isSwapChainWindow(renderWindow);
 
-        if(src.right > renderWindow->getWidth() || src.bottom > renderWindow->getHeight() || src.front != 0 || src.back != 1
-        || dst.getWidth() != src.getWidth() || dst.getHeight() != src.getHeight() || dst.getDepth() != 1)
+        if(src.right > renderWindow->width() || src.bottom > renderWindow->height() || src.front != 0 || src.back != 1
+        || dst.width() != src.width() || dst.height() != src.height() || dst.depth() != 1)
         {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box.", "D3D9Device::copyContentsToMemory");
         }
@@ -1344,7 +1344,7 @@ namespace Ogre
 
             if(renderWindow->isFullScreen())
             {
-                if ((src.left == 0) && (src.right == renderWindow->getWidth()) && (src.top == 0) && (src.bottom == renderWindow->getHeight()))
+                if ((src.left == 0) && (src.right == renderWindow->width()) && (src.top == 0) && (src.bottom == renderWindow->height()))
                 {
                     hr = pTempSurf->LockRect(&lockedRect, 0, D3DLOCK_READONLY | D3DLOCK_NOSYSLOCK);
                 }
@@ -1472,7 +1472,7 @@ namespace Ogre
                 SAFE_RELEASE(pStretchSurf);
             }
 
-            if ((src.left == 0) && (src.right == renderWindow->getWidth()) && (src.top == 0) && (src.bottom == renderWindow->getHeight()))
+            if ((src.left == 0) && (src.right == renderWindow->width()) && (src.top == 0) && (src.bottom == renderWindow->height()))
             {
                 hr = pTempSurf->LockRect(&lockedRect, 0, D3DLOCK_READONLY | D3DLOCK_NOSYSLOCK);
             }
@@ -1504,7 +1504,7 @@ namespace Ogre
                 "Unsupported format", "D3D9Device::copyContentsToMemory");
         }
 
-        PixelBox srcBox(src.getWidth(), src.getHeight(), 1, format, lockedRect.pBits);
+        PixelBox srcBox(src.width(), src.height(), 1, format, lockedRect.pBits);
         srcBox.rowPitch = lockedRect.Pitch / PixelUtil::getNumElemBytes(format);
         srcBox.slicePitch = desc.Height * srcBox.rowPitch;
 

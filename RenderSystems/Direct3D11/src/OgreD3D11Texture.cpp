@@ -522,8 +522,8 @@ namespace Ogre
     void D3D11RenderTexture::rebind( D3D11HardwarePixelBuffer *buffer )
     {
         mBuffer = buffer;
-        mWidth = (unsigned int) mBuffer->getWidth();
-        mHeight = (unsigned int) mBuffer->getHeight();
+        mWidth = (unsigned int) mBuffer->width();
+        mHeight = (unsigned int) mBuffer->height();
         
         ID3D11Resource * pBackBuffer = buffer->getParentTexture()->getTextureResource();
 

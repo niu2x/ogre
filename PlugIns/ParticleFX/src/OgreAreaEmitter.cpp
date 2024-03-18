@@ -103,7 +103,7 @@ namespace Ogre {
         genAreaAxes();
     }
     //-----------------------------------------------------------------------
-    Real AreaEmitter::getWidth(void) const
+    Real AreaEmitter::width(void) const
     {
         return mSize.x;
     }
@@ -114,7 +114,7 @@ namespace Ogre {
         genAreaAxes();
     }
     //-----------------------------------------------------------------------
-    Real AreaEmitter::getHeight(void) const
+    Real AreaEmitter::height(void) const
     {
         return mSize.y;
     }
@@ -125,7 +125,7 @@ namespace Ogre {
         genAreaAxes();
     }
     //-----------------------------------------------------------------------
-    Real AreaEmitter::getDepth(void) const
+    Real AreaEmitter::depth(void) const
     {
         return mSize.z;
     }
@@ -146,7 +146,7 @@ namespace Ogre {
     String AreaEmitter::CmdWidth::get(const void* target) const
     {
         return StringConverter::to_string(
-            static_cast<const AreaEmitter*>(target)->getWidth() );
+            static_cast<const AreaEmitter*>(target)->width() );
     }
     void AreaEmitter::CmdWidth::set(void* target, const String& val)
     {
@@ -156,7 +156,7 @@ namespace Ogre {
     String AreaEmitter::CmdHeight::get(const void* target) const
     {
         return StringConverter::to_string(
-            static_cast<const AreaEmitter*>(target)->getHeight() );
+            static_cast<const AreaEmitter*>(target)->height() );
     }
     void AreaEmitter::CmdHeight::set(void* target, const String& val)
     {
@@ -166,7 +166,7 @@ namespace Ogre {
     String AreaEmitter::CmdDepth::get(const void* target) const
     {
         return StringConverter::to_string(
-            static_cast<const AreaEmitter*>(target)->getDepth() );
+            static_cast<const AreaEmitter*>(target)->depth() );
     }
     void AreaEmitter::CmdDepth::set(void* target, const String& val)
     {

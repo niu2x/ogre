@@ -625,9 +625,9 @@ void Sample_Compositor::createTextures(void)
         const PixelBox &pb = ptr->getCurrentLock();
         Ogre::uint8 *data = pb.data;
 
-        size_t height = pb.getHeight();
-        size_t width = pb.getWidth();
-        size_t depth = pb.getDepth();
+        size_t height = pb.height();
+        size_t width = pb.width();
+        size_t depth = pb.depth();
         size_t rowPitch = pb.rowPitch;
         size_t slicePitch = pb.slicePitch;
 
@@ -674,8 +674,8 @@ void Sample_Compositor::createTextures(void)
     const PixelBox &pb2 = ptr2->getCurrentLock();
     Ogre::uint8 *data2 = pb2.data;
 
-    size_t height2 = pb2.getHeight();
-    size_t width2 = pb2.getWidth();
+    size_t height2 = pb2.height();
+    size_t width2 = pb2.width();
     size_t rowPitch2 = pb2.rowPitch;
 
     for (size_t y = 0; y < height2; ++y)

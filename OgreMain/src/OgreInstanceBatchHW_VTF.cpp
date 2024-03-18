@@ -133,7 +133,7 @@ namespace Ogre
                                                          const HWBoneIdxVec &hwBoneIdx,
                                                          const HWBoneWgtVec& hwBoneWgt)
     {
-        const float texWidth  = static_cast<float>(mMatrixTexture->getWidth());
+        const float texWidth  = static_cast<float>(mMatrixTexture->width());
 
         //Only one weight per vertex is supported. It would not only be complex, but prohibitively slow.
         //Put them in a new buffer, since it's 16 bytes aligned :-)
@@ -304,8 +304,8 @@ namespace Ogre
             //update the mTransformLookupNumber value in the entities if needed 
             updateSharedLookupIndexes();
 
-            const float texWidth  = static_cast<float>(mMatrixTexture->getWidth());
-            const float texHeight = static_cast<float>(mMatrixTexture->getHeight());
+            const float texWidth  = static_cast<float>(mMatrixTexture->width());
+            const float texHeight = static_cast<float>(mMatrixTexture->height());
 
             //Calculate the texel offsets to correct them offline
             //Awkwardly enough, the offset is needed in OpenGL too
@@ -317,7 +317,7 @@ namespace Ogre
             HardwareBufferLockGuard instanceVertexLock(mInstanceVertexBuffer, HardwareBuffer::HBL_DISCARD);
             float *thisVec = static_cast<float*>(instanceVertexLock.pData);
 
-            const size_t maxPixelsPerLine = std::min( static_cast<size_t>(mMatrixTexture->getWidth()), mMaxFloatsPerLine >> 2 );
+            const size_t maxPixelsPerLine = std::min( static_cast<size_t>(mMatrixTexture->width()), mMaxFloatsPerLine >> 2 );
 
             //Calculate UV offsets, which change per instance
             for( size_t i=0; i<mInstancesPerBatch; ++i )

@@ -91,8 +91,8 @@ namespace Ogre {
     {
         if(mActive)
         {
-            int nwidth = ANativeWindow_getWidth(mWindow);
-            int nheight = ANativeWindow_getHeight(mWindow);
+            int nwidth = ANativeWindow_width(mWindow);
+            int nheight = ANativeWindow_height(mWindow);
 
             resize(nwidth, nheight);
         }
@@ -264,8 +264,8 @@ namespace Ogre {
 
             if (mScale != 1.0f)
             {
-                int nwidth = (int)((float)ANativeWindow_getWidth(mWindow) * mScale);
-                int nheight = (int)((float)ANativeWindow_getHeight(mWindow) * mScale);
+                int nwidth = (int)((float)ANativeWindow_width(mWindow) * mScale);
+                int nheight = (int)((float)ANativeWindow_height(mWindow) * mScale);
                 ANativeWindow_setBuffersGeometry(mWindow, nwidth, nheight, format);
             }
             else
@@ -364,8 +364,8 @@ namespace Ogre {
 
             if (mScale != 1.0f)
             {
-                int nwidth = (int)((float)ANativeWindow_getWidth(mWindow) * mScale);
-                int nheight = (int)((float)ANativeWindow_getHeight(mWindow) * mScale);
+                int nwidth = (int)((float)ANativeWindow_width(mWindow) * mScale);
+                int nheight = (int)((float)ANativeWindow_height(mWindow) * mScale);
                 ANativeWindow_setBuffersGeometry(mWindow, nwidth, nheight, format);
             }
             else

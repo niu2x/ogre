@@ -2824,7 +2824,7 @@ namespace Ogre
             if (target->requiresTextureFlipping())
             {
                 // Convert "top-left" to "bottom-left"
-                d3dvp.Y = target->getHeight() - d3dvp.Height - d3dvp.Y;
+                d3dvp.Y = target->height() - d3dvp.Height - d3dvp.Y;
             }
 
             // Z-values from 0.0 to 1.0 (TODO: standardise with OpenGL)

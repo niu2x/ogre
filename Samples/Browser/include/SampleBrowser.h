@@ -210,9 +210,9 @@ namespace OgreBites
                         dynamic_cast<Ogre::BorderPanelOverlayElement*>(mThumbs[i]->getChildren().begin()->second);
 
                     mThumbs[i]->setDimensions(128.0 * scale, 96.0 * scale);
-                    frame->setDimensions(mThumbs[i]->getWidth() + 16.0, mThumbs[i]->getHeight() + 16.0);
-                    mThumbs[i]->setPosition((int)(left - 80.0 - (mThumbs[i]->getWidth() / 2.0)),
-                                            (int)(top - 5.0 - (mThumbs[i]->getHeight() / 2.0)));
+                    frame->setDimensions(mThumbs[i]->width() + 16.0, mThumbs[i]->height() + 16.0);
+                    mThumbs[i]->setPosition((int)(left - 80.0 - (mThumbs[i]->width() / 2.0)),
+                                            (int)(top - 5.0 - (mThumbs[i]->height() / 2.0)));
                     frame->setMaterial(nullptr); // dont draw inner region
                     if (i == mSampleMenu->getSelectionIndex()) frame->setBorderMaterialName("SdkTrays/Frame/Over");
                     else frame->setBorderMaterialName("SdkTrays/Frame");
@@ -405,7 +405,7 @@ namespace OgreBites
             auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
                          ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
             auto center = ImGui::GetMainViewport()->GetCenter();
-            if(mWindow->getWidth() <= 1280)
+            if(mWindow->width() <= 1280)
                 ImGui::SetNextWindowPos(ImVec2(0, center.y), ImGuiCond_Always, ImVec2(0.f, 0.5f));
             else
                 ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
@@ -720,14 +720,14 @@ namespace OgreBites
             Ogre::OverlayContainer* center = mTrayMgr->getTrayContainer(TL_CENTER);
             Ogre::OverlayContainer* left = mTrayMgr->getTrayContainer(TL_LEFT);
 
-            if (center->isVisible() && rw->getWidth() < 1280 - center->getWidth())
+            if (center->isVisible() && rw->width() < 1280 - center->width())
             {
                 while (center->isVisible())
                 {
                     mTrayMgr->moveWidgetToTray(mTrayMgr->getWidgets(TL_CENTER)[0], TL_LEFT);
                 }
             }
-            else if (left->isVisible() && rw->getWidth() >= 1280 - left->getWidth())
+            else if (left->isVisible() && rw->width() >= 1280 - left->width())
             {
                 while (left->isVisible())
                 {

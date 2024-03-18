@@ -67,8 +67,8 @@ namespace Ogre
         if(y!=OGRE_MAX_MULTIPLE_RENDER_TARGETS)
         {
             /// If there is another target bound, compare sizes
-            if (mRenderTargets[y]->getWidth() != buffer->getWidth() ||
-                mRenderTargets[y]->getHeight() != buffer->getHeight())
+            if (mRenderTargets[y]->width() != buffer->width() ||
+                mRenderTargets[y]->height() != buffer->height())
             {
                 OGRE_EXCEPT(
                     Exception::ERR_INVALIDPARAMS, 
@@ -162,8 +162,8 @@ namespace Ogre
     {
         if(mRenderTargets[0])
         {
-            mWidth  = (unsigned int)mRenderTargets[0]->getWidth();
-            mHeight = (unsigned int)mRenderTargets[0]->getHeight();
+            mWidth  = (unsigned int)mRenderTargets[0]->width();
+            mHeight = (unsigned int)mRenderTargets[0]->height();
         }
         else
         {

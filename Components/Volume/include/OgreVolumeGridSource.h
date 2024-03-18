@@ -162,19 +162,19 @@ namespace Volume {
         @return
             The width of the texture.
         */
-        size_t getWidth(void) const;
+        size_t width(void) const;
         
         /** Gets the height of the texture.
         @return
             The height of the texture.
         */
-        size_t getHeight(void) const;
+        size_t height(void) const;
         
         /** Gets the depth of the texture.
         @return
             The depth of the texture.
         */
-        size_t getDepth(void) const;
+        size_t depth(void) const;
 
         /** Updates this grid with another source in a certain area. Use
         it for example to add spheres as a brush.

@@ -49,10 +49,10 @@ namespace Ogre  {
     typedef SimpleParamCommand<OverlayElement, Real, &OverlayElement::getTop, &OverlayElement::setTop>
         CmdTop;
 
-    typedef SimpleParamCommand<OverlayElement, Real, &OverlayElement::getWidth, &OverlayElement::setWidth>
+    typedef SimpleParamCommand<OverlayElement, Real, &OverlayElement::width, &OverlayElement::setWidth>
         CmdWidth;
 
-    typedef SimpleParamCommand<OverlayElement, Real, &OverlayElement::getHeight, &OverlayElement::setHeight>
+    typedef SimpleParamCommand<OverlayElement, Real, &OverlayElement::height, &OverlayElement::setHeight>
         CmdHeight;
 
         /// Command object for OverlayElement  - see ParamCommand 

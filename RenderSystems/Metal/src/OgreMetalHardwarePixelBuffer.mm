@@ -102,9 +102,9 @@ namespace Ogre {
         bool freeScaledBuffer = false;
         PixelBox scaled;
 
-        if (src.getWidth() != dstBox.getWidth() ||
-            src.getHeight() != dstBox.getHeight() ||
-            src.getDepth() != dstBox.getDepth())
+        if (src.width() != dstBox.width() ||
+            src.height() != dstBox.height() ||
+            src.depth() != dstBox.depth())
         {
             // Scale to destination size.
             // This also does pixel format conversion if needed
@@ -117,14 +117,14 @@ namespace Ogre {
             allocateBuffer();
 
             // No scaling or conversion needed
-            scaled = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), src.format, src.data);
+            scaled = PixelBox(src.width(), src.height(), src.depth(), src.format, src.data);
 
             if (src.format == PixelFormat::R8G8B8 || src.format == PixelFormat::B8G8R8)
             {
                 const PixelFormat newFormat = src.format == PixelFormat::R8G8B8 ? PixelFormat::X8R8G8B8 : PixelFormat::X8B8G8R8;
                 freeScaledBuffer = true;
-                size_t scaledSize = PixelUtil::getMemorySize( src.getWidth(), src.getHeight(),
-                                                              src.getDepth(), newFormat );
+                size_t scaledSize = PixelUtil::getMemorySize( src.width(), src.height(),
+                                                              src.depth(), newFormat );
                 scaled.format = newFormat;
                 scaled.data = new uint8[scaledSize];
                 scaled.setConsecutive();
@@ -133,8 +133,8 @@ namespace Ogre {
             else if (src.format == PixelFormat::BYTE_LA)
             {
                 freeScaledBuffer = true;
-                size_t scaledSize = PixelUtil::getMemorySize( src.getWidth(), src.getHeight(),
-                                                              src.getDepth(), PixelFormat::A8R8G8B8 );
+                size_t scaledSize = PixelUtil::getMemorySize( src.width(), src.height(),
+                                                              src.depth(), PixelFormat::A8R8G8B8 );
                 scaled.format = PixelFormat::A8R8G8B8;
                 scaled.data = new uint8[scaledSize];
                 scaled.setConsecutive();
@@ -160,12 +160,12 @@ namespace Ogre {
                         "MetalHardwarePixelBuffer::blitToMemory");
         }
 
-        if( srcBox.left == 0 && srcBox.right == getWidth() &&
-            srcBox.top == 0 && srcBox.bottom == getHeight() &&
-            srcBox.front == 0 && srcBox.back == getDepth() &&
-            dst.getWidth() == getWidth() &&
-            dst.getHeight() == getHeight() &&
-            dst.getDepth() == getDepth() )
+        if( srcBox.left == 0 && srcBox.right == width() &&
+            srcBox.top == 0 && srcBox.bottom == height() &&
+            srcBox.front == 0 && srcBox.back == depth() &&
+            dst.width() == width() &&
+            dst.height() == height() &&
+            dst.depth() == depth() )
         {
             // The direct case: the user wants the entire texture in a format supported by Metal
             // so we don't need an intermediate buffer
@@ -177,9 +177,9 @@ namespace Ogre {
             allocateBuffer();
             // Download entire buffer
             download(mBuffer);
-            if(srcBox.getWidth() != dst.getWidth() ||
-                srcBox.getHeight() != dst.getHeight() ||
-                srcBox.getDepth() != dst.getDepth())
+            if(srcBox.width() != dst.width() ||
+                srcBox.height() != dst.height() ||
+                srcBox.depth() != dst.depth())
             {
                 // We need scaling
                 Image::scale(mBuffer.getSubVolume(srcBox), dst, Image::FILTER_BILINEAR);
@@ -291,19 +291,19 @@ namespace Ogre {
             return;
 
         // Calculate size for all mip levels of the texture
-        size_t bytesPerImage = PixelUtil::getMemorySize( dest.getWidth(), dest.getHeight(),
+        size_t bytesPerImage = PixelUtil::getMemorySize( dest.width(), dest.height(),
                                                          1, data.format );
 
         if (!PixelUtil::isCompressed(data.format))
         {
-            if (data.getWidth() != data.rowPitch)
+            if (data.width() != data.rowPitch)
             {
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Unsupported texture format",
                             "MetalTextureBuffer::upload");
             }
 
-            if (data.getHeight() * data.getWidth() != data.slicePitch)
+            if (data.height() * data.width() != data.slicePitch)
             {
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Unsupported texture format",
@@ -311,7 +311,7 @@ namespace Ogre {
             }
         }
 
-        NSUInteger rowPitch = PixelUtil::getMemorySize(data.getWidth(), 1, 1, data.format);
+        NSUInteger rowPitch = PixelUtil::getMemorySize(data.width(), 1, 1, data.format);
 
         // PVR textures should have 0 row size and data size
         if( data.format == PixelFormat::PVRTC2_2BPP ||
@@ -328,27 +328,27 @@ namespace Ogre {
         switch(mTarget)
         {
             case MTLTextureType1D:
-                [mTexture replaceRegion:MTLRegionMake1D( dest.left, dest.getWidth() )
+                [mTexture replaceRegion:MTLRegionMake1D( dest.left, dest.width() )
                             mipmapLevel:mLevel
                               withBytes:data.data
                             bytesPerRow:0];
                 break;
             case MTLTextureType1DArray:
-                [mTexture replaceRegion:MTLRegionMake1D( dest.left, dest.getWidth() )
+                [mTexture replaceRegion:MTLRegionMake1D( dest.left, dest.width() )
                             mipmapLevel:mLevel
                               withBytes:data.data
                             bytesPerRow:rowPitch];
                 break;
             case MTLTextureType2D:
                 [mTexture replaceRegion:MTLRegionMake2D( dest.left, dest.top,
-                                                         dest.getWidth(), dest.getHeight() )
+                                                         dest.width(), dest.height() )
                             mipmapLevel:mLevel
                               withBytes:data.data
                             bytesPerRow:rowPitch];
                 break;
             case MTLTextureType2DArray:
                 [mTexture replaceRegion:MTLRegionMake2D( dest.left, dest.top,
-                                                         dest.getWidth(), dest.getHeight() )
+                                                         dest.width(), dest.height() )
                             mipmapLevel:mLevel
                                   slice:dest.front
                               withBytes:data.data
@@ -357,14 +357,14 @@ namespace Ogre {
                 break;
             case MTLTextureType2DMultisample:
                 [mTexture replaceRegion:MTLRegionMake2D( dest.left, dest.top,
-                                                         dest.getWidth(), dest.getHeight() )
+                                                         dest.width(), dest.height() )
                             mipmapLevel:mLevel
                               withBytes:data.data
                             bytesPerRow:rowPitch];
                 break;
             case MTLTextureTypeCube:
                 [mTexture replaceRegion:MTLRegionMake2D( dest.left, dest.top,
-                                                         dest.getWidth(), dest.getHeight() )
+                                                         dest.width(), dest.height() )
                             mipmapLevel:mLevel
                                   slice:mFace
                               withBytes:data.data
@@ -374,9 +374,9 @@ namespace Ogre {
 #if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS
             case MTLTextureTypeCubeArray:
                 [mTexture replaceRegion:MTLRegionMake3D( dest.left, dest.top, dest.front,
-                                                         dest.getWidth(),
-                                                         dest.getHeight(),
-                                                         dest.getDepth() )
+                                                         dest.width(),
+                                                         dest.height(),
+                                                         dest.depth() )
                             mipmapLevel:mLevel
                                   slice:dest.front
                               withBytes:data.data
@@ -385,9 +385,9 @@ namespace Ogre {
 #endif
             case MTLTextureType3D:
                 [mTexture replaceRegion:MTLRegionMake3D( dest.left, dest.top, dest.front,
-                                                         dest.getWidth(),
-                                                         dest.getHeight(),
-                                                         dest.getDepth() )
+                                                         dest.width(),
+                                                         dest.height(),
+                                                         dest.depth() )
                             mipmapLevel:mLevel
                                   slice:0
                               withBytes:data.data
@@ -403,7 +403,7 @@ namespace Ogre {
         str << "MetalTextureBuffer::upload: "
         << " pixel buffer: " << mBufferId
         << " bytes: " << mSizeInBytes
-        << " dest depth: " << dest.getDepth()
+        << " dest depth: " << dest.depth()
         << " dest front: " << dest.front
         << " bytesPerImage: " << bytesPerImage
         << " face: " << mFace << " level: " << mLevel
@@ -417,9 +417,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------------------
     void MetalTextureBuffer::download(const PixelBox &data)
     {
-        if(data.getWidth() != getWidth() ||
-           data.getHeight() != getHeight() ||
-           data.getDepth() != getDepth())
+        if(data.width() != width() ||
+           data.height() != height() ||
+           data.depth() != depth())
             OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
                          "only download of entire buffer is supported by Metal",
                          "MetalTextureBuffer::download" );
@@ -434,10 +434,10 @@ namespace Ogre {
         NSUInteger bytesPerPixel = PixelUtil::getNumElemBytes(data.format);
 
         // Construct a temp PixelBox
-        size_t sizeInBytes = PixelUtil::getMemorySize( data.getWidth(), data.getHeight(),
-                                                       data.getDepth(), mFormat );
+        size_t sizeInBytes = PixelUtil::getMemorySize( data.width(), data.height(),
+                                                       data.depth(), mFormat );
 
-        PixelBox tempBox = PixelBox( data.getWidth(), data.getHeight(), data.getDepth(), mFormat );
+        PixelBox tempBox = PixelBox( data.width(), data.height(), data.depth(), mFormat );
         tempBox.data = new uint8[sizeInBytes];
 
         if( mTexture.storageMode == MTLStorageModePrivate )
@@ -456,12 +456,12 @@ namespace Ogre {
                              sourceSlice:0
                              sourceLevel:0
                             sourceOrigin:MTLOriginMake( data.left, data.top, data.front )
-                              sourceSize:MTLSizeMake( data.getWidth(), data.getHeight(),
-                                                      data.getDepth() )
+                              sourceSize:MTLSizeMake( data.width(), data.height(),
+                                                      data.depth() )
                                 toBuffer:tmpBuffer
                        destinationOffset:0
-                  destinationBytesPerRow:bytesPerPixel * data.getWidth()
-                destinationBytesPerImage:bytesPerPixel * data.getWidth() * data.getHeight()];
+                  destinationBytesPerRow:bytesPerPixel * data.width()
+                destinationBytesPerImage:bytesPerPixel * data.width() * data.height()];
 
             device->stall();
 
@@ -470,8 +470,8 @@ namespace Ogre {
         else
         {
             [mTexture getBytes:tempBox.data
-                   bytesPerRow:bytesPerPixel * data.getWidth()
-                    fromRegion:MTLRegionMake2D(data.left, data.top, data.getWidth(), data.getHeight())
+                   bytesPerRow:bytesPerPixel * data.width()
+                    fromRegion:MTLRegionMake2D(data.left, data.top, data.width(), data.height())
                    mipmapLevel:0];
         }
 
@@ -528,9 +528,9 @@ namespace Ogre {
         // - the source dimensions match the destination ones, in which case no scaling is needed
         if(PixelUtil::isLuminance(src_orig.format) ||
            PixelUtil::isLuminance(mFormat) ||
-           (src_orig.getWidth() == dstBox.getWidth() &&
-            src_orig.getHeight() == dstBox.getHeight() &&
-            src_orig.getDepth() == dstBox.getDepth()))
+           (src_orig.width() == dstBox.width() &&
+            src_orig.height() == dstBox.height() &&
+            src_orig.depth() == dstBox.depth()))
         {
             MetalHardwarePixelBuffer::blitFromMemory(src_orig, dstBox);
             return;
@@ -543,11 +543,11 @@ namespace Ogre {
         PixelBox src;
 
         // Create temporary texture to store source data
-        MTLTextureType target = (src.getDepth() != 1) ? MTLTextureType3D : MTLTextureType2D;
+        MTLTextureType target = (src.depth() != 1) ? MTLTextureType3D : MTLTextureType2D;
 
-        int width = src.getWidth();
-        int height = src.getHeight();
-        int depth = src.getDepth();
+        int width = src.width();
+        int height = src.height();
+        int depth = src.depth();
 
         // Metal texture buffer
         MetalTextureBuffer tex( mTexture, 0, 0, BLANKSTRING, target, width, height, depth,
@@ -556,7 +556,7 @@ namespace Ogre {
                                 src.format == mFormat ? mHwGamma : false, 0 );
 
         // Upload data to 0,0,0 in temporary texture
-        Box tempTarget(0, 0, 0, src.getWidth(), src.getHeight(), src.getDepth());
+        Box tempTarget(0, 0, 0, src.width(), src.height(), src.depth());
         tex.upload(src, tempTarget);
 
         // Blit

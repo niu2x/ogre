@@ -590,8 +590,8 @@ namespace Ogre
     void InstanceBatchVTF::createVertexSemantics( 
         VertexData *thisVertexData, VertexData *baseVertexData, const HWBoneIdxVec &hwBoneIdx, const HWBoneWgtVec &hwBoneWgt)
     {
-        const size_t texWidth  = mMatrixTexture->getWidth();
-        const size_t texHeight = mMatrixTexture->getHeight();
+        const size_t texWidth  = mMatrixTexture->width();
+        const size_t texHeight = mMatrixTexture->height();
 
         //Calculate the texel offsets to correct them offline
         //Akwardly enough, the offset is needed in OpenGL too

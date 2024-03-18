@@ -70,7 +70,7 @@ namespace Ogre {
             _loadImage();
         }
 
-        int                width            = (int)mColourImage.getWidth()  - 1;
+        int                width            = (int)mColourImage.width()  - 1;
         
         for (auto p : pSystem->_getActiveParticles())
         {

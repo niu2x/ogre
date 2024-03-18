@@ -66,10 +66,10 @@ namespace Volume {
             << "Loaded texture in " << t.milli_seconds() << "ms.";
         t.reset();
 
-        mWidth = img.getWidth();
-        mHeight= img.getHeight();
+        mWidth = img.width();
+        mHeight= img.height();
         mWidthTimesHeight = mWidth * mHeight;
-        mDepth = img.getDepth();
+        mDepth = img.depth();
 
         mPosXScale = (Real)1.0 / (Real)worldWidth * (Real)mWidth;
         mPosYScale = (Real)1.0 / (Real)worldHeight * (Real)mHeight;

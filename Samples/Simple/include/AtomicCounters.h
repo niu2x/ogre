@@ -46,8 +46,8 @@ class _OgreSampleClassExport Sample_AtomicCounters : public SdkSample
     {
         mViewport->setBackgroundColour(ColourValue(0.3, 0.3, 0.3));
 
-        float w = 480.0 / mWindow->getWidth();
-        float h = 480.0 / mWindow->getHeight();
+        float w = 480.0 / mWindow->width();
+        float h = 480.0 / mWindow->height();
 
         auto rect = mSceneMgr->createScreenSpaceRect();
         rect->setCorners(-w, h, w, -h, false);

@@ -391,8 +391,8 @@ namespace Ogre
         desc.sampleCount = renderTarget->getFSAA();
         desc.textureType = renderTarget->getFSAA() > 1u ? MTLTextureType2DMultisample :
                                                           MTLTextureType2D;
-        desc.width              = (NSUInteger)renderTarget->getWidth();
-        desc.height             = (NSUInteger)renderTarget->getHeight();
+        desc.width              = (NSUInteger)renderTarget->width();
+        desc.height             = (NSUInteger)renderTarget->height();
         desc.depth              = (NSUInteger)1u;
         desc.arrayLength        = 1u;
         desc.mipmapLevelCount   = 1u;
@@ -440,8 +440,8 @@ namespace Ogre
             }
         }
 
-        DepthBuffer *retVal = new MetalDepthBuffer( 0, this, renderTarget->getWidth(),
-                                                    renderTarget->getHeight(),
+        DepthBuffer *retVal = new MetalDepthBuffer( 0, this, renderTarget->width(),
+                                                    renderTarget->height(),
                                                     renderTarget->getFSAA(),
                                                     depthFormat, false,
                                                     depthTexture, stencilTexture,

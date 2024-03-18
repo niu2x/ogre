@@ -104,15 +104,15 @@ namespace Ogre {
         /** Sets the width (local x size) of the emitter. */
         void setWidth(Real width);
         /** Gets the width (local x size) of the emitter. */
-        Real getWidth(void) const;
+        Real width(void) const;
         /** Sets the height (local y size) of the emitter. */
         void setHeight(Real Height);
         /** Gets the height (local y size) of the emitter. */
-        Real getHeight(void) const;
+        Real height(void) const;
         /** Sets the depth (local y size) of the emitter. */
         void setDepth(Real Depth);
         /** Gets the depth (local y size) of the emitter. */
-        Real getDepth(void) const;
+        Real depth(void) const;
 
     protected:
         /// Size of the area

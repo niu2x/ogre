@@ -48,12 +48,12 @@ namespace Ogre
         return StringUtil::format("%d x %d @ %d-bit colour", mModeDesc.Width, mModeDesc.Height, colourDepth);
     }
     //---------------------------------------------------------------------
-    unsigned int D3D11VideoMode::getWidth() const
+    unsigned int D3D11VideoMode::width() const
     {
         return mModeDesc.Width;
     }
     //---------------------------------------------------------------------
-    unsigned int D3D11VideoMode::getHeight() const
+    unsigned int D3D11VideoMode::height() const
     {
         return mModeDesc.Height;
     }

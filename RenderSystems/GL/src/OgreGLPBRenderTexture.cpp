@@ -119,7 +119,7 @@ namespace Ogre {
         //Check size
         if(mPBuffers[(int)ctype].pb)
         {
-            if(mPBuffers[(int)ctype].pb->getWidth()<width || mPBuffers[(int)ctype].pb->getHeight()<height)
+            if(mPBuffers[(int)ctype].pb->width()<width || mPBuffers[(int)ctype].pb->height()<height)
             {
                 // If the current PBuffer is too small, destroy it and create a new one
                 delete mPBuffers[(int)ctype].pb;
@@ -151,7 +151,7 @@ namespace Ogre {
         // size and ctype is PixelComponentType::BYTE. This must be checked
         // every time because the window might have been resized
         if (ctype == PixelComponentType::BYTE) {
-            if(width <= mMainWindow->getWidth() && height <= mMainWindow->getHeight())
+            if(width <= mMainWindow->width() && height <= mMainWindow->height())
                 return mMainContext;
         }
         assert(mPBuffers[(int)ctype].pb);

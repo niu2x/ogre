@@ -332,7 +332,7 @@ namespace Ogre
         if (!worldTexName.empty())
         {
             img.load(worldTexName, mResourceGroup);
-            slot->instance->setGlobalColourMapEnabled(true, img.getWidth());
+            slot->instance->setGlobalColourMapEnabled(true, img.width());
             slot->instance->getGlobalColourMap()->loadImage(img);
         }
     }

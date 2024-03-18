@@ -125,7 +125,7 @@ namespace Ogre {
         GL3PlusHardwareBuffer buffer(GL_PIXEL_UNPACK_BUFFER, dataSize, mUsage);
         buffer.writeData(0, dataSize, data.data, false);
 
-        PixelBox tmp(data.getWidth(), data.getHeight(), data.getHeight(), data.format);
+        PixelBox tmp(data.width(), data.height(), data.height(), data.format);
         tmp.data = buffer.lockImpl(0, dataSize, HardwareBuffer::HBL_DISCARD);
         PixelUtil::bulkPixelConversion(data, tmp);
         buffer.unlockImpl(dataSize);
@@ -134,7 +134,7 @@ namespace Ogre {
         // str << "GL3PlusHardwarePixelBuffer::upload: " << mTextureID
         // << " pixel buffer: " << buffer.getGLBufferId()
         // << " bytes: " << mSizeInBytes
-        // << " dest depth: " << dest.getDepth()
+        // << " dest depth: " << dest.depth()
         // << " dest front: " << dest.front
         // << " datasize: " << dataSize
         // << " face: " << mFace << " level: " << mLevel
@@ -166,7 +166,7 @@ namespace Ogre {
                 OGRE_CHECK_GL_ERROR(glCompressedTexSubImage1D(
                     GL_TEXTURE_1D, mLevel,
                     dest.left,
-                    dest.getWidth(),
+                    dest.width(),
                     format, data.getConsecutiveSize(),
                     pdata));
                 break;
@@ -176,7 +176,7 @@ namespace Ogre {
                 OGRE_CHECK_GL_ERROR(glCompressedTexSubImage2D(
                     mFaceTarget, mLevel,
                     dest.left, dest.top,
-                    dest.getWidth(), dest.getHeight(),
+                    dest.width(), dest.height(),
                     format, data.getConsecutiveSize(),
                     pdata));
                 break;
@@ -185,7 +185,7 @@ namespace Ogre {
                 OGRE_CHECK_GL_ERROR(glCompressedTexSubImage3D(
                     mTarget, mLevel,
                     dest.left, dest.top, dest.front,
-                    dest.getWidth(), dest.getHeight(), dest.getDepth(),
+                    dest.width(), dest.height(), dest.depth(),
                     format, data.getConsecutiveSize(),
                     pdata));
                 break;
@@ -195,12 +195,12 @@ namespace Ogre {
         else
         {
 #ifndef USE_PBO
-            if (data.getWidth() != data.rowPitch)
+            if (data.width() != data.rowPitch)
                 OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_ROW_LENGTH, data.rowPitch));
-            if (data.getHeight() * data.getWidth() != data.slicePitch)
-                OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, (data.slicePitch/data.getWidth())));
+            if (data.height() * data.width() != data.slicePitch)
+                OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, (data.slicePitch/data.width())));
 #endif
-            if ((data.getWidth()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+            if ((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
                 // Standard alignment of 4 is not right.
                 OGRE_CHECK_GL_ERROR(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
             }
@@ -233,7 +233,7 @@ namespace Ogre {
                 OGRE_CHECK_GL_ERROR(glTexSubImage1D(
                     GL_TEXTURE_1D, mLevel,
                     dest.left,
-                    dest.getWidth(),
+                    dest.width(),
                     GL3PlusPixelUtil::getGLOriginFormat(data.format),
                     type,
                     pdata));
@@ -244,7 +244,7 @@ namespace Ogre {
                 OGRE_CHECK_GL_ERROR(glTexSubImage2D(
                     mFaceTarget, mLevel,
                     dest.left, dest.top,
-                    dest.getWidth(), dest.getHeight(),
+                    dest.width(), dest.height(),
                     GL3PlusPixelUtil::getGLOriginFormat(data.format),
                     type,
                     pdata));
@@ -254,7 +254,7 @@ namespace Ogre {
                 OGRE_CHECK_GL_ERROR(glTexSubImage3D(
                     mTarget, mLevel,
                     dest.left, dest.top, dest.front,
-                    dest.getWidth(), dest.getHeight(), dest.getDepth(),
+                    dest.width(), dest.height(), dest.depth(),
                     GL3PlusPixelUtil::getGLOriginFormat(data.format),
                     type,
                     pdata));
@@ -310,7 +310,7 @@ namespace Ogre {
         }
         else
         {
-            if ((data.getWidth()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+            if ((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
                 // Standard alignment of 4 is not right
                 OGRE_CHECK_GL_ERROR(glPixelStorei(GL_PACK_ALIGNMENT, 1));
             }
@@ -503,16 +503,16 @@ namespace Ogre {
             return;
         }
 
-        TextureType type = (src.getDepth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
+        TextureType type = (src.depth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
 
         // no mipmaps. blitFromTexture does not use them
         TexturePtr tex = TextureManager::singleton().createManual(
             "GLBlitFromMemoryTMP",
             ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
             type,
-            src.getWidth(),
-            src.getHeight(),
-            src.getDepth(),
+            src.width(),
+            src.height(),
+            src.depth(),
             0,
             src.format);
 
@@ -557,7 +557,7 @@ namespace Ogre {
                         "GL3PlusHardwarePixelBuffer::blitToMemory");
         }
 
-        if (srcBox.getOrigin() == Vector3i(0, 0, 0) && srcBox.size() == size()
+        if (srcBox.origin() == Vector3i(0, 0, 0) && srcBox.size() == size()
             && dst.size() == size()
             && GL3PlusPixelUtil::getGLInternalFormat(dst.format) != 0) {
             // The direct case: the user wants the entire texture in a format supported by GL

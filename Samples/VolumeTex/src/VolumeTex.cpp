@@ -139,13 +139,13 @@ void Sample_VolumeTex::generate()
 
     HardwarePixelBufferSharedPtr buffer = ptex->getBuffer(0, 0);
     Ogre::StringStream d;
-    d << "HardwarePixelBuffer " << buffer->getWidth() << " " << buffer->getHeight() << " " << buffer->getDepth();
+    d << "HardwarePixelBuffer " << buffer->width() << " " << buffer->height() << " " << buffer->depth();
     LogManager::singleton().log_message(d.str());
 
     buffer->lock(HardwareBuffer::HBL_NORMAL);
     const PixelBox &pb = buffer->getCurrentLock();
     d.str("");
-    d << "PixelBox " << pb.getWidth() << " " << pb.getHeight() << " " << pb.getDepth() << " " << pb.rowPitch << " " << pb.slicePitch << " " << pb.data << " " << PixelUtil::getFormatName(pb.format);
+    d << "PixelBox " << pb.width() << " " << pb.height() << " " << pb.depth() << " " << pb.rowPitch << " " << pb.slicePitch << " " << pb.data << " " << PixelUtil::getFormatName(pb.format);
     LogManager::singleton().log_message(d.str());
 
     Ogre::uint32 *pbptr = reinterpret_cast<Ogre::uint32*>(pb.data);
@@ -163,16 +163,16 @@ void Sample_VolumeTex::generate()
                 }
                 else
                 {
-                    float val = julia.eval(((float)x/pb.getWidth()-0.5f) * scale,
-                                           ((float)y/pb.getHeight()-0.5f) * scale,
-                                           ((float)z/pb.getDepth()-0.5f) * scale);
+                    float val = julia.eval(((float)x/pb.width()-0.5f) * scale,
+                                           ((float)y/pb.height()-0.5f) * scale,
+                                           ((float)z/pb.depth()-0.5f) * scale);
                     if(val > vcut)
                         val = vcut;
 
                     PixelUtil::packColour(
-                        (float)x / pb.getWidth(),
-                        (float)y / pb.getHeight(),
-                        (float)z / pb.getDepth(),
+                        (float)x / pb.width(),
+                        (float)y / pb.height(),
+                        (float)z / pb.depth(),
                         (1.0f - (val * vscale)) * 0.7f,
                         PixelFormat::BYTE_RGBA,
                         &pbptr[x]);

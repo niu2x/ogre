@@ -63,8 +63,8 @@ namespace Ogre
         if(y!=OGRE_MAX_MULTIPLE_RENDER_TARGETS)
         {
             /// If there is another target bound, compare sizes
-            if(mRenderTargets[y]->getWidth() != target->getWidth() ||
-                mRenderTargets[y]->getHeight() != target->getHeight())
+            if(mRenderTargets[y]->width() != target->width() ||
+                mRenderTargets[y]->height() != target->height())
             {
 				OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
                     "MultiRenderTarget surfaces are not of same size", 
@@ -127,8 +127,8 @@ namespace Ogre
     {
         if(mRenderTargets[0])
         {
-            mWidth = static_cast<unsigned int>(mRenderTargets[0]->getWidth());
-            mHeight = static_cast<unsigned int>(mRenderTargets[0]->getHeight());
+            mWidth = static_cast<unsigned int>(mRenderTargets[0]->width());
+            mHeight = static_cast<unsigned int>(mRenderTargets[0]->height());
         }
         else
         {

@@ -132,8 +132,8 @@ namespace Ogre {
         // mMultisampleFB is bound during rendering and is the one with a depth/stencil
 
         // Store basic stats
-        uint32 width = mColour[0].buffer->getWidth();
-        uint32 height = mColour[0].buffer->getHeight();
+        uint32 width = mColour[0].buffer->width();
+        uint32 height = mColour[0].buffer->height();
         GLuint format = mColour[0].buffer->getGLFormat();
         ushort maxSupportedMRTs = rs->getCapabilities()->getNumMultiRenderTargets();
 
@@ -146,11 +146,11 @@ namespace Ogre {
             if(mColour[x].buffer)
             {
                 bool isDepth = PixelUtil::isDepth(mColour[x].buffer->getFormat());
-                if(mColour[x].buffer->getWidth() != width || mColour[x].buffer->getHeight() != height)
+                if(mColour[x].buffer->width() != width || mColour[x].buffer->height() != height)
                 {
                     StringStream ss;
                     ss << "Attachment " << x << " has incompatible size ";
-                    ss << mColour[x].buffer->getWidth() << "x" << mColour[x].buffer->getHeight();
+                    ss << mColour[x].buffer->width() << "x" << mColour[x].buffer->height();
                     ss << ". It must be of the same as the size of surface 0, ";
                     ss << width << "x" << height;
                     ss << ".";
@@ -295,8 +295,8 @@ namespace Ogre {
             OGRE_CHECK_GL_ERROR(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldfb));
 
             // Blit from multisample buffer to final buffer, triggers resolve
-            uint32 width = mColour[0].buffer->getWidth();
-            uint32 height = mColour[0].buffer->getHeight();
+            uint32 width = mColour[0].buffer->width();
+            uint32 height = mColour[0].buffer->height();
             OGRE_CHECK_GL_ERROR(glBindFramebuffer(GL_READ_FRAMEBUFFER, mMultisampleFB));
             OGRE_CHECK_GL_ERROR(glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFB));
             OGRE_CHECK_GL_ERROR(glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST));

@@ -559,9 +559,9 @@ namespace Ogre {
                 static_cast<unsigned short>(index))->_getTexturePtr();
             if (tex)
             {
-                size[0] = static_cast<float>(tex->getWidth());
-                size[1] = static_cast<float>(tex->getHeight());
-                size[2] = static_cast<float>(tex->getDepth());
+                size[0] = static_cast<float>(tex->width());
+                size[1] = static_cast<float>(tex->height());
+                size[2] = static_cast<float>(tex->depth());
                 size[3] = static_cast<float>(tex->getNumMipmaps());
             }
         }

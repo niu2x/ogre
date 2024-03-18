@@ -97,9 +97,9 @@ namespace Ogre
             region.imageOffset.x = lockBox.left;
             region.imageOffset.y = lockBox.top;
             region.imageOffset.z = lockBox.front;
-            region.imageExtent.width = lockBox.getWidth();
-            region.imageExtent.height = lockBox.getHeight();
-            region.imageExtent.depth = lockBox.getDepth();
+            region.imageExtent.width = lockBox.width();
+            region.imageExtent.height = lockBox.height();
+            region.imageExtent.depth = lockBox.depth();
 
             vkCmdCopyImageToBuffer(device->mGraphicsQueue.mCurrentCmdBuffer, mParent->getFinalTextureName(),
                                     VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, dstBuffer, 1u, &region);
@@ -133,9 +133,9 @@ namespace Ogre
             region.imageOffset.x = mCurrentLock.left;
             region.imageOffset.y = mCurrentLock.top;
             region.imageOffset.z = mCurrentLock.front;
-            region.imageExtent.width = mCurrentLock.getWidth();
-            region.imageExtent.height = mCurrentLock.getHeight();
-            region.imageExtent.depth = mCurrentLock.getDepth();
+            region.imageExtent.width = mCurrentLock.width();
+            region.imageExtent.height = mCurrentLock.height();
+            region.imageExtent.depth = mCurrentLock.depth();
 
             if (mParent->getTextureType() == TEX_TYPE_2D_ARRAY)
             {
@@ -160,8 +160,8 @@ namespace Ogre
         if(src.format != mFormat)
         {
             std::vector<uint8> buffer;
-            buffer.resize(PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(), mFormat));
-            PixelBox converted = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), mFormat, buffer.data());
+            buffer.resize(PixelUtil::getMemorySize(src.width(), src.height(), src.depth(), mFormat));
+            PixelBox converted = PixelBox(src.width(), src.height(), src.depth(), mFormat, buffer.data());
             PixelUtil::bulkPixelConversion(src, converted);
             blitFromMemory(converted, dstBox); // recursive call
             return;
@@ -211,9 +211,9 @@ namespace Ogre
 
         VkImageCreateInfo imageInfo = {VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO};
         imageInfo.imageType = getVulkanTextureType();
-        imageInfo.extent.width = getWidth();
-        imageInfo.extent.height = getHeight();
-        imageInfo.extent.depth = getDepth();
+        imageInfo.extent.width = width();
+        imageInfo.extent.height = height();
+        imageInfo.extent.depth = depth();
         imageInfo.mipLevels = mNumMipmaps + 1;
         imageInfo.arrayLayers = getNumFaces();
         imageInfo.flags = 0;
@@ -370,7 +370,7 @@ namespace Ogre
 
         const uint32 sourceSlice = srcBox.front;// + getInternalSliceStart();
         const uint32 destinationSlice = dstBox.front;// + dstTexture->getInternalSliceStart();
-        const uint32 numSlices = dstBox.getDepth() != 0 ? dstBox.getDepth() : dstTexture->getDepth();
+        const uint32 numSlices = dstBox.depth() != 0 ? dstBox.depth() : dstTexture->depth();
 
         region.srcSubresource.aspectMask = VulkanMappings::getImageAspect( this->getFormat() );
         region.srcSubresource.mipLevel = srcMipLevel;
@@ -390,9 +390,9 @@ namespace Ogre
         region.dstOffset.y = dstBox.top;
         region.dstOffset.z = dstBox.front;
 
-        region.extent.width = srcBox.getWidth();
-        region.extent.height = srcBox.getHeight();
-        region.extent.depth = srcBox.getDepth();
+        region.extent.width = srcBox.width();
+        region.extent.height = srcBox.height();
+        region.extent.depth = srcBox.depth();
 
         VkImage srcTextureName = this->mFinalTextureName;
         VkImage dstTextureName = dstTexture->mFinalTextureName;
@@ -414,9 +414,9 @@ namespace Ogre
             VkImageResolve resolve = {};
             resolve.srcSubresource = region.dstSubresource;
             resolve.dstSubresource = region.dstSubresource;
-            resolve.extent.width = getWidth();
-            resolve.extent.height = getHeight();
-            resolve.extent.depth = getDepth();
+            resolve.extent.width = width();
+            resolve.extent.height = height();
+            resolve.extent.depth = depth();
 
             vkCmdResolveImage( device->mGraphicsQueue.mCurrentCmdBuffer,
                                dstTexture->mMsaaTextureName, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
@@ -462,8 +462,8 @@ namespace Ogre
 
         imageBarrier.subresourceRange.levelCount = 1u;
 
-        const uint32 internalWidth = getWidth();
-        const uint32 internalHeight = getHeight();
+        const uint32 internalWidth = width();
+        const uint32 internalHeight = height();
 
         for( size_t i = 1u; i <= mNumMipmaps; ++i )
         {
@@ -493,7 +493,7 @@ namespace Ogre
             region.srcOffsets[1].x = static_cast<int32_t>( std::max( internalWidth >> ( i - 1u ), 1u ) );
             region.srcOffsets[1].y =
                 static_cast<int32_t>( std::max( internalHeight >> ( i - 1u ), 1u ) );
-            region.srcOffsets[1].z = static_cast<int32_t>( std::max( getDepth() >> ( i - 1u ), 1u ) );
+            region.srcOffsets[1].z = static_cast<int32_t>( std::max( depth() >> ( i - 1u ), 1u ) );
 
             region.dstSubresource.aspectMask = region.srcSubresource.aspectMask;
             region.dstSubresource.mipLevel = static_cast<uint32_t>( i );
@@ -506,7 +506,7 @@ namespace Ogre
 
             region.dstOffsets[1].x = static_cast<int32_t>( std::max( internalWidth >> i, 1u ) );
             region.dstOffsets[1].y = static_cast<int32_t>( std::max( internalHeight >> i, 1u ) );
-            region.dstOffsets[1].z = static_cast<int32_t>( std::max( getDepth() >> i, 1u ) );
+            region.dstOffsets[1].z = static_cast<int32_t>( std::max( depth() >> i, 1u ) );
 
             if(mTextureType == TEX_TYPE_2D_ARRAY)
             {
@@ -679,9 +679,9 @@ namespace Ogre
     {
         VkImageCreateInfo imageInfo = {VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO};
         imageInfo.imageType = getVulkanTextureType();
-        imageInfo.extent.width = getWidth();
-        imageInfo.extent.height = getHeight();
-        imageInfo.extent.depth = getDepth();
+        imageInfo.extent.width = width();
+        imageInfo.extent.height = height();
+        imageInfo.extent.depth = depth();
         imageInfo.mipLevels = 1u;
         imageInfo.arrayLayers = 1u;
         imageInfo.format = VulkanMappings::get( mFormat );
@@ -745,8 +745,8 @@ namespace Ogre
         if(!depthTarget)
         {
             mDepthTexture = std::make_unique<VulkanTextureGpu>(texMgr, mName+"/Depth", 0, "", true, nullptr);
-            mDepthTexture->setWidth(target->getWidth());
-            mDepthTexture->setHeight(target->getHeight());
+            mDepthTexture->setWidth(target->width());
+            mDepthTexture->setHeight(target->height());
             mDepthTexture->setFormat(PixelFormat::DEPTH32);
             mDepthTexture->createInternalResources();
             mDepthTexture->setFSAA(1, "");

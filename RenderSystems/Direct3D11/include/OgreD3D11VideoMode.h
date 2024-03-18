@@ -47,8 +47,8 @@ namespace Ogre
         D3D11VideoMode( DXGI_OUTPUT_DESC d3ddm,DXGI_MODE_DESC ModeDesc );
         ~D3D11VideoMode();
 
-        unsigned int getWidth() const;
-        unsigned int getHeight() const;
+        unsigned int width() const;
+        unsigned int height() const;
         DXGI_FORMAT getFormat() const;
         DXGI_RATIONAL getRefreshRate() const;
         DXGI_OUTPUT_DESC getDisplayMode() const;

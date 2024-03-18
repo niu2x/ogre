@@ -224,15 +224,15 @@ namespace Ogre {
 
         /** Returns the height of the texture.
         */
-        uint32 getHeight(void) const { return mHeight; }
+        uint32 height(void) const { return mHeight; }
 
         /** Returns the width of the texture.
         */
-        uint32 getWidth(void) const { return mWidth; }
+        uint32 width(void) const { return mWidth; }
 
         /** Returns the depth of the texture (only applicable for 3D textures).
         */
-        uint32 getDepth(void) const { return mDepth; }
+        uint32 depth(void) const { return mDepth; }
 
         /** Returns the height of the original input texture (may differ due to hardware requirements).
         */

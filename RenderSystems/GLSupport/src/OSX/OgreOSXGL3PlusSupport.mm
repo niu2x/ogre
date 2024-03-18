@@ -98,15 +98,15 @@ ConfigOptionMap OSXGLSupport::getConfigOptions()
 		
 		if((safeForHardware) || (!stretched))
 		{
-			size_t width  = CGDisplayModeGetWidth(modeInfo);
-			size_t height = CGDisplayModeGetHeight(modeInfo); 
+			size_t width  = CGDisplayModewidth(modeInfo);
+			size_t height = CGDisplayModeheight(modeInfo); 
 			
 			for(CFIndex j = 0; j < CFArrayGetCount(goodModes); ++j)
 			{
 				CGDisplayModeRef otherMode = (CGDisplayModeRef)CFArrayGetValueAtIndex(goodModes, j);
                 
-				size_t otherWidth  = CGDisplayModeGetWidth(otherMode);
-				size_t otherHeight = CGDisplayModeGetHeight(otherMode);
+				size_t otherWidth  = CGDisplayModewidth(otherMode);
+				size_t otherHeight = CGDisplayModeheight(otherMode);
 				
 				// If we find a duplicate then skip this mode
 				if((otherWidth == width) && (otherHeight == height))
@@ -131,8 +131,8 @@ ConfigOptionMap OSXGLSupport::getConfigOptions()
 	{
 		CGDisplayModeRef resolution = (CGDisplayModeRef)CFArrayGetValueAtIndex(goodModes, i);
 		
-		size_t fWidth  = CGDisplayModeGetWidth(resolution);
-		size_t fHeight = CGDisplayModeGetHeight(resolution);
+		size_t fWidth  = CGDisplayModewidth(resolution);
+		size_t fHeight = CGDisplayModeheight(resolution);
 		// allow 16 and 32 bpp
 		mVideoModes.push_back({uint32(fWidth), uint32(fHeight),0, 16});
 		mVideoModes.push_back({uint32(fWidth), uint32(fHeight),0, 32});
@@ -198,11 +198,11 @@ CFComparisonResult OSXGLSupport::_compareModes (const void *val1, const void *va
 	CGDisplayModeRef thisMode = (CGDisplayModeRef)val1;
 	CGDisplayModeRef otherMode = (CGDisplayModeRef)val2;
 	
-	size_t width = CGDisplayModeGetWidth(thisMode);
-	size_t otherWidth = CGDisplayModeGetWidth(otherMode);
+	size_t width = CGDisplayModewidth(thisMode);
+	size_t otherWidth = CGDisplayModewidth(otherMode);
 	
-	size_t height = CGDisplayModeGetHeight(thisMode);
-	size_t otherHeight = CGDisplayModeGetHeight(otherMode);
+	size_t height = CGDisplayModeheight(thisMode);
+	size_t otherHeight = CGDisplayModeheight(otherMode);
 
 	// Sort modes in screen size order
 	if (width * height < otherWidth * otherHeight)

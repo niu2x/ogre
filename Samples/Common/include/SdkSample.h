@@ -47,10 +47,10 @@ namespace OgreBites
         // convert and redirect
         bool touchMoved(const TouchFingerEvent& evt) override {
             MouseMotionEvent e;
-            e.x = evt.x * mWindow->getWidth();
-            e.y = evt.y * mWindow->getHeight();
-            e.xrel = evt.dx * mWindow->getWidth();
-            e.yrel = evt.dy * mWindow->getHeight();
+            e.x = evt.x * mWindow->width();
+            e.y = evt.y * mWindow->height();
+            e.xrel = evt.dx * mWindow->width();
+            e.yrel = evt.dy * mWindow->height();
             return mouseMoved(e);
         }
         bool touchPressed(const TouchFingerEvent& evt) override {

@@ -200,7 +200,7 @@ namespace {
         bool isCubeMap = image->hasFlag(IF_CUBEMAP);
 
         // Establish texture attributes
-        bool isVolume = (image->getDepth() > 1);
+        bool isVolume = (image->depth() > 1);
         bool isFloat32r = (image->getFormat() == PixelFormat::FLOAT32_R);
         bool isFloat16 = (image->getFormat() == PixelFormat::FLOAT16_RGBA);
         bool isFloat16r = (image->getFormat() == PixelFormat::FLOAT16_R);
@@ -209,7 +209,7 @@ namespace {
         String notImplementedString = "";
 
         // Check for all the 'not implemented' conditions
-        if ((isVolume == true)&&(image->getWidth() != image->getHeight()))
+        if ((isVolume == true)&&(image->width() != image->height()))
         {
             // Square textures only
             notImplemented = true;
@@ -217,11 +217,11 @@ namespace {
         }
 
         uint32 size = 1;
-        while (size < image->getWidth())
+        while (size < image->width())
         {
             size <<= 1;
         }
-        if (size != image->getWidth())
+        if (size != image->width())
         {
             // Power two textures only
             notImplemented = true;
@@ -316,7 +316,7 @@ namespace {
             }
 
             // Initalise the SizeOrPitch flags (power two textures for now)
-            ddsHeaderSizeOrPitch = static_cast<uint32>(ddsHeaderRgbBits * image->getWidth());
+            ddsHeaderSizeOrPitch = static_cast<uint32>(ddsHeaderRgbBits * image->width());
 
             // Initalise the caps flags
             ddsHeaderCaps1 = (isVolume||isCubeMap) ? DDSCAPS_COMPLEX|DDSCAPS_TEXTURE : DDSCAPS_TEXTURE;
@@ -339,9 +339,9 @@ namespace {
             DDSHeader ddsHeader;
             ddsHeader.size = DDS_HEADER_SIZE;
             ddsHeader.flags = ddsHeaderFlags;       
-            ddsHeader.width = image->getWidth();
-            ddsHeader.height = image->getHeight();
-            ddsHeader.depth = (uint32)(isVolume ? image->getDepth() : 0);
+            ddsHeader.width = image->width();
+            ddsHeader.height = image->height();
+            ddsHeader.depth = (uint32)(isVolume ? image->depth() : 0);
             ddsHeader.depth = (uint32)(isCubeMap ? 6 : ddsHeader.depth);
             ddsHeader.mipMapCount = image->getNumMipmaps() + 1;
             ddsHeader.sizeOrPitch = ddsHeaderSizeOrPitch;
@@ -898,9 +898,9 @@ namespace {
         // all mips for a face, then each face
         for(size_t i = 0; i < numFaces; ++i)
         {
-            uint32 width = image->getWidth();
-            uint32 height = image->getHeight();
-            uint32 depth = image->getDepth();
+            uint32 width = image->width();
+            uint32 height = image->height();
+            uint32 depth = image->depth();
 
             for(size_t mip = 0; mip <= num_mipmaps; ++mip)
             {

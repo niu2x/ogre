@@ -96,7 +96,7 @@ namespace Ogre
         // get the target
         other = reinterpret_cast< D3D9Texture * >( target.get() );
         // target rectangle (whole surface)
-        RECT dstRC = {0, 0, static_cast<LONG>(other->getWidth()), static_cast<LONG>(other->getHeight())};
+        RECT dstRC = {0, 0, static_cast<LONG>(other->width()), static_cast<LONG>(other->height())};
 
         DeviceToTextureResourcesIterator it = mMapDeviceToTextureResources.begin();
         while (it != mMapDeviceToTextureResources.end())

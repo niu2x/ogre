@@ -451,8 +451,8 @@ namespace Ogre {
     void EAGL2Window::copyContentsToMemory(const Box& src, const PixelBox &dst, FrameBuffer buffer)
     {
         if(src.right > mWidth || src.bottom > mHeight || src.front != 0 || src.back != 1
-        || dst.getWidth() != src.getWidth() || dst.getHeight() != src.getHeight() || dst.getDepth() != 1
-        || dst.getWidth() != dst.rowPitch /* GLES2 does not support GL_PACK_ROW_LENGTH, nor iOS supports GL_NV_pack_subimage */)
+        || dst.width() != src.width() || dst.height() != src.height() || dst.depth() != 1
+        || dst.width() != dst.rowPitch /* GLES2 does not support GL_PACK_ROW_LENGTH, nor iOS supports GL_NV_pack_subimage */)
 		{
 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box.");
 		}
@@ -470,7 +470,7 @@ namespace Ogre {
 
         // The following code is adapted from Apple Technical Q & A QA1704
         // http://developer.apple.com/library/ios/#qa/qa1704/_index.html
-        NSInteger width = dst.getWidth(), height = dst.getHeight();
+        NSInteger width = dst.width(), height = dst.height();
         NSInteger dataLength = width * height * PixelUtil::getComponentCount(dst.format);
         GLubyte *data = (GLubyte*)malloc(dataLength * sizeof(GLubyte));
         GLenum format = GLES2PixelUtil::getGLOriginFormat(dst.format);
@@ -522,7 +522,7 @@ namespace Ogre {
         CGContextDrawImage(context, CGRectMake(0.0, 0.0, widthInPoints, heightInPoints), iref);
 
         // Retrieve the UIImage from the current context
-        memcpy(dst.data, CGBitmapContextGetData(context), CGBitmapContextGetBytesPerRow(context) * height); // TODO: support dst.rowPitch != dst.getWidth() case
+        memcpy(dst.data, CGBitmapContextGetData(context), CGBitmapContextGetBytesPerRow(context) * height); // TODO: support dst.rowPitch != dst.width() case
         UIGraphicsEndImageContext();
 
         // Clean up

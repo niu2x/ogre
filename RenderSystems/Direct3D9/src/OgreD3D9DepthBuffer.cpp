@@ -74,8 +74,8 @@ namespace Ogre
                 fmt == mD3DFormat &&
                 mFsaa == srfDesc.MultiSampleType &&
                 mMultiSampleQuality == srfDesc.MultiSampleQuality &&
-                this->getWidth() >= renderTarget->getWidth() &&
-                this->getHeight() >= renderTarget->getHeight() )
+                this->width() >= renderTarget->width() &&
+                this->height() >= renderTarget->height() )
             {
                 return true;
             }

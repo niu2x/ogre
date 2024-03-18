@@ -44,8 +44,8 @@ namespace Ogre {
         virtual ~GLPBuffer() {}
 
         PixelComponentType getFormat() { return mFormat; }
-        uint32 getWidth() { return mWidth; }
-        uint32 getHeight() { return mHeight; }
+        uint32 width() { return mWidth; }
+        uint32 height() { return mHeight; }
         
     protected:
         PixelComponentType mFormat;

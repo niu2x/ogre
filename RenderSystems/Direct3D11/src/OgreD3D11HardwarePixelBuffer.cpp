@@ -90,7 +90,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------  
     void D3D11HardwarePixelBuffer::_map(ID3D11Resource *res, D3D11_MAP flags, PixelBox & box)
     {
-        assert(mLockedBox.getDepth() == 1 || mParentTexture->getTextureType() == TEX_TYPE_3D);
+        assert(mLockedBox.depth() == 1 || mParentTexture->getTextureType() == TEX_TYPE_3D);
 
         D3D11_MAPPED_SUBRESOURCE pMappedResource = { 0 };
         UINT subresource = (res == mStagingBuffer.Get()) ? 0 : getSubresourceIndex(mLockedBox.front);
@@ -141,7 +141,7 @@ namespace Ogre {
         // Set extents and format
         // Note that we do not carry over the left/top/front here, since the returned
         // PixelBox will be re-based from the locking point onwards
-        PixelBox rval(lockBox.getWidth(), lockBox.getHeight(), lockBox.getDepth(), mFormat);
+        PixelBox rval(lockBox.width(), lockBox.height(), lockBox.depth(), mFormat);
         // Set locking flags according to options
         D3D11_MAP  flags = D3D11_MAP_WRITE_DISCARD ;
         switch(options)
@@ -233,7 +233,7 @@ namespace Ogre {
         D3D11HardwarePixelBuffer * srcDx11 = static_cast<D3D11HardwarePixelBuffer *>(src.get());
 
         // We should blit TEX_TYPE_2D_ARRAY with depth > 1 by iterating over subresources.
-        if (srcBox.getDepth() > 1 &&
+        if (srcBox.depth() > 1 &&
             (mParentTexture->getTextureType() == TEX_TYPE_2D_ARRAY || srcDx11->mParentTexture->getTextureType() == TEX_TYPE_2D_ARRAY))
         {
             Box srcSlice = srcBox, dstSlice = dstBox;
@@ -283,15 +283,15 @@ namespace Ogre {
         if(src.format != mFormat)
         {
             std::vector<uint8> buffer;
-            buffer.resize(PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(), mFormat));
-            PixelBox converted = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), mFormat, buffer.data());
+            buffer.resize(PixelUtil::getMemorySize(src.width(), src.height(), src.depth(), mFormat));
+            PixelBox converted = PixelBox(src.width(), src.height(), src.depth(), mFormat, buffer.data());
             PixelUtil::bulkPixelConversion(src, converted);
             blitFromMemory(converted, dst); // recursive call
             return;
         }
 
         // We should blit TEX_TYPE_2D_ARRAY with depth > 1 by iterating over subresources.
-        if (src.getDepth() > 1 && mParentTexture->getTextureType() == TEX_TYPE_2D_ARRAY)
+        if (src.depth() > 1 && mParentTexture->getTextureType() == TEX_TYPE_2D_ARRAY)
         {
             PixelBox srcSlice = src;
             Box dstSlice = dst;
@@ -317,8 +317,8 @@ namespace Ogre {
         {
             D3D11_BOX dstBox = getSubresourceBox(dst);
             UINT dstSubresource = getSubresourceIndex(dst.front);
-            UINT srcRowPitch = PixelUtil::getMemorySize(src.getWidth(), 1, 1, src.format);
-            UINT srcDepthPitch = PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), 1, src.format); // H * rowPitch is invalid for compressed formats
+            UINT srcRowPitch = PixelUtil::getMemorySize(src.width(), 1, 1, src.format);
+            UINT srcDepthPitch = PixelUtil::getMemorySize(src.width(), src.height(), 1, src.format); // H * rowPitch is invalid for compressed formats
 
             mDevice.GetImmediateContext()->UpdateSubresource(
                 mParentTexture->getTextureResource(), dstSubresource, &dstBox,
@@ -338,7 +338,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------------  
     void D3D11HardwarePixelBuffer::blitToMemory(const Box &srcBox, const PixelBox &dst)
     {
-        assert(srcBox.getDepth() == 1 && dst.getDepth() == 1);
+        assert(srcBox.depth() == 1 && dst.depth() == 1);
 
         //This is a pointer to the texture we're trying to copy
         //Only implemented for 2D at the moment...

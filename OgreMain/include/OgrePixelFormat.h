@@ -389,7 +389,7 @@ public:
     , format(PixelFormat::UNKNOWN)
     {
     }
-    ~PixelBox() { }
+    
     /** Constructor providing extents in the form of a Box object. This
        constructor assumes the pixel data is laid out consecutively in memory.
        (this means row after row, slice after slice, with no space in between)
@@ -429,14 +429,14 @@ public:
     /// The data pointer
     uchar* data;
     /** Number of elements between the leftmost pixel of one row and the left
-        pixel of the next. This value must always be equal to getWidth()
+        pixel of the next. This value must always be equal to width()
        (consecutive) for compressed formats.
     */
     size_t rowPitch;
     /** Number of elements between the top left pixel of one (depth) slice and
         the top left pixel of the next. This can be a negative value. Must be a
        multiple of rowPitch. This value must always be equal to
-       getWidth()*getHeight() (consecutive) for compressed formats.
+       width()*height() (consecutive) for compressed formats.
     */
     size_t slicePitch;
     /// The pixel format
@@ -446,21 +446,21 @@ public:
     */
     void setConsecutive()
     {
-        rowPitch = getWidth();
-        slicePitch = getWidth() * getHeight();
+        rowPitch = width();
+        slicePitch = width() * height();
     }
     /** Get the number of elements between one past the rightmost pixel of
         one row and the leftmost pixel of the next row. (IE this is zero if rows
         are consecutive).
     */
-    size_t getRowSkip() const { return rowPitch - getWidth(); }
+    size_t getRowSkip() const { return rowPitch - width(); }
     /** Get the number of elements between one past the right bottom pixel of
         one slice and the left top pixel of the next slice. (IE this is zero if
        slices are consecutive).
     */
     size_t getSliceSkip() const
     {
-        return slicePitch - (getHeight() * rowPitch);
+        return slicePitch - (height() * rowPitch);
     }
 
     /** Return whether this buffer is laid out consecutive in memory (ie the
@@ -468,7 +468,7 @@ public:
     */
     bool isConsecutive() const
     {
-        return rowPitch == getWidth() && slicePitch == getWidth() * getHeight();
+        return rowPitch == width() && slicePitch == width() * height();
     }
     /** Return the size (in bytes) this image would take if it was
         laid out consecutive in memory

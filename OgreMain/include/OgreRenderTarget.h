@@ -97,8 +97,8 @@ namespace Ogre {
         /// Retrieve information about the render target.
         void getMetrics(unsigned int& width, unsigned int& height);
 
-        virtual uint32 getWidth(void) const;
-        virtual uint32 getHeight(void) const;
+        virtual uint32 width(void) const;
+        virtual uint32 height(void) const;
 
         /**
          * Sets the pool ID this RenderTarget should query from. Default value is POOL_DEFAULT.

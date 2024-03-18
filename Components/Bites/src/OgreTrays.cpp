@@ -55,8 +55,8 @@ bool Widget::isCursorOver(Ogre::OverlayElement *element, const Ogre::Vector2 &cu
     Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
     Ogre::Real l = element->_getDerivedLeft() * om.getViewportWidth();
     Ogre::Real t = element->_getDerivedTop() * om.getViewportHeight();
-    Ogre::Real r = l + element->getWidth();
-    Ogre::Real b = t + element->getHeight();
+    Ogre::Real r = l + element->width();
+    Ogre::Real b = t + element->height();
 
     return (cursorPos.x >= l + voidBorder && cursorPos.x <= r - voidBorder &&
             cursorPos.y >= t + voidBorder && cursorPos.y <= b - voidBorder);
@@ -65,8 +65,8 @@ bool Widget::isCursorOver(Ogre::OverlayElement *element, const Ogre::Vector2 &cu
 Ogre::Vector2 Widget::cursorOffset(Ogre::OverlayElement *element, const Ogre::Vector2 &cursorPos)
 {
     Ogre::OverlayManager& om = Ogre::OverlayManager::singleton();
-    return Ogre::Vector2(cursorPos.x - (element->_getDerivedLeft() * om.getViewportWidth() + element->getWidth() / 2),
-                         cursorPos.y - (element->_getDerivedTop() * om.getViewportHeight() + element->getHeight() / 2));
+    return Ogre::Vector2(cursorPos.x - (element->_getDerivedLeft() * om.getViewportWidth() + element->width() / 2),
+                         cursorPos.y - (element->_getDerivedTop() * om.getViewportHeight() + element->height() / 2));
 }
 
 Ogre::Real Widget::getCaptionWidth(const Ogre::DisplayString &caption, Ogre::TextAreaOverlayElement *area)
@@ -144,7 +144,7 @@ Button::Button(const Ogre::String &name, const Ogre::DisplayString &caption, Ogr
 void Button::setCaption(const Ogre::DisplayString &caption)
 {
     mTextArea->setCaption(caption);
-    if (mFitToContents) mElement->setWidth(getCaptionWidth(caption, mTextArea) + mElement->getHeight() - 12);
+    if (mFitToContents) mElement->setWidth(getCaptionWidth(caption, mTextArea) + mElement->height() - 12);
 }
 
 void Button::_cursorPressed(const Ogre::Vector2 &cursorPos)
@@ -252,7 +252,7 @@ void TextBox::setText(const Ogre::DisplayString &text)
     unsigned int lastSpace = 0;
     unsigned int lineBegin = 0;
     Ogre::Real lineWidth = 0;
-    Ogre::Real rightBoundary = mElement->getWidth() - 2 * mPadding + mScrollTrack->getLeft() + 10;
+    Ogre::Real rightBoundary = mElement->width() - 2 * mPadding + mScrollTrack->getLeft() + 10;
 
     for (unsigned int i = 0; i < current.length(); i++)
     {
@@ -318,10 +318,10 @@ void TextBox::setTextAlignment(Ogre::TextAreaOverlayElement::Alignment ta)
 
 void TextBox::refitContents()
 {
-    mScrollTrack->setHeight(mElement->getHeight() - mCaptionBar->getHeight() - 20);
-    mScrollTrack->setTop(mCaptionBar->getHeight() + 10);
+    mScrollTrack->setHeight(mElement->height() - mCaptionBar->height() - 20);
+    mScrollTrack->setTop(mCaptionBar->height() + 10);
 
-    mTextArea->setTop(mCaptionBar->getHeight() + mPadding - 5);
+    mTextArea->setTop(mCaptionBar->height() + mPadding - 5);
     if (mTextArea->getHorizontalAlignment() == Ogre::GHA_RIGHT) mTextArea->setLeft(-mPadding + mScrollTrack->getLeft());
     else if (mTextArea->getHorizontalAlignment() == Ogre::GHA_LEFT) mTextArea->setLeft(mPadding);
     else mTextArea->setLeft(mScrollTrack->getLeft() / 2);
@@ -332,7 +332,7 @@ void TextBox::refitContents()
 void TextBox::setScrollPercentage(Ogre::Real percentage)
 {
     mScrollPercentage = Ogre::Math::Clamp<Ogre::Real>(percentage, 0, 1);
-    mScrollHandle->setTop((int)(percentage * (mScrollTrack->getHeight() - mScrollHandle->getHeight())));
+    mScrollHandle->setTop((int)(percentage * (mScrollTrack->height() - mScrollHandle->height())));
     filterLines();
 }
 
@@ -350,7 +350,7 @@ void TextBox::_cursorPressed(const Ogre::Vector2 &cursorPos)
     else if (Widget::isCursorOver(mScrollTrack, cursorPos))
     {
         Ogre::Real newTop = mScrollHandle->getTop() + co.y;
-        Ogre::Real lowerBoundary = mScrollTrack->getHeight() - mScrollHandle->getHeight();
+        Ogre::Real lowerBoundary = mScrollTrack->height() - mScrollHandle->height();
         mScrollHandle->setTop(Ogre::Math::Clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
         // update text area contents based on new scroll percentage
@@ -365,7 +365,7 @@ void TextBox::_cursorMoved(const Ogre::Vector2 &cursorPos, float wheelDelta)
     {
         Ogre::Vector2 co = Widget::cursorOffset(mScrollHandle, cursorPos);
         Ogre::Real newTop = mScrollHandle->getTop() + co.y - mDragOffset;
-        Ogre::Real lowerBoundary = mScrollTrack->getHeight() - mScrollHandle->getHeight();
+        Ogre::Real lowerBoundary = mScrollTrack->height() - mScrollHandle->height();
         mScrollHandle->setTop(Ogre::Math::Clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
         // update text area contents based on new scroll percentage
@@ -424,7 +424,7 @@ SelectMenu::SelectMenu(const Ogre::String &name, const Ogre::DisplayString &capt
         mSmallBox->setWidth(boxWidth);
         mSmallBox->setTop(2);
         mSmallBox->setLeft(width - boxWidth - 5);
-        mElement->setHeight(mSmallBox->getHeight() + 4);
+        mElement->setHeight(mSmallBox->height() + 4);
         mTextArea->setHorizontalAlignment(Ogre::GHA_LEFT);
         mTextArea->setAlignment(Ogre::TextAreaOverlayElement::Left);
         mTextArea->setLeft(12);
@@ -432,7 +432,7 @@ SelectMenu::SelectMenu(const Ogre::String &name, const Ogre::DisplayString &capt
     }
 
     mExpandedBox = (Ogre::BorderPanelOverlayElement*)((Ogre::OverlayContainer*)mElement)->getChild(name + "/MenuExpandedBox");
-    mExpandedBox->setWidth(mSmallBox->getWidth() + 10);
+    mExpandedBox->setWidth(mSmallBox->width() + 10);
     mExpandedBox->hide();
     mScrollTrack = (Ogre::BorderPanelOverlayElement*)mExpandedBox->getChild(mExpandedBox->name() + "/MenuScrollTrack");
     mScrollHandle = (Ogre::PanelOverlayElement*)mScrollTrack->getChild(mScrollTrack->name() + "/MenuScrollHandle");
@@ -450,8 +450,8 @@ void SelectMenu::setCaption(const Ogre::DisplayString &caption)
     mTextArea->setCaption(caption);
     if (mFitToContents)
     {
-        mElement->setWidth(getCaptionWidth(caption, mTextArea) + mSmallBox->getWidth() + 23);
-        mSmallBox->setLeft(mElement->getWidth() - mSmallBox->getWidth() - 5);
+        mElement->setWidth(getCaptionWidth(caption, mTextArea) + mSmallBox->width() + 23);
+        mSmallBox->setLeft(mElement->width() - mSmallBox->width() - 5);
     }
 }
 
@@ -479,8 +479,8 @@ void SelectMenu::setItems(const Ogre::StringVector &items)
                           mExpandedBox->name() + "/Item"
                               + Ogre::StringConverter::to_string(i + 1));
 
-        e->setTop(6 + i * (mSmallBox->getHeight() - 8));
-        e->setWidth(mExpandedBox->getWidth() - 32);
+        e->setTop(6 + i * (mSmallBox->height() - 8));
+        e->setWidth(mExpandedBox->width() - 32);
 
         mExpandedBox->addChild(e);
         mItemElements.push_back(e);
@@ -547,7 +547,7 @@ void SelectMenu::selectItem(size_t index, bool notifyListener)
     }
 
     mSelectionIndex = (int)index;
-    fitCaptionToArea(mItems[index], mSmallTextArea, mSmallBox->getWidth() - mSmallTextArea->getLeft() * 2);
+    fitCaptionToArea(mItems[index], mSmallTextArea, mSmallBox->width() - mSmallTextArea->getLeft() * 2);
 
     if (mListener && notifyListener) mListener->itemSelected(this);
 }
@@ -606,7 +606,7 @@ void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
             else if (Widget::isCursorOver(mScrollTrack, cursorPos))
             {
                 Ogre::Real newTop = mScrollHandle->getTop() + co.y;
-                Ogre::Real lowerBoundary = mScrollTrack->getHeight() - mScrollHandle->getHeight();
+                Ogre::Real lowerBoundary = mScrollTrack->height() - mScrollHandle->height();
                 mScrollHandle->setTop(Ogre::Math::Clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
                 Ogre::Real scrollPercentage = Ogre::Math::Clamp<Ogre::Real>(newTop / lowerBoundary, 0, 1);
@@ -620,9 +620,9 @@ void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
         {
             Ogre::Real l = mItemElements.front()->_getDerivedLeft() * om.getViewportWidth() + 5;
             Ogre::Real t = mItemElements.front()->_getDerivedTop() * om.getViewportHeight() + 5;
-            Ogre::Real r = l + mItemElements.back()->getWidth() - 10;
+            Ogre::Real r = l + mItemElements.back()->width() - 10;
             Ogre::Real b = mItemElements.back()->_getDerivedTop() * om.getViewportHeight() +
-                    mItemElements.back()->getHeight() - 5;
+                    mItemElements.back()->height() - 5;
 
             if (cursorPos.x >= l && cursorPos.x <= r && cursorPos.y >= t && cursorPos.y <= b)
             {
@@ -641,16 +641,16 @@ void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
             mSmallBox->hide();
 
             // calculate how much vertical space we need
-            Ogre::Real idealHeight = mItemsShown * (mSmallBox->getHeight() - 8) + 20;
+            Ogre::Real idealHeight = mItemsShown * (mSmallBox->height() - 8) + 20;
             mExpandedBox->setHeight(idealHeight);
-            mScrollTrack->setHeight(mExpandedBox->getHeight() - 20);
+            mScrollTrack->setHeight(mExpandedBox->height() - 20);
 
             mExpandedBox->setLeft(mSmallBox->getLeft() - 4);
 
             // if the expanded menu goes down off the screen, make it go up instead
             if (mSmallBox->_getDerivedTop() * om.getViewportHeight() + idealHeight > om.getViewportHeight())
             {
-                mExpandedBox->setTop(mSmallBox->getTop() + mSmallBox->getHeight() - idealHeight + 3);
+                mExpandedBox->setTop(mSmallBox->getTop() + mSmallBox->height() - idealHeight + 3);
                 // if we're in thick style, hide the caption because it will interfere with the expanded menu
                 if (mTextArea->getHorizontalAlignment() == Ogre::GHA_CENTER) mTextArea->hide();
             }
@@ -663,7 +663,7 @@ void SelectMenu::_cursorPressed(const Ogre::Vector2 &cursorPos)
             if (mItemsShown < mItems.size())  // update scrollbar position
             {
                 mScrollHandle->show();
-                Ogre::Real lowerBoundary = mScrollTrack->getHeight() - mScrollHandle->getHeight();
+                Ogre::Real lowerBoundary = mScrollTrack->height() - mScrollHandle->height();
                 mScrollHandle->setTop((int)(mDisplayIndex * lowerBoundary / (mItems.size() - mItemElements.size())));
             }
             else mScrollHandle->hide();
@@ -681,7 +681,7 @@ void SelectMenu::_cursorMoved(const Ogre::Vector2 &cursorPos, float wheelDelta)
         {
             Ogre::Vector2 co = Widget::cursorOffset(mScrollHandle, cursorPos);
             Ogre::Real newTop = mScrollHandle->getTop() + co.y - mDragOffset;
-            Ogre::Real lowerBoundary = mScrollTrack->getHeight() - mScrollHandle->getHeight();
+            Ogre::Real lowerBoundary = mScrollTrack->height() - mScrollHandle->height();
             mScrollHandle->setTop(Ogre::Math::Clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
             Ogre::Real scrollPercentage = Ogre::Math::Clamp<Ogre::Real>(newTop / lowerBoundary, 0, 1);
@@ -692,16 +692,16 @@ void SelectMenu::_cursorMoved(const Ogre::Vector2 &cursorPos, float wheelDelta)
         else if(fabsf(wheelDelta) > 0.5f)
         {
             int newIndex = Ogre::Math::Clamp<int>(mDisplayIndex + (wheelDelta > 0 ? -1 : 1), 0, (int)(mItems.size() - mItemElements.size()));
-            Ogre::Real lowerBoundary = mScrollTrack->getHeight() - mScrollHandle->getHeight();
+            Ogre::Real lowerBoundary = mScrollTrack->height() - mScrollHandle->height();
             mScrollHandle->setTop((int)(newIndex * lowerBoundary / (mItems.size() - mItemElements.size())));
             setDisplayIndex(newIndex);
         }
 
         Ogre::Real l = mItemElements.front()->_getDerivedLeft() * om.getViewportWidth() + 5;
         Ogre::Real t = mItemElements.front()->_getDerivedTop() * om.getViewportHeight() + 5;
-        Ogre::Real r = l + mItemElements.back()->getWidth() - 10;
+        Ogre::Real r = l + mItemElements.back()->width() - 10;
         Ogre::Real b = mItemElements.back()->_getDerivedTop() * om.getViewportHeight() +
-                mItemElements.back()->getHeight() - 5;
+                mItemElements.back()->height() - 5;
 
         if (cursorPos.x >= l && cursorPos.x <= r && cursorPos.y >= t && cursorPos.y <= b)
         {
@@ -743,7 +743,7 @@ void SelectMenu::setDisplayIndex(unsigned int index)
         Ogre::BorderPanelOverlayElement *ie = mItemElements[i];
         Ogre::TextAreaOverlayElement *ta = (Ogre::TextAreaOverlayElement*)ie->getChild(ie->name() + "/MenuItemText");
 
-        fitCaptionToArea(mItems[mDisplayIndex + i], ta, ie->getWidth() - 2 * ta->getLeft());
+        fitCaptionToArea(mItems[mDisplayIndex + i], ta, ie->width() - 2 * ta->getLeft());
 
         if ((mDisplayIndex + i) == mHighlightIndex)
         {
@@ -900,7 +900,7 @@ void Slider::setValue(Ogre::Real value, bool notifyListener)
     if (mListener && notifyListener) mListener->sliderMoved(this);
 
     if (!mDragging) mHandle->setLeft((int)((mValue - mMinValue) / (mMaxValue - mMinValue) *
-                                           (mTrack->getWidth() - mHandle->getWidth())));
+                                           (mTrack->width() - mHandle->width())));
 }
 
 void Slider::setCaption(const Ogre::DisplayString &caption)
@@ -908,7 +908,7 @@ void Slider::setCaption(const Ogre::DisplayString &caption)
     mTextArea->setCaption(caption);
 
     if (mFitToContents) mElement->setWidth(getCaptionWidth(caption, mTextArea) +
-                                           mValueTextArea->getParent()->getWidth() + mTrack->getWidth() + 26);
+                                           mValueTextArea->getParent()->width() + mTrack->width() + 26);
 }
 
 void Slider::_cursorPressed(const Ogre::Vector2 &cursorPos)
@@ -925,7 +925,7 @@ void Slider::_cursorPressed(const Ogre::Vector2 &cursorPos)
     else if (Widget::isCursorOver(mTrack, cursorPos))
     {
         Ogre::Real newLeft = mHandle->getLeft() + co.x;
-        Ogre::Real rightBoundary = mTrack->getWidth() - mHandle->getWidth();
+        Ogre::Real rightBoundary = mTrack->width() - mHandle->width();
 
         mHandle->setLeft(Ogre::Math::Clamp<int>((int)newLeft, 0, (int)rightBoundary));
         setValue(getSnappedValue(newLeft / rightBoundary));
@@ -938,7 +938,7 @@ void Slider::_cursorReleased(const Ogre::Vector2 &cursorPos)
     {
         mDragging = false;
         mHandle->setLeft((int)((mValue - mMinValue) / (mMaxValue - mMinValue) *
-                               (mTrack->getWidth() - mHandle->getWidth())));
+                               (mTrack->width() - mHandle->width())));
     }
 }
 
@@ -948,7 +948,7 @@ void Slider::_cursorMoved(const Ogre::Vector2 &cursorPos, float wheelDelta)
     {
         Ogre::Vector2 co = Widget::cursorOffset(mHandle, cursorPos);
         Ogre::Real newLeft = mHandle->getLeft() + co.x - mDragOffset;
-        Ogre::Real rightBoundary = mTrack->getWidth() - mHandle->getWidth();
+        Ogre::Real rightBoundary = mTrack->width() - mHandle->width();
 
         mHandle->setLeft(Ogre::Math::Clamp<int>((int)newLeft, 0, (int)rightBoundary));
         setValue(getSnappedValue(newLeft / rightBoundary));
@@ -1092,7 +1092,7 @@ CheckBox::CheckBox(
 void CheckBox::setCaption(const Ogre::DisplayString &caption)
 {
     mTextArea->setCaption(caption);
-    if (mFitToContents) mElement->setWidth(getCaptionWidth(caption, mTextArea) + mSquare->getWidth() + 23);
+    if (mFitToContents) mElement->setWidth(getCaptionWidth(caption, mTextArea) + mSquare->width() + 23);
 }
 
 void CheckBox::setChecked(bool checked, bool notifyListener)
@@ -1175,7 +1175,7 @@ ProgressBar::ProgressBar(
 void ProgressBar::setProgress(Ogre::Real progress)
 {
     mProgress = Ogre::Math::Clamp<Ogre::Real>(progress, 0, 1);
-    mFill->setWidth(std::max<int>((int)mFill->getHeight(), (int)(mProgress * (mMeter->getWidth() - 2 * mFill->getLeft()))));
+    mFill->setWidth(std::max<int>((int)mFill->height(), (int)(mProgress * (mMeter->width() - 2 * mFill->getLeft()))));
 }
 
 TrayManager::TrayManager(const Ogre::String &name, Ogre::RenderWindow *window, TrayListener *listener) :
@@ -1413,17 +1413,17 @@ void TrayManager::adjustTrays()
                 e->setLeft(mWidgetPadding);
                 break;
             case Ogre::GHA_RIGHT:
-                e->setLeft(-(e->getWidth() + mWidgetPadding));
+                e->setLeft(-(e->width() + mWidgetPadding));
                 break;
             default:
-                e->setLeft(-(e->getWidth() / 2));
+                e->setLeft(-(e->width() / 2));
             }
 
             // prevents some weird texture filtering problems (just some)
             e->setPosition((int)e->getLeft(), (int)e->getTop());
-            e->setDimensions((int)e->getWidth(), (int)e->getHeight());
+            e->setDimensions((int)e->width(), (int)e->height());
 
-            trayHeight += e->getHeight();
+            trayHeight += e->height();
 
             Label* l = dynamic_cast<Label*>(mWidgets[i][j]);
             if (l && l->_isFitToTray())
@@ -1438,7 +1438,7 @@ void TrayManager::adjustTrays()
                 continue;
             }
 
-            if (e->getWidth() > trayWidth) trayWidth = e->getWidth();
+            if (e->width() > trayWidth) trayWidth = e->width();
         }
 
         // add paddings and resize trays
@@ -1457,20 +1457,20 @@ void TrayManager::adjustTrays()
         if (i == TL_TOPLEFT || i == TL_LEFT || i == TL_BOTTOMLEFT)
             mTrays[i]->setLeft(mTrayPadding);
         if (i == TL_TOP || i == TL_CENTER || i == TL_BOTTOM)
-            mTrays[i]->setLeft(-mTrays[i]->getWidth() / 2);
+            mTrays[i]->setLeft(-mTrays[i]->width() / 2);
         if (i == TL_TOPRIGHT || i == TL_RIGHT || i == TL_BOTTOMRIGHT)
-            mTrays[i]->setLeft(-(mTrays[i]->getWidth() + mTrayPadding));
+            mTrays[i]->setLeft(-(mTrays[i]->width() + mTrayPadding));
 
         if (i == TL_TOPLEFT || i == TL_TOP || i == TL_TOPRIGHT)
             mTrays[i]->setTop(mTrayPadding);
         if (i == TL_LEFT || i == TL_CENTER || i == TL_RIGHT)
-            mTrays[i]->setTop(-mTrays[i]->getHeight() / 2);
+            mTrays[i]->setTop(-mTrays[i]->height() / 2);
         if (i == TL_BOTTOMLEFT || i == TL_BOTTOM || i == TL_BOTTOMRIGHT)
-            mTrays[i]->setTop(-mTrays[i]->getHeight() - mTrayPadding);
+            mTrays[i]->setTop(-mTrays[i]->height() - mTrayPadding);
 
         // prevents some weird texture filtering problems (just some)
         mTrays[i]->setPosition((int)mTrays[i]->getLeft(), (int)mTrays[i]->getTop());
-        mTrays[i]->setDimensions((int)mTrays[i]->getWidth(), (int)mTrays[i]->getHeight());
+        mTrays[i]->setDimensions((int)mTrays[i]->width(), (int)mTrays[i]->height());
     }
 }
 
@@ -1647,8 +1647,8 @@ void TrayManager::showLoadingBar(unsigned int numGroupsInit, unsigned int numGro
     Ogre::OverlayElement* e = mLoadBar->getOverlayElement();
     mDialogShade->addChild(e);
     e->setVerticalAlignment(Ogre::GVA_CENTER);
-    e->setLeft(-(e->getWidth() / 2));
-    e->setTop(-(e->getHeight() / 2));
+    e->setLeft(-(e->width() / 2));
+    e->setTop(-(e->height() / 2));
 
     Ogre::ResourceGroupManager::singleton().addResourceGroupListener(this);
     mCursorWasVisible = isCursorVisible();
@@ -1734,8 +1734,8 @@ void TrayManager::showOkDialog(const Ogre::DisplayString &caption, const Ogre::D
         e = mDialog->getOverlayElement();
         mDialogShade->addChild(e);
         e->setVerticalAlignment(Ogre::GVA_CENTER);
-        e->setLeft(-(e->getWidth() / 2));
-        e->setTop(-(e->getHeight() / 2));
+        e->setLeft(-(e->width() / 2));
+        e->setTop(-(e->height() / 2));
 
         mCursorWasVisible = isCursorVisible();
         showCursor();
@@ -1746,8 +1746,8 @@ void TrayManager::showOkDialog(const Ogre::DisplayString &caption, const Ogre::D
     e = mOk->getOverlayElement();
     mDialogShade->addChild(e);
     e->setVerticalAlignment(Ogre::GVA_CENTER);
-    e->setLeft(-(e->getWidth() / 2));
-    e->setTop(mDialog->getOverlayElement()->getTop() + mDialog->getOverlayElement()->getHeight() + 5);
+    e->setLeft(-(e->width() / 2));
+    e->setTop(mDialog->getOverlayElement()->getTop() + mDialog->getOverlayElement()->height() + 5);
 }
 
 void TrayManager::showYesNoDialog(const Ogre::DisplayString &caption, const Ogre::DisplayString &question)
@@ -1787,8 +1787,8 @@ void TrayManager::showYesNoDialog(const Ogre::DisplayString &caption, const Ogre
         e = mDialog->getOverlayElement();
         mDialogShade->addChild(e);
         e->setVerticalAlignment(Ogre::GVA_CENTER);
-        e->setLeft(-(e->getWidth() / 2));
-        e->setTop(-(e->getHeight() / 2));
+        e->setLeft(-(e->width() / 2));
+        e->setTop(-(e->height() / 2));
 
         mCursorWasVisible = isCursorVisible();
         showCursor();
@@ -1799,8 +1799,8 @@ void TrayManager::showYesNoDialog(const Ogre::DisplayString &caption, const Ogre
     e = mYes->getOverlayElement();
     mDialogShade->addChild(e);
     e->setVerticalAlignment(Ogre::GVA_CENTER);
-    e->setLeft(-(e->getWidth() + 2));
-    e->setTop(mDialog->getOverlayElement()->getTop() + mDialog->getOverlayElement()->getHeight() + 5);
+    e->setLeft(-(e->width() + 2));
+    e->setTop(mDialog->getOverlayElement()->getTop() + mDialog->getOverlayElement()->height() + 5);
 
     mNo = new Button(mName + "/NoButton", "No", 50);
     mNo->_assignListener(this);
@@ -1808,7 +1808,7 @@ void TrayManager::showYesNoDialog(const Ogre::DisplayString &caption, const Ogre
     mDialogShade->addChild(e);
     e->setVerticalAlignment(Ogre::GVA_CENTER);
     e->setLeft(3);
-    e->setTop(mDialog->getOverlayElement()->getTop() + mDialog->getOverlayElement()->getHeight() + 5);
+    e->setTop(mDialog->getOverlayElement()->getTop() + mDialog->getOverlayElement()->height() + 5);
 }
 
 void TrayManager::closeDialog()

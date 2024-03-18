@@ -45,8 +45,8 @@ namespace Ogre {
         // Bind target to surface 0 and initialise
         mFB.bindSurface(0, target);
         // Get attributes
-        mWidth = mFB.getWidth();
-        mHeight = mFB.getHeight();
+        mWidth = mFB.width();
+        mHeight = mFB.height();
     }
 
     void GLFBORenderTexture::getCustomAttribute(const String& name, void* pData)

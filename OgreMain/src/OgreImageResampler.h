@@ -61,9 +61,9 @@ template<unsigned int elemsize> struct NearestResampler {
 
         // sx_48,sy_48,sz_48 represent current position in source
         // using 16/48-bit fixed precision, incremented by steps
-        uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-        uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
-        uint64 stepz = ((uint64)src.getDepth() << 48) / dst.getDepth();
+        uint64 stepx = ((uint64)src.width() << 48) / dst.width();
+        uint64 stepy = ((uint64)src.height() << 48) / dst.height();
+        uint64 stepz = ((uint64)src.depth() << 48) / dst.depth();
 
         // note: ((stepz>>1) - 1) is an extra half-step increment to adjust
         // for the center of the destination pixel, not the top-left corner
@@ -102,9 +102,9 @@ struct LinearResampler {
         
         // sx_48,sy_48,sz_48 represent current position in source
         // using 16/48-bit fixed precision, incremented by steps
-        uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-        uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
-        uint64 stepz = ((uint64)src.getDepth() << 48) / dst.getDepth();
+        uint64 stepx = ((uint64)src.width() << 48) / dst.width();
+        uint64 stepy = ((uint64)src.height() << 48) / dst.height();
+        uint64 stepz = ((uint64)src.depth() << 48) / dst.depth();
         
         // note: ((stepz>>1) - 1) is an extra half-step increment to adjust
         // for the center of the destination pixel, not the top-left corner
@@ -118,7 +118,7 @@ struct LinearResampler {
 
             temp = (temp > 0x8000)? temp - 0x8000 : 0;
             uint32 sz1 = temp >> 16;                 // src z, sample #1
-            uint32 sz2 = std::min(sz1+1,src.getDepth()-1);// src z, sample #2
+            uint32 sz2 = std::min(sz1+1,src.depth()-1);// src z, sample #2
             float szf = (temp & 0xFFFF) / 65536.f; // weight of sample #2
 
             uint64 sy_48 = (stepy >> 1) - 1;
@@ -126,7 +126,7 @@ struct LinearResampler {
                 temp = static_cast<unsigned int>(sy_48 >> 32);
                 temp = (temp > 0x8000)? temp - 0x8000 : 0;
                 uint32 sy1 = temp >> 16;                    // src y #1
-                uint32 sy2 = std::min(sy1+1,src.getHeight()-1);// src y #2
+                uint32 sy2 = std::min(sy1+1,src.height()-1);// src y #2
                 float syf = (temp & 0xFFFF) / 65536.f; // weight of #2
                 
                 uint64 sx_48 = (stepx >> 1) - 1;
@@ -134,7 +134,7 @@ struct LinearResampler {
                     temp = static_cast<unsigned int>(sx_48 >> 32);
                     temp = (temp > 0x8000)? temp - 0x8000 : 0;
                     uint32 sx1 = temp >> 16;                    // src x #1
-                    uint32 sx2 = std::min(sx1+1,src.getWidth()-1);// src x #2
+                    uint32 sx2 = std::min(sx1+1,src.width()-1);// src x #2
                     float sxf = (temp & 0xFFFF) / 65536.f; // weight of #2
                 
                     ColourValue x1y1z1, x2y1z1, x1y2z1, x2y2z1;
@@ -186,9 +186,9 @@ struct LinearResampler_Float32 {
         
         // sx_48,sy_48,sz_48 represent current position in source
         // using 16/48-bit fixed precision, incremented by steps
-        uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-        uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
-        uint64 stepz = ((uint64)src.getDepth() << 48) / dst.getDepth();
+        uint64 stepx = ((uint64)src.width() << 48) / dst.width();
+        uint64 stepy = ((uint64)src.height() << 48) / dst.height();
+        uint64 stepz = ((uint64)src.depth() << 48) / dst.depth();
         
         // note: ((stepz>>1) - 1) is an extra half-step increment to adjust
         // for the center of the destination pixel, not the top-left corner
@@ -202,7 +202,7 @@ struct LinearResampler_Float32 {
 
             temp = (temp > 0x8000)? temp - 0x8000 : 0;
             uint32 sz1 = temp >> 16;                 // src z, sample #1
-            uint32 sz2 = std::min(sz1+1,src.getDepth()-1);// src z, sample #2
+            uint32 sz2 = std::min(sz1+1,src.depth()-1);// src z, sample #2
             float szf = (temp & 0xFFFF) / 65536.f; // weight of sample #2
 
             uint64 sy_48 = (stepy >> 1) - 1;
@@ -210,7 +210,7 @@ struct LinearResampler_Float32 {
                 temp = static_cast<unsigned int>(sy_48 >> 32);
                 temp = (temp > 0x8000)? temp - 0x8000 : 0;
                 uint32 sy1 = temp >> 16;                    // src y #1
-                uint32 sy2 = std::min(sy1+1,src.getHeight()-1);// src y #2
+                uint32 sy2 = std::min(sy1+1,src.height()-1);// src y #2
                 float syf = (temp & 0xFFFF) / 65536.f; // weight of #2
                 
                 uint64 sx_48 = (stepx >> 1) - 1;
@@ -218,7 +218,7 @@ struct LinearResampler_Float32 {
                     temp = static_cast<unsigned int>(sx_48 >> 32);
                     temp = (temp > 0x8000)? temp - 0x8000 : 0;
                     uint32 sx1 = temp >> 16;                    // src x #1
-                    uint32 sx2 = std::min(sx1+1,src.getWidth()-1);// src x #2
+                    uint32 sx2 = std::min(sx1+1,src.width()-1);// src x #2
                     float sxf = (temp & 0xFFFF) / 65536.f; // weight of #2
                     
                     // process R,G,B,A simultaneously for cache coherence?
@@ -285,7 +285,7 @@ template<unsigned int channels> struct LinearResampler_Byte {
         // assert(src.format == dst.format);
 
         // only optimized for 2D
-        if (src.getDepth() > 1 || dst.getDepth() > 1) {
+        if (src.depth() > 1 || dst.depth() > 1) {
             LinearResampler::scale(src, dst);
             return;
         }
@@ -296,8 +296,8 @@ template<unsigned int channels> struct LinearResampler_Byte {
 
         // sx_48,sy_48 represent current position in source
         // using 16/48-bit fixed precision, incremented by steps
-        uint64 stepx = ((uint64)src.getWidth() << 48) / dst.getWidth();
-        uint64 stepy = ((uint64)src.getHeight() << 48) / dst.getHeight();
+        uint64 stepx = ((uint64)src.width() << 48) / dst.width();
+        uint64 stepy = ((uint64)src.height() << 48) / dst.height();
         
         uint64 sy_48 = (stepy >> 1) - 1;
         for (size_t y = dst.top; y < dst.bottom; y++, sy_48+=stepy) {

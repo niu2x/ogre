@@ -174,9 +174,9 @@ namespace Ogre {
         OgreAssert(!images.empty(), "Cannot load empty vector of images");
 
         // Set desired texture size and properties from images[0]
-        mSrcWidth = mWidth = images[0]->getWidth();
-        mSrcHeight = mHeight = images[0]->getHeight();
-        mSrcDepth = mDepth = images[0]->getDepth();
+        mSrcWidth = mWidth = images[0]->width();
+        mSrcHeight = mHeight = images[0]->height();
+        mSrcDepth = mDepth = images[0]->depth();
         mSrcFormat = images[0]->getFormat();
 
         if(!mLayerNames.empty() && mTextureType != TEX_TYPE_CUBE_MAP)
@@ -230,8 +230,8 @@ namespace Ogre {
             Log::Stream str = LogManager::singleton().stream();
             str << "Texture '" << name() << "': Loading " << faces << " faces"
                 << "(" << PixelUtil::getFormatName(images[0]->getFormat())
-                << "," << images[0]->getWidth() << "x" << images[0]->getHeight()
-                << "x" << images[0]->getDepth() << ")";
+                << "," << images[0]->width() << "x" << images[0]->height()
+                << "x" << images[0]->depth() << ")";
             if (!(mMipmapsHardwareGenerated && mNumMipmaps == 0))
             {
                 str << " with " << mNumMipmaps;
@@ -255,7 +255,7 @@ namespace Ogre {
             // Print data about first destination surface
             const auto& buf = getBuffer(0, 0);
             str << " Internal format is " << PixelUtil::getFormatName(buf->getFormat()) << ","
-                << buf->getWidth() << "x" << buf->getHeight() << "x" << buf->getDepth() << ".";
+                << buf->width() << "x" << buf->height() << "x" << buf->depth() << ".";
         }
 
         // Main loading loop
@@ -268,7 +268,7 @@ namespace Ogre {
                 size_t face = (mDepth == 1) ? i : 0; // depth = 1, then cubemap face else 3d/ array layer
 
                 auto buffer = getBuffer(face, mip);
-                Box dst(0, 0, 0, buffer->getWidth(), buffer->getHeight(), buffer->getDepth());
+                Box dst(0, 0, 0, buffer->width(), buffer->height(), buffer->depth());
 
                 if(multiImage)
                 {
@@ -290,7 +290,7 @@ namespace Ogre {
                 if(mGamma != 1.0f) {
                     // Apply gamma correction
                     // Do not overwrite original image but do gamma correction in temporary buffer
-                    Image tmp(src.format, src.getWidth(), getHeight(), src.getDepth());
+                    Image tmp(src.format, src.width(), height(), src.depth());
                     PixelBox corrected = tmp.getPixelBox();
                     PixelUtil::bulkPixelConversion(src, corrected);
 
@@ -391,7 +391,7 @@ namespace Ogre {
     void Texture::convertToImage(Image& destImage, bool includeMipMaps)
     {
         uint32 numMips = includeMipMaps? getNumMipmaps() : 0;
-        destImage.create(getFormat(), getWidth(), getHeight(), getDepth(), getNumFaces(), numMips);
+        destImage.create(getFormat(), width(), height(), depth(), getNumFaces(), numMips);
 
         for (uint32 face = 0; face < getNumFaces(); ++face)
         {
@@ -422,9 +422,9 @@ namespace Ogre {
             return;
 
         // Scale to nearest power of 2
-        uint32 w = Bitwise::first_po2_from(img.getWidth());
-        uint32 h = Bitwise::first_po2_from(img.getHeight());
-        if((img.getWidth() != w) || (img.getHeight() != h))
+        uint32 w = Bitwise::first_po2_from(img.width());
+        uint32 h = Bitwise::first_po2_from(img.height());
+        if((img.width() != w) || (img.height() != h))
             img.resize(w, h);
     }
 
@@ -455,7 +455,7 @@ namespace Ogre {
                 if (loadedImages[0].hasFlag(IF_CUBEMAP))
                     mTextureType = TEX_TYPE_CUBE_MAP;
                 // If this is a volumetric texture set the texture type flag accordingly.
-                if (loadedImages[0].getDepth() > 1 && mTextureType != TEX_TYPE_2D_ARRAY)
+                if (loadedImages[0].depth() > 1 && mTextureType != TEX_TYPE_2D_ARRAY)
                     mTextureType = TEX_TYPE_3D;
             }
         }

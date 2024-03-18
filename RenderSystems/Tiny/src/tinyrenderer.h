@@ -57,7 +57,7 @@ static void triangle(const mat4& Viewport, const vec4 clip_verts[3], IShader& sh
 
     vec2 bboxmin( std::numeric_limits<float>::max(),  std::numeric_limits<float>::max());
     vec2 bboxmax(-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max());
-    vec2 clamp(image.getWidth()-1, image.getHeight()-1);
+    vec2 clamp(image.width()-1, image.height()-1);
     for (int i=0; i<3; i++)
         for (int j=0; j<2; j++) {
             bboxmin[j] = std::max(0.f,       std::min(bboxmin[j], pts2[i][j]));

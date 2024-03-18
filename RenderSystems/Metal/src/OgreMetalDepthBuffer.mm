@@ -75,8 +75,8 @@ namespace Ogre
         //First check they belong to the same GPU device.
         auto device = dynamic_cast<MetalRenderTargetCommon*>(renderTarget)->getOwnerDevice();
         if( device == mDevice && renderTarget->suggestPixelFormat() != PixelFormat::UNKNOWN &&
-            this->getWidth() == renderTarget->getWidth() &&
-            this->getHeight() == renderTarget->getHeight() &&
+            this->width() == renderTarget->width() &&
+            this->height() == renderTarget->height() &&
             this->getFSAA() == renderTarget->getFSAA()// &&
             // mDepthTexture == renderTarget->prefersDepthTexture() &&
             // mFormat == renderTarget->getDesiredDepthBufferFormat()

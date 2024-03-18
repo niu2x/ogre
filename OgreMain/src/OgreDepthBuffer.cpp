@@ -61,12 +61,12 @@ namespace Ogre
         return mPoolId;
     }
     //-----------------------------------------------------------------------
-    uint32 DepthBuffer::getWidth() const
+    uint32 DepthBuffer::width() const
     {
         return mWidth;
     }
     //----------------------------------------------------------------------
-    uint32 DepthBuffer::getHeight() const
+    uint32 DepthBuffer::height() const
     {
         return mHeight;
     }
@@ -78,8 +78,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     bool DepthBuffer::isCompatible( RenderTarget *renderTarget ) const
     {
-        if( this->getWidth() >= renderTarget->getWidth() &&
-            this->getHeight() >= renderTarget->getHeight() &&
+        if( this->width() >= renderTarget->width() &&
+            this->height() >= renderTarget->height() &&
             this->getFSAA() == renderTarget->getFSAA() )
         {
             return true;

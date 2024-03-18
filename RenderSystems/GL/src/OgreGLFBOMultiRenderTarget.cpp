@@ -53,8 +53,8 @@ namespace Ogre {
         fbo.bindSurface(attachment, fbobj->getSurface(0));
 
         // Set width and height
-        mWidth = fbo.getWidth();
-        mHeight = fbo.getHeight();
+        mWidth = fbo.width();
+        mHeight = fbo.height();
     }
 
     void GLFBOMultiRenderTarget::unbindSurfaceImpl(size_t attachment)
@@ -62,8 +62,8 @@ namespace Ogre {
         fbo.unbindSurface(attachment);
 
         // Set width and height
-        mWidth = fbo.getWidth();
-        mHeight = fbo.getHeight();
+        mWidth = fbo.width();
+        mHeight = fbo.height();
     }
 
     void GLFBOMultiRenderTarget::getCustomAttribute( const String& name, void *pData )

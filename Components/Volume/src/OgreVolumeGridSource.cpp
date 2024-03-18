@@ -198,21 +198,21 @@ namespace Volume {
     
     //-----------------------------------------------------------------------
     
-    size_t GridSource::getWidth(void) const
+    size_t GridSource::width(void) const
     {
         return mWidth;
     }
     
     //-----------------------------------------------------------------------
     
-    size_t GridSource::getHeight(void) const
+    size_t GridSource::height(void) const
     {
         return mHeight;
     }
     
     //-----------------------------------------------------------------------
     
-    size_t GridSource::getDepth(void) const
+    size_t GridSource::depth(void) const
     {
         return mDepth;
     }

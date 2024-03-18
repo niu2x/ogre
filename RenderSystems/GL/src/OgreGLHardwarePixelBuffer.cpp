@@ -72,7 +72,7 @@ void GLTextureBuffer::blitToMemory(const Box &srcBox, const PixelBox &dst)
     if(!mBuffer.contains(srcBox))
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "source box out of range",
          "GLHardwarePixelBuffer::blitToMemory");
-    if (srcBox.getOrigin() == Vector3i(0, 0, 0) && srcBox.size() == size()
+    if (srcBox.origin() == Vector3i(0, 0, 0) && srcBox.size() == size()
         && dst.size() == size()
         && GLPixelUtil::getGLInternalFormat(dst.format) != 0) {
         // The direct case: the user wants the entire texture in a format supported by GL
@@ -176,7 +176,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 {
                     glCompressedTexImage1DARB(GL_TEXTURE_1D, mLevel,
                         format,
-                        dest.getWidth(),
+                        dest.width(),
                         0,
                         data.getConsecutiveSize(),
                         data.data);
@@ -185,7 +185,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 {
                     glCompressedTexSubImage1DARB(GL_TEXTURE_1D, mLevel, 
                         dest.left,
-                        dest.getWidth(),
+                        dest.width(),
                         format, data.getConsecutiveSize(),
                         data.data);
                 }
@@ -198,8 +198,8 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 {
                     glCompressedTexImage2DARB(mFaceTarget, mLevel,
                         format,
-                        dest.getWidth(),
-                        dest.getHeight(),
+                        dest.width(),
+                        dest.height(),
                         0,
                         data.getConsecutiveSize(),
                         data.data);
@@ -208,7 +208,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 {
                     glCompressedTexSubImage2DARB(mFaceTarget, mLevel, 
                         dest.left, dest.top, 
-                        dest.getWidth(), dest.getHeight(),
+                        dest.width(), dest.height(),
                         format, data.getConsecutiveSize(),
                         data.data);
                 }
@@ -221,9 +221,9 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 {
                     glCompressedTexImage3DARB(mTarget, mLevel,
                         format,
-                        dest.getWidth(),
-                        dest.getHeight(),
-                        dest.getDepth(),
+                        dest.width(),
+                        dest.height(),
+                        dest.depth(),
                         0,
                         data.getConsecutiveSize(),
                         data.data);
@@ -232,7 +232,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 {           
                     glCompressedTexSubImage3DARB(mTarget, mLevel, 
                         dest.left, dest.top, dest.front,
-                        dest.getWidth(), dest.getHeight(), dest.getDepth(),
+                        dest.width(), dest.height(), dest.depth(),
                         format, data.getConsecutiveSize(),
                         data.data);
                 }
@@ -242,11 +242,11 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
     }
     else
     {
-        if(data.getWidth() != data.rowPitch)
+        if(data.width() != data.rowPitch)
             glPixelStorei(GL_UNPACK_ROW_LENGTH, data.rowPitch);
-        if(data.getWidth() > 0 && data.getHeight()*data.getWidth() != data.slicePitch)
-            glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, (data.slicePitch/data.getWidth()));
-        if((data.getWidth()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+        if(data.width() > 0 && data.height()*data.width() != data.slicePitch)
+            glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, (data.slicePitch/data.width()));
+        if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         }
@@ -257,7 +257,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
             case GL_TEXTURE_1D:
                 glTexSubImage1D(GL_TEXTURE_1D, mLevel, 
                     dest.left,
-                    dest.getWidth(),
+                    dest.width(),
                     GLPixelUtil::getGLOriginFormat(data.format), GLPixelUtil::getGLOriginDataType(data.format),
                     pdata);
                 break;
@@ -265,7 +265,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
             case GL_TEXTURE_CUBE_MAP:
                 glTexSubImage2D(mFaceTarget, mLevel, 
                     dest.left, dest.top, 
-                    dest.getWidth(), dest.getHeight(),
+                    dest.width(), dest.height(),
                     GLPixelUtil::getGLOriginFormat(data.format), GLPixelUtil::getGLOriginDataType(data.format),
                     pdata);
                 break;
@@ -274,7 +274,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 glTexSubImage3D(
                     mTarget, mLevel, 
                     dest.left, dest.top, dest.front,
-                    dest.getWidth(), dest.getHeight(), dest.getDepth(),
+                    dest.width(), dest.height(), dest.depth(),
                     GLPixelUtil::getGLOriginFormat(data.format), GLPixelUtil::getGLOriginDataType(data.format),
                     pdata);
                 break;
@@ -312,11 +312,11 @@ void GLTextureBuffer::download(const PixelBox &data)
     } 
     else
     {
-        if(data.getWidth() != data.rowPitch)
+        if(data.width() != data.rowPitch)
             glPixelStorei(GL_PACK_ROW_LENGTH, data.rowPitch);
-        if(data.getHeight()*data.getWidth() != data.slicePitch)
-            glPixelStorei(GL_PACK_IMAGE_HEIGHT, (data.slicePitch/data.getWidth()));
-        if((data.getWidth()*PixelUtil::getNumElemBytes(data.format)) & 3) {
+        if(data.height()*data.width() != data.slicePitch)
+            glPixelStorei(GL_PACK_IMAGE_HEIGHT, (data.slicePitch/data.width()));
+        if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_PACK_ALIGNMENT, 1);
         }
@@ -492,16 +492,16 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
             "GLBlitFromTextureTMP",
             ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
             TEX_TYPE_2D,
-            dstBox.getWidth(),
-            dstBox.getHeight(),
-            dstBox.getDepth(),
+            dstBox.width(),
+            dstBox.height(),
+            dstBox.depth(),
             0,
             fboMan->getSupportedAlternative(mFormat));
 
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
             GL_TEXTURE_2D, static_pointer_cast<GLTexture>(tempTex)->getGLID(), 0);
         /// Set viewport to size of destination slice
-        mRenderSystem->_getStateCacheManager()->setViewport(Rect(0, 0, dstBox.getWidth(), dstBox.getHeight()));
+        mRenderSystem->_getStateCacheManager()->setViewport(Rect(0, 0, dstBox.width(), dstBox.height()));
     }
     else
     {
@@ -523,9 +523,9 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
         float u2 = (float)srcBox.right / (float)src->mWidth;
         float v2 = (float)srcBox.bottom / (float)src->mHeight;
         /// Calculate source slice for this destination slice
-        float w = (float)(slice - dstBox.front) / (float)dstBox.getDepth();
+        float w = (float)(slice - dstBox.front) / (float)dstBox.depth();
         /// Get slice # in source
-        w = w * (float)(srcBox.getDepth() + srcBox.front);
+        w = w * (float)(srcBox.depth() + srcBox.front);
         /// Normalise to texture coordinate in 0.0 .. 1.0
         w = (w+0.5f) / (float)src->mDepth;
         
@@ -553,19 +553,19 @@ void GLTextureBuffer::blitFromTexture(GLTextureBuffer *src, const Box &srcBox, c
             case GL_TEXTURE_1D:
                 glCopyTexSubImage1D(mFaceTarget, mLevel, 
                     dstBox.left, 
-                    0, 0, dstBox.getWidth());
+                    0, 0, dstBox.width());
                 break;
             case GL_TEXTURE_2D:
             case GL_TEXTURE_CUBE_MAP:
                 glCopyTexSubImage2D(mFaceTarget, mLevel, 
                     dstBox.left, dstBox.top, 
-                    0, 0, dstBox.getWidth(), dstBox.getHeight());
+                    0, 0, dstBox.width(), dstBox.height());
                 break;
             case GL_TEXTURE_3D:
             case GL_TEXTURE_2D_ARRAY_EXT:
                 glCopyTexSubImage3D(mFaceTarget, mLevel, 
                     dstBox.left, dstBox.top, slice, 
-                    0, 0, dstBox.getWidth(), dstBox.getHeight());
+                    0, 0, dstBox.width(), dstBox.height());
                 break;
             }
         }
@@ -617,16 +617,16 @@ void GLTextureBuffer::blitFromMemory(const PixelBox &src, const Box &dstBox)
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "destination box out of range",
                     "GLTextureBuffer::blitFromMemory");
 
-    TextureType type = (src.getDepth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
+    TextureType type = (src.depth() != 1) ? TEX_TYPE_3D : TEX_TYPE_2D;
 
     // Set automatic mipmap generation; nice for minimisation
     TexturePtr tex = TextureManager::singleton().createManual(
         "GLBlitFromMemoryTMP",
         ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
         type,
-        src.getWidth(),
-        src.getHeight(),
-        src.getDepth(),
+        src.width(),
+        src.height(),
+        src.depth(),
         MIP_UNLIMITED,
         src.format);
 

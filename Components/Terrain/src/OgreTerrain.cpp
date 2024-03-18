@@ -846,7 +846,7 @@ namespace Ogre
         {
             Image* img = importData.inputImage;
 
-            if (img->getWidth() != mSize || img->getHeight() != mSize)
+            if (img->width() != mSize || img->height() != mSize)
                 img->resize(mSize, mSize);
 
             // convert image data to floats
@@ -2769,7 +2769,7 @@ namespace Ogre
         HardwarePixelBufferSharedPtr destBuffer = getLayerBlendTexture(destIndex)->getBuffer();
 
         unsigned char rgbaShift[4];
-        Box box(0, 0, destBuffer->getWidth(), destBuffer->getHeight());
+        Box box(0, 0, destBuffer->width(), destBuffer->height());
 
         uint8* pDestBase = destBuffer->lock(box, HardwareBuffer::HBL_NORMAL).data;
         PixelUtil::getBitShifts(destBuffer->getFormat(), rgbaShift);
@@ -2812,7 +2812,7 @@ namespace Ogre
         HardwarePixelBufferSharedPtr buffer = getLayerBlendTexture(index)->getBuffer();
 
         unsigned char rgbaShift[4];
-        Box box(0, 0, buffer->getWidth(), buffer->getHeight());
+        Box box(0, 0, buffer->width(), buffer->height());
 
         uint8* pData = buffer->lock(box, HardwareBuffer::HBL_NORMAL).data;
         PixelUtil::getBitShifts(buffer->getFormat(), rgbaShift);
@@ -2864,7 +2864,7 @@ namespace Ogre
                 PixelFormat::BYTE_RGBA,
                 TU_STATIC);
 
-            mLayerBlendMapSizeActual = mBlendTextureList[i]->getWidth();
+            mLayerBlendMapSizeActual = mBlendTextureList[i]->width();
 
             if (mCpuBlendMapStorage.size() > i)
             {
@@ -3592,7 +3592,7 @@ namespace Ogre
                 PixelFormat::L8,
                 TU_STATIC);
 
-            mLightmapSizeActual = mLightmap->getWidth();
+            mLightmapSizeActual = mLightmap->width();
 
             if (mCpuLightmap.getData())
             {
@@ -3636,7 +3636,7 @@ namespace Ogre
                 PixelFormat::BYTE_RGBA,
                 TU_STATIC);
 
-            mCompositeMapSizeActual = mCompositeMap->getWidth();
+            mCompositeMapSizeActual = mCompositeMap->width();
 
             if (mCpuCompositeMap.getData())
             {

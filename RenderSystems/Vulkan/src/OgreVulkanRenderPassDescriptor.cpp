@@ -42,8 +42,8 @@ namespace Ogre
     VulkanRenderPassDescriptor::VulkanRenderPassDescriptor( VulkanQueue *graphicsQueue,
                                                             VulkanRenderSystem *renderSystem ) :
         mSharedFboItor( renderSystem->_getFrameBufferDescMap().end() ),
-        mTargetWidth( 0u ),
-        mTargetHeight( 0u ),
+        mTarwidth( 0u ),
+        mTarheight( 0u ),
         mQueue( graphicsQueue ),
         mRenderSystem( renderSystem )
     {
@@ -435,8 +435,8 @@ namespace Ogre
         mTargetHeight = 0u;
         if( anyTargetTexture )
         {
-            mTargetWidth = anyTargetTexture->getWidth();
-            mTargetHeight = anyTargetTexture->getHeight();
+            mTargetWidth = anyTargetTexture->width();
+            mTargetHeight = anyTargetTexture->height();
         }
 
         if( createFbo )

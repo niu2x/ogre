@@ -1117,8 +1117,8 @@ namespace Ogre
         ComPtr<ID3D11Texture2D> pDepthStencil;
         D3D11_TEXTURE2D_DESC descDepth;
 
-        descDepth.Width                 = renderTarget->getWidth();
-        descDepth.Height                = renderTarget->getHeight();
+        descDepth.Width                 = renderTarget->width();
+        descDepth.Height                = renderTarget->height();
         descDepth.MipLevels             = 1;
         descDepth.ArraySize             = BBDesc.ArraySize;
 
@@ -1683,7 +1683,7 @@ namespace Ogre
             if (target->requiresTextureFlipping())
             {
                 // Convert "top-left" to "bottom-left"
-                d3dvp.TopLeftY = target->getHeight() - d3dvp.Height - d3dvp.TopLeftY;
+                d3dvp.TopLeftY = target->height() - d3dvp.Height - d3dvp.TopLeftY;
             }
 
             // Z-values from 0.0 to 1.0 (TODO: standardise with OpenGL)

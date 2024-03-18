@@ -39,8 +39,8 @@ namespace Ogre
         mBuffer(buffer), mZOffset(zoffset)
     {
         mPriority = OGRE_REND_TO_TEX_RT_GROUP;
-        mWidth = mBuffer->getWidth();
-        mHeight = mBuffer->getHeight();
+        mWidth = mBuffer->width();
+        mHeight = mBuffer->height();
 
         if(PixelUtil::isDepth(mBuffer->getFormat()))
             mDepthBufferPoolId = DepthBuffer::POOL_NO_DEPTH;

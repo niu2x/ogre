@@ -38,7 +38,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     size_t PixelBox::getConsecutiveSize() const
     {
-        return PixelUtil::getMemorySize(getWidth(), getHeight(), getDepth(), format);
+        return PixelUtil::getMemorySize(width(), height(), depth(), format);
     }
     PixelBox PixelBox::getSubVolume(const Box &def, bool resetOrigin /* = true */) const
     {
@@ -58,7 +58,7 @@ namespace Ogre {
             {
                 if(rval.front > 0)
                 {
-                    rval.data = (uint8*)rval.data + rval.front * PixelUtil::getMemorySize(getWidth(), getHeight(), 1, format);
+                    rval.data = (uint8*)rval.data + rval.front * PixelUtil::getMemorySize(width(), height(), 1, format);
                     rval.back -= rval.front;
                     rval.front = 0;
                 }
@@ -662,9 +662,9 @@ namespace Ogre {
             OgreAssert(src.format == dst.format && src.isConsecutive() && dst.isConsecutive(),
                        "This method can not be used to compress or decompress images");
             // we can copy with slice granularity, useful for Tex2DArray handling
-            size_t bytesPerSlice = getMemorySize(src.getWidth(), src.getHeight(), 1, src.format);
+            size_t bytesPerSlice = getMemorySize(src.width(), src.height(), 1, src.format);
             memcpy(dst.data + bytesPerSlice * dst.front, src.data + bytesPerSlice * src.front,
-                   bytesPerSlice * src.getDepth());
+                   bytesPerSlice * src.depth());
             return;
         }
 
@@ -693,7 +693,7 @@ namespace Ogre {
             const size_t dstSliceSkipBytes = dst.getSliceSkip()*dstPixelSize;
 
             // Otherwise, copy per row
-            const size_t rowSize = src.getWidth()*srcPixelSize;
+            const size_t rowSize = src.width()*srcPixelSize;
             for(size_t z=src.front; z<src.back; z++)
             {
                 for(size_t y=src.top; y<src.bottom; y++)
@@ -788,7 +788,7 @@ namespace Ogre {
         OgreAssert(!PixelUtil::isCompressed(box.format), "This method can not be used for compressed formats");
         
         const size_t pixelSize = PixelUtil::getNumElemBytes(box.format);
-        const size_t copySize = box.getWidth() * pixelSize;
+        const size_t copySize = box.width() * pixelSize;
 
         // Calculate pitches in bytes
         const size_t rowPitchBytes = box.rowPitch * pixelSize;

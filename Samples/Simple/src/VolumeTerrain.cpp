@@ -209,7 +209,7 @@ bool Sample_VolumeTerrain::mouseReleased(const MouseButtonEvent& evt)
 
 bool Sample_VolumeTerrain::mouseMoved(const MouseMotionEvent& evt)
 {
-    int width = mWindow->getWidth(), height = mWindow->getHeight();
+    int width = mWindow->width(), height = mWindow->height();
     
     mMouseX = (Real)evt.x / (Real)width;
     mMouseY = (Real)evt.y / (Real)height;

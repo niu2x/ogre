@@ -120,7 +120,7 @@ namespace Ogre
 
 
         // check for size change (allow smaller to be reused)
-        if (mCompositeMapRTT && size != mCompositeMapRTT->getWidth())
+        if (mCompositeMapRTT && size != mCompositeMapRTT->width())
         {
             TextureManager::singleton().remove(mCompositeMapRTT->handle());
             mCompositeMapRTT = 0;
@@ -173,7 +173,7 @@ namespace Ogre
     void TerrainMaterialGenerator::updateCompositeMap(const Terrain* terrain, const Rect& rect)
     {
         // convert point-space rect into image space
-        int32 compSize = terrain->getCompositeMap()->getWidth();
+        int32 compSize = terrain->getCompositeMap()->width();
         Rect imgRect;
         Vector3 inVec, outVec;
         inVec.x = rect.left;

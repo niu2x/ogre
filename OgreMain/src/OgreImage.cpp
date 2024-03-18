@@ -412,7 +412,7 @@ namespace Ogre {
             if(src.format != scaled.format)
             {
                 // Allocate temporary buffer of destination size in source format 
-                buf.create(src.format, scaled.getWidth(), scaled.getHeight(), scaled.getDepth());
+                buf.create(src.format, scaled.width(), scaled.height(), scaled.depth());
                 temp = buf.getPixelBox();
             }
             // super-optimized: no conversion
@@ -457,9 +457,9 @@ namespace Ogre {
                         // format
                         buf.create(
                             src.format,
-                            scaled.getWidth(),
-                            scaled.getHeight(),
-                            scaled.getDepth());
+                            scaled.width(),
+                            scaled.height(),
+                            scaled.depth());
                         temp = buf.getPixelBox();
                     }
                     // super-optimized: byte-oriented math, no conversion
@@ -536,7 +536,7 @@ namespace Ogre {
         // Calculate mipmap offset and size
         uint8 *offset = mBuffer;
         // Base offset is number of full faces
-        uint32 width = getWidth(), height=getHeight(), depth=getDepth();
+        uint32 width = this->width(), height=this->height(), depth=this->depth();
         uint32 numMips = getNumMipmaps();
 
         // Figure out the offsets 
@@ -614,8 +614,8 @@ namespace Ogre {
     Image & Image::combineTwoImagesAsRGBA(const Image& rgb, const Image& alpha, PixelFormat fmt)
     {
         // the images should be the same size, have the same number of mipmaps
-        OgreAssert(rgb.getWidth() == alpha.getWidth() && rgb.getHeight() == alpha.getHeight() &&
-                       rgb.getDepth() == alpha.getDepth(),
+        OgreAssert(rgb.width() == alpha.width() && rgb.height() == alpha.height() &&
+                       rgb.depth() == alpha.depth(),
                    "Images must be the same dimensions");
         OgreAssert(rgb.getNumMipmaps() == alpha.getNumMipmaps() && rgb.getNumFaces() == alpha.getNumFaces(),
                    "Images must have the same number of surfaces");
@@ -628,7 +628,7 @@ namespace Ogre {
                    "Compressed formats are not supported in this method");
 
         uint32 numFaces = rgb.getNumFaces();
-        create(fmt, rgb.getWidth(), rgb.getHeight(), rgb.getDepth(), numFaces, rgb.getNumMipmaps());
+        create(fmt, rgb.width(), rgb.height(), rgb.depth(), numFaces, rgb.getNumMipmaps());
 
         for (uint32 face = 0; face < numFaces; ++face)
         {

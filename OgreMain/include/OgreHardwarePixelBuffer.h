@@ -187,15 +187,15 @@ namespace Ogre {
         RenderTexture *getRenderTarget(size_t slice=0);
         
         /// Gets the width of this buffer
-        uint32 getWidth() const { return mWidth; }
+        uint32 width() const { return mWidth; }
         /// Gets the height of this buffer
-        uint32 getHeight() const { return mHeight; }
+        uint32 height() const { return mHeight; }
         /// Gets the depth of this buffer
-        uint32 getDepth() const { return mDepth; }
+        uint32 depth() const { return mDepth; }
         /// size (width, height, depth) of the pixel buffer
         Vector3i size() const
         {
-            return Vector3i(getWidth(), getHeight(), getDepth());
+            return Vector3i(width(), height(), depth());
         }
         /// Gets the native pixel format of this buffer
         PixelFormat getFormat() const { return mFormat; }

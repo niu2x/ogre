@@ -76,8 +76,8 @@ namespace Ogre
         //TODO: Needs to check format too!
         if( mFsaa == BBDesc.SampleDesc.Count &&
             mMultiSampleQuality == BBDesc.SampleDesc.Quality &&
-            this->getWidth() == renderTarget->getWidth() &&
-            this->getHeight() == renderTarget->getHeight() )
+            this->width() == renderTarget->width() &&
+            this->height() == renderTarget->height() )
         {
             return true;
         }
