@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 #include "OgrePixelFormat.h"
-#include "OgrePixelFormatDescriptions.h"
+#include "pixel_format_description.h"
 
 namespace {
 #include "OgrePixelConversions.h"
