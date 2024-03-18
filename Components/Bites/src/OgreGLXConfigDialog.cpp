@@ -354,7 +354,7 @@ Pixmap GLXConfigurator::CreateBackdrop(Window rootWindow, int depth) {
             bpl == 2 ? PixelFormat::B5G6R5 : PixelFormat::A8R8G8B8,
             data);
 
-        memset(data, 0, dst.getConsecutiveSize());
+        memset(data, 0, dst.get_consecutive_size());
         dst.bottom = src.bottom;
         PixelUtil::bulkPixelConversion(src, dst);
     } catch(Exception &e) {

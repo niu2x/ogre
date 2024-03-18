@@ -450,21 +450,19 @@ namespace Ogre {
 
     void EAGL2Window::copyContentsToMemory(const Box& src, const PixelBox &dst, FrameBuffer buffer)
     {
-        if(src.right > mWidth || src.bottom > mHeight || src.front != 0 || src.back != 1
-        || dst.width() != src.width() || dst.height() != src.height() || dst.depth() != 1
-        || dst.width() != dst.row_pitch() /* GLES2 does not support GL_PACK_ROW_LENGTH, nor iOS supports GL_NV_pack_subimage */)
-		{
-			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box.");
-		}
+        if (src.right > mWidth || src.bottom > mHeight || src.front != 0
+            || src.back != 1 || dst.width() != src.width()
+            || dst.height() != src.height() || dst.depth() != 1 || dst.width() != dst.row_pitch /* GLES2 does not support GL_PACK_ROW_LENGTH, nor iOS supports GL_NV_pack_subimage */) {
+            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Invalid box.");
+        }
 
-		if (buffer == FB_AUTO)
-		{
-			buffer = mIsFullScreen ? FB_FRONT : FB_BACK;
-		}
+        if (buffer == FB_AUTO) {
+            buffer = mIsFullScreen ? FB_FRONT : FB_BACK;
+        }
 
-		// Switch context if different from current one
-		RenderSystem* rsys = Root::singleton().getRenderSystem();
-		rsys->_setViewport(this->getViewport(0));
+        // Switch context if different from current one
+        RenderSystem* rsys = Root::singleton().getRenderSystem();
+        rsys->_setViewport(this->getViewport(0));
 
         OGRE_CHECK_GL_ERROR(glBindRenderbuffer(GL_RENDERBUFFER, mContext->mViewRenderbuffer));
 
@@ -522,7 +520,11 @@ namespace Ogre {
         CGContextDrawImage(context, CGRectMake(0.0, 0.0, widthInPoints, heightInPoints), iref);
 
         // Retrieve the UIImage from the current context
-        memcpy(dst.data, CGBitmapContextGetData(context), CGBitmapContextGetBytesPerRow(context) * height); // TODO: support dst.row_pitch() != dst.width() case
+        memcpy(
+            dst.data,
+            CGBitmapContextGetData(context),
+            CGBitmapContextGetBytesPerRow(context)
+                * height); // TODO: support dst.row_pitch != dst.width() case
         UIGraphicsEndImageContext();
 
         // Clean up

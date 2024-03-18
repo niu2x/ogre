@@ -121,7 +121,7 @@ namespace Ogre {
         // see: https://www.khronos.org/opengl/wiki/Pixel_Buffer_Object
 #ifdef USE_PBO
         // Calculate size for all mip levels of the texture.
-        size_t dataSize = data.getConsecutiveSize();
+        size_t dataSize = data.get_consecutive_size();
         GL3PlusHardwareBuffer buffer(GL_PIXEL_UNPACK_BUFFER, dataSize, mUsage);
         buffer.writeData(0, dataSize, data.data, false);
 
@@ -150,7 +150,7 @@ namespace Ogre {
 
         if (PixelUtil::isCompressed(data.format))
         {
-            if (data.format != mFormat || !data.isConsecutive())
+            if (data.format != mFormat || !data.is_consecutive())
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Compressed images must be consecutive and in the designated source format",
                             "GL3PlusTextureBuffer::upload");
@@ -164,29 +164,41 @@ namespace Ogre {
                 // Some systems (e.g. old Apple) don't like compressed
                 // subimage calls so prefer non-sub versions.
                 OGRE_CHECK_GL_ERROR(glCompressedTexSubImage1D(
-                    GL_TEXTURE_1D, mLevel,
+                    GL_TEXTURE_1D,
+                    mLevel,
                     dest.left,
                     dest.width(),
-                    format, data.getConsecutiveSize(),
+                    format,
+                    data.get_consecutive_size(),
                     pdata));
                 break;
             case GL_TEXTURE_2D:
             case GL_TEXTURE_CUBE_MAP:
             case GL_TEXTURE_RECTANGLE:
                 OGRE_CHECK_GL_ERROR(glCompressedTexSubImage2D(
-                    mFaceTarget, mLevel,
-                    dest.left, dest.top,
-                    dest.width(), dest.height(),
-                    format, data.getConsecutiveSize(),
+                    mFaceTarget,
+                    mLevel,
+                    dest.left,
+                    dest.top,
+                    dest.width(),
+                    dest.height(),
+                    format,
+                    data.get_consecutive_size(),
                     pdata));
                 break;
             case GL_TEXTURE_3D:
             case GL_TEXTURE_2D_ARRAY:
                 OGRE_CHECK_GL_ERROR(glCompressedTexSubImage3D(
-                    mTarget, mLevel,
-                    dest.left, dest.top, dest.front,
-                    dest.width(), dest.height(), dest.depth(),
-                    format, data.getConsecutiveSize(),
+                    mTarget,
+                    mLevel,
+                    dest.left,
+                    dest.top,
+                    dest.front,
+                    dest.width(),
+                    dest.height(),
+                    dest.depth(),
+                    format,
+                    data.get_consecutive_size(),
                     pdata));
                 break;
             }
@@ -195,13 +207,13 @@ namespace Ogre {
         else
         {
 #ifndef USE_PBO
-            if (data.width() != data.row_pitch())
+            if (data.width() != data.row_pitch)
                 OGRE_CHECK_GL_ERROR(
-                    glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch()));
-            if (data.height() * data.width() != data.slice_pitch())
+                    glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch));
+            if (data.height() * data.width() != data.slice_pitch)
                 OGRE_CHECK_GL_ERROR(glPixelStorei(
                     GL_UNPACK_IMAGE_HEIGHT,
-                    (data.slice_pitch() / data.width())));
+                    (data.slice_pitch / data.width())));
 #endif
             if ((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
                 // Standard alignment of 4 is not right.
@@ -286,7 +298,10 @@ namespace Ogre {
                         "GL3PlusTextureBuffer::download");
 
         // Download data to PBO
-        GL3PlusHardwareBuffer buffer(GL_PIXEL_PACK_BUFFER, data.getConsecutiveSize(), HBU_GPU_TO_CPU);
+        GL3PlusHardwareBuffer buffer(
+            GL_PIXEL_PACK_BUFFER,
+            data.get_consecutive_size(),
+            HBU_GPU_TO_CPU);
 
         //        std::stringstream str;
         //        str << "GL3PlusHardwarePixelBuffer::download: " << mTextureID
@@ -303,7 +318,7 @@ namespace Ogre {
 
         if (PixelUtil::isCompressed(data.format))
         {
-            if (data.format != mFormat || !data.isConsecutive())
+            if (data.format != mFormat || !data.is_consecutive())
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Compressed images must be consecutive, in the source format",
                             "GL3PlusTextureBuffer::download");
@@ -328,10 +343,10 @@ namespace Ogre {
         }
 
         // Copy to destination buffer
-        if(data.isConsecutive())
+        if (data.is_consecutive())
             buffer.readData(
                 0,
-                data.getConsecutiveSize(),
+                data.get_consecutive_size(),
                 data.get_top_left_front_pixel_ptr());
         else
         {
@@ -343,7 +358,7 @@ namespace Ogre {
                         srcOffset,
                         mWidth * elemSizeInBytes,
                         (uint8*)data.get_top_left_front_pixel_ptr()
-                            + (z * data.slice_pitch() + y * data.row_pitch())
+                            + (z * data.slice_pitch + y * data.row_pitch)
                                 * elemSizeInBytes);
                     srcOffset += mWidth * elemSizeInBytes;
                 }

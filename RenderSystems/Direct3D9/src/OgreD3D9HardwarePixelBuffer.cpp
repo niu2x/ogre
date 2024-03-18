@@ -259,14 +259,14 @@ void fromD3DLock(PixelBox &rval, const D3DLOCKED_RECT &lrect)
     size_t bpp = PixelUtil::getNumElemBytes(rval.format);
     if (bpp != 0)
     {
-        rval.row_pitch() = lrect.Pitch / bpp;
-        rval.slice_pitch() = rval.row_pitch() * rval.height();
+        rval.row_pitch = lrect.Pitch / bpp;
+        rval.slice_pitch = rval.row_pitch * rval.height();
         assert((lrect.Pitch % bpp)==0);
     }
     else if (PixelUtil::isCompressed(rval.format))
     {
-        rval.row_pitch() = rval.width();
-        rval.slice_pitch() = rval.width() * rval.height();
+        rval.row_pitch = rval.width();
+        rval.slice_pitch = rval.width() * rval.height();
     }
     else
     {
@@ -281,15 +281,15 @@ void fromD3DLock(PixelBox &rval, const D3DLOCKED_BOX &lbox)
     size_t bpp = PixelUtil::getNumElemBytes(rval.format);
     if (bpp != 0)
     {
-        rval.row_pitch() = lbox.row_pitch() / bpp;
-        rval.slice_pitch() = lbox.slice_pitch() / bpp;
-        assert((lbox.row_pitch() % bpp) == 0);
-        assert((lbox.slice_pitch() % bpp) == 0);
+        rval.row_pitch = lbox.row_pitch / bpp;
+        rval.slice_pitch = lbox.slice_pitch / bpp;
+        assert((lbox.row_pitch % bpp) == 0);
+        assert((lbox.slice_pitch % bpp) == 0);
     }
     else if (PixelUtil::isCompressed(rval.format))
     {
-        rval.row_pitch() = rval.width();
-        rval.slice_pitch() = rval.width() * rval.height();
+        rval.row_pitch = rval.width();
+        rval.slice_pitch = rval.width() * rval.height();
     }
     else
     {
@@ -670,23 +670,23 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
     if (PixelUtil::isCompressed(converted.format))
     {
         // if the row doesn't divide by 4 - there is padding to 4
-        if (converted.row_pitch() % 4 > 0) {
-            converted.row_pitch() += 4 - converted.row_pitch() % 4;
+        if (converted.row_pitch % 4 > 0) {
+            converted.row_pitch += 4 - converted.row_pitch % 4;
         }
 
         // D3D wants the width of one row of cells in bytes
         if (converted.format == PixelFormat::DXT1) {
             // 64 bits (8 bytes) per 4x4 block
-            rowWidth = (converted.row_pitch() / 4) * 8;
+            rowWidth = (converted.row_pitch / 4) * 8;
         } else {
             // 128 bits (16 bytes) per 4x4 block
-            rowWidth = (converted.row_pitch() / 4) * 16;
+            rowWidth = (converted.row_pitch / 4) * 16;
         }
 
     }
     else
     {
-        rowWidth = converted.row_pitch()
+        rowWidth = converted.row_pitch
             * PixelUtil::getNumElemBytes(converted.format);
     }
 
@@ -716,16 +716,16 @@ void D3D9HardwarePixelBuffer::blitFromMemory(const PixelBox &src, const Box &dst
             // D3D wants the width of one slice of cells in bytes
             if (converted.format == PixelFormat::DXT1) {
                 // 64 bits (8 bytes) per 4x4 block
-                sliceWidth = (converted.slice_pitch() / 16) * 8;
+                sliceWidth = (converted.slice_pitch / 16) * 8;
             } else {
                 // 128 bits (16 bytes) per 4x4 block
-                sliceWidth = (converted.slice_pitch() / 16) * 16;
+                sliceWidth = (converted.slice_pitch / 16) * 16;
             }
 
         }
         else
         {
-            sliceWidth = converted.slice_pitch()
+            sliceWidth = converted.slice_pitch
                 * PixelUtil::getNumElemBytes(converted.format);
         }
 

@@ -169,7 +169,7 @@ namespace Ogre
             1.0f,
             1.0f,
             shadowTex->getFormat(),
-            box.data());
+            box.data);
 
         return shadowTex;
     

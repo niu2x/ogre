@@ -56,7 +56,7 @@ void TinyWindow::swapBuffers()
                                                       : PixelFormat::BYTE_BGR;
 
     PixelBox dst(surface->w, surface->h, 1, format, surface->pixels);
-    dst.row_pitch() = surface->pitch / surface->format->BytesPerPixel;
+    dst.row_pitch = surface->pitch / surface->format->BytesPerPixel;
     dst.data = (uchar*)surface->pixels;
 
     copyContentsToMemory(dst, dst, FB_BACK);

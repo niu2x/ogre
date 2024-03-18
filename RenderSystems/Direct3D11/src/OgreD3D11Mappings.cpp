@@ -248,15 +248,15 @@ namespace Ogre
         size_t elemSize = PixelUtil::getNumElemBytes(box.format);
         if(elemSize != 0)
         {
-            assert(0 == mapping.row_pitch() % elemSize);
+            assert(0 == mapping.row_pitch % elemSize);
             assert(0 == mapping.DepthPitch % elemSize);
-            box.row_pitch() = mapping.row_pitch() / elemSize;
-            box.slice_pitch() = mapping.DepthPitch / elemSize;
+            box.row_pitch = mapping.row_pitch / elemSize;
+            box.slice_pitch = mapping.DepthPitch / elemSize;
         }
         else if(PixelUtil::isCompressed(box.format))
         {
-            box.row_pitch() = box.width();
-            box.slice_pitch() = box.width() * box.height();
+            box.row_pitch = box.width();
+            box.slice_pitch = box.width() * box.height();
         }
         else
         {

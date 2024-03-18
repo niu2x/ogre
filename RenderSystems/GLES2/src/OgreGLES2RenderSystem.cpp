@@ -1751,7 +1751,7 @@ namespace Ogre {
 
         bool hasPackImage = hasMinGLVersion(3, 0) || checkExtension("GL_NV_pack_subimage");
         OgreAssert(
-            dst.width() == dst.row_pitch() || hasPackImage,
+            dst.width() == dst.row_pitch || hasPackImage,
             "GL_PACK_ROW_LENGTH not supported");
 
         // Switch context if different from current one
@@ -1759,8 +1759,8 @@ namespace Ogre {
 
         OGRE_CHECK_GL_ERROR(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
-        if (dst.width() != dst.row_pitch() && hasPackImage)
-            glPixelStorei(GL_PACK_ROW_LENGTH_NV, dst.row_pitch());
+        if (dst.width() != dst.row_pitch && hasPackImage)
+            glPixelStorei(GL_PACK_ROW_LENGTH_NV, dst.row_pitch);
 
         // Must change the packing to ensure no overruns!
         glPixelStorei(GL_PACK_ALIGNMENT, 1);

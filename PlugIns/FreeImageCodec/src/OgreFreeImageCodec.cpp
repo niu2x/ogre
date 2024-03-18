@@ -293,7 +293,10 @@ namespace Ogre {
         {
             conversionRequired = true;
             // Allocate memory
-            convBox.data = OGRE_ALLOC_T(uchar, convBox.getConsecutiveSize(), MEMCATEGORY_GENERAL);
+            convBox.data = OGRE_ALLOC_T(
+                uchar,
+                convBox.get_consecutive_size(),
+                MEMCATEGORY_GENERAL);
             // perform conversion and reassign source
             PixelBox newSrc = image->getPixelBox();
             PixelUtil::bulkPixelConversion(newSrc, convBox);
@@ -531,7 +534,10 @@ namespace Ogre {
 
         // only 2D formats handled by this codec
         // no mipmaps in non-DDS
-        image->create(format, FreeImage_width(fiBitmap), FreeImage_height(fiBitmap));
+        image->create(
+            format,
+            FreeImage_GetWidth(fiBitmap),
+            FreeImage_GetHeight(fiBitmap));
 
         // Final data - invert image and trim pitch at the same time
         size_t dstPitch =  image->getRowSpan();

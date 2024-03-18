@@ -76,7 +76,12 @@ namespace Ogre
         if(options != HBL_DISCARD && options != HBL_WRITE_ONLY)
             target |= VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 
-        mStagingBuffer = std::make_unique<VulkanHardwareBuffer>(target, ret.getConsecutiveSize(), HBU_CPU_ONLY, false, device);
+        mStagingBuffer = std::make_unique<VulkanHardwareBuffer>(
+            target,
+            ret.get_consecutive_size(),
+            HBU_CPU_ONLY,
+            false,
+            device);
 
         if (options != HBL_DISCARD && options != HBL_WRITE_ONLY)
         {
@@ -169,7 +174,7 @@ namespace Ogre
 
         auto ptr = lock(dstBox, HBL_WRITE_ONLY).data;
 
-        memcpy(ptr, src.data, src.getConsecutiveSize());
+        memcpy(ptr, src.data, src.get_consecutive_size());
 
         unlock();
     }

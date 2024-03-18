@@ -1,5 +1,4 @@
 ﻿---
-Language: Cpp 
 BasedOnStyle: WebKit
 ColumnLimit: '80'
 ConstructorInitializerIndentWidth: '0'

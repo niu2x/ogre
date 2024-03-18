@@ -54,13 +54,13 @@ template <class U> struct PixelBoxConverter
     static void conversion(const Ogre::PixelBox &src, const Ogre::PixelBox &dst)
     {
         typename U::SrcType* srcptr
-            = reinterpret_cast<typename U::SrcType*>(src.data())
-            + (src.left + src.top * src.row_pitch()
-               + src.front * src.slice_pitch());
+            = reinterpret_cast<typename U::SrcType*>(src.data)
+            + (src.left + src.top * src.row_pitch
+               + src.front * src.slice_pitch);
         typename U::DstType* dstptr
-            = reinterpret_cast<typename U::DstType*>(dst.data())
-            + (dst.left + dst.top * dst.row_pitch()
-               + dst.front * dst.slice_pitch());
+            = reinterpret_cast<typename U::DstType*>(dst.data)
+            + (dst.left + dst.top * dst.row_pitch
+               + dst.front * dst.slice_pitch);
         const size_t srcSliceSkip = src.get_slice_skip();
         const size_t dstSliceSkip = dst.get_slice_skip();
         const size_t k = src.right - src.left;
@@ -72,8 +72,8 @@ template <class U> struct PixelBoxConverter
                 {
                     dstptr[x] = U::pixelConvert(srcptr[x]);
                 }
-                srcptr += src.row_pitch();
-                dstptr += dst.row_pitch();
+                srcptr += src.row_pitch;
+                dstptr += dst.row_pitch;
             }
             srcptr += srcSliceSkip;
             dstptr += dstSliceSkip;
@@ -614,7 +614,7 @@ struct X8B8G8R8toR8G8B8A8 : public PixelConverter<
 
 inline int doOptimizedConversion(const Ogre::PixelBox &src, const Ogre::PixelBox &dst)
 {
-    switch (FMTCONVERTERID(src.format(), dst.format())) {
+    switch (FMTCONVERTERID(src.format, dst.format)) {
         // Register converters here
         CASECONVERTER(A8R8G8B8toA8B8G8R8);
         CASECONVERTER(A8R8G8B8toB8G8R8A8);

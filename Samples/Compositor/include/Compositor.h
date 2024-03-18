@@ -628,8 +628,8 @@ void Sample_Compositor::createTextures(void)
         size_t height = pb.height();
         size_t width = pb.width();
         size_t depth = pb.depth();
-        size_t rowPitch = pb.row_pitch();
-        size_t slicePitch = pb.slice_pitch();
+        size_t rowPitch = pb.row_pitch;
+        size_t slicePitch = pb.slice_pitch;
 
         for (size_t z = 0; z < depth; ++z)
         {
@@ -676,7 +676,7 @@ void Sample_Compositor::createTextures(void)
 
     size_t height2 = pb2.height();
     size_t width2 = pb2.width();
-    size_t rowPitch2 = pb2.row_pitch();
+    size_t rowPitch2 = pb2.row_pitch;
 
     for (size_t y = 0; y < height2; ++y)
     {

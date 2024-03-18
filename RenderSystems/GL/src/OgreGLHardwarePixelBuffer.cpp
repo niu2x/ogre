@@ -164,7 +164,7 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
     mRenderSystem->_getStateCacheManager()->bindGLTexture( mTarget, mTextureID );
     if(PixelUtil::isCompressed(data.format))
     {
-        if(data.format != mFormat || !data.isConsecutive())
+        if (data.format != mFormat || !data.is_consecutive())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Compressed images must be consecutive, in the source format",
             "GLTextureBuffer::upload");
@@ -177,19 +177,24 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 // so prefer non-sub versions
                 if (dest.left == 0)
                 {
-                    glCompressedTexImage1DARB(GL_TEXTURE_1D, mLevel,
+                    glCompressedTexImage1DARB(
+                        GL_TEXTURE_1D,
+                        mLevel,
                         format,
                         dest.width(),
                         0,
-                        data.getConsecutiveSize(),
+                        data.get_consecutive_size(),
                         data.data);
                 }
                 else
                 {
-                    glCompressedTexSubImage1DARB(GL_TEXTURE_1D, mLevel, 
+                    glCompressedTexSubImage1DARB(
+                        GL_TEXTURE_1D,
+                        mLevel,
                         dest.left,
                         dest.width(),
-                        format, data.getConsecutiveSize(),
+                        format,
+                        data.get_consecutive_size(),
                         data.data);
                 }
                 break;
@@ -199,20 +204,27 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 // so prefer non-sub versions
                 if (dest.left == 0 && dest.top == 0)
                 {
-                    glCompressedTexImage2DARB(mFaceTarget, mLevel,
+                    glCompressedTexImage2DARB(
+                        mFaceTarget,
+                        mLevel,
                         format,
                         dest.width(),
                         dest.height(),
                         0,
-                        data.getConsecutiveSize(),
+                        data.get_consecutive_size(),
                         data.data);
                 }
                 else
                 {
-                    glCompressedTexSubImage2DARB(mFaceTarget, mLevel, 
-                        dest.left, dest.top, 
-                        dest.width(), dest.height(),
-                        format, data.getConsecutiveSize(),
+                    glCompressedTexSubImage2DARB(
+                        mFaceTarget,
+                        mLevel,
+                        dest.left,
+                        dest.top,
+                        dest.width(),
+                        dest.height(),
+                        format,
+                        data.get_consecutive_size(),
                         data.data);
                 }
                 break;
@@ -222,21 +234,28 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
                 // so prefer non-sub versions
                 if (dest.left == 0 && dest.top == 0 && dest.front == 0)
                 {
-                    glCompressedTexImage3DARB(mTarget, mLevel,
+                    glCompressedTexImage3DARB(
+                        mTarget,
+                        mLevel,
                         format,
                         dest.width(),
                         dest.height(),
                         dest.depth(),
                         0,
-                        data.getConsecutiveSize(),
+                        data.get_consecutive_size(),
                         data.data);
-                }
-                else
-                {           
-                    glCompressedTexSubImage3DARB(mTarget, mLevel, 
-                        dest.left, dest.top, dest.front,
-                        dest.width(), dest.height(), dest.depth(),
-                        format, data.getConsecutiveSize(),
+                } else {
+                    glCompressedTexSubImage3DARB(
+                        mTarget,
+                        mLevel,
+                        dest.left,
+                        dest.top,
+                        dest.front,
+                        dest.width(),
+                        dest.height(),
+                        dest.depth(),
+                        format,
+                        data.get_consecutive_size(),
                         data.data);
                 }
                 break;
@@ -245,13 +264,13 @@ void GLTextureBuffer::upload(const PixelBox &data, const Box &dest)
     }
     else
     {
-        if (data.width() != data.row_pitch())
-            glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch());
+        if (data.width() != data.row_pitch)
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch);
         if (data.width() > 0
-            && data.height() * data.width() != data.slice_pitch())
+            && data.height() * data.width() != data.slice_pitch)
             glPixelStorei(
                 GL_UNPACK_IMAGE_HEIGHT,
-                (data.slice_pitch() / data.width()));
+                (data.slice_pitch / data.width()));
         if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -308,7 +327,7 @@ void GLTextureBuffer::download(const PixelBox &data)
     mRenderSystem->_getStateCacheManager()->bindGLTexture( mTarget, mTextureID );
     if(PixelUtil::isCompressed(data.format))
     {
-        if(data.format != mFormat || !data.isConsecutive())
+        if (data.format != mFormat || !data.is_consecutive())
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, 
             "Compressed images must be consecutive, in the source format",
             "GLTextureBuffer::download");
@@ -318,12 +337,12 @@ void GLTextureBuffer::download(const PixelBox &data)
     } 
     else
     {
-        if (data.width() != data.row_pitch())
-            glPixelStorei(GL_PACK_ROW_LENGTH, data.row_pitch());
-        if (data.height() * data.width() != data.slice_pitch())
+        if (data.width() != data.row_pitch)
+            glPixelStorei(GL_PACK_ROW_LENGTH, data.row_pitch);
+        if (data.height() * data.width() != data.slice_pitch)
             glPixelStorei(
                 GL_PACK_IMAGE_HEIGHT,
-                (data.slice_pitch() / data.width()));
+                (data.slice_pitch / data.width()));
         if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {
             // Standard alignment of 4 is not right
             glPixelStorei(GL_PACK_ALIGNMENT, 1);

@@ -400,8 +400,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void Image::scale(const PixelBox &src, const PixelBox &scaled, Filter filter) 
     {
-        assert(PixelUtil::isAccessible(src.format()));
-        assert(PixelUtil::isAccessible(scaled.format()));
+        assert(PixelUtil::isAccessible(src.format));
+        assert(PixelUtil::isAccessible(scaled.format));
         Image buf; // For auto-delete
         // Assume no intermediate buffer needed
         PixelBox temp = scaled;
@@ -409,18 +409,18 @@ namespace Ogre {
         {
         default:
         case FILTER_NEAREST:
-            if (src.format() != scaled.format()) {
+            if (src.format != scaled.format) {
                 // Allocate temporary buffer of destination size in source
                 // format
                 buf.create(
-                    src.format(),
+                    src.format,
                     scaled.width(),
                     scaled.height(),
                     scaled.depth());
                 temp = buf.getPixelBox();
             }
             // super-optimized: no conversion
-            switch (PixelUtil::getNumElemBytes(src.format())) {
+            switch (PixelUtil::getNumElemBytes(src.format)) {
                 case 1:
                     NearestResampler<1>::scale(src, temp);
                     break;
@@ -449,14 +449,14 @@ namespace Ogre {
                     // never reached
                     assert(false);
             }
-            if (temp.data() != scaled.data()) {
+            if (temp.data != scaled.data) {
                 // Blit temp buffer
                 PixelUtil::bulkPixelConversion(temp, scaled);
             }
             break;
 
         case FILTER_BILINEAR:
-            switch (src.format()) {
+            switch (src.format) {
                 case PixelFormat::L8:
                 case PixelFormat::R8:
                 case PixelFormat::A8:
@@ -469,18 +469,18 @@ namespace Ogre {
                 case PixelFormat::A8R8G8B8:
                 case PixelFormat::X8B8G8R8:
                 case PixelFormat::X8R8G8B8:
-                    if (src.format() != scaled.format()) {
+                    if (src.format != scaled.format) {
                         // Allocate temp buffer of destination size in source
                         // format
                         buf.create(
-                            src.format(),
+                            src.format,
                             scaled.width(),
                             scaled.height(),
                             scaled.depth());
                         temp = buf.getPixelBox();
                     }
                     // super-optimized: byte-oriented math, no conversion
-                    switch (PixelUtil::getNumElemBytes(src.format())) {
+                    switch (PixelUtil::getNumElemBytes(src.format)) {
                         case 1:
                             LinearResampler_Byte<1>::scale(src, temp);
                             break;
@@ -497,15 +497,15 @@ namespace Ogre {
                             // never reached
                             assert(false);
                     }
-                    if (temp.data() != scaled.data()) {
+                    if (temp.data != scaled.data) {
                         // Blit temp buffer
                         PixelUtil::bulkPixelConversion(temp, scaled);
                     }
                     break;
                 case PixelFormat::FLOAT32_RGB:
                 case PixelFormat::FLOAT32_RGBA:
-                    if (scaled.format() == PixelFormat::FLOAT32_RGB
-                        || scaled.format() == PixelFormat::FLOAT32_RGBA) {
+                    if (scaled.format == PixelFormat::FLOAT32_RGB
+                        || scaled.format == PixelFormat::FLOAT32_RGBA) {
                         // float32 to float32, avoid unpack/repack overhead
                         LinearResampler_Float32::scale(src, scaled);
                         break;
@@ -658,8 +658,8 @@ namespace Ogre {
 
                 // now selectively add the alpha
                 PixelBox srcAlpha = alpha.getPixelBox(face, mip);
-                uchar* psrcAlpha = srcAlpha.data();
-                uchar* pdst = dst.data();
+                uchar* psrcAlpha = srcAlpha.data;
+                uchar* pdst = dst.data;
                 for (uint32 d = 0; d < mDepth; ++d)
                 {
                     for (uint32 y = 0; y < mHeight; ++y)

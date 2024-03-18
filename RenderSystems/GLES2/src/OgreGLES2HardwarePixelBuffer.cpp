@@ -201,7 +201,7 @@ namespace Ogre {
 
         if (PixelUtil::isCompressed(data.format))
         {
-            if(data.format != mFormat || !data.isConsecutive())
+            if (data.format != mFormat || !data.is_consecutive())
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Compressed images must be consecutive, in the source format",
                             "GLES2TextureBuffer::upload");
@@ -212,45 +212,57 @@ namespace Ogre {
             switch(mTarget) {
                 case GL_TEXTURE_2D:
                 case GL_TEXTURE_CUBE_MAP:
-                        OGRE_CHECK_GL_ERROR(glCompressedTexSubImage2D(mFaceTarget, mLevel,
-                                                  dest.left, dest.top,
-                                                  dest.width(), dest.height(),
-                                                  format, data.getConsecutiveSize(),
-                                                  pdata));
+                    OGRE_CHECK_GL_ERROR(glCompressedTexSubImage2D(
+                        mFaceTarget,
+                        mLevel,
+                        dest.left,
+                        dest.top,
+                        dest.width(),
+                        dest.height(),
+                        format,
+                        data.get_consecutive_size(),
+                        pdata));
                     break;
                 case GL_TEXTURE_2D_ARRAY:
                     if(!hasGLES30)
                         break;
                     OGRE_FALLTHROUGH;
                 case GL_TEXTURE_3D_OES:
-                    OGRE_CHECK_GL_ERROR(glCompressedTexSubImage3DOES(mTarget, mLevel,
-                                              dest.left, dest.top, dest.front,
-                                              dest.width(), dest.height(), dest.depth(),
-                                              format, data.getConsecutiveSize(),
-                                              pdata));
+                    OGRE_CHECK_GL_ERROR(glCompressedTexSubImage3DOES(
+                        mTarget,
+                        mLevel,
+                        dest.left,
+                        dest.top,
+                        dest.front,
+                        dest.width(),
+                        dest.height(),
+                        dest.depth(),
+                        format,
+                        data.get_consecutive_size(),
+                        pdata));
                     break;
             }
         }
         else
         {
-            if (data.width() != data.row_pitch()) {
+            if (data.width() != data.row_pitch) {
                 if(!hasGLES30)
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                                 "Unsupported texture format",
                                 "GLES2TextureBuffer::upload");
 
                 OGRE_CHECK_GL_ERROR(
-                    glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch()))
+                    glPixelStorei(GL_UNPACK_ROW_LENGTH, data.row_pitch))
             }
 
-            if (data.height() * data.width() != data.slice_pitch()) {
+            if (data.height() * data.width() != data.slice_pitch) {
                 if(!hasGLES30)
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                                 "Unsupported texture format",
                                 "GLES2TextureBuffer::upload");
                 OGRE_CHECK_GL_ERROR(glPixelStorei(
                     GL_UNPACK_IMAGE_HEIGHT,
-                    (data.slice_pitch() / data.width())));
+                    (data.slice_pitch / data.width())));
             }
 
             if((data.width()*PixelUtil::getNumElemBytes(data.format)) & 3) {

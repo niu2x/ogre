@@ -41,16 +41,16 @@ GLHardwarePixelBufferCommon::GLHardwarePixelBufferCommon(uint32 inWidth, uint32 
 GLHardwarePixelBufferCommon::~GLHardwarePixelBufferCommon()
 {
     // Force free buffer
-    delete[] mBuffer.data();
+    delete[] mBuffer.data;
 }
 
 void GLHardwarePixelBufferCommon::allocateBuffer()
 {
-    if (mBuffer.data())
+    if (mBuffer.data)
         // Already allocated
         return;
 
-    mBuffer.set_data(new uint8[mSizeInBytes]);
+    mBuffer.data = new uint8[mSizeInBytes];
 }
 
 void GLHardwarePixelBufferCommon::freeBuffer()
@@ -58,8 +58,8 @@ void GLHardwarePixelBufferCommon::freeBuffer()
     // Free buffer if we're STATIC to save memory
     if (mUsage & HBU_STATIC)
     {
-        delete[] mBuffer.data();
-        mBuffer.set_data(nullptr);
+        delete[] mBuffer.data;
+        mBuffer.data = nullptr;
     }
 }
 

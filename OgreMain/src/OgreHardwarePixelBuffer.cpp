@@ -71,7 +71,7 @@ namespace Ogre
         
         Box myBox(0, 0, 0, mWidth, mHeight, mDepth);
         const PixelBox &rv = lock(myBox, options);
-        return rv.data();
+        return rv.data;
     }
     
     //-----------------------------------------------------------------------------    

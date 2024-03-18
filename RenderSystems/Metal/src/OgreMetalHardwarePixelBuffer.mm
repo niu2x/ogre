@@ -296,15 +296,13 @@ namespace Ogre {
 
         if (!PixelUtil::isCompressed(data.format))
         {
-            if (data.width() != data.row_pitch())
-            {
+            if (data.width() != data.row_pitch) {
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Unsupported texture format",
                             "MetalTextureBuffer::upload");
             }
 
-            if (data.height() * data.width() != data.slice_pitch())
-            {
+            if (data.height() * data.width() != data.slice_pitch) {
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                             "Unsupported texture format",
                             "MetalTextureBuffer::upload");

@@ -53,7 +53,7 @@ namespace Ogre {
 // as simplifying memcpy() and replacing multiplies with bitshifts
 template<unsigned int elemsize> struct NearestResampler {
     static void scale(const PixelBox& src, const PixelBox& dst) {
-        // assert(src.format() == dst.format());
+        // assert(src.format == dst.format);
 
         // srcdata stays at beginning, pdst is a moving pointer
         uchar* srcdata = (uchar*)src.get_top_left_front_pixel_ptr();
@@ -69,11 +69,11 @@ template<unsigned int elemsize> struct NearestResampler {
         // for the center of the destination pixel, not the top-left corner
         uint64 sz_48 = (stepz >> 1) - 1;
         for (size_t z = dst.front; z < dst.back; z++, sz_48 += stepz) {
-            size_t srczoff = (size_t)(sz_48 >> 48) * src.slice_pitch();
+            size_t srczoff = (size_t)(sz_48 >> 48) * src.slice_pitch;
 
             uint64 sy_48 = (stepy >> 1) - 1;
             for (size_t y = dst.top; y < dst.bottom; y++, sy_48 += stepy) {
-                size_t srcyoff = (size_t)(sy_48 >> 48) * src.row_pitch();
+                size_t srcyoff = (size_t)(sy_48 >> 48) * src.row_pitch;
 
                 uint64 sx_48 = (stepx >> 1) - 1;
                 for (size_t x = dst.left; x < dst.right; x++, sx_48 += stepx) {
@@ -93,8 +93,8 @@ template<unsigned int elemsize> struct NearestResampler {
 // default floating-point linear resampler, does format conversion
 struct LinearResampler {
     static void scale(const PixelBox& src, const PixelBox& dst) {
-        size_t srcelemsize = PixelUtil::getNumElemBytes(src.format());
-        size_t dstelemsize = PixelUtil::getNumElemBytes(dst.format());
+        size_t srcelemsize = PixelUtil::getNumElemBytes(src.format);
+        size_t dstelemsize = PixelUtil::getNumElemBytes(dst.format);
 
         // srcdata stays at beginning, pdst is a moving pointer
         uchar* srcdata = (uchar*)src.get_top_left_front_pixel_ptr();
@@ -143,10 +143,9 @@ struct LinearResampler {
 #define UNPACK(dst, x, y, z)                                                   \
     PixelUtil::unpackColour(                                                   \
         &dst,                                                                  \
-        src.format(),                                                          \
+        src.format,                                                            \
         srcdata                                                                \
-            + srcelemsize                                                      \
-                * ((x) + (y)*src.row_pitch() + (z)*src.slice_pitch()))
+            + srcelemsize * ((x) + (y)*src.row_pitch + (z)*src.slice_pitch))
 
                     UNPACK(x1y1z1,sx1,sy1,sz1); UNPACK(x2y1z1,sx2,sy1,sz1);
                     UNPACK(x1y2z1,sx1,sy2,sz1); UNPACK(x2y2z1,sx2,sy2,sz1);
@@ -164,7 +163,7 @@ struct LinearResampler {
                         x1y2z2 * ((1.0f - sxf)*        syf *        szf ) +
                         x2y2z2 * (        sxf *        syf *        szf );
 
-                    PixelUtil::packColour(accum, dst.format(), pdst);
+                    PixelUtil::packColour(accum, dst.format, pdst);
 
                     pdst += dstelemsize;
                 }
@@ -181,9 +180,9 @@ struct LinearResampler {
 struct LinearResampler_Float32 {
     static void scale(const PixelBox& src, const PixelBox& dst) {
         size_t srcchannels
-            = PixelUtil::getNumElemBytes(src.format()) / sizeof(float);
+            = PixelUtil::getNumElemBytes(src.format) / sizeof(float);
         size_t dstchannels
-            = PixelUtil::getNumElemBytes(dst.format()) / sizeof(float);
+            = PixelUtil::getNumElemBytes(dst.format) / sizeof(float);
         // assert(srcchannels == 3 || srcchannels == 4);
         // assert(dstchannels == 3 || dstchannels == 4);
 
@@ -235,7 +234,7 @@ struct LinearResampler_Float32 {
     {                                                                          \
         float f = factor;                                                      \
         size_t off                                                             \
-            = (x + y * src.row_pitch() + z * src.slice_pitch()) * srcchannels; \
+            = (x + y * src.row_pitch + z * src.slice_pitch) * srcchannels;     \
         accum[0] += srcdata[off + 0] * f;                                      \
         accum[1] += srcdata[off + 1] * f;                                      \
         accum[2] += srcdata[off + 2] * f;                                      \
@@ -245,7 +244,7 @@ struct LinearResampler_Float32 {
     {                                                                          \
         float f = factor;                                                      \
         size_t off                                                             \
-            = (x + y * src.row_pitch() + z * src.slice_pitch()) * srcchannels; \
+            = (x + y * src.row_pitch + z * src.slice_pitch) * srcchannels;     \
         accum[0] += srcdata[off + 0] * f;                                      \
         accum[1] += srcdata[off + 1] * f;                                      \
         accum[2] += srcdata[off + 2] * f;                                      \
@@ -298,7 +297,7 @@ struct LinearResampler_Float32 {
 // as unrolling loops and replacing multiplies with bitshifts
 template<unsigned int channels> struct LinearResampler_Byte {
     static void scale(const PixelBox& src, const PixelBox& dst) {
-        // assert(src.format() == dst.format());
+        // assert(src.format == dst.format);
 
         // only optimized for 2D
         if (src.depth() > 1 || dst.depth() > 1) {
@@ -326,8 +325,8 @@ template<unsigned int channels> struct LinearResampler_Byte {
             unsigned int syf = temp & 0xFFF;
             uint32 sy1 = temp >> 12;
             uint32 sy2 = std::min(sy1+1, src.bottom-src.top-1);
-            size_t syoff1 = sy1 * src.row_pitch();
-            size_t syoff2 = sy2 * src.row_pitch();
+            size_t syoff1 = sy1 * src.row_pitch;
+            size_t syoff2 = sy2 * src.row_pitch;
 
             uint64 sx_48 = (stepx >> 1) - 1;
             for (size_t x = dst.left; x < dst.right; x++, sx_48+=stepx) {
