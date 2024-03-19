@@ -57,9 +57,9 @@ namespace Ogre {
             when extra processing needs to be done on an image before it is
             loaded or when you want to blit to an existing texture.
     */
-    class _OgreExport Image : public ImageAlloc
-    {
-    friend class ImageCodec;
+    class _OgreExport Image {
+        friend class ImageCodec;
+
     public:
         /** Standard constructor.
          *

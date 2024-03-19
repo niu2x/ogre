@@ -159,8 +159,8 @@ public:
 
 
     /** Retrieves the parameter command object for a named parameter. */
-    ParamCommand* param_command(const String& name);
-    const ParamCommand* param_command(const String& name) const;
+    ParamCommand* get_param_command(const String& name);
+    const ParamCommand* get_param_command(const String& name) const;
 
 private:
     ParameterList param_defs_;
@@ -250,7 +250,7 @@ public:
     @return
         String value of parameter, blank if not found
     */
-    String parameter(const String& name) const;
+    String get_parameter(const String& name) const;
     /** Method for copying this object's parameters to another object.
 
         This method takes the values of all the object's parameters and tries to

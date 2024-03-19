@@ -1,7 +1,7 @@
 /*
 -----------------------------------------------------------------------------
 This source file is part of OGRE
-    (Object-oriented Graphics Rendering Engine)
+(Object-oriented Graphics Rendering Engine)
 For the latest info, see http://www.ogre3d.org/
 
 Copyright (c) 2000-2014 Torus Knot Software Ltd
@@ -29,132 +29,116 @@ THE SOFTWARE.
 #include "threading/thread_header.h"
 
 namespace Ogre {
-    /// Dictionary of parameters
-    static ParamDictionaryMap dictionarys_map;
+/// Dictionary of parameters
+static ParamDictionaryMap dictionarys_map;
 
-    ParamDictionary::ParamDictionary() {}
-    ParamDictionary::~ParamDictionary() {}
+ParamDictionary::ParamDictionary() { }
+ParamDictionary::~ParamDictionary() { }
 
-    ParamCommand* ParamDictionary::param_command(const String& name)
-    {
-        const ParamDictionary *self = this;
-        return const_cast<ParamCommand*>(self->param_command(name));
+ParamCommand* ParamDictionary::get_param_command(const String& name)
+{
+    const ParamDictionary* self = this;
+    return const_cast<ParamCommand*>(self->get_param_command(name));
+}
+
+const ParamCommand* ParamDictionary::get_param_command(const String& name) const
+{
+    auto i = param_commands_.find(name);
+    if (i != param_commands_.end()) {
+        return i->second;
+    } else {
+        return 0;
     }
+}
 
-    const ParamCommand* ParamDictionary::param_command(const String& name) const
-    {
-        auto i = param_commands_.find(name);
-        if (i != param_commands_.end())
-        {
-            return i->second;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+void ParamDictionary::add_parameter(const String& name, ParamCommand* param_cmd)
+{
+    param_defs_.push_back(name);
+    param_commands_[name] = param_cmd;
+}
 
-    void ParamDictionary::add_parameter(const String& name, ParamCommand* param_cmd)
-    {
-        param_defs_.push_back(name);
-        param_commands_[name] = param_cmd;
-    }
+bool StringInterface::create_param_dictionary(const String& class_name)
+{
 
-    bool StringInterface::create_param_dictionary(const String& class_name)
-    {
+    ParamDictionaryMap::iterator it = dictionarys_map.find(class_name);
 
-        ParamDictionaryMap::iterator it = dictionarys_map.find(class_name);
-
-        if ( it == dictionarys_map.end() )
-        {
-            param_dict_ = &dictionarys_map.insert( std::make_pair( class_name, ParamDictionary() ) ).first->second;
-            param_dict_name_ = class_name;
-            return true;
-        }
-        else
-        {
-            param_dict_ = &it->second;
-            param_dict_name_ = class_name;
-            return false;
-        }
-    }
-
-    const ParameterList& StringInterface::parameters(void) const
-    {
-        static ParameterList empty_list;
-        const ParamDictionary* dict = param_dictionary();
-        if (dict)
-            return dict->parameters();
-        else
-            return empty_list;
-
-    }
-
-    String StringInterface::parameter(const String& name) const
-    {
-        // Get dictionary
-        const ParamDictionary* dict = param_dictionary();
-
-        if (dict)
-        {
-            // Look up command object
-            const ParamCommand* cmd = dict->param_command(name);
-
-            if (cmd)
-            {
-                return cmd->get(this);
-            }
-        }
-
-        // Fallback
-        return "";
-    }
-
-    bool StringInterface::set_parameter(const String& name, const String& value)
-    {
-        // Get dictionary
-        ParamDictionary* dict = param_dictionary();
-
-        if (dict)
-        {
-            // Look up command object
-            ParamCommand* cmd = dict->param_command(name);
-            if (cmd)
-            {
-                cmd->set(this, value);
-                return true;
-            }
-        }
-        // Fallback
+    if (it == dictionarys_map.end()) {
+        param_dict_
+            = &dictionarys_map
+                   .insert(std::make_pair(class_name, ParamDictionary()))
+                   .first->second;
+        param_dict_name_ = class_name;
+        return true;
+    } else {
+        param_dict_ = &it->second;
+        param_dict_name_ = class_name;
         return false;
     }
-    //-----------------------------------------------------------------------
-    void StringInterface::set_parameter_list(const NameValuePairList& params)
-    {
-        for(auto &e : params) {
-            set_parameter(e.first, e.second);
+}
 
+const ParameterList& StringInterface::parameters(void) const
+{
+    static ParameterList empty_list;
+    const ParamDictionary* dict = param_dictionary();
+    if (dict)
+        return dict->parameters();
+    else
+        return empty_list;
+}
+
+String StringInterface::get_parameter(const String& name) const
+{
+    // Get dictionary
+    const ParamDictionary* dict = param_dictionary();
+
+    if (dict) {
+        // Look up command object
+        const ParamCommand* cmd = dict->param_command(name);
+
+        if (cmd) {
+            return cmd->get(this);
         }
     }
 
-    void StringInterface::copy_parameters_to(StringInterface* dest) const
-    {
-        // Get dictionary
-        if (const ParamDictionary* dict = param_dictionary())
-        {
-            // Iterate through own parameters
-            for (const auto& name : dict->parameters())
-            {
-                dest->set_parameter(name, parameter(name));
-            }
+    // Fallback
+    return "";
+}
+
+bool StringInterface::set_parameter(const String& name, const String& value)
+{
+    // Get dictionary
+    ParamDictionary* dict = param_dictionary();
+
+    if (dict) {
+        // Look up command object
+        ParamCommand* cmd = dict->param_command(name);
+        if (cmd) {
+            cmd->set(this, value);
+            return true;
         }
     }
-
-    //-----------------------------------------------------------------------
-    void StringInterface::clean ()
-    {
-            
-
-        dictionarys_map.clear();
+    // Fallback
+    return false;
+}
+//-----------------------------------------------------------------------
+void StringInterface::set_parameter_list(const NameValuePairList& params)
+{
+    for (auto& e : params) {
+        set_parameter(e.first, e.second);
     }
+}
+
+void StringInterface::copy_parameters_to(StringInterface* dest) const
+{
+    // Get dictionary
+    if (const ParamDictionary* dict = param_dictionary()) {
+        // Iterate through own parameters
+        for (const auto& name : dict->parameters()) {
+            dest->set_parameter(name, parameter(name));
+        }
+    }
+}
+
+//-----------------------------------------------------------------------
+void StringInterface::clean() { dictionarys_map.clear(); }
 }
