@@ -465,7 +465,7 @@ Ogre::MeshPtr LodOutsideMarker::createConvexHullMesh(const String& meshName, con
             mesh->sharedVertexData->vertexCount,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
     /// Upload the vertex data to the card
-    vbuf->writeData(0, vbuf->getSizeInBytes(), &vertexBuffer[0], true);
+    vbuf->writeData(0, vbuf->get_size_in_bytes(), &vertexBuffer[0], true);
 
     /// Set vertex buffer binding so buffer 0 is bound to our vertex buffer
     VertexBufferBinding* bind = mesh->sharedVertexData->vertexBufferBinding;
@@ -479,7 +479,7 @@ Ogre::MeshPtr LodOutsideMarker::createConvexHullMesh(const String& meshName, con
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
     /// Upload the index data to the card
-    ibuf->writeData(0, ibuf->getSizeInBytes(), &indexBuffer[0], true);
+    ibuf->writeData(0, ibuf->get_size_in_bytes(), &indexBuffer[0], true);
 
     /// Set parameters of the submesh
     subMesh->useSharedVertices = true;

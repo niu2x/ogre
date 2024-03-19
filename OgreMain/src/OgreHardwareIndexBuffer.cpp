@@ -44,7 +44,6 @@ namespace Ogre {
     {
         // Calculate the size of the indexes
         mIndexSize = indexSize(idxType);
-        mSizeInBytes = mIndexSize * mNumIndexes;
 
         if (idxType == IT_32BIT && Root::singleton_ptr()
             && Root::singleton().getRenderSystem()) {
@@ -61,7 +60,8 @@ namespace Ogre {
         // Create a shadow buffer if required
         if (useShadowBuffer)
         {
-            mShadowBuffer = std::make_unique<DefaultHardwareBuffer>(mSizeInBytes);
+            set_shadow_buffer(
+                std::make_unique<DefaultHardwareBuffer>(get_size_in_bytes()));
         }
     }
 
@@ -69,7 +69,9 @@ namespace Ogre {
                                              size_t numIndexes, HardwareBuffer* delegate)
         : HardwareIndexBuffer(mgr, idxType, numIndexes, delegate->getUsage(), false)
     {
-        mDelegate.reset(delegate);
+        std::unique_ptr<HardwareBuffer> tmp;
+        tmp.reset(delegate);
+        set_delegate(std::move(tmp));
     }
 
     //-----------------------------------------------------------------------------

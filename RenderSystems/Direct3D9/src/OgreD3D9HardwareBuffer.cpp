@@ -277,7 +277,7 @@ namespace Ogre {
         bufferResources->mBuffer = NULL;
         bufferResources->mOutOfDate = true;
         bufferResources->mLockOffset = 0;
-        bufferResources->mLockLength = getSizeInBytes();
+        bufferResources->mLockLength = get_size_in_bytes();
         bufferResources->mLockOptions = HBL_NORMAL;
         bufferResources->mLastUsedFrame
             = Root::singleton().getNextFrameNumber();

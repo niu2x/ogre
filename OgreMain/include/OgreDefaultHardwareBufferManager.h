@@ -45,6 +45,7 @@ namespace Ogre {
     {
     private:
         unsigned char* mData;
+        size_t size_in_bytes_;
         void* lockImpl(size_t offset, size_t length, LockOptions options) override;
         void unlockImpl(void) override;
     public:
@@ -53,6 +54,8 @@ namespace Ogre {
         void readData(size_t offset, size_t length, void* pDest) override;
         void writeData(size_t offset, size_t length, const void* pSource, bool discardWholeBuffer = false) override;
         bool isSystemMemory(void) const override { return true; }
+
+        size_t get_size_in_bytes(void) const override { return size_in_bytes_; }
     };
 
     typedef DefaultHardwareBuffer DefaultHardwareUniformBuffer;

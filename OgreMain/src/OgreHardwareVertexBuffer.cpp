@@ -44,12 +44,13 @@ namespace Ogre {
           mInstanceDataStepRate(1)
     {
         // Calculate the size of the vertices
-        mSizeInBytes = mVertexSize * numVertices;
+        size_in_bytes_ = mVertexSize * numVertices;
 
         // Create a shadow buffer if required
         if (useShadowBuffer)
         {
-            mShadowBuffer = std::make_unique<DefaultHardwareBuffer>(mSizeInBytes);
+            set_shadow_buffer(
+                std::make_unique<DefaultHardwareBuffer>(size_in_bytes_));
         }
 
     }

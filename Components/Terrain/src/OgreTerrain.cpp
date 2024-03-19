@@ -2879,7 +2879,7 @@ namespace Ogre
                                       Box(buf->size()),
                                       HardwarePixelBuffer::HBL_DISCARD)
                                    .data;
-                memset(pInit, 0, buf->getSizeInBytes());
+                memset(pInit, 0, buf->get_size_in_bytes());
                 buf->unlock();
             }
         }
@@ -4512,8 +4512,7 @@ namespace Ogre
         size_t sz = vertexSize * numVertices;
         for (VBufList::iterator i = list.begin(); i != list.end(); ++i)
         {
-            if ((*i)->getSizeInBytes() == sz)
-            {
+            if ((*i)->get_size_in_bytes() == sz) {
                 HardwareVertexBufferSharedPtr ret = *i;
                 list.erase(i);
                 return ret;

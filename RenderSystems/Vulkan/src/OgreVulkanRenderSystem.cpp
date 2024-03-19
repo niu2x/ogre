@@ -1120,14 +1120,19 @@ namespace Ogre
                 alignToNextMultiple(sizeBytes, mDevice->mDeviceProperties.limits.minUniformBufferOffsetAlignment);
             mUBOInfo[gptype].range = sizeBytes;
 
-            if (std::accumulate(mAutoParamsBufferUsage.begin(), mAutoParamsBufferUsage.end(), 0) + step >=
-                mAutoParamsBuffer->getSizeInBytes())
-            {
+            if (std::accumulate(
+                    mAutoParamsBufferUsage.begin(),
+                    mAutoParamsBufferUsage.end(),
+                    0)
+                    + step
+                >= mAutoParamsBuffer->get_size_in_bytes()) {
                 // ran out of UBO memory, allocate a bigger buffer
-                resizeAutoParamsBuffer(mAutoParamsBuffer->getSizeInBytes() * 2);
+                resizeAutoParamsBuffer(
+                    mAutoParamsBuffer->get_size_in_bytes() * 2);
             }
 
-            if((mAutoParamsBufferPos + sizeBytes) >= mAutoParamsBuffer->getSizeInBytes())
+            if ((mAutoParamsBufferPos + sizeBytes)
+                >= mAutoParamsBuffer->get_size_in_bytes())
                 mAutoParamsBufferPos = 0;
 
             mUBODynOffsets[gptype] = mAutoParamsBufferPos;
@@ -1136,7 +1141,7 @@ namespace Ogre
             mAutoParamsBufferPos += step;
             mAutoParamsBufferUsage[mActiveDevice->mGraphicsQueue.mCurrentFrameIdx] += step;
 
-            if(mAutoParamsBufferPos >= mAutoParamsBuffer->getSizeInBytes())
+            if (mAutoParamsBufferPos >= mAutoParamsBuffer->get_size_in_bytes())
                 mAutoParamsBufferPos = 0;
         }
     }

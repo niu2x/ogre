@@ -43,40 +43,53 @@ namespace Ogre {
     *  @{
     */
     /** Specialisation of HardwareBuffer for vertex index buffers, still abstract. */
-    class _OgreExport HardwareIndexBuffer final : public HardwareBuffer
-    {
-        public:
-            enum IndexType : uint8 {
-                IT_16BIT,
-                IT_32BIT
-            };
+    class HardwareIndexBuffer final : public HardwareBuffer {
+    public:
+        enum IndexType : uint8 { IT_16BIT, IT_32BIT };
 
-        private:
-            IndexType mIndexType;
-            uint8 mIndexSize;
-            HardwareBufferManagerBase* mMgr;
-            uint32 mNumIndexes;
-        public:
-            /// Should be called by HardwareBufferManager
-            HardwareIndexBuffer(HardwareBufferManagerBase* mgr, IndexType idxType, size_t numIndexes,
-                                Usage usage, bool useShadowBuffer);
-            HardwareIndexBuffer(HardwareBufferManagerBase* mgr, IndexType idxType, size_t numIndexes,
-                                HardwareBuffer* delegate);
-            ~HardwareIndexBuffer();
-            /// Return the manager of this buffer, if any
-            HardwareBufferManagerBase* getManager() const { return mMgr; }
-            /// Get the type of indexes used in this buffer
-            IndexType getType(void) const { return mIndexType; }
-            /// Get the number of indexes in this buffer
-            uint32 getNumIndexes(void) const { return mNumIndexes; }
-            /// Get the size in bytes of each index
-            uint8 getIndexSize(void) const { return mIndexSize; }
+    private:
+        IndexType mIndexType;
+        uint8 mIndexSize;
+        HardwareBufferManagerBase* mMgr;
+        uint32 mNumIndexes;
+        size_t size_in_bytes_;
 
-            static size_t indexSize(IndexType type) { return type == IT_16BIT ? sizeof(uint16) : sizeof(uint32); }
+    public:
+        /// Should be called by HardwareBufferManager
+        HardwareIndexBuffer(
+            HardwareBufferManagerBase* mgr,
+            IndexType idxType,
+            size_t numIndexes,
+            Usage usage,
+            bool useShadowBuffer);
+        HardwareIndexBuffer(
+            HardwareBufferManagerBase* mgr,
+            IndexType idxType,
+            size_t numIndexes,
+            HardwareBuffer* delegate);
+        ~HardwareIndexBuffer();
+        /// Return the manager of this buffer, if any
+        HardwareBufferManagerBase* getManager() const { return mMgr; }
+        /// Get the type of indexes used in this buffer
+        IndexType getType(void) const { return mIndexType; }
+        /// Get the number of indexes in this buffer
+        uint32 getNumIndexes(void) const { return mNumIndexes; }
+        /// Get the size in bytes of each index
+        uint8 getIndexSize(void) const { return mIndexSize; }
 
-            // NB subclasses should override lock, unlock, readData, writeData
+        static size_t indexSize(IndexType type)
+        {
+            return type == IT_16BIT ? sizeof(uint16) : sizeof(uint32);
+        }
+
+        // NB subclasses should override lock, unlock, readData, writeData
+
+        size_t get_size_in_bytes(void) const override
+        {
+            return mIndexSize * mNumIndexes;
+        }
     };
-    
+
     /// @deprecated use HardwareBufferLockGuard directly
     OGRE_DEPRECATED typedef HardwareBufferLockGuard HardwareIndexBufferLockGuard;
 

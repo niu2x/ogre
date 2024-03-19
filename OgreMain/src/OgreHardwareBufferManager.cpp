@@ -178,7 +178,12 @@ HardwareBufferManager* HardwareBufferManager::singleton_ptr(void)
             // Copy data?
             if (copyData)
             {
-                vbuf->copyData(*(sourceBuffer.get()), 0, 0, sourceBuffer->getSizeInBytes(), true);
+                vbuf->copyData(
+                    *(sourceBuffer.get()),
+                    0,
+                    0,
+                    sourceBuffer->get_size_in_bytes(),
+                    true);
             }
 
             // Insert copy into licensee list

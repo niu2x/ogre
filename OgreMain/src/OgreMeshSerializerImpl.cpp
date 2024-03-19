@@ -404,7 +404,10 @@ namespace Ogre {
         for (auto& vbi : bindings)
         {
             const HardwareVertexBufferSharedPtr& vbuf = vbi.second;
-            size_t vbufSizeInBytes = vbuf->getVertexSize() * vertexData->vertexCount; // vbuf->getSizeInBytes() is too large for meshes prepared for shadow volumes
+            size_t vbufSizeInBytes = vbuf->getVertexSize()
+                * vertexData
+                      ->vertexCount; // vbuf->get_size_in_bytes() is too large
+                                     // for meshes prepared for shadow volumes
             size = (MSTREAM_OVERHEAD_SIZE * 2) + (sizeof(unsigned short) * 2) + vbufSizeInBytes;
             writeChunkHeader(M_GEOMETRY_VERTEX_BUFFER,  size);
             // unsigned short bindIndex;    // Index to bind this buffer to
@@ -583,7 +586,10 @@ namespace Ogre {
         for (auto& vbi : bindings)
         {
             const HardwareVertexBufferSharedPtr& vbuf = vbi.second;
-            size += vbuf->getVertexSize() * vertexData->vertexCount; // vbuf->getSizeInBytes() is too large for meshes prepared for shadow volumes
+            size += vbuf->getVertexSize()
+                * vertexData
+                      ->vertexCount; // vbuf->get_size_in_bytes() is too large
+                                     // for meshes prepared for shadow volumes
         }
         return size;
     }

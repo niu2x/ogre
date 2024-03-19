@@ -98,7 +98,7 @@ void ThingRenderable::initialise()
 
     bind->setBinding(0, vbuf);
 
-    //vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
+    // vbuf->writeData(0, vbuf->get_size_in_bytes(), vertices, true);
 
     HardwareIndexBufferSharedPtr ibuf
         = HardwareBufferManager::singleton().createIndexBuffer(
@@ -109,7 +109,7 @@ void ThingRenderable::initialise()
     idata->indexBuffer = ibuf;
     idata->indexCount = mCount*6;
     idata->indexStart = 0;
-    ibuf->writeData(0, ibuf->getSizeInBytes(), faces, true);
+    ibuf->writeData(0, ibuf->get_size_in_bytes(), faces, true);
 
     // Delete temporary buffers
     delete [] faces;

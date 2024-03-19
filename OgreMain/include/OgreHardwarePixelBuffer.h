@@ -79,6 +79,10 @@ namespace Ogre {
         */
         void _clearSliceRTT(size_t zoffset);
         friend class RenderTexture;
+
+    private:
+        size_t size_in_bytes_;
+
     public:
         /// Should be called by HardwareBufferManager
         HardwarePixelBuffer(uint32 mWidth, uint32 mHeight, uint32 mDepth,
@@ -89,7 +93,9 @@ namespace Ogre {
         /** Make every lock method from HardwareBuffer available.
         See http://www.research.att.com/~bs/bs_faq2.html#overloadderived
         */
-        using HardwareBuffer::lock; 
+        using HardwareBuffer::lock;
+
+        size_t get_size_in_bytes(void) const override { return size_in_bytes_; }
 
         /** Lock the buffer for (potentially) reading / writing.
             @param lockBox Region of the buffer to lock

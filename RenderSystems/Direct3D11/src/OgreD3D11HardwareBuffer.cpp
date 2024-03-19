@@ -184,9 +184,8 @@ namespace Ogre {
 		size_t dstOffset, size_t length, bool discardWholeBuffer)
 	{
         // If we're copying same-size buffers in their entirety...
-        if (srcOffset == 0 && dstOffset == 0 &&
-            length == mSizeInBytes && mSizeInBytes == srcBuffer.getSizeInBytes())
-        {
+        if (srcOffset == 0 && dstOffset == 0 && length == mSizeInBytes
+            && mSizeInBytes == srcBuffer.get_size_in_bytes()) {
             // schedule hardware buffer copy
             mDevice.GetImmediateContext()->CopyResource(mlpD3DBuffer.Get(), static_cast<D3D11HardwareBuffer&>(srcBuffer).getD3DBuffer());
             if (mDevice.isError())
@@ -196,9 +195,7 @@ namespace Ogre {
                     "Cannot copy D3D11 resource\nError Description:" + errorDescription,
                     "D3D11HardwareBuffer::copyData");
             }
-        }
-        else
-        {
+        } else {
             // copy subregion
             D3D11_BOX srcBox;
             srcBox.left = (UINT)srcOffset;
@@ -217,16 +214,21 @@ namespace Ogre {
                     "Cannot copy D3D11 subresource region\nError Description:" + errorDescription,
                     "D3D11HardwareBuffer::copyData");
             }
-		}
-	}
-	//---------------------------------------------------------------------
-	void D3D11HardwareBuffer::_updateFromShadow(void)
-	{
-		if(mShadowBuffer && mShadowUpdated && !mSuppressHardwareUpdate)
-		{
-			bool discardWholeBuffer = mLockStart == 0 && mLockSize == mSizeInBytes;
-			copyDataImpl(*mShadowBuffer, mLockStart, mLockStart, mLockSize, discardWholeBuffer);
-			mShadowUpdated = false;
+        }
+    }
+    //---------------------------------------------------------------------
+    void D3D11HardwareBuffer::_updateFromShadow(void)
+    {
+        if (mShadowBuffer && mShadowUpdated && !mSuppressHardwareUpdate) {
+            bool discardWholeBuffer
+                = mLockStart == 0 && mLockSize == mSizeInBytes;
+            copyDataImpl(
+                *mShadowBuffer,
+                mLockStart,
+                mLockStart,
+                mLockSize,
+                discardWholeBuffer);
+            mShadowUpdated = false;
         }
 
         if (mUseTempStagingBuffer)

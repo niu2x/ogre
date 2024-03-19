@@ -88,8 +88,9 @@ WaterMesh::WaterMesh(const String& inMeshName, Real planeSize, int inComplexity)
             2 * sizeof(float),
             numVertices,
             HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-    texcoordsVertexBuffer->writeData(0,
-        texcoordsVertexBuffer->getSizeInBytes(),
+    texcoordsVertexBuffer->writeData(
+        0,
+        texcoordsVertexBuffer->get_size_in_bytes(),
         texcoordsBufData,
         true); // true?
     delete [] texcoordsBufData;
@@ -146,8 +147,9 @@ WaterMesh::WaterMesh(const String& inMeshName, Real planeSize, int inComplexity)
     mesh->_setBounds(meshBounds);
 
     currentBuffNumber = 0 ;
-    posVertexBuffer->writeData(0,
-        posVertexBuffer->getSizeInBytes(), // size
+    posVertexBuffer->writeData(
+        0,
+        posVertexBuffer->get_size_in_bytes(), // size
         vertexBuffers[currentBuffNumber], // source
         true); // discard?
 
@@ -211,8 +213,10 @@ void WaterMesh::calculateFakeNormals()
 {
     int x,y;
     float *buf = vertexBuffers[currentBuffNumber] + 1;
-    float *pNormals = (float*) normVertexBuffer->lock(
-        0,normVertexBuffer->getSizeInBytes(), HardwareBuffer::HBL_DISCARD);
+    float* pNormals = (float*)normVertexBuffer->lock(
+        0,
+        normVertexBuffer->get_size_in_bytes(),
+        HardwareBuffer::HBL_DISCARD);
     for(y=1;y<complexity;y++) {
         float *nrow = pNormals + 3*y*(complexity+1);
         float *row = buf + 3*y*(complexity+1) ;
@@ -241,10 +245,14 @@ void WaterMesh::calculateNormals()
     }
     // first, calculate normals for faces, add them to proper vertices
     buf = vertexBuffers[currentBuffNumber] ;
-    unsigned short* vinds = (unsigned short*) indexBuffer->lock(
-        0, indexBuffer->getSizeInBytes(), HardwareBuffer::HBL_READ_ONLY);
-    float *pNormals = (float*) normVertexBuffer->lock(
-        0, normVertexBuffer->getSizeInBytes(), HardwareBuffer::HBL_DISCARD);
+    unsigned short* vinds = (unsigned short*)indexBuffer->lock(
+        0,
+        indexBuffer->get_size_in_bytes(),
+        HardwareBuffer::HBL_READ_ONLY);
+    float* pNormals = (float*)normVertexBuffer->lock(
+        0,
+        normVertexBuffer->get_size_in_bytes(),
+        HardwareBuffer::HBL_DISCARD);
     for(i=0;i<numFaces;i++) {
         int p0 = vinds[3*i] ;
         int p1 = vinds[3*i+1] ;
@@ -323,8 +331,9 @@ void WaterMesh::updateMesh(Real timeSinceLastFrame)
     }
 
     // set vertex buffer
-    posVertexBuffer->writeData(0,
-        posVertexBuffer->getSizeInBytes(), // size
+    posVertexBuffer->writeData(
+        0,
+        posVertexBuffer->get_size_in_bytes(), // size
         vertexBuffers[currentBuffNumber], // source
         true); // discard?
 }

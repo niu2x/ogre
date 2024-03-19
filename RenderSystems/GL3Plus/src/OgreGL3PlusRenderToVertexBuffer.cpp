@@ -104,8 +104,9 @@ namespace Ogre {
 
     void GL3PlusRenderToVertexBuffer::update(SceneManager* sceneMgr)
     {
-        //     size_t bufSize = mVertexData->vertexDeclaration->getVertexSize(0) * mMaxVertexCount;
-        //     if (!mVertexBuffers[0] || mVertexBuffers[0]->getSizeInBytes() != bufSize)
+        //     size_t bufSize = mVertexData->vertexDeclaration->getVertexSize(0)
+        //     * mMaxVertexCount; if (!mVertexBuffers[0] ||
+        //     mVertexBuffers[0]->get_size_in_bytes() != bufSize)
         //     {
         //         // Buffers don't match. Need to reallocate.
         //         mResetRequested = true;
@@ -119,10 +120,10 @@ namespace Ogre {
             mFirstUpdate = false;
         }
 
-        if (!mVertexBuffers[mTargetBufferIndex] ||
-            mVertexBuffers[mTargetBufferIndex]->getSizeInBytes() <
-                mVertexData->vertexDeclaration->getVertexSize(0) * mMaxVertexCount)
-        {
+        if (!mVertexBuffers[mTargetBufferIndex]
+            || mVertexBuffers[mTargetBufferIndex]->get_size_in_bytes()
+                < mVertexData->vertexDeclaration->getVertexSize(0)
+                    * mMaxVertexCount) {
             reallocateBuffer(mTargetBufferIndex);
         }
 

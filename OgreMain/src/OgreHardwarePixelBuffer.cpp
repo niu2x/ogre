@@ -44,15 +44,14 @@ namespace Ogre
         // Default
         mRowPitch = mWidth;
         mSlicePitch = mHeight*mWidth;
-        mSizeInBytes
+        size_in_bytes_
             = PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
     }
     
     //-----------------------------------------------------------------------------    
     HardwarePixelBuffer::~HardwarePixelBuffer()
     {
-        if (mUsage & TU_RENDERTARGET)
-        {
+        if (getUsage() & TU_RENDERTARGET) {
             // Delete all render targets that are not yet deleted via _clearSliceRTT because the rendertarget
             // was deleted by the user.
             for (auto rt : mSliceTRT)
@@ -68,8 +67,10 @@ namespace Ogre
     void* HardwarePixelBuffer::lock(size_t offset, size_t length, LockOptions options)
     {
         OgreAssert(!isLocked(), "already locked");
-        OgreAssert(offset == 0 && length == mSizeInBytes, "must lock box or entire buffer");
-        
+        OgreAssert(
+            offset == 0 && length == size_in_bytes_,
+            "must lock box or entire buffer");
+
         Box myBox(0, 0, 0, mWidth, mHeight, mDepth);
         const PixelBox &rv = lock(myBox, options);
         return rv.data;
@@ -78,8 +79,7 @@ namespace Ogre
     //-----------------------------------------------------------------------------    
     const PixelBox& HardwarePixelBuffer::lock(const Box& lockBox, LockOptions options)
     {
-        if (mShadowBuffer)
-        {
+        if (shadow_buffer()) {
             if (options != HBL_READ_ONLY)
             {
                 // we have to assume a read / write lock so we use the shadow buffer
@@ -87,10 +87,9 @@ namespace Ogre
                 mShadowUpdated = true;
             }
 
-            mCurrentLock = static_cast<HardwarePixelBuffer*>(mShadowBuffer.get())->lock(lockBox, options);
-        }
-        else
-        {
+            mCurrentLock = static_cast<HardwarePixelBuffer*>(shadow_buffer())
+                               ->lock(lockBox, options);
+        } else {
             mCurrentLockOptions = options;
             mLockedBox = lockBox;
             // Lock the real buffer if there is no shadow buffer 
@@ -147,8 +146,7 @@ namespace Ogre
     void HardwarePixelBuffer::readData(size_t offset, size_t length, void* pDest)
     {
         // allow easy full buffer reads
-        if (offset == 0 && length == mSizeInBytes)
-        {
+        if (offset == 0 && length == size_in_bytes_) {
             Box box(0, 0, 0, mWidth, mHeight, mDepth);
             blitToMemory(box, PixelBox(box, mFormat, pDest));
             return;
@@ -165,8 +163,7 @@ namespace Ogre
             bool discardWholeBuffer)
     {
         // allow easy full buffer updates
-        if (offset == 0 && length == mSizeInBytes)
-        {
+        if (offset == 0 && length == size_in_bytes_) {
             Box box(0, 0, 0, mWidth, mHeight, mDepth);
             // we know pSource will not be written to
             blitFromMemory(PixelBox(box, mFormat, const_cast<void*>(pSource)), box);

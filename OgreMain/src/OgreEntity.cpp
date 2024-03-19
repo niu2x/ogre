@@ -1174,8 +1174,13 @@ namespace Ogre {
             srcData->vertexBufferBinding->getBuffer(origelem->getSource());
         HardwareVertexBufferSharedPtr destBuffer = 
             destData->vertexBufferBinding->getBuffer(destelem->getSource());
-        destBuffer->copyData(*origBuffer.get(), 0, 0, destBuffer->getSizeInBytes(), true);
-    
+        destBuffer->copyData(
+            *origBuffer.get(),
+            0,
+            0,
+            destBuffer->get_size_in_bytes(),
+            true);
+
         // If normals are included in animation, we want to reset the normals to zero
         if (animateNormals)
         {

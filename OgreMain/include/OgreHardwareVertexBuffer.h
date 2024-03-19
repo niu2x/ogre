@@ -52,6 +52,7 @@ namespace Ogre {
             uint32 mNumVertices;
             uint32 mVertexSize;
             uint32 mInstanceDataStepRate;
+            size_t size_in_bytes_;
 
         public:
             /// Should be called by HardwareBufferManager
@@ -75,6 +76,10 @@ namespace Ogre {
             /// Set the number of instances to draw using the same per-instance data before advancing in the buffer by one element.
             void setInstanceDataStepRate(const size_t val);
 
+            size_t get_size_in_bytes(void) const override
+            {
+                return size_in_bytes_;
+            }
 
             // NB subclasses should override lock, unlock, readData, writeData
 

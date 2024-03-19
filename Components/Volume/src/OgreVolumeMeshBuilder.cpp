@@ -129,10 +129,11 @@ namespace Volume {
                     HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
             unsigned int* indices = static_cast<unsigned int*>(
-                operation.indexData->indexBuffer->lock(0,
-                    operation.indexData->indexBuffer->getSizeInBytes(),
+                operation.indexData->indexBuffer->lock(
+                    0,
+                    operation.indexData->indexBuffer->get_size_in_bytes(),
                     HardwareBuffer::HBL_DISCARD));
-    
+
             for (VecIndices::const_iterator iter = mIndices.begin(); iter != endIndices; ++iter)
             {
                 *indices++ = static_cast<uint32>(*iter);
@@ -147,10 +148,11 @@ namespace Volume {
                     HardwareBuffer::HBU_STATIC_WRITE_ONLY);
 
             unsigned short* indices = static_cast<unsigned short*>(
-                operation.indexData->indexBuffer->lock(0,
-                    operation.indexData->indexBuffer->getSizeInBytes(),
+                operation.indexData->indexBuffer->lock(
+                    0,
+                    operation.indexData->indexBuffer->get_size_in_bytes(),
                     HardwareBuffer::HBL_DISCARD));
-    
+
             for (VecIndices::const_iterator iter = mIndices.begin(); iter != endIndices; ++iter)
             {
                 *indices++ = (unsigned short)*iter;

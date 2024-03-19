@@ -107,7 +107,7 @@ protected:
         mTexBuf = tex->getBuffer();  // save off the texture buffer
 
         // initialise the texture to have full luminance
-        mConstantTexBuf.resize(mTexBuf->getSizeInBytes(), 0xff);
+        mConstantTexBuf.resize(mTexBuf->get_size_in_bytes(), 0xff);
 
         mBox = PixelBox(
             TEXTURE_SIZE,

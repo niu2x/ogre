@@ -106,8 +106,8 @@ namespace Ogre {
         checkGLError(true, false, "start of GLRenderToVertexBuffer::update");
 
         size_t bufSize = mVertexData->vertexDeclaration->getVertexSize(0) * mMaxVertexCount;
-        if (!mVertexBuffers[0] || mVertexBuffers[0]->getSizeInBytes() != bufSize)
-        {
+        if (!mVertexBuffers[0]
+            || mVertexBuffers[0]->get_size_in_bytes() != bufSize) {
             //Buffers don't match. Need to reallocate.
             mResetRequested = true;
         }
@@ -131,9 +131,9 @@ namespace Ogre {
             this->getRenderOperation(renderOp);
         }
 
-        if (!mVertexBuffers[targetBufferIndex] || 
-            mVertexBuffers[targetBufferIndex]->getSizeInBytes() != bufSize)
-        {
+        if (!mVertexBuffers[targetBufferIndex]
+            || mVertexBuffers[targetBufferIndex]->get_size_in_bytes()
+                != bufSize) {
             reallocateBuffer(targetBufferIndex);
         }
 

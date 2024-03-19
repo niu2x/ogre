@@ -199,7 +199,12 @@ namespace Ogre {
                         srcbuf->hasShadowBuffer());
 
                 // copy data
-                dstBuf->copyData(*srcbuf, 0, 0, srcbuf->getSizeInBytes(), true);
+                dstBuf->copyData(
+                    *srcbuf,
+                    0,
+                    0,
+                    srcbuf->get_size_in_bytes(),
+                    true);
             }
             else
             {
@@ -352,7 +357,7 @@ namespace Ogre {
         else
         {
             // Unshared buffer, can block copy the whole thing
-            vbuf->readData(0, vbuf->getSizeInBytes(), pDest);
+            vbuf->readData(0, vbuf->get_size_in_bytes(), pDest);
         }
 
         memcpy(pDest2, pDest, oldVertexCount * 3 * sizeof(float));
@@ -762,7 +767,12 @@ namespace Ogre {
             {
                 dest->indexBuffer = pManager->createIndexBuffer(indexBuffer->getType(), indexBuffer->getNumIndexes(),
                     indexBuffer->getUsage(), indexBuffer->hasShadowBuffer());
-                dest->indexBuffer->copyData(*indexBuffer, 0, 0, indexBuffer->getSizeInBytes(), true);
+                dest->indexBuffer->copyData(
+                    *indexBuffer,
+                    0,
+                    0,
+                    indexBuffer->get_size_in_bytes(),
+                    true);
             }
             else
             {

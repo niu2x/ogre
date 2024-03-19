@@ -121,7 +121,7 @@ void PrefabFactory::load_resource(Resource* res)
                 offset,
                 4,
                 HBU_GPU_ONLY);
-        vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
+        vbuf->writeData(0, vbuf->get_size_in_bytes(), vertices, true);
         bind->setBinding(0, vbuf);
 
         HardwareIndexBufferPtr ibuf
@@ -129,7 +129,7 @@ void PrefabFactory::load_resource(Resource* res)
                 HardwareIndexBuffer::IT_16BIT,
                 6,
                 HBU_GPU_ONLY);
-        ibuf->writeData(0, ibuf->getSizeInBytes(), faces, true);
+        ibuf->writeData(0, ibuf->get_size_in_bytes(), faces, true);
         //! [vertex_buffer]
 
         //! [sub_mesh]
@@ -267,7 +267,7 @@ void PrefabFactory::load_resource(Resource* res)
                 HardwareBuffer::HBU_STATIC_WRITE_ONLY);
         bind->setBinding(0, vbuf);
 
-        vbuf->writeData(0, vbuf->getSizeInBytes(), vertices, true);
+        vbuf->writeData(0, vbuf->get_size_in_bytes(), vertices, true);
 
         sub->useSharedVertices = true;
         HardwareIndexBufferSharedPtr ibuf
@@ -305,7 +305,7 @@ void PrefabFactory::load_resource(Resource* res)
         sub->indexData->indexBuffer = ibuf;
         sub->indexData->indexCount = NUM_INDICES;
         sub->indexData->indexStart = 0;
-        ibuf->writeData(0, ibuf->getSizeInBytes(), faces, true);
+        ibuf->writeData(0, ibuf->get_size_in_bytes(), faces, true);
 
         mesh->_setBounds(AxisAlignedBox(-CUBE_HALF_SIZE, -CUBE_HALF_SIZE, -CUBE_HALF_SIZE,
             CUBE_HALF_SIZE, CUBE_HALF_SIZE, CUBE_HALF_SIZE), true);

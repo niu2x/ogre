@@ -137,8 +137,11 @@ namespace Ogre {
             if (mScratchUploadOnUnlock)
             {
                 // have to write the data back to vertex buffer
-                writeData(mScratchOffset, mScratchSize, mScratchPtr, 
-                    mScratchOffset == 0 && mScratchSize == getSizeInBytes());
+                writeData(
+                    mScratchOffset,
+                    mScratchSize,
+                    mScratchPtr,
+                    mScratchOffset == 0 && mScratchSize == get_size_in_bytes());
             }
 
             // deallocate from scratch buffer

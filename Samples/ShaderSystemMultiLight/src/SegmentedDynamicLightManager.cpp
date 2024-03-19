@@ -398,8 +398,8 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
     }
 
     //Check for memory overrun
-    if (pBuf->getSizeInBytes() != (size_t)((const char*)(void*)pData - (const char*)pStartPos))
-    {
+    if (pBuf->get_size_in_bytes()
+        != (size_t)((const char*)(void*)pData - (const char*)pStartPos)) {
         throw "memory overrun";
     }
 

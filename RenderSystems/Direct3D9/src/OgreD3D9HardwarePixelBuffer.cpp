@@ -141,7 +141,9 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DSurface9 *sur
                 Box fullBufferBox(0,0,0,mWidth,mHeight,mDepth);
                 PixelBox dstBox(fullBufferBox, mFormat);
 
-                dstBox.data = (uchar*)OGRE_MALLOC (getSizeInBytes(), MEMCATEGORY_RESOURCE);
+                dstBox.data = (uchar*)OGRE_MALLOC(
+                    get_size_in_bytes(),
+                    MEMCATEGORY_RESOURCE);
                 blitToMemory(fullBufferBox, dstBox, it->second, it->first);
                 blitFromMemory(dstBox, fullBufferBox, bufferResources);
                 OGRE_FREE(dstBox.data, MEMCATEGORY_RESOURCE);
@@ -181,7 +183,8 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DVolume9 *volu
     // Default
     mRowPitch = mWidth;
     mSlicePitch = mHeight*mWidth;
-    mSizeInBytes = PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
+    size_in_bytes_
+        = PixelUtil::get_memory_size(mWidth, mHeight, mDepth, mFormat);
 
     if (isNewBuffer && mOwnerTexture->isManuallyLoaded())
     {
@@ -197,7 +200,9 @@ void D3D9HardwarePixelBuffer::bind(IDirect3DDevice9 *dev, IDirect3DVolume9 *volu
                 Box fullBufferBox(0,0,0,mWidth,mHeight,mDepth);
                 PixelBox dstBox(fullBufferBox, mFormat);
 
-                dstBox.data = (uchar*)OGRE_MALLOC(getSizeInBytes(), MEMCATEGORY_RESOURCE);
+                dstBox.data = (uchar*)OGRE_MALLOC(
+                    get_size_in_bytes(),
+                    MEMCATEGORY_RESOURCE);
                 blitToMemory(fullBufferBox, dstBox, it->second, it->first);
                 blitFromMemory(dstBox, fullBufferBox, bufferResources);
                 OGRE_FREE(dstBox.data, MEMCATEGORY_RESOURCE);

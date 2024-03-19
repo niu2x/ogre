@@ -128,7 +128,7 @@ namespace Ogre {
             HardwareBufferLockGuard bufLock(mBuffer, HardwareBuffer::HBL_DISCARD);
             float* pFloat = static_cast<float*>(bufLock.pData);
             // initialise - these will be the values used where no pose vertex is included
-            memset(pFloat, 0, mBuffer->getSizeInBytes()); 
+            memset(pFloat, 0, mBuffer->get_size_in_bytes());
             if (normals)
             {
                 // zeroes are fine for positions (deltas), but for normals we need the original

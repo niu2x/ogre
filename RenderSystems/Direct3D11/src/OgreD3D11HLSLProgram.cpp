@@ -1530,8 +1530,15 @@ namespace Ogre {
         std::vector<ID3D11Buffer*> buffers;
         if(mDefaultBuffer)
         {
-            OgreAssert(mDefaultBuffer->getSizeInBytes() == params->getConstantList().size(), "unexpected buffer size");
-            mDefaultBuffer->writeData(0, mDefaultBuffer->getSizeInBytes(), params->getConstantList().data(), true);
+            OgreAssert(
+                mDefaultBuffer->get_size_in_bytes()
+                    == params->getConstantList().size(),
+                "unexpected buffer size");
+            mDefaultBuffer->writeData(
+                0,
+                mDefaultBuffer->get_size_in_bytes(),
+                params->getConstantList().data(),
+                true);
 
             buffers.push_back(static_cast<D3D11HardwareBuffer*>(mDefaultBuffer.get())->getD3DBuffer());
         }

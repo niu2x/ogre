@@ -2066,8 +2066,8 @@ mSharedVertexDataAnimationType(VAT_NONE)
                 i < sharedVertexData->vertexBufferBinding->getBufferCount();
                 ++i)
             {
-                ret += sharedVertexData->vertexBufferBinding
-                    ->getBuffer(i)->getSizeInBytes();
+                ret += sharedVertexData->vertexBufferBinding->getBuffer(i)
+                           ->get_size_in_bytes();
             }
         }
 
@@ -2080,14 +2080,14 @@ mSharedVertexDataAnimationType(VAT_NONE)
                     i < s->vertexData->vertexBufferBinding->getBufferCount();
                     ++i)
                 {
-                    ret += s->vertexData->vertexBufferBinding
-                        ->getBuffer(i)->getSizeInBytes();
+                    ret += s->vertexData->vertexBufferBinding->getBuffer(i)
+                               ->get_size_in_bytes();
                 }
             }
             if (s->indexData->indexBuffer)
             {
                 // Index data
-                ret += s->indexData->indexBuffer->getSizeInBytes();
+                ret += s->indexData->indexBuffer->get_size_in_bytes();
             }
 
         }
