@@ -582,10 +582,9 @@ namespace Ogre {
             Radian angle;
             kf->getRotation().ToAngleAxis(angle, axis);
             Real tolerance = 1e-3f;
-            if (!trans.position_equals(Vector3::zero, tolerance) ||
-                !scale.position_equals(Vector3::unit_scale, tolerance) ||
-                !Math::RealEqual(angle.valueRadians(), 0.0f, tolerance))
-            {
+            if (!trans.position_equals(Vector3::zero, tolerance)
+                || !scale.position_equals(Vector3::unit_scale, tolerance)
+                || !Math::RealEqual(angle.value_radians(), 0.0f, tolerance)) {
                 return true;
             }
         }

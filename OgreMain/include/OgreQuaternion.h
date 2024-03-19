@@ -267,7 +267,8 @@ namespace Ogre {
             Real d = Dot(rhs);
             Radian angle = Math::ACos(2.0f * d*d - 1.0f);
 
-            return Math::Abs(angle.valueRadians()) <= tolerance.valueRadians();
+            return Math::Abs(angle.value_radians())
+                <= tolerance.value_radians();
         }
         
         /** Compare two quaternions which are assumed to be used as orientations.

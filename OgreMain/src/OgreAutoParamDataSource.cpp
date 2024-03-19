@@ -234,10 +234,11 @@ AutoParamDataSource::AutoParamDataSource()
         const Light& l = getLight(index);
         if (l.getType() == Light::LT_SPOTLIGHT)
         {
-            return Vector4f(Math::Cos(l.getSpotlightInnerAngle().valueRadians() * 0.5f),
-                           Math::Cos(l.getSpotlightOuterAngle().valueRadians() * 0.5f),
-                           l.getSpotlightFalloff(),
-                           1.0);
+            return Vector4f(
+                Math::Cos(l.getSpotlightInnerAngle().value_radians() * 0.5f),
+                Math::Cos(l.getSpotlightOuterAngle().value_radians() * 0.5f),
+                l.getSpotlightFalloff(),
+                1.0);
         }
         else if(l.getType() == Light::LT_RECTLIGHT)
         {
@@ -1043,8 +1044,8 @@ AutoParamDataSource::AutoParamDataSource()
     }
     //-----------------------------------------------------------------------------
     Real AutoParamDataSource::getFOV() const
-    { 
-        return mCurrentCamera->getFOVy().valueRadians(); 
+    {
+        return mCurrentCamera->getFOVy().value_radians();
     }
     //-----------------------------------------------------------------------------
     Real AutoParamDataSource::getNearClipDistance() const

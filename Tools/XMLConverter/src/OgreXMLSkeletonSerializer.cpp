@@ -509,7 +509,8 @@ namespace Ogre {
         Vector3 axis;
         pBone->getOrientation().ToAngleAxis(angle, axis);
         pugi::xml_node axisNode = subNode.append_child("axis");
-        subNode.append_attribute("angle") = StringConverter::to_string(angle.valueRadians()).c_str();
+        subNode.append_attribute("angle")
+            = StringConverter::to_string(angle.value_radians()).c_str();
         axisNode.append_attribute("x") = StringConverter::to_string(axis.x).c_str();
         axisNode.append_attribute("y") = StringConverter::to_string(axis.y).c_str();
         axisNode.append_attribute("z") = StringConverter::to_string(axis.z).c_str();
@@ -613,7 +614,8 @@ namespace Ogre {
         Vector3 axis;
         key->getRotation().ToAngleAxis(angle, axis);
         pugi::xml_node axisNode = rotNode.append_child("axis");
-        rotNode.append_attribute("angle") = StringConverter::to_string(angle.valueRadians()).c_str();
+        rotNode.append_attribute("angle")
+            = StringConverter::to_string(angle.value_radians()).c_str();
         axisNode.append_attribute("x") = StringConverter::to_string(axis.x).c_str();
         axisNode.append_attribute("y") = StringConverter::to_string(axis.y).c_str();
         axisNode.append_attribute("z") = StringConverter::to_string(axis.z).c_str();

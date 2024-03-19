@@ -527,7 +527,7 @@ namespace Ogre {
         o << ", pos=" << c.mLastParentPosition << ", direction=" << -c.mLastParentOrientation.zAxis();
 #endif
         o << ",near=" << c.mNearDist;
-        o << ", far=" << c.mFarDist << ", FOVy=" << c.mFOVy.valueDegrees();
+        o << ", far=" << c.mFarDist << ", FOVy=" << c.mFOVy.value_degrees();
         o << ", aspect=" << c.mAspect << ", ";
         o << ", xoffset=" << c.mFrustumOffset.x << ", yoffset=" << c.mFrustumOffset.y;
         o << ", focalLength=" << c.mFocalLength << ", ";

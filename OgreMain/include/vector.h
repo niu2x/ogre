@@ -834,7 +834,7 @@ namespace Ogre
         Real dot = rhs.dot_product(*this);
         Radian angle = Math::ACos(dot);
 
-        return Math::Abs(angle.valueRadians()) <= tolerance.valueRadians();
+        return Math::Abs(angle.value_radians()) <= tolerance.value_radians();
     }
 
     inline const Vector3& VectorBase<3, Real>::primary_axis() const

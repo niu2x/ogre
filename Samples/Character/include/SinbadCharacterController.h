@@ -257,7 +257,7 @@ private:
             Quaternion toGoal = mBodyNode->getOrientation().zAxis().rotation_to(mGoalDirection);
 
             // calculate how much the character has to turn to face goal direction
-            Real yawToGoal = toGoal.getYaw().valueDegrees();
+            Real yawToGoal = toGoal.getYaw().value_degrees();
             // this is how much the character CAN turn this frame
             Real yawAtSpeed = yawToGoal / Math::Abs(yawToGoal) * deltaTime * TURN_SPEED;
             // reduce "turnability" if we're in midair

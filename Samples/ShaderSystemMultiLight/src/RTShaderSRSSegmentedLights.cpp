@@ -136,9 +136,11 @@ void RTShaderSRSSegmentedLights::updateGpuProgramsParams(Renderable* rend, const
                 curParams.mDirection->setGpuParameter(vParameter.ptr(),3,1);
 
                 // Update spotlight parameters.
-                Real phi   = Math::Cos(srcLight->getSpotlightOuterAngle().valueRadians() * 0.5f);
-                Real theta = Math::Cos(srcLight->getSpotlightInnerAngle().valueRadians() * 0.5f);
-                
+                Real phi = Math::Cos(
+                    srcLight->getSpotlightOuterAngle().value_radians() * 0.5f);
+                Real theta = Math::Cos(
+                    srcLight->getSpotlightInnerAngle().value_radians() * 0.5f);
+
                 vec3.x = 1 / srcLight->getAttenuationRange();
                 vec3.y = phi;
                 vec3.z = 1 / (theta - phi);

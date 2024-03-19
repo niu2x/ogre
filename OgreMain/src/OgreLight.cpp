@@ -832,8 +832,8 @@ namespace Ogre {
             //Check that the container is within the sphere of the light
             isIntersect = Math::intersects(Sphere(mDerivedPosition, range),container);
             //If this is a spotlight, do a more specific check
-            if ((isIntersect) && (mLightType == LT_SPOTLIGHT) && (mSpotOuter.valueRadians() <= Math::PI))
-            {
+            if ((isIntersect) && (mLightType == LT_SPOTLIGHT)
+                && (mSpotOuter.value_radians() <= Math::PI)) {
                 //Create a rough bounding box around the light and check if
                 Quaternion localToWorld = Vector3::negative_unit_z.rotation_to(mDerivedDirection);
 

@@ -519,8 +519,7 @@ namespace Ogre
         Vector3 diff1 = v2.pos - v1.pos;
 
         // Weight is just the angle - larger == better
-        return diff0.angle_between(diff1).valueRadians();
-
+        return diff0.angle_between(diff1).value_radians();
     }
     //---------------------------------------------------------------------
     void TangentSpaceCalc::populateVertexArray(unsigned short sourceTexCoordSet)

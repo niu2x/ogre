@@ -187,7 +187,7 @@ void SegmentedDynamicLightManager::calculateLightBounds(const Light* i_Light, Li
         Real boxOffset = Math::Sin(halfOuterAngle) * lightRange;
         const Vector3& lightDirection = i_Light->getDerivedDirection();
 
-        Radian dirUpAngle(fabs(Math::ASin(lightDirection.y).valueRadians()));
+        Radian dirUpAngle(fabs(Math::ASin(lightDirection.y).value_radians()));
         Radian dirUpMaxAngle = std::max<Radian>(dirUpAngle - halfOuterAngle,c_RadianZero);
         Radian dirUpMinAngle = std::min<Radian>(dirUpAngle + halfOuterAngle, c_RadianPI);
         Real dirDistanceMax = Math::Cos(dirUpMaxAngle) * lightRange;
@@ -329,8 +329,12 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                 float spotInvAngleRange = std::numeric_limits<float>::max();
                 if (pLight->getType() == Light::LT_SPOTLIGHT)
                 {
-                    Real phi   = Math::Cos(pLight->getSpotlightOuterAngle().valueRadians() * 0.5f);
-                    Real theta = Math::Cos(pLight->getSpotlightInnerAngle().valueRadians() * 0.5f);
+                    Real phi = Math::Cos(
+                        pLight->getSpotlightOuterAngle().value_radians()
+                        * 0.5f);
+                    Real theta = Math::Cos(
+                        pLight->getSpotlightInnerAngle().value_radians()
+                        * 0.5f);
                     spotAngle = (float)phi;
                     spotInvAngleRange = 1.0f / (float)(theta - phi);
                 }

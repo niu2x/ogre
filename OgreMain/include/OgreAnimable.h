@@ -120,15 +120,14 @@ namespace Ogre {
         }
         /// Internal method to set a value as base
         virtual void setAsBaseValue(const Radian& val)
-        { 
-            mBaseValueReal[0] = val.valueRadians();
+        {
+            mBaseValueReal[0] = val.value_radians();
         }
         /// Internal method to set a value as base
         virtual void setAsBaseValue(const Degree& val)
-        { 
-            mBaseValueReal[0] = val.valueRadians();
+        {
+            mBaseValueReal[0] = val.value_radians();
         }
-
 
     public:
         AnimableValue(ValueType t) : mType(t) {}

@@ -1042,7 +1042,8 @@ namespace Ogre
                 pTex->getTextureRotate() != Radian(0))
             {
                 writeAttribute(4, "rotate");
-                writeValue(StringConverter::to_string(pTex->getTextureRotate().valueDegrees()));
+                writeValue(StringConverter::to_string(
+                    pTex->getTextureRotate().value_degrees()));
                 individualTransformElems = true;
             }
 

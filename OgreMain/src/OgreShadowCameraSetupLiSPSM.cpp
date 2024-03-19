@@ -285,7 +285,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void LiSPSMShadowCameraSetup::setCameraLightDirectionThreshold(Degree angle)
     {
-        mCosCamLightDirThreshold = Math::Cos(angle.valueRadians());
+        mCosCamLightDirThreshold = Math::Cos(angle.value_radians());
     }
     //---------------------------------------------------------------------
     Degree LiSPSMShadowCameraSetup::getCameraLightDirectionThreshold() const

@@ -39,24 +39,24 @@ namespace Ogre
     constexpr float Math::fRad2Deg;
     constexpr Real Math::LOG2;
 
-    int Math::mTrigTableSize;
-   Math::AngleUnit Math::msAngleUnit;
+    int Math::trig_table_size_;
+    Math::AngleUnit Math::angle_unit_;
 
-    float  Math::mTrigTableFactor;
-    float *Math::mSinTable = NULL;
-    float *Math::mTanTable = NULL;
+    float Math::trig_table_factor_;
+    float* Math::sin_table_ = NULL;
+    float* Math::tan_table_ = NULL;
 
-    Math::RandomValueProvider* Math::mRandProvider = NULL;
+    Math::RandomValueProvider* Math::rand_provider_ = NULL;
 
     //-----------------------------------------------------------------------
     Math::Math( unsigned int trigTableSize )
     {
-        msAngleUnit = AU_DEGREE;
-        mTrigTableSize = trigTableSize;
-        mTrigTableFactor = mTrigTableSize / Math::TWO_PI;
+        angle_unit_ = AngleUnit::DEGREE;
+        trig_table_size_ = trigTableSize;
+        trig_table_factor_ = trig_table_size_ / Math::TWO_PI;
 
-        mSinTable = OGRE_ALLOC_T(float, mTrigTableSize, MEMCATEGORY_GENERAL);
-        mTanTable = OGRE_ALLOC_T(float, mTrigTableSize, MEMCATEGORY_GENERAL);
+        sin_table_ = OGRE_ALLOC_T(float, trig_table_size_, MEMCATEGORY_GENERAL);
+        tan_table_ = OGRE_ALLOC_T(float, trig_table_size_, MEMCATEGORY_GENERAL);
 
         buildTrigTables();
     }
@@ -64,8 +64,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     Math::~Math()
     {
-        OGRE_FREE(mSinTable, MEMCATEGORY_GENERAL);
-        OGRE_FREE(mTanTable, MEMCATEGORY_GENERAL);
+        OGRE_FREE(sin_table_, MEMCATEGORY_GENERAL);
+        OGRE_FREE(tan_table_, MEMCATEGORY_GENERAL);
     }
 
     //-----------------------------------------------------------------------
@@ -76,11 +76,10 @@ namespace Ogre
         // way. Who cares, it'll ony use an extra 8k of memory anyway and I like 
         // simplicity.
         float angle;
-        for (int i = 0; i < mTrigTableSize; ++i)
-        {
-            angle = Math::TWO_PI * i / Real(mTrigTableSize);
-            mSinTable[i] = std::sin(angle);
-            mTanTable[i] = std::tan(angle);
+        for (int i = 0; i < trig_table_size_; ++i) {
+            angle = Math::TWO_PI * i / Real(trig_table_size_);
+            sin_table_[i] = std::sin(angle);
+            tan_table_[i] = std::tan(angle);
         }
     }
     //-----------------------------------------------------------------------   
@@ -90,21 +89,22 @@ namespace Ogre
         int idx;
         if (fValue >= 0)
         {
-            idx = int(fValue * mTrigTableFactor) % mTrigTableSize;
+            idx = int(fValue * trig_table_factor_) % trig_table_size_;
         }
         else
         {
-            idx = mTrigTableSize - (int(-fValue * mTrigTableFactor) % mTrigTableSize) - 1;
+            idx = trig_table_size_
+                - (int(-fValue * trig_table_factor_) % trig_table_size_) - 1;
         }
 
-        return mSinTable[idx];
+        return sin_table_[idx];
     }
     //-----------------------------------------------------------------------
     float Math::TanTable (float fValue)
     {
         // Convert range to index values, wrap if required
-        int idx = int(fValue * mTrigTableFactor) % mTrigTableSize;
-        return mTanTable[idx];
+        int idx = int(fValue * trig_table_factor_) % trig_table_size_;
+        return tan_table_[idx];
     }
     //-----------------------------------------------------------------------
     Radian Math::ACos (Real fValue)
@@ -140,53 +140,47 @@ namespace Ogre
     //-----------------------------------------------------------------------
     void Math::SetRandomValueProvider(RandomValueProvider* provider)
     {
-        mRandProvider = provider;
+        rand_provider_ = provider;
     }
 
    //-----------------------------------------------------------------------
-    void Math::setAngleUnit(Math::AngleUnit unit)
-   {
-       msAngleUnit = unit;
-   }
-   //-----------------------------------------------------------------------
-   Math::AngleUnit Math::getAngleUnit(void)
-   {
-       return msAngleUnit;
-   }
+    void Math::setAngleUnit(Math::AngleUnit unit) { angle_unit_ = unit; }
+    //-----------------------------------------------------------------------
+    Math::AngleUnit Math::getAngleUnit(void) { return angle_unit_; }
     //-----------------------------------------------------------------------
     float Math::AngleUnitsToRadians(float angleunits)
     {
-       if (msAngleUnit == AU_DEGREE)
-           return angleunits * fDeg2Rad;
-       else
-           return angleunits;
+        if (angle_unit_ == AngleUnit::DEGREE)
+            return angleunits * fDeg2Rad;
+        else
+            return angleunits;
     }
 
     //-----------------------------------------------------------------------
     float Math::RadiansToAngleUnits(float radians)
     {
-       if (msAngleUnit == AU_DEGREE)
-           return radians * fRad2Deg;
-       else
-           return radians;
+        if (angle_unit_ == AngleUnit::DEGREE)
+            return radians * fRad2Deg;
+        else
+            return radians;
     }
 
     //-----------------------------------------------------------------------
     float Math::AngleUnitsToDegrees(float angleunits)
     {
-       if (msAngleUnit == AU_RADIAN)
-           return angleunits * fRad2Deg;
-       else
-           return angleunits;
+        if (angle_unit_ == AngleUnit::RADIAN)
+            return angleunits * fRad2Deg;
+        else
+            return angleunits;
     }
 
     //-----------------------------------------------------------------------
     float Math::DegreesToAngleUnits(float degrees)
     {
-       if (msAngleUnit == AU_RADIAN)
-           return degrees * fDeg2Rad;
-       else
-           return degrees;
+        if (angle_unit_ == AngleUnit::RADIAN)
+            return degrees * fDeg2Rad;
+        else
+            return degrees;
     }
 
     //-----------------------------------------------------------------------

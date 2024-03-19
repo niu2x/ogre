@@ -464,7 +464,9 @@ protected:
         mCameraMan->setStyle(CS_FREELOOK);
         mCameraMan->setTopSpeed(20.0);
         mCameraNode->translate(Vector3(0, 10, 0));
-        mCamera->setFOVy(Radian(Degree(45).valueRadians())); // i.e. 60deg * 1.3.. maya and ogre use fovX and fovY
+        mCamera->setFOVy(
+            Radian(Degree(45).value_radians())); // i.e. 60deg * 1.3.. maya and
+                                                 // ogre use fovX and fovY
         mCamera->setFarClipDistance(400);
         mCamera->setNearClipDistance(0.1);
         mTrayMgr->showCursor();

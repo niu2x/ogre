@@ -248,7 +248,7 @@ namespace Ogre
             if (mAngle != Radian(0))
             {
                 // Randomise angle
-                Radian angle(sampleSphereUniform(mAngle.valueRadians()));
+                Radian angle(sampleSphereUniform(mAngle.value_radians()));
 
                 // Randomise direction
                 destVector = particleDir.random_deviant( angle );
@@ -264,7 +264,7 @@ namespace Ogre
             if (mAngle != Radian(0))
             {
                 // Randomise angle
-                Radian angle(sampleSphereUniform(mAngle.valueRadians()));
+                Radian angle(sampleSphereUniform(mAngle.value_radians()));
 
                 // Randomise direction
                 destVector = mDirection.random_deviant(angle, mUp);

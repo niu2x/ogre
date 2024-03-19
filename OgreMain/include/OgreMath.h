@@ -61,47 +61,86 @@ namespace Ogre
     */
     class Radian
     {
-        float mRad;
+        float rad_;
 
     public:
-        explicit Radian ( float r=0 ) : mRad(r) {}
+        explicit Radian(float r = 0)
+        : rad_(r)
+        {
+        }
         Radian ( const Degree& d );
-        Radian (const Ogre::Radian& rhs) : mRad(rhs.mRad) {}
-        Radian& operator = ( const float& f ) { mRad = f; return *this; }
-        Radian& operator = ( const Radian& r ) { mRad = r.mRad; return *this; }
+        Radian(const Ogre::Radian& rhs)
+        : rad_(rhs.rad_)
+        {
+        }
+        Radian& operator=(const float& f)
+        {
+            rad_ = f;
+            return *this;
+        }
+        Radian& operator=(const Radian& r)
+        {
+            rad_ = r.rad_;
+            return *this;
+        }
         Radian& operator = ( const Degree& d );
 
-        float valueDegrees() const; // see bottom of this file
-        float valueRadians() const { return mRad; }
-        float valueAngleUnits() const;
+        float value_degrees() const; // see bottom of this file
+        float value_radians() const { return rad_; }
+        float value_angle_units() const;
 
         const Radian& operator + () const { return *this; }
-        Radian operator + ( const Radian& r ) const { return Radian ( mRad + r.mRad ); }
+        Radian operator+(const Radian& r) const
+        {
+            return Radian(rad_ + r.rad_);
+        }
         Radian operator + ( const Degree& d ) const;
-        Radian& operator += ( const Radian& r ) { mRad += r.mRad; return *this; }
+        Radian& operator+=(const Radian& r)
+        {
+            rad_ += r.rad_;
+            return *this;
+        }
         Radian& operator += ( const Degree& d );
-        Radian operator - () const { return Radian(-mRad); }
-        Radian operator - ( const Radian& r ) const { return Radian ( mRad - r.mRad ); }
+        Radian operator-() const { return Radian(-rad_); }
+        Radian operator-(const Radian& r) const
+        {
+            return Radian(rad_ - r.rad_);
+        }
         Radian operator - ( const Degree& d ) const;
-        Radian& operator -= ( const Radian& r ) { mRad -= r.mRad; return *this; }
+        Radian& operator-=(const Radian& r)
+        {
+            rad_ -= r.rad_;
+            return *this;
+        }
         Radian& operator -= ( const Degree& d );
-        Radian operator * ( float f ) const { return Radian ( mRad * f ); }
-        Radian operator * ( const Radian& f ) const { return Radian ( mRad * f.mRad ); }
-        Radian& operator *= ( float f ) { mRad *= f; return *this; }
-        Radian operator / ( float f ) const { return Radian ( mRad / f ); }
-        Radian& operator /= ( float f ) { mRad /= f; return *this; }
+        Radian operator*(float f) const { return Radian(rad_ * f); }
+        Radian operator*(const Radian& f) const
+        {
+            return Radian(rad_ * f.rad_);
+        }
+        Radian& operator*=(float f)
+        {
+            rad_ *= f;
+            return *this;
+        }
+        Radian operator/(float f) const { return Radian(rad_ / f); }
+        Radian& operator/=(float f)
+        {
+            rad_ /= f;
+            return *this;
+        }
 
-        bool operator <  ( const Radian& r ) const { return mRad <  r.mRad; }
-        bool operator <= ( const Radian& r ) const { return mRad <= r.mRad; }
-        bool operator == ( const Radian& r ) const { return mRad == r.mRad; }
-        bool operator != ( const Radian& r ) const { return mRad != r.mRad; }
-        bool operator >= ( const Radian& r ) const { return mRad >= r.mRad; }
-        bool operator >  ( const Radian& r ) const { return mRad >  r.mRad; }
+        bool operator<(const Radian& r) const { return rad_ < r.rad_; }
+        bool operator<=(const Radian& r) const { return rad_ <= r.rad_; }
+        bool operator==(const Radian& r) const { return rad_ == r.rad_; }
+        bool operator!=(const Radian& r) const { return rad_ != r.rad_; }
+        bool operator>=(const Radian& r) const { return rad_ >= r.rad_; }
+        bool operator>(const Radian& r) const { return rad_ > r.rad_; }
 
         inline friend std::ostream& operator <<
             ( std::ostream& o, const Radian& v )
         {
-            o << "Radian(" << v.valueRadians() << ")";
+            o << "Radian(" << v.value_radians() << ")";
             return o;
         }
     };
@@ -113,47 +152,108 @@ namespace Ogre
     */
     class Degree
     {
-        float mDeg; // if you get an error here - make sure to define/typedef 'Real' first
+        float deg_; // if you get an error here - make sure to define/typedef
+                    // 'Real' first
 
     public:
-        explicit Degree ( float d=0 ) : mDeg(d) {}
-        Degree ( const Radian& r ) : mDeg(r.valueDegrees()) {}
-        Degree (const Ogre::Degree& rhs) : mDeg(rhs.mDeg) {}
-        Degree& operator = ( const float& f ) { mDeg = f; return *this; }
-        Degree& operator = ( const Degree& d ) { mDeg = d.mDeg; return *this; }
-        Degree& operator = ( const Radian& r ) { mDeg = r.valueDegrees(); return *this; }
+        explicit Degree(float d = 0)
+        : deg_(d)
+        {
+        }
+        Degree(const Radian& r)
+        : deg_(r.value_degrees())
+        {
+        }
+        Degree(const Ogre::Degree& rhs)
+        : deg_(rhs.deg_)
+        {
+        }
+        Degree& operator=(const float& f)
+        {
+            deg_ = f;
+            return *this;
+        }
+        Degree& operator=(const Degree& d)
+        {
+            deg_ = d.deg_;
+            return *this;
+        }
+        Degree& operator=(const Radian& r)
+        {
+            deg_ = r.value_degrees();
+            return *this;
+        }
 
-        float valueDegrees() const { return mDeg; }
-        float valueRadians() const; // see bottom of this file
-        float valueAngleUnits() const;
+        float value_degrees() const { return deg_; }
+        float value_radians() const; // see bottom of this file
+        float value_angle_units() const;
 
         const Degree& operator + () const { return *this; }
-        Degree operator + ( const Degree& d ) const { return Degree ( mDeg + d.mDeg ); }
-        Degree operator + ( const Radian& r ) const { return Degree ( mDeg + r.valueDegrees() ); }
-        Degree& operator += ( const Degree& d ) { mDeg += d.mDeg; return *this; }
-        Degree& operator += ( const Radian& r ) { mDeg += r.valueDegrees(); return *this; }
-        Degree operator - () const { return Degree(-mDeg); }
-        Degree operator - ( const Degree& d ) const { return Degree ( mDeg - d.mDeg ); }
-        Degree operator - ( const Radian& r ) const { return Degree ( mDeg - r.valueDegrees() ); }
-        Degree& operator -= ( const Degree& d ) { mDeg -= d.mDeg; return *this; }
-        Degree& operator -= ( const Radian& r ) { mDeg -= r.valueDegrees(); return *this; }
-        Degree operator * ( float f ) const { return Degree ( mDeg * f ); }
-        Degree operator * ( const Degree& f ) const { return Degree ( mDeg * f.mDeg ); }
-        Degree& operator *= ( float f ) { mDeg *= f; return *this; }
-        Degree operator / ( float f ) const { return Degree ( mDeg / f ); }
-        Degree& operator /= ( float f ) { mDeg /= f; return *this; }
+        Degree operator+(const Degree& d) const
+        {
+            return Degree(deg_ + d.deg_);
+        }
+        Degree operator+(const Radian& r) const
+        {
+            return Degree(deg_ + r.value_degrees());
+        }
+        Degree& operator+=(const Degree& d)
+        {
+            deg_ += d.deg_;
+            return *this;
+        }
+        Degree& operator+=(const Radian& r)
+        {
+            deg_ += r.value_degrees();
+            return *this;
+        }
+        Degree operator-() const { return Degree(-deg_); }
+        Degree operator-(const Degree& d) const
+        {
+            return Degree(deg_ - d.deg_);
+        }
+        Degree operator-(const Radian& r) const
+        {
+            return Degree(deg_ - r.value_degrees());
+        }
+        Degree& operator-=(const Degree& d)
+        {
+            deg_ -= d.deg_;
+            return *this;
+        }
+        Degree& operator-=(const Radian& r)
+        {
+            deg_ -= r.value_degrees();
+            return *this;
+        }
+        Degree operator*(float f) const { return Degree(deg_ * f); }
+        Degree operator*(const Degree& f) const
+        {
+            return Degree(deg_ * f.deg_);
+        }
+        Degree& operator*=(float f)
+        {
+            deg_ *= f;
+            return *this;
+        }
+        Degree operator/(float f) const { return Degree(deg_ / f); }
+        Degree& operator/=(float f)
+        {
+            deg_ /= f;
+            return *this;
+        }
 
-        bool operator <  ( const Degree& d ) const { return mDeg <  d.mDeg; }
-        bool operator <= ( const Degree& d ) const { return mDeg <= d.mDeg; }
-        bool operator == ( const Degree& d ) const { return mDeg == d.mDeg; }
-        bool operator != ( const Degree& d ) const { return mDeg != d.mDeg; }
-        bool operator >= ( const Degree& d ) const { return mDeg >= d.mDeg; }
-        bool operator >  ( const Degree& d ) const { return mDeg >  d.mDeg; }
+        bool operator<(const Degree& d) const { return deg_ < d.deg_; }
+        bool operator<=(const Degree& d) const { return deg_ <= d.deg_; }
+        bool operator==(const Degree& d) const { return deg_ == d.deg_; }
+        bool operator!=(const Degree& d) const { return deg_ != d.deg_; }
+        bool operator>=(const Degree& d) const { return deg_ >= d.deg_; }
+        bool operator>(const Degree& d) const { return deg_ > d.deg_; }
 
         inline friend std::ostream& operator <<
             ( std::ostream& o, const Degree& v )
         {
-            o << "Degree(" << v.valueDegrees() << ")";
+            o << "Degree(" << v.value_degrees() << ")";
             return o;
         }
     };
@@ -166,32 +266,39 @@ namespace Ogre
     */
     class Angle
     {
-        float mAngle;
+        float angle_;
+
     public:
-        explicit Angle ( float angle ) : mAngle(angle) {}
+        explicit Angle(float angle)
+        : angle_(angle)
+        {
+        }
         operator Radian() const;
         operator Degree() const;
     };
 
     // these functions could not be defined within the class definition of class
     // Radian because they required class Degree to be defined
-    inline Radian::Radian ( const Degree& d ) : mRad(d.valueRadians()) {
+    inline Radian::Radian(const Degree& d)
+    : rad_(d.value_radians())
+    {
     }
     inline Radian& Radian::operator = ( const Degree& d ) {
-        mRad = d.valueRadians(); return *this;
+        rad_ = d.value_radians();
+        return *this;
     }
     inline Radian Radian::operator + ( const Degree& d ) const {
-        return Radian ( mRad + d.valueRadians() );
+        return Radian(rad_ + d.value_radians());
     }
     inline Radian& Radian::operator += ( const Degree& d ) {
-        mRad += d.valueRadians();
+        rad_ += d.value_radians();
         return *this;
     }
     inline Radian Radian::operator - ( const Degree& d ) const {
-        return Radian ( mRad - d.valueRadians() );
+        return Radian(rad_ - d.value_radians());
     }
     inline Radian& Radian::operator -= ( const Degree& d ) {
-        mRad -= d.valueRadians();
+        rad_ -= d.value_radians();
         return *this;
     }
 
@@ -205,45 +312,38 @@ namespace Ogre
             <br>This is based on MgcMath.h from
             <a href="http://www.geometrictools.com/">Wild Magic</a>.
     */
-    class _OgreExport Math 
-    {
+    class Math {
     public:
        /** The angular units used by the API. This functionality is now deprecated in favor
            of discreet angular unit types ( see Degree and Radian above ). The only place
            this functionality is actually still used is when parsing files. Search for
            usage of the Angle class for those instances
        */
-       enum AngleUnit
-       {
-           AU_DEGREE,
-           AU_RADIAN
-       };
+        enum class AngleUnit { DEGREE, RADIAN };
 
-
-       /** This class is used to provide an external random value provider. 
-      */
-       class RandomValueProvider
-       {
-       public:
+        /** This class is used to provide an external random value provider.
+         */
+        class RandomValueProvider {
+        public:
             virtual ~RandomValueProvider() {}
             /** When called should return a random values in the range of [0,1] */
             virtual Real getRandomUnit() = 0;
-       };
+        };
 
     private:
         /// Angle units used by the api
-        static AngleUnit msAngleUnit;
+        static AngleUnit angle_unit_;
 
         /// Size of the trig tables as determined by constructor.
-        static int mTrigTableSize;
+        static int trig_table_size_;
 
-        /// Radian -> index factor value ( mTrigTableSize / 2 * PI )
-        static float mTrigTableFactor;
-        static float* mSinTable;
-        static float* mTanTable;
+        /// Radian -> index factor value ( trig_table_size_ / 2 * PI )
+        static float trig_table_factor_;
+        static float* sin_table_;
+        static float* tan_table_;
 
         /// A random value provider. overriding the default random number generator.
-        static RandomValueProvider* mRandProvider;
+        static RandomValueProvider* rand_provider_;
 
         /** Private function to build trig tables.
         */
@@ -280,13 +380,19 @@ namespace Ogre
             @param dValue
                 The value, in degrees, whose absolute value will be returned.
          */
-        static inline Degree Abs (const Degree& dValue) { return Degree(std::abs(dValue.valueDegrees())); }
+        static inline Degree Abs(const Degree& dValue)
+        {
+            return Degree(std::abs(dValue.value_degrees()));
+        }
 
         /** Absolute value function
             @param rValue
                 The value, in radians, whose absolute value will be returned.
          */
-        static inline Radian Abs (const Radian& rValue) { return Radian(std::abs(rValue.valueRadians())); }
+        static inline Radian Abs(const Radian& rValue)
+        {
+            return Radian(std::abs(rValue.value_radians()));
+        }
 
         /** Arc cosine function
             @param fValue
@@ -339,7 +445,8 @@ namespace Ogre
                 calculation - faster but less accurate.
         */
         static inline float Cos (const Radian& fValue, bool useTables = false) {
-            return (!useTables) ? std::cos(fValue.valueRadians()) : SinTable(fValue.valueRadians() + HALF_PI);
+            return (!useTables) ? std::cos(fValue.value_radians())
+                                : SinTable(fValue.value_radians() + HALF_PI);
         }
         /** Cosine function.
             @param fValue
@@ -384,11 +491,11 @@ namespace Ogre
 
         static inline Radian Sign ( const Radian& rValue )
         {
-            return Radian(Sign(rValue.valueRadians()));
+            return Radian(Sign(rValue.value_radians()));
         }
         static inline Degree Sign ( const Degree& dValue )
         {
-            return Degree(Sign(dValue.valueDegrees()));
+            return Degree(Sign(dValue.value_degrees()));
         }
 
         /// Simulate the shader function saturate that clamps a parameter value between 0 and 1
@@ -417,7 +524,8 @@ namespace Ogre
                 calculation - faster but less accurate.
         */
         static inline float Sin (const Radian& fValue, bool useTables = false) {
-            return (!useTables) ? std::sin(fValue.valueRadians()) : SinTable(fValue.valueRadians());
+            return (!useTables) ? std::sin(fValue.value_radians())
+                                : SinTable(fValue.value_radians());
         }
         /** Sine function.
             @param fValue
@@ -448,7 +556,10 @@ namespace Ogre
             @return
                 The square root of the angle in radians.
          */
-        static inline Radian Sqrt (const Radian& fValue) { return Radian(std::sqrt(fValue.valueRadians())); }
+        static inline Radian Sqrt(const Radian& fValue)
+        {
+            return Radian(std::sqrt(fValue.value_radians()));
+        }
 
         /** Square root function.
             @param fValue
@@ -456,7 +567,10 @@ namespace Ogre
             @return
                 The square root of the angle in degrees.
          */
-        static inline Degree Sqrt (const Degree& fValue) { return Degree(std::sqrt(fValue.valueDegrees())); }
+        static inline Degree Sqrt(const Degree& fValue)
+        {
+            return Degree(std::sqrt(fValue.value_degrees()));
+        }
 
         /** Inverse square root i.e. 1 / Sqrt(x), good for vector
             normalisation.
@@ -471,7 +585,11 @@ namespace Ogre
             @return
                 A random number in the range from [0,1].
         */
-        static float UnitRandom() { return mRandProvider ? mRandProvider->getRandomUnit() : rand() / float(RAND_MAX); }
+        static float UnitRandom()
+        {
+            return rand_provider_ ? rand_provider_->getRandomUnit()
+                                  : rand() / float(RAND_MAX);
+        }
 
         /** Generate a random number within the range provided.
             @param fLow
@@ -499,7 +617,8 @@ namespace Ogre
                 calculation - faster but less accurate.
         */
         static inline float Tan (const Radian& fValue, bool useTables = false) {
-            return (!useTables) ? std::tan(fValue.valueRadians()) : TanTable(fValue.valueRadians());
+            return (!useTables) ? std::tan(fValue.value_radians())
+                                : TanTable(fValue.value_radians());
         }
         /** Tangent function.
             @param fValue
@@ -745,60 +864,59 @@ namespace Ogre
         static constexpr Real HALF_PI = Real( 0.5 * PI );
         static constexpr float fDeg2Rad = PI / Real(180.0);
         static constexpr float fRad2Deg = Real(180.0) / PI;
-
     };
 
     // these functions must be defined down here, because they rely on the
     // angle unit conversion functions in class Math:
 
-    inline float Radian::valueDegrees() const
+    inline float Radian::value_degrees() const
     {
-        return Math::RadiansToDegrees ( mRad );
+        return Math::RadiansToDegrees(rad_);
     }
 
-    inline float Radian::valueAngleUnits() const
+    inline float Radian::value_angle_units() const
     {
-        return Math::RadiansToAngleUnits ( mRad );
+        return Math::RadiansToAngleUnits(rad_);
     }
 
-    inline float Degree::valueRadians() const
+    inline float Degree::value_radians() const
     {
-        return Math::DegreesToRadians ( mDeg );
+        return Math::DegreesToRadians(deg_);
     }
 
-    inline float Degree::valueAngleUnits() const
+    inline float Degree::value_angle_units() const
     {
-        return Math::DegreesToAngleUnits ( mDeg );
+        return Math::DegreesToAngleUnits(deg_);
     }
 
     inline Angle::operator Radian() const
     {
-        return Radian(Math::AngleUnitsToRadians(mAngle));
+        return Radian(Math::AngleUnitsToRadians(angle_));
     }
 
     inline Angle::operator Degree() const
     {
-        return Degree(Math::AngleUnitsToDegrees(mAngle));
+        return Degree(Math::AngleUnitsToDegrees(angle_));
     }
 
     inline Radian operator * ( float a, const Radian& b )
     {
-        return Radian ( a * b.valueRadians() );
+        return Radian(a * b.value_radians());
     }
 
     inline Radian operator / ( float a, const Radian& b )
     {
-        return Radian ( a / b.valueRadians() );
+        return Radian(a / b.value_radians());
     }
 
     inline Degree operator * ( float a, const Degree& b )
     {
-        return Degree ( a * b.valueDegrees() );
+        return Degree(a * b.value_degrees());
     }
 
     inline Degree operator / ( float a, const Degree& b )
     {
-        return Degree ( a / b.valueDegrees() );
+        return Degree(a / b.value_degrees());
     }
     /** @} */
     /** @} */

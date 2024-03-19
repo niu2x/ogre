@@ -576,7 +576,7 @@ namespace Ogre
     {
         for (size_t i = 0; i < count; ++i, ++rad)
         {
-            Real r = rad->valueRadians();
+            Real r = rad->value_radians();
             write(&r);
         }
     }

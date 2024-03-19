@@ -528,7 +528,9 @@ namespace Ogre {
             q = b->getOrientation();
             o << "Rotation: " << q;
             q.ToAngleAxis(angle, axis);
-            o << " = " << angle.valueRadians() << " radians around axis " << axis << std::endl << std::endl;
+            o << " = " << angle.value_radians() << " radians around axis "
+              << axis << std::endl
+              << std::endl;
         }
 
         o << "== Animations ==" << std::endl;
@@ -560,7 +562,8 @@ namespace Ogre {
                     q = key->getRotation();
                     o << "    Rotation: " << q;
                     q.ToAngleAxis(angle, axis);
-                    o << " = " << angle.valueRadians() << " radians around axis " << axis << std::endl;
+                    o << " = " << angle.value_radians()
+                      << " radians around axis " << axis << std::endl;
                 }
 
             }
@@ -826,10 +829,14 @@ namespace Ogre {
                 Vector3 axis;
                 Radian angle;
                 deltaTransform.rotate.ToAngleAxis(angle, axis);
-                deltaTransform.isIdentity =
-                    deltaTransform.translate.position_equals(Vector3::zero, tolerance) &&
-                    deltaTransform.scale.position_equals(Vector3::unit_scale, tolerance) &&
-                    Math::RealEqual(angle.valueRadians(), 0.0f, tolerance);
+                deltaTransform.isIdentity
+                    = deltaTransform.translate.position_equals(
+                          Vector3::zero,
+                          tolerance)
+                    && deltaTransform.scale.position_equals(
+                        Vector3::unit_scale,
+                        tolerance)
+                    && Math::RealEqual(angle.value_radians(), 0.0f, tolerance);
             }
             else
             {

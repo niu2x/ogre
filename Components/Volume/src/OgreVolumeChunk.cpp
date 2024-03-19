@@ -518,10 +518,12 @@ namespace Volume {
             setChunkVisible(true, false);
             return true;
         }
-    
-        Real k = ((Real)mCamera->getViewport()->getActualHeight() / ((Real)2.0 * std::tan(mCamera->getFOVy().valueRadians() / (Real)2.0)));
 
-        
+        Real k
+            = ((Real)mCamera->getViewport()->getActualHeight()
+               / ((Real)2.0
+                  * std::tan(mCamera->getFOVy().value_radians() / (Real)2.0)));
+
         // Get the distance to the center.
         Vector3 camPos = mCamera->getRealPosition();
         Real d = (mBox.center() * mShared->parameters->scale).distance(camPos);

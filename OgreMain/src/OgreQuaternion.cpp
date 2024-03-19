@@ -305,15 +305,12 @@ namespace Ogre {
         Quaternion kResult;
         kResult.w = fExpW*Math::Cos(fAngle);
 
-        if ( Math::Abs(fAngle.valueRadians()) >= msEpsilon )
-        {
-            Real fCoeff = fExpW*(fSin/(fAngle.valueRadians()));
+        if (Math::Abs(fAngle.value_radians()) >= msEpsilon) {
+            Real fCoeff = fExpW * (fSin / (fAngle.value_radians()));
             kResult.x = fCoeff*x;
             kResult.y = fCoeff*y;
             kResult.z = fCoeff*z;
-        }
-        else
-        {
+        } else {
             kResult.x = fExpW*x;
             kResult.y = fExpW*y;
             kResult.z = fExpW*z;
@@ -341,7 +338,7 @@ namespace Ogre {
             Real fSin = Math::Sin(fAngle);
             if ( Math::Abs(fSin) >= msEpsilon )
             {
-                Real fCoeff = fAngle.valueRadians()/fSin;
+                Real fCoeff = fAngle.value_radians() / fSin;
                 kResult.x = fCoeff*x;
                 kResult.y = fCoeff*y;
                 kResult.z = fCoeff*z;
@@ -418,7 +415,7 @@ namespace Ogre {
         Real fCos = rkP.Dot(rkQ);
         Radian fAngle ( Math::ACos(fCos) );
 
-        if ( Math::Abs(fAngle.valueRadians()) < msEpsilon )
+        if (Math::Abs(fAngle.value_radians()) < msEpsilon)
             return rkP;
 
         Real fSin = Math::Sin(fAngle);

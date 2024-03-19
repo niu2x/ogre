@@ -109,7 +109,12 @@ public:
         char fill = ' ',
         std::ios::fmtflags flags = std::ios::fmtflags(0))
     {
-        return to_string(val.valueAngleUnits(), precision, width, fill, flags);
+        return to_string(
+            val.value_angle_units(),
+            precision,
+            width,
+            fill,
+            flags);
     }
     /** Converts a Degree to a String. */
     static String to_string(
@@ -119,7 +124,12 @@ public:
         char fill = ' ',
         std::ios::fmtflags flags = std::ios::fmtflags(0))
     {
-        return to_string(val.valueAngleUnits(), precision, width, fill, flags);
+        return to_string(
+            val.value_angle_units(),
+            precision,
+            width,
+            fill,
+            flags);
     }
     /// @deprecated use StringUtil::format
     OGRE_DEPRECATED static String to_string(
@@ -242,7 +252,7 @@ public:
     static Radian
     parse_angle(const String& val, Radian defaultValue = Radian(0))
     {
-        return Angle(parse_real(val, defaultValue.valueRadians()));
+        return Angle(parse_real(val, defaultValue.value_radians()));
     }
     /** Converts a String to a whole number.
     @return
