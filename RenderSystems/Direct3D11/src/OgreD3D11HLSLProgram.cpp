@@ -482,7 +482,8 @@ namespace Ogre {
                                 if (varDesc.uFlags & D3D_SVF_USED)
                                 {
                                     D3D11_SHADER_TYPE_DESC varTypeDesc;
-                                    ID3D11ShaderReflectionType* varType = varRef->GetType();
+                                    ID3D11ShaderReflectionType* varType
+                                        = varRef->type();
                                     varType->GetDesc(&varTypeDesc);
                                     if(varTypeDesc.Name)
                                     {
@@ -942,12 +943,13 @@ namespace Ogre {
 
                         /*
                         D3D11_SHADER_TYPE_DESC typeDesc;
-                        ID3D11ShaderReflectionType* varType = var->GetType();
+                        ID3D11ShaderReflectionType* varType = var->type();
                         varType->GetDesc(&typeDesc);
 
                         // Get all interface slots if inside an array
-                        //unsigned int numInterface = varType->GetNumInterfaces();
-                        for(UINT ifs = 0; ifs < typeDesc.Elements; ifs++)
+                        //unsigned int numInterface =
+                        varType->GetNumInterfaces(); for(UINT ifs = 0; ifs <
+                        typeDesc.Elements; ifs++)
                         {
                             std::string name = varDesc.Name;
                             name += "[";

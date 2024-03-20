@@ -515,7 +515,8 @@ namespace Ogre
             SubMesh *subMesh = mesh->getSubMesh(subMeshIdx);
 
             IndexData *indexData = subMesh->indexData;
-            HardwareIndexBuffer::IndexType idxType = indexData->indexBuffer->getType();
+            HardwareIndexBuffer::IndexType idxType
+                = indexData->indexBuffer->type();
             IndicesMap indicesMap;
             if (idxType == HardwareIndexBuffer::IT_16BIT) {
                 collectUsedIndices<uint16>(indicesMap, indexData);
@@ -526,7 +527,8 @@ namespace Ogre
             //Also collect indices for all LOD faces.
             for (auto& lodIndex : subMesh->mLodFaceList) {
                 //Typically the LOD indices would use the same buffer type as the main index. But we'll check to make extra sure.
-                if (lodIndex->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT) {
+                if (lodIndex->indexBuffer->type()
+                    == HardwareIndexBuffer::IT_16BIT) {
                     collectUsedIndices<uint16>(indicesMap, lodIndex);
                 } else {
                     collectUsedIndices<uint32>(indicesMap, lodIndex);
@@ -584,7 +586,8 @@ namespace Ogre
                 }
 
                 //Typically the LOD indices would use the same buffer type as the main index. But we'll check to make extra sure.
-                if (lodIndex->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT) {
+                if (lodIndex->indexBuffer->type()
+                    == HardwareIndexBuffer::IT_16BIT) {
                     copyIndexBuffer<uint16>(lodIndex, indicesMap, lastIndexEnd);
                 } else {
                     copyIndexBuffer<uint32>(lodIndex, indicesMap, lastIndexEnd);

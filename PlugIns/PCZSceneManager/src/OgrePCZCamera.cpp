@@ -149,14 +149,11 @@ namespace Ogre
         }
 
         // if portal is of type AABB or Sphere, then use simple bound check against planes
-        if (portal->getType() == PortalBase::PORTAL_TYPE_AABB)
-        {
+        if (portal->type() == PortalBase::PORTAL_TYPE_AABB) {
             AxisAlignedBox aabb;
             aabb.set_extents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
             return Camera::isVisible(aabb, culledBy);
-        }
-        else if (portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)
-        {
+        } else if (portal->type() == PortalBase::PORTAL_TYPE_SPHERE) {
             return Camera::isVisible(portal->getDerivedSphere(), culledBy);
         }
 

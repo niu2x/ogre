@@ -80,7 +80,7 @@ void DeferredLightRenderOperation::execute(SceneManager *sm, RenderSystem *rs)
         ll.push_back(light);
 
         // if (++i != 2) continue;
-        // if (light->getType() != Light::LT_DIRECTIONAL) continue;
+        // if (light->type() != Light::LT_DIRECTIONAL) continue;
         // if (light->getDiffuseColour() != ColorValue::Red) continue;
 
         LightsMap::iterator dLightIt = mLights.find(light);

@@ -55,7 +55,7 @@ public:
     /** 
     @see SubRenderState::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     int getExecutionOrder() const override { return FFP_LIGHTING - 1; }
 
@@ -119,7 +119,7 @@ public:
     /** 
     @see SubRenderStateFactory::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     /** 
     @see SubRenderStateFactory::createInstance.

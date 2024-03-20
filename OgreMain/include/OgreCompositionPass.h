@@ -64,8 +64,8 @@ namespace Ogre {
         /** Set the type of composition pass */
         void setType(PassType type);
         /** Get the type of composition pass */
-        PassType getType() const;
-        
+        PassType type() const;
+
         /** Set an identifier for this pass. This identifier can be used to
             "listen in" on this pass with an CompositorInstance::Listener. 
         */

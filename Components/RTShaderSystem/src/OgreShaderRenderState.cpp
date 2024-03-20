@@ -88,11 +88,12 @@ void RenderState::addTemplateSubRenderState(SubRenderState* subRenderState)
             break;
         }
 
-        // Case it is different sub render state instance with the same type, use the new sub render state
-        // instead of the previous sub render state. This scenario is usually caused by material inheritance, so we use the derived material sub render state
-        // and destroy the base sub render state.
-        else if (it->getType() == subRenderState->getType())
-        {
+        // Case it is different sub render state instance with the same type,
+        // use the new sub render state instead of the previous sub render
+        // state. This scenario is usually caused by material inheritance, so we
+        // use the derived material sub render state and destroy the base sub
+        // render state.
+        else if (it->type() == subRenderState->type()) {
             removeSubRenderState(it);
             break;
         }
@@ -119,7 +120,7 @@ SubRenderState* RenderState::getSubRenderState(const String& type) const
 {
     for (auto srs : mSubRenderStateList)
     {
-        if (srs->getType() == type)
+        if (srs->type() == type)
             return srs;
     }
 
@@ -246,8 +247,10 @@ void TargetRenderState::createCpuPrograms()
     {
         if (!srcSubRenderState->createCpuSubPrograms(programSet))
         {
-            OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                        "Could not generate sub render program of type: " + srcSubRenderState->getType());
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "Could not generate sub render program of type: "
+                    + srcSubRenderState->type());
         }
     }
 }
@@ -317,10 +320,12 @@ void TargetRenderState::link(const RenderState& templateRS, Pass* srcPass, Pass*
         }
 
         // Check if this type of sub render state already exists.
-        it = std::find_if(mSubRenderStateList.begin(), mSubRenderStateList.end(),
-                          [srcSubRenderState](const SubRenderState* e) {
-                              return srcSubRenderState->getType() == e->getType();
-                          });
+        it = std::find_if(
+            mSubRenderStateList.begin(),
+            mSubRenderStateList.end(),
+            [srcSubRenderState](const SubRenderState* e) {
+                return srcSubRenderState->type() == e->type();
+            });
 
         if(it != mSubRenderStateList.end())
         {
@@ -332,7 +337,7 @@ void TargetRenderState::link(const RenderState& templateRS, Pass* srcPass, Pass*
         // Case custom sub render state not exits -> add it to custom list.
         auto newSubRenderState
             = ShaderGenerator::singleton().createSubRenderState(
-                srcSubRenderState->getType());
+                srcSubRenderState->type());
         *newSubRenderState = *srcSubRenderState;
 
         if (newSubRenderState->preAddToRenderState(this, srcPass, dstPass))

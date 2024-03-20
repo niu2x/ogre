@@ -61,7 +61,7 @@ public:
     /** 
     @see SubRenderStateFactory::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     /** 
     @see SubRenderStateFactory::createInstance.

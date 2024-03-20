@@ -202,7 +202,7 @@ LayeredBlending::LayeredBlending()
 }
 
 //-----------------------------------------------------------------------
-const Ogre::String& LayeredBlending::getType() const
+const Ogre::String& LayeredBlending::type() const
 {
     return SRS_LAYERED_BLENDING;
 }
@@ -414,7 +414,7 @@ bool LayeredBlending::getSourceModifier(unsigned short index, SourceModifier& mo
 
 //----------------------Factory Implementation---------------------------
 //-----------------------------------------------------------------------
-const String& LayeredBlendingFactory::getType() const
+const String& LayeredBlendingFactory::type() const
 {
     return SRS_LAYERED_BLENDING;
 }
@@ -544,7 +544,7 @@ LayeredBlending* LayeredBlendingFactory::create_or_retrieveSubRenderState(
 {
     LayeredBlending* layeredBlendState;
     //check if we already create a blend srs
-    SubRenderState* subState = translator->getGeneratedSubRenderState(getType());
+    SubRenderState* subState = translator->getGeneratedSubRenderState(type());
     if (subState != NULL)
     {
         layeredBlendState = static_cast<LayeredBlending*>(subState);

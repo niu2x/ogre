@@ -114,7 +114,7 @@ namespace RTShader {
     }
 
     //-----------------------------------------------------------------------
-    const String& TriplanarTexturing::getType() const
+    const String& TriplanarTexturing::type() const
     {
         return SRS_TRIPLANAR_TEXTURING;
     }
@@ -201,7 +201,7 @@ namespace RTShader {
     }
 
     //-----------------------------------------------------------------------
-    const String& TriplanarTexturingFactory::getType() const
+    const String& TriplanarTexturingFactory::type() const
     {
         return SRS_TRIPLANAR_TEXTURING;
     }

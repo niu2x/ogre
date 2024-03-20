@@ -186,7 +186,7 @@ namespace Ogre {
         OGRE_DELETE  mBillboardSet;
     }
     //-----------------------------------------------------------------------
-    const String& BillboardParticleRenderer::getType(void) const
+    const String& BillboardParticleRenderer::type() const
     {
         return rendererTypeName;
     }
@@ -238,7 +238,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    const String& BillboardParticleRendererFactory::getType() const
+    const String& BillboardParticleRendererFactory::type() const
     {
         return rendererTypeName;
     }

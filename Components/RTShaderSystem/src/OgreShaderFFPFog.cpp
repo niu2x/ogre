@@ -43,10 +43,7 @@ FFPFog::FFPFog()
 }
 
 //-----------------------------------------------------------------------
-const String& FFPFog::getType() const
-{
-    return SRS_FOG;
-}
+const String& FFPFog::type() const { return SRS_FOG; }
 
 //-----------------------------------------------------------------------
 int FFPFog::getExecutionOrder() const
@@ -199,10 +196,7 @@ bool FFPFog::set_parameter(const String& name, const String& value)
 }
 
 //-----------------------------------------------------------------------
-const String& FFPFogFactory::getType() const
-{
-    return SRS_FOG;
-}
+const String& FFPFogFactory::type() const { return SRS_FOG; }
 
 //-----------------------------------------------------------------------
 SubRenderState* FFPFogFactory::createInstance(ScriptCompiler* compiler, 

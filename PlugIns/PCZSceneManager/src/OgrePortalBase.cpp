@@ -792,23 +792,25 @@ bool PortalBase::crossedPortal(const PortalBase* otherPortal)
         {
             // the portal intersected the other portal at some time from last frame to this frame. 
             // Now check if this portal "crossed" the other portal
-            switch (otherPortal->getType())
-            {
-            case PORTAL_TYPE_QUAD:
-                // a crossing occurs if the "side" of the final position of this portal compared
-                // to the final position of the other portal is negative AND the initial position
-                // of this portal compared to the initial position of the other portal is non-negative
-                // NOTE: This function assumes that this portal is the smaller portal potentially crossing
-                //       over the otherPortal which is larger.
-                if (otherPortal->getDerivedPlane().which_side(mDerivedCP) == PlaneSide::NEGATIVE_SIDE &&
-                    otherPortal->getPrevDerivedPlane().which_side(mPrevDerivedCP) != PlaneSide::NEGATIVE_SIDE)
-                {
-                    // crossing occurred!
-                    return true;
-                }
-                break;
-            case PORTAL_TYPE_AABB:
-                {
+            switch (otherPortal->type()) {
+                case PORTAL_TYPE_QUAD:
+                    // a crossing occurs if the "side" of the final position of
+                    // this portal compared to the final position of the other
+                    // portal is negative AND the initial position of this
+                    // portal compared to the initial position of the other
+                    // portal is non-negative NOTE: This function assumes that
+                    // this portal is the smaller portal potentially crossing
+                    //       over the otherPortal which is larger.
+                    if (otherPortal->getDerivedPlane().which_side(mDerivedCP)
+                            == PlaneSide::NEGATIVE_SIDE
+                        && otherPortal->getPrevDerivedPlane().which_side(
+                               mPrevDerivedCP)
+                            != PlaneSide::NEGATIVE_SIDE) {
+                        // crossing occurred!
+                        return true;
+                    }
+                    break;
+                case PORTAL_TYPE_AABB: {
                     // for aabb's we check if the center point went from being inside to being outside
                     // the aabb (or vice versa) for crossing.  
                     AxisAlignedBox aabb;
@@ -876,8 +878,7 @@ bool PortalBase::crossedPortal(const PortalBase* otherPortal)
 bool PortalBase::closeTo(const PortalBase* otherPortal)
 {
     // only portals of the same type can be "close to" each other.
-    if (mType != otherPortal->getType())
-    {
+    if (mType != otherPortal->type()) {
         return false;
     }
     bool close = false;

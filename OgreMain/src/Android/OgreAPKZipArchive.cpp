@@ -3,10 +3,10 @@
 
 namespace Ogre{
     //-----------------------------------------------------------------------
-    const String &APKZipArchiveFactory::getType() const
-    {
-        static String type = "APKZip";
-        return type;
+const String& APKZipArchiveFactory::type() const
+{
+    static String type = "APKZip";
+    return type;
     }
     //-----------------------------------------------------------------------
     Archive *APKZipArchiveFactory::createInstance( const String& name, bool readOnly )

@@ -134,7 +134,7 @@ namespace Ogre {
         virtual ~AnimableValue() {}
 
         /// Gets the value type of this animable value
-        ValueType getType(void) const { return mType; }
+        ValueType type() const { return mType; }
 
         /// Sets the current state as the 'base' value; used for delta animation
         virtual void setCurrentStateAsBaseValue(void) = 0;

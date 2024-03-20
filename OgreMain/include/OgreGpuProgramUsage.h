@@ -99,7 +99,7 @@ namespace Ogre
         ~GpuProgramUsage();
 
         /** Gets the type of program we're trying to link to. */
-        GpuProgramType getType(void) const { return mType; }
+        GpuProgramType type() const { return mType; }
 
         /** Sets the name of the program to use. 
         @param name The name of the program to use

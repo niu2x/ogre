@@ -33,7 +33,7 @@ namespace RTShader {
 void ProgramWriter::writeProgramTitle(std::ostream& os, Program* program)
 {
     os << "//-----------------------------------------------------------------------------" << std::endl;
-    os << "// Program Type: " << to_string(program->getType()) << std::endl;
+    os << "// Program Type: " << to_string(program->type()) << std::endl;
     os << "// Language: " <<  getTargetLanguage() << std::endl;
     os << "// Created by Ogre RT Shader Generator. All rights reserved." << std::endl;
     os << "//-----------------------------------------------------------------------------" << std::endl;
@@ -76,42 +76,42 @@ void ProgramWriter::writeParameter(std::ostream& os, const ParameterPtr& paramet
         return;
     }
 
-    os << mGpuConstTypeMap[parameter->getType()] << '\t' << parameter->name();
+    os << mGpuConstTypeMap[parameter->type()] << '\t' << parameter->name();
     if (parameter->isArray())
         os << '[' << parameter->getSize() << ']';
 }
 
 void ProgramWriter::writeSamplerParameter(std::ostream& os, const UniformParameterPtr& parameter)
 {
-    if (parameter->getType() == GCT_SAMPLER_EXTERNAL_OES)
-    {
+    if (parameter->type() == GCT_SAMPLER_EXTERNAL_OES) {
         os << "uniform\t";
         writeParameter(os, parameter);
         return;
     }
 
-    switch(parameter->getType())
-    {
-    case GCT_SAMPLER1D:
-        os << "SAMPLER1D(";
-        break;
-    case GCT_SAMPLER2D:
-        os << "SAMPLER2D(";
-        break;
-    case GCT_SAMPLER3D:
-        os << "SAMPLER3D(";
-        break;
-    case GCT_SAMPLERCUBE:
-        os << "SAMPLERCUBE(";
-        break;
-    case GCT_SAMPLER2DSHADOW:
-        os << "SAMPLER2DSHADOW(";
-        break;
-    case GCT_SAMPLER2DARRAY:
-        os << "SAMPLER2DARRAY(";
-        break;
-    default:
-        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "unsupported sampler type");
+    switch (parameter->type()) {
+        case GCT_SAMPLER1D:
+            os << "SAMPLER1D(";
+            break;
+        case GCT_SAMPLER2D:
+            os << "SAMPLER2D(";
+            break;
+        case GCT_SAMPLER3D:
+            os << "SAMPLER3D(";
+            break;
+        case GCT_SAMPLERCUBE:
+            os << "SAMPLERCUBE(";
+            break;
+        case GCT_SAMPLER2DSHADOW:
+            os << "SAMPLER2DSHADOW(";
+            break;
+        case GCT_SAMPLER2DARRAY:
+            os << "SAMPLER2DARRAY(";
+            break;
+        default:
+            OGRE_EXCEPT(
+                Exception::ERR_INVALIDPARAMS,
+                "unsupported sampler type");
     }
     os << parameter->name() << ", " << parameter->getIndex() << ")";
 }
@@ -155,8 +155,8 @@ void ProgramWriter::redirectGlobalWrites(std::ostream& os, FunctionAtom* func, c
         {
             // Declare the copy variable and assign the original
             String newVar = "local_" + param->name();
-            os << "\t" << mGpuConstTypeMap[param->getType()] << " " << newVar << " = " << param->name() << ";"
-                << std::endl;
+            os << "\t" << mGpuConstTypeMap[param->type()] << " " << newVar
+               << " = " << param->name() << ";" << std::endl;
 
             // From now on we replace it automatic
             param->_rename(newVar, true);

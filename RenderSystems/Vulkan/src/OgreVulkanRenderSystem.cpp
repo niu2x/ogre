@@ -1013,7 +1013,7 @@ namespace Ogre
             if (elem.getSemantic() == VES_TEXTURE_COORDINATES)
                 inputDesc.location += uvCount++;
 
-            inputDesc.format = VulkanMappings::get( elem.getType() );
+            inputDesc.format = VulkanMappings::get(elem.type());
             inputDesc.binding = elem.getSource();
             inputDesc.offset = elem.getOffset();
             if (!op.vertexData->vertexBufferBinding->isBufferBound(inputDesc.binding))
@@ -1049,7 +1049,7 @@ namespace Ogre
 
         if(op.indexData)
         {
-            auto itype = VkIndexType(op.indexData->indexBuffer->getType());
+            auto itype = VkIndexType(op.indexData->indexBuffer->type());
             auto b = op.indexData->indexBuffer->_getImpl<VulkanHardwareBuffer>()->getVkBuffer();
             vkCmdBindIndexBuffer(cmdBuffer, b, 0, itype);
         }
@@ -1104,8 +1104,8 @@ namespace Ogre
     void VulkanRenderSystem::bindGpuProgram(GpuProgram* prg)
     {
         auto shader = static_cast<VulkanProgram*>(prg);
-        shaderStages[prg->getType()] = shader->getPipelineShaderStageCi();
-        mBoundGpuPrograms[prg->getType()] = prg->_getHash();
+        shaderStages[prg->type()] = shader->getPipelineShaderStageCi();
+        mBoundGpuPrograms[prg->type()] = prg->_getHash();
     }
     void VulkanRenderSystem::bindGpuProgramParameters( GpuProgramType gptype,
                                                        const GpuProgramParametersPtr& params,

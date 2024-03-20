@@ -484,7 +484,7 @@ bool Sample_MeshLod::getResourceFullPath(MeshPtr& mesh, String& outPath)
     }
     outPath += info->filename;
 
-    return (info->archive->getType() == "FileSystem");
+    return (info->archive->type() == "FileSystem");
 }
 
 void Sample_MeshLod::addToProfile( Real cost )

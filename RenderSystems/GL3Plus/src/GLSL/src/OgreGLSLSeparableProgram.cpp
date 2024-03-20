@@ -80,8 +80,10 @@ namespace Ogre
             {
             if(!s) continue;
 
-                OGRE_CHECK_GL_ERROR(glUseProgramStages(mGLProgramPipelineHandle, ogre2gltype[s->getType()],
-                                                       s->getGLProgramHandle()));
+            OGRE_CHECK_GL_ERROR(glUseProgramStages(
+                mGLProgramPipelineHandle,
+                ogre2gltype[s->type()],
+                s->getGLProgramHandle()));
             }
 
             // Validate pipeline

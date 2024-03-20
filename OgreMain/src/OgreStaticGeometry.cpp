@@ -380,8 +380,8 @@ namespace Ogre {
     {
         // Firstly we need to scan to see how many vertices are being used
         // and while we're at it, build the remap we can use later
-        bool use32bitIndexes =
-            id->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT;
+        bool use32bitIndexes
+            = id->indexBuffer->type() == HardwareIndexBuffer::IT_32BIT;
         IndexRemap indexRemap;
         HardwareBufferLockGuard indexLock(id->indexBuffer,
                                           id->indexStart * id->indexBuffer->getIndexSize(), 
@@ -454,7 +454,7 @@ namespace Ogre {
         // Now create a new index buffer
         HardwareIndexBufferSharedPtr ibuf
             = HardwareBufferManager::singleton().createIndexBuffer(
-                id->indexBuffer->getType(),
+                id->indexBuffer->type(),
                 id->indexCount,
                 HardwareBuffer::HBU_STATIC);
 
@@ -1027,9 +1027,11 @@ namespace Ogre {
                     // Since stencil shadows can only deal with 16-bit
                     // More than that and stencil is probably too CPU-heavy
                     // in any case
-                    assert(geom->getIndexData()->indexBuffer->getType()
-                        == HardwareIndexBuffer::IT_16BIT &&
-                        "Only 16-bit indexes allowed when using stencil shadows");
+                    assert(
+                        geom->getIndexData()->indexBuffer->type()
+                            == HardwareIndexBuffer::IT_16BIT
+                        && "Only 16-bit indexes allowed when using stencil "
+                           "shadows");
                     eb.addVertexData(geom->getVertexData());
                     eb.addIndexData(geom->getIndexData(), vertexSet++);
                 }
@@ -1091,8 +1093,9 @@ namespace Ogre {
                                                             const HardwareIndexBufferPtr& indexBuffer,
                                                             Real extrusionDistance, int flags)
     {
-        assert(indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT &&
-               "Only 16-bit indexes supported for now");
+        assert(
+            indexBuffer->type() == HardwareIndexBuffer::IT_16BIT
+            && "Only 16-bit indexes supported for now");
 
         // We need to search the edge list for silhouette edges
         OgreAssert(mEdgeList, "You enabled stencil shadows after the build process!");
@@ -1160,13 +1163,13 @@ namespace Ogre {
         //   source
         //   semantic
         //   type
-        uint32 hash = HashCombine(0, geom->indexData->indexBuffer->getType());
+        uint32 hash = HashCombine(0, geom->indexData->indexBuffer->type());
         const auto& elemList = geom->vertexData->vertexDeclaration->getElements();
         for (const VertexElement& elem : elemList)
         {
             hash = HashCombine(hash, elem.getSource());
             hash = HashCombine(hash, elem.getSemantic());
-            hash = HashCombine(hash, elem.getType());
+            hash = HashCombine(hash, elem.type());
         }
 
         return hash;
@@ -1289,12 +1292,9 @@ namespace Ogre {
         mIndexData->indexCount = 0;
         mIndexData->indexStart = 0;
         // Derive the max vertices
-        if (iData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT)
-        {
+        if (iData->indexBuffer->type() == HardwareIndexBuffer::IT_32BIT) {
             mMaxVertexIndex = 0xFFFFFFFF;
-        }
-        else
-        {
+        } else {
             mMaxVertexIndex = 0xFFFF;
         }
 
@@ -1427,7 +1427,7 @@ namespace Ogre {
         VertexBufferBinding* binds = mVertexData->vertexBufferBinding;
 
         // create index buffer, and lock
-        auto indexType = mIndexData->indexBuffer->getType();
+        auto indexType = mIndexData->indexBuffer->type();
         mIndexData->indexBuffer
             = HardwareBufferManager::singleton().createIndexBuffer(
                 indexType,
@@ -1544,13 +1544,15 @@ namespace Ogre {
                             *pDstReal++ = tmp.y;
                             *pDstReal++ = tmp.z;
                             // copy parity for tangent.
-                            if (elem.getType() == Ogre::VET_FLOAT4)
+                            if (elem.type() == Ogre::VET_FLOAT4)
                                 *pDstReal = *pSrcReal;
                             break;
                         default:
                             // just raw copy
-                            memcpy(pDstReal, pSrcReal,
-                                    VertexElement::getTypeSize(elem.getType()));
+                            memcpy(
+                                pDstReal,
+                                pSrcReal,
+                                VertexElement::getTypeSize(elem.type()));
                             break;
                         };
 

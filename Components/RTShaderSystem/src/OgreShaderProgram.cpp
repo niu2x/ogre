@@ -58,10 +58,7 @@ void Program::destroyParameters()
 }
 
 //-----------------------------------------------------------------------------
-GpuProgramType Program::getType() const
-{
-    return mType;
-}
+GpuProgramType Program::type() const { return mType; }
 
 //-----------------------------------------------------------------------------
 void Program::add_parameter(UniformParameterPtr parameter)
@@ -243,9 +240,8 @@ UniformParameterPtr Program::resolveParameter(GpuConstantType type,
 
         for (it = mParameters.begin(); it != mParameters.end(); ++it)
         {
-            if ((*it)->getType() == type &&
-                (*it)->isAutoConstantParameter() == false)
-            {
+            if ((*it)->type() == type
+                && (*it)->isAutoConstantParameter() == false) {
                 index++;
             }
         }
@@ -292,9 +288,7 @@ UniformParameterPtr Program::getParameterByType(GpuConstantType type, int index)
 
     for (it = mParameters.begin(); it != mParameters.end(); ++it)
     {
-        if ((*it)->getType() == type &&
-            (*it)->getIndex() == index)
-        {
+        if ((*it)->type() == type && (*it)->getIndex() == index) {
             return *it;
         }
     }

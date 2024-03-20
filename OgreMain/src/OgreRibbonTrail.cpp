@@ -432,10 +432,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     const String MOT_RIBBON_TRAIL = "RibbonTrail";
     //-----------------------------------------------------------------------
-    const String& RibbonTrailFactory::getType(void) const
-    {
-        return MOT_RIBBON_TRAIL;
-    }
+    const String& RibbonTrailFactory::type() const { return MOT_RIBBON_TRAIL; }
     //-----------------------------------------------------------------------
     MovableObject* RibbonTrailFactory::createInstanceImpl( const String& name,
         const NameValuePairList* params)

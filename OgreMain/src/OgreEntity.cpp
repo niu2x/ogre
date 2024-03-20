@@ -1731,8 +1731,9 @@ namespace Ogre {
     Entity::getShadowVolumeRenderableList(const Light* light, const HardwareIndexBufferPtr& indexBuffer,
                                           size_t& indexBufferUsedSize, float extrusionDistance, int flags)
     {
-        assert(indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT &&
-               "Only 16-bit indexes supported for now");
+        assert(
+            indexBuffer->type() == HardwareIndexBuffer::IT_16BIT
+            && "Only 16-bit indexes supported for now");
 
         // Check mesh state count, will be incremented if reloaded
         if (mMesh->state_count() != mMeshStateCount) {
@@ -2229,10 +2230,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String MOT_ENTITY = "Entity";
     //-----------------------------------------------------------------------
-    const String& EntityFactory::getType(void) const
-    {
-        return MOT_ENTITY;
-    }
+    const String& EntityFactory::type() const { return MOT_ENTITY; }
     //-----------------------------------------------------------------------
     MovableObject* EntityFactory::createInstanceImpl( const String& name,
         const NameValuePairList* params)

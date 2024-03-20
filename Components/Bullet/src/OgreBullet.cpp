@@ -462,7 +462,8 @@ void VertexIndexToShape::addIndexData(IndexData* data, const unsigned int offset
 
     const unsigned int numTris = (unsigned int)data->indexCount / 3;
     HardwareIndexBufferSharedPtr ibuf = data->indexBuffer;
-    const bool use32bitindexes = (ibuf->getType() == HardwareIndexBuffer::IT_32BIT);
+    const bool use32bitindexes
+        = (ibuf->type() == HardwareIndexBuffer::IT_32BIT);
     unsigned int index_offset = prev_size;
 
     if (use32bitindexes)

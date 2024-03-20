@@ -16,7 +16,7 @@ class BillboardChainFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class BillboardSetFactory : public MovableObjectFactory
@@ -24,7 +24,7 @@ class BillboardSetFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class EntityFactory : public MovableObjectFactory
@@ -32,7 +32,7 @@ class EntityFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class LightFactory : public MovableObjectFactory
@@ -40,7 +40,7 @@ class LightFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class ManualObjectFactory : public MovableObjectFactory
@@ -48,7 +48,7 @@ class ManualObjectFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class ParticleSystemFactory : public MovableObjectFactory
@@ -56,7 +56,7 @@ class ParticleSystemFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl(const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class Rectangle2DFactory : public MovableObjectFactory
@@ -64,7 +64,7 @@ class Rectangle2DFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl(const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override { return MOT_RECTANGLE2D; }
+    const String& type() const override { return MOT_RECTANGLE2D; }
 };
 
 class RibbonTrailFactory : public MovableObjectFactory
@@ -72,7 +72,7 @@ class RibbonTrailFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override;
 
 public:
-    const String& getType(void) const override;
+    const String& type() const override;
 };
 
 class StaticGeometryFactory : public MovableObjectFactory
@@ -80,7 +80,7 @@ class StaticGeometryFactory : public MovableObjectFactory
     MovableObject* createInstanceImpl( const String& name, const NameValuePairList* params) override { return NULL; }
 
 public:
-    const String& getType(void) const override { return MOT_STATIC_GEOMETRY; }
+    const String& type() const override { return MOT_STATIC_GEOMETRY; }
 };
 } // namespace Ogre
 

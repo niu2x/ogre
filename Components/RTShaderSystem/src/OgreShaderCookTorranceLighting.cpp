@@ -19,7 +19,10 @@ const String SRS_COOK_TORRANCE_LIGHTING = "CookTorranceLighting";
 CookTorranceLighting::CookTorranceLighting() : mLightCount(0), mMRMapSamplerIndex(0), mLtcLUT1SamplerIndex(-1) {}
 
 //-----------------------------------------------------------------------
-const String& CookTorranceLighting::getType() const { return SRS_COOK_TORRANCE_LIGHTING; }
+const String& CookTorranceLighting::type() const
+{
+    return SRS_COOK_TORRANCE_LIGHTING;
+}
 //-----------------------------------------------------------------------
 bool CookTorranceLighting::createCpuSubPrograms(ProgramSet* programSet)
 {
@@ -192,7 +195,10 @@ bool CookTorranceLighting::set_parameter(const String& name, const String& value
 }
 
 //-----------------------------------------------------------------------
-const String& CookTorranceLightingFactory::getType() const { return SRS_COOK_TORRANCE_LIGHTING; }
+const String& CookTorranceLightingFactory::type() const
+{
+    return SRS_COOK_TORRANCE_LIGHTING;
+}
 
 //-----------------------------------------------------------------------
 SubRenderState* CookTorranceLightingFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop,

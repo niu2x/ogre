@@ -61,9 +61,8 @@ namespace Ogre
         }
         Real shadowOffset = shadowDist * (sm->getShadowDirLightTextureOffset());
 
-        // Directional lights 
-        if (light->getType() == Light::LT_DIRECTIONAL)
-        {
+        // Directional lights
+        if (light->type() == Light::LT_DIRECTIONAL) {
             // now we need the clip distance
             if(auto farClip = texCam->getFarClipDistance())
                 shadowDist = farClip;
@@ -122,8 +121,9 @@ namespace Ogre
              texCam->getParentNode()->setOrientation(rot);
         }
         // Spotlight
-        else if (light->getType() == Light::LT_SPOTLIGHT || light->getType() == Light::LT_RECTLIGHT)
-        {
+        else if (
+            light->type() == Light::LT_SPOTLIGHT
+            || light->type() == Light::LT_RECTLIGHT) {
             // Set perspective projection
             texCam->setProjectionType(PT_PERSPECTIVE);
             // set FOV slightly larger than the spotlight range to ensure coverage
@@ -136,8 +136,7 @@ namespace Ogre
             // keep position & orientation set by ShadowRenderer::prepareShadowTextures
         }
         // Point light
-        else
-        {
+        else {
             // Set perspective projection
             texCam->setProjectionType(PT_PERSPECTIVE);
             // Use 120 degree FOV for point light to ensure coverage more area

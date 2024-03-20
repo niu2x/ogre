@@ -67,7 +67,10 @@ public:
     virtual void activate(void) = 0;
 
     /// query if the program is using the given shader
-    bool isUsingShader(GLSLShaderCommon* shader) const { return mShaders[shader->getType()] == shader; }
+    bool isUsingShader(GLSLShaderCommon* shader) const
+    {
+        return mShaders[shader->type()] == shader;
+    }
 
     /** Updates program object uniforms using data from GpuProgramParameters.
         Normally called by GLSLShader::bindParameters() just before rendering occurs.

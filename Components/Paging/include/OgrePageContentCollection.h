@@ -68,7 +68,7 @@ namespace Ogre
         SceneManager* getSceneManager() const;
 
         /// Get the type of the collection, which will match it's factory
-        virtual const String& getType() const;
+        virtual const String& type() const;
 
         /// Internal method to notify a collection that it is attached
         virtual void _notifyAttached(Page* parent);

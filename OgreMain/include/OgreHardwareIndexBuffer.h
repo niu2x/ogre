@@ -71,7 +71,7 @@ namespace Ogre {
         /// Return the manager of this buffer, if any
         HardwareBufferManagerBase* getManager() const { return mMgr; }
         /// Get the type of indexes used in this buffer
-        IndexType getType(void) const { return mIndexType; }
+        IndexType type() const { return mIndexType; }
         /// Get the number of indexes in this buffer
         uint32 getNumIndexes(void) const { return mNumIndexes; }
         /// Get the size in bytes of each index

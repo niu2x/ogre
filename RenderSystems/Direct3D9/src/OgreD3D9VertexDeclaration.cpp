@@ -149,7 +149,7 @@ namespace Ogre {
         dxElement.Method = D3DDECLMETHOD_DEFAULT;
         dxElement.Offset = static_cast<WORD>(element.getOffset());
         dxElement.Stream = element.getSource();
-        dxElement.Type = D3D9Mappings::get(element.getType());
+        dxElement.Type = D3D9Mappings::get(element.type());
         dxElement.Usage = D3D9Mappings::get(element.getSemantic());
         // NB force index if colours since D3D uses the same usage for 
         // diffuse & specular

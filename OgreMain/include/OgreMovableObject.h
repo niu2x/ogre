@@ -585,7 +585,7 @@ namespace Ogre {
         MovableObjectFactory() : mTypeFlag(0xFFFFFFFF) {}
         virtual ~MovableObjectFactory() {}
         /// Get the type of the object to be created
-        virtual const String& getType(void) const = 0;
+        virtual const String& type() const = 0;
 
         /** Create a new instance of the object.
         @param name The name of the new object

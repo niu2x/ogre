@@ -65,8 +65,7 @@ namespace Ogre
         // get V
         mBodyB.define(cam);
 
-        if (light.getType() != Light::LT_DIRECTIONAL)
-        {
+        if (light.type() != Light::LT_DIRECTIONAL) {
             // clip bodyB with sceneBB
             /* Note, Matthias' original code states this:
             "The procedure ((V \cap S) + l) \cap S \cap L (Wimmer et al.) leads in some 
@@ -101,9 +100,7 @@ namespace Ogre
             // extract bodyB vertices
             out_bodyB->build(mBodyB);
 
-        }
-        else
-        {
+        } else {
             // For directional lights, all we care about is projecting the receivers
             // backwards towards the light, clipped by the camera region
             mBodyB.clip(receiverBB.intersection(sceneBB));
@@ -148,8 +145,7 @@ namespace Ogre
         // for a directional light the space of the intersected
         // view frustum and sceneBB is always lighted and in front
         // of the viewer.
-        if (light.getType() != Light::LT_DIRECTIONAL)
-        {
+        if (light.type() != Light::LT_DIRECTIONAL) {
             // clip with the light frustum
             bodyLVS.clip(*mLightFrustumCamera);
         }

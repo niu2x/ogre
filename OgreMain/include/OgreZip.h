@@ -58,7 +58,7 @@ namespace Ogre {
     public:
         virtual ~ZipArchiveFactory() {}
         /// @copydoc FactoryObj::getType
-        const String& getType(void) const override;
+        const String& type() const override;
 
         using ArchiveFactory::createInstance;
 
@@ -72,7 +72,7 @@ namespace Ogre {
         EmbeddedZipArchiveFactory();
         virtual ~EmbeddedZipArchiveFactory();
 
-        const String& getType(void) const override;
+        const String& type() const override;
 
         using ArchiveFactory::createInstance;
 
@@ -106,7 +106,7 @@ namespace Ogre {
         APKZipArchiveFactory(AAssetManager* assetMgr) : mAssetMgr(assetMgr) {}
         virtual ~APKZipArchiveFactory() {}
 
-        const String& getType(void) const override;
+        const String& type() const override;
         Archive *createInstance( const String& name, bool readOnly ) override;
         void destroyInstance( Archive* ptr) override;
     };

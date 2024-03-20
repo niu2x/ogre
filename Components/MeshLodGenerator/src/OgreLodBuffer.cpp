@@ -39,7 +39,7 @@ namespace Ogre
             const VertexElement* elemPos = data->vertexDeclaration->findElementBySemantic(VES_POSITION);
 
             // Only float supported.
-            OgreAssert(elemPos->getType() == VET_FLOAT3, "");
+            OgreAssert(elemPos->type() == VET_FLOAT3, "");
 
             HardwareVertexBufferSharedPtr vbuf = data->vertexBufferBinding->getBuffer(elemPos->getSource());
             vertexBuffer = std::make_shared<DefaultHardwareBuffer>(vertexCount * 3 * sizeof(float));

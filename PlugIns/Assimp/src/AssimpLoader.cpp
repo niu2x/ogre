@@ -1396,7 +1396,7 @@ struct AssimpCodec : public Codec
     AssimpCodec(const String& type) : mType(type) {}
 
     String magicNumberToFileExt(const char* magicNumberPtr, size_t maxbytes) const override { return ""; }
-    String getType() const override { return mType; }
+    String type() const override { return mType; }
     void decode(const DataStreamPtr& input, const Any& output) const override
     {
         Mesh* dst =std::any_cast<Mesh*>(output);

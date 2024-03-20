@@ -103,7 +103,7 @@ namespace Ogre {
         bool isPointRenderingEnabled(void) const { return mBillboardSet->isPointRenderingEnabled(); }
 
         /// @copydoc ParticleSystemRenderer::getType
-        const String& getType(void) const override;
+        const String& type() const override;
         /// @copydoc ParticleSystemRenderer::_updateRenderQueue
         void _updateRenderQueue(RenderQueue* queue, 
             std::vector<Particle*>& currentParticles, bool cullIndividually) override;
@@ -155,7 +155,7 @@ namespace Ogre {
     {
     public:
         /// @copydoc FactoryObj::getType
-        const String& getType() const override;
+        const String& type() const override;
         /// @copydoc FactoryObj::createInstance
         ParticleSystemRenderer* createInstance( const String& name ) override;
     };

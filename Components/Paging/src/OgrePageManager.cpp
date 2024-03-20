@@ -248,7 +248,8 @@ namespace Ogre
     //---------------------------------------------------------------------
     void PageManager::destroyContentCollection(PageContentCollection* coll)
     {
-        PageContentCollectionFactory* fact = getContentCollectionFactory(coll->getType());
+        PageContentCollectionFactory* fact
+            = getContentCollectionFactory(coll->type());
         if (fact)
             fact->destroyInstance(coll);
         else
@@ -298,7 +299,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void PageManager::destroyContent(PageContent* c)
     {
-        PageContentFactory* fact = getContentFactory(c->getType());
+        PageContentFactory* fact = getContentFactory(c->type());
         if (fact)
             fact->destroyInstance(c);
         else
@@ -349,7 +350,7 @@ namespace Ogre
     //---------------------------------------------------------------------
     void PageManager::destroyWorldSection(PagedWorldSection* coll)
     {
-        PagedWorldSectionFactory* fact = getWorldSectionFactory(coll->getType());
+        PagedWorldSectionFactory* fact = getWorldSectionFactory(coll->type());
         if (fact)
             fact->destroyInstance(coll);
         else

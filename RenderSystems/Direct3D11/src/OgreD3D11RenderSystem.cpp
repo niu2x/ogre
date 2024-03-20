@@ -2154,7 +2154,10 @@ namespace Ogre
             if( op.useIndexes  )
             {
                 auto d3dBuf = op.indexData->indexBuffer->_getImpl<D3D11HardwareBuffer>();
-                mDevice.GetImmediateContext()->IASetIndexBuffer( d3dBuf->getD3DBuffer(), D3D11Mappings::getFormat(op.indexData->indexBuffer->getType()), 0 );
+                mDevice.GetImmediateContext()->IASetIndexBuffer(
+                    d3dBuf->getD3DBuffer(),
+                    D3D11Mappings::getFormat(op.indexData->indexBuffer->type()),
+                    0);
                 CHECK_DEVICE_ERROR("set index buffer");
             }
 
@@ -2251,10 +2254,8 @@ namespace Ogre
                 "D3D11RenderSystem::bindGpuProgram");
         }
 
-        switch (prg->getType())
-        {
-        case GPT_VERTEX_PROGRAM:
-            {
+        switch (prg->type()) {
+            case GPT_VERTEX_PROGRAM: {
                 // get the shader
                 mBoundVertexProgram = static_cast<D3D11HLSLProgram*>(prg);
             }

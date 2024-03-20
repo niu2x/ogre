@@ -67,8 +67,9 @@ SubRenderState* SubRenderStateFactory::createInstance()
 SubRenderState* SubRenderStateFactory::create_or_retrieveInstance(
     SGScriptTranslator* translator)
 {
-    //check if we already create a SRS 
-    SubRenderState* subRenderState = translator->getGeneratedSubRenderState(getType());
+    //check if we already create a SRS
+    SubRenderState* subRenderState
+        = translator->getGeneratedSubRenderState(type());
     if (subRenderState == NULL)
     {
         //create a new sub render state
@@ -105,8 +106,7 @@ void SubRenderStateFactory::destroyAllInstances()
 //-----------------------------------------------------------------------
 SubRenderState& SubRenderState::operator=(const SubRenderState& rhs)
 {
-    if (getType() != rhs.getType())
-    {
+    if (type() != rhs.type()) {
         OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
             "Can not copy sub render states of different types !!",
             "SubRenderState::operator=");

@@ -307,7 +307,7 @@ namespace Ogre
         {
             // declaration
             stream.writeChunkBegin(CHUNK_CONTENTCOLLECTION_DECLARATION_ID);
-            stream.write(&cc->getType());
+            stream.write(&cc->type());
             stream.writeChunkEnd(CHUNK_CONTENTCOLLECTION_DECLARATION_ID);
             // data
             cc->save(stream);

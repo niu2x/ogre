@@ -486,7 +486,12 @@ namespace Ogre {
 
         for (auto& e : mElementList)
         {
-            ret->addElement(e.getSource(), e.getOffset(), e.getType(), e.getSemantic(), e.getIndex());
+            ret->addElement(
+                e.getSource(),
+                e.getOffset(),
+                e.type(),
+                e.getSemantic(),
+                e.getIndex());
         }
         return ret;
     }
@@ -542,8 +547,13 @@ namespace Ogre {
             }
             if (targetIdx != elem.getSource())
             {
-                modifyElement(c, targetIdx, elem.getOffset(), elem.getType(), 
-                    elem.getSemantic(), elem.getIndex());
+                modifyElement(
+                    c,
+                    targetIdx,
+                    elem.getOffset(),
+                    elem.type(),
+                    elem.getSemantic(),
+                    elem.getIndex());
             }
 
             ++c;
@@ -560,7 +570,13 @@ namespace Ogre {
         for (auto& elem : elems)
         {
             // Set source & offset to 0 for now, before sort
-            newDecl->modifyElement(c, 0, 0, elem.getType(), elem.getSemantic(), elem.getIndex());
+            newDecl->modifyElement(
+                c,
+                0,
+                0,
+                elem.type(),
+                elem.getSemantic(),
+                elem.getIndex());
             ++c;
         }
         newDecl->sort();
@@ -614,8 +630,13 @@ namespace Ogre {
             }
 
             prevSemantic = elem.getSemantic();
-            newDecl->modifyElement(c, buffer, offset,
-                elem.getType(), elem.getSemantic(), elem.getIndex());
+            newDecl->modifyElement(
+                c,
+                buffer,
+                offset,
+                elem.type(),
+                elem.getSemantic(),
+                elem.getIndex());
 
             if (splitWithNext)
             {

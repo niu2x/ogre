@@ -34,7 +34,7 @@ class ImageBasedLighting : public SubRenderState
     UniformParameterPtr mLuminanceParam;
     bool mIsLuminanceParamDirty = true;
 public:
-    const String& getType() const override;
+    const String& type() const override;
     int getExecutionOrder() const override;
     bool preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass) override;
     bool createCpuSubPrograms(ProgramSet* programSet) override;
@@ -47,7 +47,7 @@ public:
 class ImageBasedLightingFactory : public SubRenderStateFactory
 {
 public:
-    const String& getType() const override;
+    const String& type() const override;
 
     SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
                                    SGScriptTranslator* translator) override;

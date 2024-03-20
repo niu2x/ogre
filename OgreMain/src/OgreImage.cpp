@@ -344,7 +344,7 @@ namespace Ogre {
         Codec* pCodec = Codec::getCodec(magicBuf, magicLen);
 
         if(pCodec)
-            return pCodec->getType();
+            return pCodec->type();
         else
             return BLANKSTRING;
 

@@ -51,7 +51,7 @@ class _OgreRTSSExport Program : public RTShaderSystemAlloc
 // Interface.
 public: 
     /** Get the type of this program. */
-    GpuProgramType getType() const;
+    GpuProgramType type() const;
 
     /** Resolve uniform auto constant parameter with associated real data of this program.
     @param autoType The auto type of the desired parameter. 

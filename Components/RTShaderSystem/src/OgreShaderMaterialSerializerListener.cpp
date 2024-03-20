@@ -93,7 +93,7 @@ void SGMaterialSerializerListener::serializePassAttributes(MaterialSerializer* s
     {
         if (SubRenderStateFactory* curFactory
             = ShaderGenerator::singleton().getSubRenderStateFactory(
-                curSubRenderState->getType())) {
+                curSubRenderState->type())) {
             curFactory->writeInstance(ser, curSubRenderState, passEntry->getSrcPass(), passEntry->getDstPass());
         }
     }
@@ -130,7 +130,7 @@ void SGMaterialSerializerListener::serializeTextureUnitStateAttributes(MaterialS
     {
         if (SubRenderStateFactory* curFactory
             = ShaderGenerator::singleton().getSubRenderStateFactory(
-                curSubRenderState->getType()))
+                curSubRenderState->type()))
             curFactory->writeInstance(ser, curSubRenderState, srcTextureUnit, dstTextureUnit);
     }
 

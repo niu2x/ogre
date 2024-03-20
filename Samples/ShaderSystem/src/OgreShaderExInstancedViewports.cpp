@@ -59,11 +59,7 @@ ShaderExInstancedViewports::ShaderExInstancedViewports()
 }
 
 //-----------------------------------------------------------------------
-const String& ShaderExInstancedViewports::getType() const
-{
-    return Type;
-}
-
+const String& ShaderExInstancedViewports::type() const { return Type; }
 
 //-----------------------------------------------------------------------
 int ShaderExInstancedViewports::getExecutionOrder() const
@@ -347,7 +343,7 @@ void ShaderExInstancedViewportsFactory::writeInstance(MaterialSerializer* ser,
 }
 
 //-----------------------------------------------------------------------
-const String& ShaderExInstancedViewportsFactory::getType() const
+const String& ShaderExInstancedViewportsFactory::type() const
 {
     return ShaderExInstancedViewports::Type;
 }

@@ -118,7 +118,8 @@ void GLSLProgramWriter::writeUniformBlock(std::ostream& os, const String& name, 
 
     for (const auto& uparam : uniforms)
     {
-        if(uparam->getType() == GCT_MATRIX_3X4 || uparam->getType() == GCT_MATRIX_2X4)
+        if (uparam->type() == GCT_MATRIX_3X4
+            || uparam->type() == GCT_MATRIX_2X4)
             os << "layout(column_major) ";
         writeParameter(os, uparam);
         os << ";\n";
@@ -129,7 +130,7 @@ void GLSLProgramWriter::writeUniformBlock(std::ostream& os, const String& name, 
 
 void GLSLProgramWriter::writeMainSourceCode(std::ostream& os, Program* program)
 {
-    GpuProgramType gpuType = program->getType();
+    GpuProgramType gpuType = program->type();
     if(gpuType == GPT_GEOMETRY_PROGRAM)
     {
         OGRE_EXCEPT( Exception::ERR_NOT_IMPLEMENTED,
@@ -170,7 +171,9 @@ void GLSLProgramWriter::writeMainSourceCode(std::ostream& os, Program* program)
         if(mGLSLVersion >= 430 && hasSSO)
         {
             os << "layout(location = " << uniformLoc << ") ";
-            auto esize = GpuConstantDefinition::getElementSize(uparam->getType(), true) / 4;
+            auto esize
+                = GpuConstantDefinition::getElementSize(uparam->type(), true)
+                / 4;
             uniformLoc += esize * std::max<int>(uparam->getSize(), 1);
         }
 
@@ -275,7 +278,7 @@ void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* functio
             os << "IN(";
             if(pParam->isHighP())
                 os << "f32"; // rely on unified shader vor f32vec4 etc.
-            os << mGpuConstTypeMap[pParam->getType()];
+            os << mGpuConstTypeMap[pParam->type()];
             os << "\t";
             os << paramName;
             os << ", " << psInLocation++ << ")\n";
@@ -292,14 +295,12 @@ void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* functio
 
             os << "IN(";
             // all uv texcoords passed by ogre are at least vec4
-            if ((paramSemantic == Parameter::SPS_TEXTURE_COORDINATES) && (pParam->getType() < GCT_FLOAT4))
-            {
+            if ((paramSemantic == Parameter::SPS_TEXTURE_COORDINATES)
+                && (pParam->type() < GCT_FLOAT4)) {
                 os << "vec4";
-            }
-            else
-            {
+            } else {
                 // the gl rendersystems only pass float attributes
-                GpuConstantType type = pParam->getType();
+                GpuConstantType type = pParam->type();
                 if(!mIsVulkan && !GpuConstantDefinition::isFloat(type))
                     type = GpuConstantType(type & ~GpuConstantDefinition::getBaseType(type));
                 os << mGpuConstTypeMap[type];

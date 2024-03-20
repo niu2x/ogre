@@ -328,7 +328,7 @@ bool TerrainSurface::createCpuSubPrograms(ProgramSet* programSet)
 }
 
 //-----------------------------------------------------------------------
-const String& TerrainTransformFactory::getType() const
+const String& TerrainTransformFactory::type() const
 {
     return TerrainTransform::Type;
 }
@@ -337,7 +337,7 @@ SubRenderState* TerrainTransformFactory::createInstanceImpl()
     return OGRE_NEW TerrainTransform();
 }
 
-const String& TerrainSurfaceFactory::getType() const
+const String& TerrainSurfaceFactory::type() const
 {
     return TerrainSurface::Type;
 }

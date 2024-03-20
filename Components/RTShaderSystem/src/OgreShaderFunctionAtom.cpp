@@ -61,20 +61,19 @@ Operand::~Operand()
 
 void Operand::setMaskToParamType()
 {
-    switch (mParameter->getType())
-    {
-    case GCT_FLOAT1:
-        mMask = OPM_X;
-        break;
-    case GCT_FLOAT2:
-        mMask = OPM_XY;
-        break;
-    case GCT_FLOAT3:
-        mMask = OPM_XYZ;
-        break;
-    default:
-        mMask = OPM_ALL;
-        break;
+    switch (mParameter->type()) {
+        case GCT_FLOAT1:
+            mMask = OPM_X;
+            break;
+        case GCT_FLOAT2:
+            mMask = OPM_XY;
+            break;
+        case GCT_FLOAT3:
+            mMask = OPM_XYZ;
+            break;
+        default:
+            mMask = OPM_ALL;
+            break;
     }
 }
 
@@ -266,7 +265,7 @@ bool FunctionInvocation::operator < ( const FunctionInvocation& rhs ) const
 
 static uchar getSwizzledSize(const Operand& op)
 {
-    auto gct = op.parameter()->getType();
+    auto gct = op.parameter()->type();
     if (op.getMask() == Operand::OPM_ALL)
         return GpuConstantDefinition::getElementSize(gct, false);
 
@@ -406,24 +405,23 @@ void SampleTextureAtom::writeSourceCode(std::ostream& os, const String& targetLa
 
     os << "texture";
     const auto& sampler = mOperands.front().parameter();
-    switch(sampler->getType())
-    {
-    case GCT_SAMPLER1D:
-        os << "1D";
-        break;
-    case GCT_SAMPLER_EXTERNAL_OES:
-    case GCT_SAMPLER2D:
-        os << "2D";
-        break;
-    case GCT_SAMPLER3D:
-        os << "3D";
-        break;
-    case GCT_SAMPLERCUBE:
-        os << "Cube";
-        break;
-    default:
-        OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "unknown sampler");
-        break;
+    switch (sampler->type()) {
+        case GCT_SAMPLER1D:
+            os << "1D";
+            break;
+        case GCT_SAMPLER_EXTERNAL_OES:
+        case GCT_SAMPLER2D:
+            os << "2D";
+            break;
+        case GCT_SAMPLER3D:
+            os << "3D";
+            break;
+        case GCT_SAMPLERCUBE:
+            os << "Cube";
+            break;
+        default:
+            OGRE_EXCEPT(Exception::ERR_INVALID_STATE, "unknown sampler");
+            break;
     }
 
     os << "(";

@@ -1031,11 +1031,8 @@ namespace {
 
         }
     }
-    //---------------------------------------------------------------------    
-    String DDSCodec::getType() const 
-    {
-        return mType;
-    }
+    //---------------------------------------------------------------------
+    String DDSCodec::type() const { return mType; }
     //---------------------------------------------------------------------
     String DDSCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
     {

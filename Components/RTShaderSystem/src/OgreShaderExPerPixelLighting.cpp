@@ -36,10 +36,7 @@ namespace RTShader {
 const String SRS_PER_PIXEL_LIGHTING = "SGX_PerPixelLighting";
 
 //-----------------------------------------------------------------------
-const String& PerPixelLighting::getType() const
-{
-    return SRS_PER_PIXEL_LIGHTING;
-}
+const String& PerPixelLighting::type() const { return SRS_PER_PIXEL_LIGHTING; }
 
 bool PerPixelLighting::set_parameter(const String& name, const String& value)
 {
@@ -297,7 +294,7 @@ void PerPixelLighting::addPSGlobalIlluminationInvocation(const FunctionStageRef&
 }
 
 //-----------------------------------------------------------------------
-const String& PerPixelLightingFactory::getType() const
+const String& PerPixelLightingFactory::type() const
 {
     return SRS_PER_PIXEL_LIGHTING;
 }

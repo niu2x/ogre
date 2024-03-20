@@ -44,7 +44,10 @@ namespace {
         ZipArchive(const String& name, const String& archType, const uint8* externBuf = 0, size_t externBufSz = 0);
         ~ZipArchive();
         /// @copydoc Archive::isCaseSensitive
-        bool isCaseSensitive(void) const override { return OGRE_RESOURCEMANAGER_STRICT != 0; }
+        bool is_case_sensitive(void) const override
+        {
+            return OGRE_RESOURCEMANAGER_STRICT != 0;
+        }
 
         /// @copydoc Archive::load
         void load() override;
@@ -64,21 +67,24 @@ namespace {
         StringVectorPtr list(bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::listFileInfo
-        FileInfoListPtr listFileInfo(bool recursive = true, bool dirs = false) const override;
+        FileInfoListPtr
+        list_file_info(bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::find
         StringVectorPtr find(const String& pattern, bool recursive = true,
             bool dirs = false) const override;
 
         /// @copydoc Archive::findFileInfo
-        FileInfoListPtr findFileInfo(const String& pattern, bool recursive = true,
+        FileInfoListPtr find_file_info(
+            const String& pattern,
+            bool recursive = true,
             bool dirs = false) const override;
 
         /// @copydoc Archive::exists
         bool exists(const String& filename) const override;
 
         /// @copydoc Archive::getModifiedTime
-        time_t getModifiedTime(const String& filename) const override;
+        time_t get_modified_time(const String& filename) const override;
     };
 }
     //-----------------------------------------------------------------------
@@ -165,7 +171,7 @@ namespace {
         {
             String basename, path;
             StringUtil::split_filename(lookUpFileName, &basename, &path);
-            const FileInfoListPtr fileNfo = findFileInfo(basename, true);
+            const FileInfoListPtr fileNfo = find_file_info(basename, true);
             if (fileNfo->size() == 1) // If there are more files with the same do not open anyone
             {
                 Ogre::FileInfo info = fileNfo->at(0);
@@ -213,7 +219,7 @@ namespace {
         return ret;
     }
     //-----------------------------------------------------------------------
-    FileInfoListPtr ZipArchive::listFileInfo(bool recursive, bool dirs) const
+    FileInfoListPtr ZipArchive::list_file_info(bool recursive, bool dirs) const
     {
         
         auto ret = std::make_shared<FileInfoList>();
@@ -244,8 +250,10 @@ namespace {
         return ret;
     }
     //-----------------------------------------------------------------------
-    FileInfoListPtr ZipArchive::findFileInfo(const String& pattern, 
-        bool recursive, bool dirs) const
+    FileInfoListPtr ZipArchive::find_file_info(
+        const String& pattern,
+        bool recursive,
+        bool dirs) const
     {
         
         auto ret = std::make_shared<FileInfoList>();
@@ -281,7 +289,7 @@ namespace {
                }) != mFileList.end();
     }
     //---------------------------------------------------------------------
-    time_t ZipArchive::getModifiedTime(const String& filename) const
+    time_t ZipArchive::get_modified_time(const String& filename) const
     {
         // Zziplib doesn't yet support getting the modification time of individual files
         // so just check the mod time of the zip itself
@@ -306,10 +314,10 @@ namespace {
         if(!readOnly)
             return NULL;
 
-        return OGRE_NEW ZipArchive(name, getType());
+        return OGRE_NEW ZipArchive(name, type());
     }
     //-----------------------------------------------------------------------
-    const String& ZipArchiveFactory::getType(void) const
+    const String& ZipArchiveFactory::type() const
     {
         static String name = "Zip";
         return name;
@@ -348,7 +356,11 @@ namespace {
 
         // TODO: decryptFunc
 
-        return new ZipArchive(name, getType(), it->second.fileData, it->second.fileSize);
+        return new ZipArchive(
+            name,
+            type(),
+            it->second.fileData,
+            it->second.fileSize);
     }
     void EmbeddedZipArchiveFactory::destroyInstance(Archive* ptr)
     {
@@ -356,7 +368,7 @@ namespace {
         ZipArchiveFactory::destroyInstance(ptr);
     }
     //-----------------------------------------------------------------------
-    const String& EmbeddedZipArchiveFactory::getType(void) const
+    const String& EmbeddedZipArchiveFactory::type() const
     {
         static String name = "EmbeddedZip";
         return name;

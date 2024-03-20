@@ -219,8 +219,7 @@ AutoParamDataSource::AutoParamDataSource()
     Vector4f AutoParamDataSource::getLightAttenuation(size_t index) const
     {
         const Light& l = getLight(index);
-        if(l.getType() == Light::LT_RECTLIGHT)
-        {
+        if (l.type() == Light::LT_RECTLIGHT) {
             auto rot = getViewMatrix().linear();
             return Vector4f(Vector3f(rot * Vector3(l.getDerivedSourceHalfHeight())), 0.0);
         }
@@ -232,21 +231,16 @@ AutoParamDataSource::AutoParamDataSource()
     {
         // inner, outer, fallof, isSpot
         const Light& l = getLight(index);
-        if (l.getType() == Light::LT_SPOTLIGHT)
-        {
+        if (l.type() == Light::LT_SPOTLIGHT) {
             return Vector4f(
                 Math::Cos(l.getSpotlightInnerAngle().value_radians() * 0.5f),
                 Math::Cos(l.getSpotlightOuterAngle().value_radians() * 0.5f),
                 l.getSpotlightFalloff(),
                 1.0);
-        }
-        else if(l.getType() == Light::LT_RECTLIGHT)
-        {
+        } else if (l.type() == Light::LT_RECTLIGHT) {
             auto rot = getViewMatrix().linear();
             return Vector4f(Vector3f(rot * Vector3(l.getDerivedSourceHalfWidth())), 2.0);
-        }
-        else
-        {
+        } else {
             // Use safe values which result in no change to point & dir light calcs
             // The spot factor applied to the usual lighting calc is 
             // pow((dot(spotDir, lightDir) - y) / (x - y), z)
@@ -733,10 +727,8 @@ AutoParamDataSource::AutoParamDataSource()
         {
             const Light& l = getLight(index);
 
-            if (&l != &mBlankLight && 
-                l.getType() == Light::LT_SPOTLIGHT &&
-                mSpotlightViewProjMatrixDirty[index])
-            {
+            if (&l != &mBlankLight && l.type() == Light::LT_SPOTLIGHT
+                && mSpotlightViewProjMatrixDirty[index]) {
                 Frustum frust;
                 SceneNode dummyNode(0);
                 dummyNode.attachObject(&frust);
@@ -782,10 +774,8 @@ AutoParamDataSource::AutoParamDataSource()
         {
             const Light& l = getLight(index);
 
-            if (&l != &mBlankLight && 
-                l.getType() == Light::LT_SPOTLIGHT &&
-                mSpotlightWorldViewProjMatrixDirty[index])
-            {
+            if (&l != &mBlankLight && l.type() == Light::LT_SPOTLIGHT
+                && mSpotlightWorldViewProjMatrixDirty[index]) {
                 mSpotlightWorldViewProjMatrix[index] = 
                     getSpotlightViewProjMatrix(index) * getWorldMatrix();
                 mSpotlightWorldViewProjMatrixDirty[index] = false;
@@ -841,8 +831,9 @@ AutoParamDataSource::AutoParamDataSource()
     Real AutoParamDataSource::getShadowExtrusionDistance(void) const
     {
         const Light& l = getLight(0); // only ever applies to one light at once
-        return (l.getType() == Light::LT_DIRECTIONAL) ?
-            mDirLightExtrusionDistance : mPointLightExtrusionDistance;
+        return (l.type() == Light::LT_DIRECTIONAL)
+            ? mDirLightExtrusionDistance
+            : mPointLightExtrusionDistance;
     }
     //-----------------------------------------------------------------------------
     const Renderable* AutoParamDataSource::getCurrentRenderable(void) const

@@ -62,7 +62,7 @@ public:
     /** 
     @see SubRenderState::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     /** 
     @see SubRenderState::getType.

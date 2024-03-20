@@ -130,7 +130,7 @@ namespace Ogre {
 
         /** Returns the light type.
         */
-        LightTypes getType(void) const;
+        LightTypes type() const;
 
         /** Sets the colour of the diffuse light given off by this source.
 

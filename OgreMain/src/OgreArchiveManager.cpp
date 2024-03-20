@@ -68,7 +68,9 @@ namespace Ogre {
         else
         {
             pArch = i->second;
-            OgreAssert(pArch->isReadOnly() == readOnly, "existing archive location has different readOnly status");
+            OgreAssert(
+                pArch->is_read_only() == readOnly,
+                "existing archive location has different readOnly status");
         }
 
         return pArch;
@@ -84,7 +86,8 @@ namespace Ogre {
         {
             i->second->unload();
             // Find factory to destroy. An archive factory created this file, it should still be there!
-            ArchiveFactoryMap::iterator fit = mArchFactories.find(i->second->getType());
+            ArchiveFactoryMap::iterator fit
+                = mArchFactories.find(i->second->type());
             assert( fit != mArchFactories.end() && "Cannot find an ArchiveFactory "
                     "to deal with archive this type" );
             fit->second->destroyInstance(i->second);
@@ -109,7 +112,8 @@ namespace Ogre {
             // Unload
             a.second->unload();
             // Find factory to destroy. An archive factory created this file, it should still be there!
-            ArchiveFactoryMap::iterator fit = mArchFactories.find(a.second->getType());
+            ArchiveFactoryMap::iterator fit
+                = mArchFactories.find(a.second->type());
             assert( fit != mArchFactories.end() && "Cannot find an ArchiveFactory "
                     "to deal with archive this type" );
             fit->second->destroyInstance(a.second);
@@ -120,9 +124,9 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ArchiveManager::addArchiveFactory(ArchiveFactory* factory)
     {
-        mArchFactories.emplace(factory->getType(), factory);
+        mArchFactories.emplace(factory->type(), factory);
         LogManager::singleton().log_message(
-            "ArchiveFactory for type '" + factory->getType() + "' registered");
+            "ArchiveFactory for type '" + factory->type() + "' registered");
     }
 }
 

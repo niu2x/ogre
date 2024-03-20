@@ -46,10 +46,7 @@ FFPTexturing::FFPTexturing() : mIsPointSprite(false), mLateAddBlend(false)
 }
 
 //-----------------------------------------------------------------------
-const String& FFPTexturing::getType() const
-{
-    return SRS_TEXTURING;
-}
+const String& FFPTexturing::type() const { return SRS_TEXTURING; }
 
 //-----------------------------------------------------------------------
 int FFPTexturing::getExecutionOrder() const
@@ -692,10 +689,7 @@ void FFPTexturing::setTextureUnit(unsigned short index, TextureUnitState* textur
 }
 
 //-----------------------------------------------------------------------
-const String& FFPTexturingFactory::getType() const
-{
-    return SRS_TEXTURING;
-}
+const String& FFPTexturingFactory::type() const { return SRS_TEXTURING; }
 
 //-----------------------------------------------------------------------
 SubRenderState* FFPTexturingFactory::createInstance(ScriptCompiler* compiler, 

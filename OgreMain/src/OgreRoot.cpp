@@ -1192,12 +1192,13 @@ Root& Root::singleton(void)
     void Root::addMovableObjectFactory(MovableObjectFactory* fact,
         bool overrideExisting)
     {
-        MovableObjectFactoryMap::iterator facti = mMovableObjectFactoryMap.find(
-            fact->getType());
+        MovableObjectFactoryMap::iterator facti
+            = mMovableObjectFactoryMap.find(fact->type());
         if (!overrideExisting && facti != mMovableObjectFactoryMap.end())
         {
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
-                "A factory of type '" + fact->getType() + "' already exists.",
+            OGRE_EXCEPT(
+                Exception::ERR_DUPLICATE_ITEM,
+                "A factory of type '" + fact->type() + "' already exists.",
                 "Root::addMovableObjectFactory");
         }
 
@@ -1216,12 +1217,10 @@ Root& Root::singleton(void)
         }
 
         // Save
-        mMovableObjectFactoryMap[fact->getType()] = fact;
+        mMovableObjectFactoryMap[fact->type()] = fact;
 
         LogManager::singleton().log_message(
-            "MovableObjectFactory for type '" + fact->getType()
-            + "' registered.");
-
+            "MovableObjectFactory for type '" + fact->type() + "' registered.");
     }
     //---------------------------------------------------------------------
     bool Root::hasMovableObjectFactory(const String& typeName) const
@@ -1260,8 +1259,8 @@ Root& Root::singleton(void)
     //---------------------------------------------------------------------
     void Root::removeMovableObjectFactory(MovableObjectFactory* fact)
     {
-        MovableObjectFactoryMap::iterator i = mMovableObjectFactoryMap.find(
-            fact->getType());
+        MovableObjectFactoryMap::iterator i
+            = mMovableObjectFactoryMap.find(fact->type());
         if (i != mMovableObjectFactoryMap.end())
         {
             mMovableObjectFactoryMap.erase(i);

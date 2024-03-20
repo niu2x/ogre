@@ -289,7 +289,11 @@ namespace Ogre {
         else
         {
             // Interpolate by t
-            kret->setValue(lerpAny(k1->getValue(), k2->getValue(), t, mTargetAnim->getType()));
+            kret->setValue(lerpAny(
+                k1->getValue(),
+                k2->getValue(),
+                t,
+                mTargetAnim->type()));
         }
     }
     //---------------------------------------------------------------------
@@ -332,8 +336,8 @@ namespace Ogre {
         getInterpolatedKeyFrame(timeIndex, &kf);
         // add to existing. Weights are not relative, but treated as
         // absolute multipliers for the animation
-        anim->applyDeltaValue(scaleAny(kf.getValue(), weight * scale, mTargetAnim->getType()));
-
+        anim->applyDeltaValue(
+            scaleAny(kf.getValue(), weight * scale, mTargetAnim->type()));
     }
     //--------------------------------------------------------------------------
     NumericKeyFrame* NumericAnimationTrack::createNumericKeyFrame(Real timePos)

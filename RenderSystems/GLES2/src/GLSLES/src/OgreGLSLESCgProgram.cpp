@@ -217,22 +217,20 @@ namespace Ogre {
 
         // select the program type
         EShLanguage lang = EShLangCount;
-        switch(getType())
-        {
-        case GPT_VERTEX_PROGRAM:
-            lang = EShLangVertex;
-            break;
-        case GPT_FRAGMENT_PROGRAM:
-            lang = EShLangFragment;
-            break;
-        default:
-            mSource = "";
-            LogManager::singleton().log_message(
-                "File:" + mFilename + " has unsupported program type.");
-            return;
+        switch (type()) {
+            case GPT_VERTEX_PROGRAM:
+                lang = EShLangVertex;
+                break;
+            case GPT_FRAGMENT_PROGRAM:
+                lang = EShLangFragment;
+                break;
+            default:
+                mSource = "";
+                LogManager::singleton().log_message(
+                    "File:" + mFilename + " has unsupported program type.");
+                return;
         }
 
-       
         int options = 0;
           //  options |= ETranslateOpUsePrecision; this option doesn't work good with the ogre glsl parameter parser
 

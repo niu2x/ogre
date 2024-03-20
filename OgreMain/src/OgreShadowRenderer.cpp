@@ -419,8 +419,8 @@ void SceneManager::ShadowRenderer::renderModulativeTextureShadowedQueueGroupObje
             // if this light is a spotlight, we need to add the spot fader layer
             // BUT not if using a custom projection matrix, since then it will be
             // inappropriately shaped most likely
-            if (l->getType() == Light::LT_SPOTLIGHT && !cam->isCustomProjectionMatrixEnabled())
-            {
+            if (l->type() == Light::LT_SPOTLIGHT
+                && !cam->isCustomProjectionMatrixEnabled()) {
                 // remove all TUs except 0 & 1
                 // (only an issue if additive shadows have been used)
                 while(targetPass->getNumTextureUnitStates() > 2)
@@ -448,13 +448,10 @@ void SceneManager::ShadowRenderer::renderModulativeTextureShadowedQueueGroupObje
 
                 t->setProjectiveTexturing(!targetPass->hasVertexProgram(), cam);
                 mSceneManager->mAutoParamDataSource->setTextureProjector(cam, 1);
-            }
-            else
-            {
+            } else {
                 // remove all TUs except 0 including spot
                 while(targetPass->getNumTextureUnitStates() > 1)
                     targetPass->removeTextureUnitState(1);
-
             }
 
             // account for the RTSS
@@ -791,10 +788,11 @@ void SceneManager::ShadowRenderer::prepareShadowTextures(Camera* cam, Viewport* 
         if (!light->getCastShadows())
             continue;
 
-        mDestRenderSystem->_setDepthClamp(light->getType() == Light::LT_DIRECTIONAL);
+        mDestRenderSystem->_setDepthClamp(
+            light->type() == Light::LT_DIRECTIONAL);
 
         // texture iteration per light.
-        size_t textureCountPerLight = mShadowTextureCountPerType[light->getType()];
+        size_t textureCountPerLight = mShadowTextureCountPerType[light->type()];
         for (size_t j = 0; j < textureCountPerLight && si != siend; ++j)
         {
             TexturePtr &shadowTex = *si;
@@ -807,15 +805,14 @@ void SceneManager::ShadowRenderer::prepareShadowTextures(Camera* cam, Viewport* 
             // Associate main view camera as LOD camera
             texCam->setLodCamera(cam);
             // set base
-            if (light->getType() != Light::LT_POINT)
-            {
+            if (light->type() != Light::LT_POINT) {
 #ifdef OGRE_NODELESS_POSITIONING
                 texCam->getParentSceneNode()->setDirection(light->getDerivedDirection(), Node::TS_WORLD);
 #else
                 texCam->getParentSceneNode()->setOrientation(light->getParentNode()->_getDerivedOrientation());
 #endif
             }
-            if (light->getType() != Light::LT_DIRECTIONAL)
+            if (light->type() != Light::LT_DIRECTIONAL)
                 texCam->getParentSceneNode()->setPosition(light->getDerivedPosition());
 
             // also update culling camera
@@ -910,8 +907,10 @@ void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* lig
         extrudeInSoftware = false;
         // attach the appropriate extrusion vertex program
         // Note we never unset it because support for vertex programs is constant
-        mShadowStencilPass->setGpuProgram(GPT_VERTEX_PROGRAM,
-                                          ShadowVolumeExtrudeProgram::get(light->getType(), finiteExtrude), false);
+        mShadowStencilPass->setGpuProgram(
+            GPT_VERTEX_PROGRAM,
+            ShadowVolumeExtrudeProgram::get(light->type(), finiteExtrude),
+            false);
         // Set params
         if (finiteExtrude)
         {
@@ -923,8 +922,10 @@ void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* lig
         }
         if (mDebugShadows)
         {
-            mShadowDebugPass->setGpuProgram(GPT_VERTEX_PROGRAM,
-                                            ShadowVolumeExtrudeProgram::get(light->getType(), finiteExtrude), false);
+            mShadowDebugPass->setGpuProgram(
+                GPT_VERTEX_PROGRAM,
+                ShadowVolumeExtrudeProgram::get(light->type(), finiteExtrude),
+                false);
 
             // Set params
             if (finiteExtrude)
@@ -971,8 +972,7 @@ void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* lig
 
         // Calculate extrusion distance
         Real extrudeDist = mShadowDirLightExtrudeDist;
-        if (light->getType() != Light::LT_DIRECTIONAL)
-        {
+        if (light->type() != Light::LT_DIRECTIONAL) {
             // we have to limit shadow extrusion to avoid cliping by far clip plane 
             extrudeDist = std::min(caster->getPointExtrusionDistance(light), mShadowDirLightExtrudeDist); 
             // Set autoparams for finite point light extrusion
@@ -1002,10 +1002,10 @@ void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* lig
             // zfail needs dark cap
             // UNLESS directional lights using hardware extrusion to infinity
             // since that extrudes to a single point
-            if(!((flags & SRF_EXTRUDE_TO_INFINITY) &&
-                light->getType() == Light::LT_DIRECTIONAL) &&
-                camera->isVisible(caster->getDarkCapBounds(*light, darkCapExtrudeDist)))
-            {
+            if (!((flags & SRF_EXTRUDE_TO_INFINITY)
+                  && light->type() == Light::LT_DIRECTIONAL)
+                && camera->isVisible(
+                    caster->getDarkCapBounds(*light, darkCapExtrudeDist))) {
                 flags |= SRF_INCLUDE_DARK_CAP;
             }
         }
@@ -1017,19 +1017,18 @@ void SceneManager::ShadowRenderer::renderShadowVolumesToStencil(const Light* lig
             //    the infinitely projected volume will leave a dark band
             // 2: finite extrusion on any light source since glancing angles
             //    can peek through the end and shadow objects behind incorrectly
-            if ((flags & SRF_EXTRUDE_TO_INFINITY) &&
-                light->getType() != Light::LT_DIRECTIONAL &&
-                (mShadowTechnique & SHADOWDETAILTYPE_MODULATIVE) &&
-                camera->isVisible(caster->getDarkCapBounds(*light, darkCapExtrudeDist)))
-            {
+            if ((flags & SRF_EXTRUDE_TO_INFINITY)
+                && light->type() != Light::LT_DIRECTIONAL
+                && (mShadowTechnique & SHADOWDETAILTYPE_MODULATIVE)
+                && camera->isVisible(
+                    caster->getDarkCapBounds(*light, darkCapExtrudeDist))) {
+                flags |= SRF_INCLUDE_DARK_CAP;
+            } else if (
+                !(flags & SRF_EXTRUDE_TO_INFINITY)
+                && camera->isVisible(
+                    caster->getDarkCapBounds(*light, darkCapExtrudeDist))) {
                 flags |= SRF_INCLUDE_DARK_CAP;
             }
-            else if (!(flags & SRF_EXTRUDE_TO_INFINITY) &&
-                camera->isVisible(caster->getDarkCapBounds(*light, darkCapExtrudeDist)))
-            {
-                flags |= SRF_INCLUDE_DARK_CAP;
-            }
-
         }
 
         if(extrudeInSoftware) // convert to flag
@@ -1779,8 +1778,7 @@ bool ShadowCasterSceneQueryListener::queryResult(MovableObject* object)
         // which are always outside), and the object is intersecting
         // on of the volumes formed between the edges of the frustum and the
         // light
-        if (!mIsLightInFrustum || mLight->getType() == Light::LT_DIRECTIONAL)
-        {
+        if (!mIsLightInFrustum || mLight->type() == Light::LT_DIRECTIONAL) {
             // Iterate over volumes
             PlaneBoundedVolumeList::const_iterator i, iend;
             iend = mLightClipVolumeList->end();
@@ -1793,7 +1791,6 @@ bool ShadowCasterSceneQueryListener::queryResult(MovableObject* object)
                 }
 
             }
-
         }
     }
     return true;
@@ -1804,8 +1801,7 @@ SceneManager::ShadowRenderer::findShadowCastersForLight(const Light* light, cons
 {
     mShadowCasterList.clear();
 
-    if (light->getType() == Light::LT_DIRECTIONAL)
-    {
+    if (light->type() == Light::LT_DIRECTIONAL) {
         // Basic AABB query encompassing the frustum and the extrusion of it
         AxisAlignedBox aabb;
         const Vector3* corners = camera->getWorldSpaceCorners();
@@ -1834,10 +1830,7 @@ SceneManager::ShadowRenderer::findShadowCastersForLight(const Light* light, cons
             light, camera, &mShadowCasterList, light->getShadowFarDistanceSquared());
         mShadowCasterAABBQuery->execute(mShadowCasterQueryListener.get());
 
-
-    }
-    else
-    {
+    } else {
         Sphere s(light->getDerivedPosition(), light->getAttenuationRange());
         // eliminate early if camera cannot see light sphere
         if (camera->isVisible(s))
@@ -1863,9 +1856,7 @@ SceneManager::ShadowRenderer::findShadowCastersForLight(const Light* light, cons
             mShadowCasterSphereQuery->execute(mShadowCasterQueryListener.get());
 
         }
-
     }
-
 
     return mShadowCasterList;
 }

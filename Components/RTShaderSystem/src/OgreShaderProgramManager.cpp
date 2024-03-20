@@ -80,7 +80,7 @@ size_t ProgramManager::getShaderCount(GpuProgramType type) const
 
     for(const auto& s : mShaderList)
     {
-        count += size_t(s->getType() == type);
+        count += size_t(s->type() == type);
     }
 
     return count;
@@ -169,12 +169,9 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
     // Generate program name.
     String programName = generateHash(source, shaderProgram->getPreprocessorDefines());
 
-    if (shaderProgram->getType() == GPT_VERTEX_PROGRAM)
-    {
+    if (shaderProgram->type() == GPT_VERTEX_PROGRAM) {
         programName += "_VS";
-    }
-    else if (shaderProgram->getType() == GPT_FRAGMENT_PROGRAM)
-    {
+    } else if (shaderProgram->type() == GPT_FRAGMENT_PROGRAM) {
         programName += "_FS";
     }
 
@@ -192,7 +189,7 @@ GpuProgramPtr ProgramManager::createGpuProgram(Program* shaderProgram,
         programName,
         RGN_INTERNAL,
         language,
-        shaderProgram->getType());
+        shaderProgram->type());
 
     // Case cache directory specified -> create program from file.
     if (!cachePath.empty())

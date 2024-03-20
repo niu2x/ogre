@@ -204,11 +204,8 @@ namespace Ogre {
         
         image->loadDynamicImage(pixelData, width, height, 1, format, true);
     }
-    //---------------------------------------------------------------------    
-    String STBIImageCodec::getType() const
-    {
-        return mType;
-    }
+    //---------------------------------------------------------------------
+    String STBIImageCodec::type() const { return mType; }
     //---------------------------------------------------------------------
     String STBIImageCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
     {

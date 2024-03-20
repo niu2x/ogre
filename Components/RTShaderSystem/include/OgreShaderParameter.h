@@ -217,7 +217,7 @@ public:
     }
 
     /** Get the type of this parameter. */
-    GpuConstantType getType() const { return mType; }
+    GpuConstantType type() const { return mType; }
 
     /** Get the semantic of this parameter. */
     const Semantic& getSemantic() const { return mSemantic; }

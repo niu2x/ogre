@@ -57,9 +57,9 @@ namespace Ogre {
 
         void decode(const DataStreamPtr& input, const Any& output) const override;
 		String magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const override;
-        String getType() const override;
+        String type() const override;
 
-		/// Static method to startup and register the PVRTC codec
+        /// Static method to startup and register the PVRTC codec
 		static void startup(void);
 		/// Static method to shutdown and unregister the PVRTC codec
 		static void shutdown(void);

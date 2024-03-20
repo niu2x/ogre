@@ -74,10 +74,7 @@ namespace Ogre {
         mLightType = type;
     }
     //-----------------------------------------------------------------------
-    Light::LightTypes Light::getType(void) const
-    {
-        return mLightType;
-    }
+    Light::LightTypes Light::type() const { return mLightType; }
 #ifdef OGRE_NODELESS_POSITIONING
     //-----------------------------------------------------------------------
     void Light::setPosition(Real x, Real y, Real z)
@@ -864,10 +861,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String MOT_LIGHT = "Light";
     //-----------------------------------------------------------------------
-    const String& LightFactory::getType(void) const
-    {
-        return MOT_LIGHT;
-    }
+    const String& LightFactory::type() const { return MOT_LIGHT; }
     //-----------------------------------------------------------------------
     MovableObject* LightFactory::createInstanceImpl( const String& name, 
         const NameValuePairList* params)

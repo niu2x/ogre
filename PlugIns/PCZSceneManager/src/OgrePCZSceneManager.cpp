@@ -938,7 +938,7 @@ namespace Ogre
                 {
                     LightInfo lightInfo;
                     lightInfo.light = l;
-                    lightInfo.type = l->getType();
+                    lightInfo.type = l->type();
                     if (lightInfo.type == Light::LT_DIRECTIONAL)
                     {
                         // Always visible
@@ -981,13 +981,10 @@ namespace Ogre
     {
         PCZSceneNode* camNode = (PCZSceneNode*)camera->getParentSceneNode();
 
-        if (light->getType() == Light::LT_DIRECTIONAL)
-        {
+        if (light->type() == Light::LT_DIRECTIONAL) {
             if (camNode->getHomeZone() != mActiveCameraZone)
                 addPCZSceneNode(camNode, mActiveCameraZone);
-        }
-        else
-        {
+        } else {
             PCZSceneNode* lightNode = (PCZSceneNode*)light->getParentSceneNode();
             assert(lightNode);
             PCZone* lightZone = lightNode->getHomeZone();

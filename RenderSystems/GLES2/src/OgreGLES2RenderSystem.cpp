@@ -1147,7 +1147,10 @@ namespace Ogre {
             pBufferData = VBO_BUFFER_OFFSET(op.indexData->indexStart *
                                             op.indexData->indexBuffer->getIndexSize());
 
-            GLenum indexType = (op.indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+            GLenum indexType = (op.indexData->indexBuffer->type()
+                                == HardwareIndexBuffer::IT_16BIT)
+                ? GL_UNSIGNED_SHORT
+                : GL_UNSIGNED_INT;
 
             do
             {
@@ -1562,8 +1565,7 @@ namespace Ogre {
         
         GLSLESProgram* glprg = static_cast<GLSLESProgram*>(prg);
 
-        switch (glprg->getType())
-        {
+        switch (glprg->type()) {
             case GPT_VERTEX_PROGRAM:
                 mCurrentVertexProgram = glprg;
                 break;
@@ -1574,9 +1576,9 @@ namespace Ogre {
             default:
                 break;
         }
-        
+
         // Bind the program
-        mProgramManager->setActiveShader(glprg->getType(), glprg);
+        mProgramManager->setActiveShader(glprg->type(), glprg);
 
         RenderSystem::bindGpuProgram(prg);
     }
@@ -1697,7 +1699,7 @@ namespace Ogre {
         mStateCacheManager->bindGLBuffer(GL_ARRAY_BUFFER, hwGlBuffer->getGLBufferId());
         void* pBufferData = VBO_BUFFER_OFFSET(elem.getOffset() + vertexStart * vertexBuffer->getVertexSize());
 
-        unsigned short typeCount = VertexElement::getTypeCount(elem.getType());
+        unsigned short typeCount = VertexElement::getTypeCount(elem.type());
         GLboolean normalised = GL_FALSE;
         GLuint attrib = 0;
 
@@ -1715,8 +1717,7 @@ namespace Ogre {
             }
         }
 
-        switch(elem.getType())
-        {
+        switch (elem.type()) {
             case VET_UBYTE4_NORM:
             case VET_SHORT2_NORM:
             case VET_USHORT2_NORM:
@@ -1729,12 +1730,13 @@ namespace Ogre {
                 break;
         };
 
-        OGRE_CHECK_GL_ERROR(glVertexAttribPointer(attrib,
-                                                  typeCount,
-                                                  GLES2HardwareBufferManager::getGLType(elem.getType()),
-                                                  normalised,
-                                                  static_cast<GLsizei>(vertexBuffer->getVertexSize()),
-                                                  pBufferData));
+        OGRE_CHECK_GL_ERROR(glVertexAttribPointer(
+            attrib,
+            typeCount,
+            GLES2HardwareBufferManager::getGLType(elem.type()),
+            normalised,
+            static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+            pBufferData));
 
         OGRE_CHECK_GL_ERROR(glEnableVertexAttribArray(attrib));
         mRenderAttribsBound.push_back(attrib);

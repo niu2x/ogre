@@ -54,7 +54,7 @@ public:
     /** 
     @see SubRenderState::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     bool set_parameter(const String& name, const String& value) override;
 
@@ -115,7 +115,7 @@ public:
     /** 
     @see SubRenderStateFactory::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     /** 
     @see SubRenderStateFactory::createInstance.

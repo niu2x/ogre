@@ -557,11 +557,8 @@ namespace Ogre {
         FreeImage_Unload(fiBitmap);
         FreeImage_CloseMemory(fiMem);
     }
-    //---------------------------------------------------------------------    
-    String FreeImageCodec::getType() const 
-    {
-        return mType;
-    }
+    //---------------------------------------------------------------------
+    String FreeImageCodec::type() const { return mType; }
     //---------------------------------------------------------------------
     String FreeImageCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
     {

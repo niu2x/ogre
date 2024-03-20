@@ -46,7 +46,7 @@ namespace Ogre {
 
         void decode(const DataStreamPtr& input, const Any& output) const override;
         String magicNumberToFileExt(const char* magicNumberPtr, size_t maxbytes) const override;
-        String getType() const override;
+        String type() const override;
     };
     /** @} */
     /** @} */

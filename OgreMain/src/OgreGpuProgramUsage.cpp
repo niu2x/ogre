@@ -136,9 +136,9 @@ namespace Ogre
             mProgram->load();
 
         // check type
-        if (mProgram->is_loaded() && mProgram->getType() != mType) {
+        if (mProgram->is_loaded() && mProgram->type() != mType) {
             String myType = GpuProgram::getProgramTypeName(mType);
-            String yourType = GpuProgram::getProgramTypeName(mProgram->getType());
+            String yourType = GpuProgram::getProgramTypeName(mProgram->type());
 
             OGRE_EXCEPT(
                 Exception::ERR_INVALIDPARAMS,

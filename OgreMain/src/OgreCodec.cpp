@@ -37,13 +37,17 @@ namespace Ogre {
 
     DataStreamPtr Codec::encode(const Any& input) const
     {
-        OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, getType() + " - encoding to memory not supported");
+        OGRE_EXCEPT(
+            Exception::ERR_NOT_IMPLEMENTED,
+            type() + " - encoding to memory not supported");
         return DataStreamPtr();
     }
 
     void Codec::encodeToFile(const Any& input, const String& outFileName) const
     {
-        OGRE_EXCEPT(Exception::ERR_NOT_IMPLEMENTED, getType() + " - encoding to file not supported");
+        OGRE_EXCEPT(
+            Exception::ERR_NOT_IMPLEMENTED,
+            type() + " - encoding to file not supported");
     }
 
     StringVector Codec::getExtensions(void)
@@ -59,9 +63,11 @@ namespace Ogre {
 
     void Codec::registerCodec(Codec* pCodec)
     {
-        auto ret = msMapCodecs.emplace(pCodec->getType(), pCodec);
+        auto ret = msMapCodecs.emplace(pCodec->type(), pCodec);
         if (!ret.second)
-            OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM, pCodec->getType() + " already has a registered codec");
+            OGRE_EXCEPT(
+                Exception::ERR_DUPLICATE_ITEM,
+                pCodec->type() + " already has a registered codec");
     }
 
     Codec* Codec::getCodec(const String& extension)
@@ -95,7 +101,7 @@ namespace Ogre {
                 // if we have a single codec class that can handle many types, 
                 // and register many instances of it against different types, we
                 // can end up matching the wrong one here, so grab the right one
-                if (ext == c.second->getType())
+                if (ext == c.second->type())
                     return c.second;
                 else
                     return getCodec(ext);

@@ -176,14 +176,11 @@ namespace Ogre
             pit++;
         }
         // if portal is of type AABB or Sphere, then use simple bound check against planes
-        if (portal->getType() == PortalBase::PORTAL_TYPE_AABB)
-        {
+        if (portal->type() == PortalBase::PORTAL_TYPE_AABB) {
             AxisAlignedBox aabb;
             aabb.set_extents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
             return isVisible(aabb);
-        }
-        else if (portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)
-        {
+        } else if (portal->type() == PortalBase::PORTAL_TYPE_SPHERE) {
             return isVisible(portal->getDerivedSphere());
         }
 
@@ -355,14 +352,11 @@ namespace Ogre
             pit++;
         }
         // if portal is of type AABB or Sphere, then use simple bound check against planes
-        if (portal->getType() == PortalBase::PORTAL_TYPE_AABB)
-        {
+        if (portal->type() == PortalBase::PORTAL_TYPE_AABB) {
             AxisAlignedBox aabb;
             aabb.set_extents(portal->getDerivedCorner(0), portal->getDerivedCorner(1));
             return isFullyVisible(aabb);
-        }
-        else if (portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)
-        {
+        } else if (portal->type() == PortalBase::PORTAL_TYPE_SPHERE) {
             return isFullyVisible(portal->getDerivedSphere());
         }
 
@@ -479,10 +473,9 @@ namespace Ogre
 
         // If portal is of type aabb or sphere, add a plane which is same as frustum
         // origin plane (ie. redundant).  We do this because we need the plane as a flag
-        // to prevent infinite recursion 
-        if (portal->getType() == PortalBase::PORTAL_TYPE_AABB ||
-            portal->getType() == PortalBase::PORTAL_TYPE_SPHERE)
-        {
+        // to prevent infinite recursion
+        if (portal->type() == PortalBase::PORTAL_TYPE_AABB
+            || portal->type() == PortalBase::PORTAL_TYPE_SPHERE) {
             PCPlane * newPlane = getUnusedCullingPlane();
             newPlane->setFromOgrePlane(mOriginPlane);
             newPlane->setPortal(portal);

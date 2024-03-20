@@ -17,7 +17,10 @@ namespace RTShader
 const String SRS_IMAGE_BASED_LIGHTING = "ImageBasedLighting";
 
 //-----------------------------------------------------------------------
-const String& ImageBasedLighting::getType() const { return SRS_IMAGE_BASED_LIGHTING; }
+const String& ImageBasedLighting::type() const
+{
+    return SRS_IMAGE_BASED_LIGHTING;
+}
 
 //-----------------------------------------------------------------------
 int ImageBasedLighting::getExecutionOrder() const { return FFP_LIGHTING + 10; }
@@ -120,7 +123,10 @@ void ImageBasedLighting::updateGpuProgramsParams(Renderable* rend, const Pass* p
 
 
 //-----------------------------------------------------------------------
-const String& ImageBasedLightingFactory::getType() const { return SRS_IMAGE_BASED_LIGHTING; }
+const String& ImageBasedLightingFactory::type() const
+{
+    return SRS_IMAGE_BASED_LIGHTING;
+}
 
 //-----------------------------------------------------------------------
 SubRenderState* ImageBasedLightingFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,

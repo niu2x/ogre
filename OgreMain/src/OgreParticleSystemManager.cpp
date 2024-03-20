@@ -98,7 +98,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void ParticleSystemManager::addRendererFactory(ParticleSystemRendererFactory* factory)
     {
-        String name = factory->getType();
+        String name = factory->type();
         mRendererFactories[name] = factory;
         LogManager::singleton().log_message(
             "Particle Renderer Type '" + name + "' registered");
@@ -250,7 +250,8 @@ namespace Ogre {
 
         
         // Destroy using the factory which created it
-        ParticleEmitterFactoryMap::iterator pFact = mEmitterFactories.find(emitter->getType());
+        ParticleEmitterFactoryMap::iterator pFact
+            = mEmitterFactories.find(emitter->type());
 
         if (pFact == mEmitterFactories.end())
         {
@@ -284,7 +285,8 @@ namespace Ogre {
 
         
         // Destroy using the factory which created it
-        ParticleAffectorFactoryMap::iterator pFact = mAffectorFactories.find(affector->getType());
+        ParticleAffectorFactoryMap::iterator pFact
+            = mAffectorFactories.find(affector->type());
 
         if (pFact == mAffectorFactories.end())
         {
@@ -317,7 +319,8 @@ namespace Ogre {
 
         
         // Destroy using the factory which created it
-        ParticleSystemRendererFactoryMap::iterator pFact = mRendererFactories.find(renderer->getType());
+        ParticleSystemRendererFactoryMap::iterator pFact
+            = mRendererFactories.find(renderer->type());
 
         if (pFact == mRendererFactories.end())
         {
@@ -402,7 +405,7 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    const String& ParticleSystemFactory::getType(void) const
+    const String& ParticleSystemFactory::type() const
     {
         return MOT_PARTICLE_SYSTEM;
     }

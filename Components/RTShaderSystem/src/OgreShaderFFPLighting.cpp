@@ -46,11 +46,7 @@ FFPLighting::FFPLighting()
 }
 
 //-----------------------------------------------------------------------
-const String& FFPLighting::getType() const
-{
-	return SRS_PER_VERTEX_LIGHTING;
-}
-
+const String& FFPLighting::type() const { return SRS_PER_VERTEX_LIGHTING; }
 
 //-----------------------------------------------------------------------
 int	FFPLighting::getExecutionOrder() const
@@ -366,7 +362,7 @@ bool FFPLighting::set_parameter(const String& name, const String& value)
 }
 
 //-----------------------------------------------------------------------
-const String& FFPLightingFactory::getType() const
+const String& FFPLightingFactory::type() const
 {
 	return SRS_PER_VERTEX_LIGHTING;
 }

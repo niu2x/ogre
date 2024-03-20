@@ -115,7 +115,7 @@ ColorValue parseColour(pugi::xml_node& XMLNode)
 struct DotSceneCodec : public Codec
 {
     String magicNumberToFileExt(const char* magicNumberPtr, size_t maxbytes) const override { return ""; }
-    String getType() const override { return "scene"; }
+    String type() const override { return "scene"; }
     void decode(const DataStreamPtr& stream, const Any& output) const override
     {
         DataStreamPtr _stream(stream);
@@ -1122,24 +1122,22 @@ void DotSceneLoader::writeNode(pugi::xml_node& parentXML, const SceneNode* n)
             write(diffuse, l->getDiffuseColour());
             auto specular = light.append_child("colourSpecular");
             write(specular, l->getSpecularColour());
-            switch (l->getType())
-            {
-            case Light::LT_POINT:
-                light.append_attribute("type") = "point";
-                break;
-            case Light::LT_DIRECTIONAL:
-                light.append_attribute("type") = "directional";
-                break;
-            case Light::LT_SPOTLIGHT:
-                light.append_attribute("type") = "spot";
-                break;
-            case Light::LT_RECTLIGHT:
-                light.append_attribute("type") = "rect";
-                break;
+            switch (l->type()) {
+                case Light::LT_POINT:
+                    light.append_attribute("type") = "point";
+                    break;
+                case Light::LT_DIRECTIONAL:
+                    light.append_attribute("type") = "directional";
+                    break;
+                case Light::LT_SPOTLIGHT:
+                    light.append_attribute("type") = "spot";
+                    break;
+                case Light::LT_RECTLIGHT:
+                    light.append_attribute("type") = "rect";
+                    break;
             }
 
-            if(l->getType() != Light::LT_DIRECTIONAL)
-            {
+            if (l->type() != Light::LT_DIRECTIONAL) {
                 auto range = light.append_child("lightRange");
                 range.append_attribute("inner") =
                     StringConverter::to_string(l->getSpotlightInnerAngle()).c_str();

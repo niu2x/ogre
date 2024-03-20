@@ -17,7 +17,7 @@ namespace RTShader
 const String SRS_WBOIT = "WBOIT";
 
 //-----------------------------------------------------------------------
-const String& WBOIT::getType() const { return SRS_WBOIT; }
+const String& WBOIT::type() const { return SRS_WBOIT; }
 
 //-----------------------------------------------------------------------
 int WBOIT::getExecutionOrder() const { return FFP_POST_PROCESS; }
@@ -69,7 +69,7 @@ bool WBOIT::createCpuSubPrograms(ProgramSet* programSet)
 }
 
 //-----------------------------------------------------------------------
-const String& WBOITFactory::getType() const { return SRS_WBOIT; }
+const String& WBOITFactory::type() const { return SRS_WBOIT; }
 
 //-----------------------------------------------------------------------
 SubRenderState* WBOITFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,

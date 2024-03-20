@@ -116,11 +116,11 @@ namespace Ogre
 
         const std::type_info& type() const
         {
-            return mContent ? mContent->getType() : typeid(void);
+            return mContent ? mContent->type() : typeid(void);
         }
 
         /// @deprecated use type() instead
-        OGRE_DEPRECATED const std::type_info& getType() const { return type(); }
+        OGRE_DEPRECATED const std::type_info& type() const { return type(); }
 
         /// @deprecated no longer supported
         OGRE_DEPRECATED friend std::ostream& operator <<
@@ -152,7 +152,7 @@ namespace Ogre
 
         public: // queries
 
-            virtual const std::type_info& getType() const = 0;
+            virtual const std::type_info& type() const = 0;
 
             virtual placeholder * clone() const = 0;
     
@@ -172,7 +172,7 @@ namespace Ogre
 
         public: // queries
 
-            const std::type_info & getType() const override
+            const std::type_info & type() const override
             {
                 return typeid(ValueType);
             }

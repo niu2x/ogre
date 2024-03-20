@@ -15,7 +15,7 @@ namespace {
         ~APKFileSystemArchive();
 
         /// @copydoc Archive::isCaseSensitive
-        bool isCaseSensitive(void) const override;
+        bool is_case_sensitive(void) const override;
 
         /// @copydoc Archive::load
         void load() override;
@@ -35,19 +35,23 @@ namespace {
         StringVectorPtr list(bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::listFileInfo
-        FileInfoListPtr listFileInfo(bool recursive = true, bool dirs = false) const override;
+        FileInfoListPtr
+        list_file_info(bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::find
         StringVectorPtr find(const String& pattern, bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::findFileInfo
-        FileInfoListPtr findFileInfo(const String& pattern, bool recursive = true, bool dirs = false) const override;
+        FileInfoListPtr find_file_info(
+            const String& pattern,
+            bool recursive = true,
+            bool dirs = false) const override;
 
         /// @copydoc Archive::exists
         bool exists(const String& filename) const override;
 
         /// @copydoc Archive::getModifiedTime
-        time_t getModifiedTime(const String& filename) const override;
+        time_t get_modified_time(const String& filename) const override;
     };
 
 	std::map<String, std::vector< String > > mFiles;
@@ -94,12 +98,9 @@ namespace {
 		unload();
 	}
 
-	bool APKFileSystemArchive::isCaseSensitive() const
-	{
-		return true;
-	}
+    bool APKFileSystemArchive::is_case_sensitive() const { return true; }
 
-	void APKFileSystemArchive::load()
+    void APKFileSystemArchive::load()
 	{
 
 	}
@@ -145,8 +146,9 @@ namespace {
 		return files;
 	}
 
-	FileInfoListPtr APKFileSystemArchive::listFileInfo(bool recursive, bool dirs) const
-	{
+    FileInfoListPtr
+    APKFileSystemArchive::list_file_info(bool recursive, bool dirs) const
+    {
 		FileInfoListPtr files(new FileInfoList);
 		std::map<String, std::vector< String > >::iterator iter = mFiles.find( mName );
 		std::vector< String > fileList = iter->second;
@@ -182,8 +184,11 @@ namespace {
 		return files;
 	}
 
-	FileInfoListPtr APKFileSystemArchive::findFileInfo(const String& pattern, bool recursive, bool dirs) const
-	{
+    FileInfoListPtr APKFileSystemArchive::find_file_info(
+        const String& pattern,
+        bool recursive,
+        bool dirs) const
+    {
 		FileInfoListPtr files(new FileInfoList);
 		std::map<String, std::vector< String > >::iterator iter = mFiles.find( mName );
 		std::vector< String > fileList = iter->second;
@@ -219,21 +224,22 @@ namespace {
 		return false;
 	}
 
-	time_t APKFileSystemArchive::getModifiedTime(const Ogre::String &filename) const
-	{
+    time_t
+    APKFileSystemArchive::get_modified_time(const Ogre::String& filename) const
+    {
 		return 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	const String &APKFileSystemArchiveFactory::getType() const
-	{
+    const String& APKFileSystemArchiveFactory::type() const
+    {
 		static String type = "APKFileSystem";
 		return type;
 	}
 
     Archive *APKFileSystemArchiveFactory::createInstance( const String& name, bool readOnly )
     {
-        return OGRE_NEW APKFileSystemArchive(name, getType(), mAssetMgr);
+        return OGRE_NEW APKFileSystemArchive(name, type(), mAssetMgr);
     }
 }

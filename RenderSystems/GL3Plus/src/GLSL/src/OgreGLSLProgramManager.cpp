@@ -80,7 +80,7 @@ GLSLProgramManager* GLSLProgramManager::singleton_ptr(void)
             if(!shader) continue;
 
             // overwrite as compute shaders are not part of the pipeline
-            if(shader->getType() == GPT_COMPUTE_PROGRAM)
+            if (shader->type() == GPT_COMPUTE_PROGRAM)
                 activeKey = 0;
 
             activeKey = HashCombine(activeKey, shader->getShaderID());

@@ -53,10 +53,7 @@ namespace Ogre
         return mParent->getSceneManager();
     }
     //---------------------------------------------------------------------
-    const String& PageContent::getType() const
-    {
-        return mCreator->name();
-    }
+    const String& PageContent::type() const { return mCreator->name(); }
     //---------------------------------------------------------------------
     void PageContent::_notifyAttached(PageContentCollection* parent)
     {

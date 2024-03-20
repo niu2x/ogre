@@ -1582,8 +1582,12 @@ static void injectGlobalInstancingDeclaration(RenderOperation& ro, const RenderS
         instancingSrc += 1;
         for (auto el : instanceDecl->getElements())
         {
-            ro.vertexData->vertexDeclaration->addElement(instancingSrc, el.getOffset(), el.getType(), el.getSemantic(),
-                                                         el.getIndex());
+            ro.vertexData->vertexDeclaration->addElement(
+                instancingSrc,
+                el.getOffset(),
+                el.type(),
+                el.getSemantic(),
+                el.getIndex());
         }
     }
     ro.vertexData->vertexBufferBinding->setBinding(instancingSrc, rs->getGlobalInstanceVertexBuffer());
@@ -1765,10 +1769,11 @@ void SceneManager::renderSingleObject(Renderable* rend, const Pass* pass,
     if (!doLightIteration)
     {
         // Even if manually driving lights, check light type passes
-        if (!pass->getRunOnlyForOneLightType() ||
-            (manualLightList && (manualLightList->size() != 1 ||
-                                 manualLightList->front()->getType() == pass->getOnlyLightType())))
-        {
+        if (!pass->getRunOnlyForOneLightType()
+            || (manualLightList
+                && (manualLightList->size() != 1
+                    || manualLightList->front()->type()
+                        == pass->getOnlyLightType()))) {
             issueRenderWithLights(rend, pass, manualLightList, lightScissoringClipping);
         }
 
@@ -1820,15 +1825,17 @@ void SceneManager::renderSingleObject(Renderable* rend, const Pass* pass,
                 Light* currLight = rendLightList[lightIndex];
 
                 // Check whether we need to filter this one out
-                if ((pass->getRunOnlyForOneLightType() &&
-                     pass->getOnlyLightType() != currLight->getType()) ||
-                    (pass->getLightMask() & currLight->getLightMask()) == 0)
-                {
+                if ((pass->getRunOnlyForOneLightType()
+                     && pass->getOnlyLightType() != currLight->type())
+                    || (pass->getLightMask() & currLight->getLightMask())
+                        == 0) {
                     // Skip
                     // Also skip shadow texture(s)
                     if (isShadowTechniqueTextureBased())
                     {
-                        shadowTexIndex += mShadowRenderer.mShadowTextureCountPerType[currLight->getType()];
+                        shadowTexIndex
+                            += mShadowRenderer.mShadowTextureCountPerType
+                                   [currLight->type()];
                     }
                     continue;
                 }
@@ -1840,7 +1847,9 @@ void SceneManager::renderSingleObject(Renderable* rend, const Pass* pass,
 
                 // potentially need to update content_type shadow texunit
                 // corresponding to this light
-                size_t textureCountPerLight = mShadowRenderer.mShadowTextureCountPerType[currLight->getType()];
+                size_t textureCountPerLight
+                    = mShadowRenderer
+                          .mShadowTextureCountPerType[currLight->type()];
                 for (size_t j = 0; j < textureCountPerLight && shadowTexIndex < mShadowRenderer.mShadowTextures.size(); ++j)
                 {
                     // link the numShadowTextureLights'th shadow texture unit
@@ -2509,7 +2518,7 @@ void SceneManager::findLightsAffectingFrustum(const Camera* camera)
             {
                 LightInfo lightInfo;
                 lightInfo.light = l;
-                lightInfo.type = l->getType();
+                lightInfo.type = l->type();
                 lightInfo.lightMask = l->getLightMask();
                 if (lightInfo.type == Light::LT_DIRECTIONAL)
                 {
@@ -2574,7 +2583,7 @@ ClipResult SceneManager::buildAndSetScissor(const LightList& ll, const Camera* c
     for (auto *l : ll)
     {
         // a directional light is being used, no scissoring can be done, period.
-        if (l->getType() == Light::LT_DIRECTIONAL)
+        if (l->type() == Light::LT_DIRECTIONAL)
             return CLIPPED_NONE;
 
         const RealRect& scissorRect = getLightScissorRect(l, cam);
@@ -2666,7 +2675,7 @@ ClipResult SceneManager::buildAndSetLightClip(const LightList& ll)
     for (auto *l : ll)
     {
         // a directional light is being used, no clipping can be done, period.
-        if (l->getType() == Light::LT_DIRECTIONAL)
+        if (l->type() == Light::LT_DIRECTIONAL)
             return CLIPPED_NONE;
 
         if (clipBase)
@@ -2704,10 +2713,8 @@ void SceneManager::buildLightClip(const Light* l, PlaneList& planes)
 
     Vector3 pos = l->getDerivedPosition();
     Real r = l->getAttenuationRange();
-    switch(l->getType())
-    {
-    case Light::LT_POINT:
-        {
+    switch (l->type()) {
+        case Light::LT_POINT: {
             planes.push_back(Plane(Vector3::unit_x, pos + Vector3(-r, 0, 0)));
             planes.push_back(Plane(Vector3::negative_unit_x, pos + Vector3(r, 0, 0)));
             planes.push_back(Plane(Vector3::unit_y, pos + Vector3(0, -r, 0)));
@@ -2757,7 +2764,6 @@ void SceneManager::buildLightClip(const Light* l, PlaneList& planes)
         // do nothing
         break;
     };
-
 }
 //---------------------------------------------------------------------
 void SceneManager::resetLightClip()

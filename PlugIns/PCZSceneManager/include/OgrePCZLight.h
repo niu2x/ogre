@@ -126,7 +126,7 @@ namespace Ogre
 
         static String FACTORY_TYPE_NAME;
 
-        const String& getType(void) const override;
+        const String& type() const override;
     };
     /** @} */
     /** @} */

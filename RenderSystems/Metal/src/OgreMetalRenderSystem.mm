@@ -836,7 +836,8 @@ namespace Ogre
 
             auto hwbuf = mCurrentVertexBuffer->vertexBufferBinding->getBuffer(bufferIdx).get();
 
-            vertexDescriptor.attributes[elementIdx].format = MetalMappings::get( elem.getType() );
+            vertexDescriptor.attributes[elementIdx].format
+                = MetalMappings::get(elem.type());
             vertexDescriptor.attributes[elementIdx].bufferIndex = bufferIdx;
             vertexDescriptor.attributes[elementIdx].offset = elem.getOffset();
 
@@ -866,7 +867,7 @@ namespace Ogre
             do
             {
                 const MTLIndexType indexType = static_cast<MTLIndexType>(
-                            mCurrentIndexBuffer->indexBuffer->getType() );
+                    mCurrentIndexBuffer->indexBuffer->type());
 
                 //Get index buffer stuff which is the same for all draws in this cmd
                 const size_t bytesPerIndexElement = mCurrentIndexBuffer->indexBuffer->getIndexSize();
@@ -939,7 +940,7 @@ namespace Ogre
     void MetalRenderSystem::bindGpuProgram(GpuProgram* prg)
     {
         auto shader = static_cast<MetalProgram*>( prg->_getBindingDelegate() );
-        if(prg->getType() == GPT_VERTEX_PROGRAM)
+        if (prg->type() == GPT_VERTEX_PROGRAM)
             [psd setVertexFunction:shader->getMetalFunction()];
         else
             [psd setFragmentFunction:shader->getMetalFunction()];

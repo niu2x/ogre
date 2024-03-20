@@ -116,7 +116,7 @@ namespace RTShader {
 class LayeredBlendingFactory : public SubRenderStateFactory
 {
 public:
-    const String& getType() const override;
+    const String& type() const override;
     SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, TextureUnitState* texState,
                                    SGScriptTranslator* translator) override;
     void writeInstance(MaterialSerializer* ser, SubRenderState* subRenderState, const TextureUnitState* srcTextureUnit,
@@ -131,7 +131,7 @@ private:
 class FFPTexturingFactory : public SubRenderStateFactory
 {
 public:
-    const String& getType() const override;
+    const String& type() const override;
     SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
                                    SGScriptTranslator* translator) override;
     void writeInstance(MaterialSerializer* ser, SubRenderState* subRenderState, Pass* srcPass, Pass* dstPass) override;

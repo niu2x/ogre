@@ -50,7 +50,7 @@ namespace Ogre {
         @return
             The factory type.
         */
-        virtual const String& getType() const = 0;
+        virtual const String& type() const = 0;
 
         /** Creates a new object.
         @param name Name of the object to create

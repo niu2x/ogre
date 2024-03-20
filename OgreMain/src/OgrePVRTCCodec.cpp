@@ -285,11 +285,8 @@ namespace Ogre {
             if(depth!=1) depth /= 2;
         }
     }
-    //---------------------------------------------------------------------    
-    String PVRTCCodec::getType() const 
-    {
-        return mType;
-    }
+    //---------------------------------------------------------------------
+    String PVRTCCodec::type() const { return mType; }
     //---------------------------------------------------------------------
     String PVRTCCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
     {

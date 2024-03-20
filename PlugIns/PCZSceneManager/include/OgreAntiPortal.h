@@ -57,8 +57,7 @@ namespace Ogre
         static String FACTORY_TYPE_NAME;
         static unsigned long FACTORY_TYPE_FLAG;
 
-        const String& getType() const override
-        { return FACTORY_TYPE_NAME; }
+        const String& type() const override { return FACTORY_TYPE_NAME; }
 
         /** Return true here as we want to get a unique type flag. */
         bool requestTypeFlags() const override

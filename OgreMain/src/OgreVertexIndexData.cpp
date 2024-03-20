@@ -136,8 +136,13 @@ namespace Ogre {
             else if (e.getSource() == oldSource && e.getOffset() > oldElemOffset)
             {
                 // shift elements after this one
-                decl->modifyElement(idx, e.getSource(), e.getOffset() - elemSize + newElemSize, e.getType(),
-                                    e.getSemantic(), e.getIndex());
+                decl->modifyElement(
+                    idx,
+                    e.getSource(),
+                    e.getOffset() - elemSize + newElemSize,
+                    e.type(),
+                    e.getSemantic(),
+                    e.getIndex());
             }
             idx++;
         }
@@ -229,9 +234,9 @@ namespace Ogre {
             dest->vertexDeclaration->addElement(
                 ei->getSource(),
                 ei->getOffset(),
-                ei->getType(),
+                ei->type(),
                 ei->getSemantic(),
-                ei->getIndex() );
+                ei->getIndex());
         }
 
         // Copy reference to hardware shadow buffer, no matter whether copy data or not
@@ -249,10 +254,12 @@ namespace Ogre {
     {
         auto elem = vertexDeclaration->findElementBySemantic(semantic);
 
-        if (!elem || VertexElement::getBaseType(elem->getType()) == VertexElement::getBaseType(dstType))
+        if (!elem
+            || VertexElement::getBaseType(elem->type())
+                == VertexElement::getBaseType(dstType))
             return; // nothing to do
 
-        auto srcType = elem->getType();
+        auto srcType = elem->type();
         auto vbuf = vertexBufferBinding->getBuffer(elem->getSource());
 
         size_t newElemSize = VertexElement::getTypeSize(dstType);
@@ -586,9 +593,13 @@ namespace Ogre {
             ushort targetSource = it->second;
             if (elem.getSource() != targetSource)
             {
-                vertexDeclaration->modifyElement(elemIndex, 
-                    targetSource, elem.getOffset(), elem.getType(), 
-                    elem.getSemantic(), elem.getIndex());
+                vertexDeclaration->modifyElement(
+                    elemIndex,
+                    targetSource,
+                    elem.getOffset(),
+                    elem.type(),
+                    elem.getSemantic(),
+                    elem.getIndex());
             }
         }
     }
@@ -633,8 +644,7 @@ namespace Ogre {
             bool conversionNeeded = false;
             for (auto& e : elems)
             {
-                if (e.getType() == _DETAIL_SWAP_RB)
-                {
+                if (e.type() == _DETAIL_SWAP_RB) {
                     conversionNeeded = true;
                 }
             }
@@ -648,8 +658,7 @@ namespace Ogre {
 
                     for (auto& e : elems)
                     {
-                        if (e.getType() == _DETAIL_SWAP_RB)
-                        {
+                        if (e.type() == _DETAIL_SWAP_RB) {
                             uint32* pRGBA;
                             e.baseVertexPointerToElement(pBase, &pRGBA);
                             swapPackedRB(pRGBA);
@@ -666,8 +675,7 @@ namespace Ogre {
                 unsigned short elemIndex = 0;
                 for (auto& e : allelems)
                 {
-                    if (e.getType() == _DETAIL_SWAP_RB)
-                    {
+                    if (e.type() == _DETAIL_SWAP_RB) {
                         vertexDeclaration->modifyElement(elemIndex,
                             e.getSource(), e.getOffset(), destType,
                             e.getSemantic(), e.getIndex());
@@ -765,8 +773,11 @@ namespace Ogre {
         {
             if (copyData)
             {
-                dest->indexBuffer = pManager->createIndexBuffer(indexBuffer->getType(), indexBuffer->getNumIndexes(),
-                    indexBuffer->getUsage(), indexBuffer->hasShadowBuffer());
+                dest->indexBuffer = pManager->createIndexBuffer(
+                    indexBuffer->type(),
+                    indexBuffer->getNumIndexes(),
+                    indexBuffer->getUsage(),
+                    indexBuffer->hasShadowBuffer());
                 dest->indexBuffer->copyData(
                     *indexBuffer,
                     0,
@@ -897,14 +908,12 @@ namespace Ogre {
         size_t i, j;
         uint16 *source = 0;
 
-        if (indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT)
-        {
+        if (indexBuffer->type() == HardwareIndexBuffer::IT_16BIT) {
             triangles = OGRE_ALLOC_T(Triangle, nTriangles, MEMCATEGORY_GEOMETRY);
             source = (uint16 *)buffer;
             uint32 *dest = (uint32 *)triangles;
             for (i = 0; i < nIndexes; ++i) dest[i] = source[i];
-        }
-        else
+        } else
             triangles = static_cast<Triangle*>(buffer);
 
         // sort triangles based on shared edges
@@ -942,8 +951,7 @@ namespace Ogre {
             }
         }
 
-        if (indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT)
-        {
+        if (indexBuffer->type() == HardwareIndexBuffer::IT_16BIT) {
             // reorder the indexbuffer
             j = 0;
             for (i = 0; i < nTriangles; ++i)
@@ -957,9 +965,7 @@ namespace Ogre {
                 }
             }
             OGRE_FREE(triangles, MEMCATEGORY_GEOMETRY);
-        }
-        else
-        {
+        } else {
             uint32 *reflist = OGRE_ALLOC_T(uint32, nTriangles, MEMCATEGORY_GEOMETRY);
 
             // fill the referencebuffer
@@ -999,7 +1005,7 @@ namespace Ogre {
 
         uint16 *shortbuffer = (uint16 *)indexBuffer->lock(HardwareBuffer::HBL_READ_ONLY);
 
-        if (indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT)
+        if (indexBuffer->type() == HardwareIndexBuffer::IT_16BIT)
             for (unsigned int i = 0; i < indexBuffer->getNumIndexes(); ++i)
                 inCache(shortbuffer[i]);
         else

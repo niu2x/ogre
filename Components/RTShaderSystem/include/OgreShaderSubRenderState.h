@@ -99,8 +99,7 @@ public:
 
     The type string should be unique among all registered sub render states.    
     */
-    virtual const String& getType() const = 0;
-
+    virtual const String& type() const = 0;
 
     /** Get the execution order of this sub render state.
 
@@ -282,8 +281,8 @@ public:
     The type string should be the same as the type of the SubRenderState sub class it is going to create.   
     @see SubRenderState::getType.
     */
-    virtual const String& getType() const = 0;
-    
+    virtual const String& type() const = 0;
+
     /** Create an instance of the SubRenderState sub class it suppose to create.    
     */
     virtual SubRenderState* createInstance() OGRE_NODISCARD;

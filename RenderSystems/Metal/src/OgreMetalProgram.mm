@@ -277,8 +277,7 @@ namespace Ogre {
                              "' not found for pixel shader '" + mName + "'",
                              "MetalProgram::analyzeRenderParameters" );
             }
-            if( shader->getType() != GPT_VERTEX_PROGRAM )
-            {
+            if (shader->type() != GPT_VERTEX_PROGRAM) {
                 OGRE_EXCEPT( Exception::ERR_INVALIDPARAMS,
                              "Shader reflection hint '" + mShaderReflectionPairHint +
                              "' for pixel shader '" + mName + "' must be a vertex shader.",

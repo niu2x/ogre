@@ -376,7 +376,7 @@ namespace Ogre
 
     }
     //---------------------------------------------------------------------
-    const String& PagedWorldSection::getType()
+    const String& PagedWorldSection::type()
     {
         static const String stype("General");
         return stype;

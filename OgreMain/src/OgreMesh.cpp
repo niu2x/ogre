@@ -1310,11 +1310,14 @@ mSharedVertexDataAnimationType(VAT_NONE)
         if( uv0 && uv1 )
         {
             //Check that both base types are compatible (mix floats w/ shorts) and there's enough space
-            VertexElementType baseType0 = VertexElement::getBaseType( uv0->getType() );
-            VertexElementType baseType1 = VertexElement::getBaseType( uv1->getType() );
+            VertexElementType baseType0
+                = VertexElement::getBaseType(uv0->type());
+            VertexElementType baseType1
+                = VertexElement::getBaseType(uv1->type());
 
-            unsigned short totalTypeCount = VertexElement::getTypeCount( uv0->getType() ) +
-                                            VertexElement::getTypeCount( uv1->getType() );
+            unsigned short totalTypeCount
+                = VertexElement::getTypeCount(uv0->type())
+                + VertexElement::getTypeCount(uv1->type());
             if( baseType0 == baseType1 && totalTypeCount <= 4 )
             {
                 const VertexDeclaration::VertexElementList &veList = vDecl->getElements();
@@ -1355,9 +1358,7 @@ mSharedVertexDataAnimationType(VAT_NONE)
         if (!tangentsElem)
         { // no tex coords with index 1
                 needsToBeCreated = true ;
-        }
-        else if (tangentsElem->getType() != VET_FLOAT3)
-        {
+        } else if (tangentsElem->type() != VET_FLOAT3) {
             //  buffer exists, but not 3D
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                 "Target semantic set already exists but is not 3D, therefore "
@@ -1553,8 +1554,7 @@ mSharedVertexDataAnimationType(VAT_NONE)
                     break; // finish if we've run out, t will be the target
 
                 // We're still looking for the source texture coords
-                if (testElem->getType() == VET_FLOAT2)
-                {
+                if (testElem->type() == VET_FLOAT2) {
                     // Ok, we found it
                     sourceElem = testElem;
                     break;
@@ -1886,7 +1886,9 @@ mSharedVertexDataAnimationType(VAT_NONE)
         }
 
         // Indices must be 4 bytes
-        assert(srcElemBlendIndices->getType() == VET_UBYTE4 && "Blend indices must be VET_UBYTE4");
+        assert(
+            srcElemBlendIndices->type() == VET_UBYTE4
+            && "Blend indices must be VET_UBYTE4");
         HardwareBufferLockGuard srcIdxLock(srcIdxBuf, HardwareBuffer::HBL_READ_ONLY);
         srcElemBlendIndices->baseVertexPointerToElement(srcIdxLock.pData, &pBlendIdx);
         HardwareBufferLockGuard srcWeightLock;
@@ -1896,7 +1898,8 @@ mSharedVertexDataAnimationType(VAT_NONE)
             srcWeightLock.lock(srcWeightBuf, HardwareBuffer::HBL_READ_ONLY);
         }
         srcElemBlendWeights->baseVertexPointerToElement(srcWeightLock.pData ? srcWeightLock.pData : srcIdxLock.pData, &pBlendWeight);
-        unsigned short numWeightsPerVertex = VertexElement::getTypeCount(srcElemBlendWeights->getType());
+        unsigned short numWeightsPerVertex
+            = VertexElement::getTypeCount(srcElemBlendWeights->type());
 
         // Lock destination buffers for writing
         HardwareBufferLockGuard destPosLock(

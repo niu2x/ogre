@@ -264,22 +264,25 @@ ManualObject::ManualObject(const String& name)
         {
             float* pFloat = 0;
             RGBA* pRGBA = 0;
-            switch(elem.getType())
-            {
-            case VET_FLOAT1:
-            case VET_FLOAT2:
-            case VET_FLOAT3:
-            case VET_FLOAT4:
-                OgreAssert(elem.getSemantic() != VES_COLOUR, "must use VET_UBYTE4_NORM");
-                elem.baseVertexPointerToElement(pBase, &pFloat);
-                break;
-            case VET_UBYTE4_NORM:
-                OgreAssert(elem.getSemantic() == VES_COLOUR, "must use VES_COLOUR");
-                elem.baseVertexPointerToElement(pBase, &pRGBA);
-                break;
-            default:
-                OgreAssert(false, "invalid element type");
-                break;
+            switch (elem.type()) {
+                case VET_FLOAT1:
+                case VET_FLOAT2:
+                case VET_FLOAT3:
+                case VET_FLOAT4:
+                    OgreAssert(
+                        elem.getSemantic() != VES_COLOUR,
+                        "must use VET_UBYTE4_NORM");
+                    elem.baseVertexPointerToElement(pBase, &pFloat);
+                    break;
+                case VET_UBYTE4_NORM:
+                    OgreAssert(
+                        elem.getSemantic() == VES_COLOUR,
+                        "must use VES_COLOUR");
+                    elem.baseVertexPointerToElement(pBase, &pRGBA);
+                    break;
+                default:
+                    OgreAssert(false, "invalid element type");
+                    break;
             };
 
             unsigned short dims;
@@ -295,7 +298,7 @@ ManualObject::ManualObject(const String& name)
                 memcpy(pFloat, mTempVertex.tangent.ptr(), sizeof(Vector3f));
                 break;
             case VES_TEXTURE_COORDINATES:
-                dims = VertexElement::getTypeCount(elem.getType());
+                dims = VertexElement::getTypeCount(elem.type());
                 memcpy(pFloat, mTempVertex.texCoord[elem.getIndex()].ptr(), sizeof(float)*dims);
                 break;
             case VES_COLOUR:
@@ -365,8 +368,9 @@ ManualObject::ManualObject(const String& name)
 
                 if (rop->useIndexes)
                 {
-                    if ((rop->indexData->indexBuffer->getNumIndexes() >= rop->indexData->indexCount) &&
-                        (indexType == rop->indexData->indexBuffer->getType()))
+                    if ((rop->indexData->indexBuffer->getNumIndexes()
+                         >= rop->indexData->indexCount)
+                        && (indexType == rop->indexData->indexBuffer->type()))
                         ibufNeedsCreating = false;
                 }
 
@@ -747,7 +751,7 @@ ManualObject::ManualObject(const String& name)
     //-----------------------------------------------------------------------------
     const String MOT_MANUAL_OBJECT = "ManualObject";
     //-----------------------------------------------------------------------------
-    const String& ManualObjectFactory::getType(void) const
+    const String& ManualObjectFactory::type() const
     {
         return MOT_MANUAL_OBJECT;
     }

@@ -175,10 +175,7 @@ namespace Ogre
     //-----------------------------------------------------------------------
     String PCZLightFactory::FACTORY_TYPE_NAME = "PCZLight";
     //-----------------------------------------------------------------------
-    const String& PCZLightFactory::getType(void) const
-    {
-        return FACTORY_TYPE_NAME;
-    }
+    const String& PCZLightFactory::type() const { return FACTORY_TYPE_NAME; }
     //-----------------------------------------------------------------------
     MovableObject* PCZLightFactory::createInstanceImpl( const String& name, 
         const NameValuePairList* params)

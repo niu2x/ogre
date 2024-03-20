@@ -48,7 +48,7 @@ public:
     /** 
     @see SubRenderState::getType.
     */
-    const Ogre::String& getType() const override;
+    const Ogre::String& type() const override;
 
     /** 
     @see SubRenderState::getType.
@@ -233,7 +233,7 @@ public:
     /** 
     @see SubRenderStateFactory::getType.
     */
-    const Ogre::String& getType() const override;
+    const Ogre::String& type() const override;
 
     /** 
     @see SubRenderStateFactory::createInstance.

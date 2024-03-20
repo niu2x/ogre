@@ -55,7 +55,7 @@ namespace Ogre {
         virtual ~ParticleSystemRenderer() {}
 
         /** Gets the type of this renderer - must be implemented by subclasses */
-        virtual const String& getType(void) const = 0;
+        virtual const String& type() const = 0;
 
         /** Delegated to by ParticleSystem::_updateRenderQueue
 

@@ -234,11 +234,12 @@ namespace Ogre
             = Root::singleton().getRenderSystem()->getCapabilities();
 
         // Basic support check
-        if ((getType() == GPT_GEOMETRY_PROGRAM && !caps->hasCapability(RSC_GEOMETRY_PROGRAM)) ||
-            ((getType() == GPT_DOMAIN_PROGRAM || getType() == GPT_HULL_PROGRAM) &&
-             !caps->hasCapability(RSC_TESSELLATION_PROGRAM)) ||
-            (getType() == GPT_COMPUTE_PROGRAM && !caps->hasCapability(RSC_COMPUTE_PROGRAM)))
-        {
+        if ((type() == GPT_GEOMETRY_PROGRAM
+             && !caps->hasCapability(RSC_GEOMETRY_PROGRAM))
+            || ((type() == GPT_DOMAIN_PROGRAM || type() == GPT_HULL_PROGRAM)
+                && !caps->hasCapability(RSC_TESSELLATION_PROGRAM))
+            || (type() == GPT_COMPUTE_PROGRAM
+                && !caps->hasCapability(RSC_COMPUTE_PROGRAM))) {
             return false;
         }
 
@@ -432,7 +433,7 @@ namespace Ogre
     String CmdType::get(const void* target) const
     {
         const GpuProgram* t = static_cast<const GpuProgram*>(target);
-        return GpuProgram::getProgramTypeName(t->getType()) + "_program";
+        return GpuProgram::getProgramTypeName(t->type()) + "_program";
     }
     void CmdType::set(void* target, const String& val)
     {

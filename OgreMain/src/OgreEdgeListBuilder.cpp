@@ -223,7 +223,8 @@ namespace Ogre {
         unsigned char* pBaseVertex = static_cast<unsigned char*>(vertexLock.pData);
 
         // Get the indexes ready for reading
-        bool idx32bit = (indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT);
+        bool idx32bit
+            = (indexData->indexBuffer->type() == HardwareIndexBuffer::IT_32BIT);
         HardwareBufferLockGuard indexLock(indexData->indexBuffer, HardwareBuffer::HBL_READ_ONLY);
         unsigned short* p16Idx = static_cast<unsigned short*>(indexLock.pData) + indexData->indexStart;
         unsigned int* p32Idx = static_cast<unsigned int*>(indexLock.pData) + indexData->indexStart;
@@ -487,7 +488,8 @@ namespace Ogre {
             HardwareBufferLockGuard indexLock(iData->indexBuffer, HardwareBuffer::HBL_READ_ONLY);
             unsigned short* p16Idx = static_cast<unsigned short*>(indexLock.pData);
             unsigned int* p32Idx = static_cast<unsigned int*>(indexLock.pData);
-            bool isIT32 = iData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT;
+            bool isIT32
+                = iData->indexBuffer->type() == HardwareIndexBuffer::IT_32BIT;
 
             for (j = 0; j < iData->indexCount;  )
             {

@@ -341,14 +341,14 @@ namespace Ogre {
         for(unsigned short i = 0; i < rhs.getNumEmitters(); ++i)
         {
             ParticleEmitter* rhsEm = rhs.getEmitter(i);
-            ParticleEmitter* newEm = addEmitter(rhsEm->getType());
+            ParticleEmitter* newEm = addEmitter(rhsEm->type());
             rhsEm->copy_parameters_to(newEm);
         }
         // Copy affectors
         for(unsigned short i = 0; i < rhs.getNumAffectors(); ++i)
         {
             ParticleAffector* rhsAf = rhs.getAffector(i);
-            ParticleAffector* newAf = addAffector(rhsAf->getType());
+            ParticleAffector* newAf = addAffector(rhsAf->type());
             rhsAf->copy_parameters_to(newAf);
         }
         setParticleQuota(rhs.getParticleQuota());
@@ -1130,7 +1130,7 @@ namespace Ogre {
     {
         if (mRenderer)
         {
-            return mRenderer->getType();
+            return mRenderer->type();
         }
         else
         {
@@ -1330,7 +1330,7 @@ namespace Ogre {
                     {
                         clonedEmitter
                             = ParticleSystemManager::singleton()._createEmitter(
-                                emitter->getType(),
+                                emitter->type(),
                                 this);
                         emitter->copy_parameters_to(clonedEmitter);
                         clonedEmitter->setEmitted(emitter->isEmitted()); // is always 'true' by the way, but just in case

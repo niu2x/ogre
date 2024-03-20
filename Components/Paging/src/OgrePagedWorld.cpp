@@ -114,7 +114,7 @@ namespace Ogre
             PagedWorldSection* sec = s.second;
             // declaration
             ser.writeChunkBegin(CHUNK_SECTIONDECLARATION_ID);
-            ser.write(&sec->getType());
+            ser.write(&sec->type());
             ser.write(&sec->name());
             ser.writeChunkEnd(CHUNK_SECTIONDECLARATION_ID);
             // data

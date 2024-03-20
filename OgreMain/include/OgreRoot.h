@@ -840,8 +840,9 @@ namespace Ogre
         /** Gets the period over which OGRE smooths out fluctuations in frame times. */
         Real getFrameSmoothingPeriod(void) const { return mFrameSmoothingTime; }
 
-        /** Register a new MovableObjectFactory which will create new MovableObject
-            instances of a particular type, as identified by the getType() method.
+        /** Register a new MovableObjectFactory which will create new
+        MovableObject instances of a particular type, as identified by the
+        type() method.
 
             Plugin creators can create subclasses of MovableObjectFactory which
             construct custom subclasses of MovableObject for insertion in the

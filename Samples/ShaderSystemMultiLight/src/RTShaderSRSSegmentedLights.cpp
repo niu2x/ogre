@@ -41,11 +41,7 @@ RTShaderSRSSegmentedLights::RTShaderSRSSegmentedLights()
 }
 
 //-----------------------------------------------------------------------
-const String& RTShaderSRSSegmentedLights::getType() const
-{
-    return Type;
-}
-
+const String& RTShaderSRSSegmentedLights::type() const { return Type; }
 
 //-----------------------------------------------------------------------
 int RTShaderSRSSegmentedLights::getExecutionOrder() const
@@ -82,12 +78,11 @@ void RTShaderSRSSegmentedLights::updateGpuProgramsParams(Renderable* rend, const
         // Search a matching light from the current sorted lights of the given renderable.
         for (unsigned int j = curSearchLightIndex; j < pLightList->size(); ++j)
         {
-            if (pLightList->at(j)->getType() == curLightType)
-            {               
+            if (pLightList->at(j)->type() == curLightType) {
                 srcLight = pLightList->at(j);
                 curSearchLightIndex = j + 1;
                 break;
-            }           
+            }
         }
 
         // No matching light found -> use a blank dummy light for parameter update.
@@ -784,7 +779,7 @@ void RTShaderSRSSegmentedLights::setLightCount(int lightCount)
 }
 
 //-----------------------------------------------------------------------
-const String& RTShaderSRSSegmentedLightsFactory::getType() const
+const String& RTShaderSRSSegmentedLightsFactory::type() const
 {
     return RTShaderSRSSegmentedLights::Type;
 }

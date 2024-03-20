@@ -27,7 +27,7 @@ namespace RTShader
 class WBOIT : public SubRenderState
 {
 public:
-    const String& getType() const override;
+    const String& type() const override;
     int getExecutionOrder() const override;
     bool preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass) override;
     bool createCpuSubPrograms(ProgramSet* programSet) override;
@@ -41,7 +41,7 @@ A factory that enables creation of GBuffer instances.
 class WBOITFactory : public SubRenderStateFactory
 {
 public:
-    const String& getType() const override;
+    const String& type() const override;
 
     SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
                                            SGScriptTranslator* translator) override;

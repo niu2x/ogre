@@ -604,7 +604,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         {
             Archive* arch = li.archive;
 
-            if (!arch->isReadOnly()
+            if (!arch->is_read_only()
                 && (locationPattern.empty()
                     || StringUtil::match(
                         arch->name(),
@@ -640,7 +640,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         {
             Archive* arch = li.archive;
 
-            if (!arch->isReadOnly()
+            if (!arch->is_read_only()
                 && (locationPattern.empty()
                     || StringUtil::match(
                         arch->name(),
@@ -668,7 +668,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         {
             Archive* arch = li.archive;
 
-            if (!arch->isReadOnly()
+            if (!arch->is_read_only()
                 && (locationPattern.empty()
                     || StringUtil::match(
                         arch->name(),
@@ -825,8 +825,8 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
                         if (mLoadingListener)
                             mLoadingListener->resourceStreamOpened(fii.filename, grp->name, 0, stream);
 
-                        if(fii.archive->getType() == "FileSystem" && stream->size() <= 1024 * 1024)
-                        {
+                        if (fii.archive->type() == "FileSystem"
+                            && stream->size() <= 1024 * 1024) {
                             DataStreamPtr cachedCopy(OGRE_NEW MemoryDataStream(stream->name(), stream.get()));
                             su->parse_script(cachedCopy, grp->name);
                         } else
@@ -1261,7 +1261,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         // Iterate over the archives
         for (auto& i : grp->locationList)
         {
-            FileInfoListPtr lst = i.archive->listFileInfo(i.recursive, dirs);
+            FileInfoListPtr lst = i.archive->list_file_info(i.recursive, dirs);
             vec->insert(vec->end(), lst->begin(), lst->end());
         }
 
@@ -1300,7 +1300,8 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         // Iterate over the archives
         for (auto& i : grp->locationList)
         {
-            FileInfoListPtr lst = i.archive->findFileInfo(pattern, i.recursive, dirs);
+            FileInfoListPtr lst
+                = i.archive->find_file_info(pattern, i.recursive, dirs);
             vec->insert(vec->end(), lst->begin(), lst->end());
         }
 
@@ -1364,7 +1365,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         Archive* arch = resourceExists(grp, resourceName);
         if (arch)
         {
-            return arch->getModifiedTime(resourceName);
+            return arch->get_modified_time(resourceName);
         }
 
         return 0;
@@ -1504,8 +1505,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
         this->resourceIndexCaseSensitive.emplace(filename, arch);
 
 #if !OGRE_RESOURCEMANAGER_STRICT
-        if (!arch->isCaseSensitive())
-        {
+        if (!arch->is_case_sensitive()) {
             String lcase = filename;
             StringUtil::lower_case(&lcase);
             this->resourceIndexCaseInsensitive.emplace(lcase, arch);
@@ -1521,8 +1521,7 @@ ResourceGroupManager* ResourceGroupManager::singleton_ptr(void)
             this->resourceIndexCaseSensitive.erase(i);
 
 #if !OGRE_RESOURCEMANAGER_STRICT
-        if (!arch->isCaseSensitive())
-        {
+        if (!arch->is_case_sensitive()) {
             String lcase = filename;
             StringUtil::lower_case(&lcase);
             i = this->resourceIndexCaseInsensitive.find(lcase);

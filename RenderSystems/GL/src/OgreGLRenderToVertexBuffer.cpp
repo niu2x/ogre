@@ -259,7 +259,7 @@ namespace Ogre {
                 //Type
                 attribs.push_back(getGLSemanticType(element->getSemantic()));
                 //Number of components
-                attribs.push_back(VertexElement::getTypeCount(element->getType()));
+                attribs.push_back(VertexElement::getTypeCount(element->type()));
                 //Index
                 attribs.push_back(element->getIndex());
             }

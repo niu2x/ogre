@@ -262,8 +262,7 @@ ParameterPtr Function::resolveInputParameter(Parameter::Semantic semantic,
         param = _getParameterBySemantic(mInputParameters, semantic, index);
         if (param.get() != NULL && param->getContent() == content)
         {
-            if (param->getType() == type)
-            {
+            if (param->type() == type) {
                 return param;
             }
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
@@ -323,8 +322,7 @@ ParameterPtr Function::resolveOutputParameter(Parameter::Semantic semantic,
         param = _getParameterBySemantic(mOutputParameters, semantic, index);
         if (param.get() != NULL && param->getContent() == content)
         {
-            if (param->getType() == type)
-            {
+            if (param->type() == type) {
                 return param;
             }
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
@@ -364,12 +362,9 @@ ParameterPtr Function::resolveLocalParameter(GpuConstantType type, const String&
     param = _getParameterByName(mLocalParameters, name);
     if (param.get() != NULL)
     {
-        if (param->getType() == type && param->getSize() == arraySize)
-        {
+        if (param->type() == type && param->getSize() == arraySize) {
             return param;
-        }
-        else
-        {
+        } else {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                         "Can not resolve local parameter due to type mismatch");
         }
@@ -544,7 +539,7 @@ ParameterPtr Function::_getParameterByContent(const ShaderParameterList& paramet
     {
         for (const auto& p : parameterList)
         {
-            if (p->getContent() == content && p->getType() == type)
+            if (p->getContent() == content && p->type() == type)
                 return p;
         }
     }

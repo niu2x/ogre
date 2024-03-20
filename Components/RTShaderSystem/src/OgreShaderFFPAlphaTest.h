@@ -67,7 +67,7 @@ public:
     /**
     @see SubRenderState::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     /**
     @see SubRenderState::getExecutionOrder.
@@ -100,7 +100,7 @@ static String Type;
 	/**
 	@see SubRenderStateFactory::getType.
 	*/
-	const String& getType() const override;
+const String& type() const override;
 
 protected:
 

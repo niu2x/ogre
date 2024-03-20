@@ -39,7 +39,7 @@ String GBuffer::Type = "GBuffer";
 const String SRS_GBUFFER = "GBuffer";
 
 //-----------------------------------------------------------------------
-const String& GBuffer::getType() const { return SRS_GBUFFER; }
+const String& GBuffer::type() const { return SRS_GBUFFER; }
 
 //-----------------------------------------------------------------------
 int GBuffer::getExecutionOrder() const { return FFP_LIGHTING; }
@@ -222,7 +222,7 @@ void GBuffer::copyFrom(const SubRenderState& rhs)
 }
 
 //-----------------------------------------------------------------------
-const String& GBufferFactory::getType() const { return SRS_GBUFFER; }
+const String& GBufferFactory::type() const { return SRS_GBUFFER; }
 
 //-----------------------------------------------------------------------
 SubRenderState* GBufferFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,

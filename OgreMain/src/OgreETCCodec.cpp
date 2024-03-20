@@ -137,10 +137,7 @@ namespace Ogre {
         mType == "pkm" ? decodePKM(stream, image) : decodeKTX(stream, image);
     }
     //---------------------------------------------------------------------
-    String ETCCodec::getType() const
-    {
-        return mType;
-    }
+    String ETCCodec::type() const { return mType; }
     //---------------------------------------------------------------------
     String ETCCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
     {

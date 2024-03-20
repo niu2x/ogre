@@ -88,8 +88,7 @@ namespace Ogre
             if(!deleg || (!deleg->isSupported() && !deleg->hasCompileError()))
                 continue;
 
-            if (deleg->getType() != getType())
-            {
+            if (deleg->type() != type()) {
                 LogManager::singleton().log_error(
                     "unified program '" + name()
                     + "' delegating to program with different type '" + dn

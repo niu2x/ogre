@@ -1092,7 +1092,10 @@ namespace Ogre {
             {
                 void *pBufferData = VBO_BUFFER_OFFSET(op.indexData->indexStart *
                                                      op.indexData->indexBuffer->getIndexSize());
-                GLenum indexType = (op.indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+                GLenum indexType = (op.indexData->indexBuffer->type()
+                                    == HardwareIndexBuffer::IT_16BIT)
+                    ? GL_UNSIGNED_SHORT
+                    : GL_UNSIGNED_INT;
                 OGRE_CHECK_GL_ERROR(glDrawElementsBaseVertex(GL_PATCHES, op.indexData->indexCount, indexType, pBufferData, op.vertexData->vertexStart));
                 //OGRE_CHECK_GL_ERROR(glDrawElements(GL_PATCHES, op.indexData->indexCount, indexType, pBufferData));
                 //                OGRE_CHECK_GL_ERROR(glDrawArraysInstanced(GL_PATCHES, 0, primCount, 1));
@@ -1109,7 +1112,10 @@ namespace Ogre {
             void *pBufferData = VBO_BUFFER_OFFSET(op.indexData->indexStart *
                                                  op.indexData->indexBuffer->getIndexSize());
 
-            GLenum indexType = (op.indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+            GLenum indexType = (op.indexData->indexBuffer->type()
+                                == HardwareIndexBuffer::IT_16BIT)
+                ? GL_UNSIGNED_SHORT
+                : GL_UNSIGNED_INT;
 
             do
             {
@@ -1270,7 +1276,7 @@ namespace Ogre {
         for(auto shader : mCurrentShader)
         {
             if(!shader) continue;
-            mProgramManager->setActiveShader(shader->getType(), NULL);
+            mProgramManager->setActiveShader(shader->type(), NULL);
         }
 
         // Disable textures
@@ -1304,7 +1310,7 @@ namespace Ogre {
         for(auto shader : mCurrentShader)
         {
             if(!shader) continue;
-            mProgramManager->setActiveShader(shader->getType(), shader);
+            mProgramManager->setActiveShader(shader->type(), shader);
         }
 
         // Must reset depth/colour write mask to according with user desired, otherwise,
@@ -1574,9 +1580,9 @@ namespace Ogre {
     {
         GLSLShader* glprg = static_cast<GLSLShader*>(prg);
 
-        mCurrentShader[glprg->getType()] = glprg;
+        mCurrentShader[glprg->type()] = glprg;
         // Bind the program
-        mProgramManager->setActiveShader(glprg->getType(), glprg);
+        mProgramManager->setActiveShader(glprg->type(), glprg);
 
         RenderSystem::bindGpuProgram(prg);
 
@@ -1688,40 +1694,40 @@ namespace Ogre {
             OGRE_CHECK_GL_ERROR(glVertexAttribDivisor(attrib, vertexBuffer->getInstanceDataStepRate()));
         }
 
-        unsigned short typeCount = VertexElement::getTypeCount(elem.getType());
+        unsigned short typeCount = VertexElement::getTypeCount(elem.type());
         GLboolean normalised = GL_FALSE;
-        switch(elem.getType())
-        {
-        case VET_UBYTE4_NORM:
-        case VET_SHORT2_NORM:
-        case VET_USHORT2_NORM:
-        case VET_SHORT4_NORM:
-        case VET_USHORT4_NORM:
-        case VET_INT_10_10_10_2_NORM:
-            normalised = GL_TRUE;
-            break;
-        default:
-            break;
+        switch (elem.type()) {
+            case VET_UBYTE4_NORM:
+            case VET_SHORT2_NORM:
+            case VET_USHORT2_NORM:
+            case VET_SHORT4_NORM:
+            case VET_USHORT4_NORM:
+            case VET_INT_10_10_10_2_NORM:
+                normalised = GL_TRUE;
+                break;
+            default:
+                break;
         };
 
-        switch(elem.getBaseType(elem.getType()))
-        {
-        default:
-        case VET_FLOAT1:
-            OGRE_CHECK_GL_ERROR(glVertexAttribPointer(attrib,
-                                                      typeCount,
-                                                      GL3PlusHardwareBufferManager::getGLType(elem.getType()),
-                                                      normalised,
-                                                      static_cast<GLsizei>(vertexBuffer->getVertexSize()),
-                                                      pBufferData));
-            break;
-        case VET_DOUBLE1:
-            OGRE_CHECK_GL_ERROR(glVertexAttribLPointer(attrib,
-                                                       typeCount,
-                                                       GL3PlusHardwareBufferManager::getGLType(elem.getType()),
-                                                       static_cast<GLsizei>(vertexBuffer->getVertexSize()),
-                                                       pBufferData));
-            break;
+        switch (elem.getBaseType(elem.type())) {
+            default:
+            case VET_FLOAT1:
+                OGRE_CHECK_GL_ERROR(glVertexAttribPointer(
+                    attrib,
+                    typeCount,
+                    GL3PlusHardwareBufferManager::getGLType(elem.type()),
+                    normalised,
+                    static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+                    pBufferData));
+                break;
+            case VET_DOUBLE1:
+                OGRE_CHECK_GL_ERROR(glVertexAttribLPointer(
+                    attrib,
+                    typeCount,
+                    GL3PlusHardwareBufferManager::getGLType(elem.type()),
+                    static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+                    pBufferData));
+                break;
         }
 
         // If this attribute hasn't been enabled, do so and keep a record of it.

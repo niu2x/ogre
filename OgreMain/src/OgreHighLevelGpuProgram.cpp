@@ -220,7 +220,7 @@ namespace Ogre
         defines += StringUtil::format("OGRE_%s=%d", tmp.c_str(), ver);
 
         // OGRE_VERTEX_SHADER, OGRE_FRAGMENT_SHADER
-        tmp = GpuProgram::getProgramTypeName(getType());
+        tmp = GpuProgram::getProgramTypeName(type());
         StringUtil::upper_case(&tmp);
         defines += ",OGRE_"+tmp+"_SHADER";
 

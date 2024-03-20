@@ -268,11 +268,8 @@ namespace Ogre {
         image->create(format, xsize, ysize, zsize, 1, 0);
         stream->read(image->getData(), image->size());
     }
-    //---------------------------------------------------------------------    
-    String ASTCCodec::getType() const 
-    {
-        return mType;
-    }
+    //---------------------------------------------------------------------
+    String ASTCCodec::type() const { return mType; }
     //---------------------------------------------------------------------    
 	String ASTCCodec::magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const
 	{

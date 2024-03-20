@@ -234,97 +234,128 @@ namespace Ogre
                     // portal is facing the light, but some light types need to
                     // check illumination radius too.
                     PCZone * targetZone = p->getTargetZone();
-                    switch(light->getType())
-                    {
-                    case Light::LT_POINT:
-                        // point lights - just check if within illumination range
-                        if (lightToPortal.length() <= light->getAttenuationRange())
-                        {
-                            // if portal is quad portal it must be pointing towards the light 
-                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dot_product(p->getDerivedDirection()) < 0.0) ||
-                                (p->getType() != Portal::PORTAL_TYPE_QUAD))
-                            {
-                                if (!light->affectsZone(targetZone))
-                                {
-                                    light->addZoneToAffectedZonesList(targetZone);
-                                    if (targetZone->getLastVisibleFrame() == frameCount)
-                                    {
-                                        light->setAffectsVisibleZone(true);
+                    switch (light->type()) {
+                        case Light::LT_POINT:
+                            // point lights - just check if within illumination
+                            // range
+                            if (lightToPortal.length()
+                                <= light->getAttenuationRange()) {
+                                // if portal is quad portal it must be pointing
+                                // towards the light
+                                if ((p->type() == Portal::PORTAL_TYPE_QUAD
+                                     && lightToPortal.dot_product(
+                                            p->getDerivedDirection())
+                                         < 0.0)
+                                    || (p->type()
+                                        != Portal::PORTAL_TYPE_QUAD)) {
+                                    if (!light->affectsZone(targetZone)) {
+                                        light->addZoneToAffectedZonesList(
+                                            targetZone);
+                                        if (targetZone->getLastVisibleFrame()
+                                            == frameCount) {
+                                            light->setAffectsVisibleZone(true);
+                                        }
+                                        // set culling frustum from the portal
+                                        portalFrustum->addPortalCullingPlanes(
+                                            p);
+                                        // recurse into the target zone of the
+                                        // portal
+                                        p->getTargetZone()
+                                            ->_checkLightAgainstPortals(
+                                                light,
+                                                frameCount,
+                                                portalFrustum,
+                                                p->getTargetPortal());
+                                        // remove the planes added by this
+                                        // portal
+                                        portalFrustum
+                                            ->removePortalCullingPlanes(p);
                                     }
-                                    // set culling frustum from the portal
-                                    portalFrustum->addPortalCullingPlanes(p);
-                                    // recurse into the target zone of the portal
-                                    p->getTargetZone()->_checkLightAgainstPortals(light, 
-                                                                                frameCount, 
-                                                                                portalFrustum,
-                                                                                p->getTargetPortal());
-                                    // remove the planes added by this portal
-                                    portalFrustum->removePortalCullingPlanes(p);
                                 }
                             }
-                        }
-                        break;
-                    case Light::LT_DIRECTIONAL:
-                        // directionals have infinite range, so just make sure
-                        // the direction is facing the portal
-                        if (lightToPortal.dot_product(light->getDerivedDirection()) >= 0.0)
-                        {
-                            // if portal is quad portal it must be pointing towards the light 
-                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dot_product(p->getDerivedDirection()) < 0.0) ||
-                                (p->getType() != Portal::PORTAL_TYPE_QUAD))
-                            {
-                                if (!light->affectsZone(targetZone))
-                                {
-                                    light->addZoneToAffectedZonesList(targetZone);
-                                    if (targetZone->getLastVisibleFrame() == frameCount)
-                                    {
-                                        light->setAffectsVisibleZone(true);
+                            break;
+                        case Light::LT_DIRECTIONAL:
+                            // directionals have infinite range, so just make
+                            // sure the direction is facing the portal
+                            if (lightToPortal.dot_product(
+                                    light->getDerivedDirection())
+                                >= 0.0) {
+                                // if portal is quad portal it must be pointing
+                                // towards the light
+                                if ((p->type() == Portal::PORTAL_TYPE_QUAD
+                                     && lightToPortal.dot_product(
+                                            p->getDerivedDirection())
+                                         < 0.0)
+                                    || (p->type()
+                                        != Portal::PORTAL_TYPE_QUAD)) {
+                                    if (!light->affectsZone(targetZone)) {
+                                        light->addZoneToAffectedZonesList(
+                                            targetZone);
+                                        if (targetZone->getLastVisibleFrame()
+                                            == frameCount) {
+                                            light->setAffectsVisibleZone(true);
+                                        }
+                                        // set culling frustum from the portal
+                                        portalFrustum->addPortalCullingPlanes(
+                                            p);
+                                        // recurse into the target zone of the
+                                        // portal
+                                        p->getTargetZone()
+                                            ->_checkLightAgainstPortals(
+                                                light,
+                                                frameCount,
+                                                portalFrustum,
+                                                p->getTargetPortal());
+                                        // remove the planes added by this
+                                        // portal
+                                        portalFrustum
+                                            ->removePortalCullingPlanes(p);
                                     }
-                                    // set culling frustum from the portal
-                                    portalFrustum->addPortalCullingPlanes(p);
-                                    // recurse into the target zone of the portal
-                                    p->getTargetZone()->_checkLightAgainstPortals(light, 
-                                                                                frameCount, 
-                                                                                portalFrustum,
-                                                                                p->getTargetPortal());
-                                    // remove the planes added by this portal
-                                    portalFrustum->removePortalCullingPlanes(p);
                                 }
                             }
-                        }
-                        break;
-                    case Light::LT_RECTLIGHT:
-                    case Light::LT_SPOTLIGHT:
-                        // spotlights - just check if within illumination range
-                        // Technically, we should check if the portal is within
-                        // the cone of illumination, but for now, we'll leave that
-                        // as a future optimisation.
-                        if (lightToPortal.length() <= light->getAttenuationRange())
-                        {
-                            // if portal is quad portal it must be pointing towards the light 
-                            if ((p->getType() == Portal::PORTAL_TYPE_QUAD && lightToPortal.dot_product(p->getDerivedDirection()) < 0.0) ||
-                                (p->getType() != Portal::PORTAL_TYPE_QUAD))
-                            {
-                                if (!light->affectsZone(targetZone))
-                                {
-                                    light->addZoneToAffectedZonesList(targetZone);
-                                    if (targetZone->getLastVisibleFrame() == frameCount)
-                                    {
-                                        light->setAffectsVisibleZone(true);
+                            break;
+                        case Light::LT_RECTLIGHT:
+                        case Light::LT_SPOTLIGHT:
+                            // spotlights - just check if within illumination
+                            // range Technically, we should check if the portal
+                            // is within the cone of illumination, but for now,
+                            // we'll leave that as a future optimisation.
+                            if (lightToPortal.length()
+                                <= light->getAttenuationRange()) {
+                                // if portal is quad portal it must be pointing
+                                // towards the light
+                                if ((p->type() == Portal::PORTAL_TYPE_QUAD
+                                     && lightToPortal.dot_product(
+                                            p->getDerivedDirection())
+                                         < 0.0)
+                                    || (p->type()
+                                        != Portal::PORTAL_TYPE_QUAD)) {
+                                    if (!light->affectsZone(targetZone)) {
+                                        light->addZoneToAffectedZonesList(
+                                            targetZone);
+                                        if (targetZone->getLastVisibleFrame()
+                                            == frameCount) {
+                                            light->setAffectsVisibleZone(true);
+                                        }
+                                        // set culling frustum from the portal
+                                        portalFrustum->addPortalCullingPlanes(
+                                            p);
+                                        // recurse into the target zone of the
+                                        // portal
+                                        p->getTargetZone()
+                                            ->_checkLightAgainstPortals(
+                                                light,
+                                                frameCount,
+                                                portalFrustum,
+                                                p->getTargetPortal());
+                                        // remove the planes added by this
+                                        // portal
+                                        portalFrustum
+                                            ->removePortalCullingPlanes(p);
                                     }
-                                    // set culling frustum from the portal
-                                    portalFrustum->addPortalCullingPlanes(p);
-                                    // recurse into the target zone of the portal
-                                    p->getTargetZone()->_checkLightAgainstPortals(light, 
-                                                                                frameCount, 
-                                                                                portalFrustum,
-                                                                                p->getTargetPortal());
-                                    // remove the planes added by this portal
-                                    portalFrustum->removePortalCullingPlanes(p);
                                 }
                             }
-                        }
-                        break;
+                            break;
                     }
                 }
             }

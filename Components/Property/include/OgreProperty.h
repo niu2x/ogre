@@ -149,7 +149,7 @@ namespace Ogre
         const String& description() const { return mDesc; }
 
         /// Get the type of the property
-        PropertyType getType() const { return mType; }
+        PropertyType type() const { return mType; }
 
         /// Get a string name of a property type
         static const String& getTypeName(PropertyType theType);
@@ -203,7 +203,7 @@ namespace Ogre
         const String& description() const { return mDef->description(); }
 
         /// Get the type of the property
-        PropertyType getType() const { return mDef->getType(); }
+        PropertyType type() const { return mDef->type(); }
 
         /// Return the current value as an Any
         virtual Ogre::Any getValue() const = 0;
@@ -352,11 +352,12 @@ namespace Ogre
         void setPropertyImpl(const String& name, const T& val, PropertyType typeCheck)
         {
             PropertyBase* baseProp = getProperty(name);
-            if (baseProp->getType() != typeCheck)
-            {
+            if (baseProp->type() != typeCheck) {
                 StringStream msg;
-                msg << "Property error: type passed in: '" << PropertyDef::getTypeName(typeCheck)
-                    << "', type of property: '" << PropertyDef::getTypeName(baseProp->getType()) << "'";
+                msg << "Property error: type passed in: '"
+                    << PropertyDef::getTypeName(typeCheck)
+                    << "', type of property: '"
+                    << PropertyDef::getTypeName(baseProp->type()) << "'";
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, msg.str(), "PropertySet::setPropertyImpl");
             }
             static_cast<Property<T>*>(baseProp)->set(val);
@@ -367,11 +368,12 @@ namespace Ogre
         void getPropertyImpl(const String& name, T& refVal, PropertyType typeCheck) const
         {
             PropertyBase* baseProp = getProperty(name);
-            if (baseProp->getType() != typeCheck)
-            {
+            if (baseProp->type() != typeCheck) {
                 StringStream msg;
-                msg << "Property error: type requested: '" << PropertyDef::getTypeName(typeCheck)
-                    << "', type of property: '" << PropertyDef::getTypeName(baseProp->getType()) << "'";
+                msg << "Property error: type requested: '"
+                    << PropertyDef::getTypeName(typeCheck)
+                    << "', type of property: '"
+                    << PropertyDef::getTypeName(baseProp->type()) << "'";
                 OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, msg.str(), "PropertySet::getPropertyImpl");
             }
             refVal = static_cast<Property<T>*>(baseProp)->get();

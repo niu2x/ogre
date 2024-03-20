@@ -201,7 +201,7 @@ namespace Ogre {
         /// Gets the offset into the buffer where this element starts
         size_t getOffset(void) const { return mOffset; }
         /// Gets the data format of this element
-        VertexElementType getType(void) const { return mType; }
+        VertexElementType type() const { return mType; }
         /// Gets the meaning of this element
         VertexElementSemantic getSemantic(void) const { return mSemantic; }
         /// Gets the index of this element, only applicable for repeating elements

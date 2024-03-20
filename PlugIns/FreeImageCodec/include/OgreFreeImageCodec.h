@@ -69,7 +69,7 @@ namespace Ogre {
         void encodeToFile(const Any& input, const String& outFileName) const  override;
         void decode(const DataStreamPtr& input, const Any& output) const  override;
 
-        String getType() const override;
+        String type() const override;
         String magicNumberToFileExt(const char *magicNumberPtr, size_t maxbytes) const override;
 
         /// Static method to startup FreeImage and register the FreeImage codecs

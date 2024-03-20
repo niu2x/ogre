@@ -55,7 +55,7 @@ namespace Ogre {
     {
     public:
         /// @copydoc FactoryObj::getType
-        const String& getType(void) const override;
+        const String& type() const override;
 
         using ArchiveFactory::createInstance;
 
@@ -76,7 +76,7 @@ namespace Ogre {
         APKFileSystemArchiveFactory(AAssetManager* assetMgr) : mAssetMgr(assetMgr) {}
         virtual ~APKFileSystemArchiveFactory() {}
         /// @copydoc FactoryObj::getType
-        const String& getType(void) const override;
+        const String& type() const override;
         /// @copydoc ArchiveFactory::createInstance
         Archive *createInstance( const String& name, bool readOnly ) override;
     private:

@@ -761,7 +761,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void RenderSystem::bindGpuProgram(GpuProgram* prg)
     {
-        auto gptype = prg->getType();
+        auto gptype = prg->type();
         // mark clip planes dirty if changed (programmable can change space)
         if(gptype == GPT_VERTEX_PROGRAM && !mClipPlanes.empty() && !mProgramBound[gptype])
             mClipPlanesDirty = true;

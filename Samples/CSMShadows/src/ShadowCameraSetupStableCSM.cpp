@@ -75,7 +75,9 @@ void StableCSMShadowCameraSetup::getShadowCameraForCascade (const SceneManager *
     const Viewport *vp, const Light *light, Camera *texCam, size_t iteration,
     Ogre::Real nearSplit, Ogre::Real farSplit) const
 {
-    OgreAssert(light->getType() == Light::LT_DIRECTIONAL, "only directional lights supported");
+    OgreAssert(
+        light->type() == Light::LT_DIRECTIONAL,
+        "only directional lights supported");
 
     Vector3 pos, dir;
     Matrix3 rot;

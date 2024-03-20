@@ -37,11 +37,7 @@ String FFPTransform::Type = "FFP_Transform";
 const String SRS_TRANSFORM = "FFP_Transform";
 
 //-----------------------------------------------------------------------
-const String& FFPTransform::getType() const
-{
-    return SRS_TRANSFORM;
-}
-
+const String& FFPTransform::type() const { return SRS_TRANSFORM; }
 
 //-----------------------------------------------------------------------
 int FFPTransform::getExecutionOrder() const
@@ -142,10 +138,7 @@ bool FFPTransform::set_parameter(const String& name, const String& value)
 }
 
 //-----------------------------------------------------------------------
-const String& FFPTransformFactory::getType() const
-{
-    return SRS_TRANSFORM;
-}
+const String& FFPTransformFactory::type() const { return SRS_TRANSFORM; }
 
 //-----------------------------------------------------------------------
 SubRenderState* FFPTransformFactory::createInstance(ScriptCompiler* compiler, 

@@ -120,10 +120,7 @@ void EXRCodec::decode(const DataStreamPtr& input, const Any& output) const
     }
 }
 
-String EXRCodec::getType() const 
-{
-    return "exr";
-}
+String EXRCodec::type() const { return "exr"; }
 
 String EXRCodec::magicNumberToFileExt(const char* magicNumberPtr, size_t maxbytes) const
 {

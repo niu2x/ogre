@@ -96,7 +96,7 @@ namespace Ogre
         for (PropertyMap::const_iterator i = mPropertyMap.begin(); i != mPropertyMap.end(); ++i)
         {
             PropertyValue val;
-            val.propType = i->second->getType();
+            val.propType = i->second->type();
             switch(val.propType)
             {
             case PROP_SHORT:
@@ -169,12 +169,13 @@ namespace Ogre
             {
                 // matching properties
                 // check type
-                if (j->second->getType() != i->second.propType)
-                {
+                if (j->second->type() != i->second.propType) {
                     StringStream msg;
-                    msg << "Property " << i->first << " mismatched type; incoming type: '"
-                        << PropertyDef::getTypeName(i->second.propType) << "', property type: '"
-                        << PropertyDef::getTypeName(j->second->getType()) << "'";
+                    msg << "Property " << i->first
+                        << " mismatched type; incoming type: '"
+                        << PropertyDef::getTypeName(i->second.propType)
+                        << "', property type: '"
+                        << PropertyDef::getTypeName(j->second->type()) << "'";
                     OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, msg.str(), "PropertySet::setValueMap");
                 }
                 switch(i->second.propType)

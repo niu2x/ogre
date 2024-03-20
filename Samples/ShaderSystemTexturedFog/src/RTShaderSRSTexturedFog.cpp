@@ -51,11 +51,7 @@ RTShaderSRSTexturedFog::RTShaderSRSTexturedFog(RTShaderSRSTexturedFogFactory* fa
 }
 
 //-----------------------------------------------------------------------
-const String& RTShaderSRSTexturedFog::getType() const
-{
-    return Type;
-}
-
+const String& RTShaderSRSTexturedFog::type() const { return Type; }
 
 //-----------------------------------------------------------------------
 int RTShaderSRSTexturedFog::getExecutionOrder() const
@@ -279,7 +275,7 @@ void RTShaderSRSTexturedFog::setFogProperties(FogMode fogMode,
 }
 
 //-----------------------------------------------------------------------
-const String& RTShaderSRSTexturedFogFactory::getType() const
+const String& RTShaderSRSTexturedFogFactory::type() const
 {
     return RTShaderSRSTexturedFog::Type;
 }

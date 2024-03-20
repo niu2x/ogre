@@ -433,14 +433,18 @@ namespace Ogre {
                 {
                     elemTex0->baseVertexPointerToElement(pSrc, &pSrcReal);
                     elemTex0->baseVertexPointerToElement(pDest, &pDestReal);
-                    for (size_t dim = 0; dim < VertexElement::getTypeCount(elemTex0->getType()); ++dim)
+                    for (size_t dim = 0;
+                         dim < VertexElement::getTypeCount(elemTex0->type());
+                         ++dim)
                         *pDestReal++ = *pSrcReal++;
                 }
                 if (elemTex1)
                 {
                     elemTex1->baseVertexPointerToElement(pSrc, &pSrcReal);
                     elemTex1->baseVertexPointerToElement(pDest, &pDestReal);
-                    for (size_t dim = 0; dim < VertexElement::getTypeCount(elemTex1->getType()); ++dim)
+                    for (size_t dim = 0;
+                         dim < VertexElement::getTypeCount(elemTex1->type());
+                         ++dim)
                         *pDestReal++ = *pSrcReal++;
                 }
 
@@ -504,7 +508,8 @@ namespace Ogre {
         size_t currWidth = (LEVEL_WIDTH(mULevel)-1) * ((mCtlWidth-1)/2) + 1;
         size_t currHeight = (LEVEL_WIDTH(mVLevel)-1) * ((mCtlHeight-1)/2) + 1;
 
-        bool use32bitindexes = (mIndexBuffer->getType() == HardwareIndexBuffer::IT_32BIT);
+        bool use32bitindexes
+            = (mIndexBuffer->type() == HardwareIndexBuffer::IT_32BIT);
 
         // The mesh is built, just make a list of indexes to spit out the triangles
         int vInc;
@@ -670,7 +675,9 @@ namespace Ogre {
             elemTex0->baseVertexPointerToElement(pLeft, &pLeftReal);
             elemTex0->baseVertexPointerToElement(pRight, &pRightReal);
 
-            for (size_t dim = 0; dim < VertexElement::getTypeCount(elemTex0->getType()); ++dim)
+            for (size_t dim = 0;
+                 dim < VertexElement::getTypeCount(elemTex0->type());
+                 ++dim)
                 *pDestReal++ = ((*pLeftReal++) + (*pRightReal++)) * 0.5f;
         }
         if (elemTex1)
@@ -679,7 +686,9 @@ namespace Ogre {
             elemTex1->baseVertexPointerToElement(pLeft, &pLeftReal);
             elemTex1->baseVertexPointerToElement(pRight, &pRightReal);
 
-            for (size_t dim = 0; dim < VertexElement::getTypeCount(elemTex1->getType()); ++dim)
+            for (size_t dim = 0;
+                 dim < VertexElement::getTypeCount(elemTex1->type());
+                 ++dim)
                 *pDestReal++ = ((*pLeftReal++) + (*pRightReal++)) * 0.5f;
         }
     }

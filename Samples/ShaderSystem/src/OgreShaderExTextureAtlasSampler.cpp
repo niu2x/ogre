@@ -71,11 +71,7 @@ TextureAtlasSampler::TextureAtlasSampler() :
 }
 
 //-----------------------------------------------------------------------
-const String& TextureAtlasSampler::getType() const
-{
-    return Type;
-}
-
+const String& TextureAtlasSampler::type() const { return Type; }
 
 //-----------------------------------------------------------------------
 int TextureAtlasSampler::getExecutionOrder() const
@@ -357,7 +353,7 @@ TextureAtlasSamplerFactory& TextureAtlasSamplerFactory::singleton(void)
 }
 
 //-----------------------------------------------------------------------
-const String& TextureAtlasSamplerFactory::getType() const
+const String& TextureAtlasSamplerFactory::type() const
 {
     return TextureAtlasSampler::Type;
 }

@@ -6037,7 +6037,7 @@ public:
         void* pMappedData,
         VkDeviceSize size);
 
-    ALLOCATION_TYPE GetType() const { return (ALLOCATION_TYPE)m_Type; }
+    ALLOCATION_TYPE type() const { return (ALLOCATION_TYPE)m_Type; }
     VkDeviceSize GetAlignment() const { return m_Alignment; }
     VkDeviceSize GetSize() const { return m_Size; }
     void* GetUserData() const { return m_pUserData; }
@@ -6118,22 +6118,26 @@ struct VmaDedicatedAllocationListItemTraits
 
     static ItemType* GetPrev(const ItemType* item)
     {
-        VMA_HEAVY_ASSERT(item->GetType() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
+        VMA_HEAVY_ASSERT(
+            item->type() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
         return item->m_DedicatedAllocation.m_Prev;
     }
     static ItemType* GetNext(const ItemType* item)
     {
-        VMA_HEAVY_ASSERT(item->GetType() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
+        VMA_HEAVY_ASSERT(
+            item->type() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
         return item->m_DedicatedAllocation.m_Next;
     }
     static ItemType*& AccessPrev(ItemType* item)
     {
-        VMA_HEAVY_ASSERT(item->GetType() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
+        VMA_HEAVY_ASSERT(
+            item->type() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
         return item->m_DedicatedAllocation.m_Prev;
     }
     static ItemType*& AccessNext(ItemType* item)
     {
-        VMA_HEAVY_ASSERT(item->GetType() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
+        VMA_HEAVY_ASSERT(
+            item->type() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
         return item->m_DedicatedAllocation.m_Next;
     }
 };
@@ -11964,8 +11968,9 @@ VkResult VmaDeviceMemoryBlock::BindBufferMemory(
     VkBuffer hBuffer,
     const void* pNext)
 {
-    VMA_ASSERT(hAllocation->GetType() == VmaAllocation_T::ALLOCATION_TYPE_BLOCK &&
-        hAllocation->GetBlock() == this);
+    VMA_ASSERT(
+        hAllocation->type() == VmaAllocation_T::ALLOCATION_TYPE_BLOCK
+        && hAllocation->GetBlock() == this);
     VMA_ASSERT(allocationLocalOffset < hAllocation->GetSize() &&
         "Invalid allocationLocalOffset. Did you forget that this offset is relative to the beginning of the allocation, not the whole memory block?");
     const VkDeviceSize memoryOffset = hAllocation->GetOffset() + allocationLocalOffset;
@@ -11981,8 +11986,9 @@ VkResult VmaDeviceMemoryBlock::BindImageMemory(
     VkImage hImage,
     const void* pNext)
 {
-    VMA_ASSERT(hAllocation->GetType() == VmaAllocation_T::ALLOCATION_TYPE_BLOCK &&
-        hAllocation->GetBlock() == this);
+    VMA_ASSERT(
+        hAllocation->type() == VmaAllocation_T::ALLOCATION_TYPE_BLOCK
+        && hAllocation->GetBlock() == this);
     VMA_ASSERT(allocationLocalOffset < hAllocation->GetSize() &&
         "Invalid allocationLocalOffset. Did you forget that this offset is relative to the beginning of the allocation, not the whole memory block?");
     const VkDeviceSize memoryOffset = hAllocation->GetOffset() + allocationLocalOffset;
@@ -12184,7 +12190,7 @@ void* VmaAllocation_T::GetMappedData() const
 
 void VmaAllocation_T::BlockAllocMap()
 {
-    VMA_ASSERT(GetType() == ALLOCATION_TYPE_BLOCK);
+    VMA_ASSERT(type() == ALLOCATION_TYPE_BLOCK);
     VMA_ASSERT(IsMappingAllowed() && "Mapping is not allowed on this allocation! Please use one of the new VMA_ALLOCATION_CREATE_HOST_ACCESS_* flags when creating it.");
 
     if (m_MapCount < 0xFF)
@@ -12199,7 +12205,7 @@ void VmaAllocation_T::BlockAllocMap()
 
 void VmaAllocation_T::BlockAllocUnmap()
 {
-    VMA_ASSERT(GetType() == ALLOCATION_TYPE_BLOCK);
+    VMA_ASSERT(type() == ALLOCATION_TYPE_BLOCK);
 
     if (m_MapCount > 0)
     {
@@ -12213,7 +12219,7 @@ void VmaAllocation_T::BlockAllocUnmap()
 
 VkResult VmaAllocation_T::DedicatedAllocMap(VmaAllocator hAllocator, void** ppData)
 {
-    VMA_ASSERT(GetType() == ALLOCATION_TYPE_DEDICATED);
+    VMA_ASSERT(type() == ALLOCATION_TYPE_DEDICATED);
     VMA_ASSERT(IsMappingAllowed() && "Mapping is not allowed on this allocation! Please use one of the new VMA_ALLOCATION_CREATE_HOST_ACCESS_* flags when creating it.");
 
     if (m_MapCount != 0 || IsPersistentMap())
@@ -12251,7 +12257,7 @@ VkResult VmaAllocation_T::DedicatedAllocMap(VmaAllocator hAllocator, void** ppDa
 
 void VmaAllocation_T::DedicatedAllocUnmap(VmaAllocator hAllocator)
 {
-    VMA_ASSERT(GetType() == ALLOCATION_TYPE_DEDICATED);
+    VMA_ASSERT(type() == ALLOCATION_TYPE_DEDICATED);
 
     if (m_MapCount > 0)
     {
@@ -15138,10 +15144,8 @@ void VmaAllocator_T::FreeMemory(
 
             allocation->FreeName(this);
 
-            switch(allocation->GetType())
-            {
-            case VmaAllocation_T::ALLOCATION_TYPE_BLOCK:
-                {
+            switch (allocation->type()) {
+                case VmaAllocation_T::ALLOCATION_TYPE_BLOCK: {
                     VmaBlockVector* pBlockVector = VMA_NULL;
                     VmaPool hPool = allocation->GetParentPool();
                     if(hPool != VK_NULL_HANDLE)
@@ -15575,10 +15579,8 @@ VkResult VmaAllocator_T::BindVulkanImage(
 
 VkResult VmaAllocator_T::Map(VmaAllocation hAllocation, void** ppData)
 {
-    switch(hAllocation->GetType())
-    {
-    case VmaAllocation_T::ALLOCATION_TYPE_BLOCK:
-        {
+    switch (hAllocation->type()) {
+        case VmaAllocation_T::ALLOCATION_TYPE_BLOCK: {
             VmaDeviceMemoryBlock* const pBlock = hAllocation->GetBlock();
             char *pBytes = VMA_NULL;
             VkResult res = pBlock->Map(this, 1, (void**)&pBytes);
@@ -15599,10 +15601,8 @@ VkResult VmaAllocator_T::Map(VmaAllocation hAllocation, void** ppData)
 
 void VmaAllocator_T::Unmap(VmaAllocation hAllocation)
 {
-    switch(hAllocation->GetType())
-    {
-    case VmaAllocation_T::ALLOCATION_TYPE_BLOCK:
-        {
+    switch (hAllocation->type()) {
+        case VmaAllocation_T::ALLOCATION_TYPE_BLOCK: {
             VmaDeviceMemoryBlock* const pBlock = hAllocation->GetBlock();
             hAllocation->BlockAllocUnmap();
             pBlock->Unmap(this, 1);
@@ -15623,20 +15623,30 @@ VkResult VmaAllocator_T::BindBufferMemory(
     const void* pNext)
 {
     VkResult res = VK_SUCCESS;
-    switch(hAllocation->GetType())
-    {
-    case VmaAllocation_T::ALLOCATION_TYPE_DEDICATED:
-        res = BindVulkanBuffer(hAllocation->GetMemory(), allocationLocalOffset, hBuffer, pNext);
-        break;
-    case VmaAllocation_T::ALLOCATION_TYPE_BLOCK:
-    {
-        VmaDeviceMemoryBlock* const pBlock = hAllocation->GetBlock();
-        VMA_ASSERT(pBlock && "Binding buffer to allocation that doesn't belong to any block.");
-        res = pBlock->BindBufferMemory(this, hAllocation, allocationLocalOffset, hBuffer, pNext);
-        break;
-    }
-    default:
-        VMA_ASSERT(0);
+    switch (hAllocation->type()) {
+        case VmaAllocation_T::ALLOCATION_TYPE_DEDICATED:
+            res = BindVulkanBuffer(
+                hAllocation->GetMemory(),
+                allocationLocalOffset,
+                hBuffer,
+                pNext);
+            break;
+        case VmaAllocation_T::ALLOCATION_TYPE_BLOCK: {
+            VmaDeviceMemoryBlock* const pBlock = hAllocation->GetBlock();
+            VMA_ASSERT(
+                pBlock
+                && "Binding buffer to allocation that doesn't belong to any "
+                   "block.");
+            res = pBlock->BindBufferMemory(
+                this,
+                hAllocation,
+                allocationLocalOffset,
+                hBuffer,
+                pNext);
+            break;
+        }
+        default:
+            VMA_ASSERT(0);
     }
     return res;
 }
@@ -15648,20 +15658,30 @@ VkResult VmaAllocator_T::BindImageMemory(
     const void* pNext)
 {
     VkResult res = VK_SUCCESS;
-    switch(hAllocation->GetType())
-    {
-    case VmaAllocation_T::ALLOCATION_TYPE_DEDICATED:
-        res = BindVulkanImage(hAllocation->GetMemory(), allocationLocalOffset, hImage, pNext);
-        break;
-    case VmaAllocation_T::ALLOCATION_TYPE_BLOCK:
-    {
-        VmaDeviceMemoryBlock* pBlock = hAllocation->GetBlock();
-        VMA_ASSERT(pBlock && "Binding image to allocation that doesn't belong to any block.");
-        res = pBlock->BindImageMemory(this, hAllocation, allocationLocalOffset, hImage, pNext);
-        break;
-    }
-    default:
-        VMA_ASSERT(0);
+    switch (hAllocation->type()) {
+        case VmaAllocation_T::ALLOCATION_TYPE_DEDICATED:
+            res = BindVulkanImage(
+                hAllocation->GetMemory(),
+                allocationLocalOffset,
+                hImage,
+                pNext);
+            break;
+        case VmaAllocation_T::ALLOCATION_TYPE_BLOCK: {
+            VmaDeviceMemoryBlock* pBlock = hAllocation->GetBlock();
+            VMA_ASSERT(
+                pBlock
+                && "Binding image to allocation that doesn't belong to any "
+                   "block.");
+            res = pBlock->BindImageMemory(
+                this,
+                hAllocation,
+                allocationLocalOffset,
+                hImage,
+                pNext);
+            break;
+        }
+        default:
+            VMA_ASSERT(0);
     }
     return res;
 }
@@ -15735,7 +15755,9 @@ VkResult VmaAllocator_T::FlushOrInvalidateAllocations(
 
 void VmaAllocator_T::FreeDedicatedMemory(const VmaAllocation allocation)
 {
-    VMA_ASSERT(allocation && allocation->GetType() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
+    VMA_ASSERT(
+        allocation
+        && allocation->type() == VmaAllocation_T::ALLOCATION_TYPE_DEDICATED);
 
     const uint32_t memTypeIndex = allocation->GetMemoryTypeIndex();
     VmaPool parentPool = allocation->GetParentPool();
@@ -15833,47 +15855,45 @@ bool VmaAllocator_T::GetFlushOrInvalidateRange(
         outRange.pNext = VMA_NULL;
         outRange.memory = allocation->GetMemory();
 
-        switch(allocation->GetType())
-        {
-        case VmaAllocation_T::ALLOCATION_TYPE_DEDICATED:
-            outRange.offset = VmaAlignDown(offset, nonCoherentAtomSize);
-            if(size == VK_WHOLE_SIZE)
-            {
-                outRange.size = allocationSize - outRange.offset;
-            }
-            else
-            {
-                VMA_ASSERT(offset + size <= allocationSize);
-                outRange.size = VMA_MIN(
-                    VmaAlignUp(size + (offset - outRange.offset), nonCoherentAtomSize),
-                    allocationSize - outRange.offset);
-            }
-            break;
-        case VmaAllocation_T::ALLOCATION_TYPE_BLOCK:
-        {
-            // 1. Still within this allocation.
-            outRange.offset = VmaAlignDown(offset, nonCoherentAtomSize);
-            if(size == VK_WHOLE_SIZE)
-            {
-                size = allocationSize - offset;
-            }
-            else
-            {
-                VMA_ASSERT(offset + size <= allocationSize);
-            }
-            outRange.size = VmaAlignUp(size + (offset - outRange.offset), nonCoherentAtomSize);
+        switch (allocation->type()) {
+            case VmaAllocation_T::ALLOCATION_TYPE_DEDICATED:
+                outRange.offset = VmaAlignDown(offset, nonCoherentAtomSize);
+                if (size == VK_WHOLE_SIZE) {
+                    outRange.size = allocationSize - outRange.offset;
+                } else {
+                    VMA_ASSERT(offset + size <= allocationSize);
+                    outRange.size = VMA_MIN(
+                        VmaAlignUp(
+                            size + (offset - outRange.offset),
+                            nonCoherentAtomSize),
+                        allocationSize - outRange.offset);
+                }
+                break;
+            case VmaAllocation_T::ALLOCATION_TYPE_BLOCK: {
+                // 1. Still within this allocation.
+                outRange.offset = VmaAlignDown(offset, nonCoherentAtomSize);
+                if (size == VK_WHOLE_SIZE) {
+                    size = allocationSize - offset;
+                } else {
+                    VMA_ASSERT(offset + size <= allocationSize);
+                }
+                outRange.size = VmaAlignUp(
+                    size + (offset - outRange.offset),
+                    nonCoherentAtomSize);
 
-            // 2. Adjust to whole block.
-            const VkDeviceSize allocationOffset = allocation->GetOffset();
-            VMA_ASSERT(allocationOffset % nonCoherentAtomSize == 0);
-            const VkDeviceSize blockSize = allocation->GetBlock()->m_pMetadata->GetSize();
-            outRange.offset += allocationOffset;
-            outRange.size = VMA_MIN(outRange.size, blockSize - outRange.offset);
+                // 2. Adjust to whole block.
+                const VkDeviceSize allocationOffset = allocation->GetOffset();
+                VMA_ASSERT(allocationOffset % nonCoherentAtomSize == 0);
+                const VkDeviceSize blockSize
+                    = allocation->GetBlock()->m_pMetadata->GetSize();
+                outRange.offset += allocationOffset;
+                outRange.size
+                    = VMA_MIN(outRange.size, blockSize - outRange.offset);
 
-            break;
-        }
-        default:
-            VMA_ASSERT(0);
+                break;
+            }
+            default:
+                VMA_ASSERT(0);
         }
         return true;
     }

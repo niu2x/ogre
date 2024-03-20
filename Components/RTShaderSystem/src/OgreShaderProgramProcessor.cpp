@@ -239,7 +239,7 @@ void ProgramProcessor::countVsTexcoordOutputs(Function* vsMain,
         if (p->getSemantic() == Parameter::SPS_TEXTURE_COORDINATES)
         {
             outTexCoordSlots++;
-            outTexCoordFloats += getParameterFloatCount(p->getType());
+            outTexCoordFloats += getParameterFloatCount(p->type());
         }
     }
 }
@@ -252,50 +252,49 @@ void ProgramProcessor::buildTexcoordTable(const ShaderParameterList& paramList, 
         if (p->getSemantic() == Parameter::SPS_TEXTURE_COORDINATES)
         {
 
-            switch (p->getType())
-            {
-            case GCT_FLOAT1:
-                outParamsTable[0].push_back(p);
-                break;
+            switch (p->type()) {
+                case GCT_FLOAT1:
+                    outParamsTable[0].push_back(p);
+                    break;
 
-            case GCT_FLOAT2:
-                outParamsTable[1].push_back(p);
-                break;
+                case GCT_FLOAT2:
+                    outParamsTable[1].push_back(p);
+                    break;
 
-            case GCT_FLOAT3:
-                outParamsTable[2].push_back(p);
-                break;
+                case GCT_FLOAT3:
+                    outParamsTable[2].push_back(p);
+                    break;
 
-            case GCT_FLOAT4:
-                outParamsTable[3].push_back(p);
-                break;
-            case GCT_SAMPLER1D:
-            case GCT_SAMPLER2D:
-            case GCT_SAMPLER2DARRAY:
-            case GCT_SAMPLER3D:
-            case GCT_SAMPLERCUBE:
-            case GCT_SAMPLER1DSHADOW:
-            case GCT_SAMPLER2DSHADOW:
-            case GCT_MATRIX_2X2:
-            case GCT_MATRIX_2X3:
-            case GCT_MATRIX_2X4:
-            case GCT_MATRIX_3X2:
-            case GCT_MATRIX_3X3:
-            case GCT_MATRIX_3X4:
-            case GCT_MATRIX_4X2:
-            case GCT_MATRIX_4X3:
-            case GCT_MATRIX_4X4:
-            case GCT_INT1:
-            case GCT_INT2:
-            case GCT_INT3:
-            case GCT_INT4:
-            case GCT_UINT1:
-            case GCT_UINT2:
-            case GCT_UINT3:
-            case GCT_UINT4:
-            case GCT_UNKNOWN:
-            default:
-                break;
+                case GCT_FLOAT4:
+                    outParamsTable[3].push_back(p);
+                    break;
+                case GCT_SAMPLER1D:
+                case GCT_SAMPLER2D:
+                case GCT_SAMPLER2DARRAY:
+                case GCT_SAMPLER3D:
+                case GCT_SAMPLERCUBE:
+                case GCT_SAMPLER1DSHADOW:
+                case GCT_SAMPLER2DSHADOW:
+                case GCT_MATRIX_2X2:
+                case GCT_MATRIX_2X3:
+                case GCT_MATRIX_2X4:
+                case GCT_MATRIX_3X2:
+                case GCT_MATRIX_3X3:
+                case GCT_MATRIX_3X4:
+                case GCT_MATRIX_4X2:
+                case GCT_MATRIX_4X3:
+                case GCT_MATRIX_4X4:
+                case GCT_INT1:
+                case GCT_INT2:
+                case GCT_INT3:
+                case GCT_INT4:
+                case GCT_UINT1:
+                case GCT_UINT2:
+                case GCT_UINT3:
+                case GCT_UINT4:
+                case GCT_UNKNOWN:
+                default:
+                    break;
             }
         }
     }
@@ -544,10 +543,10 @@ void ProgramProcessor::mergeParametersReminders(ShaderParameterList paramsTable[
             int srcParameterFloats;
             int curSrcParameterFloats;
 
-            srcParameterFloats = getParameterFloatCount(srcParameter->getType());
+            srcParameterFloats = getParameterFloatCount(srcParameter->type());
             curSrcParameterFloats = srcParameterFloats;
-            srcParameterComponents = getParameterMaskByType(srcParameter->getType());
-
+            srcParameterComponents
+                = getParameterMaskByType(srcParameter->type());
 
             // While this parameter has remaining components -> split it.
             while (curSrcParameterFloats > 0)
@@ -651,7 +650,9 @@ void ProgramProcessor::generateLocalSplitParameters(Function* func, GpuProgramTy
     // Create the local parameters + map from source to local.
     for (const auto& srcParameter : splitParams)
     {
-        ParameterPtr localParameter = func->resolveLocalParameter(srcParameter->getType(), "lsplit_" + srcParameter->name());
+        ParameterPtr localParameter = func->resolveLocalParameter(
+            srcParameter->type(),
+            "lsplit_" + srcParameter->name());
 
         localParamsMap[srcParameter.get()] = localParameter;
     }
@@ -759,7 +760,9 @@ void ProgramProcessor::replaceParametersReferences(MergeParameterList& mergedPar
                             }
                             else
                             {
-                                dstOpMask = getParameterMaskByType(curSrcParam->getType()) << paramBitMaskOffset;
+                                dstOpMask = getParameterMaskByType(
+                                                curSrcParam->type())
+                                    << paramBitMaskOffset;
                             }
                         }
                         else
@@ -775,7 +778,7 @@ void ProgramProcessor::replaceParametersReferences(MergeParameterList& mergedPar
 
 
             // Update the bit mask offset.
-            paramBitMaskOffset += getParameterFloatCount(curSrcParam->getType());
+            paramBitMaskOffset += getParameterFloatCount(curSrcParam->type());
         }
     }
 }
@@ -799,7 +802,7 @@ void ProgramProcessor::replaceSplitParametersReferences(LocalParameterMap& local
 
                 if (srcOperandPtr->getMask() == Operand::OPM_ALL)
                 {
-                    dstOpMask = getParameterMaskByType(curSrcParam->getType());
+                    dstOpMask = getParameterMaskByType(curSrcParam->type());
                 }
                 else
                 {
@@ -926,7 +929,7 @@ void ProgramProcessor::MergeParameter::addSourceParameter(ParameterPtr srcParam,
     {
         mDstParameterMask[mSrcParameterCount] = mask;
 
-        mUsedFloatCount += getParameterFloatCount(srcParam->getType());
+        mUsedFloatCount += getParameterFloatCount(srcParam->type());
     }
     else
     {

@@ -53,7 +53,7 @@ public:
     /** 
     @see SubRenderState::getType.
     */
-    const String& getType() const override;
+    const String& type() const override;
 
     /** 
     @see SubRenderState::getType.
@@ -158,7 +158,7 @@ public:
     /** 
     @see SubRenderStateFactory::getType.
     */
-    const String&   getType() const override;
+    const String& type() const override;
 
     /** Set the name of the texture to use as a background for the fog */
     const String& getBackgroundTextureName() const { return mBackgroundTextureName; }

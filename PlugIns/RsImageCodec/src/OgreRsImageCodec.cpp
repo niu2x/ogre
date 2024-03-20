@@ -186,7 +186,7 @@ void RsImageCodec::decode(const DataStreamPtr& input, const Any& output) const
     rs_vec_free(pixelData, dataLen);
 }
 //---------------------------------------------------------------------
-String RsImageCodec::getType() const { return mType; }
+String RsImageCodec::type() const { return mType; }
 //---------------------------------------------------------------------
 String RsImageCodec::magicNumberToFileExt(const char* magicNumberPtr, size_t maxbytes) const { return BLANKSTRING; }
 

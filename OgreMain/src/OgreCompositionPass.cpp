@@ -46,10 +46,7 @@ void CompositionPass::setType(CompositionPass::PassType type)
     mType = type;
 }
 //-----------------------------------------------------------------------
-CompositionPass::PassType CompositionPass::getType() const
-{
-    return mType;
-}
+CompositionPass::PassType CompositionPass::type() const { return mType; }
 //-----------------------------------------------------------------------
 void CompositionPass::setIdentifier(uint32 id)
 {

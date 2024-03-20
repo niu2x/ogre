@@ -157,7 +157,7 @@ void SegmentedDynamicLightManager::regenerateActiveLightList(const LightList& i_
     for(;itLight != itLightEnd ; ++itLight)
     {
         const Light* pLight = (*itLight);
-        Light::LightTypes type = pLight->getType();
+        Light::LightTypes type = pLight->type();
         if (((type == Light::LT_SPOTLIGHT) || (type == Light::LT_POINT)) &&
             (pLight->getAttenuationRange() > 0))
         {
@@ -178,8 +178,7 @@ void SegmentedDynamicLightManager::calculateLightBounds(const Light* i_Light, Li
 
     AxisAlignedBox boundBox(lightPosition - lightRange, lightPosition + lightRange);
 
-    if (i_Light->getType() == Light::LT_SPOTLIGHT)
-    {
+    if (i_Light->type() == Light::LT_SPOTLIGHT) {
         static const Radian c_RadianPI(Math::PI);
         static const Radian c_RadianZero(0);
 
@@ -327,8 +326,7 @@ void SegmentedDynamicLightManager::updateTextureFromSegmentedLists(const Camera*
                 float inverseRange = 1.0f / (float)pLight->getAttenuationRange();
                 float spotAngle = -1;
                 float spotInvAngleRange = std::numeric_limits<float>::max();
-                if (pLight->getType() == Light::LT_SPOTLIGHT)
-                {
+                if (pLight->type() == Light::LT_SPOTLIGHT) {
                     Real phi = Math::Cos(
                         pLight->getSpotlightOuterAngle().value_radians()
                         * 0.5f);

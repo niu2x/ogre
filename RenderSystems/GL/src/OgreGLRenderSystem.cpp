@@ -2271,7 +2271,10 @@ namespace Ogre {
             pBufferData = VBO_BUFFER_OFFSET(
                 op.indexData->indexStart * op.indexData->indexBuffer->getIndexSize());
 
-            GLenum indexType = (op.indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+            GLenum indexType = (op.indexData->indexBuffer->type()
+                                == HardwareIndexBuffer::IT_16BIT)
+                ? GL_UNSIGNED_SHORT
+                : GL_UNSIGNED_INT;
 
             do
             {
@@ -2374,37 +2377,33 @@ namespace Ogre {
         //     itself, if type is changing (during load/unload, etc), and it's inuse,
         //     unbind and notify render system to correct for its state.
         //
-        switch (prg->getType())
-        {
-        case GPT_VERTEX_PROGRAM:
-            if (mCurrentVertexProgram != glprg)
-            {
-                if (mCurrentVertexProgram)
-                    mCurrentVertexProgram->unbindProgram();
-                mCurrentVertexProgram = glprg;
-            }
-            break;
+        switch (prg->type()) {
+            case GPT_VERTEX_PROGRAM:
+                if (mCurrentVertexProgram != glprg) {
+                    if (mCurrentVertexProgram)
+                        mCurrentVertexProgram->unbindProgram();
+                    mCurrentVertexProgram = glprg;
+                }
+                break;
 
-        case GPT_FRAGMENT_PROGRAM:
-            if (mCurrentFragmentProgram != glprg)
-            {
-                if (mCurrentFragmentProgram)
-                    mCurrentFragmentProgram->unbindProgram();
-                mCurrentFragmentProgram = glprg;
-            }
-            break;
-        case GPT_GEOMETRY_PROGRAM:
-            if (mCurrentGeometryProgram != glprg)
-            {
-                if (mCurrentGeometryProgram)
-                    mCurrentGeometryProgram->unbindProgram();
-                mCurrentGeometryProgram = glprg;
-            }
-            break;
-        case GPT_COMPUTE_PROGRAM:
-        case GPT_DOMAIN_PROGRAM:
-        case GPT_HULL_PROGRAM:
-            break;
+            case GPT_FRAGMENT_PROGRAM:
+                if (mCurrentFragmentProgram != glprg) {
+                    if (mCurrentFragmentProgram)
+                        mCurrentFragmentProgram->unbindProgram();
+                    mCurrentFragmentProgram = glprg;
+                }
+                break;
+            case GPT_GEOMETRY_PROGRAM:
+                if (mCurrentGeometryProgram != glprg) {
+                    if (mCurrentGeometryProgram)
+                        mCurrentGeometryProgram->unbindProgram();
+                    mCurrentGeometryProgram = glprg;
+                }
+                break;
+            case GPT_COMPUTE_PROGRAM:
+            case GPT_DOMAIN_PROGRAM:
+            case GPT_HULL_PROGRAM:
+                break;
         }
 
         // Bind the program
@@ -2835,25 +2834,24 @@ namespace Ogre {
         if (isCustomAttrib)
         {
             GLint attrib = GLSLProgramCommon::getFixedAttributeIndex(sem, elem.getIndex());
-            unsigned short typeCount = VertexElement::getTypeCount(elem.getType());
+            unsigned short typeCount = VertexElement::getTypeCount(elem.type());
             GLboolean normalised = GL_FALSE;
-            switch(elem.getType())
-            {
-            case VET_UBYTE4_NORM:
-            case VET_SHORT2_NORM:
-            case VET_USHORT2_NORM:
-            case VET_SHORT4_NORM:
-            case VET_USHORT4_NORM:
-                normalised = GL_TRUE;
-                break;
-            default:
-                break;
+            switch (elem.type()) {
+                case VET_UBYTE4_NORM:
+                case VET_SHORT2_NORM:
+                case VET_USHORT2_NORM:
+                case VET_SHORT4_NORM:
+                case VET_USHORT4_NORM:
+                    normalised = GL_TRUE;
+                    break;
+                default:
+                    break;
             };
 
             glVertexAttribPointerARB(
                 attrib,
                 typeCount,
-                GLHardwareBufferManager::getGLType(elem.getType()),
+                GLHardwareBufferManager::getGLType(elem.type()),
                 normalised,
                 static_cast<GLsizei>(vertexBuffer->getVertexSize()),
                 pBufferData);
@@ -2867,34 +2865,36 @@ namespace Ogre {
             switch(sem)
             {
             case VES_POSITION:
-                glVertexPointer(VertexElement::getTypeCount(
-                    elem.getType()),
-                                GLHardwareBufferManager::getGLType(elem.getType()),
-                                static_cast<GLsizei>(vertexBuffer->getVertexSize()),
-                                pBufferData);
+                glVertexPointer(
+                    VertexElement::getTypeCount(elem.type()),
+                    GLHardwareBufferManager::getGLType(elem.type()),
+                    static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+                    pBufferData);
                 glEnableClientState( GL_VERTEX_ARRAY );
                 break;
             case VES_NORMAL:
                 glNormalPointer(
-                    GLHardwareBufferManager::getGLType(elem.getType()),
+                    GLHardwareBufferManager::getGLType(elem.type()),
                     static_cast<GLsizei>(vertexBuffer->getVertexSize()),
                     pBufferData);
                 glEnableClientState( GL_NORMAL_ARRAY );
                 break;
             case VES_DIFFUSE:
-                glColorPointer(4,
-                               GLHardwareBufferManager::getGLType(elem.getType()),
-                               static_cast<GLsizei>(vertexBuffer->getVertexSize()),
-                               pBufferData);
+                glColorPointer(
+                    4,
+                    GLHardwareBufferManager::getGLType(elem.type()),
+                    static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+                    pBufferData);
                 glEnableClientState( GL_COLOR_ARRAY );
                 break;
             case VES_SPECULAR:
                 if (GLAD_GL_EXT_secondary_color)
                 {
-                    glSecondaryColorPointerEXT(4,
-                                               GLHardwareBufferManager::getGLType(elem.getType()),
-                                               static_cast<GLsizei>(vertexBuffer->getVertexSize()),
-                                               pBufferData);
+                    glSecondaryColorPointerEXT(
+                        4,
+                        GLHardwareBufferManager::getGLType(elem.type()),
+                        static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+                        pBufferData);
                     glEnableClientState( GL_SECONDARY_COLOR_ARRAY );
                 }
                 break;
@@ -2905,8 +2905,8 @@ namespace Ogre {
                     // Programmable pipeline - direct UV assignment
                     glClientActiveTextureARB(GL_TEXTURE0 + elem.getIndex());
                     glTexCoordPointer(
-                        VertexElement::getTypeCount(elem.getType()),
-                        GLHardwareBufferManager::getGLType(elem.getType()),
+                        VertexElement::getTypeCount(elem.type()),
+                        GLHardwareBufferManager::getGLType(elem.type()),
                         static_cast<GLsizei>(vertexBuffer->getVertexSize()),
                         pBufferData);
                     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -2925,9 +2925,10 @@ namespace Ogre {
                             if (multitexturing)
                                 glClientActiveTextureARB(GL_TEXTURE0 + i);
                             glTexCoordPointer(
-                                VertexElement::getTypeCount(elem.getType()),
-                                GLHardwareBufferManager::getGLType(elem.getType()),
-                                static_cast<GLsizei>(vertexBuffer->getVertexSize()),
+                                VertexElement::getTypeCount(elem.type()),
+                                GLHardwareBufferManager::getGLType(elem.type()),
+                                static_cast<GLsizei>(
+                                    vertexBuffer->getVertexSize()),
                                 pBufferData);
                             glEnableClientState( GL_TEXTURE_COORD_ARRAY );
                         }

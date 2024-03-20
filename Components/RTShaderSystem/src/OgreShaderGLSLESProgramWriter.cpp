@@ -61,7 +61,7 @@ namespace Ogre {
 
             for(const auto& p : program->parameters())
             {
-                if(p->getType() != GCT_SAMPLER_EXTERNAL_OES)
+                if (p->type() != GCT_SAMPLER_EXTERNAL_OES)
                     continue;
                 if(mGLSLVersion > 100)
                     os << "#extension GL_OES_EGL_image_external_essl3 : require\n";

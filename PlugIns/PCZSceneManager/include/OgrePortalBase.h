@@ -105,7 +105,7 @@ namespace Ogre
         void calcDirectionAndRadius() const;
 
         /** Get the type of portal */
-        PORTAL_TYPE getType() const {return mType;}
+        PORTAL_TYPE type() const { return mType; }
         /** Retrieve the radius of the portal in world coordinates */
         Real getDerivedRadius() const
         { return mDerivedRadius; }

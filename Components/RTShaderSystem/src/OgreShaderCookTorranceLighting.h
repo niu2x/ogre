@@ -29,7 +29,7 @@ class CookTorranceLighting : public SubRenderState
 public:
     CookTorranceLighting();
 
-    const String& getType() const override;
+    const String& type() const override;
 
     int getExecutionOrder() const override { return FFP_LIGHTING; }
 
@@ -56,7 +56,7 @@ private:
 class CookTorranceLightingFactory : public SubRenderStateFactory
 {
 public:
-    const String& getType() const override;
+    const String& type() const override;
 
     SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
                                    SGScriptTranslator* translator) override;

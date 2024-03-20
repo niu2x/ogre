@@ -77,7 +77,7 @@ namespace {
         ~FileSystemArchive();
 
         /// @copydoc Archive::isCaseSensitive
-        bool isCaseSensitive(void) const override;
+        bool is_case_sensitive(void) const override;
 
         /// @copydoc Archive::load
         void load() override;
@@ -97,37 +97,43 @@ namespace {
         StringVectorPtr list(bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::listFileInfo
-        FileInfoListPtr listFileInfo(bool recursive = true, bool dirs = false) const override;
+        FileInfoListPtr
+        list_file_info(bool recursive = true, bool dirs = false) const override;
 
         /// @copydoc Archive::find
         StringVectorPtr find(const String& pattern, bool recursive = true,
             bool dirs = false) const override;
 
         /// @copydoc Archive::findFileInfo
-        FileInfoListPtr findFileInfo(const String& pattern, bool recursive = true,
+        FileInfoListPtr find_file_info(
+            const String& pattern,
+            bool recursive = true,
             bool dirs = false) const override;
 
         /// @copydoc Archive::exists
         bool exists(const String& filename) const override;
 
         /// @copydoc Archive::getModifiedTime
-        time_t getModifiedTime(const String& filename) const override;
+        time_t get_modified_time(const String& filename) const override;
     };
 
     bool gIgnoreHidden = true;
 }
 
     //-----------------------------------------------------------------------
-    FileSystemArchive::FileSystemArchive(const String& name, const String& archType, bool readOnly )
-        : Archive(name, archType)
-    {
-        // Even failed attempt to write to read only location violates Apple AppStore validation process.
-        // And successful writing to some probe file does not prove that whole location with subfolders 
-        // is writable. Therefore we accept read only flag from outside and do not try to be too smart.
-        mReadOnly = readOnly;
+FileSystemArchive::FileSystemArchive(
+    const String& name,
+    const String& archType,
+    bool readOnly)
+: Archive(name, archType, readOnly)
+{
+    // Even failed attempt to write to read only location violates Apple
+    // AppStore validation process. And successful writing to some probe file
+    // does not prove that whole location with subfolders is writable. Therefore
+    // we accept read only flag from outside and do not try to be too smart.
     }
     //-----------------------------------------------------------------------
-    bool FileSystemArchive::isCaseSensitive(void) const
+    bool FileSystemArchive::is_case_sensitive(void) const
     {
         #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
             return false;
@@ -209,7 +215,7 @@ namespace {
         if (pos1 != pattern.npos)
             directory = pattern.substr (0, pos1 + 1);
 
-        String full_pattern = concatenate_path(mName, pattern);
+        String full_pattern = concatenate_path(name(), pattern);
 
 #ifdef _OGRE_FILESYSTEM_ARCHIVE_UNICODE
         lHandle = _wfindfirst(to_wpath(full_pattern).c_str(), &tagData);
@@ -243,8 +249,8 @@ namespace {
                     fi.basename = tagData.name;
 #endif
                     fi.path = directory;
-                    fi.compressedSize = tagData.size;
-                    fi.uncompressedSize = tagData.size;
+                    fi.compressed_size = tagData.size;
+                    fi.uncompressed_size = tagData.size;
                     detailList->push_back(fi);
                 }
             }
@@ -261,10 +267,10 @@ namespace {
         // Now find directories
         if (recursive)
         {
-            String base_dir = mName;
+            String base_dir = name();
             if (!directory.empty ())
             {
-                base_dir = concatenate_path(mName, directory);
+                base_dir = concatenate_path(name(), directory);
                 // Remove the last '/'
                 base_dir.erase (base_dir.length () - 1);
             }
@@ -327,8 +333,7 @@ namespace {
     //-----------------------------------------------------------------------
     DataStreamPtr FileSystemArchive::open(const String& filename, bool readOnly) const
     {
-        if (!readOnly && isReadOnly())
-        {
+        if (!readOnly && is_read_only()) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Cannot open a file in read-write mode in a read-only archive");
         }
 
@@ -338,7 +343,10 @@ namespace {
 
         if(!readOnly) mode |= std::ios::out;
 
-        return _openFileStream(concatenate_path(mName, filename), mode, filename);
+        return _openFileStream(
+            concatenate_path(name(), filename),
+            mode,
+            filename);
     }
     DataStreamPtr _openFileStream(const String& full_path, std::ios::openmode mode, const String& name)
     {
@@ -389,29 +397,30 @@ namespace {
 
         /// Construct return stream, tell it to delete on destroy
         FileStreamDataStream* stream = 0;
-        const String& streamname = name.empty() ? full_path : name;
+        const String& streamName = name.empty() ? full_path : name;
         if (rwStream)
         {
             // use the writeable stream
-            stream = OGRE_NEW FileStreamDataStream(streamname, rwStream, st_size);
+            stream
+                = OGRE_NEW FileStreamDataStream(streamName, rwStream, st_size);
         }
         else
         {
             OgreAssertDbg(ret == 0, "Problem getting file size");
             // read-only stream
-            stream = OGRE_NEW FileStreamDataStream(streamname, roStream, st_size);
+            stream
+                = OGRE_NEW FileStreamDataStream(streamName, roStream, st_size);
         }
         return DataStreamPtr(stream);
     }
     //---------------------------------------------------------------------
     DataStreamPtr FileSystemArchive::create(const String& filename)
     {
-        if (isReadOnly())
-        {
+        if (is_read_only()) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Cannot create a file in a read-only archive");
         }
 
-        String full_path = concatenate_path(mName, filename);
+        String full_path = concatenate_path(name(), filename);
 
         // Always open in binary mode
         // Also, always include reading
@@ -439,11 +448,10 @@ namespace {
     //---------------------------------------------------------------------
     void FileSystemArchive::remove(const String& filename)
     {
-        if (isReadOnly())
-        {
+        if (is_read_only()) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Cannot remove a file from a read-only archive");
         }
-        String full_path = concatenate_path(mName, filename);
+        String full_path = concatenate_path(name(), filename);
 #ifdef _OGRE_FILESYSTEM_ARCHIVE_UNICODE
 		::_wremove(to_wpath(full_path).c_str());
 #else
@@ -461,7 +469,8 @@ namespace {
         return ret;
     }
     //-----------------------------------------------------------------------
-    FileInfoListPtr FileSystemArchive::listFileInfo(bool recursive, bool dirs) const
+    FileInfoListPtr
+    FileSystemArchive::list_file_info(bool recursive, bool dirs) const
     {
         auto ret = std::make_shared<FileInfoList>();
 
@@ -481,8 +490,10 @@ namespace {
 
     }
     //-----------------------------------------------------------------------
-    FileInfoListPtr FileSystemArchive::findFileInfo(const String& pattern, 
-        bool recursive, bool dirs) const
+    FileInfoListPtr FileSystemArchive::find_file_info(
+        const String& pattern,
+        bool recursive,
+        bool dirs) const
     {
         auto ret = std::make_shared<FileInfoList>();
 
@@ -496,7 +507,7 @@ namespace {
         if (filename.empty())
             return false;
 
-        String full_path = concatenate_path(mName, filename);
+        String full_path = concatenate_path(name(), filename);
 
 #ifdef _OGRE_FILESYSTEM_ARCHIVE_UNICODE
         struct _stat64i32 tagStat;
@@ -513,21 +524,21 @@ namespace {
             // only valid if full path starts with our base
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
             // case insensitive on windows
-            String lowerCaseName = mName;
+            String lowerCaseName = name();
             StringUtil::lower_case(&lowerCaseName);
             ret = Ogre::StringUtil::starts_with(full_path, lowerCaseName, true);
 #else
             // case sensitive
-            ret = Ogre::StringUtil::starts_with(full_path, mName, false);
+            ret = Ogre::StringUtil::starts_with(full_path, name(), false);
 #endif
         }
 
         return ret;
     }
     //---------------------------------------------------------------------
-    time_t FileSystemArchive::getModifiedTime(const String& filename) const
+    time_t FileSystemArchive::get_modified_time(const String& filename) const
     {
-        String full_path = concatenate_path(mName, filename);
+        String full_path = concatenate_path(name(), filename);
 
 #ifdef _OGRE_FILESYSTEM_ARCHIVE_UNICODE
 		struct _stat64i32 tagStat;
@@ -548,7 +559,7 @@ namespace {
 
     }
     //-----------------------------------------------------------------------
-    const String& FileSystemArchiveFactory::getType(void) const
+    const String& FileSystemArchiveFactory::type() const
     {
         static String name = "FileSystem";
         return name;
@@ -556,7 +567,7 @@ namespace {
 
     Archive *FileSystemArchiveFactory::createInstance( const String& name, bool readOnly )
     {
-        return OGRE_NEW FileSystemArchive(name, getType(), readOnly);
+        return OGRE_NEW FileSystemArchive(name, type(), readOnly);
     }
 
     void FileSystemArchiveFactory::setIgnoreHidden(bool ignore)

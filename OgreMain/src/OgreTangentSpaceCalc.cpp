@@ -151,8 +151,7 @@ namespace Ogre
                 {
                     // check index size
                     HardwareIndexBufferSharedPtr srcbuf = idata->indexBuffer;
-                    if (srcbuf->getType() == HardwareIndexBuffer::IT_16BIT)
-                    {
+                    if (srcbuf->type() == HardwareIndexBuffer::IT_16BIT) {
                         size_t indexCount = srcbuf->getNumIndexes();
 
                         // convert index buffer to 32bit.
@@ -194,12 +193,9 @@ namespace Ogre
             // Now do index data
             // no new buffer required, same size but some triangles remapped
             HardwareBufferLockGuard indexLock(idata->indexBuffer, HardwareBuffer::HBL_NORMAL);
-            if (idata->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT)
-            {
+            if (idata->indexBuffer->type() == HardwareIndexBuffer::IT_32BIT) {
                 remapIndexes(static_cast<uint32*>(indexLock.pData), i, res);
-            }
-            else
-            {
+            } else {
                 remapIndexes(static_cast<uint16*>(indexLock.pData), i, res);
             }
         }
@@ -254,7 +250,7 @@ namespace Ogre
             HardwareBufferLockGuard ibufLock(ibuf, HardwareBuffer::HBL_READ_ONLY);
             uint16 *p16 = static_cast<uint16*>(ibufLock.pData) + i_in->indexStart;
             uint32 *p32 = static_cast<uint32*>(ibufLock.pData) + i_in->indexStart;
-            bool isIT32 = ibuf->getType() == HardwareIndexBuffer::IT_32BIT;
+            bool isIT32 = ibuf->type() == HardwareIndexBuffer::IT_32BIT;
 
             // current triangle
             size_t vertInd[3] = { 0, 0, 0 };
@@ -531,8 +527,7 @@ namespace Ogre
         // Get the incoming UV element
         const auto* uvElem = dcl->findElementBySemantic(VES_TEXTURE_COORDINATES, sourceTexCoordSet);
 
-        if (!uvElem || uvElem->getType() != VET_FLOAT2)
-        {
+        if (!uvElem || uvElem->type() != VET_FLOAT2) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
                         "No 2D texture coordinates with selected index, cannot calculate tangents");
         }
@@ -648,9 +643,11 @@ namespace Ogre
         const VertexElement *tangentsElem = vDecl->findElementBySemantic(targetSemantic, index);
         VertexElementType tangentsType = mStoreParityInW ? VET_FLOAT4 : VET_FLOAT3;
 
-        OgreAssert(!tangentsElem || tangentsElem->getType() == tangentsType,
-                   "Target semantic set already exists but is not of the right size, therefore cannot contain "
-                   "tangents. You should delete this existing entry first");
+        OgreAssert(
+            !tangentsElem || tangentsElem->type() == tangentsType,
+            "Target semantic set already exists but is not of the right size, "
+            "therefore cannot contain "
+            "tangents. You should delete this existing entry first");
 
         HardwareVertexBufferSharedPtr targetBuffer, origBuffer;
         unsigned char* pSrc = NULL;

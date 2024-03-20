@@ -233,7 +233,8 @@ namespace Ogre
         HardwareBufferLockGuard baseLock(baseIndexData->indexBuffer, HardwareBuffer::HBL_READ_ONLY);
         uint16 *thisBuf16 = static_cast<uint16*>(thisLock.pData);
         uint32 *thisBuf32 = static_cast<uint32*>(thisLock.pData);
-        bool baseIndex16bit = baseIndexData->indexBuffer->getType() == HardwareIndexBuffer::IT_16BIT;
+        bool baseIndex16bit = baseIndexData->indexBuffer->type()
+            == HardwareIndexBuffer::IT_16BIT;
 
         for( size_t i=0; i<mInstancesPerBatch; ++i )
         {

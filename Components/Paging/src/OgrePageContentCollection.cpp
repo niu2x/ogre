@@ -52,7 +52,7 @@ namespace Ogre
         return mParent->getManager();
     }
     //---------------------------------------------------------------------
-    const String& PageContentCollection::getType() const
+    const String& PageContentCollection::type() const
     {
         return mCreator->name();
     }

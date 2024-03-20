@@ -327,148 +327,156 @@ void CompositorInstance::collectPasses(TargetOperation &finalState, const Compos
     for (CompositionPass* pass : target->getPasses())
     {
         bool isCompute = false;
-        switch(pass->getType())
-        {
-        case CompositionPass::PT_CLEAR:
-            queueRenderSystemOp(finalState, OGRE_NEW RSClearOperation(
-                pass->getClearBuffers(),
-                pass->getClearColour(),
-                pass->getClearDepth(),
-                pass->getClearStencil(),
-                pass->getAutomaticColour() ? mChain : NULL
-                ));
-            break;
-        case CompositionPass::PT_STENCIL:
-            queueRenderSystemOp(finalState, OGRE_NEW RSStencilOperation(pass->getStencilState()));
-            break;
-        case CompositionPass::PT_RENDERSCENE: 
-        {
-            if(pass->getFirstRenderQueue() < finalState.currentQueueGroupID)
-            {
-                /// XXX We could support repeating the last queue, with some effort
-                LogManager::singleton().log_error(StringUtil::format(
-                    "Compositor '%s': cannot use first_render_queue %d after "
-                    "last_render_queue %d",
-                    mCompositor->name().c_str(),
-                    pass->getFirstRenderQueue(),
-                    finalState.currentQueueGroupID - 1));
-            }
-
-            RSSetSchemeOperation* setSchemeOperation = 0;
-            if (!pass->getMaterialScheme().empty())
-            {
-                //Add the triggers that will set the scheme and restore it each frame
-                finalState.currentQueueGroupID = pass->getFirstRenderQueue();
-                setSchemeOperation = OGRE_NEW RSSetSchemeOperation(pass->getMaterialScheme());
-                queueRenderSystemOp(finalState, setSchemeOperation);
-            }
-            
-            /// Add render queues
-            for(int x=pass->getFirstRenderQueue(); x<=pass->getLastRenderQueue(); ++x)
-            {
-                assert(x>=0);
-                finalState.renderQueues.set(x);
-            }
-            finalState.currentQueueGroupID = pass->getLastRenderQueue()+1;
-
-            if (setSchemeOperation != 0)
-            {
-                //Restoring the scheme after the queues have been rendered
-                queueRenderSystemOp(finalState, 
-                    OGRE_NEW RSRestoreSchemeOperation(setSchemeOperation));
-            }
-
-            finalState.cameraOverride = pass->getCameraName();
-            finalState.alignCameraToFace = pass->getAlignCameraToFace() ? target->getOutputSlice() : -1;
-
-            finalState.findVisibleObjects = true;
-
-            break;
-        }
-        case CompositionPass::PT_COMPUTE:
-            isCompute = true;
-            OGRE_FALLTHROUGH;
-        case CompositionPass::PT_RENDERQUAD: {
-            srcmat = pass->getMaterial();
-            if(!srcmat)
-            {
-                /// No material -- warn user
-                LogManager::singleton().log_warning(
-                    "in compilation of Compositor " + mCompositor->name()
-                    + ": No material defined for composition pass");
+        switch (pass->type()) {
+            case CompositionPass::PT_CLEAR:
+                queueRenderSystemOp(
+                    finalState,
+                    OGRE_NEW RSClearOperation(
+                        pass->getClearBuffers(),
+                        pass->getClearColour(),
+                        pass->getClearDepth(),
+                        pass->getClearStencil(),
+                        pass->getAutomaticColour() ? mChain : NULL));
                 break;
-            }
-            srcmat->load();
-            if(srcmat->getSupportedTechniques().empty())
-            {
-                /// No supported techniques -- warn user
-                LogManager::singleton().log_warning(
-                    "in compilation of Compositor " + mCompositor->name()
-                    + ": material " + srcmat->name()
-                    + " has no supported techniques");
+            case CompositionPass::PT_STENCIL:
+                queueRenderSystemOp(
+                    finalState,
+                    OGRE_NEW RSStencilOperation(pass->getStencilState()));
                 break;
-            }
-            srctech = srcmat->getBestTechnique(0);
-            /// Create local material
-            MaterialPtr localMat = createLocalMaterial(srcmat->name());
-            /// Copy and adapt passes from source material
-            for(auto *srcpass : srctech->getPasses())
-            {
-                /// Create new target pass
-                targetpass = localMat->getTechnique(0)->createPass();
-                (*targetpass) = (*srcpass);
-
-                if (isCompute && !targetpass->hasGpuProgram(GPT_COMPUTE_PROGRAM))
-                {
-                    LogManager::singleton().log_error(
-                        "in compilation of Compositor " + mCompositor->name()
-                        + ": material " + srcmat->name()
-                        + " has no compute program");
-                    continue;
+            case CompositionPass::PT_RENDERSCENE: {
+                if (pass->getFirstRenderQueue()
+                    < finalState.currentQueueGroupID) {
+                    /// XXX We could support repeating the last queue, with some
+                    /// effort
+                    LogManager::singleton().log_error(StringUtil::format(
+                        "Compositor '%s': cannot use first_render_queue %d "
+                        "after "
+                        "last_render_queue %d",
+                        mCompositor->name().c_str(),
+                        pass->getFirstRenderQueue(),
+                        finalState.currentQueueGroupID - 1));
                 }
 
-                /// Set up inputs
-                for(size_t x=0; x<pass->getNumInputs(); ++x)
-                {
-                    const CompositionPass::InputTex& inp = pass->getInput(x);
-                    if(!inp.name.empty())
-                    {
-                        if(x < targetpass->getNumTextureUnitStates())
-                        {
-                            targetpass->getTextureUnitState((ushort)x)->setTexture(getSourceForTex(inp.name, inp.mrtIndex));
-                        } 
-                        else
-                        {
-                            /// Texture unit not there
-                            LogManager::singleton().log_warning(
-                                "in compilation of Compositor "
-                                + mCompositor->name() + ": material "
-                                + srcmat->name() + " texture unit "
-                                + StringConverter::to_string(x)
-                                + " out of bounds");
+                RSSetSchemeOperation* setSchemeOperation = 0;
+                if (!pass->getMaterialScheme().empty()) {
+                    // Add the triggers that will set the scheme and restore it
+                    // each frame
+                    finalState.currentQueueGroupID
+                        = pass->getFirstRenderQueue();
+                    setSchemeOperation = OGRE_NEW RSSetSchemeOperation(
+                        pass->getMaterialScheme());
+                    queueRenderSystemOp(finalState, setSchemeOperation);
+                }
+
+                /// Add render queues
+                for (int x = pass->getFirstRenderQueue();
+                     x <= pass->getLastRenderQueue();
+                     ++x) {
+                    assert(x >= 0);
+                    finalState.renderQueues.set(x);
+                }
+                finalState.currentQueueGroupID = pass->getLastRenderQueue() + 1;
+
+                if (setSchemeOperation != 0) {
+                    // Restoring the scheme after the queues have been rendered
+                    queueRenderSystemOp(
+                        finalState,
+                        OGRE_NEW RSRestoreSchemeOperation(setSchemeOperation));
+                }
+
+                finalState.cameraOverride = pass->getCameraName();
+                finalState.alignCameraToFace = pass->getAlignCameraToFace()
+                    ? target->getOutputSlice()
+                    : -1;
+
+                finalState.findVisibleObjects = true;
+
+                break;
+            }
+            case CompositionPass::PT_COMPUTE:
+                isCompute = true;
+                OGRE_FALLTHROUGH;
+            case CompositionPass::PT_RENDERQUAD: {
+                srcmat = pass->getMaterial();
+                if (!srcmat) {
+                    /// No material -- warn user
+                    LogManager::singleton().log_warning(
+                        "in compilation of Compositor " + mCompositor->name()
+                        + ": No material defined for composition pass");
+                    break;
+                }
+                srcmat->load();
+                if (srcmat->getSupportedTechniques().empty()) {
+                    /// No supported techniques -- warn user
+                    LogManager::singleton().log_warning(
+                        "in compilation of Compositor " + mCompositor->name()
+                        + ": material " + srcmat->name()
+                        + " has no supported techniques");
+                    break;
+                }
+                srctech = srcmat->getBestTechnique(0);
+                /// Create local material
+                MaterialPtr localMat = createLocalMaterial(srcmat->name());
+                /// Copy and adapt passes from source material
+                for (auto* srcpass : srctech->getPasses()) {
+                    /// Create new target pass
+                    targetpass = localMat->getTechnique(0)->createPass();
+                    (*targetpass) = (*srcpass);
+
+                    if (isCompute
+                        && !targetpass->hasGpuProgram(GPT_COMPUTE_PROGRAM)) {
+                        LogManager::singleton().log_error(
+                            "in compilation of Compositor "
+                            + mCompositor->name() + ": material "
+                            + srcmat->name() + " has no compute program");
+                        continue;
+                    }
+
+                    /// Set up inputs
+                    for (size_t x = 0; x < pass->getNumInputs(); ++x) {
+                        const CompositionPass::InputTex& inp
+                            = pass->getInput(x);
+                        if (!inp.name.empty()) {
+                            if (x < targetpass->getNumTextureUnitStates()) {
+                                targetpass->getTextureUnitState((ushort)x)
+                                    ->setTexture(getSourceForTex(
+                                        inp.name,
+                                        inp.mrtIndex));
+                            } else {
+                                /// Texture unit not there
+                                LogManager::singleton().log_warning(
+                                    "in compilation of Compositor "
+                                    + mCompositor->name() + ": material "
+                                    + srcmat->name() + " texture unit "
+                                    + StringConverter::to_string(x)
+                                    + " out of bounds");
+                            }
                         }
                     }
                 }
-            }
 
-            localMat->load();
+                localMat->load();
 
-            if (isCompute)
-            {
-                auto computeOperation = new RSComputeOperation(this, pass->getIdentifier(), localMat);
-                computeOperation->thread_groups = pass->getThreadGroups();
-                queueRenderSystemOp(finalState, computeOperation);
-            }
-            else
-            {
-                auto rsQuadOperation = new RSQuadOperation(this, pass->getIdentifier(), localMat);
-                FloatRect quad;
-                if (pass->getQuadCorners(quad))
-                    rsQuadOperation->setQuadCorners(quad);
-                rsQuadOperation->setQuadFarCorners(pass->getQuadFarCorners(),
-                                                   pass->getQuadFarCornersViewSpace());
-                queueRenderSystemOp(finalState, rsQuadOperation);
-            }
+                if (isCompute) {
+                    auto computeOperation = new RSComputeOperation(
+                        this,
+                        pass->getIdentifier(),
+                        localMat);
+                    computeOperation->thread_groups = pass->getThreadGroups();
+                    queueRenderSystemOp(finalState, computeOperation);
+                } else {
+                    auto rsQuadOperation = new RSQuadOperation(
+                        this,
+                        pass->getIdentifier(),
+                        localMat);
+                    FloatRect quad;
+                    if (pass->getQuadCorners(quad))
+                        rsQuadOperation->setQuadCorners(quad);
+                    rsQuadOperation->setQuadFarCorners(
+                        pass->getQuadFarCorners(),
+                        pass->getQuadFarCornersViewSpace());
+                    queueRenderSystemOp(finalState, rsQuadOperation);
+                }
             }
             break;
         case CompositionPass::PT_RENDERCUSTOM:
@@ -920,8 +928,7 @@ void CompositorInstance::deriveTextureRenderTargetOptions(
                 for (;pit != tp->getPasses().end(); ++pit)
                 {
                     CompositionPass* pass = *pit;
-                    if (pass->getType() == CompositionPass::PT_RENDERSCENE)
-                    {
+                    if (pass->type() == CompositionPass::PT_RENDERSCENE) {
                         renderingScene = true;
                         break;
                     }

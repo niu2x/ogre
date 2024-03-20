@@ -61,7 +61,7 @@ namespace Ogre
         /// Internal method to notify a page that it is attached
         virtual void _notifyAttached(PageContentCollection* parent);
         /// Get the type of the content, which will match it's factory
-        virtual const String& getType() const;
+        virtual const String& type() const;
 
         /// Save the content to a stream
         virtual void save(StreamSerialiser& stream) = 0;

@@ -712,7 +712,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String MOT_BILLBOARD_CHAIN = "BillboardChain";
     //-----------------------------------------------------------------------
-    const String& BillboardChainFactory::getType(void) const
+    const String& BillboardChainFactory::type() const
     {
         return MOT_BILLBOARD_CHAIN;
     }

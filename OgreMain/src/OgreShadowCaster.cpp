@@ -179,7 +179,7 @@ namespace Ogre {
         // Edge groups should be 1:1 with shadow renderables
         assert(edgeData->edgeGroups.size() == shadowRenderables.size());
 
-        Light::LightTypes lightType = light->getType();
+        Light::LightTypes lightType = light->type();
 
         // Whether to use the McGuire method, a triangle fan covering all silhouette
         // This won't work properly with multiple separate edge groups (should be one fan per group, not implemented)

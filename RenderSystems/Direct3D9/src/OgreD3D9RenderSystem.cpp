@@ -3115,26 +3115,31 @@ namespace Ogre
         }
 
         HRESULT hr;
-        switch (prg->getType())
-        {
-        case GPT_VERTEX_PROGRAM:
-            hr = getActiveD3D9Device()->SetVertexShader(
-                static_cast<D3D9GpuVertexProgram*>(prg)->getVertexShader());
-            if (FAILED(hr))
-            {
-                OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Error calling SetVertexShader", "D3D9RenderSystem::bindGpuProgram");
-            }
-            break;
-        case GPT_FRAGMENT_PROGRAM:
-            hr = getActiveD3D9Device()->SetPixelShader(
-                static_cast<D3D9GpuFragmentProgram*>(prg)->getPixelShader());
-            if (FAILED(hr))
-            {
-                OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Error calling SetPixelShader", "D3D9RenderSystem::bindGpuProgram");
-            }
-            // disable FFP fog, as it gets still applied even in presence of shader. Matching other render-systems here.
-            hr = __SetRenderState(D3DRS_FOGENABLE, FALSE);
-            break;
+        switch (prg->type()) {
+            case GPT_VERTEX_PROGRAM:
+                hr = getActiveD3D9Device()->SetVertexShader(
+                    static_cast<D3D9GpuVertexProgram*>(prg)->getVertexShader());
+                if (FAILED(hr)) {
+                    OGRE_EXCEPT(
+                        Exception::ERR_RENDERINGAPI_ERROR,
+                        "Error calling SetVertexShader",
+                        "D3D9RenderSystem::bindGpuProgram");
+                }
+                break;
+            case GPT_FRAGMENT_PROGRAM:
+                hr = getActiveD3D9Device()->SetPixelShader(
+                    static_cast<D3D9GpuFragmentProgram*>(prg)
+                        ->getPixelShader());
+                if (FAILED(hr)) {
+                    OGRE_EXCEPT(
+                        Exception::ERR_RENDERINGAPI_ERROR,
+                        "Error calling SetPixelShader",
+                        "D3D9RenderSystem::bindGpuProgram");
+                }
+                // disable FFP fog, as it gets still applied even in presence of
+                // shader. Matching other render-systems here.
+                hr = __SetRenderState(D3DRS_FOGENABLE, FALSE);
+                break;
         };
 
         // Make sure texcoord index is equal to stage value, As SDK Doc suggests:

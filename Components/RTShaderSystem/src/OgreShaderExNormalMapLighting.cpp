@@ -50,7 +50,7 @@ NormalMapLighting::NormalMapLighting()
 }
 
 //-----------------------------------------------------------------------
-const String& NormalMapLighting::getType() const { return SRS_NORMALMAP; }
+const String& NormalMapLighting::type() const { return SRS_NORMALMAP; }
 //-----------------------------------------------------------------------
 bool NormalMapLighting::createCpuSubPrograms(ProgramSet* programSet)
 {
@@ -204,7 +204,7 @@ bool NormalMapLighting::set_parameter(const String& name, const String& value)
 }
 
 //-----------------------------------------------------------------------
-const String& NormalMapLightingFactory::getType() const { return SRS_NORMALMAP; }
+const String& NormalMapLightingFactory::type() const { return SRS_NORMALMAP; }
 
 //-----------------------------------------------------------------------
 SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop,

@@ -114,8 +114,9 @@ namespace Ogre
 					lodIndexData->indexCount * lodIndexData->indexBuffer->getIndexSize(),
 					HardwareBuffer::HBL_READ_ONLY);
 
-				if(lodIndexData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT)
-					remapInfo.markUsedIndices((uint32*)ptr, lodIndexData->indexCount);
+                if (lodIndexData->indexBuffer->type()
+                    == HardwareIndexBuffer::IT_32BIT)
+                    remapInfo.markUsedIndices((uint32*)ptr, lodIndexData->indexCount);
 				else
 					remapInfo.markUsedIndices((uint16*)ptr, lodIndexData->indexCount);
 
@@ -135,8 +136,9 @@ namespace Ogre
 			return;
 
 		size_t indexCount = indexData->indexCount;
-		HardwareIndexBuffer::IndexType indexType = indexData->indexBuffer->getType();
-		HardwareIndexBuffer::IndexType newIndexType = remapInfo.minimalIndexType();
+        HardwareIndexBuffer::IndexType indexType
+            = indexData->indexBuffer->type();
+        HardwareIndexBuffer::IndexType newIndexType = remapInfo.minimalIndexType();
 		HardwareIndexBufferSharedPtr newIndexBuffer = 
 			pHWBufferManager->createIndexBuffer(
 			newIndexType, indexCount, indexData->indexBuffer->getUsage(), indexData->indexBuffer->hasShadowBuffer());

@@ -78,7 +78,7 @@ namespace Ogre {
         */
         static void unregisterCodec( Codec *pCodec )
         {
-            msMapCodecs.erase(pCodec->getType());
+            msMapCodecs.erase(pCodec->type());
         }
 
         /** Gets the file extension list for the registered codecs. */
@@ -116,7 +116,7 @@ namespace Ogre {
 
         /** Returns the type of the codec as a String
         */
-        virtual String getType() const = 0;
+        virtual String type() const = 0;
 
         /** Returns whether a magic number header matches this codec.
         @param magicNumberPtr Pointer to a stream of bytes which should identify the file.

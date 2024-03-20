@@ -78,7 +78,7 @@ namespace Ogre {
                     LPCSTR semanticName         = D3D11Mappings::get(e.getSemantic());
                     if (strcmp(semanticName, inputDesc.SemanticName) == 0 && e.getIndex() == inputDesc.SemanticIndex)
                     {
-                        elem.Format                = D3D11Mappings::get(e.getType());
+                        elem.Format = D3D11Mappings::get(e.type());
                         elem.InputSlot             = e.getSource();
                         elem.AlignedByteOffset     = static_cast<WORD>(e.getOffset());
                         break;

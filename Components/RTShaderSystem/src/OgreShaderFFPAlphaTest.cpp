@@ -35,8 +35,8 @@ namespace Ogre {
 
 
 		//-----------------------------------------------------------------------
-		const Ogre::String& FFPAlphaTest::getType() const
-		{
+        const Ogre::String& FFPAlphaTest::type() const
+        {
 			return SRS_ALPHA_TEST;
 		}
 
@@ -100,8 +100,8 @@ namespace Ogre {
 
 		//----------------------Factory Implementation---------------------------
 		//-----------------------------------------------------------------------
-		const String& FFPAlphaTestFactory ::getType() const
-		{
+        const String& FFPAlphaTestFactory ::type() const
+        {
 			return SRS_ALPHA_TEST;
 		}
 

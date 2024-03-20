@@ -174,7 +174,7 @@ namespace Ogre {
     /// Set the program type (only valid before load)
     void setType(GpuProgramType t);
     /// Get the program type
-    GpuProgramType getType(void) const { return mType; }
+    GpuProgramType type() const { return mType; }
 
     /** Returns the GpuProgram which should be bound to the pipeline.
 

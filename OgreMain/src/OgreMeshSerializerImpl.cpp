@@ -249,8 +249,10 @@ namespace Ogre {
         writeInts(&indexCount, 1);
 
         // bool indexes32Bit
-        bool idx32bit = (s->indexData->indexBuffer &&
-            s->indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT);
+        bool idx32bit
+            = (s->indexData->indexBuffer
+               && s->indexData->indexBuffer->type()
+                   == HardwareIndexBuffer::IT_32BIT);
         writeBools(&idx32bit, 1);
 
         if (indexCount > 0)
@@ -383,7 +385,7 @@ namespace Ogre {
             tmp = elem.getSource();
             writeShorts(&tmp, 1);
             // unsigned short type;     // VertexElementType
-            tmp = static_cast<unsigned short>(elem.getType());
+            tmp = static_cast<unsigned short>(elem.type());
             writeShorts(&tmp, 1);
             // unsigned short semantic; // VertexElementSemantic
             tmp = static_cast<unsigned short>(elem.getSemantic());
@@ -539,8 +541,10 @@ namespace Ogre {
         // bool indexes32bit
         size += sizeof(bool);
 
-        bool idx32bit = (pSub->indexData->indexBuffer &&
-            pSub->indexData->indexBuffer->getType() == HardwareIndexBuffer::IT_32BIT);
+        bool idx32bit
+            = (pSub->indexData->indexBuffer
+               && pSub->indexData->indexBuffer->type()
+                   == HardwareIndexBuffer::IT_32BIT);
         // unsigned int* / unsigned short* faceVertexIndices
         if (idx32bit)
             size += sizeof(unsigned int) * pSub->indexData->indexCount;
@@ -1187,7 +1191,8 @@ namespace Ogre {
         writeInts(&bufferIndex, 1);
 
         if(bufferIndex == (unsigned int)-1) { // It has its own buffer (Not compressed).
-            bool is32BitIndices = (ibuf->getType() == HardwareIndexBuffer::IT_32BIT);
+            bool is32BitIndices
+                = (ibuf->type() == HardwareIndexBuffer::IT_32BIT);
             writeBools(&is32BitIndices, 1);
 
             unsigned int bufIndexCount = static_cast<unsigned int>(ibuf->getNumIndexes());
@@ -1532,8 +1537,7 @@ namespace Ogre {
                 e.baseVertexPointerToElement(pBase, &pElem);
                 // Flip the endian based on the type
                 size_t typeSize = 0;
-                switch (VertexElement::getBaseType(e.getType()))
-                {
+                switch (VertexElement::getBaseType(e.type())) {
                     case VET_FLOAT1:
                         typeSize = sizeof(float);
                         break;
@@ -1559,8 +1563,10 @@ namespace Ogre {
                     default:
                         assert(false); // Should never happen
                 };
-				Bitwise::bswap_chunks(pElem, typeSize,
-                    VertexElement::getTypeCount(e.getType()));
+                Bitwise::bswap_chunks(
+                    pElem,
+                    typeSize,
+                    VertexElement::getTypeCount(e.type()));
             }
 
             pBase = static_cast<void*>(
@@ -2743,13 +2749,15 @@ namespace Ogre {
         }
     }
     //---------------------------------------------------------------------
-    /*void MeshSerializerImpl_v1_8::writeLodUsageGenerated( const Mesh* pMesh, const MeshLodUsage& usage, unsigned short lodNum )
+    /*void MeshSerializerImpl_v1_8::writeLodUsageGenerated( const Mesh* pMesh,
+    const MeshLodUsage& usage, unsigned short lodNum )
     {
-        writeChunkHeader(M_MESH_LOD_USAGE, calcLodUsageGeneratedSize(pMesh, usage, lodNum));
-        writeFloats(&(usage.userValue), 1);
+        writeChunkHeader(M_MESH_LOD_USAGE, calcLodUsageGeneratedSize(pMesh,
+    usage, lodNum)); writeFloats(&(usage.userValue), 1);
         pushInnerChunk(mStream);
         // Now write sections
-        for (unsigned short subidx = 0; subidx < pMesh->getNumSubMeshes(); ++subidx)
+        for (unsigned short subidx = 0; subidx < pMesh->getNumSubMeshes();
+    ++subidx)
         {
             SubMesh* sm = pMesh->getSubMesh(subidx);
             const IndexData* indexData = sm->mLodFaceList[lodNum-1];
@@ -2757,31 +2765,34 @@ namespace Ogre {
             // Lock index buffer to write
             HardwareIndexBufferSharedPtr ibuf = indexData->indexBuffer;
 
-            bool idx32 = (ibuf && ibuf->getType() == HardwareIndexBuffer::IT_32BIT);
+            bool idx32 = (ibuf && ibuf->type() ==
+    HardwareIndexBuffer::IT_32BIT);
 
-            writeChunkHeader(M_MESH_LOD_GENERATED, calcLodUsageGeneratedSubmeshSize(sm, lodNum));
-            unsigned int idxCount = static_cast<unsigned int>(indexData->indexCount);
-            writeInts(&idxCount, 1);
+            writeChunkHeader(M_MESH_LOD_GENERATED,
+    calcLodUsageGeneratedSubmeshSize(sm, lodNum)); unsigned int idxCount =
+    static_cast<unsigned int>(indexData->indexCount); writeInts(&idxCount, 1);
             writeBools(&idx32, 1);
 
             if (idxCount > 0)
             {
-                HardwareBufferLockGuard ibufLock(ibuf, HardwareBuffer::HBL_READ_ONLY);
-                if (idx32)
+                HardwareBufferLockGuard ibufLock(ibuf,
+    HardwareBuffer::HBL_READ_ONLY); if (idx32)
                 {
-                    unsigned int* pIdx = static_cast<unsigned int*>(ibufLock.pData);
-                    writeInts(pIdx + indexData->indexStart, indexData->indexCount);
+                    unsigned int* pIdx = static_cast<unsigned
+    int*>(ibufLock.pData); writeInts(pIdx + indexData->indexStart,
+    indexData->indexCount);
                 }
                 else
                 {
-                    unsigned short* pIdx = static_cast<unsigned short*>(ibufLock.pData);
-                    writeShorts(pIdx + indexData->indexStart, indexData->indexCount);
+                    unsigned short* pIdx = static_cast<unsigned
+    short*>(ibufLock.pData); writeShorts(pIdx + indexData->indexStart,
+    indexData->indexCount);
                 }
             }
         }
         popInnerChunk(mStream);
     }*/
-    
+
     void MeshSerializerImpl_v1_8::writeLodUsageGenerated(const Mesh* pMesh, const MeshLodUsage& usage, unsigned short lodNum)
     {
         writeChunkHeader(M_MESH_LOD_USAGE, calcLodUsageGeneratedSize(pMesh, usage, lodNum));
@@ -2803,7 +2814,7 @@ namespace Ogre {
         writeChunkHeader(M_MESH_LOD_GENERATED, calcLodUsageGeneratedSubmeshSize(submesh, lodNum));
         unsigned int indexCount = static_cast<unsigned int>(indexData->indexCount);
         writeInts(&indexCount, 1);
-        bool is32BitIndices = (ibuf->getType() == HardwareIndexBuffer::IT_32BIT);
+        bool is32BitIndices = (ibuf->type() == HardwareIndexBuffer::IT_32BIT);
         writeBools(&is32BitIndices, 1);
 
         HardwareBufferLockGuard ibufLock(ibuf, HardwareBuffer::HBL_READ_ONLY);

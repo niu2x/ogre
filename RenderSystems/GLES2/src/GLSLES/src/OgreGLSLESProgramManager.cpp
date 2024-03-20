@@ -138,7 +138,7 @@ GLSLESProgramManager* GLSLESProgramManager::singleton_ptr(void)
     {
         if(!gpuProgram->getGLSLProgram()->getIsOptimised())
         {
-            GpuProgramType gpuType = gpuProgram->getType();
+            GpuProgramType gpuType = gpuProgram->type();
             const glslopt_shader_type shaderType = (gpuType == GPT_VERTEX_PROGRAM) ? kGlslOptShaderVertex : kGlslOptShaderFragment;
             String shaderSource = gpuProgram->getGLSLProgram()->getSource();
             glslopt_shader* shader = glslopt_optimize(mGLSLOptimiserContext, shaderType, shaderSource.c_str(), 0);

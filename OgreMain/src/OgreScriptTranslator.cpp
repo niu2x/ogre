@@ -5007,8 +5007,7 @@ namespace Ogre{
         mPass = target->createPass(ptype);
         obj->context = mPass;
 
-        if(mPass->getType() == CompositionPass::PT_RENDERCUSTOM) 
-        {
+        if (mPass->type() == CompositionPass::PT_RENDERCUSTOM) {
             String customType;
             //This is the ugly one liner for safe access to the second parameter.
             if (obj->values.size() < 2 || !getString(*(++(obj->values.begin())), &customType))

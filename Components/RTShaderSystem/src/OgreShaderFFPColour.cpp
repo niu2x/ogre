@@ -42,11 +42,7 @@ FFPColour::FFPColour()
 }
 
 //-----------------------------------------------------------------------
-const String& FFPColour::getType() const
-{
-    return SRS_VERTEX_COLOUR;
-}
-
+const String& FFPColour::type() const { return SRS_VERTEX_COLOUR; }
 
 //-----------------------------------------------------------------------
 int FFPColour::getExecutionOrder() const
@@ -189,10 +185,7 @@ bool FFPColour::preAddToRenderState(const RenderState* renderState, Pass* srcPas
 }
 
 //-----------------------------------------------------------------------
-const String& FFPColourFactory::getType() const
-{
-    return SRS_VERTEX_COLOUR;
-}
+const String& FFPColourFactory::type() const { return SRS_VERTEX_COLOUR; }
 
 //-----------------------------------------------------------------------
 SubRenderState* FFPColourFactory::createInstance(ScriptCompiler* compiler, 

@@ -1142,7 +1142,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String MOT_BILLBOARD_SET = "BillboardSet";
     //-----------------------------------------------------------------------
-    const String& BillboardSetFactory::getType(void) const
+    const String& BillboardSetFactory::type() const
     {
         return MOT_BILLBOARD_SET;
     }

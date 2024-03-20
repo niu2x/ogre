@@ -139,7 +139,7 @@ namespace Ogre {
             }
         }
         args.push_back("-DOGRE_CG");
-        if (getType() == GPT_VERTEX_PROGRAM)
+        if (type() == GPT_VERTEX_PROGRAM)
             args.push_back("-DOGRE_VERTEX_SHADER");
 
         // Now split args into that god-awful char** that Cg insists on

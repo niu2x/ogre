@@ -54,7 +54,7 @@ public:
     /** Class default constructor */    
     IntegratedPSSM3();
 
-    const String& getType() const override { return SRS_INTEGRATED_PSSM3; }
+    const String& type() const override { return SRS_INTEGRATED_PSSM3; }
 
     /** 
     @see SubRenderState::getType.
@@ -188,7 +188,7 @@ A factory that enables creation of IntegratedPSSM3 instances.
 class IntegratedPSSM3Factory : public SubRenderStateFactory
 {
 public:
-    const String& getType() const override { return SRS_INTEGRATED_PSSM3; }
+    const String& type() const override { return SRS_INTEGRATED_PSSM3; }
 
     /** 
     @see SubRenderStateFactory::createInstance.

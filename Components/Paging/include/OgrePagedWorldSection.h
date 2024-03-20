@@ -291,8 +291,7 @@ namespace Ogre
         _OgrePagingExport friend std::ostream& operator <<( std::ostream& o, const PagedWorldSection& p );
 
         /** Get the type name of this section. */
-        virtual const String& getType();
-
+        virtual const String& type();
     };
 
 

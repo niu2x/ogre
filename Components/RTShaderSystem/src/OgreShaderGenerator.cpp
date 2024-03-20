@@ -379,16 +379,18 @@ void ShaderGenerator::destroyBuiltinSRSFactories()
 //-----------------------------------------------------------------------------
 void ShaderGenerator::addSubRenderStateFactory(SubRenderStateFactory* factory)
 {
-    SubRenderStateFactoryIterator itFind = mSubRenderStateFactories.find(factory->getType());
+    SubRenderStateFactoryIterator itFind
+        = mSubRenderStateFactories.find(factory->type());
 
     if (itFind != mSubRenderStateFactories.end())
     {
-        OGRE_EXCEPT(Exception::ERR_DUPLICATE_ITEM,
-            "A factory of type '" + factory->getType() + "' already exists.",
+        OGRE_EXCEPT(
+            Exception::ERR_DUPLICATE_ITEM,
+            "A factory of type '" + factory->type() + "' already exists.",
             "ShaderGenerator::addSubRenderStateFactory");
     }
 
-    mSubRenderStateFactories[factory->getType()] = factory;
+    mSubRenderStateFactories[factory->type()] = factory;
 }
 
 //-----------------------------------------------------------------------------
@@ -427,7 +429,8 @@ SubRenderStateFactory* ShaderGenerator::getSubRenderStateFactory(const String& t
 //-----------------------------------------------------------------------------
 void ShaderGenerator::removeSubRenderStateFactory(SubRenderStateFactory* factory)
 {
-    SubRenderStateFactoryIterator itFind = mSubRenderStateFactories.find(factory->getType());
+    SubRenderStateFactoryIterator itFind
+        = mSubRenderStateFactories.find(factory->type());
 
     if (itFind != mSubRenderStateFactories.end())
         mSubRenderStateFactories.erase(itFind);
@@ -453,7 +456,8 @@ SubRenderState* ShaderGenerator::createSubRenderState(const String& type)
 //-----------------------------------------------------------------------------
 void ShaderGenerator::destroySubRenderState(SubRenderState* subRenderState)
 {
-    SubRenderStateFactoryIterator itFind = mSubRenderStateFactories.find(subRenderState->getType());
+    SubRenderStateFactoryIterator itFind
+        = mSubRenderStateFactories.find(subRenderState->type());
 
     if (itFind != mSubRenderStateFactories.end())
     {
@@ -954,7 +958,8 @@ bool ShaderGenerator::cloneShaderBasedTechniques(Material& srcMat, Material& dst
                         for(;itSubState != itSubStateEnd ; ++itSubState)
                         {
                             SubRenderState* srcSubState = *itSubState;
-                            SubRenderState* dstSubState = createSubRenderState(srcSubState->getType());
+                            SubRenderState* dstSubState
+                                = createSubRenderState(srcSubState->type());
                             (*dstSubState) = (*srcSubState);
                             dstRenderState->addTemplateSubRenderState(dstSubState);
                         }
@@ -1712,7 +1717,7 @@ void ShaderGenerator::SGScheme::synchronizeWithLightSettings()
         // area lights a costy, so we check whether there are any in the scene
         bool haveAreaLights = false;
         for (const Light* l : lightList)
-            haveAreaLights = haveAreaLights || l->getType() == Light::LT_RECTLIGHT;
+            haveAreaLights = haveAreaLights || l->type() == Light::LT_RECTLIGHT;
 
         int32 sceneLightCount = lightList.size();
         int32 currLightCount = mRenderState->getLightCount();

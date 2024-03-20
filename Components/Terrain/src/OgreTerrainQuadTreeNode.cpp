@@ -1053,10 +1053,9 @@ namespace Ogre
                 destData->vertexDeclaration->addElement(
                     e.getSource(),
                     e.getOffset(),
-                    e.getType(),
+                    e.type(),
                     e.getSemantic(),
-                    e.getIndex()
-                );
+                    e.getIndex());
             }
             // We don't need the CPU copy anymore
             destroyCpuVertexData();

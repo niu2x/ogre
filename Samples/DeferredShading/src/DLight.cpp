@@ -60,8 +60,7 @@ void DLight::setAttenuation(float c, float b, float a)
     if(c != 1.0f || b != 0.0f || a != 0.0f)
     {
         ENABLE_BIT(mPermutation, LightMaterialGenerator::MI_ATTENUATED);
-        if (mParentLight->getType() == Light::LT_POINT)
-        {
+        if (mParentLight->type() == Light::LT_POINT) {
             //// Calculate radius from Attenuation
             int threshold_level = 10;// difference of 10-15 levels deemed unnoticeable
             float threshold = 1.0f/((float)threshold_level/256.0f); 
@@ -100,26 +99,25 @@ void DLight::rebuildGeometry(float radius)
     DISABLE_BIT(mPermutation, LightMaterialGenerator::MI_SPOTLIGHT);
     DISABLE_BIT(mPermutation, LightMaterialGenerator::MI_DIRECTIONAL);
 
-    switch (mParentLight->getType())
-    {
-    case Light::LT_DIRECTIONAL:
-        createRectangle2D();
-        ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_DIRECTIONAL);
-        break;
-    case Light::LT_POINT:
-        /// XXX some more intelligent expression for rings and segments
-        createSphere(radius, 10, 10);
-        ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_POINT);
-        break;
-    case Light::LT_RECTLIGHT:
-    case Light::LT_SPOTLIGHT:
-        Real height = mParentLight->getAttenuationRange();
-        Radian coneRadiusAngle = mParentLight->getSpotlightOuterAngle() / 2;
-        Real rad = Math::Tan(coneRadiusAngle) * height;
-        createCone(rad, height, 20);
-        ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_SPOTLIGHT);
-        break;
-    }   
+    switch (mParentLight->type()) {
+        case Light::LT_DIRECTIONAL:
+            createRectangle2D();
+            ENABLE_BIT(mPermutation, LightMaterialGenerator::MI_DIRECTIONAL);
+            break;
+        case Light::LT_POINT:
+            /// XXX some more intelligent expression for rings and segments
+            createSphere(radius, 10, 10);
+            ENABLE_BIT(mPermutation, LightMaterialGenerator::MI_POINT);
+            break;
+        case Light::LT_RECTLIGHT:
+        case Light::LT_SPOTLIGHT:
+            Real height = mParentLight->getAttenuationRange();
+            Radian coneRadiusAngle = mParentLight->getSpotlightOuterAngle() / 2;
+            Real rad = Math::Tan(coneRadiusAngle) * height;
+            createCone(rad, height, 20);
+            ENABLE_BIT(mPermutation, LightMaterialGenerator::MI_SPOTLIGHT);
+            break;
+    }
 }
 //-----------------------------------------------------------------------
 void DLight::createRectangle2D()
@@ -212,18 +210,14 @@ const MaterialPtr& DLight::getMaterial(void) const
 //-----------------------------------------------------------------------
 void DLight::getWorldTransforms(Matrix4* xform) const
 {
-    if (mParentLight->getType() == Light::LT_SPOTLIGHT)
-    {
+    if (mParentLight->type() == Light::LT_SPOTLIGHT) {
         Quaternion quat = Vector3::unit_y.rotation_to(mParentLight->getDerivedDirection());
         xform->make_transform(mParentLight->getDerivedPosition(),
             Vector3::unit_scale, quat);
-    }
-    else
-    {
+    } else {
         xform->make_transform(mParentLight->getDerivedPosition(),
             Vector3::unit_scale, Quaternion::IDENTITY);
     }
-    
 }
 //-----------------------------------------------------------------------
 void DLight::updateFromParent()
@@ -245,16 +239,17 @@ void DLight::updateFromParent()
 //-----------------------------------------------------------------------
 bool DLight::isCameraInsideLight(Ogre::Camera* camera)
 {
-    switch (mParentLight->getType())
-    {
-    case Ogre::Light::LT_DIRECTIONAL:
-        return false;
-    case Ogre::Light::LT_POINT:
-        {
-        Ogre::Real distanceFromLight = camera->getDerivedPosition()
-            .distance(mParentLight->getDerivedPosition());
-        //Small epsilon fix to account for the fact that we aren't a true sphere.
-        return distanceFromLight <= mRadius + camera->getNearClipDistance() + 0.1; 
+    switch (mParentLight->type()) {
+        case Ogre::Light::LT_DIRECTIONAL:
+            return false;
+        case Ogre::Light::LT_POINT: {
+            Ogre::Real distanceFromLight
+                = camera->getDerivedPosition().distance(
+                    mParentLight->getDerivedPosition());
+            // Small epsilon fix to account for the fact that we aren't a true
+            // sphere.
+            return distanceFromLight
+                <= mRadius + camera->getNearClipDistance() + 0.1; 
         }
     case Ogre::Light::LT_SPOTLIGHT:
         {
@@ -284,10 +279,10 @@ bool DLight::isCameraInsideLight(Ogre::Camera* camera)
 //-----------------------------------------------------------------------
 bool DLight::getCastChadows() const
 {
-    return 
-        mParentLight->_getManager()->isShadowTechniqueInUse() &&
-        mParentLight->getCastShadows() && 
-        (mParentLight->getType() == Light::LT_DIRECTIONAL || mParentLight->getType() == Light::LT_SPOTLIGHT);
+    return mParentLight->_getManager()->isShadowTechniqueInUse()
+        && mParentLight->getCastShadows()
+        && (mParentLight->type() == Light::LT_DIRECTIONAL
+            || mParentLight->type() == Light::LT_SPOTLIGHT);
 }
 //-----------------------------------------------------------------------
 void DLight::updateFromCamera(Ogre::Camera* camera)
@@ -314,13 +309,10 @@ void DLight::updateFromCamera(Ogre::Camera* camera)
             params->setNamedConstant("farCorner", farCorner);
 
         //If inside light geometry, render back faces with CMPF_GREATER, otherwise normally
-        if (mParentLight->getType() == Ogre::Light::LT_DIRECTIONAL)
-        {
+        if (mParentLight->type() == Ogre::Light::LT_DIRECTIONAL) {
             pass->setCullingMode(Ogre::CULL_CLOCKWISE);
             pass->setDepthCheckEnabled(false);
-        }
-        else
-        {
+        } else {
             pass->setDepthCheckEnabled(true);
             if (isCameraInsideLight(camera))
             {
