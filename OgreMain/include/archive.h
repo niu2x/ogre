@@ -36,17 +36,17 @@ THE SOFTWARE.
 
 namespace Ogre {
 
-    /** \addtogroup Core
-    *  @{
-    */
-    /** \addtogroup Resources
-    *  @{
-    */
-    /** Information about a file/directory within the archive will be
-    returned using a FileInfo struct.
-    @see
-    Archive
-    */
+/** \addtogroup Core
+ *  @{
+ */
+/** \addtogroup Resources
+ *  @{
+ */
+/** Information about a file/directory within the archive will be
+returned using a FileInfo struct.
+@see
+Archive
+*/
 struct FileInfo {
     /// The archive in which the file has been found (for info when performing
     /// multi-Archive searches, note you should still open through
@@ -235,10 +235,10 @@ public:
     /// Return the type code of this Archive
     const String& type(void) const { return type_; }
 };
-    /** @} */
-    /** @} */
+/** @} */
+/** @} */
 
-}
+} // namespace Ogre
 
 #include "OgreHeaderSuffix.h"
 

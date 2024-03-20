@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreArchive.h"
+#include "archive.h"
 #include "OgreArchiveFactory.h"
 #include "OgreHeaderPrefix.h"
 #include "threading/thread_header.h"

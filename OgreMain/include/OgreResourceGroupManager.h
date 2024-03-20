@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "singleton.h"
 #include "data_stream.h"
-#include "OgreArchive.h"
+#include "archive.h"
 #include "OgreIteratorWrapper.h"
 #include "OgreCommon.h"
 #include "threading/thread_header.h"

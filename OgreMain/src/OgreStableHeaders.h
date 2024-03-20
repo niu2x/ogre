@@ -48,7 +48,7 @@ extern "C" {
 #include <iomanip>
 
 #include "any.h"
-#include "OgreArchive.h"
+#include "archive.h"
 #include "OgreArchiveManager.h"
 #include "axis_aligned_box.h"
 #include "bitwise.h"

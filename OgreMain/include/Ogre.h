@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreAnimationState.h"
 #include "OgreAnimationTrack.h"
 #include "any.h"
-#include "OgreArchive.h"
+#include "archive.h"
 #include "OgreArchiveManager.h"
 #include "axis_aligned_box.h"
 #include "OgreBillboard.h"
