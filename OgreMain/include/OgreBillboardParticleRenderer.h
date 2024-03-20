@@ -157,7 +157,7 @@ namespace Ogre {
         /// @copydoc FactoryObj::getType
         const String& type() const override;
         /// @copydoc FactoryObj::createInstance
-        ParticleSystemRenderer* createInstance( const String& name ) override;
+        ParticleSystemRenderer* create_instance(const String& name) override;
     };
     /** @} */
     /** @} */

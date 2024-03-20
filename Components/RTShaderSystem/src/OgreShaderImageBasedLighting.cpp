@@ -129,8 +129,11 @@ const String& ImageBasedLightingFactory::type() const
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* ImageBasedLightingFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
-                                               SGScriptTranslator* translator)
+SubRenderState* ImageBasedLightingFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name != "image_based_lighting" || prop->values.size() < 2)
         return NULL;

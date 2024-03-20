@@ -441,8 +441,9 @@ namespace Ogre {
     }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    MovableObject* MovableObjectFactory::createInstance(
-        const String& name, SceneManager* manager, 
+    MovableObject* MovableObjectFactory::create_instance(
+        const String& name,
+        SceneManager* manager,
         const NameValuePairList* params)
     {
         MovableObject* m = createInstanceImpl(name, params);

@@ -225,8 +225,11 @@ void GBuffer::copyFrom(const SubRenderState& rhs)
 const String& GBufferFactory::type() const { return SRS_GBUFFER; }
 
 //-----------------------------------------------------------------------
-SubRenderState* GBufferFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
-                                               SGScriptTranslator* translator)
+SubRenderState* GBufferFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name != "lighting_stage" || prop->values.size() < 2)
         return NULL;

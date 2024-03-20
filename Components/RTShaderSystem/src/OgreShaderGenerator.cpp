@@ -443,8 +443,7 @@ SubRenderState* ShaderGenerator::createSubRenderState(const String& type)
     SubRenderStateFactoryIterator itFind = mSubRenderStateFactories.find(type);
 
     if (itFind != mSubRenderStateFactories.end())
-        return itFind->second->createInstance();
-
+        return itFind->second->create_instance();
 
     OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND,
         "A factory of type '" + type + "' doesn't exists.",
@@ -473,7 +472,8 @@ SubRenderState* ShaderGenerator::createSubRenderState(ScriptCompiler* compiler,
 
     for (auto& s : mSubRenderStateFactories)
     {
-        subRenderState = s.second->createInstance(compiler, prop, pass, translator);
+        subRenderState
+            = s.second->create_instance(compiler, prop, pass, translator);
         if (subRenderState != NULL)
             break;
     }
@@ -490,7 +490,8 @@ SubRenderState* ShaderGenerator::createSubRenderState(ScriptCompiler* compiler,
 
     for (auto& s : mSubRenderStateFactories)
     {
-        subRenderState = s.second->createInstance(compiler, prop, texState, translator);
+        subRenderState
+            = s.second->create_instance(compiler, prop, texState, translator);
         if (subRenderState != NULL)
             break;
     }

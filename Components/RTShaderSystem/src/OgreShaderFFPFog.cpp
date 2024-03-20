@@ -199,8 +199,11 @@ bool FFPFog::set_parameter(const String& name, const String& value)
 const String& FFPFogFactory::type() const { return SRS_FOG; }
 
 //-----------------------------------------------------------------------
-SubRenderState* FFPFogFactory::createInstance(ScriptCompiler* compiler, 
-                                                    PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* FFPFogFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "fog_stage")
     {

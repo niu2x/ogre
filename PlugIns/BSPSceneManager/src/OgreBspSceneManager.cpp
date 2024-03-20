@@ -783,8 +783,8 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     const String BspSceneManagerFactory::FACTORY_TYPE_NAME = "BspSceneManager";
     //-----------------------------------------------------------------------
-    SceneManager* BspSceneManagerFactory::createInstance(
-        const String& instanceName)
+    SceneManager*
+    BspSceneManagerFactory::create_instance(const String& instanceName)
     {
         return OGRE_NEW BspSceneManager(instanceName);
     }

@@ -238,7 +238,11 @@ public:
     /** 
     @see SubRenderStateFactory::createInstance.
     */
-    Ogre::RTShader::SubRenderState* createInstance(Ogre::ScriptCompiler* compiler, Ogre::PropertyAbstractNode* prop, Ogre::Pass* pass, Ogre::RTShader::SGScriptTranslator* translator) override;
+    Ogre::RTShader::SubRenderState* create_instance(
+        Ogre::ScriptCompiler* compiler,
+        Ogre::PropertyAbstractNode* prop,
+        Ogre::Pass* pass,
+        Ogre::RTShader::SGScriptTranslator* translator) override;
 
     /** 
     @see SubRenderStateFactory::writeInstance.

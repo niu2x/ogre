@@ -300,8 +300,11 @@ const String& PerPixelLightingFactory::type() const
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* PerPixelLightingFactory::createInstance(ScriptCompiler* compiler, 
-                                                        PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* PerPixelLightingFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name != "lighting_stage" || prop->values.empty())
         return NULL;

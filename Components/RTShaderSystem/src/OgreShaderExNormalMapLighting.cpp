@@ -207,8 +207,11 @@ bool NormalMapLighting::set_parameter(const String& name, const String& value)
 const String& NormalMapLightingFactory::type() const { return SRS_NORMALMAP; }
 
 //-----------------------------------------------------------------------
-SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop,
-                                                         Pass* pass, SGScriptTranslator* translator)
+SubRenderState* NormalMapLightingFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "lighting_stage")
     {
@@ -274,8 +277,11 @@ SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compile
     return NULL;
 }
 
-SubRenderState* NormalMapLightingFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop,
-                                                         TextureUnitState* texState, SGScriptTranslator* translator)
+SubRenderState* NormalMapLightingFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    TextureUnitState* texState,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "normal_map" && !prop->values.empty())
     {

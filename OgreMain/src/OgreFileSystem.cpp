@@ -565,7 +565,8 @@ FileSystemArchive::FileSystemArchive(
         return name;
     }
 
-    Archive *FileSystemArchiveFactory::createInstance( const String& name, bool readOnly )
+    Archive*
+    FileSystemArchiveFactory::create_instance(const String& name, bool readOnly)
     {
         return OGRE_NEW FileSystemArchive(name, type(), readOnly);
     }

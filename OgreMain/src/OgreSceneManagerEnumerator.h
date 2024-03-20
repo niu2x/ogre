@@ -48,7 +48,7 @@ namespace Ogre {
     public:
         DefaultSceneManagerFactory() {}
         ~DefaultSceneManagerFactory() {}
-        SceneManager* createInstance(const String& instanceName) override;
+        SceneManager* create_instance(const String& instanceName) override;
         const String& getTypeName(void) const override { return SMT_DEFAULT; }
     };
 

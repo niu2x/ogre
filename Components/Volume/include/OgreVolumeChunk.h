@@ -438,7 +438,7 @@ namespace Volume {
         @return
             The created chunk.
         */
-        virtual Chunk* createInstance(void);
+        virtual Chunk* create_instance(void);
 
         /** Overridden from SimpleRenderable.
             Sets the material of this chunk and all of his children.

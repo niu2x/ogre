@@ -139,7 +139,7 @@ namespace Ogre
             PageContentCollectionFactory* collFact = mgr->getContentCollectionFactory(factoryName);
             if (collFact)
             {
-                PageContentCollection* collInst = collFact->createInstance();
+                PageContentCollection* collInst = collFact->create_instance();
                 if (collInst->prepare(stream)) // read type-specific data
                 {
                     dataToPopulate->collectionsToAdd.push_back(collInst);

@@ -302,7 +302,11 @@ namespace Ogre
     public:
         virtual ~PagedWorldSectionFactory() {}
         virtual const String& name() const = 0;
-        virtual PagedWorldSection* createInstance(const String& name, PagedWorld* parent, SceneManager* sm) = 0;
+        virtual PagedWorldSection* create_instance(
+            const String& name,
+            PagedWorld* parent,
+            SceneManager* sm)
+            = 0;
         virtual void destroyInstance(PagedWorldSection*) = 0;
 
 

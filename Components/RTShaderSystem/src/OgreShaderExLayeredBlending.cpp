@@ -420,8 +420,11 @@ const String& LayeredBlendingFactory::type() const
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* LayeredBlendingFactory::createInstance(ScriptCompiler* compiler, 
-                                    PropertyAbstractNode* prop, TextureUnitState* texState, SGScriptTranslator* translator)
+SubRenderState* LayeredBlendingFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    TextureUnitState* texState,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "layered_blend")
     {

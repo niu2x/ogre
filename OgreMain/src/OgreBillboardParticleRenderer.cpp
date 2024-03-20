@@ -243,8 +243,8 @@ namespace Ogre {
         return rendererTypeName;
     }
     //-----------------------------------------------------------------------
-    ParticleSystemRenderer* BillboardParticleRendererFactory::createInstance( 
-        const String& name )
+    ParticleSystemRenderer*
+    BillboardParticleRendererFactory::create_instance(const String& name)
     {
         return OGRE_NEW BillboardParticleRenderer();
     }

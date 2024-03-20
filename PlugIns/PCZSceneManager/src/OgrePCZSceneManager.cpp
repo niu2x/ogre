@@ -1341,8 +1341,8 @@ namespace Ogre
     //-----------------------------------------------------------------------
     const String PCZSceneManagerFactory::FACTORY_TYPE_NAME = "PCZSceneManager";
     //-----------------------------------------------------------------------
-    SceneManager* PCZSceneManagerFactory::createInstance(
-        const String& instanceName)
+    SceneManager*
+    PCZSceneManagerFactory::create_instance(const String& instanceName)
     {
         return OGRE_NEW PCZSceneManager(instanceName);
     }

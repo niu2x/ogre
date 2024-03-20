@@ -243,7 +243,7 @@ namespace Ogre
                 typeName + " is not the name of a valid PageContentCollectionFactory", 
                 "PageManager::createContentCollection");
 
-        return fact->createInstance();
+        return fact->create_instance();
     }
     //---------------------------------------------------------------------
     void PageManager::destroyContentCollection(PageContentCollection* coll)
@@ -294,7 +294,7 @@ namespace Ogre
             typeName + " is not the name of a valid PageContentFactory", 
             "PageManager::createContent");
 
-        return fact->createInstance();
+        return fact->create_instance();
     }
     //---------------------------------------------------------------------
     void PageManager::destroyContent(PageContent* c)
@@ -345,7 +345,7 @@ namespace Ogre
             typeName + " is not the name of a valid PagedWorldSectionFactory", 
             "PageManager::createWorldSection");
 
-        return fact->createInstance(name, parent, sm);
+        return fact->create_instance(name, parent, sm);
     }
     //---------------------------------------------------------------------
     void PageManager::destroyWorldSection(PagedWorldSection* coll)

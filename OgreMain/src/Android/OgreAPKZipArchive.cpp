@@ -9,7 +9,8 @@ const String& APKZipArchiveFactory::type() const
     return type;
     }
     //-----------------------------------------------------------------------
-    Archive *APKZipArchiveFactory::createInstance( const String& name, bool readOnly )
+    Archive*
+    APKZipArchiveFactory::create_instance(const String& name, bool readOnly)
     {
         String apkName = name;
         if (apkName.size() > 0 && apkName[0] == '/')
@@ -22,7 +23,7 @@ const String& APKZipArchiveFactory::type() const
             mOpenAssets.emplace(apkName, asset);
         }
 
-        return EmbeddedZipArchiveFactory::createInstance(apkName, readOnly);
+        return EmbeddedZipArchiveFactory::create_instance(apkName, readOnly);
     }
     void APKZipArchiveFactory::destroyInstance(Archive* ptr)
     {

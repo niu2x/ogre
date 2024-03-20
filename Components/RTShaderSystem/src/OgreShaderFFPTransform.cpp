@@ -141,8 +141,11 @@ bool FFPTransform::set_parameter(const String& name, const String& value)
 const String& FFPTransformFactory::type() const { return SRS_TRANSFORM; }
 
 //-----------------------------------------------------------------------
-SubRenderState* FFPTransformFactory::createInstance(ScriptCompiler* compiler, 
-                                                   PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* FFPTransformFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "transform_stage")
     {

@@ -88,9 +88,10 @@ namespace Ogre
         VulkanDevice( VkInstance instance, uint32 deviceIdx, VulkanRenderSystem *renderSystem );
         ~VulkanDevice();
 
-        static VkInstance createInstance( FastArray<const char *> &extensions,
-                                          FastArray<const char *> &layers,
-                                          PFN_vkDebugReportCallbackEXT debugCallback );
+        static VkInstance create_instance(
+            FastArray<const char*>& extensions,
+            FastArray<const char*>& layers,
+            PFN_vkDebugReportCallbackEXT debugCallback);
 
         void createPhysicalDevice( uint32 deviceIdx );
 

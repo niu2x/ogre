@@ -359,8 +359,11 @@ const String& TextureAtlasSamplerFactory::type() const
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* TextureAtlasSamplerFactory::createInstance(ScriptCompiler* compiler, 
-                                                    PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* TextureAtlasSamplerFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     return NULL;
 }

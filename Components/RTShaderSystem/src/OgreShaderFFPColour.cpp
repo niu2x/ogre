@@ -188,8 +188,11 @@ bool FFPColour::preAddToRenderState(const RenderState* renderState, Pass* srcPas
 const String& FFPColourFactory::type() const { return SRS_VERTEX_COLOUR; }
 
 //-----------------------------------------------------------------------
-SubRenderState* FFPColourFactory::createInstance(ScriptCompiler* compiler, 
-                                                    PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* FFPColourFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "colour_stage")
     {

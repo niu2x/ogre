@@ -117,14 +117,14 @@ namespace Volume {
             if (!mChildren)
             {
                 mChildren = new Chunk*[OctreeNode::OCTREE_CHILDREN_COUNT];
-                mChildren[0] = createInstance();
-                mChildren[1] = createInstance();
-                mChildren[2] = createInstance();
-                mChildren[3] = createInstance();
-                mChildren[4] = createInstance();
-                mChildren[5] = createInstance();
-                mChildren[6] = createInstance();
-                mChildren[7] = createInstance();
+                mChildren[0] = create_instance();
+                mChildren[1] = create_instance();
+                mChildren[2] = create_instance();
+                mChildren[3] = create_instance();
+                mChildren[4] = create_instance();
+                mChildren[5] = create_instance();
+                mChildren[6] = create_instance();
+                mChildren[7] = create_instance();
                 mChildren[0]->mShared = mShared;
                 mChildren[1]->mShared = mShared;
                 mChildren[2]->mShared = mShared;
@@ -150,7 +150,7 @@ namespace Volume {
             if (!mChildren)
             {
                 mChildren = new Chunk*[2];
-                mChildren[0] = createInstance();
+                mChildren[0] = create_instance();
                 mChildren[0]->mShared = mShared;
                 mChildren[1] = 0; // Indicator that there are no more children.
             }
@@ -580,11 +580,8 @@ namespace Volume {
     
     //-----------------------------------------------------------------------
 
-    Chunk* Chunk::createInstance(void)
-    {
-        return OGRE_NEW Chunk();
-    }
-    
+    Chunk* Chunk::create_instance(void) { return OGRE_NEW Chunk(); }
+
     //-----------------------------------------------------------------------
 
     void Chunk::setMaterial(const MaterialPtr& mat)

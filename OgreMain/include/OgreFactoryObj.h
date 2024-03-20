@@ -58,7 +58,7 @@ namespace Ogre {
             An object created by the factory. The type of the object depends on
             the factory.
         */
-        virtual T* createInstance(const String& name) = 0;
+        virtual T* create_instance(const String& name) = 0;
         /** Destroys an object which was created by this factory.
         @param ptr Pointer to the object to destroy
         */

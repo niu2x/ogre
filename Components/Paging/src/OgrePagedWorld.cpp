@@ -156,8 +156,7 @@ namespace Ogre
                     "PagedWorld::createSection");
             }
 
-            ret = fact->createInstance(theName, this, sceneMgr);
-
+            ret = fact->create_instance(theName, this, sceneMgr);
         }
         mSections[theName] = ret;
 

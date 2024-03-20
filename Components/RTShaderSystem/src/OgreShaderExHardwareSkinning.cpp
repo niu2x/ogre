@@ -263,7 +263,11 @@ const String& HardwareSkinningFactory::type() const
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* HardwareSkinningFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* HardwareSkinningFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "hardware_skinning")
     {

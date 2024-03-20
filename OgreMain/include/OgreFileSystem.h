@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "archive.h"
-#include "OgreArchiveFactory.h"
+#include "archive_factory.h"
 #include "OgreHeaderPrefix.h"
 
 struct AAssetManager;
@@ -57,9 +57,9 @@ namespace Ogre {
         /// @copydoc FactoryObj::getType
         const String& type() const override;
 
-        using ArchiveFactory::createInstance;
+        using ArchiveFactory::create_instance;
 
-        Archive *createInstance( const String& name, bool readOnly ) override;
+        Archive* create_instance(const String& name, bool readOnly) override;
 
         /// Set whether filesystem enumeration will include hidden files or not.
         /// This should be called prior to declaring and/or initializing filesystem
@@ -77,8 +77,9 @@ namespace Ogre {
         virtual ~APKFileSystemArchiveFactory() {}
         /// @copydoc FactoryObj::getType
         const String& type() const override;
-        /// @copydoc ArchiveFactory::createInstance
-        Archive *createInstance( const String& name, bool readOnly ) override;
+        /// @copydoc ArchiveFactory::create_instance
+        Archive* create_instance(const String& name, bool readOnly) override;
+
     private:
         AAssetManager* mAssetMgr;
     };

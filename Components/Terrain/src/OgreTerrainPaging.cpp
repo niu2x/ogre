@@ -71,7 +71,10 @@ namespace Ogre
         return FACTORY_NAME;
     }
     //---------------------------------------------------------------------
-    PagedWorldSection* TerrainPaging::SectionFactory::createInstance(const String& name, PagedWorld* parent, SceneManager* sm)
+    PagedWorldSection* TerrainPaging::SectionFactory::create_instance(
+        const String& name,
+        PagedWorld* parent,
+        SceneManager* sm)
     {
         return OGRE_NEW TerrainPagedWorldSection(name, parent, sm);
     }

@@ -309,7 +309,8 @@ namespace {
     //-----------------------------------------------------------------------
     //  ZipArchiveFactory
     //-----------------------------------------------------------------------
-    Archive *ZipArchiveFactory::createInstance( const String& name, bool readOnly )
+    Archive*
+    ZipArchiveFactory::create_instance(const String& name, bool readOnly)
     {
         if(!readOnly)
             return NULL;
@@ -348,7 +349,9 @@ namespace {
     EmbeddedZipArchiveFactory::EmbeddedZipArchiveFactory() {}
     EmbeddedZipArchiveFactory::~EmbeddedZipArchiveFactory() {}
     //-----------------------------------------------------------------------
-    Archive *EmbeddedZipArchiveFactory::createInstance( const String& name, bool readOnly )
+    Archive* EmbeddedZipArchiveFactory::create_instance(
+        const String& name,
+        bool readOnly)
     {
         auto it = gEmbeddedFileDataList->find(name);
         if(it == gEmbeddedFileDataList->end())

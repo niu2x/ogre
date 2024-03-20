@@ -736,7 +736,10 @@ namespace Ogre
                 "not present");
         }
 
-        mVkInstance = VulkanDevice::createInstance(reqInstanceExtensions, instanceLayers, dbgFunc);
+        mVkInstance = VulkanDevice::create_instance(
+            reqInstanceExtensions,
+            instanceLayers,
+            dbgFunc);
         volkLoadInstanceOnly(mVkInstance);
 
         if(mHasValidationLayers)

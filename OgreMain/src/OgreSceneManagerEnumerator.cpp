@@ -132,11 +132,11 @@ SceneManagerEnumerator* SceneManagerEnumerator::singleton_ptr(void)
             // generate a name
             StringStream s;
             s << "SceneManagerInstance" << ++mInstanceCreateCount;
-            inst = it->second->createInstance(s.str());
+            inst = it->second->create_instance(s.str());
         }
         else
         {
-            inst = it->second->createInstance(instanceName);
+            inst = it->second->create_instance(instanceName);
         }
 
         /// assign rs if already configured
@@ -215,8 +215,8 @@ SceneManagerEnumerator* SceneManagerEnumerator::singleton_ptr(void)
     //-----------------------------------------------------------------------
     const String SMT_DEFAULT = "DefaultSceneManager";
     //-----------------------------------------------------------------------
-    SceneManager* DefaultSceneManagerFactory::createInstance(
-        const String& instanceName)
+    SceneManager*
+    DefaultSceneManagerFactory::create_instance(const String& instanceName)
     {
         return OGRE_NEW DefaultSceneManager(instanceName);
     }

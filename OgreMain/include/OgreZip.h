@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "archive.h"
-#include "OgreArchiveFactory.h"
+#include "archive_factory.h"
 #include "OgreHeaderPrefix.h"
 #include "threading/thread_header.h"
 
@@ -60,9 +60,9 @@ namespace Ogre {
         /// @copydoc FactoryObj::getType
         const String& type() const override;
 
-        using ArchiveFactory::createInstance;
+        using ArchiveFactory::create_instance;
 
-        Archive *createInstance( const String& name, bool readOnly ) override;
+        Archive* create_instance(const String& name, bool readOnly) override;
     };
 
     /** Specialisation of ZipArchiveFactory for embedded Zip files. */
@@ -74,9 +74,9 @@ namespace Ogre {
 
         const String& type() const override;
 
-        using ArchiveFactory::createInstance;
+        using ArchiveFactory::create_instance;
 
-        Archive *createInstance( const String& name, bool readOnly ) override;
+        Archive* create_instance(const String& name, bool readOnly) override;
         void destroyInstance( Archive* ptr) override;
         
         /** a function type to decrypt embedded zip file
@@ -107,7 +107,7 @@ namespace Ogre {
         virtual ~APKZipArchiveFactory() {}
 
         const String& type() const override;
-        Archive *createInstance( const String& name, bool readOnly ) override;
+        Archive* create_instance(const String& name, bool readOnly) override;
         void destroyInstance( Archive* ptr) override;
     };
 #endif

@@ -285,7 +285,7 @@ public:
 
     /** Create an instance of the SubRenderState sub class it suppose to create.    
     */
-    virtual SubRenderState* createInstance() OGRE_NODISCARD;
+    virtual SubRenderState* create_instance() OGRE_NODISCARD;
 
     /** Create an instance of the SubRenderState based on script properties.    
     This method is called in the context of script parsing and let this factory
@@ -295,7 +295,11 @@ public:
     @param pass The pass that is the parent context of this node.
     @param translator The translator instance holding existing scripts.
     */
-    virtual SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator) OGRE_NODISCARD 
+    virtual SubRenderState* create_instance(
+        ScriptCompiler* compiler,
+        PropertyAbstractNode* prop,
+        Pass* pass,
+        SGScriptTranslator* translator) OGRE_NODISCARD
     { return NULL; }
 
     /** Create an instance of the SubRenderState based on script properties.    
@@ -306,7 +310,11 @@ public:
     @param texState The pass that is the parent context of this node.
     @param translator The translator instance holding existing scripts.
     */
-    virtual SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, TextureUnitState* texState, SGScriptTranslator* translator) OGRE_NODISCARD 
+    virtual SubRenderState* create_instance(
+        ScriptCompiler* compiler,
+        PropertyAbstractNode* prop,
+        TextureUnitState* texState,
+        SGScriptTranslator* translator) OGRE_NODISCARD
     { return NULL; }
 
     /** Retrieve the previous instance the SRS in the script translator or

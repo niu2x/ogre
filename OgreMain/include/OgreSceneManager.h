@@ -3366,7 +3366,7 @@ namespace Ogre {
 
         Don't call directly, use SceneManagerEnumerator::createSceneManager.
         */
-        virtual SceneManager* createInstance(const String& instanceName) = 0;
+        virtual SceneManager* create_instance(const String& instanceName) = 0;
         /** Destroy an instance of a SceneManager. */
         virtual void destroyInstance(SceneManager* instance) { delete instance; }
 

@@ -692,8 +692,11 @@ void FFPTexturing::setTextureUnit(unsigned short index, TextureUnitState* textur
 const String& FFPTexturingFactory::type() const { return SRS_TEXTURING; }
 
 //-----------------------------------------------------------------------
-SubRenderState* FFPTexturingFactory::createInstance(ScriptCompiler* compiler, 
-                                                 PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* FFPTexturingFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "texturing_stage")
     {

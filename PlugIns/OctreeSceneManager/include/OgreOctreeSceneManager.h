@@ -216,7 +216,7 @@ class OctreeSceneManagerFactory : public SceneManagerFactory
 public:
     /// Factory type name
     static const String FACTORY_TYPE_NAME;
-    SceneManager* createInstance(const String& instanceName) override;
+    SceneManager* create_instance(const String& instanceName) override;
     const String& getTypeName(void) const override { return FACTORY_TYPE_NAME; }
 };
 

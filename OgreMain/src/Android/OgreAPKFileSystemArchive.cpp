@@ -238,7 +238,9 @@ namespace {
 		return type;
 	}
 
-    Archive *APKFileSystemArchiveFactory::createInstance( const String& name, bool readOnly )
+    Archive* APKFileSystemArchiveFactory::create_instance(
+        const String& name,
+        bool readOnly)
     {
         return OGRE_NEW APKFileSystemArchive(name, type(), mAssetMgr);
     }

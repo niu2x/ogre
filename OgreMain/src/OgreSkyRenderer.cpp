@@ -147,7 +147,8 @@ void SceneManager::SkyPlaneRenderer::setSkyPlane(
             = Root::singleton().getMovableObjectFactory(MOT_ENTITY);
         NameValuePairList params;
         params["mesh"] = meshName;
-        mSkyPlaneEntity = static_cast<Entity*>(factory->createInstance(meshName, mSceneManager, &params));
+        mSkyPlaneEntity = static_cast<Entity*>(
+            factory->create_instance(meshName, mSceneManager, &params));
         mSkyPlaneEntity->setMaterialName(materialName, groupName);
         mSkyPlaneEntity->setCastShadows(false);
         mSkyPlaneEntity->setRenderQueueGroup(renderQueue);
@@ -329,7 +330,8 @@ void SceneManager::SkyDomeRenderer::setSkyDome(
 
             NameValuePairList params;
             params["mesh"] = planeMesh->name();
-            mSkyDomeEntity[i] = static_cast<Entity*>(factory->createInstance(entName, mSceneManager, &params));
+            mSkyDomeEntity[i] = static_cast<Entity*>(
+                factory->create_instance(entName, mSceneManager, &params));
             mSkyDomeEntity[i]->setMaterialName(m->name(), groupName);
             mSkyDomeEntity[i]->setCastShadows(false);
             mSkyDomeEntity[i]->setRenderQueueGroup(renderQueue);

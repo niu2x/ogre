@@ -309,7 +309,7 @@ namespace Ogre {
                 "ParticleSystemManager::_createRenderer");
         }
 
-        return pFact->second->createInstance(rendererType);
+        return pFact->second->create_instance(rendererType);
     }
     //-----------------------------------------------------------------------
     void ParticleSystemManager::_destroyRenderer(ParticleSystemRenderer* renderer)

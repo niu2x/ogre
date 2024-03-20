@@ -60,7 +60,7 @@ namespace Ogre {
                             "Cannot find an ArchiveFactory for type '" + archiveType + "'");
             }
 
-            pArch = it->second->createInstance(filename, readOnly);
+            pArch = it->second->create_instance(filename, readOnly);
             pArch->load();
             mArchives[filename] = pArch;
 

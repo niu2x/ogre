@@ -133,7 +133,8 @@ namespace Volume {
         @return
             The created entity. Make sure to destroy it when you don't need it anymore.
         */
-        virtual OctreeNode* createInstance(const Vector3& from, const Vector3& to);
+        virtual OctreeNode*
+        create_instance(const Vector3& from, const Vector3& to);
 
         /** Splits this cell if the split policy says so.
         @param splitPolicy

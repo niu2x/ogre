@@ -3223,7 +3223,7 @@ MovableObject* SceneManager::createMovableObject(const String& name,
                 "SceneManager::createMovableObject");
         }
 
-        MovableObject* newObj = factory->createInstance(name, this, params);
+        MovableObject* newObj = factory->create_instance(name, this, params);
         objectMap->map[name] = newObj;
         return newObj;
     }

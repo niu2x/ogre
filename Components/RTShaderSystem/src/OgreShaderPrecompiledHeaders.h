@@ -117,8 +117,11 @@ class LayeredBlendingFactory : public SubRenderStateFactory
 {
 public:
     const String& type() const override;
-    SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, TextureUnitState* texState,
-                                   SGScriptTranslator* translator) override;
+    SubRenderState* create_instance(
+        ScriptCompiler* compiler,
+        PropertyAbstractNode* prop,
+        TextureUnitState* texState,
+        SGScriptTranslator* translator) override;
     void writeInstance(MaterialSerializer* ser, SubRenderState* subRenderState, const TextureUnitState* srcTextureUnit,
                        const TextureUnitState* dstTextureUnit) override;
 
@@ -132,8 +135,11 @@ class FFPTexturingFactory : public SubRenderStateFactory
 {
 public:
     const String& type() const override;
-    SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
-                                   SGScriptTranslator* translator) override;
+    SubRenderState* create_instance(
+        ScriptCompiler* compiler,
+        PropertyAbstractNode* prop,
+        Pass* pass,
+        SGScriptTranslator* translator) override;
     void writeInstance(MaterialSerializer* ser, SubRenderState* subRenderState, Pass* srcPass, Pass* dstPass) override;
 protected:
     SubRenderState* createInstanceImpl() override;

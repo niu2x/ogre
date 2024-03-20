@@ -594,8 +594,9 @@ namespace Ogre {
         @param params Name/value pair list of additional parameters required to 
             construct the object (defined per subtype). Optional.
         */
-        MovableObject* createInstance(
-            const String& name, SceneManager* manager, 
+        MovableObject* create_instance(
+            const String& name,
+            SceneManager* manager,
             const NameValuePairList* params = 0);
         /** Destroy an instance of the object */
         virtual void destroyInstance(MovableObject* obj) { delete obj; }

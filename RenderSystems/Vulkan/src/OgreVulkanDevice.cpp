@@ -78,9 +78,10 @@ namespace Ogre
         queueArray.clear();
     }
     //-------------------------------------------------------------------------
-    VkInstance VulkanDevice::createInstance( FastArray<const char *> &extensions,
-                                             FastArray<const char *> &layers,
-                                             PFN_vkDebugReportCallbackEXT debugCallback)
+    VkInstance VulkanDevice::create_instance(
+        FastArray<const char*>& extensions,
+        FastArray<const char*>& layers,
+        PFN_vkDebugReportCallbackEXT debugCallback)
     {
         VkInstanceCreateInfo createInfo = {VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO};
         VkApplicationInfo appInfo = {VK_STRUCTURE_TYPE_APPLICATION_INFO};
@@ -104,7 +105,7 @@ namespace Ogre
 #endif
 
         VkInstance instance;
-        OGRE_VK_CHECK(vkCreateInstance(&createInfo, 0, &instance));
+        OGRE_VK_CHECK(vkcreate_instance(&createInfo, 0, &instance));
         return instance;
     }
     //-------------------------------------------------------------------------

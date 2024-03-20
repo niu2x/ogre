@@ -43,8 +43,11 @@ class WBOITFactory : public SubRenderStateFactory
 public:
     const String& type() const override;
 
-    SubRenderState* createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
-                                           SGScriptTranslator* translator) override;
+    SubRenderState* create_instance(
+        ScriptCompiler* compiler,
+        PropertyAbstractNode* prop,
+        Pass* pass,
+        SGScriptTranslator* translator) override;
 
     void writeInstance(MaterialSerializer* ser, SubRenderState* subRenderState, Pass* srcPass, Pass* dstPass) override;
 

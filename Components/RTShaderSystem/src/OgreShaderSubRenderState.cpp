@@ -54,7 +54,7 @@ SubRenderStateFactory::~SubRenderStateFactory()
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* SubRenderStateFactory::createInstance()
+SubRenderState* SubRenderStateFactory::create_instance()
 {
     SubRenderState* subRenderState = createInstanceImpl();
 
@@ -73,7 +73,7 @@ SubRenderState* SubRenderStateFactory::create_or_retrieveInstance(
     if (subRenderState == NULL)
     {
         //create a new sub render state
-        subRenderState = SubRenderStateFactory::createInstance();
+        subRenderState = SubRenderStateFactory::create_instance();
     }
     return subRenderState;
 }

@@ -72,8 +72,11 @@ bool WBOIT::createCpuSubPrograms(ProgramSet* programSet)
 const String& WBOITFactory::type() const { return SRS_WBOIT; }
 
 //-----------------------------------------------------------------------
-SubRenderState* WBOITFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
-                                               SGScriptTranslator* translator)
+SubRenderState* WBOITFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name != "weighted_blended_oit" || prop->values.empty())
         return NULL;

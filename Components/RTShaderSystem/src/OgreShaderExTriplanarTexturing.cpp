@@ -207,8 +207,11 @@ namespace RTShader {
     }
 
     //-----------------------------------------------------------------------
-    SubRenderState* TriplanarTexturingFactory::createInstance(ScriptCompiler* compiler, 
-                                                       PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+    SubRenderState* TriplanarTexturingFactory::create_instance(
+        ScriptCompiler* compiler,
+        PropertyAbstractNode* prop,
+        Pass* pass,
+        SGScriptTranslator* translator)
     {
         if (prop->name == "triplanarTexturing")
         {

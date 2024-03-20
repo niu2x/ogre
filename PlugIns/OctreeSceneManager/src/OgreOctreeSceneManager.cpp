@@ -1108,8 +1108,8 @@ OctreeSceneManager::createIntersectionQuery(uint32 mask)
 //-----------------------------------------------------------------------
 const String OctreeSceneManagerFactory::FACTORY_TYPE_NAME = "OctreeSceneManager";
 //-----------------------------------------------------------------------
-SceneManager* OctreeSceneManagerFactory::createInstance(
-    const String& instanceName)
+SceneManager*
+OctreeSceneManagerFactory::create_instance(const String& instanceName)
 {
     return OGRE_NEW OctreeSceneManager(instanceName);
 }

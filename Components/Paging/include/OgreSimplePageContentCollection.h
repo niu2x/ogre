@@ -118,7 +118,7 @@ namespace Ogre
 
         const String& name() const override { return FACTORY_NAME; }
 
-        PageContentCollection* createInstance() override OGRE_NODISCARD
+        PageContentCollection* create_instance() override OGRE_NODISCARD
         {
             return OGRE_NEW SimplePageContentCollection(this); 
         }

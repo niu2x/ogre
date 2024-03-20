@@ -51,7 +51,7 @@ namespace Ogre
         virtual ~PageContentCollectionFactory() {}
 
         virtual const String& name() const = 0;
-        virtual PageContentCollection* createInstance() = 0;
+        virtual PageContentCollection* create_instance() = 0;
         virtual void destroyInstance(PageContentCollection*) = 0;
     };
 

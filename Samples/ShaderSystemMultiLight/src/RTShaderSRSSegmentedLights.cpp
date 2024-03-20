@@ -785,8 +785,11 @@ const String& RTShaderSRSSegmentedLightsFactory::type() const
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* RTShaderSRSSegmentedLightsFactory::createInstance(ScriptCompiler* compiler, 
-        PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* RTShaderSRSSegmentedLightsFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "lighting_stage")
     {

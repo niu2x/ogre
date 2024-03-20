@@ -328,10 +328,13 @@ ShaderExInstancedViewports::~ShaderExInstancedViewports()
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* ShaderExInstancedViewportsFactory::createInstance(ScriptCompiler* compiler, 
-                                                         PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* ShaderExInstancedViewportsFactory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
-    SubRenderState* subRenderState = SubRenderStateFactory::createInstance();
+    SubRenderState* subRenderState = SubRenderStateFactory::create_instance();
     return subRenderState;                              
 }
 //-----------------------------------------------------------------------

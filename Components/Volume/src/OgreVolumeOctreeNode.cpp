@@ -96,7 +96,8 @@ namespace Volume {
     
     //-----------------------------------------------------------------------
 
-    OctreeNode* OctreeNode::createInstance(const Vector3& from, const Vector3& to)
+    OctreeNode*
+    OctreeNode::create_instance(const Vector3& from, const Vector3& to)
     {
         return OGRE_NEW OctreeNode(from, to);
     }
@@ -118,21 +119,29 @@ namespace Volume {
               6 == to
             */
             mChildren = new OctreeNode*[OCTREE_CHILDREN_COUNT];
-            mChildren[0] = createInstance(mFrom, newCenter);
+            mChildren[0] = create_instance(mFrom, newCenter);
             mChildren[0]->split(splitPolicy, src, geometricError);
-            mChildren[1] = createInstance(mFrom + xWidth, newCenter + xWidth);
+            mChildren[1] = create_instance(mFrom + xWidth, newCenter + xWidth);
             mChildren[1]->split(splitPolicy, src, geometricError);
-            mChildren[2] = createInstance(mFrom + xWidth + zWidth, newCenter + xWidth + zWidth);
+            mChildren[2] = create_instance(
+                mFrom + xWidth + zWidth,
+                newCenter + xWidth + zWidth);
             mChildren[2]->split(splitPolicy, src, geometricError);
-            mChildren[3] = createInstance(mFrom + zWidth, newCenter + zWidth);
+            mChildren[3] = create_instance(mFrom + zWidth, newCenter + zWidth);
             mChildren[3]->split(splitPolicy, src, geometricError);
-            mChildren[4] = createInstance(mFrom + yWidth, newCenter + yWidth);
+            mChildren[4] = create_instance(mFrom + yWidth, newCenter + yWidth);
             mChildren[4]->split(splitPolicy, src, geometricError);
-            mChildren[5] = createInstance(mFrom + yWidth + xWidth, newCenter + yWidth + xWidth);
+            mChildren[5] = create_instance(
+                mFrom + yWidth + xWidth,
+                newCenter + yWidth + xWidth);
             mChildren[5]->split(splitPolicy, src, geometricError);
-            mChildren[6] = createInstance(mFrom + yWidth + xWidth + zWidth, newCenter + yWidth + xWidth + zWidth);
+            mChildren[6] = create_instance(
+                mFrom + yWidth + xWidth + zWidth,
+                newCenter + yWidth + xWidth + zWidth);
             mChildren[6]->split(splitPolicy, src, geometricError);
-            mChildren[7] = createInstance(mFrom + yWidth + zWidth, newCenter + yWidth + zWidth);
+            mChildren[7] = create_instance(
+                mFrom + yWidth + zWidth,
+                newCenter + yWidth + zWidth);
             mChildren[7]->split(splitPolicy, src, geometricError);
         }
         else

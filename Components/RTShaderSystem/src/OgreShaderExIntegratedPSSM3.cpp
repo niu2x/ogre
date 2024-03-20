@@ -360,8 +360,11 @@ bool IntegratedPSSM3::addPSInvocation(Program* psProgram, const int groupOrder)
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
-                                                      PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* IntegratedPSSM3Factory::create_instance(
+    ScriptCompiler* compiler,
+    PropertyAbstractNode* prop,
+    Pass* pass,
+    SGScriptTranslator* translator)
 {
     if (prop->name == "integrated_pssm4")
     {
