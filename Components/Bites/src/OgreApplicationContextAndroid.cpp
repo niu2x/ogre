@@ -8,7 +8,7 @@
 #include "OgreRenderWindow.h"
 
 #include "OgreArchiveManager.h"
-#include "OgreFileSystem.h"
+#include "file_system.h"
 #include "OgreZip.h"
 
 namespace OgreBites {

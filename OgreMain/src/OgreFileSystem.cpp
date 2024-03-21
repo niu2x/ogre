@@ -33,7 +33,7 @@ THE SOFTWARE.
     OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS || \
     OGRE_PLATFORM == OGRE_PLATFORM_ANDROID || \
     OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
-#   include "OgreSearchOps.h"
+#   include "search_ops.h"
 #   include <sys/param.h>
 #endif
 

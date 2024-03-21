@@ -38,54 +38,58 @@ struct AAssetManager;
 
 namespace Ogre {
 
-    /** \addtogroup Core
-    *  @{
-    */
-    /** \addtogroup Resources
-    *  @{
-    */
+/** \addtogroup Core
+ *  @{
+ */
+/** \addtogroup Resources
+ *  @{
+ */
 
-    /// internal method to open a FileStreamDataStream
-    DataStreamPtr _openFileStream(const String& path, std::ios::openmode mode, const String& name = "");
+/// internal method to open a FileStreamDataStream
+DataStreamPtr _openFileStream(
+    const String& path,
+    std::ios::openmode mode,
+    const String& name = "");
 
-    /** Specialisation of the ArchiveFactory to allow reading of files from
-        filesystem folders / directories.
-    */
-    class _OgreExport FileSystemArchiveFactory : public ArchiveFactory
+/** Specialisation of the ArchiveFactory to allow reading of files from
+    filesystem folders / directories.
+*/
+class FileSystemArchiveFactory : public ArchiveFactory {
+public:
+    /// @copydoc FactoryObj::getType
+    const String& type() const override;
+
+    using ArchiveFactory::create_instance;
+
+    Archive* create_instance(const String& name, bool readOnly) override;
+
+    /// Set whether filesystem enumeration will include hidden files or not.
+    /// This should be called prior to declaring and/or initializing filesystem
+    /// resource locations. The default is true (ignore hidden files).
+    static void setIgnoreHidden(bool ignore);
+
+    /// Get whether hidden files are ignored during filesystem enumeration.
+    static bool getIgnoreHidden();
+};
+
+class APKFileSystemArchiveFactory : public ArchiveFactory {
+public:
+    APKFileSystemArchiveFactory(AAssetManager* assetMgr)
+    : mAssetMgr(assetMgr)
     {
-    public:
-        /// @copydoc FactoryObj::getType
-        const String& type() const override;
+    }
+    virtual ~APKFileSystemArchiveFactory() { }
+    /// @copydoc FactoryObj::getType
+    const String& type() const override;
+    /// @copydoc ArchiveFactory::create_instance
+    Archive* create_instance(const String& name, bool readOnly) override;
 
-        using ArchiveFactory::create_instance;
+private:
+    AAssetManager* mAssetMgr;
+};
 
-        Archive* create_instance(const String& name, bool readOnly) override;
-
-        /// Set whether filesystem enumeration will include hidden files or not.
-        /// This should be called prior to declaring and/or initializing filesystem
-        /// resource locations. The default is true (ignore hidden files).
-        static void setIgnoreHidden(bool ignore);
-
-        /// Get whether hidden files are ignored during filesystem enumeration.
-        static bool getIgnoreHidden();
-    };
-
-    class APKFileSystemArchiveFactory : public ArchiveFactory
-    {
-    public:
-        APKFileSystemArchiveFactory(AAssetManager* assetMgr) : mAssetMgr(assetMgr) {}
-        virtual ~APKFileSystemArchiveFactory() {}
-        /// @copydoc FactoryObj::getType
-        const String& type() const override;
-        /// @copydoc ArchiveFactory::create_instance
-        Archive* create_instance(const String& name, bool readOnly) override;
-
-    private:
-        AAssetManager* mAssetMgr;
-    };
-
-    /** @} */
-    /** @} */
+/** @} */
+/** @} */
 
 } // namespace Ogre
 
