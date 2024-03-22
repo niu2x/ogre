@@ -25,7 +25,7 @@ list(REMOVE_ITEM HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/include/OgreDDSCodec.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/OgrePVRTCCodec.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/OgreETCCodec.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/OgreZip.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/zip.h"
 )
 
 # Remove optional source files
@@ -117,7 +117,7 @@ endif ()
 
 if (OGRE_CONFIG_ENABLE_ZIP)
   include_directories(src/zip)
-  list(APPEND HEADER_FILES include/OgreZip.h)
+  list(APPEND HEADER_FILES include/zip.h)
   list(APPEND SOURCE_FILES src/OgreZip.cpp src/zip/zip.c)
 
   if(ANDROID)

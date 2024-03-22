@@ -9,7 +9,7 @@
 
 #include "OgreArchiveManager.h"
 #include "file_system.h"
-#include "OgreZip.h"
+#include "zip.h"
 
 namespace OgreBites {
 
