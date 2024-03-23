@@ -34,8 +34,8 @@ list(REMOVE_ITEM SOURCE_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/OgreDDSCodec.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/OgrePVRTCCodec.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/OgreETCCodec.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/OgreZip.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/OgreSearchOps.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/zip.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/search_ops.cpp"
 )
 
 # Add platform specific files
@@ -72,7 +72,7 @@ elseif (UNIX)
 endif()
 
 if(NOT WIN32)
-    list(APPEND PLATFORM_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/OgreSearchOps.cpp")
+    list(APPEND PLATFORM_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/search_ops.cpp")
 endif()
 
 # Configure threading files
@@ -118,7 +118,7 @@ endif ()
 if (OGRE_CONFIG_ENABLE_ZIP)
   include_directories(src/zip)
   list(APPEND HEADER_FILES include/zip.h)
-  list(APPEND SOURCE_FILES src/OgreZip.cpp src/zip/zip.c)
+  list(APPEND SOURCE_FILES src/zip.cpp src/zip/zip.c)
 
   if(ANDROID)
     list(APPEND PLATFORM_SOURCE_FILES src/Android/OgreAPKZipArchive.cpp)
@@ -128,7 +128,7 @@ endif ()
 if(OGRE_CONFIG_FILESYSTEM_UNICODE)
   set_source_files_properties(src/OgreFileSystem.cpp
     PROPERTIES COMPILE_DEFINITIONS _OGRE_FILESYSTEM_ARCHIVE_UNICODE)
-  set_source_files_properties(src/OgreZip.cpp
+  set_source_files_properties(src/zip.cpp
     PROPERTIES COMPILE_DEFINITIONS _OGRE_FILESYSTEM_ARCHIVE_UNICODE)
 endif()
 
