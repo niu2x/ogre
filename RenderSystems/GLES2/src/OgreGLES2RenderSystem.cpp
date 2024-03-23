@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "OgreGLES2HardwareOcclusionQuery.h"
 #include "OgreGLVertexArrayObject.h"
 #include "OgreRoot.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "log_manager.h"
 #if !OGRE_NO_GLES2_CG_SUPPORT
 #include "OgreGLSLESCgProgramFactory.h"

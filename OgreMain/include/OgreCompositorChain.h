@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreRenderTargetListener.h"
 #include "OgreRenderQueueListener.h"
 #include "OgreCompositorInstance.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

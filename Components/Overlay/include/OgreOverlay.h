@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include "OgreOverlayPrerequisites.h"
 #include "matrix4.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 namespace Ogre {
     class OverlayContainer;

@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreTerrain.h"
 #include "OgreManualObject.h"
 #include "OgreCamera.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreRenderSystem.h"
 #include "render_target.h"
 #include "OgreRenderTexture.h"

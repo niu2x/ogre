@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "OgreMaterialManager.h"
 #include "OgreTechnique.h"
 #include "OgreSceneManager.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgram.h"
 #include "OgreHighLevelGpuProgramManager.h"

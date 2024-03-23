@@ -7,7 +7,7 @@
 #include "OgrePass.h"
 #include "OgreShaderGenerator.h"
 #include "OgreSceneManager.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreMaterialSerializer.h"
 #include "SegmentedDynamicLightManager.h"
 

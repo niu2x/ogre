@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "pixel_format.h"
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreHardwarePixelBuffer.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
 #include <android/native_window.h>
 #elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32

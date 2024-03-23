@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreVolumeMeshBuilder.h"
 #include "OgreVolumeDualGridGenerator.h"
 #include "OgreSceneNode.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreRoot.h"
 #include "OgreVolumeChunk.h"
 

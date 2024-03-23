@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreGLES2RenderSystem.h"
 #include "OgreGLES2PixelFormat.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "log_manager.h"
 #include <iomanip>
 

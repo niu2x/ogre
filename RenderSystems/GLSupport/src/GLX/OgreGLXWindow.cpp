@@ -33,7 +33,7 @@
 #include "exception.h"
 #include "log_manager.h"
 #include "string_interface.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include "OgreGLXContext.h"
 #include "OgreGLXGLSupport.h"

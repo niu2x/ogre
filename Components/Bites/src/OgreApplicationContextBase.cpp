@@ -11,7 +11,7 @@
 #include "OgreGpuProgramManager.h"
 #include "OgreConfigFile.h"
 #include "OgreRenderWindow.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreOverlaySystem.h"
 #include "data_stream.h"
 #include "OgreBitesConfigDialog.h"

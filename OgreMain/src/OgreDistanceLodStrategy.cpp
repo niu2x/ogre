@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "OgreStableHeaders.h"
 #include "OgreDistanceLodStrategy.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include <limits>
 

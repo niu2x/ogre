@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreRenderable.h"
 #include "render_target.h"
 #include "OgreControllerManager.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------------

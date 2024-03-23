@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <numeric>
 
 #include "OgreGpuProgramManager.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include "OgreVulkanRenderPassDescriptor.h"
 #include "OgreVulkanDevice.h"

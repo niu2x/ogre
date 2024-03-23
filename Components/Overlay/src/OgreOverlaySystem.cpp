@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreOverlaySystem.h"
 #include "OgreCamera.h"
 #include "OgreRoot.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreOverlayManager.h"
 #include "OgreOverlayElementFactory.h"
 #include "font_manager.h"

@@ -7,7 +7,7 @@
 #include "bitwise.h"
 #include "pixel_format.h"
 #include "OgreRoot.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #define SDL_LIGHT_DATA_SIZE 3 // 12 floats divided by 4 slots (rgba) 
 

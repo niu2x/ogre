@@ -41,7 +41,7 @@ Copyright (c) 2000-2016 Torus Knot Software Ltd
 #include "OgreMetalHardwareBufferManager.h"
 #include "OgreMetalHardwareBufferCommon.h"
 
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include "OgreMetalMappings.h"
 

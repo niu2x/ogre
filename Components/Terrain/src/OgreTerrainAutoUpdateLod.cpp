@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreTerrainQuadTreeNode.h"
 #include "OgreCamera.h"
 #include "OgreSceneManager.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "log_manager.h"
 #include "OgreRoot.h"
 #include "OgreRenderSystem.h"

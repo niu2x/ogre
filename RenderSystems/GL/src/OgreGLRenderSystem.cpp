@@ -52,7 +52,7 @@ THE SOFTWARE.
 #include "OgreGLFBORenderTexture.h"
 #include "OgreGLPBRenderTexture.h"
 #include "config.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include "OgreGLPixelFormat.h"
 

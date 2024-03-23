@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreMetalRenderWindow.h"
 #include "OgreMetalMappings.h"
 #include "OgreMetalRenderSystem.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 namespace Ogre
 {

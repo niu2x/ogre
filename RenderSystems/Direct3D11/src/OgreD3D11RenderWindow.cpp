@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreD3D11DepthBuffer.h"
 #include "OgreD3D11Texture.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "log_manager.h"
 #include "OgreHardwarePixelBuffer.h"
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0

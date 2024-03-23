@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreStableHeaders.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreRenderTexture.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreRectangle2D.h"
 #include "OgreShadowCameraSetup.h"
 #include "OgreShadowVolumeExtrudeProgram.h"

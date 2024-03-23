@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 #include "OgreEmscriptenEGLSupport.h"
 #include "OgreEmscriptenEGLWindow.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include <iostream>
 #include <algorithm>

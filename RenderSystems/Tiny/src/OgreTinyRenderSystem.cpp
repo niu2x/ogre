@@ -17,7 +17,7 @@
 #include "OgreDefaultHardwareBufferManager.h"
 #include "OgreRoot.h"
 #include "config.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreTinyWindow.h"
 #include "OgreTinyTexture.h"
 

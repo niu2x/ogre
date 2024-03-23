@@ -37,7 +37,7 @@ THE SOFTWARE.
 #import <AppKit/NSScreen.h>
 #import <AppKit/NSOpenGLView.h>
 #import <QuartzCore/CVDisplayLink.h>
-#import "OgreViewport.h"
+#import "viewport.h"
 #import <iomanip>
 
 @implementation OgreGLWindow

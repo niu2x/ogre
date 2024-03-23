@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "render_target.h"
 
 namespace Ogre {

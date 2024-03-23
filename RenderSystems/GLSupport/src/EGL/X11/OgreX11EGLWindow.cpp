@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "exception.h"
 #include "log_manager.h"
 #include "string_interface.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include "OgreX11EGLSupport.h"
 #include "OgreX11EGLWindow.h"

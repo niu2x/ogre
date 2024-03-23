@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreStableHeaders.h"
 #include "OgrePixelCountLodStrategy.h"
 
-#include "OgreViewport.h"
+#include "viewport.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------

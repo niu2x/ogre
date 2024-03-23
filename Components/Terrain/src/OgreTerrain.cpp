@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "OgreSceneNode.h"
 #include "exception.h"
 #include "bitwise.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "log_manager.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreTextureManager.h"

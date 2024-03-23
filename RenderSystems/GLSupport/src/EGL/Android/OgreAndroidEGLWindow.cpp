@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 #include "OgreAndroidEGLSupport.h"
 #include "OgreAndroidEGLWindow.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include <android/native_window.h>
 

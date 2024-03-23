@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #if OGRE_NO_QUAD_BUFFER_STEREO == 0
 #include "OgreRoot.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 #include "OgreD3D9RenderWindow.h"
 #include "OgreD3D9DeviceManager.h"
 

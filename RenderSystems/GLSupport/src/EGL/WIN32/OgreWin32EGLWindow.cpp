@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "log_manager.h"
 #include "string_interface.h"
 
-#include "OgreViewport.h"
+#include "viewport.h"
 
 #include "OgreWin32EGLSupport.h"
 #include "OgreWin32EGLWindow.h"

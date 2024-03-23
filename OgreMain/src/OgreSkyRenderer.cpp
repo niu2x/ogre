@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 #include "OgreEntity.h"
 #include "OgreSubEntity.h"
-#include "OgreViewport.h"
+#include "viewport.h"
 
 namespace Ogre {
 SceneManager::SkyRenderer::SkyRenderer(SceneManager* owner)
