@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "OgreCamera.h"
 #include "OgreViewport.h"
 #include "OgreRenderSystem.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 #include "OgreRenderTexture.h"
 #include "OgreSceneNode.h"
 #include "OgreRectangle2D.h"

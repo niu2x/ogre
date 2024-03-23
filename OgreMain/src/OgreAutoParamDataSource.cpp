@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "OgreAutoParamDataSource.h"
 #include "OgreRenderable.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 #include "OgreControllerManager.h"
 #include "OgreViewport.h"
 

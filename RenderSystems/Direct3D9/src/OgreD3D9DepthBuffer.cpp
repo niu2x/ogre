@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreD3D9DepthBuffer.h"
 #include "OgreD3D9RenderSystem.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 
 namespace Ogre
 {

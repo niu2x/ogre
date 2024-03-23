@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "OgreCompositor.h"
 #include "OgreCompositionTechnique.h"
 #include "OgreRenderTexture.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreCompositorInstance.h"
 

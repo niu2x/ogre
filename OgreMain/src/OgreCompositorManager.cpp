@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreCompositionTargetPass.h"
 #include "OgreCompositionTechnique.h"
 #include "OgreRectangle2D.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 
 namespace Ogre {
 

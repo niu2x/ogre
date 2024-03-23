@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreCompositionTargetPass.h"
 #include "OgreCompositionPass.h"
 #include "OgreCompositorManager.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 
 namespace Ogre {
 CompositorChain::CompositorChain(Viewport *vp):

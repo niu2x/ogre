@@ -28,7 +28,7 @@ THE SOFTWARE
 
 #include "OgrePrerequisites.h"
 
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 
 namespace Ogre
 {

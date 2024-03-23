@@ -26,7 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 
 #include "OgreViewport.h"
 #include "OgreRenderTargetListener.h"

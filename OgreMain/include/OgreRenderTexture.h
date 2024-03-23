@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __RenderTexture_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre

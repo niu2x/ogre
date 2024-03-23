@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreMetalDepthBuffer.h"
 #include "OgreMetalRenderSystem.h"
-#include "OgreRenderTarget.h"
+#include "render_target.h"
 #include "OgreMetalRenderTargetCommon.h"
 
 #import <Metal/MTLRenderPass.h>
