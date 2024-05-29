@@ -42,6 +42,14 @@ using namespace Ogre;
 
 namespace {
 
+void print_version(void)
+{
+    // OgreMeshUpgrader <Name> (1.10.0) unstable
+    cout << "OgreMeshUpgrader " << OGRE_VERSION_NAME << " "
+         << "(" << OGRE_VERSION_MAJOR << "." << OGRE_VERSION_MINOR << "." << OGRE_VERSION_PATCH << ")"
+         << " " << OGRE_VERSION_SUFFIX << endl;
+}
+
 void help(void)
 {
     cout <<
@@ -49,6 +57,7 @@ R"HELP(Usage: OgreMeshUpgrader [opts] sourcefile [destfile]
 
   Upgrades or downgrades .mesh file versions.
 
+-v             = Display version information
 -pack          = Pack normals and tangents as int_10_10_10_2
 -optvtxcache   = Reorder the indexes to optimise vertex cache utilisation
 -autogen       = Generate autoconfigured LOD. No LOD options needed
@@ -405,7 +414,7 @@ struct MeshResourceCreator : public MeshSerializerListener
     {
 		if(name->empty()) {
             OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-                "The provided mesh file has an empty material name. See https://ogrecave.github.io/ogre/api/latest/_mesh-_tools.html#autotoc_md32");
+                "The provided mesh file has an empty material name. See https://ogrecave.github.io/ogre/api/latest/_mesh-_tools.html#empty-material-names");
 		}
         else {
             // create material because we do not load any .material files
@@ -452,6 +461,7 @@ int main(int numargs, char** args)
         unOptList["-pack"] = false;
         unOptList["-b"] = false;
         unOptList["-optvtxcache"] = false;
+        unOptList["-v"] = false;
         binOptList["-l"] = "";
         binOptList["-d"] = "";
         binOptList["-p"] = "";
@@ -462,6 +472,12 @@ int main(int numargs, char** args)
         binOptList["-log"] = "OgreMeshUpgrader.log";
 
         int startIdx = findCommandLineOpts(numargs, args, unOptList, binOptList);
+
+		if (unOptList["-v"])
+		{
+			print_version();
+			exit(0);
+		}
 
         if(numargs < 2 || numargs == startIdx)
         {
@@ -555,8 +571,10 @@ int main(int numargs, char** args)
 
         if(opts.packNormalsTangents)
         {
+            logMgr.logMessage("Pack normals and tangents into INT_10_10_10_2...");
             mesh->_convertVertexElement(VES_NORMAL, VET_INT_10_10_10_2_NORM);
             mesh->_convertVertexElement(VES_TANGENT, VET_INT_10_10_10_2_NORM);
+            logMgr.logMessage("Pack normals and tangents into INT_10_10_10_2... success");
         }
 
         if (opts.recalcBounds) {
