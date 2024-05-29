@@ -144,7 +144,7 @@ Format: set\_texture\_alias &lt;alias name&gt; &lt;texture name&gt;
 
 # Techniques {#Techniques}
 
-A "technique" section in your material script encapsulates a single method of rendering an object. The simplest of material definitions only contains a single technique, however since PC hardware varies quite greatly in it’s capabilities, you can only do this if you are sure that every card for which you intend to target your application will support the capabilities which your technique requires. In addition, it can be useful to define simpler ways to render a material if you wish to use material LOD, such that more distant objects use a simpler, less performance-hungry technique.
+A "technique" section in your material script encapsulates a single method of rendering an object. The simplest of material definitions only contains a single technique, however since PC hardware varies quite greatly in its capabilities, you can only do this if you are sure that every card for which you intend to target your application will support the capabilities which your technique requires. In addition, it can be useful to define simpler ways to render a material if you wish to use material LOD, such that more distant objects use a simpler, less performance-hungry technique.
 
 When a material is used for the first time, it is ’compiled’. That involves scanning the techniques which have been defined, and marking which of them are supportable using the current rendering API and graphics card. If no techniques are supportable, your material will render as blank white. The compilation examines a number of things, such as:
 
@@ -217,19 +217,29 @@ When using @ref Texture_002dbased-Shadows you can specify an alternate material 
 
 ## gpu\_vendor\_rule and gpu\_device\_rule
 
-Although Ogre does a good job of detecting the capabilities of graphics cards and setting the supportability of techniques from that, occasionally card-specific behaviour exists which is not necessarily detectable and you may want to ensure that your materials go down a particular path to either use or avoid that behaviour. This is what these rules are for - you can specify matching rules so that a technique will be considered supportable only on cards from a particular vendor, or which match a device name pattern, or will be considered supported only if they **don’t** fulfil such matches. The format of the rules are as follows:
+Although %Ogre does a good job of detecting the capabilities of graphics cards and setting the supportability of techniques from that, occasionally card-specific behaviour exists which is not necessarily detectable and you may want to ensure that your materials go down a particular path to either use or avoid that behaviour. This is what these rules are for - you can specify matching rules so that a technique will be considered supportable only on cards from a particular vendor, or which match a device name pattern, or will be considered supported only if they **don’t** fulfil such matches. The format of the rules are as follows:
 
 @par
 gpu\_vendor\_rule &lt;include|exclude&gt; &lt;vendor\_name&gt;<br> gpu\_device\_rule &lt;include|exclude&gt; &lt;device\_pattern&gt; \[case\_sensitive\]
 
-An ’include’ rule means that the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass). An ’exclude’ rules means that the technique is considered unsupported if any of the exclude rules are matched. You can provide as many rules as you like, although &lt;vendor\_name&gt; and &lt;device\_pattern&gt; must obviously be unique. The valid list of &lt;vendor\_name&gt; values is currently ’nvidia’, ’ati’, ’intel’, ’s3’, ’matrox’ and ’3dlabs’. &lt;device\_pattern&gt; can be any string, and you can use wildcards (’\*’) if you need to match variants. Here’s an example:
+@param include the technique will only be supported if one of the include rules is matched (if no include rules are provided, anything will pass).
+@param exclude the technique is considered unsupported if any of the exclude rules are matched.
+@param vendor_name values are as returned by Ogre::RenderSystemCapabilities::vendorToString
+@param device_pattern can be any string, and you can use wildcards (’\*’) if you need to match variants.
 
-@par
-gpu\_vendor\_rule include nvidia<br> gpu\_vendor\_rule include intel<br> gpu\_device\_rule exclude \*950\*
+You can provide as many rules as you like, although &lt;vendor\_name&gt; and &lt;device\_pattern&gt; must obviously be unique.
+
+Here’s an example:
+
+```
+gpu_vendor_rule include nvidia
+gpu_vendor_rule include intel
+gpu_device_rule exclude *950*
+```
 
 These rules, if all included in one technique, will mean that the technique will only be considered supported on graphics cards made by NVIDIA and Intel, and so long as the device name doesn’t have ’950’ in it.
 
-Note that these rules can only mark a technique ’unsupported’ when it would otherwise be considered ’supported’ judging by the hardware capabilities. Even if a technique passes these rules, it is still subject to the usual hardware support tests.
+@note these rules can only mark a technique ’unsupported’ when it would otherwise be considered ’supported’ judging by the hardware capabilities. Even if a technique passes these rules, it is still subject to the usual hardware support tests.
 
 # Passes {#Passes}
 
@@ -671,7 +681,7 @@ Format: polygon\_mode\_overrideable &lt;override&gt;
 
 ## fog\_override
 
-Tells the pass whether it should override the scene fog settings, and enforce it’s own. Very useful for things that you don’t want to be affected by fog when the rest of the scene is fogged, or vice versa.
+Tells the pass whether it should override the scene fog settings, and enforce its own. Very useful for things that you don’t want to be affected by fog when the rest of the scene is fogged, or vice versa.
 @par
 Format: fog\_override &lt;override?&gt; \[&lt;type&gt; &lt;colour&gt; &lt;density&gt; &lt;start&gt; &lt;end&gt;\]
 @par
@@ -875,7 +885,9 @@ material Fur
 @copydetails Ogre::Pass::setPointSize
 
 @par
-Format: point\_size &lt;size&gt; Default: point\_size 1.0
+Format: point\_size &lt;size&gt;
+@par
+Default: point\_size 1.0
 
 @ffp_rtss_only
 
@@ -886,7 +898,9 @@ Format: point\_size &lt;size&gt; Default: point\_size 1.0
 @copydetails Ogre::Pass::setPointSpritesEnabled
 
 @par
-Format: point\_sprites &lt;on|off&gt; Default: point\_sprites off
+Format: point\_sprites &lt;on|off&gt;
+@par
+Default: point\_sprites off
 
 <a name="point_005fsize_005fattenuation"></a><a name="point_005fsize_005fattenuation-1"></a>
 
@@ -895,7 +909,9 @@ Format: point\_sprites &lt;on|off&gt; Default: point\_sprites off
 Defines whether point size is attenuated with view space distance, and in what fashion.
 
 @par
-Format: point\_size\_attenuation &lt;enabled&gt; \[constant linear quadratic\] Default: point\_size\_attenuation off
+Format: point\_size\_attenuation &lt;enabled&gt; \[constant linear quadratic\]
+@par
+Default: point\_size\_attenuation off
 
 @copydetails Ogre::Pass::setPointAttenuation
 
@@ -907,7 +923,9 @@ Format: point\_size\_attenuation &lt;enabled&gt; \[constant linear quadratic\] D
 
 Sets the minimum point size after attenuation ([point\_size\_attenuation](#point_005fsize_005fattenuation)). For details on the size metrics, See [point\_size](#point_005fsize).
 @par
-Format: point\_size\_min &lt;size&gt; Default: point\_size\_min 0
+Format: point\_size\_min &lt;size&gt;
+@par
+Default: point\_size\_min 0
 
 <a name="point_005fsize_005fmax"></a><a name="point_005fsize_005fmax-1"></a>
 
@@ -915,7 +933,9 @@ Format: point\_size\_min &lt;size&gt; Default: point\_size\_min 0
 
 Sets the maximum point size after attenuation ([point\_size\_attenuation](#point_005fsize_005fattenuation)). For details on the size metrics, See [point\_size](#point_005fsize). A value of 0 means the maximum is set to the same as the max size reported by the current card. 
 @par
-Format: point\_size\_max &lt;size&gt; Default: point\_size\_max 0
+Format: point\_size\_max &lt;size&gt;
+@par
+Default: point\_size\_max 0
 
 <a name="line_width"></a>
 ## line_width

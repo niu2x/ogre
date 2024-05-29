@@ -78,14 +78,14 @@ namespace OgreBites
             mDragLook = false;
         }
 
-        void paused() override { mContext->removeInputListener(this); }
+        void paused() override { mContext->removeInputListener(&mInputListenerChain); }
 
         /*-----------------------------------------------------------------------------
         | Manually update the cursor position after being unpaused.
         -----------------------------------------------------------------------------*/
         void unpaused() override
         {
-            mContext->addInputListener(this);
+            mContext->addInputListener(&mInputListenerChain);
             mTrayMgr->refreshCursor();
         }
 
@@ -202,6 +202,7 @@ namespace OgreBites
             mControls.reset();
             mCameraMan.reset();
             mTrayMgr.reset();
+            mInputListenerChain = TouchAgnosticInputListenerChain(mWindow, {});
 
             // restore settings we may have changed, so as not to affect other samples
             Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_BILINEAR);

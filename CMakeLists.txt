@@ -43,7 +43,7 @@ if(POLICY CMP0086)
   cmake_policy(SET CMP0086 NEW)
 endif()
 
-if (APPLE AND NOT ANDROID AND NOT EMSCRIPTEN)
+if (APPLE AND NOT ANDROID AND NOT EMSCRIPTEN AND NOT ANDROID_PLATFORM)
   SET(CMAKE_SIZEOF_VOID_P 4)
 
   if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
@@ -63,7 +63,7 @@ if (APPLE AND NOT ANDROID AND NOT EMSCRIPTEN)
   add_definitions(-D__ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=0)
 endif ()
 
-project(OGRE VERSION 14.2.3)
+project(OGRE VERSION 14.2.5)
 
 # extra version info
 set(OGRE_VERSION_SUFFIX "")
@@ -196,7 +196,7 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU") AND NOT OGRE_STATIC)
   set(OGRE_VISIBILITY_FLAGS "-DOGRE_GCC_VISIBILITY") # for legacy headers
 endif()
 
-# determine system endianess
+# determine system endianness
 if (MSVC OR ANDROID OR EMSCRIPTEN OR APPLE_IOS)
   # This doesn't work on VS 2010
   # MSVC only builds for intel anyway
