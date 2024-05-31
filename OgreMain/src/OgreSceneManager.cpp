@@ -27,23 +27,24 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 
-#include "OgreEntity.h"
-#include "OgreControllerManager.h"
 #include "OgreAnimation.h"
-#include "OgreRenderObjectListener.h"
-#include "OgreBillboardSet.h"
-#include "OgreStaticGeometry.h"
-#include "OgreSubEntity.h"
-#include "OgreHardwarePixelBuffer.h"
 #include "OgreBillboardChain.h"
-#include "OgreRibbonTrail.h"
-#include "OgreParticleSystem.h"
+#include "OgreBillboardSet.h"
 #include "OgreCompositorChain.h"
+#include "OgreControllerManager.h"
+#include "OgreDefaultDebugDrawer.h"
+#include "OgreEntity.h"
+#include "OgreHardwarePixelBuffer.h"
 #include "OgreInstanceBatch.h"
 #include "OgreInstancedEntity.h"
-#include "OgreRenderTexture.h"
 #include "OgreLodListener.h"
-#include "OgreDefaultDebugDrawer.h"
+#include "OgreParticleSystem.h"
+#include "OgreRenderObjectListener.h"
+#include "OgreRenderTexture.h"
+#include "OgreRibbonTrail.h"
+#include "OgreRootRenderSceneScope.h"
+#include "OgreStaticGeometry.h"
+#include "OgreSubEntity.h"
 
 // This class implements the most basic scene manager
 
@@ -908,8 +909,9 @@ void SceneManager::_renderScene(Camera* camera, Viewport* vp, bool includeOverla
     assert(camera);
     OgreProfileGroup(camera->getName(), OGREPROF_GENERAL);
 
-    auto prevSceneManager = Root::getSingleton()._getCurrentSceneManager();
-    Root::getSingleton()._setCurrentSceneManager(this);
+    // RAII
+    RootRenderSceneScope scope(this);
+
     mActiveQueuedRenderableVisitor->targetSceneMgr = this;
     mAutoParamDataSource->setCurrentSceneManager(this);
 
@@ -1085,7 +1087,6 @@ void SceneManager::_renderScene(Camera* camera, Viewport* vp, bool includeOverla
     camera->_notifyRenderedBatches(mDestRenderSystem->_getBatchCount());
 
     matMgr.setActiveScheme(prevMaterialScheme);
-    Root::getSingleton()._setCurrentSceneManager(prevSceneManager);
 }
 //-----------------------------------------------------------------------
 void SceneManager::_setDestinationRenderSystem(RenderSystem* sys)
