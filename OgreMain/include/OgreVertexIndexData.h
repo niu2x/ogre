@@ -145,8 +145,18 @@ namespace Ogre {
         */
         void prepareForShadowVolume(void);
 
-        /// converts between #VET_FLOAT3 or #VET_FLOAT4 and #VET_INT_10_10_10_2_NORM
-        void convertVertexElement(VertexElementSemantic semantic, VertexElementType dstType);
+        /** Convert the type of a vertex element of the given semantic
+
+            currently the following conversions are supported:
+            - #VET_FLOAT3 or #VET_FLOAT4 to #VET_INT_10_10_10_2_NORM
+            - #VET_INT_10_10_10_2_NORM to #VET_FLOAT3 or #VET_FLOAT4
+            - #VET_HALF3 to #VET_HALF4, VET_[U]SHORT3 to VET_[U]SHORT4
+            - #VET_FLOAT3 to #VET_HALF3
+            @param semantic The semantic of the element to convert
+            @param dstType The type to convert to
+            @param index Optional index for multi-input semantics like texture coordinates
+        */
+        void convertVertexElement(VertexElementSemantic semantic, VertexElementType dstType, uint16 index = 0);
 
         /** Additional shadow volume vertex buffer storage. 
 
