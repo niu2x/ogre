@@ -128,16 +128,16 @@ if(OGRE_BUILD_DEPENDENCIES AND NOT EXISTS ${OGREDEPS_PATH})
     if(MSVC OR MINGW OR SKBUILD) # other platforms dont need this
         message(STATUS "Building SDL2")
         file(DOWNLOAD
-            https://libsdl.org/release/SDL2-2.28.5.tar.gz
-            ${PROJECT_BINARY_DIR}/SDL2-2.28.5.tar.gz)
+            https://libsdl.org/release/SDL2-2.30.4.tar.gz
+            ${PROJECT_BINARY_DIR}/SDL2-2.30.4.tar.gz)
         execute_process(COMMAND ${CMAKE_COMMAND} 
-            -E tar xf SDL2-2.28.5.tar.gz WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+            -E tar xf SDL2-2.30.4.tar.gz WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
         execute_process(COMMAND ${CMAKE_COMMAND}
             -E make_directory ${PROJECT_BINARY_DIR}/SDL2-build)
         execute_process(COMMAND ${BUILD_COMMAND_COMMON}
             -DSDL_STATIC=FALSE
             -DCMAKE_INSTALL_LIBDIR=lib
-            ${PROJECT_BINARY_DIR}/SDL2-2.28.5
+            ${PROJECT_BINARY_DIR}/SDL2-2.30.4
             WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/SDL2-build)
         execute_process(COMMAND ${CMAKE_COMMAND}
             --build ${PROJECT_BINARY_DIR}/SDL2-build ${BUILD_COMMAND_OPTS})
@@ -219,8 +219,19 @@ macro_log_feature(FREETYPE_FOUND "freetype" "Portable font engine" "http://www.f
 
 # Find X11
 if (UNIX AND NOT APPLE AND NOT ANDROID AND NOT EMSCRIPTEN)
-  find_package(X11 REQUIRED)
+  find_package(PkgConfig)
+  if (PKG_CONFIG_FOUND)
+    pkg_check_modules(waylands IMPORTED_TARGET wayland-client wayland-egl egl)
+    macro_log_feature(waylands_FOUND "Wayland" "Wayland window system" "https://wayland.freedesktop.org")
+  endif ()
+
+  if (NOT waylands_FOUND)
+    find_package(X11 REQUIRED)
+  else ()
+    find_package(X11)
+  endif ()
   macro_log_feature(X11_FOUND "X11" "X Window system" "http://www.x.org")
+
 endif ()
 
 
