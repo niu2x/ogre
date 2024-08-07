@@ -27,7 +27,12 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 
+#include "OgreControllerManager.h"
 #include "OgreAnimation.h"
+#include "OgreRenderObjectListener.h"
+#include "OgreBillboardSet.h"
+#include "OgreStaticGeometry.h"
+#include "OgreHardwarePixelBuffer.h"
 #include "OgreBillboardChain.h"
 #include "OgreBillboardSet.h"
 #include "OgreCompositorChain.h"
@@ -1260,7 +1265,7 @@ void SceneManager::_findVisibleObjects(
 
 }
 //-----------------------------------------------------------------------
-void SceneManager::renderVisibleObjectsDefaultSequence(void)
+void SceneManager::_renderVisibleObjects(void)
 {
     firePreRenderQueues();
 
@@ -1317,7 +1322,8 @@ void SceneManager::SceneMgrQueuedRenderableVisitor::visit(const Pass* p, Rendera
 
     // Set pass, store the actual one used
     mUsedPass = targetSceneMgr->_setPass(p);
-    OgreProfileBeginGPUEvent(mUsedPass->getParent()->getParent()->getName());
+
+    OgreGpuEventScope(mUsedPass->getParent()->getParent()->getName());
 
     SubMesh* lastsm = 0;
     RenderableList instances;
@@ -1366,8 +1372,6 @@ void SceneManager::SceneMgrQueuedRenderableVisitor::visit(const Pass* p, Rendera
 
     if (!instances.empty())
         targetSceneMgr->renderInstancedObject(instances, mUsedPass, scissoring, autoLights, manualLightList);
-
-    OgreProfileEndGPUEvent(mUsedPass->getParent()->getParent()->getName());
 }
 //-----------------------------------------------------------------------
 void SceneManager::SceneMgrQueuedRenderableVisitor::visit(RenderablePass* rp)
@@ -1383,10 +1387,9 @@ void SceneManager::SceneMgrQueuedRenderableVisitor::visit(RenderablePass* rp)
     if (targetSceneMgr->validateRenderableForRendering(rp->pass, rp->renderable))
     {
         mUsedPass = targetSceneMgr->_setPass(rp->pass);
-        OgreProfileBeginGPUEvent(mUsedPass->getParent()->getParent()->getName());
+        OgreGpuEventScope(mUsedPass->getParent()->getParent()->getName());
         targetSceneMgr->renderSingleObject(rp->renderable, mUsedPass, scissoring, 
             autoLights, manualLightList);
-        OgreProfileEndGPUEvent(mUsedPass->getParent()->getParent()->getName());
     }
 }
 //-----------------------------------------------------------------------
@@ -1624,6 +1627,8 @@ static PolygonMode derivePolygonMode(const Pass* pass, const Renderable* rend, c
 void SceneManager::renderInstancedObject(const RenderableList& rends, const Pass* pass, bool lightScissoringClipping,
                                          bool doLightIteration, const LightList* manualLightList)
 {
+    OgreGpuEventScope(static_cast<SubEntity*>(rends.front())->getParent()->getName());
+
     mAutoParamDataSource->setCurrentRenderable(rends.front());
     // override: this is passed through the instance buffer
     mAutoParamDataSource->setWorldMatrices(&Affine3::IDENTITY, 1);

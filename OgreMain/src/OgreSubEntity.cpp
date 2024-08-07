@@ -27,9 +27,6 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 
-#include "OgreEntity.h"
-#include "OgreSubEntity.h"
-
 namespace Ogre {
     //-----------------------------------------------------------------------
     SubEntity::SubEntity (Entity* parent, SubMesh* subMeshBasis)
@@ -48,11 +45,6 @@ namespace Ogre {
         setMaterial(MaterialManager::getSingleton().getDefaultMaterial());
     }
     SubEntity::~SubEntity() = default; // ensure unique_ptr destructors are in cpp
-    //-----------------------------------------------------------------------
-    SubMesh* SubEntity::getSubMesh(void)
-    {
-        return mSubMesh;
-    }
     //-----------------------------------------------------------------------
     const String& SubEntity::getMaterialName(void) const
     {
