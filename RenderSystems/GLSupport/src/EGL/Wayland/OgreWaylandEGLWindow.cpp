@@ -21,6 +21,7 @@ namespace Ogre
 WaylandEGLWindow::WaylandEGLWindow(WaylandEGLSupport* glsupport) : EGLWindow(glsupport)
 {
     mGLSupport = glsupport;
+    mWlSurface = nullptr;
     mNativeDisplay = nullptr;
 }
 
@@ -41,17 +42,12 @@ void WaylandEGLWindow::initNativeCreatedWindow(const NameValuePairList* miscPara
         NameValuePairList::const_iterator opt;
         NameValuePairList::const_iterator end = miscParams->end();
 
-        if ((opt = miscParams->find("externalWlDisplay")) != end)
-        {
-            mNativeDisplay = (wl_display*)StringConverter::parseSizeT(opt->second);
-            mGLSupport->setNativeDisplay(mNativeDisplay);
-        }
         if ((opt = miscParams->find("externalWlSurface")) != end)
         {
-            mGLSupport->mWlSurface = (wl_surface*)StringConverter::parseSizeT(opt->second);
+            mWlSurface = (wl_surface*)StringConverter::parseSizeT(opt->second);
         }
     }
-    OgreAssert(mGLSupport->mWlSurface, "externalWlSurface required");
+    OgreAssert(mWlSurface, "externalWlSurface required");
 }
 
 void WaylandEGLWindow::createNativeWindow(uint& width, uint& height)
@@ -60,7 +56,7 @@ void WaylandEGLWindow::createNativeWindow(uint& width, uint& height)
 
     if (!mWindow)
     {
-        mWindow = wl_egl_window_create(mGLSupport->mWlSurface, width, height);
+        mWindow = wl_egl_window_create(mWlSurface, width, height);
     }
 
     if (mWindow == EGL_NO_SURFACE)
@@ -73,7 +69,7 @@ void WaylandEGLWindow::createNativeWindow(uint& width, uint& height)
         switchFullScreen(true);
     }
 
-    wl_surface_commit(mGLSupport->mWlSurface);
+    wl_surface_commit(mWlSurface);
     wl_display_dispatch_pending(mNativeDisplay);
     wl_display_flush(mNativeDisplay);
 }
@@ -102,8 +98,8 @@ void WaylandEGLWindow::resize(uint width, uint height)
             for (auto& it : mViewportList)
                 it.second->_updateDimensions();
 
-            wl_surface_damage(mGLSupport->mWlSurface, 0, 0, mWidth, mHeight);
-            wl_surface_commit(mGLSupport->mWlSurface);
+            wl_surface_damage(mWlSurface, 0, 0, mWidth, mHeight);
+            wl_surface_commit(mWlSurface);
             wl_display_dispatch_pending(mNativeDisplay);
             wl_display_flush(mNativeDisplay);
         }
@@ -125,10 +121,12 @@ void WaylandEGLWindow::create(const String& name, uint width, uint height, bool 
 {
     int samples = 0;
     short frequency = 0;
-    int maxBufferSize(32), minBufferSize(16), maxDepthSize(16), maxStencilSize(0);
+    int maxBufferSize(24), minBufferSize(16), maxDepthSize(16), maxStencilSize(0);
     bool vsync = false;
     ::EGLContext eglContext = nullptr;
     unsigned int vsyncInterval = 1;
+
+    mNativeDisplay = mGLSupport->getNativeDisplay();
 
     mIsFullScreen = fullScreen;
 
@@ -206,27 +204,26 @@ void WaylandEGLWindow::create(const String& name, uint width, uint height, bool 
     }
 
     initNativeCreatedWindow(miscParams);
-    mGLSupport->doInit();
 
     if (!mEglConfig)
     {
-      int MSAAminAttribs[] = {
-        EGL_BUFFER_SIZE, minBufferSize,
-        EGL_DEPTH_SIZE, 16,
-        EGL_SAMPLE_BUFFERS, 1,
-        EGL_SAMPLES, samples,
-        EGL_NONE
-      };
-      int MSAAmaxAttribs[] = {
-        EGL_BUFFER_SIZE, maxBufferSize,
-        EGL_DEPTH_SIZE, maxDepthSize,
-        EGL_STENCIL_SIZE, maxStencilSize,
-        EGL_SAMPLE_BUFFERS, 1,
-        EGL_SAMPLES, samples,
-        EGL_NONE
-      };
+        int minAttribs[] = {
+            EGL_BUFFER_SIZE, minBufferSize,
+            EGL_DEPTH_SIZE, 16,
+            EGL_SAMPLE_BUFFERS, 0,
+            EGL_SAMPLES, samples,
+            EGL_NONE
+        };
+        int maxAttribs[] = {
+            EGL_BUFFER_SIZE, maxBufferSize,
+            EGL_DEPTH_SIZE, maxDepthSize,
+            EGL_STENCIL_SIZE, maxStencilSize,
+            EGL_SAMPLE_BUFFERS, 1,
+            EGL_SAMPLES, samples,
+            EGL_NONE
+        };
 
-      mEglConfig = mGLSupport->selectGLConfig(MSAAminAttribs, MSAAmaxAttribs);
+        mEglConfig = mGLSupport->selectGLConfig(minAttribs, maxAttribs);
     }
 
     if (!mIsTopLevel)
@@ -253,7 +250,7 @@ void WaylandEGLWindow::create(const String& name, uint width, uint height, bool 
     mHeight = height;
 
     finaliseWindow();
-    wl_surface_commit(mGLSupport->mWlSurface);
+    wl_surface_commit(mWlSurface);
 }
 
 } // namespace Ogre

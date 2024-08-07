@@ -104,7 +104,7 @@ namespace Volume {
 
     /** To hold indices.
     */
-    typedef std::vector<size_t> VecIndices;
+    typedef std::vector<uint32> VecIndices;
 
     /** Callback class when the user needs information about the triangles of
         chunks of a LOD level.
@@ -139,7 +139,7 @@ namespace Volume {
         static const unsigned short MAIN_BINDING;
 
         /// Map to get a vertex index.
-        typedef std::map<Vertex, size_t> UMapVertexIndex;
+        typedef std::map<Vertex, uint32> UMapVertexIndex;
         UMapVertexIndex mIndexMap;
 
          /// Holds the vertices of the mesh.
@@ -160,7 +160,7 @@ namespace Volume {
         */
         inline void addVertex(const Vertex &v)
         {
-            size_t i = 0;
+            uint32 i = 0;
             if (mIndexMap.find(v) == mIndexMap.end())
             {
                 i = mVertices.size();
@@ -168,38 +168,7 @@ namespace Volume {
                 mVertices.push_back(v);
 
                 // Update bounding box
-                if (!mBoxInit)
-                {
-                    mBox.setExtents(v.x, v.y, v.z, v.x, v.y, v.z);
-                    mBoxInit = true;
-                }
-                else
-                {
-                    if (v.x < mBox.getMinimum().x)
-                    {
-                        mBox.setMinimumX(v.x);
-                    }
-                    if (v.y < mBox.getMinimum().y)
-                    {
-                        mBox.setMinimumY(v.y);
-                    }
-                    if (v.z < mBox.getMinimum().z)
-                    {
-                        mBox.setMinimumZ(v.z);
-                    }
-                    if (v.x > mBox.getMaximum().x)
-                    {
-                        mBox.setMaximumX(v.x);
-                    }
-                    if (v.y > mBox.getMaximum().y)
-                    {
-                        mBox.setMaximumY(v.y);
-                    }
-                    if (v.z > mBox.getMaximum().z)
-                    {
-                        mBox.setMaximumZ(v.z);
-                    }
-                }
+                mBox.merge(Vector3(v.x, v.y, v.z));
             }
             else
             {
