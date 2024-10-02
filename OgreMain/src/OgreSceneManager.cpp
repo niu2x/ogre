@@ -25,6 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+#include "OgreGpuProgram.h"
 #include "OgreStableHeaders.h"
 
 #include "OgreControllerManager.h"
@@ -57,6 +58,7 @@ THE SOFTWARE.
 #include <memory>
 
 namespace Ogre {
+bool SceneManager::msPerRenderableLights = true;
 //-----------------------------------------------------------------------
 SceneManager::SceneManager(const String& name) :
 mName(name),
@@ -675,7 +677,8 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
     {
         bindGpuProgram(vprog->_getBindingDelegate());
     }
-    else if (!mDestRenderSystem->getCapabilities()->hasCapability(RSC_FIXED_FUNCTION))
+    else if (!mDestRenderSystem->getCapabilities()->hasCapability(RSC_FIXED_FUNCTION) &&
+             !pass->hasGpuProgram(GPT_MESH_PROGRAM))
     {
         OGRE_EXCEPT(Exception::ERR_INVALID_STATE,
                     "RenderSystem does not support FixedFunction, "
@@ -694,7 +697,7 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
         // Set fixed-function vertex parameters
     }
 
-    for(auto gptype : {GPT_DOMAIN_PROGRAM, GPT_HULL_PROGRAM, GPT_GEOMETRY_PROGRAM})
+    for(auto gptype : {GPT_DOMAIN_PROGRAM, GPT_HULL_PROGRAM, GPT_GEOMETRY_PROGRAM, GPT_MESH_PROGRAM, GPT_TASK_PROGRAM})
     {
         if (pass->hasGpuProgram(gptype))
         {
@@ -818,10 +821,9 @@ const Pass* SceneManager::_setPass(const Pass* pass, bool shadowDerivation)
         {
             // Manually set texture projector for shaders if present
             // This won't get set any other way if using manual projection
-            auto effi = pTex->getEffects().find(TextureUnitState::ET_PROJECTIVE_TEXTURE);
-            if (effi != pTex->getEffects().end())
+            if (auto frustum = pTex->getProjectiveTexturingFrustum())
             {
-                mAutoParamDataSource->setTextureProjector(effi->second.frustum, unit);
+                mAutoParamDataSource->setTextureProjector(frustum, unit);
             }
         }
         if (pTex->getContentType() == TextureUnitState::CONTENT_COMPOSITOR)
@@ -1648,11 +1650,19 @@ void SceneManager::renderInstancedObject(const RenderableList& rends, const Pass
 
     // collect lights of all renderables, thus cannot handle start-light without re-sorting
     std::set<Light*> batchLights;
-    for (auto r : rends)
+    if(!msPerRenderableLights)
     {
-        const LightList& rendLightList = r->getLights();
-        batchLights.insert(rendLightList.begin(), rendLightList.end());
+        batchLights.insert(mLightsAffectingFrustum.begin(), mLightsAffectingFrustum.end());
     }
+    else
+    {
+        for (auto r : rends)
+        {
+            const LightList& rendLightList = r->getLights();
+            batchLights.insert(rendLightList.begin(), rendLightList.end());
+        }
+    }
+
     LightList lightListToUse;
 
     if(pass->getLightMask() == 0xFFFFFFFF)
@@ -1794,7 +1804,7 @@ void SceneManager::renderSingleObject(Renderable* rend, const Pass* pass,
     // Note that we may do this once per light, therefore it's in a loop
     // and the light parameters are updated once per traversal through the
     // loop
-    const LightList& rendLightList = rend->getLights();
+    const LightList& rendLightList = msPerRenderableLights ? rend->getLights() : mLightsAffectingFrustum;
 
     bool iteratePerLight = pass->getIteratePerLight();
 
@@ -2055,6 +2065,7 @@ Animation* SceneManager::createAnimation(const String& name, Real length)
     }
 
     Animation* pAnim = OGRE_NEW Animation(name, length);
+    pAnim->_notifyContainer(this);
     mAnimationsList[name] = pAnim;
     return pAnim;
 }
@@ -2072,6 +2083,16 @@ Animation* SceneManager::getAnimation(const String& name) const
     }
     return i->second;
 }
+Animation* SceneManager::getAnimation(unsigned short index) const
+{
+    assert( index < mAnimationsList.size() );
+    OGRE_LOCK_MUTEX(mAnimationsListMutex);
+
+    AnimationList::const_iterator i = mAnimationsList.begin();
+    std::advance(i, index);
+    return i->second;
+}
+
 //-----------------------------------------------------------------------
 bool SceneManager::hasAnimation(const String& name) const
 {
@@ -2079,7 +2100,7 @@ bool SceneManager::hasAnimation(const String& name) const
     return (mAnimationsList.find(name) != mAnimationsList.end());
 }
 //-----------------------------------------------------------------------
-void SceneManager::destroyAnimation(const String& name)
+void SceneManager::removeAnimation(const String& name)
 {
     OGRE_LOCK_MUTEX(mAnimationsListMutex);
 
@@ -2089,9 +2110,7 @@ void SceneManager::destroyAnimation(const String& name)
     AnimationList::iterator i = mAnimationsList.find(name);
     if (i == mAnimationsList.end())
     {
-        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, 
-            "Cannot find animation with name " + name, 
-            "SceneManager::getAnimation");
+        OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "Cannot find animation with name " + name);
     }
 
     // Free memory

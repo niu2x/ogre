@@ -37,7 +37,6 @@ THE SOFTWARE.
 #include "OgrePixelFormat.h"
 #include "OgreVulkanTextureGpuManager.h"
 #include "OgreHardwarePixelBuffer.h"
-#include "OgreViewport.h"
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
 #include <android/native_window.h>
 #elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -315,16 +314,12 @@ namespace Ogre
 
         if (width != 0 && height != 0)
         {
-            mWidth = width;
-            mHeight = height;
+            RenderWindow::resize(width, height);
 
             // recreate swapchain
             mDevice->stall();
             destroySwapchain();
             createSwapchain();
-
-            for (auto it : mViewportList)
-                it.second->_updateDimensions();
         }
     }
 
@@ -364,7 +359,7 @@ namespace Ogre
     //-------------------------------------------------------------------------
     void VulkanWindow::createSurface(size_t windowHandle)
     {
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#if defined(VK_USE_PLATFORM_XLIB_KHR)
         Display *dpy = XOpenDisplay(NULL);
 
         VkXlibSurfaceCreateInfoKHR surfCreateInfo = {VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR};
@@ -379,7 +374,7 @@ namespace Ogre
         }
 
         OGRE_VK_CHECK(vkCreateXlibSurfaceKHR(mDevice->mInstance, &surfCreateInfo, 0, &mSurfaceKHR));
-#elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#elif defined(VK_USE_PLATFORM_WIN32_KHR)
         HINSTANCE hInst = NULL;
         static TCHAR staticVar;
         GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, &staticVar, &hInst);
@@ -389,23 +384,41 @@ namespace Ogre
         surfCreateInfo.hwnd = (HWND)windowHandle;
 
         OGRE_VK_CHECK(vkCreateWin32SurfaceKHR(mDevice->mInstance, &surfCreateInfo, 0, &mSurfaceKHR));
-#elif OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+#elif defined(VK_USE_PLATFORM_ANDROID_KHR)
         VkAndroidSurfaceCreateInfoKHR surfCreateInfo = {VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR};
         surfCreateInfo.window = (ANativeWindow*)windowHandle;
 
         OGRE_VK_CHECK(vkCreateAndroidSurfaceKHR(mDevice->mInstance, &surfCreateInfo, 0, &mSurfaceKHR));
+#else
+        OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Unsupported Vulkan platform");
+#endif
+    }
+
+    void VulkanWindow::createSurface(size_t wlSurface, size_t wlDisplay)
+    {
+#if defined(VK_USE_PLATFORM_WAYLAND_KHR)
+        VkWaylandSurfaceCreateInfoKHR surfCreateInfo = {VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR};
+        surfCreateInfo.display = (struct wl_display*)wlDisplay;
+        surfCreateInfo.surface = (struct wl_surface*)wlSurface;
+
+        OGRE_VK_CHECK(vkCreateWaylandSurfaceKHR(mDevice->mInstance, &surfCreateInfo, 0, &mSurfaceKHR));
+#else
+        OGRE_EXCEPT(Exception::ERR_RENDERINGAPI_ERROR, "Unsupported Vulkan platform");
 #endif
     }
 
     const char *VulkanWindow::getRequiredExtensionName()
     {
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#if defined(VK_USE_PLATFORM_XLIB_KHR)
         return VK_KHR_XLIB_SURFACE_EXTENSION_NAME;
-#elif OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#elif defined(VK_USE_PLATFORM_WAYLAND_KHR)
+        return VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME;
+#elif defined(VK_USE_PLATFORM_WIN32_KHR)
         return VK_KHR_WIN32_SURFACE_EXTENSION_NAME;
-#elif OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
+#elif defined(VK_USE_PLATFORM_ANDROID_KHR)
         return VK_KHR_ANDROID_SURFACE_EXTENSION_NAME;
 #endif
+        return "";
     }
 
     void VulkanWindow::create(const String& name, unsigned int width, unsigned int height, bool fullScreen,
@@ -419,6 +432,8 @@ namespace Ogre
         mHeight = height;
         mFSAA = 1;
 
+        size_t wlDisplay = 0;
+
         if( miscParams )
         {
             NameValuePairList::const_iterator end = miscParams->end();
@@ -426,6 +441,15 @@ namespace Ogre
             auto opt = miscParams->find( "externalWindowHandle" );
             if( opt != end )
                 mWindowHandle = StringConverter::parseSizeT( opt->second );
+
+            opt = miscParams->find( "externalWlSurface" );
+            if( opt != end )
+                mWindowHandle = StringConverter::parseSizeT( opt->second );
+
+
+            opt = miscParams->find( "externalWlDisplay" );
+            if( opt != end )
+                wlDisplay = StringConverter::parseSizeT( opt->second );
 
             opt = miscParams->find( "vsync" );
             if( opt != end )
@@ -441,8 +465,14 @@ namespace Ogre
                 mHwGamma = StringConverter::parseBool( opt->second );
         }
 
-        OgreAssert( mWindowHandle,  "externalWindowHandle required" );
+#ifdef VK_USE_PLATFORM_WAYLAND_KHR
+        OgreAssert( mWindowHandle && wlDisplay, "externalWlSurface and externalWlDisplay required");
+        createSurface(mWindowHandle, wlDisplay);
+#else
+        OgreAssert( mWindowHandle, "externalWindowHandle required");
         createSurface(mWindowHandle);
+        (void)wlDisplay;
+#endif
 
         auto texMgr = TextureManager::getSingletonPtr();
         mTexture = new VulkanTextureGpuWindow("RenderWindow", TEX_TYPE_2D, texMgr, this);;

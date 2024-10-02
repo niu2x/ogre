@@ -129,6 +129,14 @@ refer to the following table for the location indices and names to use:
 
 @note uv6 and uv7 share attributes with tangent and binormal respectively so cannot both be present.
 
+## Buffers in Mesh Shaders {#GLSL-Mesh-Shaders}
+
+With mesh shaders the input assembly stage is skipped and hence the vertex attributes are not available. Instead, %Ogre will bind the vertex buffers as SSBOs to a binding point defined by the Ogre::VertexBufferBinding index, offset by 3.
+
+In the shader you can access the buffer as follows:
+
+@snippet Samples/Media/materials/programs/GLSL400/MeshProgram.glsl vertexbuffer
+
 ## Binding Texture Samplers {#GLSL-Texture-Samplers}
 
 To bind samplers to texture unit indices from the material scripts, you can either use the explicit binding with GL4.2+ or
@@ -188,6 +196,18 @@ param_named skewMatrix float4 0.5 0 -0.5 1.0
 This means that `mat[0]` is the first column in GLSL, but the first row in HLSL and %Ogre. %Ogre takes care of transposing square matrices before uploading them with GLSL, so matrix-vector multiplication `M*v` just works and `mat[0]` will return the same data.
 However, with non-square matrices transposing would change their GLSL type from e.g. `mat2x4` (two columns, four rows) to `mat4x2` (two rows, four columns) and consequently what `mat[0]` would return. Therefore %Ogre just passes such matrices unchanged and you have to handle this case (notably in skinning) yourself by either transposing the matrix in the shader or column-wise access.
 
+## Uniform Buffers {#Uniform-Buffers}
+
+If supported by the RenderSystem, you can opt-in to use uniform buffers for parameter storage.
+This is done by declaring the parameters in a uniform block named @c OgreUniforms
+
+```cpp
+layout(std140, row_major) uniform OgreUniforms
+{
+    mat4 worldTransform;
+}
+```
+
 ## Transform Feedback Varyings {#Transform-Feedback-Varyings}
 
 Similarly to vertex attributes, the transform feedback varyings are bound by name.
@@ -206,15 +226,15 @@ The available varyings are:
 
 The following features are only available when using the legacy OpenGL profile. Notably they are not available with GL3+ or GLES2.
 
-### Accessing OpenGL state
+### OpenGL state
 GLSL can access most of the GL states directly so you do not need to pass these states through [param\_named\_auto](#param_005fnamed_005fauto) in the material script. This includes lights, material state, and all the matrices used in the openGL state i.e. model view matrix, worldview projection matrix etc.
 
-### Access to built-in attributes
+### Built-in attributes
 GLSL natively supports automatic binding of the most common incoming per-vertex attributes (e.g. `gl_Vertex`, `gl_Normal`, `gl_MultiTexCoord0` etc)
 as described in section 7.3 of the GLSL manual.
 There are some drivers that do not behave correctly when mixing built-in vertex attributes like `gl_Normal` and custom vertex attributes, so for maximum compatibility you should use all custom attributes
 
-### Geometry shader specification
+### Geometry shader in/ out
 GLSL allows the same shader to run on different types of geometry primitives. In order to properly link the shaders together, you have to specify which primitives it will receive as input, which primitives it will emit and how many vertices a single run of the shader can generate. The GLSL geometry\_program definition requires three additional parameters
 
 @param input\_operation\_type
@@ -238,6 +258,25 @@ geometry_program Ogre/GPTest/Swizzle_GP_GLSL glsl
 ```
 
 With GL3+ these values are specified using the `layout` modifier.
+
+### Multi module shaders
+
+The `attach` keyword allows creating GLSL shaders from multiple shader modules of the same type. The referencing shader has to forward-declare the functions it intends to use
+
+@deprecated The @c attach keyword for multi-module shaders is not supported on OpenGL ES and therefore deprecated in favor of the @c \#include directive
+
+```cpp
+vertex_program myExternalGLSLFunction glsl
+{
+    source myExternalGLSLfunction.vert
+}
+
+vertex_program myGLSLVertexProgram glsl
+{
+    source myGLSLfunction.vert
+    attach myExternalGLSLFunction
+}
+```
 
 # Cg programs {#Cg}
 
@@ -289,25 +328,6 @@ The default for this option is ’true’ so that OGRE passes matrices auto-boun
 Set the optimisation level, which can be one of ’default’, ’none’, ’0’, ’1’, ’2’, or ’3’. This corresponds to the /O parameter of fxc.exe, except that in ’default’ mode, optimisation is disabled in debug mode and set to 1 in release mode (fxc.exe uses 1 all the time). Unsurprisingly the default value is ’default’. You may want to change this if you want to tweak the optimisation, for example if your shader gets so complex that it will not longer compile without some minimum level of optimisation.
 
 </dd> </dl>
-
-### Multi module shaders
-
-The `attach` keyword allows creating GLSL shaders from multiple shader modules of the same type. The referencing shader has to forward-declare the functions it intends to use
-
-@deprecated The @c attach keyword for multi-module shaders is not supported on OpenGL ES and therefore deprecated in favor of the @c \#include directive
-
-```cpp
-vertex_program myExternalGLSLFunction glsl
-{
-    source myExternalGLSLfunction.vert
-}
-
-vertex_program myGLSLVertexProgram glsl
-{
-    source myGLSLfunction.vert
-    attach myExternalGLSLFunction
-}
-```
 
 # Assembler Shaders
 

@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include "OgreMatrix4.h"
 #include "OgreTexture.h"
 #include "OgreHeaderPrefix.h"
+#include "OgreRenderSystem.h"
 
 namespace Ogre {
     enum TexCoordCalcMethod : uint8;
@@ -264,17 +265,17 @@ namespace Ogre {
 
         };
 
-        /// %Texture coordinate generation method for environment mapping.
-        enum EnvMapType
+        /// rather use @ref TexCoordCalcMethod
+        enum EnvMapType : uint8
         {
-            /// 2D texture coordinates using view space position. Same as ENV_CURVED on all backends.
-            ENV_PLANAR,
-            /// 2D texture coordinates using spherical reflection mapping
-            ENV_CURVED,
-            /// Cubic texture coordinates using the reflection vector
-            ENV_REFLECTION,
-            /// Cubic texture coordinates using the normal vector
-            ENV_NORMAL
+            /// same as #TEXCALC_ENVIRONMENT_MAP_PLANAR
+            ENV_PLANAR = TEXCALC_ENVIRONMENT_MAP_PLANAR,
+            /// same as #TEXCALC_ENVIRONMENT_MAP
+            ENV_CURVED = TEXCALC_ENVIRONMENT_MAP,
+            /// same as #TEXCALC_ENVIRONMENT_MAP_REFLECTION
+            ENV_REFLECTION = TEXCALC_ENVIRONMENT_MAP_REFLECTION,
+            /// same as #TEXCALC_ENVIRONMENT_MAP_NORMAL
+            ENV_NORMAL = TEXCALC_ENVIRONMENT_MAP_NORMAL
         };
 
         /** Useful enumeration when dealing with procedural transforms.
@@ -313,13 +314,13 @@ namespace Ogre {
         */
         struct TextureEffect {
             TextureEffectType type;
+            float arg1, arg2;
             int subtype;
-            Real arg1, arg2;
             WaveformType waveType;
-            Real base;
-            Real frequency;
-            Real phase;
-            Real amplitude;
+            float base;
+            float frequency;
+            float phase;
+            float amplitude;
             ControllerFloat* controller;
             const Frustum* frustum;
         };
@@ -547,6 +548,8 @@ namespace Ogre {
         void setUnorderedAccessMipLevel(int mipLevel) { mUnorderedAccessMipLevel = mipLevel; }
         int getUnorderedAccessMipLevel() const { return mUnorderedAccessMipLevel; }
 
+        /// @name Texture coordinate transformation
+        /// @{
         /** Sets a matrix used to transform any texture coordinates on this layer.
 
             Texture coordinates can be modified on a texture layer to create effects like scrolling
@@ -585,31 +588,31 @@ namespace Ogre {
         @param v
             The amount the texture should be moved vertically (v direction).
         */
-        void setTextureScroll(Real u, Real v);
+        void setTextureScroll(float u, float v);
 
         /** As setTextureScroll, but sets only U value.
         */
-        void setTextureUScroll(Real value);
+        void setTextureUScroll(float value);
         /// Get texture uscroll value.
-        Real getTextureUScroll(void) const;
+        float getTextureUScroll(void) const;
 
         /** As setTextureScroll, but sets only V value.
         */
-        void setTextureVScroll(Real value);
+        void setTextureVScroll(float value);
         /// Get texture vscroll value.
-        Real getTextureVScroll(void) const;
+        float getTextureVScroll(void) const;
 
         /** As setTextureScale, but sets only U value.
         */
-        void setTextureUScale(Real value);
+        void setTextureUScale(float value);
         /// Get texture uscale value.
-        Real getTextureUScale(void) const;
+        float getTextureUScale(void) const;
 
         /** As setTextureScale, but sets only V value.
         */
-        void setTextureVScale(Real value);
+        void setTextureVScale(float value);
         /// Get texture vscale value.
-        Real getTextureVScale(void) const;
+        float getTextureVScale(void) const;
 
         /** Sets the scaling factor applied to texture coordinates.
 
@@ -622,7 +625,7 @@ namespace Ogre {
         @param vScale
             The value by which the texture is to be scaled vertically.
         */
-        void setTextureScale(Real uScale, Real vScale);
+        void setTextureScale(float uScale, float vScale);
 
         /** Sets the anticlockwise rotation factor applied to texture coordinates.
 
@@ -633,6 +636,7 @@ namespace Ogre {
         void setTextureRotate(const Radian& angle);
         /// Get texture rotation effects angle value.
         const Radian& getTextureRotate(void) const;
+        /// @}
 
         /// get the associated sampler
         const SamplerPtr& getSampler() const { return mSampler; }
@@ -847,6 +851,8 @@ namespace Ogre {
             Real arg2 = 1.0,
             Real manualBlend = 0.0);
 
+        /// @name Dynamic texture coordinate generation
+        /// @{
         /** Generic method for setting up texture effects.
 
             Allows you to specify effects directly by using the #TextureEffectType enumeration. The
@@ -856,9 +862,9 @@ namespace Ogre {
             This method is used internally by Ogre but it is better generally for applications to use the
             more intuitive specialised methods such as #setEnvironmentMap and #setTextureScroll.
         */
-        void addEffect(TextureEffect& effect);
+        void addEffect(TextureEffect effect);
 
-        /** Turns on/off texture coordinate effect that makes this layer an environment map.
+        /** Turns on/off texture coordinate generation for addressing an environment map.
 
             Environment maps make an object look reflective by using the object's vertex normals relative
             to the camera view to generate texture coordinates.
@@ -868,7 +874,7 @@ namespace Ogre {
             for each side of the inside of a cube.
 
             This effect works best if the object has lots of gradually changing normals. The texture also
-            has to be designed for this effect - see the example spheremap.png included with the sample
+            has to be designed for this effect - see the example @c spheremap.png included with the sample
             application for a 2D environment map; a cubic map can be generated by rendering 6 views of a
             scene to each of the cube faces with orthogonal views.
 
@@ -879,7 +885,7 @@ namespace Ogre {
             True to enable, false to disable
         @param texGenType texture coordinate generation type
         */
-        void setEnvironmentMap(bool enable, EnvMapType texGenType = ENV_CURVED);
+        void setEnvironmentMap(bool enable, int texGenType = TEXCALC_ENVIRONMENT_MAP);
 
         /** Sets up an animated scroll for the texture layer.
 
@@ -889,7 +895,7 @@ namespace Ogre {
         @param vSpeed
             The number of vertical loops per second (+ve=moving up, -ve= moving down).
         */
-        void setScrollAnimation(Real uSpeed, Real vSpeed);
+        void setScrollAnimation(float uSpeed, float vSpeed);
 
         /** Sets up an animated texture rotation for this layer.
 
@@ -897,7 +903,7 @@ namespace Ogre {
         @param speed
             The number of complete anticlockwise revolutions per second (use -ve for clockwise)
         */
-        void setRotateAnimation(Real speed);
+        void setRotateAnimation(float speed);
 
         /** Sets up a general time-relative texture modification effect.
 
@@ -917,7 +923,7 @@ namespace Ogre {
             Scales the output so that instead of lying within 0..1 it lies within 0..1*amplitude for exaggerated effects.
         */
         void setTransformAnimation( const TextureTransformType ttype,
-            const WaveformType waveType, Real base = 0, Real frequency = 1, Real phase = 0, Real amplitude = 1 );
+            const WaveformType waveType, float base = 0, float frequency = 1, float phase = 0, float amplitude = 1 );
 
 
         /** Enables or disables projective texturing on this texture unit.
@@ -942,6 +948,10 @@ namespace Ogre {
         */
         void setProjectiveTexturing(bool enabled, const Frustum* projectionSettings = 0);
 
+        /** Gets the Frustum which is being used to derive projective texturing parameters.
+        */
+        const Frustum* getProjectiveTexturingFrustum(void) const;
+
         /** Removes all effects applied to this texture layer.
         */
         void removeAllEffects(void);
@@ -952,6 +962,10 @@ namespace Ogre {
             to a layer, only the effect type is required.
         */
         void removeEffect( const TextureEffectType type );
+
+        /// Get texture effects in a multimap paired array.
+        const EffectMap& getEffects(void) const;
+        /// @}
 
         /** Determines if this texture layer is currently blank.
         @note
@@ -972,8 +986,6 @@ namespace Ogre {
         */
         void retryTextureLoad() { mTextureLoadFailed = false; }
 
-        /// Get texture effects in a multimap paired array.
-        const EffectMap& getEffects(void) const;
         /// Get the animated-texture animation duration.
         Real getAnimationDuration(void) const;
 
@@ -1070,8 +1082,8 @@ private:
 
         LayerBlendModeEx mAlphaBlendMode;
         Real mGamma;
-        Real mUMod, mVMod;
-        Real mUScale, mVScale;
+        float mUMod, mVMod;
+        float mUScale, mVScale;
         Radian mRotate;
         mutable Matrix4 mTexModMatrix;
 
