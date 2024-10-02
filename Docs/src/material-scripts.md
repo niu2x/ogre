@@ -409,7 +409,7 @@ Equivalent to ’scene_blend src_alpha one_minus_src_alpha’</dd>
 @par
 Format2: scene\_blend &lt;sourceFactor&gt; &lt;destFactor&gt;
 
-@copydetails Ogre::Pass::setSceneBlending(const SceneBlendFactor, const SceneBlendFactor)
+@copydetails Ogre::Pass::setSceneBlending(const Ogre::SceneBlendFactor, const Ogre::SceneBlendFactor)
 
 Valid values for both parameters are one of Ogre::SceneBlendFactor without the `SBF_` prefix. E.g. `SBF_DEST_COLOUR` becomes `dest_colour`.
 
@@ -719,7 +719,7 @@ Format 2: colour\_write &lt;on|off&gt; &lt;on|off&gt; &lt;on|off&gt; &lt;on|off&
 @par
 Default: colour\_write on<br>
 
-<a name="colour_005fmask"></a><a name="colour_005fmask-1"></a>
+<a name="start_005flight"></a>
 
 ## start\_light
 
@@ -876,7 +876,7 @@ material Fur
 }
 ```
 
-@note use gpu program auto parameters [pass\_number](#pass_005fnumber) and [pass\_iteration\_number](#pass_005fiteration_005fnumber) to tell the vertex, geometry or fragment program the pass number and iteration number.
+@note use gpu program auto parameters @c pass_number and @c pass_iteration_number to tell the vertex, geometry or fragment program the pass number and iteration number.
 
 <a name="point_005fsize"></a><a name="point_005fsize-1"></a>
 
@@ -1209,12 +1209,15 @@ Format: alpha\_op\_ex &lt;op&gt; &lt;source1&gt; &lt;source2&gt; \[&lt;manualBle
 @par
 Format: env\_map &lt;off|spherical|planar|cubic\_reflection|cubic\_normal&gt;
 
+@par
+Default: env\_map off
+
 Environment maps make an object look reflective by using automatic texture coordinate generation depending on the relationship between the objects vertices or normals and the eye.
 
 <dl compact="compact">
 <dt>spherical</dt> <dd>
 
-@copybrief Ogre::TextureUnitState::ENV_CURVED
+@copybrief Ogre::TEXCALC_ENVIRONMENT_MAP
 Requires a single texture which is either a fish-eye lens view of the reflected scene, or some other texture which looks good as a spherical map (a texture of glossy highlights is popular especially in car sims). This effect is based on the relationship between the eye direction and the vertex normals of the object, so works best when there are a lot of gradually changing normals, i.e. curved objects.
 
 </dd> <dt>planar</dt> <dd>
@@ -1225,16 +1228,15 @@ The effect is based on the position of the vertices in the viewport rather than 
 
 </dd> <dt>cubic\_reflection</dt> <dd>
 
-@copybrief Ogre::TextureUnitState::ENV_REFLECTION
+@copybrief Ogre::TEXCALC_ENVIRONMENT_MAP_REFLECTION
 Uses a group of 6 textures making up the inside of a cube, each of which is a view if the scene down each axis. Works extremely well in all cases but has a higher technical requirement from the card than spherical mapping. Requires that you bind a [cubic texture](#texture) to this unit.
 
 </dd> <dt>cubic\_normal</dt> <dd>
-@copybrief Ogre::TextureUnitState::ENV_NORMAL
+@copybrief Ogre::TEXCALC_ENVIRONMENT_MAP_NORMAL
 Generates 3D texture coordinates containing the camera space normal vector from the normal information held in the vertex data. Again, use of this feature requires a [cubic texture](#texture).
 
-</dd> </dl> <br>
-@par
-Default: env\_map off<br>
+</dd> </dl>
+
 
 <a name="scroll"></a><a name="scroll-1"></a>
 
@@ -1473,7 +1475,7 @@ Default: filtering linear linear point
 
 Each parameter can be one of Ogre::FilterOptions without the `FO_` prefix. E.g. `FO_LINEAR` becomes `linear`.
 
-@copydetails Ogre::Sampler::setFiltering(FilterOptions,FilterOptions,FilterOptions)
+@copydetails Ogre::Sampler::setFiltering(Ogre::FilterOptions,Ogre::FilterOptions,Ogre::FilterOptions)
 
 <a name="max_005fanisotropy"></a><a name="max_005fanisotropy-1"></a>
 

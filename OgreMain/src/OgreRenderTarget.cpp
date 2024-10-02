@@ -26,11 +26,9 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "OgreRenderTarget.h"
 
 #include "OgreViewport.h"
 #include "OgreRenderTargetListener.h"
-#include "OgreDepthBuffer.h"
 #include "OgreTimer.h"
 
 namespace Ogre {
@@ -529,7 +527,7 @@ namespace Ogre {
     //-----------------------------------------------------------------------
     void RenderTarget::update(bool swap)
     {
-        OgreGpuEventScope(mName);
+        GpuEventScope profileScope(mName);
         // call implementation
         updateImpl();
 

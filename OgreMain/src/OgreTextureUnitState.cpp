@@ -593,17 +593,12 @@ namespace Ogre {
         mAlphaBlendMode.factor = manualBlend;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::addEffect(TextureEffect& effect)
+    void TextureUnitState::addEffect(TextureEffect effect)
     {
         // Ensure controller pointer is null
         effect.controller = 0;
 
-        if (effect.type == ET_ENVIRONMENT_MAP 
-            || effect.type == ET_UVSCROLL
-            || effect.type == ET_USCROLL
-            || effect.type == ET_VSCROLL
-            || effect.type == ET_ROTATE
-            || effect.type == ET_PROJECTIVE_TEXTURE)
+        if (effect.type != ET_TRANSFORM)
         {
             // Replace - must be unique
             // Search for existing effect of this type
@@ -674,13 +669,11 @@ namespace Ogre {
         return mAlphaBlendMode;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setEnvironmentMap(bool enable, EnvMapType envMapType)
+    void TextureUnitState::setEnvironmentMap(bool enable, int envMapType)
     {
         if (enable)
         {
-            TextureEffect eff;
-            eff.type = ET_ENVIRONMENT_MAP;
-
+            TextureEffect eff = {ET_ENVIRONMENT_MAP};
             eff.subtype = envMapType;
             addEffect(eff);
         }
@@ -719,14 +712,14 @@ namespace Ogre {
         mRecalcTexMatrix = false;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setTextureScroll(Real u, Real v)
+    void TextureUnitState::setTextureScroll(float u, float v)
     {
         mUMod = u;
         mVMod = v;
         mRecalcTexMatrix = true;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setTextureScale(Real uScale, Real vScale)
+    void TextureUnitState::setTextureScale(float uScale, float vScale)
     {
         mUScale = uScale;
         mVScale = vScale;
@@ -792,31 +785,31 @@ namespace Ogre {
 
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setTextureUScroll(Real value)
+    void TextureUnitState::setTextureUScroll(float value)
     {
         mUMod = value;
         mRecalcTexMatrix = true;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setTextureVScroll(Real value)
+    void TextureUnitState::setTextureVScroll(float value)
     {
         mVMod = value;
         mRecalcTexMatrix = true;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setTextureUScale(Real value)
+    void TextureUnitState::setTextureUScale(float value)
     {
         mUScale = value;
         mRecalcTexMatrix = true;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setTextureVScale(Real value)
+    void TextureUnitState::setTextureVScale(float value)
     {
         mVScale = value;
         mRecalcTexMatrix = true;
     }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setScrollAnimation(Real uSpeed, Real vSpeed)
+    void TextureUnitState::setScrollAnimation(float uSpeed, float vSpeed)
     {
         // Remove existing effects
         removeEffect(ET_UVSCROLL);
@@ -824,37 +817,30 @@ namespace Ogre {
         removeEffect(ET_VSCROLL);
 
         // don't create an effect if the speeds are both 0
-        if(uSpeed == 0.0f && vSpeed == 0.0f) 
+        if (uSpeed == 0.0f && vSpeed == 0.0f)
         {
-          return;
+            return;
         }
 
         // Create new effect
-        TextureEffect eff;
-    if(uSpeed == vSpeed) 
-    {
-        eff.type = ET_UVSCROLL;
-        eff.arg1 = uSpeed;
-        addEffect(eff);
-    }
-    else
-    {
-        if(uSpeed)
+        if (uSpeed == vSpeed)
         {
-            eff.type = ET_USCROLL;
-        eff.arg1 = uSpeed;
-        addEffect(eff);
-    }
-        if(vSpeed)
+            addEffect({ET_UVSCROLL, uSpeed});
+        }
+        else
         {
-            eff.type = ET_VSCROLL;
-            eff.arg1 = vSpeed;
-            addEffect(eff);
+            if (uSpeed)
+            {
+                addEffect({ET_USCROLL, uSpeed});
+            }
+            if (vSpeed)
+            {
+                addEffect({ET_VSCROLL, vSpeed});
+            }
         }
     }
-    }
     //-----------------------------------------------------------------------
-    void TextureUnitState::setRotateAnimation(Real speed)
+    void TextureUnitState::setRotateAnimation(float speed)
     {
         // Remove existing effect
         removeEffect(ET_ROTATE);
@@ -864,14 +850,11 @@ namespace Ogre {
           return;
         }
         // Create new effect
-        TextureEffect eff;
-        eff.type = ET_ROTATE;
-        eff.arg1 = speed;
-        addEffect(eff);
+        addEffect({ET_ROTATE, speed});
     }
     //-----------------------------------------------------------------------
     void TextureUnitState::setTransformAnimation(TextureTransformType ttype,
-        WaveformType waveType, Real base, Real frequency, Real phase, Real amplitude)
+        WaveformType waveType, float base, float frequency, float phase, float amplitude)
     {
         // Remove existing effect
         // note, only remove for subtype, not entire ET_TRANSFORM
@@ -892,14 +875,13 @@ namespace Ogre {
             }
         }
 
-    // don't create an effect if the given values are all 0
-    if(base == 0.0f && phase == 0.0f && frequency == 0.0f && amplitude == 0.0f) 
-    {
-      return;
-    }
+        // don't create an effect if the given values are all 0
+        if(base == 0.0f && phase == 0.0f && frequency == 0.0f && amplitude == 0.0f)
+        {
+            return;
+        }
         // Create new effect
-        TextureEffect eff;
-        eff.type = ET_TRANSFORM;
+        TextureEffect eff = {ET_TRANSFORM};
         eff.subtype = ttype;
         eff.waveType = waveType;
         eff.base = base;
@@ -1086,32 +1068,31 @@ namespace Ogre {
             effect.controller = cMgr.createTextureWaveTransformer(this, (TextureUnitState::TextureTransformType)effect.subtype, effect.waveType, effect.base,
                 effect.frequency, effect.phase, effect.amplitude);
             break;
+        case ET_PROJECTIVE_TEXTURE:
         case ET_ENVIRONMENT_MAP:
-            break;
-        default:
             break;
         }
     }
     //-----------------------------------------------------------------------
-    Real TextureUnitState::getTextureUScroll(void) const
+    float TextureUnitState::getTextureUScroll(void) const
     {
         return mUMod;
     }
 
     //-----------------------------------------------------------------------
-    Real TextureUnitState::getTextureVScroll(void) const
+    float TextureUnitState::getTextureVScroll(void) const
     {
         return mVMod;
     }
 
     //-----------------------------------------------------------------------
-    Real TextureUnitState::getTextureUScale(void) const
+    float TextureUnitState::getTextureUScale(void) const
     {
         return mUScale;
     }
 
     //-----------------------------------------------------------------------
-    Real TextureUnitState::getTextureVScale(void) const
+    float TextureUnitState::getTextureVScale(void) const
     {
         return mVScale;
     }
@@ -1179,8 +1160,7 @@ namespace Ogre {
     {
         if (enable)
         {
-            TextureEffect eff;
-            eff.type = ET_PROJECTIVE_TEXTURE;
+            TextureEffect eff = {ET_PROJECTIVE_TEXTURE};
             eff.frustum = projectionSettings;
             addEffect(eff);
         }
@@ -1189,6 +1169,16 @@ namespace Ogre {
             removeEffect(ET_PROJECTIVE_TEXTURE);
         }
 
+    }
+    const Frustum* TextureUnitState::getProjectiveTexturingFrustum() const
+    {
+        EffectMap::const_iterator i = mEffects.find(ET_PROJECTIVE_TEXTURE);
+        if (i != mEffects.end())
+        {
+            return i->second.frustum;
+        }
+
+        return 0;
     }
     //-----------------------------------------------------------------------
     void TextureUnitState::setName(const String& name)
@@ -1236,22 +1226,7 @@ namespace Ogre {
             switch (effi.second.type)
             {
             case ET_ENVIRONMENT_MAP:
-                if (effi.second.subtype == ENV_CURVED)
-                {
-                    texCoordCalcMethod = TEXCALC_ENVIRONMENT_MAP;
-                }
-                else if (effi.second.subtype == ENV_PLANAR)
-                {
-                    texCoordCalcMethod = TEXCALC_ENVIRONMENT_MAP_PLANAR;
-                }
-                else if (effi.second.subtype == ENV_REFLECTION)
-                {
-                    texCoordCalcMethod = TEXCALC_ENVIRONMENT_MAP_REFLECTION;
-                }
-                else if (effi.second.subtype == ENV_NORMAL)
-                {
-                    texCoordCalcMethod = TEXCALC_ENVIRONMENT_MAP_NORMAL;
-                }
+                texCoordCalcMethod = (TexCoordCalcMethod)effi.second.subtype;
                 break;
             case ET_UVSCROLL:
             case ET_USCROLL:

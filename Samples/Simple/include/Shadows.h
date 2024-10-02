@@ -31,7 +31,6 @@ using namespace OgreBites;
 
 // New depth shadowmapping
 String CUSTOM_ROCKWALL_MATERIAL("Ogre/DepthShadowmap/Receiver/RockWall");
-String CUSTOM_CASTER_MATERIAL("PSSM/shadow_caster");
 String CUSTOM_ATHENE_MATERIAL("Ogre/DepthShadowmap/Receiver/Athene");
 
 String BASIC_ROCKWALL_MATERIAL("Examples/Rockwall");
@@ -191,14 +190,12 @@ protected:
         mLightNode->attachObject(bbs);
 
         // create controller, after this is will get updated on its own
-        ControllerFunctionRealPtr func = WaveformControllerFunction::create(Ogre::WFT_SINE, 0.75, 0.5);
+        auto func = WaveformControllerFunction::create(WFT_SINE, 0.75, 0.5);
+        auto dst =
+            std::make_shared<LightWibbler>(mLight, bb, mMinLightColour, mMaxLightColour, mMinFlareSize, mMaxFlareSize);
         ControllerManager& contMgr = ControllerManager::getSingleton();
-        ControllerValueRealPtr val = ControllerValueRealPtr(
-            new LightWibbler(mLight, bb, mMinLightColour, mMaxLightColour, 
-            mMinFlareSize, mMaxFlareSize));
-        mController = contMgr.createController(
-            contMgr.getFrameTimeSource(), val, func);
-        
+        mController = contMgr.createController(contMgr.getFrameTimeSource(), dst, func);
+
         //mLight->setPosition(Vector3(300,250,-300));
         mLightNode->setPosition(Vector3(300,1750,-700));
 
@@ -501,7 +498,7 @@ protected:
 
     void updateDepthShadowParams()
     {
-        auto mat = MaterialManager::getSingleton().getByName(CUSTOM_CASTER_MATERIAL);
+        auto mat = MaterialManager::getSingleton().getByName("Ogre/TextureShadowCaster");
         auto pass = mat->getTechniques().back()->getPass(0);
         pass->setDepthBias(-mFixedBiasSlider->getValue(), -mSlopedBiasSlider->getValue());
     }
@@ -527,7 +524,6 @@ protected:
     {
         bool showSliders = false;   
         ShadowMaterial mat = (ShadowMaterial)mMaterialMenu->getSelectionIndex();
-        MaterialPtr themat;
         if (mat != mCurrentMaterial)
         {
             switch(mat)
@@ -547,8 +543,6 @@ protected:
                 mSceneMgr->setShadowTexturePixelFormat(PF_DEPTH16);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
-                themat = MaterialManager::getSingleton().getByName(CUSTOM_CASTER_MATERIAL);
-                mSceneMgr->setShadowTextureCasterMaterial(themat);
                 mSceneMgr->setShadowTextureSelfShadow(true);    
                 // Sort out base materials
                 pPlaneEnt->setMaterialName(CUSTOM_ROCKWALL_MATERIAL);
@@ -569,8 +563,6 @@ protected:
                 mSceneMgr->setShadowTexturePixelFormat(PF_DEPTH16);
                 mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
 
-                themat = MaterialManager::getSingleton().getByName(CUSTOM_CASTER_MATERIAL);
-                mSceneMgr->setShadowTextureCasterMaterial(themat);
                 mSceneMgr->setShadowTextureSelfShadow(true);    
                 // Sort out base materials
                 pPlaneEnt->setMaterialName(CUSTOM_ROCKWALL_MATERIAL + "/PCF");

@@ -74,6 +74,9 @@ static void APIENTRY GLDebugCallback(GLenum source,
                                      const GLchar* message,
                                      const GLvoid* userParam)
 {
+    if(source == GL_DEBUG_SOURCE_THIRD_PARTY && id == 0643)
+        return; // ignore our own messages
+
     const char *debSource = "", *debType = "", *debSev = "";
 
     auto lml = Ogre::LML_NORMAL;
@@ -416,6 +419,11 @@ namespace Ogre {
             //TODO we should also check max workgroup count & size
             // OGRE_CHECK_GL_ERROR(glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_SIZE, &workgroupCount));
             // OGRE_CHECK_GL_ERROR(glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &workgroupInvocations));
+        }
+
+        if (checkExtension("GL_NV_mesh_shader"))
+        {
+            rsc->setCapability(RSC_MESH_PROGRAM);
         }
 
         if (hasMinGLVersion(4, 1) || checkExtension("GL_ARB_get_program_binary"))
@@ -995,6 +1003,16 @@ namespace Ogre {
             LogManager::getSingleton().logError("Failed to create shader program.");
         }
 
+        bool hasMeshShader = mCurrentShader[GPT_MESH_PROGRAM] != 0;
+        if(hasMeshShader)
+        {
+            for(auto it : op.vertexData->vertexBufferBinding->getBindings())
+            {
+                auto buf = it.second->_getImpl<GL3PlusHardwareBuffer>();
+                buf->setGLBufferBinding(it.first + 3, GL_SHADER_STORAGE_BUFFER);
+            }
+        }
+
         GLVertexArrayObject* vao =
             static_cast<GLVertexArrayObject*>(op.vertexData->vertexDeclaration);
         // Bind VAO (set of per-vertex attributes: position, normal, etc.).
@@ -1101,6 +1119,14 @@ namespace Ogre {
                 //OGRE_CHECK_GL_ERROR(glDrawArrays(GL_PATCHES, 0, primCount));
                 //                OGRE_CHECK_GL_ERROR(glDrawArraysInstanced(GL_PATCHES, 0, primCount, 1));
             }
+        }
+        else if (hasMeshShader)
+        {
+            OgreAssert(op.indexData, "indexData required for mesh shader");
+
+            typedef void (APIENTRYP PFNGLDRAWMESHTASKSNVPROC) (GLuint first, GLuint count);
+            auto glDrawMeshTasksNV = (PFNGLDRAWMESHTASKSNVPROC)mGLSupport->getProcAddress("glDrawMeshTasksNV");
+            OGRE_CHECK_GL_ERROR(glDrawMeshTasksNV(0, op.indexData->indexCount));
         }
         else if (op.useIndexes)
         {
@@ -1622,18 +1648,24 @@ namespace Ogre {
             params->_updateSharedParams();
         }
 
+        auto paramsSize = params->getConstantList().size();
+        if (paramsSize && getCapabilities()->hasCapability(RSC_SEPARATE_SHADER_OBJECTS) &&
+            !params->hasLogicalIndexedParameters())
+        {
+            auto& ubo = updateDefaultUniformBuffer(gptype, params->getConstantList());
+
+            int binding = gptype == GPT_COMPUTE_PROGRAM ? 0 : (int(gptype) % GPT_PIPELINE_COUNT);
+            static_cast<GL3PlusHardwareBuffer*>(ubo.get())->setGLBufferBinding(binding);
+        }
+
         // Pass on parameters from params to program object uniforms.
         program->updateUniforms(params, mask, gptype);
-
-        // FIXME This needs to be moved somewhere texture specific.
-        // Update image bindings for image load/store
-        // static_cast<GL3PlusTextureManager*>(mTextureManager)->bindImages();
     }
 
     void GL3PlusRenderSystem::beginProfileEvent( const String &eventName )
     {
         if (getCapabilities()->hasCapability(RSC_DEBUG))
-            OGRE_CHECK_GL_ERROR(glPushDebugGroup(GL_DEBUG_SOURCE_THIRD_PARTY, 0, -1, eventName.c_str()));
+            OGRE_CHECK_GL_ERROR(glPushDebugGroup(GL_DEBUG_SOURCE_THIRD_PARTY, 0643, -1, eventName.c_str()));
     }
 
 

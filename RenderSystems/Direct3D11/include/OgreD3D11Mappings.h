@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __D3D11MAPPINGS_H__
 
 #include "OgreD3D11Prerequisites.h"
-#include "OgreTextureUnitState.h"
+#include "OgreTexture.h"
 #include "OgreRenderSystem.h"
 #include "OgreHardwareIndexBuffer.h"
 
@@ -62,7 +62,6 @@ namespace Ogre
 		static DXGI_FORMAT get(VertexElementType vType);
 		/// Get vertex semantic
 		static LPCSTR get(VertexElementSemantic sem);
-		static VertexElementSemantic get(LPCSTR sem);
 
 		/// utility method, generates Ogre PixelBox using usual parameters and dataPtr/rowPitch/slicePitch from D3D11_MAPPED_SUBRESOURCE
 		static PixelBox getPixelBoxWithMapping(D3D11_BOX extents, DXGI_FORMAT pixelFormat, const D3D11_MAPPED_SUBRESOURCE& mapping);

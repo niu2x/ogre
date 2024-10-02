@@ -56,6 +56,8 @@ namespace Ogre {
     class _OgreExport AnimationContainer
     {
     public:
+        typedef std::map<String, Animation*> AnimationList;
+
         virtual ~AnimationContainer() {}
 
         /** Gets the number of animations in this container. */
@@ -64,16 +66,22 @@ namespace Ogre {
         /** Retrieve an animation by index.  */
         virtual Animation* getAnimation(unsigned short index) const = 0;
         
-        /** Retrieve an animation by name. */
+        /** Looks up an Animation object previously created with createAnimation.
+        @note Throws an exception if the named instance does not exist
+        @param name The name of the animation.
+        */
         virtual Animation* getAnimation(const String& name) const = 0;
         
-        /** Create a new animation with a given length owned by this container. */
+        /** Create a new animation with a given length owned by this container
+        @param name The name of the animation, must be unique within this container.
+        @param length The length of the animation in seconds
+        */
         virtual Animation* createAnimation(const String& name, Real length) = 0;
         
         /** Returns whether this object contains the named animation. */
         virtual bool hasAnimation(const String& name) const = 0;
         
-        /** Removes an Animation from this container. */
+        /** Remove & destroy an Animation from this container. */
         virtual void removeAnimation(const String& name) = 0;
         
     };
@@ -475,11 +483,11 @@ namespace Ogre {
             be achieved by applying the inverse of this reference keyframe against
             all other keyframes. Since this fundamentally changes the animation, 
             this method just marks the animation as requiring this rebase, which 
-            is performed at the next Animation 'apply' call. This is to allow the
+            is performed at the next @ref Animation::apply call. This is to allow the
             Animation to be re-saved with this flag set, but without having altered
             the keyframes yet, so no data is lost unintentionally. If you wish to
             save the animation after the adjustment has taken place, you can
-            (@see _applyBaseKeyFrame)
+            use @ref _applyBaseKeyFrame
         @param useBaseKeyFrame Whether a base keyframe should be used
         @param keyframeTime The time corresponding to the base keyframe, if any
         @param baseAnimName Optionally a different base animation (must contain the same tracks)
@@ -492,7 +500,7 @@ namespace Ogre {
         /** If a base keyframe is being used, the Animation that provides that keyframe. */
         const String& getBaseKeyFrameAnimationName() const;
         
-        /// Internal method to adjust keyframes relative to a base keyframe (@see setUseBaseKeyFrame) */
+        /// Internal method to adjust keyframes relative to a base keyframe (see @ref setUseBaseKeyFrame)
         void _applyBaseKeyFrame();
         
         void _notifyContainer(AnimationContainer* c);

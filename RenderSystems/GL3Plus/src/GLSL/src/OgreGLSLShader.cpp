@@ -235,6 +235,8 @@ namespace Ogre {
     /// Get OpenGL GLSL shader type from OGRE GPU program type.
     static GLenum getGLShaderType(GpuProgramType programType)
     {
+        #define GL_MESH_SHADER_NV 0x9559
+        #define GL_TASK_SHADER_NV 0x955A
         switch (programType)
         {
         case GPT_VERTEX_PROGRAM:
@@ -249,6 +251,10 @@ namespace Ogre {
             return GL_FRAGMENT_SHADER;
         case GPT_COMPUTE_PROGRAM:
             return GL_COMPUTE_SHADER;
+        case GPT_MESH_PROGRAM:
+            return GL_MESH_SHADER_NV;
+        case GPT_TASK_PROGRAM:
+            return GL_TASK_SHADER_NV;
         }
 
         return 0;
@@ -315,6 +321,13 @@ namespace Ogre {
         // Assume blocks are missing if gl_Position is missing.
         if (rsc->hasCapability(RSC_GLSL_SSO_REDECLARE) && (mSource.find("vec4 gl_Position") == String::npos))
         {
+            size_t insertPos = belowVersionPos;
+            size_t extensionPos = mSource.rfind("#extension");
+            if(extensionPos != String::npos)
+            {
+                insertPos = mSource.find('\n', extensionPos) + 1;
+            }
+
             size_t mainPos = mSource.find("void main");
             // Only add blocks if shader is not a child
             // shader, i.e. has a main function.
@@ -329,22 +342,24 @@ namespace Ogre {
                     switch (mType)
                     {
                     case GPT_VERTEX_PROGRAM:
-                        mSource.insert(belowVersionPos, outBlock);
+                        mSource.insert(insertPos, outBlock);
                         break;
                     case GPT_GEOMETRY_PROGRAM:
-                        mSource.insert(belowVersionPos, outBlock);
-                        mSource.insert(belowVersionPos, inBlock);
+                        mSource.insert(insertPos, outBlock);
+                        mSource.insert(insertPos, inBlock);
                         break;
                     case GPT_DOMAIN_PROGRAM:
-                        mSource.insert(belowVersionPos, outBlock);
-                        mSource.insert(belowVersionPos, inBlock);
+                        mSource.insert(insertPos, outBlock);
+                        mSource.insert(insertPos, inBlock);
                         break;
                     case GPT_HULL_PROGRAM:
-                        mSource.insert(belowVersionPos, outBlock.substr(0, outBlock.size() - 3) + " gl_out[];\n\n");
-                        mSource.insert(belowVersionPos, inBlock);
+                        mSource.insert(insertPos, outBlock.substr(0, outBlock.size() - 3) + " gl_out[];\n\n");
+                        mSource.insert(insertPos, inBlock);
                         break;
                     case GPT_FRAGMENT_PROGRAM:
                     case GPT_COMPUTE_PROGRAM:
+                    case GPT_MESH_PROGRAM:
+                    case GPT_TASK_PROGRAM:
                         // Fragment and compute shaders do
                         // not have standard blocks.
                         break;
@@ -353,7 +368,7 @@ namespace Ogre {
                 else if(mType == GPT_VERTEX_PROGRAM && mShaderVersion >= 130) // shaderVersion < 150, means we only have vertex shaders
                 {
                 	// TODO: can we have SSO with GLSL < 130?
-                    mSource.insert(belowVersionPos, "out vec4 gl_Position;\nout float gl_PointSize;\nout "+clipDistDecl+"\n\n");
+                    mSource.insert(insertPos, "out vec4 gl_Position;\nout float gl_PointSize;\nout "+clipDistDecl+"\n\n");
                 }
             }
         }
@@ -509,8 +524,8 @@ namespace Ogre {
             // increment physical buffer location
 
             convertGLUniformtoOgreType(values[1], def);
-            // GL doesn't pad
-            def.elementSize = GpuConstantDefinition::getElementSize(def.constType, false);
+            bool doPadding = block > -1;
+            def.elementSize = GpuConstantDefinition::getElementSize(def.constType, doPadding);
 
             // also allow index based referencing
             GpuLogicalIndexUse use;
@@ -551,7 +566,7 @@ namespace Ogre {
         }
     }
 
-    void GLSLShader::extractBufferBlocks(GLenum type) const
+    void GLSLShader::extractBufferBlocks(GLenum type)
     {
         GLint numBlocks = 0;
         OGRE_CHECK_GL_ERROR(glGetProgramInterfaceiv(mGLProgramHandle, type, GL_ACTIVE_RESOURCES, &numBlocks));
@@ -574,15 +589,14 @@ namespace Ogre {
             if (name == "OgreUniforms") // default buffer
             {
                 extractUniforms(blockIdx);
-                int binding = mType == GPT_COMPUTE_PROGRAM ? 0 : int(mType);
+                int binding = mType == GPT_COMPUTE_PROGRAM ? 0 : (int(mType) % GPT_PIPELINE_COUNT);
                 if (binding > 1)
                     LogManager::getSingleton().logWarning(
                         getResourceLogName() +
                         " - using 'OgreUniforms' in this shader type does alias with shared_params");
 
-                mDefaultBuffer = hbm.createUniformBuffer(values[2]);
-                static_cast<GL3PlusHardwareBuffer*>(mDefaultBuffer.get())->setGLBufferBinding(binding);
                 OGRE_CHECK_GL_ERROR(glUniformBlockBinding(mGLProgramHandle, blockIdx, binding));
+                mLogicalToPhysical.reset();
                 continue;
             }
 

@@ -327,10 +327,10 @@ namespace Ogre {
         /// Is this instance allocating resources?
         bool mAlive;
         /// Map from name->local texture.
-        typedef std::map<String,TexturePtr> LocalTextureMap;
+        typedef std::unordered_map<String,TexturePtr> LocalTextureMap;
         LocalTextureMap mLocalTextures;
         /// Store a list of MRTs we've created.
-        typedef std::map<String,MultiRenderTarget*> LocalMRTMap;
+        typedef std::unordered_map<String,MultiRenderTarget*> LocalMRTMap;
         LocalMRTMap mLocalMRTs;
         typedef std::map<CompositionTechnique::TextureDefinition*, TexturePtr> ReserveTextureMap;
         /** Textures that are not currently in use, but that we want to keep for now,
@@ -350,13 +350,11 @@ namespace Ogre {
             and queued with queueRenderSystemOp.
         */
         virtual void collectPasses(TargetOperation &finalState, const CompositionTargetPass *target);
-        
-        /** Create a local dummy material with one technique but no passes.
-            The material is detached from the Material Manager to make sure it is destroyed
-            when going out of scope.
-        */
-        MaterialPtr createLocalMaterial(const String& srcName);
-        
+
+        TexturePtr getLocalTexture(const CompositionTechnique::TextureDefinition& def, PixelFormat p,
+                                   const String& fsaaHint, const String& localName,
+                                   std::set<Texture*>& assignedTextures);
+
         /** Create local rendertextures and other resources. Builds mLocalTextures.
         */
         void createResources(bool forResizeOnly);
@@ -392,8 +390,7 @@ namespace Ogre {
         /** Search for options like AA and hardware gamma which we may want to 
             inherit from the main render target to which we're attached. 
         */
-        void deriveTextureRenderTargetOptions(const String& texname, 
-            bool *hwGammaWrite, uint *fsaa, String* fsaaHint);
+        void deriveOptionsFromRenderTarget(CompositionTechnique::TextureDefinition& def, String& fsaaHint);
 
         /// Notify this instance that the primary viewport's camera has changed.
         void notifyCameraChanged(Camera* camera);

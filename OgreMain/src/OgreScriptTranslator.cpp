@@ -41,7 +41,6 @@ THE SOFTWARE.
 #include "OgreExternalTextureSourceManager.h"
 #include "OgreLodStrategyManager.h"
 #include "OgreDistanceLodStrategy.h"
-#include "OgreDepthBuffer.h"
 #include "OgreParticleSystem.h"
 #include "OgreHighLevelGpuProgram.h"
 #include "OgreGpuProgramUsage.h"
@@ -533,6 +532,12 @@ namespace Ogre{
         case ID_COMPUTE_PROGRAM:
         case ID_COMPUTE_PROGRAM_REF:
             return GPT_COMPUTE_PROGRAM;
+        case ID_MESH_PROGRAM:
+        case ID_MESH_PROGRAM_REF:
+            return GPT_MESH_PROGRAM;
+        case ID_TASK_PROGRAM:
+        case ID_TASK_PROGRAM_REF:
+            return GPT_TASK_PROGRAM;
         }
     }
 
@@ -1996,9 +2001,9 @@ namespace Ogre{
                                 }
 
                             }
-                            else if(StringConverter::isNumber(atom->value))
+                            else if(getValue(*i0, uival))
                             {
-                                mPass->setPassIterationCount(Ogre::StringConverter::parseInt(atom->value));
+                                mPass->setPassIterationCount(uival);
 
                                 AbstractNodeList::const_iterator i1 = getNodeAt(prop->values, 1);
                                 if(i1 != prop->values.end() && (*i1)->type == ANT_ATOM)
@@ -2036,11 +2041,9 @@ namespace Ogre{
                                         AbstractNodeList::const_iterator i2 = getNodeAt(prop->values, 2);
                                         if(i2 != prop->values.end() && (*i2)->type == ANT_ATOM)
                                         {
-                                            atom = (AtomAbstractNode*)(*i2).get();
-                                            if(StringConverter::isNumber(atom->value))
+                                            if(getValue(*i2, uival))
                                             {
-                                                mPass->setLightCountPerIteration(
-                                                    static_cast<unsigned short>(StringConverter::parseInt(atom->value)));
+                                                mPass->setLightCountPerIteration(static_cast<unsigned short>(uival));
 
                                                 AbstractNodeList::const_iterator i3 = getNodeAt(prop->values, 3);
                                                 if(i3 != prop->values.end() && (*i3)->type == ANT_ATOM)
@@ -2129,43 +2132,19 @@ namespace Ogre{
 
                                     Real constant = 0.0f, linear = 1.0f, quadratic = 0.0f;
 
-                                    if(i1 != prop->values.end() && (*i1)->type == ANT_ATOM)
-                                    {
-                                        AtomAbstractNode *atom = (AtomAbstractNode*)(*i1).get();
-                                        if(StringConverter::isNumber(atom->value))
-                                            constant = StringConverter::parseReal(atom->value);
-                                        else
-                                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                                    }
-                                    else
+                                    if(i1 == prop->values.end() || !getValue(*i1, constant))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
                                                            (*i1)->getValue() + " is not a valid number");
                                     }
 
-                                    if(i2 != prop->values.end() && (*i2)->type == ANT_ATOM)
-                                    {
-                                        AtomAbstractNode *atom = (AtomAbstractNode*)(*i2).get();
-                                        if(StringConverter::isNumber(atom->value))
-                                            linear = StringConverter::parseReal(atom->value);
-                                        else
-                                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                                    }
-                                    else
+                                    if(i2 == prop->values.end() || !getValue(*i2, linear))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
                                                            (*i2)->getValue() + " is not a valid number");
                                     }
 
-                                    if(i3 != prop->values.end() && (*i3)->type == ANT_ATOM)
-                                    {
-                                        AtomAbstractNode *atom = (AtomAbstractNode*)(*i3).get();
-                                        if(StringConverter::isNumber(atom->value))
-                                            quadratic = StringConverter::parseReal(atom->value);
-                                        else
-                                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                                    }
-                                    else
+                                    if(i3 == prop->values.end() && !getValue(*i3, quadratic))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
                                                            (*i3)->getValue() + " is not a valid number");
@@ -2212,6 +2191,8 @@ namespace Ogre{
                 case ID_TESSELLATION_HULL_PROGRAM_REF:
                 case ID_TESSELLATION_DOMAIN_PROGRAM_REF:
                 case ID_COMPUTE_PROGRAM_REF:
+                case ID_MESH_PROGRAM_REF:
+                case ID_TASK_PROGRAM_REF:
                     translateProgramRef(getProgramType(child->id), compiler, child);
                     break;
                 case ID_SHADOW_CASTER_VERTEX_PROGRAM_REF:
@@ -2235,6 +2216,8 @@ namespace Ogre{
                 case ID_TESSELLATION_HULL_PROGRAM:
                 case ID_TESSELLATION_DOMAIN_PROGRAM:
                 case ID_COMPUTE_PROGRAM:
+                case ID_MESH_PROGRAM:
+                case ID_TASK_PROGRAM:
                 {
                     // auto assign inline defined programs
                     processNode(compiler, i);
@@ -2706,27 +2689,19 @@ namespace Ogre{
                     else
                     {
                         AbstractNodeList::const_iterator i1 = getNodeAt(prop->values, 1);
-                        if((*i1)->type == ANT_ATOM && StringConverter::isNumber(((AtomAbstractNode*)(*i1).get())->value))
+                        uint32 nframes = 0;
+                        if(getValue(*i1, nframes))
                         {
                             // Short form
                             AbstractNodeList::const_iterator i0 = getNodeAt(prop->values, 0), i2 = getNodeAt(prop->values, 2);
-                            if((*i0)->type == ANT_ATOM && (*i1)->type == ANT_ATOM)
+                            String val0;
+                            Real val2;
+                            if(getValue(*i0, val0) && getValue(*i2, val2))
                             {
-                                String val0;
-                                uint32 val1;
-                                Real val2;
-                                if(getString(*i0, &val0) && getUInt(*i1, &val1) && getReal(*i2, &val2))
-                                {
-                                    ProcessResourceNameScriptCompilerEvent evt(ProcessResourceNameScriptCompilerEvent::TEXTURE, val0);
-                                    compiler->_fireEvent(&evt, 0);
+                                ProcessResourceNameScriptCompilerEvent evt(ProcessResourceNameScriptCompilerEvent::TEXTURE, val0);
+                                compiler->_fireEvent(&evt, 0);
 
-                                    mUnit->setAnimatedTextureName(evt.mName, val1, val2);
-                                }
-                                else
-                                {
-                                    compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
-                                                       "anim_texture short form requires a texture name, number of frames, and animation duration");
-                                }
+                                mUnit->setAnimatedTextureName(evt.mName, nframes, val2);
                             }
                             else
                             {
@@ -3766,21 +3741,20 @@ namespace Ogre{
                                 return;
                             }
 
-                            AtomAbstractNode *atom0 = (AtomAbstractNode*)(*i0).get(), *atom1 = (AtomAbstractNode*)(*i1).get();
-                            if(!named && !StringConverter::isNumber(atom0->value))
-                            {
-                                compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
-                                                   "parameter index expected");
-                                return;
-                            }
-
                             String name;
-                            size_t index = 0;
+                            uint32 index = 0;
+
+                            AtomAbstractNode *atom0 = (AtomAbstractNode*)(*i0).get(), *atom1 = (AtomAbstractNode*)(*i1).get();
+
                             // Assign the name/index
                             if(named)
                                 name = atom0->value;
-                            else
-                                index = StringConverter::parseInt(atom0->value);
+                            else if(!getValue(*i0, index))
+                            {
+                                compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
+                                                   atom0->value);
+                                return;
+                            }
 
                             // Determine the type
                             if(atom1->value == "matrix4x4")
@@ -3888,7 +3862,7 @@ namespace Ogre{
 
                         if(prop->values.size() >= 2)
                         {
-                            size_t index = 0;
+                            uint32 index = 0;
                             AbstractNodeList::const_iterator i0 = getNodeAt(prop->values, 0),
                                 i1 = getNodeAt(prop->values, 1), i2 = getNodeAt(prop->values, 2), i3 = getNodeAt(prop->values, 3);
                             if((*i0)->type != ANT_ATOM || (*i1)->type != ANT_ATOM)
@@ -3898,17 +3872,15 @@ namespace Ogre{
                                 return;
                             }
                             AtomAbstractNode *atom0 = (AtomAbstractNode*)(*i0).get(), *atom1 = (AtomAbstractNode*)(*i1).get();
-                            if(!named && !StringConverter::isNumber(atom0->value))
+
+                            if(named)
+                                name = atom0->value;
+                            else if(!getValue(*i0, index))
                             {
                                 compiler->addError(ScriptCompiler::CE_NUMBEREXPECTED, prop->file, prop->line,
                                                    "parameter index expected");
                                 return;
                             }
-
-                            if(named)
-                                name = atom0->value;
-                            else
-                                index = StringConverter::parseInt(atom0->value);
 
                             // Look up the auto constant
                             StringUtil::toLowerCase(atom1->value);
@@ -4602,6 +4574,7 @@ namespace Ogre{
         obj->context = mTechnique;
 
         String sval;
+        uint32 uival;
 
         for(auto & i : obj->children)
         {
@@ -4633,7 +4606,7 @@ namespace Ogre{
                         bool widthSet = false, heightSet = false, formatSet = false;
                         bool pooled = false;
                         bool hwGammaWrite = false;
-                        bool fsaa = true;
+                        uint32 fsaa = 1;
                         auto type = TEX_TYPE_2D;
                         uint16 depthBufferId = DepthBuffer::POOL_DEFAULT;
                         CompositionTechnique::TextureScope scope = CompositionTechnique::TS_LOCAL;
@@ -4680,20 +4653,13 @@ namespace Ogre{
                                     }
                                     // advance to next to get scaling
                                     it = getNodeAt(prop->values, static_cast<int>(atomIndex++));
-                                    if(prop->values.end() == it || (*it)->type != ANT_ATOM)
-                                    {
-                                        compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                                        return;
-                                    }
-                                    atom = (AtomAbstractNode*)(*it).get();
-                                    if (!StringConverter::isNumber(atom->value))
+                                    if(prop->values.end() == it || !getValue(*it, *pFactor))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                         return;
                                     }
 
                                     *pSize = 0;
-                                    *pFactor = StringConverter::parseReal(atom->value);
                                     *pSetFlag = true;
                                 }
                                 break;
@@ -4716,38 +4682,40 @@ namespace Ogre{
                                 hwGammaWrite = true;
                                 break;
                             case ID_NO_FSAA:
-                                fsaa = false;
+                                fsaa = 0;
+                                break;
+                            case ID_FSAA:
+                                // advance to next to get the value
+                                it = getNodeAt(prop->values, atomIndex++);
+                                if(prop->values.end() == it || !getValue(*it, fsaa))
+                                {
+                                    compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
+                                    return;
+                                }
                                 break;
                             case ID_DEPTH_POOL:
                                 {
                                     // advance to next to get the ID
                                     it = getNodeAt(prop->values, static_cast<int>(atomIndex++));
-                                    if(prop->values.end() == it || (*it)->type != ANT_ATOM)
+                                    if(prop->values.end() == it || !getValue(*it, uival))
                                     {
                                         compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
                                         return;
                                     }
-                                    atom = (AtomAbstractNode*)(*it).get();
-                                    if (!StringConverter::isNumber(atom->value))
-                                    {
-                                        compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line);
-                                        return;
-                                    }
-
-                                    depthBufferId = Math::uint16Cast(StringConverter::parseInt(atom->value));
+                                    depthBufferId = Math::uint16Cast(uival);
                                 }
                                 break;
                             default:
-                                if (StringConverter::isNumber(atom->value))
+                                if (StringConverter::parse(atom->value, uival))
                                 {
                                     if (atomIndex == 2)
                                     {
-                                        width = StringConverter::parseInt(atom->value);
+                                        width = uival;
                                         widthSet = true;
                                     }
                                     else if (atomIndex == 3)
                                     {
-                                        height = StringConverter::parseInt(atom->value);
+                                        height = uival;
                                         heightSet = true;
                                     }
                                     else
@@ -4773,24 +4741,31 @@ namespace Ogre{
                         }
                         if (!widthSet || !heightSet || !formatSet)
                         {
-                            compiler->addError(ScriptCompiler::CE_STRINGEXPECTED, prop->file, prop->line);
+                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line,
+                                               "texture definition must specify width, height, and format");
                             return;
                         }
 
 
                         // No errors, create
-                        CompositionTechnique::TextureDefinition *def = mTechnique->createTextureDefinition(atom0->value);
-                        def->width = width;
-                        def->height = height;
-                        def->type = type;
-                        def->widthFactor = widthFactor;
-                        def->heightFactor = heightFactor;
-                        def->formatList = formats;
-                        def->fsaa = fsaa;
-                        def->hwGammaWrite = hwGammaWrite;
-                        def->depthBufferId = depthBufferId;
-                        def->pooled = pooled;
-                        def->scope = scope;
+                        try {
+                            CompositionTechnique::TextureDefinition *def = mTechnique->createTextureDefinition(atom0->value);
+                            def->width = width;
+                            def->height = height;
+                            def->type = type;
+                            def->widthFactor = widthFactor;
+                            def->heightFactor = heightFactor;
+                            def->formatList = formats;
+                            def->fsaa = fsaa;
+                            def->hwGammaWrite = hwGammaWrite;
+                            def->depthBufferId = depthBufferId;
+                            def->pooled = pooled;
+                            def->scope = scope;
+                        }
+                        catch (Exception &e)
+                        {
+                            compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, e.getDescription());
+                        }
                     }
                     break;
                 case ID_TEXTURE_REF:
@@ -5264,7 +5239,9 @@ namespace Ogre{
                     obj->id == ID_GEOMETRY_PROGRAM ||
                     obj->id == ID_TESSELLATION_HULL_PROGRAM || 
                     obj->id == ID_TESSELLATION_DOMAIN_PROGRAM ||
-                    obj->id == ID_COMPUTE_PROGRAM)
+                    obj->id == ID_COMPUTE_PROGRAM ||
+                    obj->id == ID_MESH_PROGRAM ||
+                    obj->id == ID_TASK_PROGRAM)
                 translator = &mGpuProgramTranslator;
             else if(obj->id == ID_SHARED_PARAMS)
                 translator = &mSharedParamsTranslator;

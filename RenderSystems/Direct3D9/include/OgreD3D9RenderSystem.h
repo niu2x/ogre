@@ -44,7 +44,6 @@ namespace Ogre
     * Implementation of DirectX9 as a rendering system.
     *  @{
     */
-#define MAX_LIGHTS 8
 
     class D3D9DriverList;
     class D3D9Driver;
@@ -112,9 +111,6 @@ namespace Ogre
         /// Saved manual colour blends
         ColourValue mManualBlendColours[OGRE_MAX_TEXTURE_LAYERS][2];
 
-        // Array of up to 8 lights, indexed as per API
-        // Note that a null value indicates a free slot
-        Light* mLights[MAX_LIGHTS];     
         D3D9DriverList* getDirect3DDrivers();
         void refreshD3DSettings();
         void refreshFSAAOptions();
@@ -217,16 +213,15 @@ namespace Ogre
          */
         DepthBuffer* _addManualDepthBuffer( IDirect3DDevice9* depthSurfaceDevice, IDirect3DSurface9 *surf );
 
+        using RenderSystem::_cleanupDepthBuffers;
         /**
          * This function does NOT override RenderSystem::_cleanupDepthBuffers(bool) functionality.
          * On multi monitor setups, when a device becomes "inactive" (it has no RenderWindows; like
          * when the window was moved from one monitor to another); the Device will be destroyed,
          * meaning all it's depth buffers (auto & manual) should be removed from the pool,
          * but only selectively removing those created by that D3D9Device.
-         * @param:
-         *      Creator device to compare against. Shouldn't be null
+         * @param creator device to compare against. Shouldn't be null
          */
-        using RenderSystem::_cleanupDepthBuffers;
         void _cleanupDepthBuffers( IDirect3DDevice9 *creator );
 
         /**

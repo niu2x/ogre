@@ -26,7 +26,7 @@ class _OgreSampleClassExport Sample_AtomicCounters : public SdkSample
         mInfo["Title"] = "Atomic Counters";
         mInfo["Description"] = "An example of using atomic counters to visualise GPU rasterization order";
         mInfo["Thumbnail"] = "thumb_atomicc.png";
-        mInfo["Category"] = "Unsorted";
+        mInfo["Category"] = "ShaderFeatures";
     }
 
     void testCapabilities(const RenderSystemCapabilities* caps) override
