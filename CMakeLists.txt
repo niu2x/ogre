@@ -63,7 +63,7 @@ if (APPLE AND NOT ANDROID AND NOT EMSCRIPTEN AND NOT ANDROID_PLATFORM)
   add_definitions(-D__ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=0)
 endif ()
 
-project(OGRE VERSION 14.3.0)
+project(OGRE VERSION 14.3.1)
 
 # extra version info
 set(OGRE_VERSION_SUFFIX "")
@@ -182,10 +182,6 @@ if (MINGW)
     # the atomic primitives
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=i686")
   endif ()
-  # disable this optimisation because it breaks release builds (reason unknown)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-tree-slp-vectorize")
-  # Ignore some really annoying warnings which also happen in dependencies
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=cast-qual -Wno-unused-local-typedefs")
 endif ()
 
 include(GenerateExportHeader)
