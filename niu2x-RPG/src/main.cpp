@@ -1,83 +1,104 @@
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
+#include "OgreImGuiOverlay.h"
+#include "OgreOverlaySystem.h"
 #include <iostream>
 
-// class MyFrameListener : public Ogre::FrameListener
-// {
-// public:
-//     MyFrameListener():counter(0x160) {}
-//     ~MyFrameListener() {}
+class MyApp : public OgreBites::ApplicationContext, public Ogre::RenderTargetListener
+{
+public:
+    MyApp() {}
+    ~MyApp() {}
 
-//     bool frameStarted(const Ogre::FrameEvent& evt) override
-//     {
-//         return --counter > 0;
-//     }
+    void run()
+    {
+        initApp();
 
-//     // bool frameRenderingQueued(const FrameEvent& evt) override
-//     // {
-//     //     (void)evt;
-//     //     return true;
-//     // }
+        getRoot()->createSceneManager("DefaultSceneManager", "DummyScene");
 
-//     // bool frameEnded(const FrameEvent& evt) override
-//     // {
-//     //     (void)evt;
-//     //     return true;
-//     // }
-// private:
-//     size_t counter;
-// };
+        auto sm = getRoot()->getSceneManager("DummyScene");
+
+        get_shader_generator()->addSceneManager(sm);
+
+        auto sceneRoot = sm->getRootSceneNode();
+
+        auto modelNode = sm->createSceneNode("modelModel");
+        auto fish = sm->createEntity("model", "WoodPallet.mesh");
+
+        modelNode->attachObject(fish);
+        sceneRoot->addChild(modelNode);
+        modelNode->setPosition(0, 0, 0);
+
+        Ogre::Camera* cam = sm->createCamera("DummyCamera");
+
+        cam->setNearClipDistance(1);
+
+        auto cameraNode = sm->createSceneNode("cameraNode");
+        sceneRoot->addChild(cameraNode);
+        cameraNode->attachObject(cam);
+        cameraNode->setPosition(30, 30, 30);
+        cameraNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
+
+        sm->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0, 1.0));
+
+        auto light = sm->createLight("light", Ogre::Light::LT_POINT);
+        light->setDiffuseColour(1.0, 1.0, 1.0);
+        sceneRoot->attachObject(light);
+
+        getRenderWindow()->addListener(this);
+
+        auto viewport = getRenderWindow()->addViewport(cam);
+        viewport->setBackgroundColour(Ogre::ColourValue{1.0, 0, 0, 1.0});
+
+        auto overlay = initialiseImGui();
+        overlay->addFont("SdkTrays/Caption", "Essential");
+        overlay->setZOrder(300);
+        overlay->show();
+
+        sm->addRenderQueueListener(getOverlaySystem());
+
+        ImGui::GetStyle().ScaleAllSizes(4);
+        ImGui::GetIO().FontGlobalScale = 4;
+
+        addInputListener(getImGuiInputListener());
+
+        getRoot()->startRendering();
+        closeApp();
+    }
+
+    void preViewportUpdate(const Ogre::RenderTargetViewportEvent& evt) override
+    {
+        Ogre::ImGuiOverlay::NewFrame();
+        // ImGui::SetWindowFontScale(8);
+        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
+                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
+
+        auto center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::Begin("Configuration", NULL, flags);
+
+        if (ImGui::Button("00000"))
+        {
+            x_ = true;
+        }
+        if (x_)
+        {
+            if (ImGui::Button("11111"))
+            {
+                x_ = false;
+            }
+        }
+        ImGui::End();
+        ImGui::EndFrame();
+    }
+
+private:
+    bool x_;
+};
 
 int main()
 {
-    OgreBites::ApplicationContext app;
-    // MyFrameListener l;
-
-    app.initApp();
-    // app.getRoot()->addFrameListener(&l);
-    // app.createDummyScene();
-
-    app.getRoot()->createSceneManager("DefaultSceneManager", "DummyScene");
-
-    auto sm = app.getRoot()->getSceneManager("DummyScene");
-
-    app.get_shader_generator()->addSceneManager(sm);
-
-    auto sceneRoot = sm->getRootSceneNode();
-
-    auto modelNode = sm->createSceneNode("modelModel");
-    auto fish = sm->createEntity("model", "WoodPallet.mesh");
-
-    modelNode->attachObject(fish);
-    sceneRoot->addChild(modelNode);
-    modelNode->setPosition(0, 0, 0);
-    // modelNode->setScale(20, 20, 20);
-
-    Ogre::Camera* cam = sm->createCamera("DummyCamera");
-
-    // cam->setFarClipDistance(10000);
-    cam->setNearClipDistance(1);
-
-    printf("getNearClipDistance %f\n", cam->getNearClipDistance());
-    printf("getFarClipDistance %f\n", cam->getFarClipDistance());
-
-    auto cameraNode = sm->createSceneNode("cameraNode");
-    sceneRoot->addChild(cameraNode);
-    cameraNode->attachObject(cam);
-    cameraNode->setPosition(30, 30, 30);
-    cameraNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
-
-    sm->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0, 1.0));
-
-    auto light = sm->createLight("light", Ogre::Light::LT_POINT);
-    light->setDiffuseColour(1.0, 1.0, 1.0);
-    sceneRoot->attachObject(light);
-
-    auto viewport = app.getRenderWindow()->addViewport(cam);
-    viewport->setBackgroundColour(Ogre::ColourValue{1.0, 0, 0, 1.0});
-
-    app.getRoot()->startRendering();
-    app.closeApp();
-
+    MyApp app;
+    app.run();
     return 0;
 }
