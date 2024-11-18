@@ -297,6 +297,10 @@ namespace OgreBites
         Ogre::ImGuiOverlay* initialiseImGui();
 
         InputListener* getImGuiInputListener() const { return mImGuiListener.get(); }
+
+#ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
+        Ogre::RTShader::ShaderGenerator* get_shader_generator() const { return mShaderGenerator; }
+#endif // INCLUDE_RTSHADER_SYSTEM
     protected:
         /// internal method to destroy both the render and the native window
         virtual void _destroyWindow(const NativeWindowPair& win);
