@@ -8,7 +8,7 @@
 class MyApp : public OgreBites::ApplicationContext, public Ogre::RenderTargetListener
 {
 public:
-    MyApp() {}
+    MyApp() : x_(true) {}
     ~MyApp() {}
 
     void run()
@@ -81,16 +81,10 @@ public:
         // ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
         ImGui::Begin("Configuration", NULL, flags);
 
-        if (ImGui::Button("00000000000000000000"))
-        {
-            x_ = true;
-        }
+        ImGui::Checkbox("00000000000000000000", &x_);
         if (x_)
         {
-            if (ImGui::Button("11111"))
-            {
-                x_ = false;
-            }
+            ImGui::Button("11111");
         }
         ImGui::End();
         ImGui::EndFrame();
