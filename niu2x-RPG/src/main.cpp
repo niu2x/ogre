@@ -1,6 +1,7 @@
 #include "Ogre.h"
 #include "OgreApplicationContext.h"
 #include "OgreImGuiOverlay.h"
+#include "OgreOverlayManager.h"
 #include "OgreOverlaySystem.h"
 #include <iostream>
 
@@ -50,15 +51,19 @@ public:
         auto viewport = getRenderWindow()->addViewport(cam);
         viewport->setBackgroundColour(Ogre::ColourValue{1.0, 0, 0, 1.0});
 
+        float vpScale = getDisplayDPI() / 96;
+        Ogre::OverlayManager::getSingleton().setPixelRatio(vpScale);
+
+        printf("#### vpScale %f\n", vpScale);
         auto overlay = initialiseImGui();
+
+        // ImGui::GetIO().FontGlobalScale = std::round(vpScale); // default font does not work with fractional scaling
+
         overlay->addFont("SdkTrays/Caption", "Essential");
         overlay->setZOrder(300);
         overlay->show();
 
         sm->addRenderQueueListener(getOverlaySystem());
-
-        ImGui::GetStyle().ScaleAllSizes(4);
-        ImGui::GetIO().FontGlobalScale = 4;
 
         addInputListener(getImGuiInputListener());
 
@@ -70,14 +75,13 @@ public:
     {
         Ogre::ImGuiOverlay::NewFrame();
         // ImGui::SetWindowFontScale(8);
-        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
-                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
+        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 
         auto center = ImGui::GetMainViewport()->GetCenter();
-        ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        // ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
         ImGui::Begin("Configuration", NULL, flags);
 
-        if (ImGui::Button("00000"))
+        if (ImGui::Button("00000000000000000000"))
         {
             x_ = true;
         }
