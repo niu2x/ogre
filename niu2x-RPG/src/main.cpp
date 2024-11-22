@@ -23,7 +23,8 @@ public:
         auto sceneRoot = sm->getRootSceneNode();
 
         auto modelNode = sm->createSceneNode("modelModel");
-        auto fish = sm->createEntity("model", "WoodPallet.mesh");
+        auto fish = sm->createEntity("model", "fish.mesh");
+        fish->setMaterialName("test");
 
         modelNode->attachObject(fish);
         sceneRoot->addChild(modelNode);
@@ -36,31 +37,34 @@ public:
         auto cameraNode = sm->createSceneNode("cameraNode");
         sceneRoot->addChild(cameraNode);
         cameraNode->attachObject(cam);
-        cameraNode->setPosition(30, 30, 30);
+        cameraNode->setPosition(15, 15, 15);
         cameraNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
-        sm->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0, 1.0));
+        sm->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2, 0.2));
 
         auto light = sm->createLight("light", Ogre::Light::LT_POINT);
+        auto lightNode = sm->createSceneNode("lightNode");
         light->setDiffuseColour(1.0, 1.0, 1.0);
-        sceneRoot->attachObject(light);
+        lightNode->attachObject(light);
+        sceneRoot->addChild(lightNode);
+        lightNode->setPosition(14, 14, 14);
 
         getRenderWindow()->addListener(this);
 
         auto viewport = getRenderWindow()->addViewport(cam);
         viewport->setBackgroundColour(Ogre::ColourValue{1.0, 0, 0, 1.0});
 
-        auto overlay = initialiseImGui();
-        overlay->addFont("SdkTrays/Caption", "Essential");
-        overlay->setZOrder(300);
-        overlay->show();
+        // auto overlay = initialiseImGui();
+        // overlay->addFont("SdkTrays/Caption", "Essential");
+        // overlay->setZOrder(300);
+        // overlay->show();
 
-        sm->addRenderQueueListener(getOverlaySystem());
+        // sm->addRenderQueueListener(getOverlaySystem());
 
-        ImGui::GetStyle().ScaleAllSizes(4);
-        ImGui::GetIO().FontGlobalScale = 4;
+        // ImGui::GetStyle().ScaleAllSizes(1);
+        // ImGui::GetIO().FontGlobalScale = 1;
 
-        addInputListener(getImGuiInputListener());
+        // addInputListener(getImGuiInputListener());
 
         getRoot()->startRendering();
         closeApp();
@@ -68,28 +72,28 @@ public:
 
     void preViewportUpdate(const Ogre::RenderTargetViewportEvent& evt) override
     {
-        Ogre::ImGuiOverlay::NewFrame();
-        // ImGui::SetWindowFontScale(8);
-        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
-                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
+        // Ogre::ImGuiOverlay::NewFrame();
+        // // ImGui::SetWindowFontScale(8);
+        // auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse |
+        //              ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove;
 
-        auto center = ImGui::GetMainViewport()->GetCenter();
-        ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-        ImGui::Begin("Configuration", NULL, flags);
+        // auto center = ImGui::GetMainViewport()->GetCenter();
+        // ImGui::SetNextWindowPos(center, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        // ImGui::Begin("Configuration", NULL, flags);
 
-        if (ImGui::Button("00000"))
-        {
-            x_ = true;
-        }
-        if (x_)
-        {
-            if (ImGui::Button("11111"))
-            {
-                x_ = false;
-            }
-        }
-        ImGui::End();
-        ImGui::EndFrame();
+        // if (ImGui::Button("00000"))
+        // {
+        //     x_ = true;
+        // }
+        // if (x_)
+        // {
+        //     if (ImGui::Button("11111"))
+        //     {
+        //         x_ = false;
+        //     }
+        // }
+        // ImGui::End();
+        // ImGui::EndFrame();
     }
 
 private:
