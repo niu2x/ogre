@@ -1,5 +1,6 @@
 #include "OgreRootRenderSceneScope.h"
 #include "OgreRoot.h"
+#include "OgreMaterialManager.h"
 
 namespace Ogre
 {
