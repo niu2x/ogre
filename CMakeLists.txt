@@ -438,7 +438,7 @@ endif()
 include(InstallResources)
 
 # enable PCH support
-include(PrecompiledHeader)
+# include(PrecompiledHeader)
 
 # Setup OgreMain project
 add_subdirectory(OgreMain)
