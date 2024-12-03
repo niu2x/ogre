@@ -151,6 +151,7 @@ struct GpuEventScope
     GpuEventScope(const String& name) { Root::getSingleton().getRenderSystem()->beginProfileEvent(name); }
     ~GpuEventScope() { Root::getSingleton().getRenderSystem()->endProfileEvent(); }
 };
+
 } // namespace Ogre
 
 #endif 

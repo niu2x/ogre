@@ -28,8 +28,9 @@ THE SOFTWARE.
 #ifndef __CompositionPass_H__
 #define __CompositionPass_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
+#include "OgreRenderQueue.h"
 #include "OgreRenderSystem.h"
 
 namespace Ogre {
