@@ -1,5 +1,7 @@
 add_executable(niu2x-RPG "")
 
+add_subdirectory(lua-5.3)
+
 target_sources(niu2x-RPG PRIVATE
 	"src/main.cpp"
 )
@@ -11,4 +13,5 @@ target_sources(niu2x-RPG PRIVATE
 target_link_libraries(niu2x-RPG PRIVATE 
 	OgreMain
 	OgreBites
+	lua
 )
