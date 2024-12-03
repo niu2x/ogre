@@ -28,15 +28,14 @@ THE SOFTWARE.
 #ifndef _ResourceGroupManager_H__
 #define _ResourceGroupManager_H__
 
+#include "OgreArchive.h"
+#include "OgreCommon.h"
+#include "OgreDataStream.h"
+#include "OgreHeaderPrefix.h"
+#include "OgreIteratorWrapper.h"
 #include "OgrePrerequisites.h"
 #include "OgreSingleton.h"
-#include "OgreDataStream.h"
-#include "OgreArchive.h"
-#include "OgreIteratorWrapper.h"
-#include "OgreCommon.h"
-#include "Threading/OgreThreadHeaders.h"
 #include <ctime>
-#include "OgreHeaderPrefix.h"
 
 // If X11/Xlib.h gets included before this header (for example it happens when
 // including wxWidgets and FLTK), Status is defined as an int which we don't
@@ -235,7 +234,6 @@ namespace Ogre {
     class _OgreExport ResourceGroupManager : public Singleton<ResourceGroupManager>, public ResourceAlloc
     {
     public:
-        OGRE_AUTO_MUTEX; // public to allow external locking
         /// same as @ref RGN_DEFAULT
         static const String DEFAULT_RESOURCE_GROUP_NAME;
         /// same as @ref RGN_INTERNAL
@@ -296,10 +294,6 @@ namespace Ogre {
                 LOADING = 3,
                 LOADED = 4
             };
-            /// General mutex for dealing with group content
-                    OGRE_AUTO_MUTEX;
-            /// Status-specific mutex, separate from content-changing mutex
-                    OGRE_MUTEX(statusMutex);
             /// Group name
             String name;
             /// Group status

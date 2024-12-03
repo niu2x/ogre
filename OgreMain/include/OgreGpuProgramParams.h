@@ -31,12 +31,12 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include <limits>
 
 // Precompiler options
-#include "OgrePrerequisites.h"
-#include "OgreSharedPtr.h"
-#include "OgreSerializer.h"
 #include "OgreAny.h"
-#include "Threading/OgreThreadHeaders.h"
 #include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
+#include "OgreSerializer.h"
+#include "OgreSharedPtr.h"
+#include "Threading/thread_headers.h"
 
 namespace Ogre {
     struct TransformBaseReal;

@@ -29,10 +29,9 @@ THE SOFTWARE.
 #ifndef __ConvexBody_H__
 #define __ConvexBody_H__
 
-#include "OgrePrerequisites.h"
-#include "OgrePolygon.h"
 #include "OgreHeaderPrefix.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "OgrePolygon.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre
 {

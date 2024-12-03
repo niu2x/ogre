@@ -23,12 +23,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadHeadersSTD_H__
-#define __OgreThreadHeadersSTD_H__
+#ifndef __OgreThreadDefines_H__
+#define __OgreThreadDefines_H__
 
-#include <memory>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
+#define OGRE_AUTO_MUTEX_NAME mutex
+#if OGRE_THREAD_PROVIDER == 0
+#include "thread_defines_none.h"
+#elif OGRE_THREAD_PROVIDER == 1
+#error "unsuppoprt boost"
+#elif OGRE_THREAD_PROVIDER == 2
+#error "unsuppoprt poco"
+#elif OGRE_THREAD_PROVIDER == 3
+#error "unsuppoprt tbb"
+#elif OGRE_THREAD_PROVIDER == 4
+#include "thread_defines_std.h"
+#endif
+
+#if OGRE_THREAD_SUPPORT == 3
+#include "thread_defines_none.h"
+
+// all empty definitions
+#define OGRE_MUTEX(name)
+
+#define OGRE_LOCK_MUTEX(name)
+#define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName)
+
+#define OGRE_RW_MUTEX(name)
+#define OGRE_LOCK_RW_MUTEX_READ(name)
+#define OGRE_LOCK_RW_MUTEX_WRITE(name)
+#define OGRE_THREAD_SYNCHRONISER(sync)
+#else
+#error "only unsupport OGRE_THREAD_SUPPORT==3"
+#endif
 
 #endif

@@ -26,27 +26,27 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreStableHeaders.h"
-#include "Threading/OgreThreadHeaders.h"
+// #include "Threading/OgreThreadHeaders.h"
 
-namespace Ogre {
-    OGRE_STATIC_MUTEX( msDictionaryMutex );
-    /// Dictionary of parameters
-    static ParamDictionaryMap msDictionary;
+namespace Ogre
+{
+/// Dictionary of parameters
+static ParamDictionaryMap msDictionary;
 
-    ParamDictionary::ParamDictionary() {}
-    ParamDictionary::~ParamDictionary() {}
+ParamDictionary::ParamDictionary() {}
+ParamDictionary::~ParamDictionary() {}
 
-    ParamCommand* ParamDictionary::getParamCommand(const String& name)
+ParamCommand* ParamDictionary::getParamCommand(const String& name)
+{
+    ParamCommandMap::iterator i = mParamCommands.find(name);
+    if (i != mParamCommands.end())
     {
-        ParamCommandMap::iterator i = mParamCommands.find(name);
-        if (i != mParamCommands.end())
-        {
-            return i->second;
-        }
-        else
-        {
-            return 0;
-        }
+        return i->second;
+    }
+    else
+    {
+        return 0;
+    }
     }
 
     const ParamCommand* ParamDictionary::getParamCommand(const String& name) const
@@ -169,4 +169,4 @@ namespace Ogre {
 
         msDictionary.clear();
     }
-}
+    } // namespace Ogre

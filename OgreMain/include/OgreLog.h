@@ -29,10 +29,9 @@ THE SOFTWARE.
 #ifndef __Log_H__
 #define __Log_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "Threading/OgreThreadHeaders.h"
 #include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 #include <fstream>
 #include <sstream>
@@ -112,7 +111,6 @@ namespace Ogre {
 
         class Stream;
 
-        OGRE_AUTO_MUTEX; // public to allow external locking
         /**
 
             Usual constructor - called by LogManager.

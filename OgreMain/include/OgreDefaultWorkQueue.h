@@ -70,11 +70,9 @@ namespace Ogre
         OGRE_WQ_THREAD_SYNCHRONISER(mInitSync);
 
         OGRE_WQ_THREAD_SYNCHRONISER(mRequestCondition);
-#if OGRE_THREAD_SUPPORT
-        typedef std::vector<OGRE_THREAD_TYPE*> WorkerThreadList;
-        WorkerThreadList mWorkers;
-#endif
 
+        using WorkerThreadList = std::vector<OGRE_THREAD_TYPE*>;
+        WorkerThreadList mWorkers;
     };
 
 }

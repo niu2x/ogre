@@ -28,10 +28,10 @@ THE SOFTWARE.
 #ifndef _Resource_H__
 #define _Resource_H__
 
+#include "OgreHeaderPrefix.h"
 #include "OgrePrerequisites.h"
 #include "OgreStringInterface.h"
-#include "OgreHeaderPrefix.h"
-#include "Threading/OgreThreadHeaders.h"
+#include "Threading/thread_headers.h"
 
 namespace Ogre {
 

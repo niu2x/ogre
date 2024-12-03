@@ -23,41 +23,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadDefinesNone_H__
-#define __OgreThreadDefinesNone_H__
+#ifndef __OgreThreadHeadersSTD_H__
+#define __OgreThreadHeadersSTD_H__
 
-#if OGRE_THREAD_SUPPORT != 3
-#define OGRE_THREAD_HARDWARE_CONCURRENCY 1
-#define OGRE_THREAD_CURRENT_ID "main"
-#define OGRE_THREAD_WORKER_INHERIT
-
-// will be defined by the respective thread provider
-#define OGRE_WQ_MUTEX(name)
-#define OGRE_WQ_LOCK_MUTEX(name)
-#define OGRE_WQ_LOCK_MUTEX_NAMED(mutexName, lockName)
-
-#define OGRE_WQ_RW_MUTEX(name)
-#define OGRE_WQ_LOCK_RW_MUTEX_READ(name)
-#define OGRE_WQ_LOCK_RW_MUTEX_WRITE(name)
-
-#define OGRE_WQ_THREAD_SYNCHRONISER(sync)
-#define OGRE_THREAD_NOTIFY_ONE(sync)
-#define OGRE_THREAD_NOTIFY_ALL(sync)
-#endif
-
-#define OGRE_AUTO_MUTEX
-#define OGRE_LOCK_AUTO_MUTEX
-#define OGRE_STATIC_MUTEX(name)
-#define OGRE_STATIC_MUTEX_INSTANCE(name)
-#define OGRE_AUTO_SHARED_MUTEX
-#define OGRE_LOCK_AUTO_SHARED_MUTEX
-#define OGRE_NEW_AUTO_SHARED_MUTEX
-#define OGRE_DELETE_AUTO_SHARED_MUTEX
-#define OGRE_COPY_AUTO_SHARED_MUTEX(from)
-#define OGRE_SET_AUTO_SHARED_MUTEX_NULL
-#define OGRE_MUTEX_CONDITIONAL(name) if(true)
-
-#define OGRE_THREAD_SLEEP(ms)
-#define OGRE_THREAD_YIELD
+#include <condition_variable>
+#include <memory>
+#include <mutex>
+#include <thread>
 
 #endif

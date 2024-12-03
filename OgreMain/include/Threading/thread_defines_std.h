@@ -35,38 +35,19 @@ THE SOFTWARE
 #define OGRE_THREAD_WORKER_INHERIT
 
 #define OGRE_WQ_MUTEX(name) mutable std::recursive_mutex name
-#define OGRE_WQ_LOCK_MUTEX(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__) (name)
+#define OGRE_WQ_LOCK_MUTEX(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__)(name)
 #define OGRE_WQ_LOCK_MUTEX_NAMED(mutexName, lockName) std::unique_lock<std::recursive_mutex> lockName(mutexName)
 
 // Read-write mutex
 #define OGRE_WQ_RW_MUTEX(name) mutable std::recursive_mutex name
-#define OGRE_WQ_LOCK_RW_MUTEX_READ(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__) (name)
-#define OGRE_WQ_LOCK_RW_MUTEX_WRITE(name) std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__) (name)
+#define OGRE_WQ_LOCK_RW_MUTEX_READ(name)                                                                               \
+    std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__)(name)
+#define OGRE_WQ_LOCK_RW_MUTEX_WRITE(name)                                                                              \
+    std::unique_lock<std::recursive_mutex> OGRE_TOKEN_PASTE(ogrenameLock, __LINE__)(name)
 
 #define OGRE_WQ_THREAD_SYNCHRONISER(sync) std::condition_variable_any sync
 #define OGRE_THREAD_WAIT(sync, mutex, lock) sync.wait(lock)
 #define OGRE_THREAD_NOTIFY_ONE(sync) sync.notify_one()
 #define OGRE_THREAD_NOTIFY_ALL(sync) sync.notify_all()
-
-#if OGRE_THREAD_SUPPORT != 3
-#define OGRE_LOCK_AUTO_MUTEX std::unique_lock<std::recursive_mutex> ogreAutoMutexLock(OGRE_AUTO_MUTEX_NAME)
-#define OGRE_THREAD_SLEEP(ms) std::this_thread::sleep_for(std::chrono::milliseconds(ms))
-
-#define OGRE_AUTO_MUTEX mutable std::recursive_mutex OGRE_AUTO_MUTEX_NAME
-#define OGRE_STATIC_MUTEX(name) static std::recursive_mutex name
-#define OGRE_STATIC_MUTEX_INSTANCE(name) std::recursive_mutex name
-// like OGRE_AUTO_MUTEX but mutex held by pointer
-#define OGRE_AUTO_SHARED_MUTEX mutable std::recursive_mutex *OGRE_AUTO_MUTEX_NAME
-#define OGRE_LOCK_AUTO_SHARED_MUTEX assert(OGRE_AUTO_MUTEX_NAME); std::recursive_mutex::scoped_lock ogreAutoMutexLock(*OGRE_AUTO_MUTEX_NAME)
-#define OGRE_NEW_AUTO_SHARED_MUTEX assert(!OGRE_AUTO_MUTEX_NAME); OGRE_AUTO_MUTEX_NAME = new std::recursive_mutex()
-#define OGRE_DELETE_AUTO_SHARED_MUTEX do { assert(OGRE_AUTO_MUTEX_NAME); delete OGRE_AUTO_MUTEX_NAME; } while (0)
-#define OGRE_COPY_AUTO_SHARED_MUTEX(from) assert(!OGRE_AUTO_MUTEX_NAME); OGRE_AUTO_MUTEX_NAME = from
-#define OGRE_SET_AUTO_SHARED_MUTEX_NULL OGRE_AUTO_MUTEX_NAME = 0
-#define OGRE_MUTEX_CONDITIONAL(mutex) if (mutex)
-
-// Utility
-#define OGRE_THREAD_ID_TYPE std::thread::id
-#define OGRE_THREAD_YIELD std::this_thread::yield()
-#endif
 
 #endif

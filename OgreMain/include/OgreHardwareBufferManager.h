@@ -31,11 +31,11 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include "OgreSingleton.h"
 #include "OgreHardwareIndexBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "Threading/OgreThreadHeaders.h"
 #include "OgreHeaderPrefix.h"
+#include "OgreSingleton.h"
+#include "Threading/thread_headers.h"
 
 namespace Ogre {
     /** \addtogroup Core

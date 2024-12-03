@@ -23,47 +23,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgreThreadDefines_H__
-#define __OgreThreadDefines_H__
+#ifndef __OgreThreadDefinesNone_H__
+#define __OgreThreadDefinesNone_H__
 
-#define OGRE_AUTO_MUTEX_NAME mutex
-#if OGRE_THREAD_PROVIDER == 0
-    #include "OgreThreadDefinesNone.h"
-#elif OGRE_THREAD_PROVIDER == 1
-    #error "unsuppoprt boost"
-#elif OGRE_THREAD_PROVIDER == 2
-    #error "unsuppoprt poco"
-#elif OGRE_THREAD_PROVIDER == 3
-    #error "unsuppoprt tbb"
-#elif OGRE_THREAD_PROVIDER == 4
-   #include "OgreThreadDefinesSTD.h"
-#endif
+#define OGRE_AUTO_MUTEX
+#define OGRE_LOCK_AUTO_MUTEX
+#define OGRE_STATIC_MUTEX(name)
+#define OGRE_STATIC_MUTEX_INSTANCE(name)
+#define OGRE_AUTO_SHARED_MUTEX
+#define OGRE_LOCK_AUTO_SHARED_MUTEX
+#define OGRE_NEW_AUTO_SHARED_MUTEX
+#define OGRE_DELETE_AUTO_SHARED_MUTEX
+#define OGRE_COPY_AUTO_SHARED_MUTEX(from)
+#define OGRE_SET_AUTO_SHARED_MUTEX_NULL
+#define OGRE_MUTEX_CONDITIONAL(name) if (true)
 
-#if OGRE_THREAD_SUPPORT == 3
-    #include "OgreThreadDefinesNone.h"
-
-    // all empty definitions
-    #define OGRE_MUTEX(name)
-
-    #define OGRE_LOCK_MUTEX(name)
-    #define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName)
-
-    #define OGRE_RW_MUTEX(name)
-    #define OGRE_LOCK_RW_MUTEX_READ(name)
-    #define OGRE_LOCK_RW_MUTEX_WRITE(name)
-    #define OGRE_THREAD_SYNCHRONISER(sync)
-#else
-    // alias to WQ names
-    #define OGRE_MUTEX(name) OGRE_WQ_MUTEX(name)
-
-    #define OGRE_LOCK_MUTEX(name) OGRE_WQ_LOCK_MUTEX(name)
-    #define OGRE_LOCK_MUTEX_NAMED(mutexName, lockName) OGRE_WQ_LOCK_MUTEX_NAMED(mutexName, lockName)
-
-    #define OGRE_RW_MUTEX(name) OGRE_WQ_RW_MUTEX(name)
-    #define OGRE_LOCK_RW_MUTEX_READ(name) OGRE_WQ_LOCK_RW_MUTEX_READ(name)
-    #define OGRE_LOCK_RW_MUTEX_WRITE(name) OGRE_WQ_LOCK_RW_MUTEX_WRITE(name)
-    #define OGRE_THREAD_SYNCHRONISER(sync) OGRE_WQ_THREAD_SYNCHRONISER(sync)
-#endif
+#define OGRE_THREAD_SLEEP(ms)
+#define OGRE_THREAD_YIELD
 
 #endif
-

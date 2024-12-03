@@ -27,21 +27,19 @@ THE SOFTWARE
 #define __OgreThreadHeaders_H__
 
 #if !defined(NOMINMAX) && defined(_MSC_VER)
-#   define NOMINMAX // required to stop windows.h messing up std::min
+#define NOMINMAX // required to stop windows.h messing up std::min
 #endif
 
 #if OGRE_THREAD_PROVIDER == 1
-    #error "unsupport boost"
+#error "unsupport boost"
 #elif OGRE_THREAD_PROVIDER == 2
-    #error "unsupport poco"
+#error "unsupport poco"
 #elif OGRE_THREAD_PROVIDER == 3
-    #error "unsupport tbb"
+#error "unsupport tbb"
 #elif OGRE_THREAD_PROVIDER == 4
-	#include "OgreThreadHeadersSTD.h"
+#include "thread_headers_std.h"
 #endif
 
-#include "OgreThreadDefines.h"
+#include "thread_defines.h"
 
 #endif
-
-

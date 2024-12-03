@@ -28,12 +28,12 @@ THE SOFTWARE.
 #ifndef __OgreWorkQueue_H__
 #define __OgreWorkQueue_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreAny.h"
-#include "OgreSharedPtr.h"
 #include "OgreCommon.h"
-#include "Threading/OgreThreadHeaders.h"
 #include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
+#include "OgreSharedPtr.h"
+#include "Threading/thread_headers.h"
 
 #include <deque>
 #include <functional>
