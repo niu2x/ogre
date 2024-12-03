@@ -332,14 +332,15 @@ cmake_dependent_option(OGRE_BUILD_LIBS_AS_FRAMEWORKS "Build frameworks for libra
 cmake_dependent_option(OGRE_BUILD_TESTS "Build the unit tests & PlayPen" FALSE "OGRE_BUILD_COMPONENT_BITES" FALSE)
 option(OGRE_CONFIG_DOUBLE "Use doubles instead of floats in Ogre" FALSE)
 option(OGRE_CONFIG_NODE_INHERIT_TRANSFORM "Tells the node whether it should inherit full transform from it's parent node or derived position, orientation and scale" FALSE)
-set(OGRE_CONFIG_THREADS "3" CACHE STRING 
-	"Enable Ogre thread safety support for multithreading. Possible values:
-	0 - no thread safety. DefaultWorkQueue is not threaded.
-	1 - background resource preparation and loading is thread safe. Threaded DefaultWorkQueue. [DEPRECATED]
-	2 - only background resource preparation is thread safe. Threaded DefaultWorkQueue. [DEPRECATED]
-	3 - no thread safety. Threaded DefaultWorkQueue."
-)
-set_property(CACHE OGRE_CONFIG_THREADS PROPERTY STRINGS 0 1 2 3)
+set(OGRE_CONFIG_THREADS 3)
+# set(OGRE_CONFIG_THREADS "3" CACHE STRING 
+# 	"Enable Ogre thread safety support for multithreading. Possible values:
+# 	0 - no thread safety. DefaultWorkQueue is not threaded.
+# 	1 - background resource preparation and loading is thread safe. Threaded DefaultWorkQueue. [DEPRECATED]
+# 	2 - only background resource preparation is thread safe. Threaded DefaultWorkQueue. [DEPRECATED]
+# 	3 - no thread safety. Threaded DefaultWorkQueue."
+# )
+# set_property(CACHE OGRE_CONFIG_THREADS PROPERTY STRINGS 0 1 2 3)
 set(OGRE_CONFIG_THREAD_PROVIDER "std" CACHE STRING
 	"Select the library to use for thread support. Possible values:
 	boost - Boost thread library. [DEPRECATED]
