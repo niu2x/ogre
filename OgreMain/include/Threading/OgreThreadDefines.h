@@ -30,11 +30,11 @@ THE SOFTWARE
 #if OGRE_THREAD_PROVIDER == 0
     #include "OgreThreadDefinesNone.h"
 #elif OGRE_THREAD_PROVIDER == 1
-    #include "OgreThreadDefinesBoost.h"
+    #error "unsuppoprt boost"
 #elif OGRE_THREAD_PROVIDER == 2
-    #include "OgreThreadDefinesPoco.h"
+    #error "unsuppoprt poco"
 #elif OGRE_THREAD_PROVIDER == 3
-    #include "OgreThreadDefinesTBB.h"
+    #error "unsuppoprt tbb"
 #elif OGRE_THREAD_PROVIDER == 4
    #include "OgreThreadDefinesSTD.h"
 #endif
