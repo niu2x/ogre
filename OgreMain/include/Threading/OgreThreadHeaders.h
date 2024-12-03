@@ -31,11 +31,11 @@ THE SOFTWARE
 #endif
 
 #if OGRE_THREAD_PROVIDER == 1
-    #include "OgreThreadHeadersBoost.h"
+    #error "unsupport boost"
 #elif OGRE_THREAD_PROVIDER == 2
-    #include "OgreThreadHeadersPoco.h"
+    #error "unsupport poco"
 #elif OGRE_THREAD_PROVIDER == 3
-    #include "OgreThreadHeadersTBB.h"
+    #error "unsupport tbb"
 #elif OGRE_THREAD_PROVIDER == 4
 	#include "OgreThreadHeadersSTD.h"
 #endif
