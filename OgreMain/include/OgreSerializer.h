@@ -29,8 +29,9 @@ THE SOFTWARE.
 #ifndef __Serializer_H__
 #define __Serializer_H__
 
-#include "OgrePrerequisites.h"
+#include "OgreDataStream.h"
 #include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
 

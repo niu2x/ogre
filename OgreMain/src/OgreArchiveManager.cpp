@@ -25,7 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreArchiveManager.h"
+#include "OgreArchive.h"
+#include "OgreArchiveFactory.h"
+#include "OgreLogManager.h"
+#include "OgreSingleton.h"
 
 namespace Ogre {
     typedef void (*createFunc)( Archive**, const String& );

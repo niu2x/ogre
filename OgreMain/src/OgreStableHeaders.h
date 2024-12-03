@@ -145,14 +145,12 @@ extern "C" {
 
 namespace Ogre
 {
-void logMaterialNotFound(const String& name, const String& groupName, const String& destType, const String& destName,
-                         LogMessageLevel lml = LML_CRITICAL);
 
 struct GpuEventScope
 {
     GpuEventScope(const String& name) { Root::getSingleton().getRenderSystem()->beginProfileEvent(name); }
     ~GpuEventScope() { Root::getSingleton().getRenderSystem()->endProfileEvent(); }
 };
-}
+} // namespace Ogre
 
 #endif 
