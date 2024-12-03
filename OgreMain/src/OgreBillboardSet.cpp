@@ -25,10 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-
 #include "OgreBillboardSet.h"
 #include "OgreBillboard.h"
+#include "OgreBuiltinMovableFactories.h"
+#include "OgreHardwareBufferManager.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreNode.h"
+#include "OgreRadixSort.h"
+#include "OgreRoot.h"
+#include "OgreSceneManager.h"
 
 #include <algorithm>
 #include <memory>
