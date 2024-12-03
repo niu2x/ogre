@@ -28,8 +28,9 @@ THE SOFTWARE.
 #ifndef __Compositor_H__
 #define __Compositor_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
+#include "OgreResource.h"
 
 namespace Ogre {
     template <typename T> class VectorIterator;

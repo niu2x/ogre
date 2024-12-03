@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreConfigFile.h"
+#include "OgreFileSystem.h"
 #include "OgreResourceGroupManager.h"
 
 #include <iostream>

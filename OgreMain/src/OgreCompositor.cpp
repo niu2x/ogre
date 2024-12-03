@@ -25,11 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreCompositor.h"
 #include "OgreCompositionTechnique.h"
-#include "OgreHardwarePixelBuffer.h"
 #include "OgreCompositorInstance.h"
+#include "OgreDepthBuffer.h"
+#include "OgreHardwarePixelBuffer.h"
+#include "OgreLogManager.h"
+#include "OgreRenderTexture.h"
+#include "OgreRoot.h"
+#include "OgreTextureManager.h"
 
 namespace Ogre {
 

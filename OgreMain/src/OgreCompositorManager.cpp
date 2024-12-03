@@ -25,13 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-#include "OgreCompositor.h"
 #include "OgreCompositorManager.h"
-#include "OgreCompositorChain.h"
 #include "OgreCompositionPass.h"
 #include "OgreCompositionTargetPass.h"
 #include "OgreCompositionTechnique.h"
+#include "OgreCompositor.h"
+#include "OgreCompositorChain.h"
+#include "OgreRectangle2D.h"
+#include "OgreRenderTarget.h"
+#include "OgreRoot.h"
+#include "OgreTextureManager.h"
 
 namespace Ogre {
 

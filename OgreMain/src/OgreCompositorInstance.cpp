@@ -25,15 +25,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-#include "OgreCompositor.h"
 #include "OgreCompositorInstance.h"
-#include "OgreCompositorChain.h"
-#include "OgreCompositorManager.h"
 #include "OgreCompositionTargetPass.h"
-#include "OgreCustomCompositionPass.h"
-#include "OgreHardwarePixelBuffer.h"
+#include "OgreCompositor.h"
+#include "OgreCompositorChain.h"
 #include "OgreCompositorLogic.h"
+#include "OgreCompositorManager.h"
+#include "OgreCustomCompositionPass.h"
+#include "OgreDepthBuffer.h"
+#include "OgreHardwarePixelBuffer.h"
+#include "OgreLogManager.h"
+#include "OgreRectangle2D.h"
+#include "OgreRenderTarget.h"
+#include "OgreRenderTexture.h"
+#include "OgreRenderable.h"
+#include "OgreRoot.h"
+#include "OgreTechnique.h"
+#include "OgreTextureManager.h"
 
 namespace Ogre {
 CompositorInstance::CompositorInstance(CompositionTechnique *technique,

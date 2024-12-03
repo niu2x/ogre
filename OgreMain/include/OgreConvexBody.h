@@ -29,9 +29,10 @@ THE SOFTWARE.
 #ifndef __ConvexBody_H__
 #define __ConvexBody_H__
 
+#include "OgrePrerequisites.h"
+
 #include "OgreHeaderPrefix.h"
 #include "OgrePolygon.h"
-#include "OgrePrerequisites.h"
 
 namespace Ogre
 {
@@ -58,7 +59,6 @@ namespace Ogre
 
         // Static 'free list' of polygons to save reallocation, shared between all bodies
         static PolygonList msFreePolygons;
-        OGRE_STATIC_MUTEX(msFreePolygonsMutex);
 
     public:
         ConvexBody();
