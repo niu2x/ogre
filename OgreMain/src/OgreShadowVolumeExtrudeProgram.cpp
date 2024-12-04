@@ -32,7 +32,6 @@ THE SOFTWARE.
 
 #include "OgreHighLevelGpuProgram.h"
 #include "OgreHighLevelGpuProgramManager.h"
-#include "OgreLight.h"
 
 namespace {
     enum Programs
