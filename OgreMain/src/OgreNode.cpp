@@ -27,9 +27,7 @@ THE SOFTWARE.
 */
 #include "OgreNode.h"
 #include "OgreCamera.h"
-#include "OgreException.h"
 #include "OgreIteratorWrapper.h"
-#include "OgreLogManager.h"
 
 namespace Ogre {
 
