@@ -27,9 +27,11 @@ THE SOFTWARE.
 */
 #include <memory>
 
-#include "OgreStableHeaders.h"
+#include "OgrePass.h"
 
 #include "OgreGpuProgramUsage.h"
+#include "OgreIteratorWrapper.h"
+#include "OgreTechnique.h"
 #include "OgreTextureUnitState.h"
 
 namespace Ogre {
