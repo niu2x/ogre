@@ -27,7 +27,7 @@ THE SOFTWARE.
 */
 #include <memory>
 
-#include "OgreStableHeaders.h"
+#include "OgreUserObjectBindings.h"
 
 namespace Ogre {
     static Any emptyAny;
