@@ -25,7 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreSceneNode.h"
+
+#include "OgreCodec.h"
+#include "OgreException.h"
+#include "OgreMovableObject.h"
+#include "OgreRoot.h"
+#include "OgreSceneManager.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------
