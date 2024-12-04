@@ -30,6 +30,7 @@ THE SOFTWARE.
 
 #include "OgreETCCodec.h"
 #include "OgreImage.h"
+#include "fourcc.h"
 
 #define KTX_ENDIAN_REF      (0x04030201)
 #define KTX_ENDIAN_REF_REV  (0x01020304)
