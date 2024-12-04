@@ -123,10 +123,6 @@ extern "C" {
 
 #define FOURCC(c0, c1, c2, c3) (c0 | (c1 << 8) | (c2 << 16) | (c3 << 24))
 
-#ifndef OGRE_SERIALIZER_VALIDATE_CHUNKSIZE
-#define OGRE_SERIALIZER_VALIDATE_CHUNKSIZE OGRE_DEBUG_MODE
-#endif
-
 #if OGRE_PROFILING == 1
 #define OgreGpuEventScope(name) GpuEventScope _gpuEventScope(name)
 #else

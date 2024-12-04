@@ -28,10 +28,11 @@ THE SOFTWARE.
 #ifndef __CompositionTechnique_H__
 #define __CompositionTechnique_H__
 
-#include "OgreHeaderPrefix.h"
 #include "OgrePixelFormat.h"
 #include "OgrePrerequisites.h"
 #include "OgreTexture.h"
+
+#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
     template <typename T> class VectorIterator;

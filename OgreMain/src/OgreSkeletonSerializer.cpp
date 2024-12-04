@@ -25,13 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-
-#include "OgreSkeletonFileFormat.h"
 #include "OgreSkeletonSerializer.h"
+
 #include "OgreAnimation.h"
 #include "OgreAnimationTrack.h"
+#include "OgreBone.h"
+#include "OgreFileSystem.h"
 #include "OgreKeyFrame.h"
+#include "OgreLogManager.h"
+#include "OgreSkeleton.h"
+#include "OgreSkeletonFileFormat.h"
 
 namespace Ogre {
     /// stream overhead = ID + size

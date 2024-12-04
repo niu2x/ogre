@@ -33,6 +33,10 @@ THE SOFTWARE.
 #include "OgreHeaderPrefix.h"
 #include "OgrePrerequisites.h"
 
+#ifndef OGRE_SERIALIZER_VALIDATE_CHUNKSIZE
+#define OGRE_SERIALIZER_VALIDATE_CHUNKSIZE OGRE_DEBUG_MODE
+#endif
+
 namespace Ogre {
 
     /** \addtogroup Core
