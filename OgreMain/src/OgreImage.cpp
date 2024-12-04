@@ -25,10 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreImage.h"
+#include "OgreDataStream.h"
 #include "OgreImageCodec.h"
 #include "OgreImageResampler.h"
+#include "OgreResourceGroupManager.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------------
