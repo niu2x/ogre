@@ -26,6 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreInstanceBatch.h"
+
 #include "OgreCamera.h"
 #include "OgreInstanceManager.h"
 #include "OgreInstancedEntity.h"

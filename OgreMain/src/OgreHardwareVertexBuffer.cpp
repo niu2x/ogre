@@ -25,11 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreHardwareVertexBuffer.h"
 
 #include <memory>
+
 #include "OgreDefaultHardwareBufferManager.h"
+#include "OgreRoot.h"
+#include "OgreStringConverter.h"
 
 namespace Ogre {
 

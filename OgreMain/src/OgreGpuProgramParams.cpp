@@ -25,10 +25,15 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
   THE SOFTWARE.
   -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+
 #include "OgreGpuProgramParams.h"
-#include "OgreGpuProgramManager.h"
+
 #include "OgreDualQuaternion.h"
+#include "OgreFileSystem.h"
+#include "OgreGpuProgramManager.h"
+#include "OgreLogManager.h"
+#include "OgreRenderTexture.h"
+#include "OgreRoot.h"
 
 namespace Ogre
 {

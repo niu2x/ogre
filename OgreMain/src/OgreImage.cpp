@@ -26,6 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreImage.h"
+
 #include "OgreDataStream.h"
 #include "OgreImageCodec.h"
 #include "OgreImageResampler.h"
