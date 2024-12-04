@@ -30,10 +30,13 @@ THE SOFTWARE.
 #define __KeyFrame_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreVector.h"
-#include "OgreQuaternion.h"
+
 #include "OgreAny.h"
 #include "OgreHardwareVertexBuffer.h"
+#include "OgreIteratorWrapper.h"
+#include "OgreQuaternion.h"
+#include "OgreVector.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre 
@@ -207,7 +210,7 @@ namespace Ogre
 
             PoseRef(ushort p, float i) : poseIndex(p), influence(i) {}
         };
-        typedef std::vector<PoseRef> PoseRefList;
+        using PoseRefList = std::vector<PoseRef>;
 
         /** Add a new pose reference. 
         @see PoseRef
@@ -228,8 +231,8 @@ namespace Ogre
         /** Get a const reference to the list of pose references. */
         const PoseRefList& getPoseReferences(void) const;
 
-        typedef VectorIterator<PoseRefList> PoseRefIterator;
-        typedef ConstVectorIterator<PoseRefList> ConstPoseRefIterator;
+        using PoseRefIterator = VectorIterator<PoseRefList>;
+        using ConstPoseRefIterator = ConstVectorIterator<PoseRefList>;
 
         /** Get an iterator over the pose references.
         @deprecated use getPoseReferences() */
