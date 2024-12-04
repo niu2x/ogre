@@ -25,8 +25,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreManualObject.h"
+
+#include "OgreBuiltinMovableFactories.h"
 #include "OgreEdgeListBuilder.h"
+#include "OgreHardwareBufferManager.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreMesh.h"
+#include "OgreMeshManager.h"
+#include "OgreRenderQueue.h"
+#include "OgreRenderTexture.h"
+#include "OgreSubMesh.h"
+#include "OgreTechnique.h"
 
 namespace Ogre {
 
