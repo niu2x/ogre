@@ -26,9 +26,8 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
-
 #include "OgrePVRTCCodec.h"
+
 #include "OgreImage.h"
 
 #define PVR_TEXTURE_FLAG_TYPE_MASK  0xff

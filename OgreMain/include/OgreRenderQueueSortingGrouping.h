@@ -30,7 +30,10 @@ THE SOFTWARE.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
+
+#include "OgreIteratorWrapper.h"
 #include "OgrePass.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

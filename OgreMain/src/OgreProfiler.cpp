@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreProfiler.h"
 /*
 
     Although the code is original, many of the ideas for the profiler were borrowed from 
@@ -39,6 +39,7 @@ Ogre-dependent is in the visualization/logging routines and the use of the Timer
 
 */
 
+#include "OgreLogManager.h"
 #include "OgreTimer.h"
 
 #ifdef USE_REMOTERY
