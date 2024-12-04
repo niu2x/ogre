@@ -27,7 +27,11 @@ THE SOFTWARE.
 */
 #include <memory>
 
-#include "OgreStableHeaders.h"
+#include "OgreMeshManager.h"
+
+#include "OgreCodec.h"
+#include "OgreMesh.h"
+#include "OgreMeshSerializer.h"
 
 #include "OgrePatchMesh.h"
 #include "OgrePrefabFactory.h"
