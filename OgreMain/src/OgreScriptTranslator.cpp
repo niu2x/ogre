@@ -45,6 +45,8 @@ THE SOFTWARE.
 #include "OgreHighLevelGpuProgram.h"
 #include "OgreGpuProgramUsage.h"
 
+#include "ignore_deprecated.h"
+
 namespace Ogre{
     static void applyTextureAliases(ScriptCompiler *compiler, const Material* mat, const NameValuePairList& aliasList)
     {

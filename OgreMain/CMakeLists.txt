@@ -82,25 +82,25 @@ include_directories("include/Threading" "src/")
 
 if (OGRE_THREAD_PROVIDER EQUAL 0)
 	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesNone.h
+		include/Threading/thread_defines_none.h
 	)
 elseif (OGRE_THREAD_PROVIDER EQUAL 1)
-  include_directories(${Boost_INCLUDE_DIRS})
-  link_directories(${Boost_LIBRARY_DIRS})
+  # include_directories(${Boost_INCLUDE_DIRS})
+  # link_directories(${Boost_LIBRARY_DIRS})
 
-	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesBoost.h
-		include/Threading/OgreThreadHeadersBoost.h
-	)
+	# list(APPEND THREAD_HEADER_FILES
+	# 	include/Threading/OgreThreadDefinesBoost.h
+	# 	include/Threading/OgreThreadHeadersBoost.h
+	# )
 elseif (OGRE_THREAD_PROVIDER EQUAL 2)
-	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesPoco.h
-		include/Threading/OgreThreadHeadersPoco.h
-	)
+	# list(APPEND THREAD_HEADER_FILES
+	# 	include/Threading/OgreThreadDefinesPoco.h
+	# 	include/Threading/OgreThreadHeadersPoco.h
+	# )
 elseif (OGRE_THREAD_PROVIDER EQUAL 4)
 	list(APPEND THREAD_HEADER_FILES
-		include/Threading/OgreThreadDefinesSTD.h
-		include/Threading/OgreThreadHeadersSTD.h
+		include/Threading/thread_defines_std.h
+		include/Threading/thread_headers_std.h
 	)
 endif ()
 

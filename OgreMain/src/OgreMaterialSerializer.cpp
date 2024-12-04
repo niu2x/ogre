@@ -35,6 +35,8 @@ THE SOFTWARE.
 #include "OgreDistanceLodStrategy.h"
 #include "OgreHighLevelGpuProgram.h"
 
+#include "ignore_deprecated.h"
+
 namespace Ogre
 {
     //-----------------------------------------------------------------------

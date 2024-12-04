@@ -31,6 +31,8 @@ THE SOFTWARE.
 #include "OgreParticleEmitterFactory.h"
 #include "OgreParticleEmitterCommands.h"
 
+#include "ignore_deprecated.h"
+
 namespace Ogre
 {
     // Command object for setting / getting parameters

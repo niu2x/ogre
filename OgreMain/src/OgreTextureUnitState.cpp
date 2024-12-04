@@ -27,10 +27,11 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 
-#include "OgreTextureUnitState.h"
 #include "OgreControllerManager.h"
-#include "OgreTextureManager.h"
 #include "OgreHardwarePixelBuffer.h"
+#include "OgreTextureManager.h"
+#include "OgreTextureUnitState.h"
+#include "ignore_deprecated.h"
 
 namespace Ogre {
     // allow operation without hardware support

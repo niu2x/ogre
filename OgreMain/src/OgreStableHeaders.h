@@ -123,16 +123,6 @@ extern "C" {
 
 #define FOURCC(c0, c1, c2, c3) (c0 | (c1 << 8) | (c2 << 16) | (c3 << 24))
 
-#if OGRE_COMPILER == OGRE_COMPILER_MSVC
-#define OGRE_IGNORE_DEPRECATED_BEGIN __pragma(warning(push)) \
-    __pragma(warning(disable:4996))
-#define OGRE_IGNORE_DEPRECATED_END __pragma(warning(pop))
-#else
-#define OGRE_IGNORE_DEPRECATED_BEGIN _Pragma("GCC diagnostic push") \
-    _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
-#define OGRE_IGNORE_DEPRECATED_END _Pragma("GCC diagnostic pop")
-#endif
-
 #ifndef OGRE_SERIALIZER_VALIDATE_CHUNKSIZE
 #define OGRE_SERIALIZER_VALIDATE_CHUNKSIZE OGRE_DEBUG_MODE
 #endif

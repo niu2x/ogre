@@ -36,6 +36,8 @@ THE SOFTWARE.
 #include "OgreParticleSystemRenderer.h"
 #include "OgreControllerManager.h"
 
+#include "ignore_deprecated.h"
+
 namespace Ogre {
     /** Command object for quota (see ParamCommand).*/
     class _OgrePrivate CmdQuota : public ParamCommand

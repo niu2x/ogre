@@ -25,9 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreWorkQueue.h"
+#include "OgreStableHeaders.h"
 #include "OgreTimer.h"
+#include "ignore_deprecated.h"
 
 namespace Ogre {
     void WorkQueue::processMainThreadTasks()
