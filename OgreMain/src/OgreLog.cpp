@@ -26,6 +26,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreLog.h"
+
 #include "OgreStringConverter.h"
 
 #include <iostream>
