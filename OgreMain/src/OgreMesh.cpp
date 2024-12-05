@@ -25,17 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreMesh.h"
 
-#include "OgreSkeletonManager.h"
-#include "OgreEdgeListBuilder.h"
 #include "OgreAnimation.h"
 #include "OgreAnimationState.h"
 #include "OgreAnimationTrack.h"
-#include "OgreOptimisedUtil.h"
-#include "OgreTangentSpaceCalc.h"
+#include "OgreBone.h"
+#include "OgreCodec.h"
+#include "OgreEdgeListBuilder.h"
+#include "OgreHardwareBufferManager.h"
 #include "OgreLodStrategyManager.h"
+#include "OgreLogManager.h"
+#include "OgreMeshManager.h"
+#include "OgreOptimisedUtil.h"
 #include "OgrePixelCountLodStrategy.h"
+#include "OgreSkeleton.h"
+#include "OgreSkeletonManager.h"
+#include "OgreSubMesh.h"
+#include "OgreTangentSpaceCalc.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------

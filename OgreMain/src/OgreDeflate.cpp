@@ -25,11 +25,15 @@
  THE SOFTWARE.
  -----------------------------------------------------------------------------
  */
-#include "OgreStableHeaders.h"
+#include "OgreDeflate.h"
+
+#include <fstream>
+
+#include "OgreException.h"
+#include "OgreFileSystem.h"
 
 #if OGRE_NO_ZIP_ARCHIVE == 0
 
-#include "OgreDeflate.h"
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS || OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #include "macUtils.h"
 #endif

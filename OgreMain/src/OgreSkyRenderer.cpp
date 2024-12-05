@@ -28,8 +28,14 @@ THE SOFTWARE.
 
 #include <memory>
 
-#include "OgreStableHeaders.h"
-
+#include "OgreEntity.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreMesh.h"
+#include "OgreMeshManager.h"
+#include "OgreRoot.h"
+#include "OgreSceneManager.h"
+#include "OgreTechnique.h"
 #include "OgreViewport.h"
 
 namespace Ogre {

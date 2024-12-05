@@ -31,6 +31,10 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
+#include "OgreHardwareBuffer.h"
+#include "OgrePlane.h"
+#include "OgreResource.h"
+
 namespace Ogre {
 
     /** \addtogroup Core

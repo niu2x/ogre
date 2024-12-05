@@ -25,8 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreTextureManager.h"
 #include "OgrePixelFormat.h"
+#include "OgreRoot.h"
+#include "ignore_deprecated.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------

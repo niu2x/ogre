@@ -25,11 +25,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreRenderTarget.h"
 
-#include "OgreViewport.h"
+#include "OgreDepthBuffer.h"
+#include "OgreImage.h"
+#include "OgreLogManager.h"
 #include "OgreRenderTargetListener.h"
+#include "OgreRoot.h"
 #include "OgreTimer.h"
+#include "OgreViewport.h"
+#include "gpu_event_scope.h"
 
 namespace Ogre {
 

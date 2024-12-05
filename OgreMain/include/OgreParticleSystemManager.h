@@ -30,7 +30,11 @@ THE SOFTWARE.
 
 
 #include "OgrePrerequisites.h"
+
+#include "OgreIteratorWrapper.h"
 #include "OgreSingleton.h"
+#include "OgreStringVector.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {
@@ -77,8 +81,8 @@ namespace Ogre {
         typedef std::map<String, ParticleEmitterFactory*> ParticleEmitterFactoryMap;
         typedef std::map<String, ParticleSystemRendererFactory*> ParticleSystemRendererFactoryMap;
     private:
-        OGRE_AUTO_MUTEX;
-            
+        // OGRE_AUTO_MUTEX;
+
         /// Templates based on scripts
         ParticleTemplateMap mSystemTemplates;
         

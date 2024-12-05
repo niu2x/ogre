@@ -25,12 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 
 #include "OgreTextureUnitState.h"
 #include "OgreControllerManager.h"
-#include "OgreTextureManager.h"
 #include "OgreHardwarePixelBuffer.h"
+#include "OgreLogManager.h"
+#include "OgrePass.h"
+#include "OgreTextureManager.h"
+#include "ignore_deprecated.h"
 
 namespace Ogre {
     // allow operation without hardware support

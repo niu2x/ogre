@@ -29,8 +29,13 @@ THE SOFTWARE.
 // Thanks to Vincent Cantin (karmaGfa) for the original implementation of this
 // class, although it has now been mostly rewritten
 
-#include "OgreStableHeaders.h"
 #include "OgreBillboardChain.h"
+#include "OgreBuiltinMovableFactories.h"
+#include "OgreHardwareBufferManager.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreRenderQueue.h"
+#include "OgreSceneManager.h"
 #include "OgreViewport.h"
 
 #include <limits>

@@ -25,7 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreRectangle2D.h"
+
+#include "OgreBuiltinMovableFactories.h"
+#include "OgreHardwareBufferManager.h"
+#include "OgreMaterialManager.h"
 
 namespace Ogre {
 #define POSITION_BINDING 0

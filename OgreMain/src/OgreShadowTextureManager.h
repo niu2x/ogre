@@ -32,8 +32,10 @@ Torus Knot Software Ltd.
 
 // Precompiler options
 #include "OgrePrerequisites.h"
-#include "OgreSingleton.h"
+
 #include "OgrePixelFormat.h"
+#include "OgreSceneManager.h"
+#include "OgreSingleton.h"
 
 namespace Ogre
 {

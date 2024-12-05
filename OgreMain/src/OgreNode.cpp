@@ -25,7 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreNode.h"
+#include "OgreCamera.h"
+#include "OgreIteratorWrapper.h"
 
 namespace Ogre {
 

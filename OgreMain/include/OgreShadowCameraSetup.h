@@ -29,6 +29,9 @@ THE SOFTWARE.
 #define __ShadowCameraSetup_H__
 
 #include "OgrePrerequisites.h"
+
+#include "OgreSharedPtr.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

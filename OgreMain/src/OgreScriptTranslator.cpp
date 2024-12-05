@@ -26,24 +26,32 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
+#include "OgreScriptTranslator.h"
+
 #include "OgreBuiltinScriptTranslators.h"
-#include "OgreGpuProgramManager.h"
-#include "OgreHighLevelGpuProgramManager.h"
-#include "OgreParticleSystemRenderer.h"
-#include "OgreParticleEmitter.h"
-#include "OgreParticleAffector.h"
+#include "OgreCompositionPass.h"
+#include "OgreCompositionTargetPass.h"
+#include "OgreCompositionTechnique.h"
 #include "OgreCompositor.h"
 #include "OgreCompositorManager.h"
-#include "OgreCompositionTechnique.h"
-#include "OgreCompositionTargetPass.h"
-#include "OgreCompositionPass.h"
-#include "OgreExternalTextureSourceManager.h"
-#include "OgreLodStrategyManager.h"
+#include "OgreDepthBuffer.h"
 #include "OgreDistanceLodStrategy.h"
-#include "OgreParticleSystem.h"
-#include "OgreHighLevelGpuProgram.h"
+#include "OgreExternalTextureSourceManager.h"
+#include "OgreGpuProgramManager.h"
 #include "OgreGpuProgramUsage.h"
+#include "OgreHighLevelGpuProgram.h"
+#include "OgreHighLevelGpuProgramManager.h"
+#include "OgreLodStrategyManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreParticleAffector.h"
+#include "OgreParticleEmitter.h"
+#include "OgreParticleSystem.h"
+#include "OgreParticleSystemManager.h"
+#include "OgreParticleSystemRenderer.h"
+#include "OgreTechnique.h"
+#include "OgreTextureManager.h"
+
+#include "ignore_deprecated.h"
 
 namespace Ogre{
     static void applyTextureAliases(ScriptCompiler *compiler, const Material* mat, const NameValuePairList& aliasList)

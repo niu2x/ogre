@@ -25,13 +25,24 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
   THE SOFTWARE.
   -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-#include "OgreTagPoint.h"
-#include "OgreSkeletonInstance.h"
-#include "OgreOptimisedUtil.h"
-#include "OgreLodStrategy.h"
-#include "OgreLodListener.h"
+#include "OgreEntity.h"
 
+#include "OgreBuiltinMovableFactories.h"
+#include "OgreCamera.h"
+#include "OgreLodListener.h"
+#include "OgreLodStrategy.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreMeshManager.h"
+#include "OgreOptimisedUtil.h"
+#include "OgreRenderQueue.h"
+#include "OgreRoot.h"
+#include "OgreSceneManager.h"
+#include "OgreSkeletonInstance.h"
+#include "OgreSubEntity.h"
+#include "OgreSubMesh.h"
+#include "OgreTagPoint.h"
+#include "OgreTechnique.h"
 
 namespace Ogre {
     //-----------------------------------------------------------------------

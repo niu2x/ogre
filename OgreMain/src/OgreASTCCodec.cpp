@@ -26,8 +26,9 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
 #include "OgreASTCCodec.h"
+#include "OgreDataStream.h"
+#include "OgreLogManager.h"
 
 #include <cmath>
 #include "OgreImage.h"

@@ -25,7 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreHardwareBufferManager.h"
+
+#include "OgreLogManager.h"
 #include "OgreVertexIndexData.h"
 
 namespace Ogre {

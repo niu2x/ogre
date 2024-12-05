@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreScriptLexer.h"
+#include "OgreLogManager.h"
 
 namespace Ogre {
     ScriptTokenList ScriptLexer::tokenize(const String &str, const String& source)

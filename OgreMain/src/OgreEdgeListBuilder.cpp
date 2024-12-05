@@ -25,10 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreEdgeListBuilder.h"
-#include "OgreVertexIndexData.h"
+
+#include "OgreLogManager.h"
 #include "OgreOptimisedUtil.h"
+#include "OgreStringConverter.h"
+#include "OgreVertexIndexData.h"
 
 namespace Ogre {
     /** Comparator for sorting geometries by vertex set */

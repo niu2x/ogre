@@ -25,9 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreVertexIndexData.h"
+
+#include "OgreBitwise.h"
+#include "OgreHardwareBufferManager.h"
 #include "OgreHardwareVertexBuffer.h"
+#include "OgreRoot.h"
 
 #define INT10_MAX ((1 << 9) - 1)
 

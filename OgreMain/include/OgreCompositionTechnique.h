@@ -28,8 +28,10 @@ THE SOFTWARE.
 #ifndef __CompositionTechnique_H__
 #define __CompositionTechnique_H__
 
-#include "OgrePrerequisites.h"
 #include "OgrePixelFormat.h"
+#include "OgrePrerequisites.h"
+#include "OgreTexture.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

@@ -28,10 +28,12 @@
 #ifndef __OGRE_DEFLATE_H__
 #define __OGRE_DEFLATE_H__
 
+#include "OgrePrerequisites.h"
+
 #if OGRE_NO_ZIP_ARCHIVE == 0
 
-#include "OgrePrerequisites.h"
 #include "OgreDataStream.h"
+
 #include "OgreHeaderPrefix.h"
 
 /// forward decls

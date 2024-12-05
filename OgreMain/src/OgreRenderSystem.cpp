@@ -25,15 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreRenderSystem.h"
 // RenderSystem implementation
 // Note that most of this class is abstract since
 //  we cannot know how to implement the behaviour without
 //  being aware of the 3D API. However there are a few
 //  simple functions which can have a base implementation
 
-#include "OgreHardwareOcclusionQuery.h"
 #include "OgreComponents.h"
+#include "OgreDepthBuffer.h"
+#include "OgreHardwareBufferManager.h"
+#include "OgreHardwareOcclusionQuery.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreProfiler.h"
+#include "OgreRenderOperation.h"
+#include "OgreRenderTarget.h"
+#include "OgreTextureManager.h"
+#include "OgreTextureUnitState.h"
 
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
 #include "OgreRTShaderConfig.h"

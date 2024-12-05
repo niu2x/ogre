@@ -25,9 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreShadowCaster.h"
 #include "OgreEdgeListBuilder.h"
+#include "OgreHardwareIndexBuffer.h"
+#include "OgreLight.h"
+#include "OgreLogManager.h"
+#include "OgreMovableObject.h"
 #include "OgreOptimisedUtil.h"
+#include "OgreRoot.h"
 
 namespace Ogre {
     ShadowRenderable::ShadowRenderable(MovableObject* parent, const HardwareIndexBufferSharedPtr& indexBuffer,

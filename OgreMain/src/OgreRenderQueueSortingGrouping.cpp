@@ -25,10 +25,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
 #include "OgreRenderQueueSortingGrouping.h"
+
 #include <algorithm>
 #include <unordered_map>
+
+#include "OgreRadixSort.h"
+#include "OgreSubEntity.h"
+#include "OgreTechnique.h"
 
 namespace Ogre {
 namespace {

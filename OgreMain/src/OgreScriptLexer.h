@@ -29,6 +29,8 @@ THE SOFTWARE.
 #ifndef __ScriptLexer_H_
 #define __ScriptLexer_H_
 
+#include "OgreString.h"
+
 namespace Ogre {
 
     /** \addtogroup Core

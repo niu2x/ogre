@@ -26,8 +26,13 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
 #include "OgreRenderToVertexBuffer.h"
+
+#include "OgreMaterialManager.h"
+#include "OgreRenderSystem.h"
+#include "OgreRoot.h"
+#include "OgreSceneManager.h"
+#include "OgreTechnique.h"
 
 #include <memory>
 

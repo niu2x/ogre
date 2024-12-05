@@ -25,25 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-
 #include "OgreRenderSystemCapabilitiesManager.h"
-#include "OgreRenderSystemCapabilitiesSerializer.h"
+#include "OgreArchive.h"
+#include "OgreArchiveManager.h"
 #include "OgreConfigFile.h"
 #include "OgreFileSystemLayer.h"
+#include "OgreRenderSystemCapabilitiesSerializer.h"
 
-namespace Ogre {
+namespace Ogre
+{
 
-    //-----------------------------------------------------------------------
-    template<> RenderSystemCapabilitiesManager* Singleton<RenderSystemCapabilitiesManager>::msSingleton = 0;
-    RenderSystemCapabilitiesManager* RenderSystemCapabilitiesManager::getSingletonPtr(void)
-    {
-        return msSingleton;
-    }
-    RenderSystemCapabilitiesManager& RenderSystemCapabilitiesManager::getSingleton(void)
-    {
-        assert( msSingleton );  return ( *msSingleton );
-    }
+//-----------------------------------------------------------------------
+template <> RenderSystemCapabilitiesManager* Singleton<RenderSystemCapabilitiesManager>::msSingleton = 0;
+RenderSystemCapabilitiesManager* RenderSystemCapabilitiesManager::getSingletonPtr(void) { return msSingleton; }
+RenderSystemCapabilitiesManager& RenderSystemCapabilitiesManager::getSingleton(void)
+{
+    assert(msSingleton);
+    return (*msSingleton);
+}
 
     //-----------------------------------------------------------------------
     RenderSystemCapabilitiesManager::RenderSystemCapabilitiesManager() : mSerializer(0), mScriptPattern("*.rendercaps")
@@ -125,9 +124,4 @@ namespace Ogre {
     {
         mCapabilitiesMap.emplace(name, caps);
     }
-}
-
-
-
-
-
+    } // namespace Ogre

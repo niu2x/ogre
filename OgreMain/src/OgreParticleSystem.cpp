@@ -25,16 +25,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreProfiler.h"
-#include "OgreStableHeaders.h"
-
 #include "OgreParticleSystem.h"
-#include "OgreParticleEmitter.h"
-#include "OgreParticleAffector.h"
-#include "OgreParticle.h"
-#include "OgreParticleAffectorFactory.h"
-#include "OgreParticleSystemRenderer.h"
+#include "OgreProfiler.h"
+
+#include "OgreController.h"
 #include "OgreControllerManager.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreParticle.h"
+#include "OgreParticleAffector.h"
+#include "OgreParticleAffectorFactory.h"
+#include "OgreParticleEmitter.h"
+#include "OgreParticleSystemManager.h"
+#include "OgreParticleSystemRenderer.h"
+#include "OgreRadixSort.h"
+#include "OgreRoot.h"
+#include "OgreSceneManager.h"
+
+#include "ignore_deprecated.h"
 
 namespace Ogre {
     /** Command object for quota (see ParamCommand).*/

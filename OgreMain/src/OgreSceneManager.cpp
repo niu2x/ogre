@@ -25,32 +25,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreGpuProgram.h"
-#include "OgreStableHeaders.h"
+#include "OgreSceneManager.h"
 
-#include "OgreControllerManager.h"
 #include "OgreAnimation.h"
-#include "OgreRenderObjectListener.h"
-#include "OgreBillboardSet.h"
-#include "OgreStaticGeometry.h"
-#include "OgreHardwarePixelBuffer.h"
 #include "OgreBillboardChain.h"
 #include "OgreBillboardSet.h"
 #include "OgreCompositorChain.h"
 #include "OgreControllerManager.h"
 #include "OgreDefaultDebugDrawer.h"
 #include "OgreEntity.h"
+#include "OgreGpuProgram.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreInstanceBatch.h"
 #include "OgreInstancedEntity.h"
 #include "OgreLodListener.h"
 #include "OgreParticleSystem.h"
+#include "OgreProfiler.h"
+#include "OgreRectangle2D.h"
 #include "OgreRenderObjectListener.h"
 #include "OgreRenderTexture.h"
 #include "OgreRibbonTrail.h"
+#include "OgreRoot.h"
 #include "OgreRootRenderSceneScope.h"
 #include "OgreStaticGeometry.h"
 #include "OgreSubEntity.h"
+#include "OgreTechnique.h"
+#include "gpu_event_scope.h"
 
 // This class implements the most basic scene manager
 

@@ -29,6 +29,8 @@ THE SOFTWARE.
 #define __Compositor_H__
 
 #include "OgrePrerequisites.h"
+#include "OgreResource.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre {

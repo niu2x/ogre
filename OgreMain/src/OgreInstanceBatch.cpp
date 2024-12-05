@@ -25,12 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-#include "OgreInstanceManager.h"
 #include "OgreInstanceBatch.h"
+
+#include "OgreCamera.h"
+#include "OgreInstanceManager.h"
 #include "OgreInstancedEntity.h"
-#include "OgreRenderQueue.h"
 #include "OgreLodListener.h"
+#include "OgreRenderQueue.h"
+#include "OgreRoot.h"
+#include "OgreSubMesh.h"
 
 namespace Ogre
 {
