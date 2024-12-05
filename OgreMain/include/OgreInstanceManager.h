@@ -29,7 +29,11 @@ THE SOFTWARE.
 #define __InstanceManager_H__
 
 #include "OgrePrerequisites.h"
+
+#include "OgreCommon.h"
+#include "OgreIteratorWrapper.h"
 #include "OgreRenderOperation.h"
+
 #include "OgreHeaderPrefix.h"
 
 namespace Ogre
