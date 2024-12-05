@@ -25,7 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreFileSystem.h"
+
+#include "OgreArchive.h"
+#include "OgreException.h"
+
+#include <fstream>
 
 #include <sys/stat.h>
 
@@ -45,7 +50,8 @@ THE SOFTWARE.
 #  include <windows.h>
 #  include <direct.h>
 #  include <io.h>
-//#  define _OGRE_FILESYSTEM_ARCHIVE_UNICODE // base path and resources subpathes expected to be in UTF-8 and wchar_t file IO routines are used
+// #  define _OGRE_FILESYSTEM_ARCHIVE_UNICODE // base path and resources subpathes expected to be in UTF-8 and wchar_t
+// file IO routines are used
 #endif
 
 namespace Ogre {
@@ -72,7 +78,7 @@ namespace {
         void findFiles(const String& pattern, bool recursive, bool dirs,
             StringVector* simpleList, FileInfoList* detailList) const;
 
-        OGRE_AUTO_MUTEX;
+        // OGRE_AUTO_MUTEX;
     public:
         FileSystemArchive(const String& name, const String& archType, bool readOnly );
         ~FileSystemArchive();

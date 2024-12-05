@@ -26,9 +26,10 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
 #include "OgrePixelCountLodStrategy.h"
 
+#include "OgreCamera.h"
+#include "OgreNode.h"
 #include "OgreViewport.h"
 
 namespace Ogre {

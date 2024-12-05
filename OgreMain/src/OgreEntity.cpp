@@ -26,6 +26,7 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
   -----------------------------------------------------------------------------
 */
 #include "OgreEntity.h"
+
 #include "OgreBuiltinMovableFactories.h"
 #include "OgreCamera.h"
 #include "OgreLodListener.h"

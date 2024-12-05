@@ -25,9 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-
 #include "OgreDynLib.h"
+
+#include "OgreException.h"
+#include "OgreLogManager.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #    define DYNLIB_LOAD( a ) LoadLibraryEx( a, NULL, 0 ) // we can not use LOAD_WITH_ALTERED_SEARCH_PATH with relative paths
