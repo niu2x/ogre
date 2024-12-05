@@ -25,15 +25,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreMaterialSerializer.h"
 
-#include "OgreTextureUnitState.h"
-#include "OgreGpuProgramManager.h"
-#include "OgreHighLevelGpuProgramManager.h"
-#include "OgreExternalTextureSourceManager.h"
-#include "OgreLodStrategyManager.h"
 #include "OgreDistanceLodStrategy.h"
+#include "OgreExternalTextureSourceManager.h"
+#include "OgreGpuProgramManager.h"
 #include "OgreHighLevelGpuProgram.h"
+#include "OgreHighLevelGpuProgramManager.h"
+#include "OgreLodStrategyManager.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreTechnique.h"
+#include "OgreTextureManager.h"
+#include "OgreTextureUnitState.h"
 
 #include "ignore_deprecated.h"
 

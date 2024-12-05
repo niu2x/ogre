@@ -25,14 +25,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-
 #include "OgreMeshSerializerImpl.h"
-#include "OgreMeshFileFormat.h"
+
 #include "OgreAnimation.h"
 #include "OgreAnimationTrack.h"
-#include "OgreLodStrategyManager.h"
+#include "OgreBitwise.h"
 #include "OgreDistanceLodStrategy.h"
+#include "OgreHardwareBufferManager.h"
+#include "OgreLodStrategyManager.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreMeshFileFormat.h"
+#include "OgreMeshSerializer.h"
+#include "OgreRoot.h"
+#include "OgreSubMesh.h"
 
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC
 // Disable conversion warnings, we do a lot of them, intentionally

@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include "OgreStringInterface.h"
 #include "OgreMovableObject.h"
 #include "OgreResourceGroupManager.h"
+
 #include "OgreHeaderPrefix.h"
 
 

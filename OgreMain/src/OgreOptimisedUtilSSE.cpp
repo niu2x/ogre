@@ -25,9 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
-#include "OgreOptimisedUtil.h"
+#include "OgrePlatformInformation.h"
 
+#include "OgreMatrix4.h"
+#include "OgreOptimisedUtil.h"
 
 #if __OGRE_HAVE_SSE || __OGRE_HAVE_NEON
 
