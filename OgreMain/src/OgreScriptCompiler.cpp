@@ -26,10 +26,13 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
-#include "OgreScriptParser.h"
+#include "OgreScriptCompiler.h"
+
 #include "OgreBuiltinScriptTranslators.h"
 #include "OgreComponents.h"
+#include "OgreLogManager.h"
+#include "OgreResourceGroupManager.h"
+#include "OgreScriptParser.h"
 
 #define DEBUG_AST 0
 
