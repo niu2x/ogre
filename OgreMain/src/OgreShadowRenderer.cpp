@@ -28,14 +28,21 @@ THE SOFTWARE.
 
 #include <memory>
 
-#include "OgreStableHeaders.h"
+#include "OgreHardwareBufferManager.h"
 #include "OgreHardwarePixelBuffer.h"
-#include "OgreRenderTexture.h"
-#include "OgreViewport.h"
-#include "OgreRectangle2D.h"
-#include "OgreShadowCameraSetup.h"
-#include "OgreShadowVolumeExtrudeProgram.h"
 #include "OgreHighLevelGpuProgram.h"
+#include "OgreLogManager.h"
+#include "OgreMaterialManager.h"
+#include "OgreMeshManager.h"
+#include "OgreRectangle2D.h"
+#include "OgreRenderTexture.h"
+#include "OgreSceneManager.h"
+#include "OgreShadowCameraSetup.h"
+#include "OgreShadowTextureManager.h"
+#include "OgreShadowVolumeExtrudeProgram.h"
+#include "OgreTechnique.h"
+#include "OgreTextureManager.h"
+#include "OgreViewport.h"
 
 namespace Ogre {
 

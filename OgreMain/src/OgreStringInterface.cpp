@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreStringInterface.h"
 // #include "Threading/OgreThreadHeaders.h"
 
 namespace Ogre
@@ -70,7 +70,7 @@ ParamCommand* ParamDictionary::getParamCommand(const String& name)
 
     bool StringInterface::createParamDictionary(const String& className)
     {
-        OGRE_LOCK_MUTEX( msDictionaryMutex );
+        // OGRE_LOCK_MUTEX( msDictionaryMutex );
 
         ParamDictionaryMap::iterator it = msDictionary.find(className);
 
@@ -165,7 +165,7 @@ ParamCommand* ParamDictionary::getParamCommand(const String& name)
     //-----------------------------------------------------------------------
     void StringInterface::cleanupDictionary ()
     {
-            OGRE_LOCK_MUTEX( msDictionaryMutex );
+        // OGRE_LOCK_MUTEX( msDictionaryMutex );
 
         msDictionary.clear();
     }

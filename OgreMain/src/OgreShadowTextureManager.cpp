@@ -27,8 +27,10 @@ You may alternatively use this source under the terms of a specific version of
 the OGRE Unrestricted License provided you have obtained such a license from
 Torus Knot Software Ltd.
 -------------------------------------------------------------------------*/
-#include "OgreStableHeaders.h"
+#include "OgreShadowTextureManager.h"
 #include "OgreHardwarePixelBuffer.h"
+#include "OgreStringConverter.h"
+#include "OgreTextureManager.h"
 
 namespace Ogre
 {

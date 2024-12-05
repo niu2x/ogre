@@ -26,11 +26,12 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 
-#include "OgreStableHeaders.h"
-
 #include "OgreShadowCameraSetup.h"
-#include "OgreViewport.h"
 
+#include "OgreCamera.h"
+#include "OgreLight.h"
+#include "OgreSceneManager.h"
+#include "OgreViewport.h"
 
 namespace Ogre 
 {

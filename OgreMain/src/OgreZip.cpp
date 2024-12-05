@@ -25,7 +25,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreZip.h"
+
+#include "OgreException.h"
+#include "OgreFileSystem.h"
+
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #if OGRE_NO_ZIP_ARCHIVE == 0
 #include <zip.h>
