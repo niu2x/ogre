@@ -26,7 +26,11 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 // Ogre includes
-#include "OgreStableHeaders.h"
+#include "OgreResource.h"
+
+#include "OgreLogManager.h"
+#include "OgreResourceGroupManager.h"
+#include "OgreResourceManager.h"
 
 namespace Ogre 
 {

@@ -25,7 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#include "OgreStableHeaders.h"
+#include "OgreQuaternion.h"
+#include "OgreMatrix3.h"
 // NOTE THAT THIS FILE IS BASED ON MATERIAL FROM:
 
 // Geometric Tools, LLC
