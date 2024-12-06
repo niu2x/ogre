@@ -276,7 +276,6 @@ ADD_REPR(TRect)
 %ignore Ogre::Any::getType; // deprecated
 %ignore Ogre::Any::destroy; // deprecated
 %ignore Ogre::Any::isEmpty; // deprecated
-%include "OgreAny.h"
 %ignore Ogre::Math::calculateTangentSpaceVector; // deprecated
 %include "OgreMath.h"
 ADD_REPR(Degree)

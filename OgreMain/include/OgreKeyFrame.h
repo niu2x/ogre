@@ -31,7 +31,6 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreAny.h"
 #include "OgreHardwareVertexBuffer.h"
 #include "OgreIteratorWrapper.h"
 #include "OgreQuaternion.h"

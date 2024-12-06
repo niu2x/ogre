@@ -29,7 +29,6 @@ THE SOFTWARE.
 #ifndef __SCRIPTCOMPILER_H_
 #define __SCRIPTCOMPILER_H_
 
-#include "OgreAny.h"
 #include "OgreGpuProgram.h"
 #include "OgreHeaderPrefix.h"
 #include "OgreScriptLoader.h"

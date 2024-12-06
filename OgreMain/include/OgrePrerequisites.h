@@ -23,8 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE
 -------------------------------------------------------------------------*/
-#ifndef __OgrePrerequisites_H__
-#define __OgrePrerequisites_H__
+#pragma once
 
 // Platform-specific stuff
 #include "OgrePlatform.h"
@@ -355,6 +354,8 @@ namespace Ogre
     _OgreExport extern const String MOT_SIMPLE_RENDERABLE;
 }
 
-#endif // __OgrePrerequisites_H__
-
-
+namespace Ogre
+{
+using Any = std::any;
+using std::any_cast;
+} // namespace Ogre

@@ -26,7 +26,6 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "OgreAnimable.h"
-#include "OgreAny.h"
 
 namespace Ogre {
     void AnimableValue::resetToBaseValue(void)

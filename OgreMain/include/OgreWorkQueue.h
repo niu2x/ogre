@@ -28,7 +28,6 @@ THE SOFTWARE.
 #ifndef __OgreWorkQueue_H__
 #define __OgreWorkQueue_H__
 
-#include "OgreAny.h"
 #include "OgreCommon.h"
 #include "OgreHeaderPrefix.h"
 #include "OgrePrerequisites.h"

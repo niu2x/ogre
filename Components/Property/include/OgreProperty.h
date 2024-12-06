@@ -28,12 +28,11 @@ THE SOFTWARE.
 #ifndef __OGRE_PROPERTY_H__
 #define __OGRE_PROPERTY_H__
 
-#include "OgrePropertyPrerequisites.h"
-#include "OgreAny.h"
-#include "OgreString.h"
 #include "OgreException.h"
-#include "OgreQuaternion.h"
 #include "OgreMatrix4.h"
+#include "OgrePropertyPrerequisites.h"
+#include "OgreQuaternion.h"
+#include "OgreString.h"
 
 #include <functional>
 #include <sstream>

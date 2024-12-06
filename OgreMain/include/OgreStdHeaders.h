@@ -1,5 +1,4 @@
-#ifndef __StdHeaders_H__
-#define __StdHeaders_H__
+#pragma once
 
 #include <cassert>
 #include <cstdio>
@@ -24,6 +23,7 @@
 #include <ostream>
 #include <iosfwd>
 
+#include <any>
 #include <atomic>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
@@ -33,6 +33,4 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
 #   include <emscripten/emscripten.h>
-#endif
-
 #endif
