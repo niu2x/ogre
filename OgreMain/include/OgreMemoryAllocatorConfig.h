@@ -29,7 +29,7 @@ THE SOFTWARE.
 #ifndef __MemoryAllocatorConfig_H__
 #define __MemoryAllocatorConfig_H__
 
-#include "OgreAlignedAllocator.h"
+#include "aligned_allocator.h"
 
 namespace Ogre
 {
