@@ -29,11 +29,10 @@ THE SOFTWARE.
 #ifndef __Animation_H__
 #define __Animation_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreIteratorWrapper.h"
-#include "OgreAnimationTrack.h"
 #include "OgreAnimationState.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreAnimationTrack.h"
+#include "OgreIteratorWrapper.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -545,8 +544,6 @@ namespace Ogre {
     /** @} */
     /** @} */
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __Animation_H__
 

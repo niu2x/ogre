@@ -32,8 +32,6 @@ THE SOFTWARE.
 #include "OgreStringInterface.h"
 #include "Threading/thread_headers.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
 
     typedef size_t ResourceHandle;
@@ -496,7 +494,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

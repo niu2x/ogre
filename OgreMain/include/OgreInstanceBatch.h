@@ -28,12 +28,11 @@ THE SOFTWARE.
 #ifndef __InstanceBatch_H__
 #define __InstanceBatch_H__
 
+#include "OgreMesh.h"
+#include "OgreMovableObject.h"
 #include "OgrePrerequisites.h"
 #include "OgreRenderOperation.h"
 #include "OgreRenderable.h"
-#include "OgreMovableObject.h"
-#include "OgreMesh.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -354,7 +353,5 @@ namespace Ogre
         using Renderable::setUserAny;
     };
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __InstanceBatch_H__

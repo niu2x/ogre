@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 #include "OgreArchive.h"
 #include "OgreArchiveFactory.h"
-#include "OgreHeaderPrefix.h"
+
 #include "Threading/thread_headers.h"
 
 struct AAssetManager;
@@ -120,7 +120,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

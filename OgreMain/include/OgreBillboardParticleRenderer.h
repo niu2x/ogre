@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __BillboardParticleRenderer_H__
 #define __BillboardParticleRenderer_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreParticleSystemRenderer.h"
 #include "OgreBillboardSet.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreParticleSystemRenderer.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
 
@@ -163,8 +162,6 @@ namespace Ogre {
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __BillboardParticleRenderer_H__
 

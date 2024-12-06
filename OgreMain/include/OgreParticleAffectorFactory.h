@@ -28,10 +28,8 @@ THE SOFTWARE.
 #ifndef __ParticleAffectorFactory_H__
 #define __ParticleAffectorFactory_H__
 
-
-#include "OgrePrerequisites.h"
 #include "OgreParticleAffector.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
 
@@ -76,8 +74,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

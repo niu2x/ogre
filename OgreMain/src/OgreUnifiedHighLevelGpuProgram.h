@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __UnifiedHighLevelGpuProgram_H__
 #define __UnifiedHighLevelGpuProgram_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreGpuProgram.h"
 #include "OgreGpuProgramManager.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
 
@@ -168,7 +167,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

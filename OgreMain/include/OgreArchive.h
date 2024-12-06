@@ -28,11 +28,10 @@ THE SOFTWARE.
 #ifndef _Archive_H__
 #define _Archive_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreDataStream.h"
+#include "OgrePrerequisites.h"
 #include "OgreStringVector.h"
 #include <ctime>
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
 
@@ -222,7 +221,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

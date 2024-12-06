@@ -30,11 +30,10 @@
 #ifndef _LodCollapseCostOutside_H__
 #define _LodCollapseCostOutside_H__
 
-#include "OgreLodPrerequisites.h"
 #include "OgreLodCollapseCost.h"
 #include "OgreLodData.h"
+#include "OgreLodPrerequisites.h"
 #include "OgreSharedPtr.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -58,8 +57,6 @@ private:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

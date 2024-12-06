@@ -29,11 +29,10 @@ THE SOFTWARE.
 #ifndef __OgreManualObject_H__
 #define __OgreManualObject_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreMovableObject.h"
+#include "OgrePrerequisites.h"
 #include "OgreRenderable.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -688,8 +687,6 @@ namespace Ogre
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

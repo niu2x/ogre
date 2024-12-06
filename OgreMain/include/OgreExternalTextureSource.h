@@ -44,9 +44,8 @@ date                 : Jan 1 2004
 email                : pjcast@yahoo.com
 ***************************************************************************/
 
-#include "OgreStringInterface.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreStringInterface.h"
 
 namespace Ogre
 {
@@ -154,7 +153,5 @@ namespace Ogre
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

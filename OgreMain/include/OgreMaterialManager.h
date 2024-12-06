@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 #include "OgreSingleton.h"
 #include "OgreResourceManager.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreTextureUnitState.h"
 
 namespace Ogre {
@@ -293,7 +293,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

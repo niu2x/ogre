@@ -34,12 +34,11 @@ THE SOFTWARE.
 #include "OgreCommon.h"
 #include "OgreBlendMode.h"
 
-#include "OgreRenderSystemCapabilities.h"
 #include "OgreConfigOptionMap.h"
 #include "OgreGpuProgram.h"
-#include "OgrePlane.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePlane.h"
+#include "OgreRenderSystemCapabilities.h"
 
 namespace Ogre
 {
@@ -1219,7 +1218,5 @@ namespace Ogre
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

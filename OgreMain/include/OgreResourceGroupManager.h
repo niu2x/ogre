@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "OgreArchive.h"
 #include "OgreCommon.h"
 #include "OgreDataStream.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreIteratorWrapper.h"
 #include "OgrePrerequisites.h"
 #include "OgreSingleton.h"
@@ -944,7 +944,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

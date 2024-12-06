@@ -28,9 +28,8 @@ THE SOFTWARE.
 #ifndef __Math_H__
 #define __Math_H__
 
-#include <limits>
 #include "OgrePrerequisites.h"
-#include "OgreHeaderPrefix.h"
+#include <limits>
 
 #if defined(__FAST_MATH__) || defined(_M_FP_FAST)
 #define OGRE_FAST_MATH
@@ -804,7 +803,5 @@ namespace Ogre
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

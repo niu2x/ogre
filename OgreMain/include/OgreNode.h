@@ -32,7 +32,6 @@ THE SOFTWARE.
 
 #include "OgreMatrix4.h"
 #include "OgreUserObjectBindings.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
     template <typename T> class VectorIterator;
@@ -665,7 +664,5 @@ namespace Ogre {
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // _Node_H__

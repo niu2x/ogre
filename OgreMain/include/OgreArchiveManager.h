@@ -30,9 +30,8 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreSingleton.h"
 #include "OgreIteratorWrapper.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreSingleton.h"
 
 namespace Ogre {
 
@@ -110,7 +109,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

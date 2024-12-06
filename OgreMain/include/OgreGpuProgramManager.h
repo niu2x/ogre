@@ -29,11 +29,10 @@ THE SOFTWARE.
 #define __GpuProgramManager_H_
 
 // Precompiler options
+#include "OgreGpuProgram.h"
 #include "OgrePrerequisites.h"
 #include "OgreResourceManager.h"
-#include "OgreGpuProgram.h"
 #include "OgreSingleton.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
 
@@ -302,7 +301,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -31,8 +31,6 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreResource.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
     template <typename T> class VectorIterator;
 
@@ -177,7 +175,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

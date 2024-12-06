@@ -38,8 +38,6 @@ THE SOFTWARE.
 
 #include "OgreVulkanTextureGpu.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre
 {
     /** \addtogroup Core
@@ -90,7 +88,5 @@ namespace Ogre
     /** @} */
     /** @} */
 }  // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif

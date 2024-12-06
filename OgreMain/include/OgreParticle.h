@@ -28,8 +28,9 @@ THE SOFTWARE.
 #ifndef __Particle_H__
 #define __Particle_H__
 
+#include "OgreMath.h"
 #include "OgrePrerequisites.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreVector.h"
 
 namespace Ogre {
 
@@ -109,8 +110,6 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __Viewport_H__
 #define __Viewport_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 #include "OgreFrustum.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -389,7 +388,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

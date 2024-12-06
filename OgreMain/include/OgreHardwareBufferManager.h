@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include "OgreHardwareIndexBuffer.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreSingleton.h"
 #include "Threading/thread_headers.h"
 
@@ -321,8 +321,6 @@ namespace Ogre {
     /** @} */
     /** @} */
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __HardwareBufferManager__
 

@@ -31,15 +31,14 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 
+#include "OgreException.h"
 #include "OgreGpuProgram.h"
 #include "OgreGpuProgramParams.h"
-#include "OgreMatrix4.h"
 #include "OgreMaterial.h"
+#include "OgreMatrix4.h"
 #include "OgrePlane.h"
-#include "OgreVector.h"
-#include "OgreException.h"
 #include "OgreUserObjectBindings.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreVector.h"
 
 namespace Ogre {
 
@@ -367,5 +366,4 @@ namespace Ogre {
 
 } // namespace Ogre
 
-#include "OgreHeaderSuffix.h"
 #endif //__Renderable_H__

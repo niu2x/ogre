@@ -30,11 +30,10 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreRenderOperation.h"
-#include "OgreVertexBoneAssignment.h"
 #include "OgreAnimationTrack.h"
+#include "OgreRenderOperation.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreVertexBoneAssignment.h"
 
 namespace Ogre {
 
@@ -251,8 +250,6 @@ namespace Ogre {
     /** @} */
 
 } // namespace
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

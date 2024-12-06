@@ -30,9 +30,8 @@
 #ifndef _LodCollapser_H__
 #define _LodCollapser_H__
 
-#include "OgreLodPrerequisites.h"
 #include "OgreLodData.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreLodPrerequisites.h"
 
 namespace Ogre
 {
@@ -100,8 +99,6 @@ protected:
 /** @} */
 /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

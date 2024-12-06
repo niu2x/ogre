@@ -31,11 +31,10 @@ THE SOFTWARE.
 // Precompiler options
 #include "OgrePrerequisites.h"
 
-#include <exception>
-#include <deque>
-#include "OgreSingleton.h"
 #include "OgreSceneManager.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreSingleton.h"
+#include <deque>
+#include <exception>
 
 namespace Ogre
 {
@@ -931,7 +930,5 @@ namespace Ogre
     /** @} */
     /** @} */
 } // Namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -32,8 +32,6 @@ THE SOFTWARE.
 #include "OgreRenderQueue.h"
 #include "OgreRenderSystem.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
 
     /** \addtogroup Core
@@ -412,7 +410,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

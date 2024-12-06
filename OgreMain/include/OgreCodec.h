@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define _Codec_H__
 
 #include "OgreException.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreIteratorWrapper.h"
 #include "OgrePrerequisites.h"
 #include "OgreStringVector.h"
@@ -138,7 +138,5 @@ namespace Ogre {
     /** @} */
 
 } // namespace
-
-#include "OgreHeaderSuffix.h"
 
 #endif

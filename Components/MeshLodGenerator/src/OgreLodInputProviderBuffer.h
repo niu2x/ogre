@@ -30,12 +30,11 @@
 #ifndef _LodInputProviderBuffer_H__
 #define _LodInputProviderBuffer_H__
 
-#include "OgreLodPrerequisites.h"
-#include "OgreLodInputProvider.h"
-#include "OgreLodData.h"
 #include "OgreLodBuffer.h"
+#include "OgreLodData.h"
+#include "OgreLodInputProvider.h"
+#include "OgreLodPrerequisites.h"
 #include "OgreLogManager.h"
-#include "OgreHeaderPrefix.h"
 
 #include <sstream>
 
@@ -67,7 +66,5 @@ protected:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

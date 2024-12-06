@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "OgreHardwareBuffer.h"
 #include "OgreResource.h"
 #include "OgreImage.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreSharedPtr.h"
 
 namespace Ogre {
@@ -521,7 +521,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

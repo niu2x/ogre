@@ -36,8 +36,6 @@ Copyright (c) 2000-2014 Torus Knot Software Ltd
 #include "OgreSharedPtr.h"
 #include "Threading/thread_headers.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
     struct TransformBaseReal;
     template <typename T> class ConstMapIterator;
@@ -1835,7 +1833,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

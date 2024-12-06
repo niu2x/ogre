@@ -30,7 +30,6 @@ THE SOFTWARE.
 
 #include "OgreInstanceBatch.h"
 #include "OgreTexture.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -216,7 +215,5 @@ namespace Ogre
         size_t calculateMaxNumInstances( const SubMesh *baseSubMesh, uint16 flags ) const override;
     };
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -29,11 +29,10 @@ THE SOFTWARE.
 #define __HardwarePixelBuffer__
 
 // Precompiler options
-#include "OgrePrerequisites.h"
 #include "OgreHardwareBuffer.h"
 #include "OgreImage.h"
+#include "OgrePrerequisites.h"
 #include "OgreSharedPtr.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
 
@@ -197,8 +196,6 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

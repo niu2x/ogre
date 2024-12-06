@@ -30,13 +30,12 @@
 #ifndef _LodInputProviderMesh_H__
 #define _LodInputProviderMesh_H__
 
-#include "OgreLodPrerequisites.h"
-#include "OgreLodInputProvider.h"
 #include "OgreLodData.h"
-#include "OgreSharedPtr.h"
+#include "OgreLodInputProvider.h"
+#include "OgreLodPrerequisites.h"
 #include "OgreLogManager.h"
 #include "OgreRenderOperation.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreSharedPtr.h"
 
 #include <sstream>
 
@@ -68,7 +67,5 @@ protected:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

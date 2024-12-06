@@ -30,13 +30,12 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreColourValue.h"
-#include "OgreVector.h"
-#include "OgreMovableObject.h"
-#include "OgrePlaneBoundedVolume.h"
-#include "OgreNode.h"
 #include "OgreCamera.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreColourValue.h"
+#include "OgreMovableObject.h"
+#include "OgreNode.h"
+#include "OgrePlaneBoundedVolume.h"
+#include "OgreVector.h"
 
 namespace Ogre {
 
@@ -621,8 +620,6 @@ namespace Ogre {
     };
     /** @} */
     /** @} */
-
-#include "OgreHeaderSuffix.h"
 
 } // namespace Ogre
 #endif // _LIGHT_H__

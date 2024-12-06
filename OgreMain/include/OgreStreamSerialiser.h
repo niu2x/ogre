@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __StreamSerialiser_H__
 #define __StreamSerialiser_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 #include "OgreDataStream.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 #include <deque>
 
@@ -391,8 +390,6 @@ namespace Ogre
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

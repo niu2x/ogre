@@ -30,10 +30,9 @@
 #ifndef _LodOutputProviderBuffer_H__
 #define _LodOutputProviderBuffer_H__
 
-#include "OgreLodPrerequisites.h"
-#include "OgreLodOutputProvider.h"
 #include "OgreLodBuffer.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreLodOutputProvider.h"
+#include "OgreLodPrerequisites.h"
 
 namespace Ogre
 {
@@ -60,7 +59,5 @@ protected:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

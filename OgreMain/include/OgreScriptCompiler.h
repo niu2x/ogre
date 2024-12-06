@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __SCRIPTCOMPILER_H_
 
 #include "OgreGpuProgram.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreScriptLoader.h"
 #include "OgreSharedPtr.h"
 #include "OgreSingleton.h"
@@ -841,7 +841,5 @@ namespace Ogre
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

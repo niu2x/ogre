@@ -28,9 +28,9 @@ THE SOFTWARE.
 #ifndef __OgreWorkQueue_H__
 #define __OgreWorkQueue_H__
 
-#include "OgreCommon.h"
-#include "OgreHeaderPrefix.h"
 #include "OgrePrerequisites.h"
+
+#include "OgreCommon.h"
 #include "OgreSharedPtr.h"
 #include "Threading/thread_headers.h"
 
@@ -316,8 +316,6 @@ namespace Ogre
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

@@ -28,11 +28,9 @@ THE SOFTWARE.
 #ifndef __ParticleEmitterFactory_H__
 #define __ParticleEmitterFactory_H__
 
-
-#include "OgrePrerequisites.h"
 #include "OgreParticleEmitter.h"
+#include "OgrePrerequisites.h"
 #include "OgreString.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
 
@@ -79,8 +77,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

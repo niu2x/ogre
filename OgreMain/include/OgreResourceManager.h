@@ -30,12 +30,11 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
+#include "OgreCommon.h"
 #include "OgreResource.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreCommon.h"
-#include "OgreStringVector.h"
 #include "OgreScriptLoader.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreStringVector.h"
 
 namespace Ogre {
 
@@ -502,7 +501,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

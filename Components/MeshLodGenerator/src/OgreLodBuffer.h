@@ -31,7 +31,6 @@
 
 #include "OgreLodPrerequisites.h"
 #include "OgreSharedPtr.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -75,7 +74,5 @@ struct LodOutputBuffer {
 /** @} */
 /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

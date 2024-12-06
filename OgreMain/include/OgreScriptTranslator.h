@@ -30,9 +30,8 @@ THE SOFTWARE.
 #define __SCRIPTTRANSLATOR_H_
 
 #include "OgrePrerequisites.h"
-#include "OgreScriptCompiler.h"
 #include "OgreRenderSystem.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreScriptCompiler.h"
 
 namespace Ogre{
     /** \addtogroup Core
@@ -132,8 +131,6 @@ namespace Ogre{
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

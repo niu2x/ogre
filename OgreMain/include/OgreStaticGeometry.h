@@ -28,11 +28,10 @@ THE SOFTWARE.
 #ifndef __StaticGeometry_H__
 #define __StaticGeometry_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreMovableObject.h"
-#include "OgreRenderable.h"
 #include "OgreMesh.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreMovableObject.h"
+#include "OgrePrerequisites.h"
+#include "OgreRenderable.h"
 
 namespace Ogre {
 
@@ -724,8 +723,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

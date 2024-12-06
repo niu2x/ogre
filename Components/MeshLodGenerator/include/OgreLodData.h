@@ -30,10 +30,9 @@
 #define _LodData_H__
 
 #include "OgreLodPrerequisites.h"
+#include "OgreVector.h"
 #include "OgreVectorSet.h"
 #include "OgreVectorSetImpl.h"
-#include "OgreVector.h"
-#include "OgreHeaderPrefix.h"
 
 #include <unordered_set>
 
@@ -213,7 +212,5 @@ struct _OgreLodExport LodData {
 /** @} */
 /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

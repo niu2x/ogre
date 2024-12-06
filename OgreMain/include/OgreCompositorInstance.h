@@ -28,11 +28,10 @@ THE SOFTWARE.
 #ifndef __CompositorInstance_H__
 #define __CompositorInstance_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreMaterialManager.h"
-#include "OgreRenderQueue.h"
 #include "OgreCompositionTechnique.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreMaterialManager.h"
+#include "OgrePrerequisites.h"
+#include "OgreRenderQueue.h"
 
 #include <bitset>
 
@@ -402,7 +401,5 @@ namespace Ogre {
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __CompositorInstance_H__

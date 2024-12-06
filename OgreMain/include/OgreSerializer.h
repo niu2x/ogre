@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __Serializer_H__
 
 #include "OgreDataStream.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgrePrerequisites.h"
 
 #ifndef OGRE_SERIALIZER_VALIDATE_CHUNKSIZE
@@ -127,7 +127,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

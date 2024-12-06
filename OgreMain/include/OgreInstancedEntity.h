@@ -30,7 +30,6 @@ THE SOFTWARE.
 
 #include "OgreMovableObject.h"
 #include "OgreNode.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -288,7 +287,5 @@ namespace Ogre
         const Vector4f& getCustomParam( unsigned char idx );
     };
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

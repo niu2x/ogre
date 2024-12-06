@@ -36,8 +36,6 @@ THE SOFTWARE.
 #include "OgreStringVector.h"
 #include "OgreVector.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
 
 // class Any;
@@ -214,8 +212,6 @@ public:
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

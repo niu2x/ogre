@@ -34,8 +34,6 @@ THE SOFTWARE.
 #include "OgreIteratorWrapper.h"
 #include "OgrePass.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
 
     /** \addtogroup Core
@@ -624,8 +622,6 @@ namespace Ogre {
 
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

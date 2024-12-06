@@ -31,8 +31,6 @@ THE SOFTWARE.
 
 #include "OgreVulkanTextureGpu.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre
 {
     class _OgreVulkanExport VulkanTextureGpuWindow : public VulkanTextureGpu
@@ -61,7 +59,5 @@ namespace Ogre
         void getCustomAttribute( const String& name, void *pData ) override;
     };
 }  // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif

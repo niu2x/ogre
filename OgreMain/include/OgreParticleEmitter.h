@@ -28,14 +28,12 @@ THE SOFTWARE.
 #ifndef __ParticleEmitter_H__
 #define __ParticleEmitter_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreVector.h"
 #include "OgreColourValue.h"
-#include "OgreStringInterface.h"
 #include "OgreParticle.h"
 #include "OgreParticleSystem.h"
-#include "OgreHeaderPrefix.h"
-
+#include "OgrePrerequisites.h"
+#include "OgreStringInterface.h"
+#include "OgreVector.h"
 
 namespace Ogre {
 
@@ -525,8 +523,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

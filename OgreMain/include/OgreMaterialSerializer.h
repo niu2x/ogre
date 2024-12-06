@@ -28,11 +28,10 @@ THE SOFTWARE.
 #ifndef __MaterialSerializer_H__
 #define __MaterialSerializer_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreTextureUnitState.h"
 #include "OgreGpuProgram.h"
+#include "OgrePrerequisites.h"
 #include "OgreStringVector.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreTextureUnitState.h"
 
 namespace Ogre {
 
@@ -354,7 +353,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

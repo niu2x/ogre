@@ -28,12 +28,11 @@ THE SOFTWARE.
 #ifndef __CompositorChain_H__
 #define __CompositorChain_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreRenderTargetListener.h"
-#include "OgreRenderQueueListener.h"
 #include "OgreCompositorInstance.h"
+#include "OgrePrerequisites.h"
+#include "OgreRenderQueueListener.h"
+#include "OgreRenderTargetListener.h"
 #include "OgreViewport.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -245,7 +244,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __CompositorChain_H__

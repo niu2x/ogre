@@ -30,11 +30,10 @@
 #ifndef _LodCollapseCostProfiler_H__
 #define _LodCollapseCostProfiler_H__
 
-#include "OgreLodPrerequisites.h"
 #include "OgreLodCollapseCost.h"
-#include "OgreLodData.h"
 #include "OgreLodConfig.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreLodData.h"
+#include "OgreLodPrerequisites.h"
 
 namespace Ogre
 {
@@ -69,7 +68,5 @@ private:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

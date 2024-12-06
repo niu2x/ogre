@@ -30,10 +30,9 @@
 #ifndef _LodOutputProviderMesh_H__
 #define _LodOutputProviderMesh_H__
 
-#include "OgreLodPrerequisites.h"
 #include "OgreLodOutputProvider.h"
+#include "OgreLodPrerequisites.h"
 #include "OgreSharedPtr.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -59,7 +58,5 @@ protected:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -31,8 +31,6 @@ THE SOFTWARE.
 
 #include "OgreVulkanPrerequisites.h"
 
-#include "OgreHeaderPrefix.h"
-
 #include "vk_mem_alloc.h"
 
 namespace Ogre
@@ -244,7 +242,5 @@ namespace Ogre
     };
 
 }  // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -29,9 +29,8 @@ THE SOFTWARE.
 #ifndef __SimpleSpline_H__
 #define __SimpleSpline_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreMatrix4.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
 
@@ -125,9 +124,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
-
 
 #endif
 

@@ -28,13 +28,12 @@ THE SOFTWARE.
 #ifndef __Pass_H__
 #define __Pass_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreColourValue.h"
 #include "OgreCommon.h"
 #include "OgreLight.h"
+#include "OgrePrerequisites.h"
 #include "OgreTextureUnitState.h"
 #include "OgreUserObjectBindings.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
 
@@ -1560,7 +1559,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

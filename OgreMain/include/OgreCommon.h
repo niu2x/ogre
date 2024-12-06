@@ -30,7 +30,7 @@ THE SOFTWARE.
 // Common stuff
 
 #include "OgreVector.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreMurmurHash3.h"
 
 namespace Ogre {
@@ -620,7 +620,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

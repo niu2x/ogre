@@ -35,8 +35,6 @@ THE SOFTWARE.
 #include "OgreSingleton.h"
 #include "OgreStringVector.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre {
 
     // Forward decl
@@ -330,8 +328,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

@@ -34,8 +34,6 @@ THE SOFTWARE.
 #include "OgreIteratorWrapper.h"
 #include "OgreRenderOperation.h"
 
-#include "OgreHeaderPrefix.h"
-
 namespace Ogre
 {
     /** \addtogroup Core
@@ -308,7 +306,5 @@ namespace Ogre
         InstanceBatchIterator getInstanceBatchIterator( const String &materialName ) const;
     };
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __InstanceManager_H__

@@ -28,13 +28,11 @@ THE SOFTWARE.
 #ifndef __ResourceBackgroundQueue_H__
 #define __ResourceBackgroundQueue_H__
 
-
-#include "OgrePrerequisites.h"
 #include "OgreCommon.h"
-#include "OgreSingleton.h"
+#include "OgrePrerequisites.h"
 #include "OgreResource.h"
+#include "OgreSingleton.h"
 #include "OgreWorkQueue.h"
-#include "OgreHeaderPrefix.h"
 
 #include <future>
 
@@ -124,8 +122,6 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

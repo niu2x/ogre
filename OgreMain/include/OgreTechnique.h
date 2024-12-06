@@ -28,12 +28,11 @@ THE SOFTWARE.
 #ifndef __Technique_H__
 #define __Technique_H__
 
-#include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 #include "OgrePass.h"
+#include "OgrePrerequisites.h"
 #include "OgreRenderSystemCapabilities.h"
 #include "OgreUserObjectBindings.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -703,7 +702,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

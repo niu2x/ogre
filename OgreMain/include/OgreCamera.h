@@ -34,8 +34,6 @@ THE SOFTWARE.
 // Matrices & Vectors
 #include "OgreCommon.h"
 #include "OgreFrustum.h"
-#include "OgreHeaderPrefix.h"
-
 
 namespace Ogre {
 
@@ -661,7 +659,5 @@ namespace Ogre {
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __Camera_H__

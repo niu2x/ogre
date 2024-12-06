@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __VertexIndexData_H__
 #define __VertexIndexData_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreHardwareVertexBuffer.h"
 #include "OgreHardwareIndexBuffer.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreHardwareVertexBuffer.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -323,8 +322,6 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

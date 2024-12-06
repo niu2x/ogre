@@ -32,7 +32,6 @@ THE SOFTWARE.
 
 #include "OgreCommon.h"
 #include "OgreStringVector.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
     template <typename T> class MapIterator;
@@ -114,7 +113,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __OGRE_POSE_H
 #define __OGRE_POSE_H
 
-#include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 #include "OgreHardwareVertexBuffer.h"
-#include "OgreHeaderPrefix.h"
+#include "OgrePrerequisites.h"
 
 namespace Ogre {
 
@@ -151,7 +150,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

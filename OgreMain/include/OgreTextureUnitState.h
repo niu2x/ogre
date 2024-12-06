@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "OgreBlendMode.h"
 #include "OgreMatrix4.h"
 #include "OgreTexture.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreRenderSystem.h"
 
 namespace Ogre {
@@ -1146,7 +1146,5 @@ private:
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __TextureUnitState_H__

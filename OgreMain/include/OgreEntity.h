@@ -31,13 +31,12 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 
+#include "OgreHardwareBufferManager.h"
 #include "OgreMovableObject.h"
 #include "OgreQuaternion.h"
-#include "OgreVector.h"
-#include "OgreHardwareBufferManager.h"
 #include "OgreRenderable.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreVector.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -870,7 +869,5 @@ namespace Ogre {
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // __Entity_H__

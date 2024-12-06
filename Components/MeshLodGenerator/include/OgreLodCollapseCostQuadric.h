@@ -30,11 +30,10 @@
 #ifndef _LodCollapseCostQuadric_H__
 #define _LodCollapseCostQuadric_H__
 
-#include "OgreLodPrerequisites.h"
 #include "OgreLodCollapseCost.h"
 #include "OgreLodData.h"
+#include "OgreLodPrerequisites.h"
 #include "OgreMatrix4.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -58,8 +57,6 @@ protected:
 };
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif
 

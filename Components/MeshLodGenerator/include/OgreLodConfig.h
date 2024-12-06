@@ -29,9 +29,8 @@
 #ifndef __LogConfig_H_
 #define __LogConfig_H_
 
-#include "OgreLodPrerequisites.h"
 #include "OgreDistanceLodStrategy.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreLodPrerequisites.h"
 
 namespace Ogre
 {
@@ -175,7 +174,5 @@ struct _OgreLodExport LodConfig {
 /** @} */
 /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

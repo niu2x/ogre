@@ -30,12 +30,11 @@ THE SOFTWARE.
 #define __MovableObject_H__
 
 // Precompiler options
-#include "OgrePrerequisites.h"
-#include "OgreAxisAlignedBox.h"
-#include "OgreSphere.h"
-#include "OgreShadowCaster.h"
 #include "OgreAnimable.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreAxisAlignedBox.h"
+#include "OgrePrerequisites.h"
+#include "OgreShadowCaster.h"
+#include "OgreSphere.h"
 
 namespace Ogre {
 
@@ -623,7 +622,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

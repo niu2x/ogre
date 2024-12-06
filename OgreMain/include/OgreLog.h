@@ -30,7 +30,7 @@ THE SOFTWARE.
 #define __Log_H__
 
 #include "OgreCommon.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgrePrerequisites.h"
 
 #include <fstream>
@@ -247,7 +247,5 @@ namespace Ogre {
     void logMaterialNotFound(const String& name, const String& groupName, const String& destType,
                              const String& destName, LogMessageLevel lml = LML_CRITICAL);
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

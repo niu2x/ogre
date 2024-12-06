@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __CompositionTargetPass_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreHeaderPrefix.h"
+
 #include "OgreCompositionPass.h"
 
 namespace Ogre {
@@ -184,7 +184,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -31,9 +31,8 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 #include "OgreCommon.h"
 
-#include "OgreNode.h"
 #include "OgreAxisAlignedBox.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreNode.h"
 
 namespace Ogre {
 
@@ -481,7 +480,5 @@ namespace Ogre {
 
 
 }// namespace
-
-#include "OgreHeaderSuffix.h"
 
 #endif

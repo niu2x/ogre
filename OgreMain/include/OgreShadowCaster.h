@@ -29,10 +29,8 @@ THE SOFTWARE.
 #define __ShadowCaster_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreRenderable.h"
 #include "OgreRenderOperation.h"
-#include "OgreHeaderPrefix.h"
-
+#include "OgreRenderable.h"
 
 namespace Ogre {
 
@@ -251,7 +249,6 @@ namespace Ogre {
     };
     /** @} */
     /** @} */
-} // namespace Ogre
-#include "OgreHeaderSuffix.h"
+    } // namespace Ogre
 
 #endif // __ShadowCaster_H__

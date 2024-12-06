@@ -28,7 +28,6 @@ THE SOFTWARE.
 #ifndef _UserObjectsBinding_H__
 #define _UserObjectsBinding_H__
 
-#include "OgreHeaderPrefix.h"
 #include "OgrePrerequisites.h"
 
 namespace Ogre {
@@ -131,7 +130,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

@@ -30,7 +30,6 @@ THE SOFTWARE.
 
 #include "OgreString.h"
 #include <sstream>
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -78,7 +77,5 @@ namespace Ogre {
     /** @} */
     /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

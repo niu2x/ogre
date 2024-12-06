@@ -33,8 +33,6 @@ THE SOFTWARE.
 
 #include "OgreVulkanQueue.h"
 
-#include "OgreHeaderPrefix.h"
-
 #include "vk_mem_alloc.h"
 
 namespace Ogre
@@ -108,7 +106,5 @@ namespace Ogre
         VmaAllocator getAllocator() const { return mVmaAllocator; }
     };
 }  // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif

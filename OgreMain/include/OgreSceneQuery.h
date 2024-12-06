@@ -29,9 +29,8 @@ THE SOFTWARE.
 #define __SceneQuery_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreSphere.h"
 #include "OgreRay.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreSphere.h"
 
 namespace Ogre {
     /** \addtogroup Core
@@ -475,8 +474,6 @@ namespace Ogre {
     /** @} */
     /** @} */
 
-}
-    
-#include "OgreHeaderSuffix.h"
+    } // namespace Ogre
 
 #endif

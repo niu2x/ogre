@@ -31,7 +31,6 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreHeaderPrefix.h"
 #include "OgrePolygon.h"
 
 namespace Ogre
@@ -250,8 +249,6 @@ namespace Ogre
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif 
 

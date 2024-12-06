@@ -28,10 +28,9 @@ THE SOFTWARE.
 #ifndef __OutsideMarker_H__
 #define __OutsideMarker_H__
 
-#include "OgreLodPrerequisites.h"
 #include "OgreLodData.h"
+#include "OgreLodPrerequisites.h"
 #include "OgreResourceGroupManager.h"
-#include "OgreHeaderPrefix.h"
 
 namespace Ogre
 {
@@ -133,7 +132,5 @@ private:
 /** @} */
 /** @} */
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif /* ifndef __OutsideMarker_H__ */

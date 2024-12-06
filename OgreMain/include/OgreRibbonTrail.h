@@ -32,9 +32,8 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreBillboardChain.h"
-#include "OgreNode.h"
 #include "OgreControllerManager.h"
-#include "OgreHeaderPrefix.h"
+#include "OgreNode.h"
 
 namespace Ogre {
 
@@ -222,7 +221,5 @@ namespace Ogre {
     /** @} */
 
 }
-
-#include "OgreHeaderSuffix.h"
 
 #endif

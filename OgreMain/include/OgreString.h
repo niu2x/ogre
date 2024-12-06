@@ -29,7 +29,6 @@ THE SOFTWARE.
 #define _String_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreHeaderPrefix.h"
 
 #if OGRE_COMPILER == OGRE_COMPILER_GNUC || OGRE_COMPILER == OGRE_COMPILER_CLANG
 #define OGRE_FORMAT_PRINTF(string_idx, first_to_check) __attribute__ ((format (printf, string_idx, first_to_check)))
@@ -187,7 +186,5 @@ namespace Ogre {
     /** @} */
 
 } // namespace Ogre
-
-#include "OgreHeaderSuffix.h"
 
 #endif // _String_H__
