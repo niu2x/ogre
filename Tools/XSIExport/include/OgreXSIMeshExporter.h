@@ -28,26 +28,25 @@ THE SOFTWARE.
 #ifndef __XSIMESHEXPORTER_H__
 #define __XSIMESHEXPORTER_H__
 
-#include "OgrePrerequisites.h"
-#include "OgreVector.h"
-#include "OgreColourValue.h"
 #include "OgreMesh.h"
+#include "OgrePrerequisites.h"
 #include "OgreProgressiveMesh.h"
+#include "OgreVector.h"
 #include "OgreXSIHelper.h"
-#include <xsi_x3dobject.h>
-#include <xsi_string.h>
+#include "colour_value.h"
 #include <xsi_application.h>
-#include <xsi_geometry.h>
-#include <xsi_geometryaccessor.h>
-#include <xsi_triangle.h>
-#include <xsi_polygonface.h>
-#include <xsi_facet.h>
-#include <xsi_point.h>
-#include <xsi_polygonmesh.h>
-#include <xsi_shapekey.h>
 #include <xsi_clip.h>
 #include <xsi_clipcontainer.h>
-
+#include <xsi_facet.h>
+#include <xsi_geometry.h>
+#include <xsi_geometryaccessor.h>
+#include <xsi_point.h>
+#include <xsi_polygonface.h>
+#include <xsi_polygonmesh.h>
+#include <xsi_shapekey.h>
+#include <xsi_string.h>
+#include <xsi_triangle.h>
+#include <xsi_x3dobject.h>
 
 namespace Ogre {
 

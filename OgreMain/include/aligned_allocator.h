@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __AlignedAllocator_H__
 
 #include "OgrePlatform.h"
-#include <cstdlib>
+#include <memory>
 
 namespace Ogre
 {

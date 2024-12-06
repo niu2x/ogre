@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "OgreColourValue.h"
 #include "OgreEntity.h"
 #include "OgreHardwareBuffer.h"
 #include "OgreHardwareIndexBuffer.h"
@@ -14,8 +13,9 @@
 #include "OgrePixelFormat.h"
 #include "OgrePlatform.h"
 #include "OgrePrerequisites.h"
-#include "SdkSample.h"
 #include "SamplePlugin.h"
+#include "SdkSample.h"
+#include "colour_value.h"
 #include <algorithm>
 #include <numeric>
 

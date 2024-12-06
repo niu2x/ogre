@@ -28,11 +28,11 @@ THE SOFTWARE.
 #ifndef __ColourImageAffector_H__
 #define __ColourImageAffector_H__
 
-#include "OgreParticleFXPrerequisites.h"
-#include "OgreParticleAffector.h"
-#include "OgreStringInterface.h"
-#include "OgreColourValue.h"
 #include "OgreImage.h"
+#include "OgreParticleAffector.h"
+#include "OgreParticleFXPrerequisites.h"
+#include "OgreStringInterface.h"
+#include "colour_value.h"
 
 namespace Ogre {
 

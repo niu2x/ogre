@@ -27,12 +27,12 @@ THE SOFTWARE
 #ifndef _Font_H__
 #define _Font_H__
 
+#include "OgreCommon.h"
+#include "OgreException.h"
 #include "OgreOverlayPrerequisites.h"
 #include "OgreResource.h"
-#include "OgreCommon.h"
 #include "OgreSharedPtr.h"
-#include "OgreColourValue.h"
-#include "OgreException.h"
+#include "colour_value.h"
 
 namespace Ogre
 {

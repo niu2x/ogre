@@ -1,13 +1,12 @@
 #ifndef __EXPORTER_H__
 #define __EXPORTER_H__
 
-
-#include "stdafx.h"
-#include "SemanticLayer.h"
+#include "OgreMesh.h"
 #include "OgrePrerequisites.h"
 #include "OgreVector.h"
-#include "OgreColourValue.h"
-#include "OgreMesh.h"
+#include "SemanticLayer.h"
+#include "colour_value.h"
+#include "stdafx.h"
 
 using namespace Ogre;
 

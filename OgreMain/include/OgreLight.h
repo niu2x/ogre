@@ -31,11 +31,11 @@ THE SOFTWARE.
 #include "OgrePrerequisites.h"
 
 #include "OgreCamera.h"
-#include "OgreColourValue.h"
 #include "OgreMovableObject.h"
 #include "OgreNode.h"
 #include "OgrePlaneBoundedVolume.h"
 #include "OgreVector.h"
+#include "colour_value.h"
 
 namespace Ogre {
 

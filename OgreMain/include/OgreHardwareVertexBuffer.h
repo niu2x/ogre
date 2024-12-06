@@ -29,10 +29,10 @@ THE SOFTWARE.
 #define __HardwareVertexBuffer__
 
 // Precompiler options
-#include "OgreColourValue.h"
 #include "OgreHardwareBuffer.h"
 #include "OgrePrerequisites.h"
 #include "OgreSharedPtr.h"
+#include "colour_value.h"
 
 namespace Ogre {
     class HardwareBufferManagerBase;

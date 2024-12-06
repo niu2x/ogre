@@ -2,13 +2,13 @@
 #define DOT_SCENELOADER_H
 
 // Includes
+#include <OgreCodec.h>
 #include <OgreDotScenePluginExports.h>
-#include <OgreColourValue.h>
+#include <OgrePlugin.h>
 #include <OgreQuaternion.h>
 #include <OgreResourceGroupManager.h>
 #include <OgreString.h>
-#include <OgrePlugin.h>
-#include <OgreCodec.h>
+#include <colour_value.h>
 
 namespace pugi
 {

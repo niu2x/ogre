@@ -28,13 +28,13 @@ THE SOFTWARE.
 #ifndef __QUAKE3SHADER_H__
 #define __QUAKE3SHADER_H__
 
-#include "OgreResource.h"
-#include "OgreBspPrerequisites.h"
-#include "OgreQuake3Types.h"
-#include "OgreCommon.h"
-#include "OgreColourValue.h"
 #include "OgreBlendMode.h"
+#include "OgreBspPrerequisites.h"
+#include "OgreCommon.h"
+#include "OgreQuake3Types.h"
+#include "OgreResource.h"
 #include "OgreTextureUnitState.h"
+#include "colour_value.h"
 
 namespace Ogre {
     /** \addtogroup Plugins

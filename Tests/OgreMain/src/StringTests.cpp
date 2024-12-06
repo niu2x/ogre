@@ -26,12 +26,11 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include "StringTests.h"
+#include "OgreMatrix4.h"
+#include "OgreQuaternion.h"
 #include "OgreStringConverter.h"
 #include "OgreVector.h"
-#include "OgreQuaternion.h"
-#include "OgreMatrix4.h"
-#include "OgreColourValue.h"
-
+#include "colour_value.h"
 
 using namespace Ogre;
 

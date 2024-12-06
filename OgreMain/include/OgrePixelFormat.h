@@ -28,9 +28,9 @@ THE SOFTWARE.
 #ifndef _PixelFormat_H__
 #define _PixelFormat_H__
 
-#include "OgreColourValue.h"
 #include "OgreCommon.h"
 #include "OgrePrerequisites.h"
+#include "colour_value.h"
 
 namespace Ogre {
     /** \addtogroup Core

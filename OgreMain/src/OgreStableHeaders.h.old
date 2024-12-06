@@ -55,7 +55,7 @@ extern "C" {
 #include "OgreBuiltinMovableFactories.h"
 #include "OgreCamera.h"
 #include "OgreCodec.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 #include "OgreCommon.h"
 #include "OgreDataStream.h"
 #include "OgreDefaultWorkQueue.h"

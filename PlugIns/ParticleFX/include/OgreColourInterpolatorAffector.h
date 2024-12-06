@@ -28,10 +28,10 @@ THE SOFTWARE.
 #ifndef __ColourInterpolatorAffector_H__
 #define __ColourInterpolatorAffector_H__
 
-#include "OgreParticleFXPrerequisites.h"
 #include "OgreParticleAffector.h"
+#include "OgreParticleFXPrerequisites.h"
 #include "OgreStringInterface.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 
 namespace Ogre {
 

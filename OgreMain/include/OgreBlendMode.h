@@ -29,7 +29,7 @@ THE SOFTWARE.
 #define __BLENDMODE_H__
 
 #include "OgrePrerequisites.h"
-#include "OgreColourValue.h"
+#include "colour_value.h"
 
 namespace Ogre {
     /** \addtogroup Core

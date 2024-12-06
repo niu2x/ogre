@@ -28,12 +28,12 @@ THE SOFTWARE.
 #ifndef __ParticleEmitter_H__
 #define __ParticleEmitter_H__
 
-#include "OgreColourValue.h"
 #include "OgreParticle.h"
 #include "OgreParticleSystem.h"
 #include "OgrePrerequisites.h"
 #include "OgreStringInterface.h"
 #include "OgreVector.h"
+#include "colour_value.h"
 
 namespace Ogre {
 

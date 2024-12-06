@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "OgreMath.h"
 #include "OgrePrerequisites.h"
 #include "OgreVector.h"
+#include "colour_value.h"
 
 namespace Ogre {
 

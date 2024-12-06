@@ -30,11 +30,11 @@ THE SOFTWARE.
 
 #include "OgrePrerequisites.h"
 
-#include "OgreColourValue.h"
 #include "OgreCommon.h"
 #include "OgreException.h"
 #include "OgreStringVector.h"
 #include "OgreVector.h"
+#include "colour_value.h"
 
 namespace Ogre {
 

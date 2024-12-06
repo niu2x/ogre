@@ -41,16 +41,16 @@ THE SOFTWARE.
 #include <xsi_shader.h>
 #include <xsi_value.h>
 
-#include <stdlib.h>
-#include "OgrePrerequisites.h"
-#include "OgreString.h"
-#include "OgreColourValue.h"
-#include "OgreLogManager.h"
-#include "OgreStringVector.h"
-#include "OgreSingleton.h"
-#include "OgreVector.h"
-#include "OgreQuaternion.h"
 #include "OgreHardwareVertexBuffer.h"
+#include "OgreLogManager.h"
+#include "OgrePrerequisites.h"
+#include "OgreQuaternion.h"
+#include "OgreSingleton.h"
+#include "OgreString.h"
+#include "OgreStringVector.h"
+#include "OgreVector.h"
+#include "colour_value.h"
+#include <stdlib.h>
 
 #define OGRE_XSI_NUM_MESH_STEPS 200
 

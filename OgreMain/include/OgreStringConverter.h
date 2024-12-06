@@ -30,11 +30,11 @@ THE SOFTWARE.
 #define __StringConverter_H__
 
 #include "OgreCommon.h"
+#include "OgreMatrix4.h"
 #include "OgrePrerequisites.h"
 #include "OgreStringVector.h"
-#include "OgreColourValue.h"
-#include "OgreMatrix4.h"
 #include "OgreVector.h"
+#include "colour_value.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WINRT
 #   define locale_t _locale_t

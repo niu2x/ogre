@@ -1,24 +1,24 @@
 #include "Exporter.h"
-#include <iostream>
-#include <string>
-#include "stdafx.h"
-#include "SemanticLayer.h"
-#include "OgreException.h"
-#include "OgreLogManager.h"
-#include "OgreMeshManager.h"
-#include "OgreSkeletonManager.h"
 #include "OgreAnimation.h"
 #include "OgreAnimationTrack.h"
-#include "OgreKeyFrame.h"
-#include "OgreMesh.h"
-#include "OgreSubMesh.h"
-#include "OgreSkeleton.h"
 #include "OgreBone.h"
 #include "OgreDefaultHardwareBufferManager.h"
+#include "OgreException.h"
+#include "OgreKeyFrame.h"
+#include "OgreLogManager.h"
+#include "OgreMesh.h"
+#include "OgreMeshManager.h"
 #include "OgreMeshSerializer.h"
-#include "OgreSkeletonSerializer.h"
 #include "OgrePrerequisites.h"
-#include "OgreColourValue.h"
+#include "OgreSkeleton.h"
+#include "OgreSkeletonManager.h"
+#include "OgreSkeletonSerializer.h"
+#include "OgreSubMesh.h"
+#include "SemanticLayer.h"
+#include "colour_value.h"
+#include "stdafx.h"
+#include <iostream>
+#include <string>
 
 using namespace Ogre;
 
