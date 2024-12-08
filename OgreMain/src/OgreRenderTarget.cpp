@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "OgreTimer.h"
 #include "OgreViewport.h"
 #include "gpu_event_scope.h"
+#include <iomanip>
 
 namespace Ogre {
 
