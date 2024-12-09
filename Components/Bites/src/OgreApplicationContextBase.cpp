@@ -347,13 +347,13 @@ void ApplicationContextBase::enableShaderCache() const
 
 void ApplicationContextBase::addInputListener(NativeWindowType* win, InputListener* lis)
 {
-    mInputListeners.insert(std::make_pair(0, lis));
+    mInputListeners.insert(std::make_pair(get_window_id(win), lis));
 }
 
 
 void ApplicationContextBase::removeInputListener(NativeWindowType* win, InputListener* lis)
 {
-    mInputListeners.erase(std::make_pair(0, lis));
+    mInputListeners.erase(std::make_pair(get_window_id(win), lis));
 }
 
 bool ApplicationContextBase::frameRenderingQueued(const Ogre::FrameEvent& evt)

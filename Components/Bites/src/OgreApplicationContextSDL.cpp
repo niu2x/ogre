@@ -19,16 +19,7 @@ ApplicationContextSDL::ApplicationContextSDL(const Ogre::String& appName) : Appl
 {
 }
 
-void ApplicationContextSDL::addInputListener(NativeWindowType* win, InputListener* lis)
-{
-    mInputListeners.insert(std::make_pair(SDL_GetWindowID(win), lis));
-}
-
-
-void ApplicationContextSDL::removeInputListener(NativeWindowType* win, InputListener* lis)
-{
-    mInputListeners.erase(std::make_pair(SDL_GetWindowID(win), lis));
-}
+uint32_t ApplicationContextSDL::get_window_id(NativeWindowType* win) const { return SDL_GetWindowID(win); }
 
 NativeWindowPair ApplicationContextSDL::createWindow(const Ogre::String& name, Ogre::uint32 w, Ogre::uint32 h, Ogre::NameValuePairList miscParams)
 {

@@ -84,7 +84,7 @@ namespace OgreBites
     Base class responsible for setting up a common context for applications.
     Subclass to implement specific event callbacks.
     */
-    class _OgreBitesExport ApplicationContextBase : public Ogre::FrameListener
+    class ApplicationContextBase : public Ogre::FrameListener
     {
     public:
         explicit ApplicationContextBase(const Ogre::String& appName = "Ogre3D");
@@ -243,7 +243,7 @@ namespace OgreBites
          * @param lis the listener
          * @param win the window to receive the events for.
          */
-        virtual void addInputListener(NativeWindowType* win, InputListener* lis);
+        void addInputListener(NativeWindowType* win, InputListener* lis);
 
         /// @overload
         void addInputListener(InputListener* lis) {
@@ -256,7 +256,9 @@ namespace OgreBites
          * @param lis the listener
          * @param win the window to receive the events for.
          */
-        virtual void removeInputListener(NativeWindowType* win, InputListener* lis);
+        void removeInputListener(NativeWindowType* win, InputListener* lis);
+
+        virtual uint32_t get_window_id(NativeWindowType* win) const = 0;
 
         /// @overload
         void removeInputListener(InputListener* lis) {
@@ -301,9 +303,15 @@ namespace OgreBites
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
         Ogre::RTShader::ShaderGenerator* get_shader_generator() const { return mShaderGenerator; }
 #endif // INCLUDE_RTSHADER_SYSTEM
+
+        virtual void _destroyWindow(const NativeWindowPair& win);
+
+    private:
+        using InputListenerList = std::set<std::pair<uint32_t, InputListener*>>;
+        InputListenerList mInputListeners;
+
     protected:
         /// internal method to destroy both the render and the native window
-        virtual void _destroyWindow(const NativeWindowPair& win);
 
         Ogre::OverlaySystem* mOverlaySystem;  // Overlay system
 
@@ -316,9 +324,6 @@ namespace OgreBites
 
         typedef std::vector<NativeWindowPair> WindowList;
         WindowList mWindows; // all windows
-
-        typedef std::set<std::pair<uint32_t, InputListener*> > InputListenerList;
-        InputListenerList mInputListeners;
 
         std::unique_ptr<InputListener> mImGuiListener;
 
