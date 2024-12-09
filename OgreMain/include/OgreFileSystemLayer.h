@@ -42,111 +42,103 @@ namespace Ogre
         output and for the user to overwrite the default Ogre config files,
         this class tries to create a folder inside the user's home directory.
       */
-    class _OgreExport FileSystemLayer : public FileSystemLayerAlloc
+class FileSystemLayer
+{
+public:
+    /** Creates a concrete platform-dependent implementation of FileSystemLayer.
+     @param subdir
+     A subdirectory inside the user's path to distinguish between
+     different Ogre applications.
+     */
+    FileSystemLayer(const Ogre::String& subdir)
     {
-    public:
-        /** Creates a concrete platform-dependent implementation of FileSystemLayer.
-         @param subdir
-         A subdirectory inside the user's path to distinguish between
-         different Ogre applications.
-         */
-        FileSystemLayer(const Ogre::String& subdir)
-        {
-            // determine directories to search for config files
-            getConfigPaths();
-            // prepare write location in user directory
-            prepareUserHome(subdir);
-        }
-        
-        /** Search for the given config file in a set of predefined locations
+        // determine directories to search for config files
+        getConfigPaths();
+        // prepare write location in user directory
+        prepareUserHome(subdir);
+    }
 
-         The search order is
-         1. Subdirectory in user Home (see @ref getWritablePath)
-         2. OS dependent config-paths
-         3. Current working directory
+    /** Search for the given config file in a set of predefined locations
 
-         @param filename The config file name (without path)
-         @return The full path to the config file
-         */
-        Ogre::String getConfigFilePath(Ogre::String filename) const
+     The search order is
+     1. Subdirectory in user Home (see @ref getWritablePath)
+     2. OS dependent config-paths
+     3. Current working directory
+
+     @param filename The config file name (without path)
+     @return The full path to the config file
+     */
+    Ogre::String getConfigFilePath(Ogre::String filename) const
+    {
+        // look for the requested file in several locations:
+
+        // 1. in the writable path (so user can provide custom files)
+        Ogre::String path = getWritablePath(filename);
+        if (fileExists(path))
+            return path;
+
+        // 2. in the config file search paths
+        for (const String& cpath : mConfigPaths)
         {
-            // look for the requested file in several locations:
-            
-            // 1. in the writable path (so user can provide custom files)
-            Ogre::String path = getWritablePath(filename);
+            path = cpath + filename;
             if (fileExists(path))
                 return path;
-            
-            // 2. in the config file search paths
-            for (const String& cpath : mConfigPaths)
-            {
-                path = cpath + filename;
-                if (fileExists(path))
-                    return path;
-            }
-            
-            // 3. fallback to current working dir
-            return filename;
         }
 
-        /** Find a path where the given filename can be written to. This path
-         will usually be a subdirectory in the user's home directory.
-         This function should be used for any output like logs and graphics settings.
+        // 3. fallback to current working dir
+        return filename;
+    }
 
-         | Platform         | Location |
-         |------------------|----------|
-         | Windows          | Documents/$subdir/ |
-         | Linux            | ~/.cache/$subdir/ |
-         | OSX              | ~/Library/Application Support/$subdir/ |
-         | iOS              | NSDocumentDirectory |
-         | Android / Emscripten | n/a |
+    /** Find a path where the given filename can be written to. This path
+     will usually be a subdirectory in the user's home directory.
+     This function should be used for any output like logs and graphics settings.
 
-         @param filename Name of the file.
-         @return The full path to a writable location for the given filename.
-         */
-        Ogre::String getWritablePath(const Ogre::String& filename) const
-        {
-            return mHomePath + filename;
-        }
-        
-        void setConfigPaths(const Ogre::StringVector &paths){
-            mConfigPaths = paths;
-        }
-        
-        void setHomePath(const Ogre::String &path){
-            mHomePath = path;
-        }
-        
-        /** Resolve path inside the application bundle
-         * on some platforms Ogre is delivered as an application bundle
-         * this function resolves the given path such that it points inside that bundle
-         * @param path
-         * @return path inside the bundle
-         */
-        static String resolveBundlePath(String path);
+     | Platform         | Location |
+     |------------------|----------|
+     | Windows          | Documents/$subdir/ |
+     | Linux            | ~/.cache/$subdir/ |
+     | OSX              | ~/Library/Application Support/$subdir/ |
+     | iOS              | NSDocumentDirectory |
+     | Android / Emscripten | n/a |
 
-        /** Create a directory. */
-        static bool createDirectory(const Ogre::String& name);
-        /** Delete a directory. Should be empty */
-        static bool removeDirectory(const Ogre::String& name);
-        /** Test if the given file exists. */
-        static bool fileExists(const Ogre::String& path);
-        /** Delete a file. */
-        static bool removeFile(const Ogre::String& path);
-        /** Rename a file. */
-        static bool renameFile(const Ogre::String& oldpath, const Ogre::String& newpath);
+     @param filename Name of the file.
+     @return The full path to a writable location for the given filename.
+     */
+    Ogre::String getWritablePath(const Ogre::String& filename) const { return mHomePath + filename; }
 
-    private:
-        Ogre::StringVector mConfigPaths;
-        Ogre::String mHomePath;
-        
-        /** Determine config search paths. */
-        void getConfigPaths();
-        
-        /** Create an Ogre directory and the given subdir in the user's home. */
-        void prepareUserHome(const Ogre::String& subdir);
-    };
+    void setConfigPaths(const Ogre::StringVector& paths) { mConfigPaths = paths; }
 
+    void setHomePath(const Ogre::String& path) { mHomePath = path; }
+
+    /** Resolve path inside the application bundle
+     * on some platforms Ogre is delivered as an application bundle
+     * this function resolves the given path such that it points inside that bundle
+     * @param path
+     * @return path inside the bundle
+     */
+    static String resolveBundlePath(String path);
+
+    /** Create a directory. */
+    static bool createDirectory(const Ogre::String& name);
+    /** Delete a directory. Should be empty */
+    static bool removeDirectory(const Ogre::String& name);
+    /** Test if the given file exists. */
+    static bool fileExists(const Ogre::String& path);
+    /** Delete a file. */
+    static bool removeFile(const Ogre::String& path);
+    /** Rename a file. */
+    static bool renameFile(const Ogre::String& oldpath, const Ogre::String& newpath);
+
+private:
+    Ogre::StringVector mConfigPaths;
+    Ogre::String mHomePath;
+
+    /** Determine config search paths. */
+    void getConfigPaths();
+
+    /** Create an Ogre directory and the given subdir in the user's home. */
+    void prepareUserHome(const Ogre::String& subdir);
+};
 }
 
 #endif
