@@ -385,7 +385,7 @@ namespace OgreBites
             }
             else
             {
-                mRoot->queueEndRendering();   // exit browser
+                get_root()->queueEndRendering(); // exit browser
             }
         }
 
@@ -562,7 +562,7 @@ namespace OgreBites
             {
                 // Make sure we use the window size as originally requested, NOT the
                 // current window size (which may have altered to fit desktop)
-                auto desc = mRoot->getRenderSystem()->getRenderWindowDescription();
+                auto desc = get_root()->getRenderSystem()->getRenderWindowDescription();
                 mWindow->setFullscreen(!mWindow->isFullScreen(), desc.width, desc.height);
             }
             else if(key == SDLK_F11 || key == SDLK_F12) // Decrease and increase FSAA level on the fly
@@ -871,7 +871,7 @@ namespace OgreBites
 #ifndef OGRE_STATIC_LIB
                 try   // try to load the plugin
                 {
-                    mRoot->loadPlugin(sampleDir + *i);
+                    get_root()->loadPlugin(sampleDir + *i);
                 }
                 catch (Ogre::Exception& e)   // plugin couldn't be loaded
                 {
@@ -880,14 +880,14 @@ namespace OgreBites
                     continue;
                 }
 
-                Ogre::Plugin* p = mRoot->getInstalledPlugins().back();   // acquire plugin instance
+                Ogre::Plugin* p = get_root()->getInstalledPlugins().back(); // acquire plugin instance
                 SamplePlugin* sp = dynamic_cast<SamplePlugin*>(p);
 
                 if (!sp)  // this is not a SamplePlugin, so unload it
                 {
                     Ogre::LogManager::getSingleton().logError(*i + " is not a SamplePlugin");
                     unloadedSamplePlugins.push_back(sampleDir + *i);
-                    mRoot->unloadPlugin(sampleDir + *i);
+                    get_root()->unloadPlugin(sampleDir + *i);
                     continue;
                 }
 
@@ -934,7 +934,7 @@ namespace OgreBites
 #ifndef OGRE_STATIC_LIB
             for (unsigned int i = 0; i < mLoadedSamplePlugins.size(); i++)
             {
-                mRoot->unloadPlugin(mLoadedSamplePlugins[i]);
+                get_root()->unloadPlugin(mLoadedSamplePlugins[i]);
             }
 #endif
 
@@ -1074,7 +1074,8 @@ namespace OgreBites
                 mTrayMgr = 0;
             }
 
-            if (!mCurrentSample && mRoot->getRenderSystem() != NULL) destroyDummyScene();
+            if (!mCurrentSample && get_root()->getRenderSystem() != NULL)
+                destroyDummyScene();
 
             SampleContext::shutdown();
 

@@ -306,9 +306,13 @@ namespace OgreBites
 
         virtual void _destroyWindow(const NativeWindowPair& win);
 
+        Ogre::Root* get_root() const { return mRoot; }
+
     private:
         using InputListenerList = std::set<std::pair<uint32_t, InputListener*>>;
         InputListenerList mInputListeners;
+
+        Ogre::Root* mRoot; // OGRE root
 
     protected:
         /// internal method to destroy both the render and the native window
@@ -316,7 +320,6 @@ namespace OgreBites
         Ogre::OverlaySystem* mOverlaySystem;  // Overlay system
 
         Ogre::FileSystemLayer* mFSLayer; // File system abstraction layer
-        Ogre::Root* mRoot;              // OGRE root
         StaticPluginLoader mStaticPluginLoader;
         bool mFirstRun;
         Ogre::String mNextRenderer;     // name of renderer used for next run

@@ -84,7 +84,7 @@ namespace OgreBites
                 {
                     bool found = false;
                     // try to find the required plugin in the current installed plugins
-                    for (const auto *i : mRoot->getInstalledPlugins())
+                    for (const auto* i : get_root()->getInstalledPlugins())
                     {
                         if (i->getName() == p)
                         {
@@ -99,7 +99,7 @@ namespace OgreBites
                 }
 
                 // test system capabilities against sample requirements
-                s->testCapabilities(mRoot->getRenderSystem()->getCapabilities());
+                s->testCapabilities(get_root()->getRenderSystem()->getCapabilities());
 #ifdef OGRE_BUILD_COMPONENT_RTSHADERSYSTEM
                 s->setShaderGenerator(mShaderGenerator);
 #endif
@@ -137,9 +137,9 @@ namespace OgreBites
 
                 loadStartUpSample();
 
-                if (mRoot->getRenderSystem() != NULL)
+                if (get_root()->getRenderSystem() != NULL)
                 {
-                    mRoot->startRendering();    // start the render loop
+                    get_root()->startRendering(); // start the render loop
                 }
 
                 closeApp();
@@ -227,9 +227,9 @@ namespace OgreBites
             mNextRenderer = renderer;
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
             // Need to save the config on iOS to make sure that changes are kept on disk
-            mRoot->saveConfig();
+            get_root()->saveConfig();
 #endif
-            mRoot->queueEndRendering(); // break from render loop
+            get_root()->queueEndRendering(); // break from render loop
         }
         using ApplicationContextBase::reconfigure; // unused, silence warning
 

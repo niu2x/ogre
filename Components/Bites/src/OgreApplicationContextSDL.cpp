@@ -32,7 +32,7 @@ NativeWindowPair ApplicationContextSDL::createWindow(const Ogre::String& name, O
         SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
     }
 
-    auto p = mRoot->getRenderSystem()->getRenderWindowDescription();
+    auto p = get_root()->getRenderSystem()->getRenderWindowDescription();
     miscParams.insert(p.miscParams.begin(), p.miscParams.end());
     p.miscParams = miscParams;
     p.name = name;
@@ -87,7 +87,7 @@ NativeWindowPair ApplicationContextSDL::createWindow(const Ogre::String& name, O
         p.miscParams["currentGLContext"] = "true";
     }
 
-    ret.render = mRoot->createRenderWindow(p);
+    ret.render = get_root()->createRenderWindow(p);
     mWindows.push_back(ret);
     return ret;
 }
@@ -145,7 +145,7 @@ void ApplicationContextSDL::pollEvents()
         switch (event.type)
         {
         case SDL_QUIT:
-            mRoot->queueEndRendering();
+            get_root()->queueEndRendering();
             break;
         case SDL_WINDOWEVENT:
             if(event.window.event != SDL_WINDOWEVENT_RESIZED)
