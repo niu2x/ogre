@@ -5,6 +5,8 @@
 
 #include <OgreUnifiedShader.h>
 
+out vec4 fragColor;
+
 uniform vec4 vpSize;
 SAMPLER2D(source, 0);
 
@@ -37,5 +39,5 @@ MAIN_DECLARATION
     for (int i = 0; i < KERNEL_SIZE; ++i)
         sum += weights[i] * texture2D(source, oUv0 + offsets[i]);
 
-    gl_FragColor = sum;
+    fragColor = sum;
 }

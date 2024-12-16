@@ -1,6 +1,8 @@
 uniform sampler2D RT;
 uniform sampler2D noise;
 varying vec2 oUv0;
+out vec4 fragColor;
+
 
 void main()
 {
@@ -15,5 +17,5 @@ void main()
 	{
 		c = 1.0;
 	}   
-	gl_FragColor = vec4(c,c,c,1.0);
+	fragColor = vec4(c,c,c,1.0);
 }

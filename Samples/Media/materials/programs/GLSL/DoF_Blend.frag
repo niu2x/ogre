@@ -14,6 +14,9 @@ SAMPLER2D(scene, 0);				// full resolution image
 SAMPLER2D(depth, 1);				// full resolution image with depth values
 SAMPLER2D(blur,  2);				// downsampled and blurred image
 
+out vec4 fragColor;
+
+
 // dofParams coefficients:
 // x = near blur depth; y = focal plane depth; z = far blur depth
 // w = blurriness cutoff constant
@@ -85,5 +88,5 @@ MAIN_DECLARATION
         sum.a += blurAmount;
     }
 
-    gl_FragColor = (sum / sum.a);
+    fragColor = (sum / sum.a);
 }

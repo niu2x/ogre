@@ -8,6 +8,8 @@
 
 uniform sampler2D RT;
 uniform sampler2D Blur1;
+out vec4 fragColor;
+
 
 uniform float OriginalImageWeight;
 uniform float BlurWeight;
@@ -21,6 +23,6 @@ void main()
     sharp = texture2D( RT, texCoord);
     blur = texture2D( Blur1, texCoord);
     
-    gl_FragColor = ( (blur * BlurWeight) + (sharp * OriginalImageWeight) );
-    //gl_FragColor = vec4(0);
+    fragColor = ( (blur * BlurWeight) + (sharp * OriginalImageWeight) );
+    //fragColor = vec4(0);
 }

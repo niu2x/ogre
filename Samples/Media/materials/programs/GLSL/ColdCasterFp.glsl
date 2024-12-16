@@ -1,6 +1,7 @@
 varying vec2 NDotV;
+out vec4 fragColor;
 
 void main()
 {
-   gl_FragColor = vec4(NDotV.x / 2.0);
+   fragColor = vec4(NDotV.x / 2.0);
 }
