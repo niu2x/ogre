@@ -11,6 +11,8 @@
 uniform sampler2D Blur0;
 varying vec2 texCoord;
 
+out vec4 fragColor;
+
 vec2 pos[11];
 //We use the Normal-gauss distribution formula
 //f(x) being the formula, we used f(0.5)-f(-0.5); f(1.5)-f(0.5)...
@@ -55,5 +57,5 @@ void main()
         sum += texture2D( Blur0, texCoord + (pos[i] * 0.0100000) ) * samples[i];
     }
 
-    gl_FragColor = sum;
+    fragColor = sum;
 }

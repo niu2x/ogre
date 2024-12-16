@@ -7,6 +7,8 @@ uniform sampler2D shadowMap;
 
 varying	vec4 oUv;
 varying	vec4 outColor;
+out vec4 fragColor;
+
 
 void main()
 {
@@ -37,10 +39,10 @@ void main()
 	
 	final *= 0.2;
 
-	gl_FragColor = vec4(outColor.xyz * final, 1.0);
+	fragColor = vec4(outColor.xyz * final, 1.0);
 	
 #else
-	gl_FragColor = (centerdepth > shadowUV.z) ? vec4(outColor.xyz,1) : vec4(0,0,0,1);
+	fragColor = (centerdepth > shadowUV.z) ? vec4(outColor.xyz,1) : vec4(0,0,0,1);
 #endif
 }
 
