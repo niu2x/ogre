@@ -31,7 +31,7 @@ public:
         modelNode->setPosition(0, 0, 0);
 
         Ogre::Camera* cam = sm->createCamera("DummyCamera");
-
+        cam->setAutoAspectRatio(true);
         cam->setNearClipDistance(1);
 
         auto cameraNode = sm->createSceneNode("cameraNode");
