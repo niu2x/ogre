@@ -22,32 +22,35 @@ public:
 
         auto sceneRoot = sm->getRootSceneNode();
 
-        auto modelNode = sm->createSceneNode("modelModel");
+        auto modelNode = sceneRoot->createChildSceneNode("modelModel");
         auto fish = sm->createEntity("model", "fish.mesh");
-        fish->setMaterialName("test");
-
         modelNode->attachObject(fish);
-        sceneRoot->addChild(modelNode);
         modelNode->setPosition(0, 0, 0);
+
+
 
         Ogre::Camera* cam = sm->createCamera("DummyCamera");
         cam->setAutoAspectRatio(true);
         cam->setNearClipDistance(1);
 
-        auto cameraNode = sm->createSceneNode("cameraNode");
-        sceneRoot->addChild(cameraNode);
+        auto cameraNode = sceneRoot->createChildSceneNode("cameraNode");
         cameraNode->attachObject(cam);
         cameraNode->setPosition(15, 15, 15);
         cameraNode->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
 
         sm->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2, 0.2));
 
+
+
+
+
         auto light = sm->createLight("light", Ogre::Light::LT_POINT);
-        auto lightNode = sm->createSceneNode("lightNode");
+        auto lightNode = sceneRoot->createChildSceneNode("lightNode");
         light->setDiffuseColour(1.0, 1.0, 1.0);
         lightNode->attachObject(light);
-        sceneRoot->addChild(lightNode);
         lightNode->setPosition(14, 14, 14);
+
+        
 
         getRenderWindow()->addListener(this);
 
