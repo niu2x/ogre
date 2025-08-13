@@ -17,6 +17,7 @@
 #include "OgrePredefinedControllers.h"
 #include "OgrePixelCountLodStrategy.h"
 #include "OgreDefaultDebugDrawer.h"
+#include "OgreCompositorLogic.h"
 %}
 
 %include stdint.i
@@ -565,6 +566,7 @@ SHARED_PTR(GpuProgramParameters);
 %ignore Ogre::Particle::hasOwnDimensions ; // deprecated
 %include "OgreParticle.h"
 %apply unsigned int* OUTPUT { unsigned int* result };
+%ignore Ogre::HardwareOcclusionQuery::getLastQuerysPixelcount; // deprecated
 %include "OgreHardwareOcclusionQuery.h"
 SHARED_PTR(HardwareBuffer);
 %include "OgreHardwareBuffer.h"
@@ -744,9 +746,16 @@ SHARED_PTR(Material);
 %ignore Ogre::RenderSystem::getColourVertexElementType;
 %ignore Ogre::RenderSystem::setStencilCheckEnabled;
 %ignore Ogre::RenderSystem::setStencilBufferParams;
+%ignore Ogre::RenderSystem::setGlobalInstanceCount;
+%ignore Ogre::RenderSystem::getGlobalInstanceCount;
+%ignore Ogre::RenderSystem::setGlobalInstanceVertexDeclaration;
+%ignore Ogre::RenderSystem::getGlobalInstanceVertexDeclaration;
+%ignore Ogre::RenderSystem::setGlobalInstanceVertexBuffer;
+%ignore Ogre::RenderSystem::getGlobalInstanceVertexBuffer;
 %ignore Ogre::RenderSystem::setScissorTest(bool, uint32, uint32 = 0, uint32 = 800, uint32 = 600);
 %include "OgreRenderSystem.h"
 %include "OgreCompositorManager.h"
+%include "OgreCompositorLogic.h"
 #ifdef SWIGJAVA
 %ignore Ogre::CompositorInstance::Listener; // issue with converting shared_ptr<Material>
 #endif
@@ -789,6 +798,7 @@ SHARED_PTR(Material);
     %template(NodeList) std::vector<Ogre::Node*>;
     %include "OgreNode.h"
         %include "OgreBone.h"
+        %include "OgreTagPoint.h"
         %ignore Ogre::SceneNode::getAttachedObjectIterator;
         %template(MovableObjectList) std::vector<Ogre::MovableObject*>;
         %include "OgreSceneNode.h"
@@ -828,8 +838,12 @@ SHARED_PTR(Material);
         ADD_REPR(Camera)
     %include "OgreManualObject.h"
     %template(SubEntityList) std::vector<Ogre::SubEntity*>;
-    %ignore Ogre::Entity::getAttachedObjectIterator;
     %include "OgreEntity.h"
+    %ignore Ogre::SubEntity::getAttachedObjectIterator;
+    %ignore Ogre::SubEntity::setIndexDataStartIndex;
+    %ignore Ogre::SubEntity::getIndexDataStartIndex;
+    %ignore Ogre::SubEntity::setIndexDataEndIndex;
+    %ignore Ogre::SubEntity::getIndexDataEndIndex;
     %include "OgreSubEntity.h"
     %ignore Ogre::ParticleSystemRenderer::_createVisualData;
     %ignore Ogre::ParticleSystemRenderer::_destroyVisualData;
@@ -871,6 +885,34 @@ SHARED_PTR(Mesh);
 %ignore Ogre::StaticGeometry::Region::getLODIterator;
 %ignore Ogre::StaticGeometry::MaterialBucket::getGeometryIterator;
 %ignore Ogre::StaticGeometry::LODBucket::getMaterialIterator;
+#ifdef SWIGPYTHON
+%{
+    // this is a workaround for the following map
+    namespace swig {
+    template<> struct traits<Ogre::StaticGeometry::Region> {
+        typedef pointer_category category;
+        static const char* type_name() { return "Ogre::StaticGeometry::Region"; }
+    };
+    }
+%}
+#endif
+#ifndef SWIGJAVA
+%template(RegionMap) std::map<uint32_t, Ogre::StaticGeometry::Region*>;
+#endif
+#ifdef SWIGPYTHON
+%{
+    // this is a workaround for the following map
+    namespace swig {
+    template<> struct traits<Ogre::StaticGeometry::MaterialBucket> {
+        typedef pointer_category category;
+        static const char* type_name() { return "Ogre::StaticGeometry::MaterialBucket"; }
+    };
+    }
+%}
+#endif
+%template(MaterialBucketMap) std::map<std::string, Ogre::StaticGeometry::MaterialBucket*>;
+%template(LODBucketList) std::vector<Ogre::StaticGeometry::LODBucket*>;
+%template(GeometryBucketList) std::vector<Ogre::StaticGeometry::GeometryBucket*>;
 %include "OgreStaticGeometry.h"
 %include "OgrePatchSurface.h"
     SHARED_PTR(PatchMesh);
@@ -920,6 +962,19 @@ SHARED_PTR(Mesh);
 %ignore Ogre::SceneManager::getMovableObjectIterator;
 %ignore Ogre::SceneManager::getShadowTextureCount;
 %ignore Ogre::SceneManager::getShadowTextureConfigIterator;
+%ignore Ogre::SceneManager::getShadowCasterBoundsInfo;
+%ignore Ogre::SceneManager::getSkyDomeGenParameters;
+%ignore Ogre::SceneManager::getSkyDomeNode;
+%ignore Ogre::SceneManager::isSkyDomeEnabled;
+%ignore Ogre::SceneManager::setSkyDomeEnabled;
+%ignore Ogre::SceneManager::getSkyBoxGenParameters;
+%ignore Ogre::SceneManager::getSkyBoxNode;
+%ignore Ogre::SceneManager::isSkyBoxEnabled;
+%ignore Ogre::SceneManager::setSkyBoxEnabled;
+%ignore Ogre::SceneManager::getSkyPlaneGenParameters;
+%ignore Ogre::SceneManager::getSkyPlaneNode;
+%ignore Ogre::SceneManager::isSkyPlaneEnabled;
+%ignore Ogre::SceneManager::setSkyPlaneEnabled;
 %newobject Ogre::SceneManager::createRayQuery(const Ray&, uint32 mask);
 %newobject Ogre::SceneManager::createRayQuery(const Ray&);
 %rename(SceneManager_Listener) Ogre::SceneManager::Listener;

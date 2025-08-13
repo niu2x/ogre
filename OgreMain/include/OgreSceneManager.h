@@ -63,13 +63,20 @@ namespace Ogre {
     /** Structure containing the configuration for one shadow texture. */
     struct ShadowTextureConfig
     {
-        unsigned int width;
-        unsigned int height;
+        uint32 width;
+        uint32 height;
+        uint32 depth;
         PixelFormat format;
-        unsigned int fsaa;
         uint16      depthBufferPoolId;
+        uint16      extraFlags;
+        uint8       fsaa;
+        TextureType type;
 
-        ShadowTextureConfig() : width(512), height(512), format(PF_BYTE_RGBA), fsaa(0), depthBufferPoolId(1) {}
+        ShadowTextureConfig()
+            : width(512), height(512), depth(1), format(PF_BYTE_RGBA), depthBufferPoolId(1), extraFlags(0), fsaa(0),
+              type(TEX_TYPE_2D)
+        {
+        }
     };
 
     typedef std::vector<ShadowTextureConfig> ShadowTextureConfigList;
@@ -760,7 +767,7 @@ namespace Ogre {
         void _destroySceneNode(SceneNodeList::iterator it);
 
         ShadowTechnique mShadowTechnique;
-        struct TextureShadowRenderer
+        struct _OgreExport TextureShadowRenderer
         {
             typedef std::vector<Camera*> CameraList;
             typedef std::map< const Camera*, const Light* > ShadowCamLightMapping;
@@ -843,7 +850,9 @@ namespace Ogre {
 
             /// Internal method for creating shadow textures (texture-based shadows)
             void ensureShadowTexturesCreated();
+            void setupRenderTarget(const String& camName, RenderTarget* rendTarget, uint16 depthBufferId);
             void prepareShadowTextures(Camera* cam, Viewport* vp, const LightList* lightList);
+            void prepareTexCam(Camera* texCam, Camera* cam, Viewport* vp, Light* light, size_t j);
             /// Internal method for destroying shadow textures (texture-based shadows)
             void destroyShadowTextures(void);
 
@@ -880,6 +889,8 @@ namespace Ogre {
             void setShadowTextureConfig(size_t shadowIndex, uint16 width, uint16 height, PixelFormat format,
                                         uint16 fsaa, uint16 depthBufferPoolId);
 
+            void setShadowTextureCompositor(const String& compositorName, const String& resourceGroup);
+
             typedef std::vector<ShadowTextureListener*> ListenerList;
             ListenerList mListeners;
 
@@ -892,7 +903,7 @@ namespace Ogre {
             void sortLightsAffectingFrustum(LightList& lightList) const;
         } mTextureShadowRenderer;
 
-        struct StencilShadowRenderer
+        struct _OgreExport StencilShadowRenderer
         {
             StencilShadowRenderer(SceneManager* owner);
             ~StencilShadowRenderer();
@@ -1029,6 +1040,7 @@ namespace Ogre {
         typedef std::vector<EntityMaterialLodChangedEvent> EntityMaterialLodChangedEventList;
         EntityMaterialLodChangedEventList mEntityMaterialLodChangedEvents;
 
+        GlobalInstancingData mSchemeInstancingData;
     public:
         //A render context, used to store internal data for pausing/resuming rendering
         struct RenderContext
@@ -2737,7 +2749,7 @@ namespace Ogre {
             The larger the shadow texture, the better the detail on 
             texture based shadows, but obviously this takes more memory.
             The default size is 512. Sizes must be a power of 2.
-        @note This is the simple form, see setShadowTextureConfig for the more 
+        @note This is the simple form, see @ref setShadowTextureConfig for the more
             complex form.
         */
         void setShadowTextureSize(unsigned short size) { mTextureShadowRenderer.setShadowTextureSize(size); }
@@ -2774,13 +2786,13 @@ namespace Ogre {
 
         /** Set the pixel format of the textures used for texture-based shadows.
 
-            By default, a colour texture is used (PF_X8R8G8B8) for texture shadows,
+            By default, a colour texture is used (@ref PF_BYTE_RGBA) for texture shadows,
             but if you want to use more advanced texture shadow types you can 
             alter this. If you do, you will have to also call
             setShadowTextureCasterMaterial and setShadowTextureReceiverMaterial
             to provide shader-based materials to use these customised shadow
             texture formats.
-        @note This is the simple form, see setShadowTextureConfig for the more 
+        @note This is the simple form, see @ref setShadowTextureConfig for the more
             complex form.
         */
         void setShadowTexturePixelFormat(PixelFormat fmt)
@@ -2790,7 +2802,7 @@ namespace Ogre {
         /** Set the level of multisample AA of the textures used for texture-based shadows.
 
             By default, the level of multisample AA is zero.
-        @note This is the simple form, see setShadowTextureConfig for the more 
+        @note This is the simple form, see @ref setShadowTextureConfig for the more
             complex form.
         */
         void setShadowTextureFSAA(unsigned short fsaa) { mTextureShadowRenderer.setShadowTextureFSAA(fsaa); }
@@ -2814,7 +2826,7 @@ namespace Ogre {
         @note
             This feature only works with the Integrated shadow technique.
             Also remember to increase the total number of shadow textures you request
-            appropriately (e.g. via setShadowTextureCount)!!
+            appropriately (e.g. via @ref setShadowTextureCount)!!
         */
         void setShadowTextureCountPerLightType(Light::LightTypes type, size_t count)
         { mTextureShadowRenderer.mShadowTextureCountPerType[type] = count; }
@@ -2826,13 +2838,24 @@ namespace Ogre {
         @see setShadowTextureSize and setShadowTextureCount for details, this
             method just allows you to change both at once, which can save on
             reallocation if the textures have already been created.
-        @note This is the simple form, see setShadowTextureConfig for the more 
+        @note This is the simple form, see @ref setShadowTextureConfig for the more
             complex form.
         */
         void setShadowTextureSettings(uint16 size, uint16 count, PixelFormat fmt = PF_BYTE_RGBA,
                                       uint16 fsaa = 0, uint16 depthBufferPoolId = 1)
         {
             mTextureShadowRenderer.setShadowTextureSettings(size, count, fmt, fsaa, depthBufferPoolId);
+        }
+
+        /** Sets the configuration of textures used for texture-based shadows.
+
+            use a .compositor script definition to set up the shadow textures instead of
+            configuring them by code. This is both easier and more flexible then the above
+            methods.
+        */
+        void setShadowTextureCompositor(const String& compositorName, const String& resourceGroup OGRE_RESOURCE_GROUP_INIT)
+        {
+            mTextureShadowRenderer.setShadowTextureCompositor(compositorName, resourceGroup);
         }
 
         /** Get a reference to the shadow texture currently in use at the given index.
@@ -3351,9 +3374,14 @@ namespace Ogre {
         /** Handle LOD events. */
         void _handleLodEvents();
 
-        IlluminationRenderStage _getCurrentRenderStage() {return mIlluminationStage;}
+        IlluminationRenderStage _getCurrentRenderStage() const {return mIlluminationStage;}
 
-        const AutoParamDataSource* _getAutoParamDataSource() { return mAutoParamDataSource.get(); }
+        const AutoParamDataSource* _getAutoParamDataSource() const { return mAutoParamDataSource.get(); }
+
+        void setVPRTCameras(const std::vector<const Camera*>& cameras) const
+        {
+            mAutoParamDataSource->setCameraArray(cameras);
+        }
     };
 
     /// Interface for visualising debugging the SceneManager state

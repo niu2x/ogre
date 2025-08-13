@@ -48,7 +48,6 @@ THE SOFTWARE.
 #include "OgreMaterialManager.h"
 #include "OgreTimer.h"
 #include "OgreTerrainMaterialGeneratorA.h"
-#include "OgreFileSystemLayer.h"
 
 #if OGRE_COMPILER == OGRE_COMPILER_MSVC
 // we do lots of conversions here, casting them all is tedious & cluttered, we know what we're doing
@@ -278,20 +277,7 @@ namespace Ogre
         }
 
         {
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-            static FileSystemLayer fs("");
-#endif
-
-            DataStreamPtr stream = Root::createFileStream(
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
-                fs.getWritablePath(filename)
-#else
-                filename
-#endif
-                ,
-                _getDerivedResourceGroup(),
-                true);
-
+            DataStreamPtr stream = Root::createFileStream(filename, _getDerivedResourceGroup(), true);
             StreamSerialiser ser(stream);
             save(ser);
         }
@@ -3545,7 +3531,7 @@ namespace Ogre
             // create
             mCompositeMap = TextureManager::getSingleton().createManual(
                 mMaterialName + "/comp", _getDerivedResourceGroup(), 
-                TEX_TYPE_2D, mCompositeMapSize, mCompositeMapSize, 0, PF_BYTE_RGBA, TU_STATIC);
+                TEX_TYPE_2D, mCompositeMapSize, mCompositeMapSize, MIP_DEFAULT, PF_BYTE_RGBA);
 
             mCompositeMapSizeActual = mCompositeMap->getWidth();
 

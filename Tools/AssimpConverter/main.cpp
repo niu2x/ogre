@@ -38,6 +38,7 @@ THE SOFTWARE.
 #include "Ogre.h"
 #include "OgreCodec.h"
 #include "OgreDefaultHardwareBufferManager.h"
+#include "OgreFileSystemLayer.h"
 
 #include <assimp/postprocess.h>
 
@@ -184,7 +185,7 @@ int main(int numargs, char** args)
         ConfigFile pluginsCfg;
         pluginsCfg.load(fsLayer.getConfigFilePath("plugins.cfg"));
 
-        auto pluginDir = pluginsCfg.getSetting("PluginFolder")+"/";
+        auto pluginDir = FileSystemLayer::resolveBundlePath(pluginsCfg.getSetting("PluginFolder")+"/");
 
         logMgr.setDefaultLog(NULL); // swallow startup messages
 
@@ -211,6 +212,8 @@ int main(int numargs, char** args)
         StringUtil::splitFullFilename(opts.source, basename, ext, path);
 
         auto codec = Codec::getCodec(ext);
+
+        ResourceGroupManager::getSingleton().addResourceLocation(path, "FileSystem", RGN_DEFAULT);
 
         MeshPtr mesh = MeshManager::getSingleton().createManual(basename + "." + ext, RGN_DEFAULT);
         mesh->getUserObjectBindings().setUserAny("_AssimpLoaderOptions", opts.options);

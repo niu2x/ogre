@@ -142,8 +142,6 @@ namespace Ogre {
           mHardwareBufferManager(0),
           mActiveTextureUnit(0)
     {
-        size_t i;
-
         LogManager::getSingleton().logMessage(getName() + " created.");
 
         // Get our GLSupport
@@ -151,12 +149,6 @@ namespace Ogre {
         glsupport = mGLSupport;
 
         initConfigOptions();
-
-        for (i = 0; i < OGRE_MAX_TEXTURE_LAYERS; i++)
-        {
-            // Dummy value
-            mTextureTypes[i] = 0;
-        }
 
         mActiveRenderTarget = 0;
         mCurrentContext = 0;
@@ -464,6 +456,9 @@ namespace Ogre {
         if( hasMinGLVersion(4, 3) || checkExtension("GL_ARB_ES3_compatibility"))
             rsc->setCapability(RSC_PRIMITIVE_RESTART);
 
+        if( checkExtension("GL_ARB_shader_viewport_layer_array") )
+            rsc->setCapability(RSC_VP_RT_INDEX_ANY_SHADER);
+
         GLfloat lineWidth[2] = {1, 1};
         glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidth);
         if(lineWidth[1] != 1 && lineWidth[1] != lineWidth[0])
@@ -649,7 +644,7 @@ namespace Ogre {
     MultiRenderTarget* GL3PlusRenderSystem::createMultiRenderTarget(const String & name)
     {
         MultiRenderTarget* retval =
-            new GL3PlusFBOMultiRenderTarget(static_cast<GL3PlusFBOManager*>(mRTTManager), name);
+            new GL3PlusFBOMultiRenderTarget(name);
         attachRenderTarget(*retval);
         return retval;
     }
@@ -709,9 +704,7 @@ namespace Ogre {
 
             // Note used
             tex->touch();
-            mTextureTypes[stage] = tex->getGL3PlusTextureTarget();
-
-            mStateCacheManager->bindGLTexture( mTextureTypes[stage], tex->getGLID() );
+            mStateCacheManager->bindGLTexture(tex->getGL3PlusTextureTarget(), tex->getGLID());
         }
         else
         {

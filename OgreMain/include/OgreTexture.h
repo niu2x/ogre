@@ -70,6 +70,9 @@ namespace Ogre {
         /// Texture can be bound as an Unordered Access View
         /// (imageStore/imageRead/glBindImageTexture in GL jargon)
         TU_UNORDERED_ACCESS = 0x80,
+        /// Create only a single render target which will be used for all layers
+        /// only relevant for layered textures like 2D arrays and cube maps
+        TU_TARGET_ALL_LAYERS = 0x100,
         /// Default to automatic mipmap generation static textures
         TU_DEFAULT = TU_AUTOMIPMAP | HBU_GPU_ONLY,
 
@@ -386,7 +389,13 @@ namespace Ogre {
         /** Return the number of faces this texture has. This will be 6 for a cubemap
             texture and 1 for a 1D, 2D or 3D one.
         */
-        uint32 getNumFaces() const;
+        uint32 getNumFaces() const { return mTextureType == TEX_TYPE_CUBE_MAP ? 6 : 1; }
+
+        /// Returns 6 for cubemaps and the the depth otherwise
+        uint32 getNumLayers() const { return mTextureType == TEX_TYPE_CUBE_MAP ? 6 : mDepth; }
+
+        /// Convenience method for unified cubemap and 2D array access
+        RenderTarget* getRenderTarget(size_t slice=0, size_t mipmap=0);
 
         /** Return hardware pixel buffer for a surface. This buffer can then
             be used to copy data from and to a particular level of the texture.
@@ -400,7 +409,7 @@ namespace Ogre {
             @remarks The buffer is invalidated when the resource is unloaded or destroyed.
             Do not use it after the lifetime of the containing texture.
         */
-        virtual const HardwarePixelBufferSharedPtr& getBuffer(size_t face=0, size_t mipmap=0);
+        virtual const HardwarePixelBufferPtr& getBuffer(size_t face=0, size_t mipmap=0);
 
 
         /** Populate an Image with the contents of this texture. 

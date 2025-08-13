@@ -7,6 +7,8 @@
 #include "OgreShadowCameraSetup.h"
 #include "OgreViewport.h"
 #include "OgreHardwarePixelBuffer.h"
+#include "OgreCompositorManager.h"
+#include "OgreCompositor.h"
 
 namespace Ogre {
 
@@ -359,6 +361,47 @@ void SceneManager::TextureShadowRenderer::renderTextureShadowReceiverQueueGroupO
     mSceneManager->setAmbientLight(currAmbient);
 }
 //---------------------------------------------------------------------
+void SceneManager::TextureShadowRenderer::setupRenderTarget(const String& camName, RenderTarget* rendTarget,
+                                                            uint16 depthBufferId)
+{
+    if (rendTarget->getDepthBufferPool() != DepthBuffer::POOL_NO_DEPTH)
+    {
+        rendTarget->setDepthBufferPool(depthBufferId);
+    }
+
+    // Don't update automatically - we'll do it when required
+    rendTarget->setAutoUpdated(false);
+
+    float aspectRatio = (Real)rendTarget->getWidth() / (Real)rendTarget->getHeight();
+
+    // Create camera for this texture, but note that we have to rebind
+    // in prepareShadowTextures to coexist with multiple SMs
+    Camera* cam = mSceneManager->createCamera(camName);
+    cam->setAspectRatio(aspectRatio);
+    auto camNode = mSceneManager->getRootSceneNode()->createChildSceneNode();
+    camNode->attachObject(cam);
+    mShadowTextureCameras.push_back(cam);
+    // insert dummy camera-light combination
+    mShadowCamLightMapping[cam] = NULL;
+
+    // use separate culling camera, in case a focused shadow setup is used
+    // in which case we want to keep the original light frustum for culling
+    Camera* cullCam = mSceneManager->createCamera(camName+"/Cull");
+    cullCam->setAspectRatio(aspectRatio);
+    cam->setCullingFrustum(cullCam);
+    camNode->attachObject(cullCam);
+
+    // Create a viewport, if not there already
+    if (rendTarget->getNumViewports() != 0)
+        return;
+
+    // Note camera assignment is transient when multiple SMs
+    Viewport *v = rendTarget->addViewport(NULL);
+    v->setClearEveryFrame(true);
+    v->setOverlaysEnabled(false);
+    v->setBackgroundColour(ColourValue::White);
+}
+
 void SceneManager::TextureShadowRenderer::ensureShadowTexturesCreated()
 {
     if(!mBorderSampler)
@@ -383,46 +426,13 @@ void SceneManager::TextureShadowRenderer::ensureShadowTexturesCreated()
         // Recreate shadow textures
         for (auto& shadowTex : mShadowTextures)
         {
-            // Camera names are local to SM
-            String camName = shadowTex->getName() + "Cam";
-
-            RenderTexture *shadowRTT = shadowTex->getBuffer()->getRenderTarget();
-
-            //Set appropriate depth buffer
-            if(!PixelUtil::isDepth(shadowRTT->suggestPixelFormat()))
-                shadowRTT->setDepthBufferPool( mShadowTextureConfigList[__i].depthBufferPoolId );
-
-            // Create camera for this texture, but note that we have to rebind
-            // in prepareShadowTextures to coexist with multiple SMs
-            Camera* cam = mSceneManager->createCamera(camName);
-            cam->setAspectRatio((Real)shadowTex->getWidth() / (Real)shadowTex->getHeight());
-            auto camNode = mSceneManager->getRootSceneNode()->createChildSceneNode();
-            camNode->attachObject(cam);
-            mShadowTextureCameras.push_back(cam);
-
-            // use separate culling camera, in case a focused shadow setup is used
-            // in which case we want to keep the original light frustum for culling
-            Camera* cullCam = mSceneManager->createCamera(camName+"/Cull");
-            cullCam->setAspectRatio((Real)shadowTex->getWidth() / (Real)shadowTex->getHeight());
-            cam->setCullingFrustum(cullCam);
-            camNode->attachObject(cullCam);
-
-
-            // Create a viewport, if not there already
-            if (shadowRTT->getNumViewports() == 0)
+            uint16 depthBufferId = mShadowTextureConfigList[__i].depthBufferPoolId;
+            for(uint32 i = 0; i < shadowTex->getNumLayers(); i++)
             {
-                // Note camera assignment is transient when multiple SMs
-                Viewport *v = shadowRTT->addViewport(cam);
-                v->setClearEveryFrame(true);
-                // remove overlays
-                v->setOverlaysEnabled(false);
+                String camName = StringUtil::format("%sCam%d", shadowTex->getName().c_str(), i);
+                auto rtidx = shadowTex->getUsage() & TU_TARGET_ALL_LAYERS ? 0 : i;
+                setupRenderTarget(camName, shadowTex->getRenderTarget(rtidx), depthBufferId);
             }
-
-            // Don't update automatically - we'll do it when required
-            shadowRTT->setAutoUpdated(false);
-
-            // insert dummy camera-light combination
-            mShadowCamLightMapping[cam] = 0;
 
             // Get null shadow texture
             if (mShadowTextureConfigList.empty())
@@ -465,6 +475,36 @@ void SceneManager::TextureShadowRenderer::destroyShadowTextures(void)
     mShadowTextureConfigDirty = true;
 }
 //---------------------------------------------------------------------
+void SceneManager::TextureShadowRenderer::prepareTexCam(Camera* texCam, Camera* cam, Viewport* vp, Light* light,
+                                                        size_t j)
+{
+    // Associate main view camera as LOD camera
+    texCam->setLodCamera(cam);
+    // set base
+    if (light->getType() != Light::LT_POINT)
+    {
+#ifdef OGRE_NODELESS_POSITIONING
+        texCam->getParentSceneNode()->setDirection(light->getDerivedDirection(), Node::TS_WORLD);
+#else
+        texCam->getParentSceneNode()->setOrientation(light->getParentNode()->_getDerivedOrientation());
+#endif
+    }
+    if (light->getType() != Light::LT_DIRECTIONAL)
+        texCam->getParentSceneNode()->setPosition(light->getDerivedPosition());
+
+    // update shadow cam - light mapping
+    ShadowCamLightMapping::iterator camLightIt = mShadowCamLightMapping.find(texCam);
+    assert(camLightIt != mShadowCamLightMapping.end());
+    camLightIt->second = light;
+
+    if (!light->getCustomShadowCameraSetup())
+        mDefaultShadowCameraSetup->getShadowCamera(mSceneManager, cam, vp, light, texCam, j);
+    else
+        light->getCustomShadowCameraSetup()->getShadowCamera(mSceneManager, cam, vp, light, texCam, j);
+
+    // Fire shadow caster update, callee can alter camera settings
+    fireShadowTexturesPreCaster(light, texCam, j);
+}
 void SceneManager::TextureShadowRenderer::prepareShadowTextures(Camera* cam, Viewport* vp, const LightList* lightList)
 {
     // create shadow textures if needed
@@ -523,25 +563,14 @@ void SceneManager::TextureShadowRenderer::prepareShadowTextures(Camera* cam, Vie
         for (size_t j = 0; j < textureCountPerLight && si != siend; ++j)
         {
             TexturePtr &shadowTex = *si;
-            RenderTarget *shadowRTT = shadowTex->getBuffer()->getRenderTarget();
+
+            size_t layer = j < shadowTex->getDepth() ? j : 0;
+            size_t face = j < shadowTex->getNumFaces() ? j : 0;
+            RenderTarget *shadowRTT = shadowTex->getBuffer(face)->getRenderTarget(layer);
             Viewport *shadowView = shadowRTT->getViewport(0);
             Camera *texCam = *ci;
             // rebind camera, incase another SM in use which has switched to its cam
             shadowView->setCamera(texCam);
-
-            // Associate main view camera as LOD camera
-            texCam->setLodCamera(cam);
-            // set base
-            if (light->getType() != Light::LT_POINT)
-            {
-#ifdef OGRE_NODELESS_POSITIONING
-                texCam->getParentSceneNode()->setDirection(light->getDerivedDirection(), Node::TS_WORLD);
-#else
-                texCam->getParentSceneNode()->setOrientation(light->getParentNode()->_getDerivedOrientation());
-#endif
-            }
-            if (light->getType() != Light::LT_DIRECTIONAL)
-                texCam->getParentSceneNode()->setPosition(light->getDerivedPosition());
 
             // also update culling camera
             auto cullCam = dynamic_cast<Camera*>(texCam->getCullingFrustum());
@@ -555,26 +584,29 @@ void SceneManager::TextureShadowRenderer::prepareShadowTextures(Camera* cam, Vie
             // Set the viewport visibility flags
             shadowView->setVisibilityMask(light->getLightMask() & vp->getVisibilityMask());
 
-            // update shadow cam - light mapping
-            ShadowCamLightMapping::iterator camLightIt = mShadowCamLightMapping.find( texCam );
-            assert(camLightIt != mShadowCamLightMapping.end());
-            camLightIt->second = light;
+            bool allLayers = shadowTex->getUsage() & TU_TARGET_ALL_LAYERS;
+            size_t layers = std::max(shadowTex->getDepth(), shadowTex->getNumFaces());
 
-            if (!light->getCustomShadowCameraSetup())
-                mDefaultShadowCameraSetup->getShadowCamera(mSceneManager, cam, vp, light, texCam, j);
-            else
-                light->getCustomShadowCameraSetup()->getShadowCamera(mSceneManager, cam, vp, light, texCam, j);
-
-            // Setup background colour
-            shadowView->setBackgroundColour(ColourValue::White);
-
-            // Fire shadow caster update, callee can alter camera settings
-            fireShadowTexturesPreCaster(light, texCam, j);
+            prepareTexCam(texCam, cam, vp, light, j);
+            if(allLayers && layers <= textureCountPerLight)
+            {
+                std::vector<const Camera*> cams = {texCam};
+                j++;
+                for(; j < layers; ++j)
+                {
+                    texCam = *(++ci); // next camera
+                    texCam->_notifyViewport(shadowView);
+                    prepareTexCam(texCam, cam, vp, light, j);
+                    cams.push_back(texCam);
+                }
+                mSceneManager->setVPRTCameras(cams);
+            }
 
             // Update target
             shadowRTT->update();
 
-            ++si; // next shadow texture
+            if((j + 1) >= layers)
+                ++si; // next shadow texture
             ++ci; // next camera
         }
 
@@ -919,6 +951,39 @@ void SceneManager::TextureShadowRenderer::setShadowTextureConfig(size_t shadowIn
 
     mShadowTextureConfigDirty = true;
 }
+
+void SceneManager::TextureShadowRenderer::setShadowTextureCompositor(const String& compositorName,
+                                                                     const String& resourceGroup)
+{
+    auto compositor = CompositorManager::getSingleton().getByName(compositorName, resourceGroup);
+    OgreAssert(compositor, "Compositor not found");
+    OgreAssert(compositor->getNumTechniques() > 0, "Compositor has no techniques");
+
+    auto compositorTech = compositor->getTechnique(0);
+    const auto& textures = compositorTech->getTextureDefinitions();
+    OgreAssert(!textures.empty(), "Compositor technique has no textures");
+
+    mShadowTextureConfigList.clear();
+    mShadowTextureConfigDirty = true;
+
+    for(const auto& texture : textures)
+    {
+        OgreAssert(texture->width && texture->height, "Compositor texture definition must have absolute size");
+        OgreAssert(texture->formatList.size() == 1, "Compositor texture definition must have exactly one format");
+
+        ShadowTextureConfig cfg;
+        cfg.width = texture->width;
+        cfg.height = texture->height;
+        cfg.format = texture->formatList.front();
+        cfg.fsaa = texture->fsaa > 1 ? texture->fsaa : 0;
+        cfg.depthBufferPoolId = texture->depthBufferId;
+        cfg.type = texture->type;
+        cfg.depth = texture->depth;
+
+        mShadowTextureConfigList.push_back(cfg);
+    }
+}
+
 //---------------------------------------------------------------------
 void SceneManager::TextureShadowRenderer::setShadowTextureSize(unsigned short size)
 {
@@ -1008,16 +1073,13 @@ const TexturePtr& SceneManager::TextureShadowRenderer::getShadowTexture(size_t s
 
 void SceneManager::TextureShadowRenderer::resolveShadowTexture(TextureUnitState* tu, size_t shadowIndex, size_t shadowTexUnitIndex) const
 {
-    Camera* cam = NULL;
     TexturePtr shadowTex;
     if (shadowIndex < mShadowTextures.size())
     {
         shadowTex = mShadowTextures[shadowIndex];
-        // Hook up projection frustum
-        cam = shadowTex->getBuffer()->getRenderTarget()->getViewport(0)->getCamera();
         // Enable projective texturing if fixed-function, but also need to
         // disable it explicitly for program pipeline.
-        tu->setProjectiveTexturing(!tu->getParent()->hasVertexProgram(), cam);
+        tu->setProjectiveTexturing(!tu->getParent()->hasVertexProgram(), mShadowTextureCameras[shadowIndex]);
     }
     else
     {
@@ -1026,8 +1088,15 @@ void SceneManager::TextureShadowRenderer::resolveShadowTexture(TextureUnitState*
         shadowTex = mNullShadowTexture;
         tu->setProjectiveTexturing(false);
     }
-    mSceneManager->mAutoParamDataSource->setTextureProjector(cam, shadowTexUnitIndex);
+
     tu->_setTexturePtr(shadowTex);
+
+    // set up projectors for all layers, fixed function does not support layered textures anyway
+    size_t layers = std::max(shadowTex->getDepth(), shadowTex->getNumFaces());
+    layers = std::min(layers, mShadowTextureCameras.size() - shadowIndex); // clamp
+    for (size_t l = 0; l < layers; ++l)
+        mSceneManager->mAutoParamDataSource->setTextureProjector(mShadowTextureCameras[shadowIndex + l],
+                                                                 shadowTexUnitIndex + l);
 }
 
 namespace

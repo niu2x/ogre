@@ -143,7 +143,7 @@ GLTextureBuffer::GLTextureBuffer(GLRenderSystem* renderSystem, GLTexture* parent
         mSliceTRT.reserve(mDepth);
         for(uint32 zoffset=0; zoffset<mDepth; ++zoffset)
         {
-            String name = getNameForRenderTexture(parent->getName());
+            String name = getNameForRenderTexture(parent->getName(), zoffset + face);
             GLSurfaceDesc surface;
             surface.buffer = this;
             surface.zoffset = zoffset;
@@ -633,14 +633,6 @@ void GLTextureBuffer::blitFromMemory(const PixelBox &src, const Box &dstBox)
 
     // Delete temp texture
     TextureManager::getSingleton().remove(tex);
-}
-//-----------------------------------------------------------------------------    
-
-RenderTexture *GLTextureBuffer::getRenderTarget(size_t zoffset)
-{
-    assert(mUsage & TU_RENDERTARGET);
-    assert(zoffset < mDepth);
-    return mSliceTRT[zoffset];
 }
 //********* GLRenderBuffer
 //----------------------------------------------------------------------------- 

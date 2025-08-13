@@ -42,6 +42,8 @@ CGProgramWriter::CGProgramWriter()
     {
         mGpuConstTypeMap[GCT_SAMPLER2DARRAY] = "Sampler2DArray";
         mGpuConstTypeMap[GCT_SAMPLER2DSHADOW] = "Sampler2DShadow";
+        mGpuConstTypeMap[GCT_SAMPLER2DARRAYSHADOW] = "Sampler2DArrayShadow";
+        mGpuConstTypeMap[GCT_SAMPLERCUBESHADOW] = "SamplerCubeShadow";
     }
 }
 
@@ -81,6 +83,7 @@ void CGProgramWriter::initializeStringMaps()
     mGpuConstTypeMap[GCT_UINT4] = "uint4";
 
     mParamSemanticMap[Parameter::SPS_FRONT_FACING] = "VFACE";
+    mParamSemanticMap[Parameter::SPS_LAYER] = "SV_RenderTargetArrayIndex";
 }
 
 //-----------------------------------------------------------------------

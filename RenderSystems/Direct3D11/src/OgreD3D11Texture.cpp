@@ -584,8 +584,9 @@ namespace Ogre
         
         ID3D11Resource * pBackBuffer = buffer->getParentTexture()->getTextureResource();
 
-        D3D11_RENDER_TARGET_VIEW_DESC RTVDesc;
-        ZeroMemory( &RTVDesc, sizeof(RTVDesc) );
+        D3D11_RENDER_TARGET_VIEW_DESC RTVDesc = {};
+
+        bool allLayers = buffer->getParentTexture()->getUsage() & TU_TARGET_ALL_LAYERS;
 
         RTVDesc.Format = buffer->getParentTexture()->getShaderResourceViewDesc().Format;
         switch(buffer->getParentTexture()->getShaderResourceViewDesc().ViewDimension)
@@ -595,22 +596,27 @@ namespace Ogre
             break;
         case D3D11_SRV_DIMENSION_TEXTURE1D:
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE1D;
+            RTVDesc.Texture1D.MipSlice = buffer->getMipLevel();
             break;
         case D3D11_SRV_DIMENSION_TEXTURE1DARRAY:
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE1DARRAY;
+            RTVDesc.Texture1DArray.MipSlice = buffer->getMipLevel();
             break;
         case D3D11_SRV_DIMENSION_TEXTURECUBE:
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
             RTVDesc.Texture2DArray.FirstArraySlice = buffer->getFace();
-            RTVDesc.Texture2DArray.ArraySize = 1;
+            RTVDesc.Texture2DArray.MipSlice = buffer->getMipLevel();
+            RTVDesc.Texture2DArray.ArraySize = allLayers ? 6 : 1;
             break;
         case D3D11_SRV_DIMENSION_TEXTURE2D:
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+            RTVDesc.Texture2D.MipSlice = buffer->getMipLevel();
             break;
         case D3D11_SRV_DIMENSION_TEXTURE2DARRAY:
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
             RTVDesc.Texture2DArray.FirstArraySlice = mZOffset;
-            RTVDesc.Texture2DArray.ArraySize = 1;
+            RTVDesc.Texture2DArray.MipSlice = buffer->getMipLevel();
+            RTVDesc.Texture2DArray.ArraySize = allLayers ? mBuffer->getDepth() : 1;
             break;
         case D3D11_SRV_DIMENSION_TEXTURE2DMS:
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
@@ -624,6 +630,7 @@ namespace Ogre
             RTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE3D;
             RTVDesc.Texture3D.FirstWSlice = mZOffset;
             RTVDesc.Texture3D.WSize = 1;
+            RTVDesc.Texture3D.MipSlice = buffer->getMipLevel();
             break;
         default:
             assert(false);
@@ -643,9 +650,18 @@ namespace Ogre
         // Create the depth stencil view
         D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
         descDSV.Format = DXGI_FORMAT_D32_FLOAT;
-        descDSV.ViewDimension = (BBDesc.SampleDesc.Count > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
         descDSV.Flags = 0 /* D3D11_DSV_READ_ONLY_DEPTH | D3D11_DSV_READ_ONLY_STENCIL */;    // TODO: Allows bind depth buffer as depth view AND texture simultaneously.
-        descDSV.Texture2D.MipSlice = 0;
+        if(buffer->getParentTexture()->getTextureType() == TEX_TYPE_2D_ARRAY)
+        {
+            descDSV.ViewDimension = (BBDesc.SampleDesc.Count > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY : D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+            descDSV.Texture2DArray.FirstArraySlice = mZOffset;
+            descDSV.Texture2DArray.ArraySize = allLayers ? BBDesc.ArraySize : 1;
+        }
+        else
+        {
+            descDSV.ViewDimension = (BBDesc.SampleDesc.Count > 1) ? D3D11_DSV_DIMENSION_TEXTURE2DMS : D3D11_DSV_DIMENSION_TEXTURE2D;
+            descDSV.Texture2D.MipSlice = 0;
+        }
 
         ID3D11DepthStencilView      *depthStencilView;
         OGRE_CHECK_DX_ERROR(mDevice->CreateDepthStencilView(pBackBuffer, &descDSV, &depthStencilView ));

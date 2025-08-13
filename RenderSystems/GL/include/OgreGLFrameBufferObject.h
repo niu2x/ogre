@@ -38,7 +38,7 @@ namespace Ogre {
     class _OgreGLExport GLFrameBufferObject : public GLFrameBufferObjectCommon
     {
     public:
-        GLFrameBufferObject(GLFBOManager *manager, uint fsaa);
+        GLFrameBufferObject(uint fsaa);
         ~GLFrameBufferObject();
 
         bool bind(bool recreateIfNeeded) override;
@@ -54,11 +54,7 @@ namespace Ogre {
         */
         void attachDepthBuffer( DepthBuffer *depthBuffer );
         void detachDepthBuffer();
-        
-        GLFBOManager *getManager() { return mManager; }
     private:
-        GLFBOManager *mManager;
-
         void initialise() override;
     };
 

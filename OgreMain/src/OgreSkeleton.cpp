@@ -39,7 +39,6 @@ namespace Ogre {
     //---------------------------------------------------------------------
     Skeleton::Skeleton()
         : Resource(),
-        mNextAutoHandle(0),
         mBlendState(ANIMBLEND_AVERAGE),
         mManualBonesDirty(false)
     {
@@ -48,7 +47,7 @@ namespace Ogre {
     Skeleton::Skeleton(ResourceManager* creator, const String& name, ResourceHandle handle,
         const String& group, bool isManual, ManualResourceLoader* loader) 
         : Resource(creator, name, handle, group, isManual, loader), 
-        mNextAutoHandle(0), mBlendState(ANIMBLEND_AVERAGE)
+        mBlendState(ANIMBLEND_AVERAGE)
         // set animation blending to weighted, not cumulative
     {
         if (createParamDictionary("Skeleton"))
@@ -109,36 +108,17 @@ namespace Ogre {
     //---------------------------------------------------------------------
     Bone* Skeleton::createBone(void)
     {
-        // use autohandle
-        return createBone(mNextAutoHandle++);
+        return createBone(mBoneList.size());
     }
     //---------------------------------------------------------------------
     Bone* Skeleton::createBone(const String& name)
     {
-        return createBone(name, mNextAutoHandle++);
+        return createBone(name, mBoneList.size());
     }
     //---------------------------------------------------------------------
     Bone* Skeleton::createBone(unsigned short handle)
     {
-        OgreAssert(handle < OGRE_MAX_NUM_BONES, "Exceeded the maximum number of bones per skeleton");
-        // Check handle not used
-        if (handle < mBoneList.size() && mBoneList[handle] != NULL)
-        {
-            OGRE_EXCEPT(
-                Exception::ERR_DUPLICATE_ITEM,
-                "A bone with the handle " + StringConverter::toString(handle) + " already exists",
-                "Skeleton::createBone" );
-        }
-        Bone* ret = OGRE_NEW Bone(handle, this);
-        assert(mBoneListByName.find(ret->getName()) == mBoneListByName.end());
-        if (mBoneList.size() <= handle)
-        {
-            mBoneList.resize(handle+1);
-        }
-        mBoneList[handle] = ret;
-        mBoneListByName[ret->getName()] = ret;
-        return ret;
-
+        return createBone(StringUtil::format("Bone%u", handle), handle);
     }
     //---------------------------------------------------------------------
     Bone* Skeleton::createBone(const String& name, unsigned short handle)
@@ -419,11 +399,6 @@ namespace Ogre {
             mManualBones.erase(bone);
     }
     //-----------------------------------------------------------------------
-    unsigned short Skeleton::getNumBones(void) const
-    {
-        return (unsigned short)mBoneList.size();
-    }
-    //-----------------------------------------------------------------------
     void Skeleton::_getBoneMatrices(Affine3* pMatrices)
     {
         // Update derived transforms
@@ -463,12 +438,6 @@ namespace Ogre {
         std::advance(i, index);
 
         return i->second;
-    }
-    //---------------------------------------------------------------------
-    Bone* Skeleton::getBone(unsigned short handle) const
-    {
-        assert(handle < mBoneList.size() && "Index out of bounds");
-        return mBoneList[handle];
     }
     //---------------------------------------------------------------------
     Bone* Skeleton::getBone(const String& name) const
@@ -559,16 +528,6 @@ namespace Ogre {
             }
         }
         return o;
-    }
-    //---------------------------------------------------------------------
-    SkeletonAnimationBlendMode Skeleton::getBlendMode() const
-    {
-        return mBlendState;
-    }
-    //---------------------------------------------------------------------
-    void Skeleton::setBlendMode(SkeletonAnimationBlendMode state) 
-    {
-        mBlendState = state;
     }
     //---------------------------------------------------------------------
     Skeleton::BoneIterator Skeleton::getRootBoneIterator(void)

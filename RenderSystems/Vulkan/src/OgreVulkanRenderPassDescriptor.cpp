@@ -55,6 +55,7 @@ namespace Ogre
     {
         uint32 hash = FastHash((const char*)mColour, mNumColourEntries * sizeof(mColour[0]));
         hash = HashCombine(hash, mDepth);
+        hash = HashCombine(hash, mSlice);
 
         VulkanFrameBufferDescMap &frameBufferDescMap = mRenderSystem->_getFrameBufferDescMap();
         VulkanFrameBufferDescMap::iterator newItor = frameBufferDescMap.find( hash );
@@ -254,7 +255,7 @@ namespace Ogre
         VulkanTextureGpu *texture = mDepth;
         VkImage texName =
             texture->getMsaaTextureName() ? texture->getMsaaTextureName() : texture->getFinalTextureName();
-        return texture->_createView(0, 1, 0, 1u, texName);
+        return texture->_createView(0, 1, mSlice, 1, texName);
     }
     //-----------------------------------------------------------------------------------
     void VulkanRenderPassDescriptor::setupFbo( VulkanFrameBufferDescValue &fboDesc )
@@ -268,6 +269,7 @@ namespace Ogre
         uint32 numColourAttachments = 0u;
         uint32 windowAttachmentIdx = std::numeric_limits<uint32>::max();
         bool usesResolveAttachments = false;
+        uint32 layers = 1;
 
         // 1 per MRT
         // 1 per MRT MSAA resolve
@@ -285,6 +287,9 @@ namespace Ogre
 
             if( mColour[i]->getFormat() == PF_UNKNOWN )
                 continue;
+
+            if (mColour[i]->getUsage() & TU_TARGET_ALL_LAYERS)
+                layers = mColour[i]->getNumLayers();
 
             OGRE_ASSERT_HIGH( dynamic_cast<VulkanTextureGpu *>( mColour[i] ) );
             VulkanTextureGpu *textureVulkan = static_cast<VulkanTextureGpu *>( mColour[i] );
@@ -313,6 +318,9 @@ namespace Ogre
             else
                 depthAttachRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
             ++attachmentIdx;
+
+            if (mDepth->getUsage() & TU_TARGET_ALL_LAYERS)
+                layers = mDepth->getNumLayers();
         }
 
         VkSubpassDescription subpass = {VK_PIPELINE_BIND_POINT_GRAPHICS};
@@ -327,18 +335,24 @@ namespace Ogre
 		// Use subpass dependencies for layout transitions for RenderTextures
         auto accessMask =
             mNumColourEntries ? VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT : VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+
+        auto srcStageMask = mNumColourEntries ? VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
+                                              : VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT;
+
         std::array<VkSubpassDependency, 2> dependencies;
         dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
         dependencies[0].dstSubpass = 0;
-        dependencies[0].srcStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-        dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-        dependencies[0].srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        dependencies[0].srcStageMask = srcStageMask;
+        dependencies[0].dstStageMask = mNumColourEntries ? VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
+                                                         : VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
+        dependencies[0].srcAccessMask =
+            mNumColourEntries ? VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT : VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
         dependencies[0].dstAccessMask = accessMask;
         dependencies[0].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
         dependencies[1].srcSubpass = 0;
         dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
-        dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        dependencies[1].srcStageMask = srcStageMask;
         dependencies[1].dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
         dependencies[1].srcAccessMask = accessMask;
         dependencies[1].dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
@@ -364,7 +378,7 @@ namespace Ogre
         fbCreateInfo.pAttachments = fboDesc.mImageViews;
         fbCreateInfo.width = mTargetWidth;
         fbCreateInfo.height = mTargetHeight;
-        fbCreateInfo.layers = 1u;
+        fbCreateInfo.layers = layers;
 
         const size_t numFramebuffers = std::max<size_t>( fboDesc.mWindowImageViews.size(), 1u );
         fboDesc.mFramebuffers.resize( numFramebuffers );
