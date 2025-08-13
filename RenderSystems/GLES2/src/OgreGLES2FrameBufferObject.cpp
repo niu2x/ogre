@@ -34,12 +34,13 @@ THE SOFTWARE.
 #include "OgreRoot.h"
 #include "OgreGLES2RenderSystem.h"
 #include "OgreGLNativeSupport.h"
+#include <sstream>
 
 namespace Ogre {
 
 //-----------------------------------------------------------------------------
-GLES2FrameBufferObject::GLES2FrameBufferObject(GLES2FBOManager* manager, uint fsaa)
-    : GLFrameBufferObjectCommon(fsaa, *manager), mManager(manager)
+GLES2FrameBufferObject::GLES2FrameBufferObject( uint fsaa)
+    : GLFrameBufferObjectCommon(fsaa)
 {
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS
         GLint oldfb = 0;
@@ -51,7 +52,18 @@ GLES2FrameBufferObject::GLES2FrameBufferObject(GLES2FBOManager* manager, uint fs
         // Generate framebuffer object
         OGRE_CHECK_GL_ERROR(glGenFramebuffers(1, &mFB));
 
-        mNumSamples = std::min(mNumSamples, manager->getMaxFSAASamples());
+        // Check multisampling if supported
+        if(rs->hasMinGLVersion(3, 0))
+        {
+            // Check samples supported
+            GLint maxSamples;
+            OGRE_CHECK_GL_ERROR(glGetIntegerv(GL_MAX_SAMPLES_APPLE, &maxSamples));
+            mNumSamples = std::min(mNumSamples, maxSamples);
+        }
+        else
+        {
+            mNumSamples = 0;
+        }
 
         // Will we need a second FBO to do multisampling?
         if (mNumSamples)
@@ -70,8 +82,8 @@ GLES2FrameBufferObject::GLES2FrameBufferObject(GLES2FBOManager* manager, uint fs
     
     GLES2FrameBufferObject::~GLES2FrameBufferObject()
     {
-        mManager->releaseRenderBuffer(mDepth);
-        mManager->releaseRenderBuffer(mStencil);
+        mRTTManager->releaseRenderBuffer(mDepth);
+        mRTTManager->releaseRenderBuffer(mStencil);
         // Delete framebuffer object
         if(mContext && mFB)
         {
@@ -86,9 +98,9 @@ GLES2FrameBufferObject::GLES2FrameBufferObject(GLES2FBOManager* manager, uint fs
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID || OGRE_PLATFORM == OGRE_PLATFORM_EMSCRIPTEN
     void GLES2FrameBufferObject::notifyOnContextLost()
     {
-        mManager->releaseRenderBuffer(mDepth);
-        mManager->releaseRenderBuffer(mStencil);
-        mManager->releaseRenderBuffer(mMultisampleColourBuffer);
+        mRTTManager->releaseRenderBuffer(mDepth);
+        mRTTManager->releaseRenderBuffer(mStencil);
+        mRTTManager->releaseRenderBuffer(mMultisampleColourBuffer);
         
         OGRE_CHECK_GL_ERROR(glDeleteFramebuffers(1, &mFB));
         
@@ -113,8 +125,8 @@ GLES2FrameBufferObject::GLES2FrameBufferObject(GLES2FBOManager* manager, uint fs
         assert(mContext == rs->_getCurrentContext());
         
         // Release depth and stencil, if they were bound
-        mManager->releaseRenderBuffer(mDepth);
-        mManager->releaseRenderBuffer(mStencil);
+        mRTTManager->releaseRenderBuffer(mDepth);
+        mRTTManager->releaseRenderBuffer(mStencil);
 
         releaseMultisampleColourBuffer();
 

@@ -8,11 +8,16 @@
 
 #include "OgreBulletExports.h"
 
-#include "btBulletDynamicsCommon.h"
+#include "BulletCollision/CollisionDispatch/btGhostObject.h"
 #include "Ogre.h"
+#include "btBulletCollisionCommon.h"
+#include "btBulletDynamicsCommon.h"
+#include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
 
 namespace Ogre
 {
+class TerrainGroup;
+class Terrain;
 namespace Bullet
 {
 
@@ -31,7 +36,8 @@ enum ColliderType
     CT_CYLINDER,
     CT_CAPSULE,
     CT_TRIMESH,
-    CT_HULL
+    CT_HULL,
+    CT_COMPOUND
 };
 
 inline btQuaternion convert(const Quaternion& q) { return btQuaternion(q.x, q.y, q.z, q.w); }
@@ -64,6 +70,16 @@ public:
     }
 };
 
+/// height field data
+struct _OgreBulletExport HeightFieldData {
+    /** the position for a center of the shape, i.e. where to place btRigidBody
+     *  or a child of btCompoundShape */
+    Vector3 bodyPosition;
+    /** a heightfield pointer to be freed when
+     * btHeightfieldTerrainShape is freed */
+    float *terrainHeights;
+};
+
 /// create sphere collider using ogre provided data
 _OgreBulletExport btSphereShape* createSphereCollider(const MovableObject* mo);
 /// create box collider using ogre provided data
@@ -72,6 +88,14 @@ _OgreBulletExport btBoxShape* createBoxCollider(const MovableObject* mo);
 _OgreBulletExport btCapsuleShape* createCapsuleCollider(const MovableObject* mo);
 /// create capsule collider using ogre provided data
 _OgreBulletExport btCylinderShape* createCylinderCollider(const MovableObject* mo);
+/// create triMesh collider
+_OgreBulletExport btBvhTriangleMeshShape* createTrimeshCollider(const Entity* ent);
+/// create convex hull collider
+_OgreBulletExport btConvexHullShape* createConvexHullCollider(const Entity* ent);
+/// create compound shape
+_OgreBulletExport btCompoundShape* createCompoundShape();
+/// create height field collider
+_OgreBulletExport btHeightfieldTerrainShape* createHeightfieldTerrainShape(const Terrain* terrain, struct HeightFieldData *data);
 
 struct _OgreBulletExport CollisionListener
 {
@@ -102,16 +126,41 @@ protected:
     std::unique_ptr<btBroadphaseInterface> mBroadphase;
 
     btCollisionWorld* mBtWorld;
+    btGhostPairCallback* mGhostPairCallback;
 
 public:
-    CollisionWorld(btCollisionWorld* btWorld) : mBtWorld(btWorld) {}
+    CollisionWorld(btCollisionWorld* btWorld) : mBtWorld(btWorld), mGhostPairCallback(nullptr) {}
     virtual ~CollisionWorld();
 
     btCollisionObject* addCollisionObject(Entity* ent, ColliderType ct, int group = 1, int mask = -1);
 
     void rayTest(const Ray& ray, RayResultCallback* callback, float maxDist = 1000);
+    void attachCollisionObject(btCollisionObject *collisionObject, Entity *ent, int group = 1, int mask = -1);
 };
 
+/// helper class for kinematic body motion
+class _OgreBulletExport KinematicMotionSimple : public btActionInterface
+{
+    std::vector<btCollisionShape*> mCollisionShapes;
+    std::vector<btTransform> mCollisionTransforms;
+    btPairCachingGhostObject* mGhostObject;
+    btVector3 mCurrentPosition;
+    btQuaternion mCurrentOrientation;
+    btManifoldArray mManifoldArray;
+    btScalar mMaxPenetrationDepth;
+    Node* mNode;
+    virtual bool needsCollision(const btCollisionObject* body0, const btCollisionObject* body1);
+    void preStep(btCollisionWorld* collisionWorld);
+    void playerStep(btCollisionWorld* collisionWorld, btScalar dt);
+    void setupCollisionShapes(btCollisionObject* body);
+
+public:
+    KinematicMotionSimple(btPairCachingGhostObject* ghostObject, Node* node);
+    ~KinematicMotionSimple();
+    bool recoverFromPenetration(btCollisionWorld* collisionWorld);
+    virtual void updateAction(btCollisionWorld* collisionWorld, btScalar deltaTimeStep) override;
+    virtual void debugDraw(btIDebugDraw* debugDrawer) override;
+};
 /// simplified wrapper with automatic memory management
 class _OgreBulletExport DynamicsWorld : public CollisionWorld
 {
@@ -131,8 +180,26 @@ public:
     */
     btRigidBody* addRigidBody(float mass, Entity* ent, ColliderType ct, CollisionListener* listener = nullptr,
                               int group = 1, int mask = -1);
+    btRigidBody* addKinematicRigidBody(Entity* ent, ColliderType ct, int group = 1, int mask = -1);
 
-    btDynamicsWorld* getBtWorld() const { return (btDynamicsWorld*)mBtWorld; }
+    /** Add static body for Ogre terrain
+     * @param terrainGroup the TerrainGroup of the terrain
+     * @param x x coordinate of the terrain slot
+     * @param y y coordinate of the terrain slot
+     * @param group the collision group
+     * @param mask the collision mask
+     */
+    btRigidBody* addTerrainRigidBody(TerrainGroup* terrainGroup, long x, long y, int group = 1, int mask = -1);
+    /** Add static body for Ogre terrain
+     * @param terrain the terrain
+     * @param group the collision group
+     * @param mask the collision mask
+     */
+    btRigidBody* addTerrainRigidBody(Terrain* terrain, int group = 1, int mask = -1);
+
+    void attachRigidBody(btRigidBody *rigidBody, Entity *ent, CollisionListener* listener = nullptr,
+                              int group = 1, int mask = -1);
+    btDynamicsWorld* getBtWorld() const { return static_cast<btDynamicsWorld*>(mBtWorld); }
 };
 
 class _OgreBulletExport DebugDrawer : public btIDebugDraw

@@ -55,9 +55,9 @@ namespace Ogre
             mSliceTRT.reserve(mDepth);
             for(size_t zoffset=0; zoffset<mDepth; ++zoffset)
             {
-                String name = getNameForRenderTexture(mParent->getName());
+                String name = getNameForRenderTexture(mParent->getName(), zoffset + face);
 
-                RenderTexture *trt = new VulkanRenderTexture(name, this, zoffset, mParent, mFace);
+                RenderTexture *trt = new VulkanRenderTexture(name, this, zoffset + face, mParent);
                 mSliceTRT.push_back(trt);
                 Root::getSingleton().getRenderSystem()->attachRenderTarget(*trt);
             }
@@ -66,7 +66,7 @@ namespace Ogre
 
     PixelBox VulkanHardwarePixelBuffer::lockImpl(const Box &lockBox,  LockOptions options)
     {
-        PixelBox ret(lockBox, mParent->getFormat());
+        PixelBox ret(lockBox.getWidth(), lockBox.getHeight(), lockBox.getDepth(), mParent->getFormat());
 
         auto textureManager = static_cast<VulkanTextureGpuManager*>(mParent->getCreator());
         VulkanDevice* device = textureManager->getDevice();
@@ -105,7 +105,8 @@ namespace Ogre
             device->mGraphicsQueue.commitAndNextCommandBuffer();
         }
 
-        return PixelBox(lockBox, mParent->getFormat(), mStagingBuffer->lock(options));
+        ret.data = (uchar*)mStagingBuffer->lock(options);
+        return ret;
     }
 
     void VulkanHardwarePixelBuffer::unlockImpl()
@@ -129,16 +130,16 @@ namespace Ogre
             region.imageSubresource.baseArrayLayer = mFace;
             region.imageSubresource.layerCount = 1;
 
-            region.imageOffset.x = mCurrentLock.left;
-            region.imageOffset.y = mCurrentLock.top;
-            region.imageOffset.z = mCurrentLock.front;
-            region.imageExtent.width = mCurrentLock.getWidth();
-            region.imageExtent.height = mCurrentLock.getHeight();
-            region.imageExtent.depth = mCurrentLock.getDepth();
+            region.imageOffset.x = mLockedBox.left;
+            region.imageOffset.y = mLockedBox.top;
+            region.imageOffset.z = mLockedBox.front;
+            region.imageExtent.width = mLockedBox.getWidth();
+            region.imageExtent.height = mLockedBox.getHeight();
+            region.imageExtent.depth = mLockedBox.getDepth();
 
             if (mParent->getTextureType() == TEX_TYPE_2D_ARRAY)
             {
-                region.imageSubresource.baseArrayLayer = mCurrentLock.front;
+                region.imageSubresource.baseArrayLayer = mLockedBox.front;
                 region.imageOffset.z = 0;
             }
 
@@ -155,21 +156,8 @@ namespace Ogre
     void VulkanHardwarePixelBuffer::blitFromMemory(const PixelBox& src, const Box& dstBox)
     {
         OgreAssert(src.getSize() == dstBox.getSize(), "scaling currently not supported");
-        // convert to image native format if necessary
-        if(src.format != mFormat)
-        {
-            std::vector<uint8> buffer;
-            buffer.resize(PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(), mFormat));
-            PixelBox converted = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), mFormat, buffer.data());
-            PixelUtil::bulkPixelConversion(src, converted);
-            blitFromMemory(converted, dstBox); // recursive call
-            return;
-        }
-
-        auto ptr = lock(dstBox, HBL_WRITE_ONLY).data;
-
-        memcpy(ptr, src.data, src.getConsecutiveSize());
-
+        lock(dstBox, HBL_WRITE_ONLY);
+        PixelUtil::bulkPixelConversion(src, mCurrentLock);
         unlock();
     }
     void VulkanHardwarePixelBuffer::blitToMemory(const Box& srcBox, const PixelBox& dst)
@@ -604,6 +592,12 @@ namespace Ogre
         else
             imageViewCi.subresourceRange.layerCount = numSlices;
 
+        if(mUsage & TU_TARGET_ALL_LAYERS)
+        {
+            imageViewCi.subresourceRange.baseArrayLayer = 0;
+            imageViewCi.subresourceRange.layerCount = getNumLayers();
+        }
+
         VkImageViewUsageCreateInfo flagRestriction = {VK_STRUCTURE_TYPE_IMAGE_VIEW_USAGE_CREATE_INFO};
         if( textureManager->canRestrictImageViewUsage() && isUav() )
         {
@@ -714,9 +708,9 @@ namespace Ogre
         vmaDestroyImage(device->getAllocator(), mMsaaTextureName, mMsaaAllocation);
     }
 
-    VulkanRenderTexture::VulkanRenderTexture(const String& name, HardwarePixelBuffer* buffer, uint32 zoffset,
-                                             VulkanTextureGpu* target, uint32 face)
-        : RenderTexture(buffer, zoffset)
+    VulkanRenderTexture::VulkanRenderTexture(const String& name, HardwarePixelBuffer* buffer, uint32 slice,
+                                             VulkanTextureGpu* target)
+        : RenderTexture(buffer, slice)
     {
         mName = name;
 
@@ -739,7 +733,7 @@ namespace Ogre
 
         mRenderPassDescriptor = std::make_unique<VulkanRenderPassDescriptor>(&device->mGraphicsQueue, device->mRenderSystem);
         mRenderPassDescriptor->mColour[0] = depthTarget ? 0 : target;
-        mRenderPassDescriptor->mSlice = face;
+        mRenderPassDescriptor->mSlice = slice;
         mRenderPassDescriptor->mDepth = depthTarget ? target : mDepthTexture.get();
         mRenderPassDescriptor->mNumColourEntries = int(depthTarget == 0);
         mRenderPassDescriptor->entriesModified(true);

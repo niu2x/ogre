@@ -48,6 +48,7 @@ IntegratedPSSM3::IntegratedPSSM3()
     mUseColourShadows = false;
     mDebug = false;
     mIsD3D9 = false;
+    mUseArrayTexture = false;
     mShadowTextureParamsList.resize(1); // normal single texture depth shadowmapping
     mMultiLightCount = 1;
 }
@@ -97,6 +98,7 @@ void IntegratedPSSM3::copyFrom(const SubRenderState& rhs)
     mUseColourShadows = rhsPssm.mUseColourShadows;
     mDebug = rhsPssm.mDebug;
     mMultiLightCount = rhsPssm.mMultiLightCount;
+    mUseArrayTexture = rhsPssm.mUseArrayTexture;
     mShadowTextureParamsList.resize(rhsPssm.mShadowTextureParamsList.size());
 
     ShadowTextureParamsConstIterator itSrc = rhsPssm.mShadowTextureParamsList.begin();
@@ -176,6 +178,10 @@ bool IntegratedPSSM3::setParameter(const String& name, const String& value)
         mMultiLightCount = StringConverter::parseInt(value);
         return true;
     }
+    else if (name == "array_texture")
+    {
+        return StringConverter::parse(value, mUseArrayTexture);
+    }
 
     return false;
 }
@@ -190,6 +196,11 @@ void IntegratedPSSM3::setParameter(const String& name, const Any& value)
     else if (name == "debug")
     {
         mDebug = any_cast<bool>(value);
+        return;
+    }
+    else if (name == "array_texture")
+    {
+        mUseArrayTexture = any_cast<bool>(value);
         return;
     }
 
@@ -228,12 +239,23 @@ bool IntegratedPSSM3::resolveParameters(ProgramSet* programSet)
 
     int lightIndex = 0;
 
+    auto stype = GCT_SAMPLER2D;
+    if(mUseTextureCompare)
+    {
+        stype = mUseArrayTexture ? GCT_SAMPLER2DARRAYSHADOW : GCT_SAMPLER2DSHADOW;
+    }
+    else {
+        stype = mUseArrayTexture ? GCT_SAMPLER2DARRAY : GCT_SAMPLER2D;
+    }
+
+    mWorldViewProjMatrices = vsProgram->resolveParameter(GpuProgramParameters::ACT_TEXTURE_WORLDVIEWPROJ_MATRIX_ARRAY,
+                                                         mShadowTextureParamsList.size());
     for (auto& p : mShadowTextureParamsList)
     {
-        p.mWorldViewProjMatrix = vsProgram->resolveParameter(GpuProgramParameters::ACT_TEXTURE_WORLDVIEWPROJ_MATRIX, lightIndex);
         p.mVSOutLightPosition = vsMain->resolveOutputParameter(Parameter::SPC_POSITION_LIGHT_SPACE0 + lightIndex);
         p.mPSInLightPosition = psMain->resolveInputParameter(p.mVSOutLightPosition);
-        auto stype = mUseTextureCompare ? GCT_SAMPLER2DSHADOW : GCT_SAMPLER2D;
+        if(mUseArrayTexture)
+            p.mTextureSamplerIndex = mShadowTextureParamsList[0].mTextureSamplerIndex;
         p.mTextureSampler = psProgram->resolveParameter(stype, "shadow_map", p.mTextureSamplerIndex);
         p.mInvTextureSize = psProgram->resolveParameter(GpuProgramParameters::ACT_INVERSE_TEXTURE_SIZE, p.mTextureSamplerIndex);
         ++lightIndex;
@@ -264,6 +286,9 @@ bool IntegratedPSSM3::resolveDependencies(ProgramSet* programSet)
 
     if(mUseColourShadows)
         psProgram->addPreprocessorDefines("PSSM_SAMPLE_COLOUR");
+
+    if(mUseArrayTexture)
+        psProgram->addPreprocessorDefines("PSSM_ARRAY_TEXTURE");
 
     return true;
 }
@@ -298,9 +323,10 @@ bool IntegratedPSSM3::addVSInvocation(Function* vsMain, const int groupOrder)
     }
 
     // Compute world space position.
+    int idx = 0;
     for (auto& p : mShadowTextureParamsList)
     {
-        stage.callBuiltin("mul", p.mWorldViewProjMatrix, mVSInPos, p.mVSOutLightPosition);
+        stage.callBuiltin("mul", {In(mWorldViewProjMatrices), At(idx++), In(mVSInPos), Out(p.mVSOutLightPosition)});
     }
 
     return true;
@@ -356,30 +382,31 @@ bool IntegratedPSSM3::addPSInvocation(Program* psProgram, const int groupOrder)
 }
 
 //-----------------------------------------------------------------------
-SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
-                                                      PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator)
+SubRenderState* IntegratedPSSM3Factory::createInstance(const ScriptProperty& prop, Pass* pass, SGScriptTranslator* translator)
 {
-    if (prop->name == "integrated_pssm4")
+    if (prop.name == "integrated_pssm4")
     {
-        compiler->addError(ScriptCompiler::CE_DEPRECATEDSYMBOL, prop->file, prop->line, "integrated_pssm4. Use shadow_mapping instead.");
+        translator->emitError("integrated_pssm4. Use shadow_mapping instead.", ScriptCompiler::CE_DEPRECATEDSYMBOL);
 
         SubRenderState* subRenderState = createOrRetrieveInstance(translator);
 
-        auto it = prop->values.begin();
-        auto itEnd = prop->values.end();
-
-        if (prop->values.size() >= 4)
+        if (prop.values.size() >= 4)
         {
-            IntegratedPSSM3::SplitPointList splitPointList;
-            if(SGScriptTranslator::getVector(it, itEnd, splitPointList, 4))
-                subRenderState->setParameter("split_points", splitPointList);
-
-            std::advance(it, 4);
+            IntegratedPSSM3::SplitPointList splitPointList(4);
+            for(int i = 0; i < 4; ++i)
+            {
+                if (!StringConverter::parse(prop.values[i], splitPointList[i]))
+                {
+                    translator->emitError();
+                }
+            }
+            subRenderState->setParameter("split_points", splitPointList);
         }
 
-        for (; it != itEnd; ++it)
+        auto it = prop.values.begin() + 4;
+        for (; it != prop.values.end(); ++it)
         {
-            const auto& val = (*it)->getString();
+            const auto& val = (*it);
             if(val == "debug")
             {
                 subRenderState->setParameter("debug", "true");
@@ -393,19 +420,19 @@ SubRenderState* IntegratedPSSM3Factory::createInstance(ScriptCompiler* compiler,
         return subRenderState;
     }
 
-    if (prop->name == "shadow_mapping")
+    if (prop.name == "shadow_mapping")
     {
         SubRenderState* subRenderState = createOrRetrieveInstance(translator);
 
-        auto it = prop->values.begin();
-        while(it != prop->values.end())
+        auto it = prop.values.begin();
+        while(it != prop.values.end())
         {
-            String paramName = (*it)->getString();
-            String paramValue = (*++it)->getString();
+            String paramName = (*it);
+            String paramValue = (*++it);
 
             if (!subRenderState->setParameter(paramName, paramValue))
             {
-                compiler->addError(ScriptCompiler::CE_INVALIDPARAMETERS, prop->file, prop->line, paramName);
+                translator->emitError(paramName);
                 return subRenderState;
             }
             it++;

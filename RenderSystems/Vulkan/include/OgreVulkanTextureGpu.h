@@ -133,7 +133,6 @@ namespace Ogre
         virtual void createMsaaSurface( void );
         virtual void destroyMsaaSurface( void );
     public:
-        uint32 getNumLayers() const { return mTextureType == TEX_TYPE_2D_ARRAY ? mDepth : getNumFaces(); }
         bool hasMsaaExplicitResolves() const { return false; }
         bool isUav() const { return false; }
         bool isMultisample() const { return mFSAA > 1; }
@@ -178,8 +177,7 @@ namespace Ogre
         std::unique_ptr<VulkanTextureGpu> mDepthTexture;
         std::unique_ptr<VulkanRenderPassDescriptor> mRenderPassDescriptor;
     public:
-        VulkanRenderTexture(const String& name, HardwarePixelBuffer* buffer, uint32 zoffset, VulkanTextureGpu* target,
-                            uint32 face);
+        VulkanRenderTexture(const String& name, HardwarePixelBuffer* buffer, uint32 slice, VulkanTextureGpu* target);
 
         bool requiresTextureFlipping() const override { return true; }
 

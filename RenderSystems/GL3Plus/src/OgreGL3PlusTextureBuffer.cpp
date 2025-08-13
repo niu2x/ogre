@@ -79,13 +79,21 @@ namespace Ogre {
             return;
 
         // Is this a render target?
-        if (mUsage & TU_RENDERTARGET)
+        if (parent->getUsage() & TU_RENDERTARGET)
         {
-            // Create render target for each slice
-            mSliceTRT.reserve(mDepth);
-            for(uint32 zoffset=0; zoffset<mDepth; ++zoffset)
+            if (parent->getUsage() & TU_TARGET_ALL_LAYERS)
             {
-                String name = getNameForRenderTexture(parent->getName());
+                mTarget = GL_TEXTURE_2D; // will bind the whole texture to FBO
+                depth = 1;
+                if(face > 0) // only one rendertarget for all layers
+                    return;
+            }
+
+            // Create render target for each slice
+            mSliceTRT.reserve(depth);
+            for(uint32 zoffset=0; zoffset<depth; ++zoffset)
+            {
+                String name = getNameForRenderTexture(parent->getName(), zoffset + face);
                 GLSurfaceDesc surface;
                 surface.buffer = this;
                 surface.zoffset = zoffset;
@@ -472,8 +480,10 @@ namespace Ogre {
             OGRE_CHECK_GL_ERROR(glFramebufferTexture2D(which, attachment,
                                                        mFaceTarget, mTextureID, mLevel));
             break;
-        case GL_TEXTURE_3D:
         case GL_TEXTURE_2D_ARRAY:
+            OGRE_CHECK_GL_ERROR(glFramebufferTextureLayer(which, attachment, mTextureID, mLevel, zoffset));
+            break;
+        case GL_TEXTURE_3D:
             OGRE_CHECK_GL_ERROR(glFramebufferTexture3D(which, attachment,
                                                        mFaceTarget, mTextureID, mLevel, zoffset));
             break;

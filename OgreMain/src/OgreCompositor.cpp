@@ -27,7 +27,6 @@ THE SOFTWARE.
 */
 #include "OgreStableHeaders.h"
 #include "OgreCompositor.h"
-#include "OgreCompositionTechnique.h"
 #include "OgreHardwarePixelBuffer.h"
 #include "OgreCompositorInstance.h"
 
@@ -153,11 +152,12 @@ CompositionTechnique* Compositor::getSupportedTechnique(const String& schemeName
 
 }
 
-static TexturePtr createTexture(const String& name, const CompositionTechnique::TextureDefinition* def, PixelFormat pf)
+TexturePtr createTexture(const String& name, const CompositionTechnique::TextureDefinition& def, PixelFormat pf,
+                         const String& fsaaHint)
 {
-    bool hwGamma = def->hwGammaWrite && !PixelUtil::isFloatingPoint(pf);
-    return TextureManager::getSingleton().createManual(name, RGN_INTERNAL, def->type, def->width, def->height, 0, pf,
-                                                       TU_RENDERTARGET, 0, hwGamma, def->fsaa);
+    bool hwGamma = def.hwGammaWrite && !PixelUtil::isFloatingPoint(pf);
+    return TextureManager::getSingleton().createManual(name, RGN_INTERNAL, def.type, def.width, def.height, def.depth,
+                                                       0, pf, TU_RENDERTARGET, 0, hwGamma, def.fsaa, fsaaHint);
 }
 
 //-----------------------------------------------------------------------
@@ -183,7 +183,7 @@ void Compositor::createGlobalTextures()
             OgreAssert(def->width && def->height, "Global compositor texture definition must have absolute size");
             if (def->pooled)
             {
-                LogManager::getSingleton().logWarning("Pooling global compositor textures has no effect");
+                LogManager::getSingleton().logWarning(mName+" - pooling global compositor textures has no effect");
             }
             globalTextureNames.insert(def->name);
 
@@ -205,7 +205,7 @@ void Compositor::createGlobalTextures()
                 {
 
                     String texname = StringUtil::format("mrt%d.%s", atch, baseName.c_str());
-                    TexturePtr tex = createTexture(texname, def, p);
+                    TexturePtr tex = createTexture(texname, *def, p);
 
                     RenderTexture* rt = tex->getBuffer()->getRenderTarget();
                     rt->setAutoUpdated(false);
@@ -227,7 +227,7 @@ void Compositor::createGlobalTextures()
                 // this is an auto generated name - so no spaces can't hart us.
                 std::replace( texName.begin(), texName.end(), ' ', '_' );
 
-                TexturePtr tex = createTexture(texName, def, def->formatList[0]);
+                TexturePtr tex = createTexture(texName, *def, def->formatList[0]);
                 rendTarget = tex->getBuffer()->getRenderTarget();
                 mGlobalTextures[def->name] = tex;
             }
@@ -304,8 +304,7 @@ const TexturePtr& Compositor::getTextureInstance(const String& name, size_t mrtI
         return i->second;
     }
 
-    OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Non-existent global texture name",
-        "Compositor::getTextureInstance");
+    OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Non-existent global texture name");
 
 }
 //---------------------------------------------------------------------
@@ -314,15 +313,14 @@ RenderTarget* Compositor::getRenderTarget(const String& name, int slice)
     // try simple texture
     GlobalTextureMap::iterator i = mGlobalTextures.find(name);
     if(i != mGlobalTextures.end())
-        return i->second->getBuffer(slice)->getRenderTarget();
+        return i->second->getRenderTarget(slice);
 
     // try MRTs
     GlobalMRTMap::iterator mi = mGlobalMRTs.find(name);
     if (mi != mGlobalMRTs.end())
         return mi->second;
-    else
-        OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Non-existent global texture name",
-            "Compositor::getRenderTarget");
+
+    OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "Non-existent global texture name");
 }
 //---------------------------------------------------------------------
 }

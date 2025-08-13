@@ -48,6 +48,9 @@ class ShaderExInstancedViewports : public SubRenderState
 {
     friend class ShaderExInstancedViewportsFactory;
     bool mOwnsGlobalData; // only true for template sub render state
+    bool mLayeredTarget;
+
+    String mSchemeName;
 // Interface.
 public:
     /** Class default constructor */    
@@ -96,8 +99,6 @@ protected:
 
     Vector2                 mViewportGrid;
     bool                    mMonitorsCountChanged;
-
-    std::vector<Camera*>    mCameras;
 };
 
 
@@ -113,16 +114,6 @@ public:
     @see SubRenderStateFactory::getType.
     */
     const String&   getType             () const override;
-
-    /** 
-    @see SubRenderStateFactory::createInstance.
-    */
-    SubRenderState* createInstance      (ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass, SGScriptTranslator* translator) override;
-
-    /** 
-    @see SubRenderStateFactory::writeInstance.
-    */
-    void            writeInstance       (MaterialSerializer* ser, SubRenderState* subRenderState, Pass* srcPass, Pass* dstPass) override;
 
 protected:
 

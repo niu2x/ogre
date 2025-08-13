@@ -93,6 +93,18 @@ A new spot light type `LT_RECTLIGHT` has been introduced along with the `setSour
 
 The shader types `GPT_MESH_PROGRAM` and `GPT_TASK_PROGRAM` are now available, with support indicated by the `RSC_MESH_PROGRAM` capability. This functionality is provided in GL3Plus through the `GL_NV_mesh_shader` extension and in Vulkan via the `VK_NV_mesh_shader` extension.
 
+### Enhanced Layered RenderTarget Support (since 14.4)
+
+Version 14.4 introduces significant improvements for layered rendering:
+
+**Compositor Textures:** You can now declare `2d_array` compositor textures, and individual layers can be targeted using the syntax `target myTex 1 {...`.
+
+**Layered Shadow Samplers:** Support for `GCT_SAMPLER2DARRAYSHADOW` and `GCT_SAMPLERCUBESHADOW` was added, allowing the shadow mapping system to render directly to texture arrays and cubemaps. The assignment of lights to specific texture layers is controlled by `setShadowTextureCountPerLightType`. The count you provide dictates how layers are addressed; for instance, setting 6 textures for a point light will render its shadows across the faces of a cubemap.
+
+**Rendering to All Layers (VPRT Targets):** `TU_RENDERTARGET` can now be combined with `TU_TARGET_ALL_LAYERS` to render to all layers of a texture array or cubemap. This is useful for rendering to multiple layers in a single pass, such as when rendering a environment map, doing PSSM shadow mapping, or doing side-by-side stereo rendering.
+
+Additionally, you can check `RSC_VP_RT_INDEX_ANY_SHADER` to see if the rendering system supports efficient dispatch from vertex shaders, eliminating the need for a geometry shader.
+
 ## Python
 
 The double `ImGui` namespacing in `Ogre.ImGui` enums was removed; e.g. `ImGui.ImGuiWindowFlags_NoTitleBar` is now `ImGui.WindowFlags_NoTitleBar`.

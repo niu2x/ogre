@@ -130,12 +130,12 @@ namespace Ogre {
 #else
             mLogManager->createLog(logFileName, true, true);
 #endif
-        }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-        mAndroidLogger.reset(new AndroidLogListener());
-        mLogManager->getDefaultLog()->addListener(mAndroidLogger.get());
+            mAndroidLogger.reset(new AndroidLogListener());
+            mLogManager->getDefaultLog()->addListener(mAndroidLogger.get());
 #endif
+        }
 
         mDynLibManager = std::make_unique<DynLibManager>();
         mArchiveManager = std::make_unique<ArchiveManager>();
@@ -265,7 +265,10 @@ namespace Ogre {
         StringInterface::cleanupDictionary();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_ANDROID
-        mLogManager->getDefaultLog()->removeListener(mAndroidLogger.get());
+	if(mAndroidLogger)
+	{
+            mLogManager->getDefaultLog()->removeListener(mAndroidLogger.get());
+	}
 #endif
     }
 
@@ -536,6 +539,8 @@ namespace Ogre {
 
         if (autoCreateWindow)
         {
+            LogManager::getSingleton().logWarning(
+                "Root::initialise: autoCreateWindow is deprecated, use createRenderWindow instead");
             auto desc = mActiveRenderer->getRenderWindowDescription();
             desc.name = windowTitle;
             mAutoWindow = createRenderWindow(desc);

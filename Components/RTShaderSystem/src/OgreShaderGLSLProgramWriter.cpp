@@ -71,8 +71,10 @@ void GLSLProgramWriter::initializeStringMaps()
     mGpuConstTypeMap[GCT_SAMPLER2DARRAY] = "sampler2DArray";
     mGpuConstTypeMap[GCT_SAMPLER3D] = "sampler3D";
     mGpuConstTypeMap[GCT_SAMPLERCUBE] = "samplerCube";
+    mGpuConstTypeMap[GCT_SAMPLERCUBESHADOW] = "samplerCubeShadow";
     mGpuConstTypeMap[GCT_SAMPLER1DSHADOW] = "sampler1DShadow";
     mGpuConstTypeMap[GCT_SAMPLER2DSHADOW] = "sampler2DShadow";
+    mGpuConstTypeMap[GCT_SAMPLER2DARRAYSHADOW] = "sampler2DArrayShadow";
     mGpuConstTypeMap[GCT_SAMPLER_EXTERNAL_OES] = "samplerExternalOES";
     mGpuConstTypeMap[GCT_MATRIX_2X2] = "mat2";
     mGpuConstTypeMap[GCT_MATRIX_2X3] = "mat2x3";
@@ -119,6 +121,11 @@ void GLSLProgramWriter::writeSourceCode(std::ostream& os, Program* program)
             os << "#extension GL_OES_EGL_image_external : require\n";
 
         break;
+    }
+
+    if (program->getType() == GPT_VERTEX_PROGRAM && program->getMain()->getOutputParameter(Parameter::SPC_LAYER))
+    {
+        os << "#extension GL_ARB_shader_viewport_layer_array : require\n";
     }
 
     // Generate dependencies.
@@ -268,6 +275,11 @@ void GLSLProgramWriter::writeInputParameters(std::ostream& os, Function* functio
                 // injected by matchVStoPSInterface, but only available in VS
                 continue;
             }
+            else if(paramSemantic == Parameter::SPS_LAYER)
+            {
+                p->_rename("gl_Layer");
+                continue;
+            }
             else if(paramSemantic == Parameter::SPS_POSITION)
             {
                 p->_rename("gl_FragCoord");
@@ -336,6 +348,10 @@ void GLSLProgramWriter::writeOutParameters(std::ostream& os, Function* function,
             else if(p->getContent() == Parameter::SPC_POINTSPRITE_SIZE)
             {
                 p->_rename("gl_PointSize");
+            }
+            else if(p->getSemantic() == Parameter::SPS_LAYER)
+            {
+                p->_rename("gl_Layer");
             }
             else
             {

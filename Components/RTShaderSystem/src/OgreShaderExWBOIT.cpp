@@ -24,6 +24,11 @@ int WBOIT::getExecutionOrder() const { return FFP_POST_PROCESS; }
 
 bool WBOIT::preAddToRenderState(const RenderState* renderState, Pass* srcPass, Pass* dstPass)
 {
+    // requires GLES3
+    if (ShaderGenerator::getSingleton().getTargetLanguage() == "glsles" &&
+        !GpuProgramManager::getSingleton().isSyntaxSupported("glsl300es"))
+        return false;
+
     dstPass->setTransparentSortingEnabled(false);
     dstPass->setSeparateSceneBlending(SBF_ONE, SBF_ONE, SBF_ZERO, SBF_ONE_MINUS_SOURCE_ALPHA);
     return true;
@@ -71,21 +76,16 @@ bool WBOIT::createCpuSubPrograms(ProgramSet* programSet)
 const String& WBOITFactory::getType() const { return SRS_WBOIT; }
 
 //-----------------------------------------------------------------------
-SubRenderState* WBOITFactory::createInstance(ScriptCompiler* compiler, PropertyAbstractNode* prop, Pass* pass,
-                                               SGScriptTranslator* translator)
+SubRenderState* WBOITFactory::createInstance(const ScriptProperty& prop, Pass* pass, SGScriptTranslator* translator)
 {
-    if (prop->name != "weighted_blended_oit" || prop->values.empty())
+    if (prop.name != "weighted_blended_oit")
         return NULL;
 
-    auto it = prop->values.begin();
     bool val;
-    if(!SGScriptTranslator::getBoolean(*it++, &val))
+    if(!StringConverter::parse(prop.values[0], val) || !val)
     {
         return NULL;
     }
-
-    if (!val)
-        return NULL;
 
     auto ret = static_cast<WBOIT*>(createOrRetrieveInstance(translator));
     return ret;

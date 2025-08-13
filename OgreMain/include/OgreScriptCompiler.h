@@ -88,6 +88,12 @@ namespace Ogre
     typedef std::list<AbstractNodePtr> AbstractNodeList;
     typedef SharedPtr<AbstractNodeList> AbstractNodeListPtr;
 
+    struct _OgreExport ScriptProperty
+    {
+        String name;
+        StringVector values;
+    };
+
     class _OgreExport AbstractNode : public AbstractNodeAlloc
     {
     public:
@@ -105,6 +111,8 @@ namespace Ogre
         virtual const String& getValue() const = 0;
         /// Returns the string content of the node for ANT_ATOM. Empty string otherwise.
         const String& getString() const;
+        /// Returns the property name and values of the node for ANT_PROPERTY. Empty string otherwise.
+        ScriptProperty getProperty() const;
     };
 
     /** This is an abstract node which cannot be broken down further */
@@ -160,6 +168,18 @@ namespace Ogre
         AbstractNode *clone() const override;
         const String& getValue() const override { return name; }
     };
+
+    inline ScriptProperty AbstractNode::getProperty() const
+    {
+        if (type != ANT_PROPERTY)
+            return ScriptProperty();
+
+        const PropertyAbstractNode *prop = static_cast<const PropertyAbstractNode*>(this);
+        StringVector values;
+        for (const auto& value : prop->values)
+            values.push_back(value->getString());
+        return {prop->name, values};
+    }
 
     /** This abstract node represents an import statement */
     class _OgreExport ImportAbstractNode : public AbstractNode
@@ -228,12 +248,16 @@ namespace Ogre
         bool compile(const ConcreteNodeListPtr &nodes, const String &group);
         /// Adds the given error to the compiler's list of errors
         void addError(uint32 code, const String &file, int line, const String &msg = "");
+        /// @overload
+        void addError(const AbstractNode& node, const String &msg = "", uint32 code = CE_INVALIDPARAMETERS);
         /// Sets the listener used by the compiler
         void setListener(ScriptCompilerListener *listener);
         /// Returns the currently set listener
         ScriptCompilerListener *getListener();
         /// Returns the resource group currently set for this compiler
         const String &getResourceGroup() const;
+        /// Returns the current source file name
+        const String& getFileName() const { return mSourceFile; }
         /// Internal method for firing the handleEvent method
         bool _fireEvent(ScriptCompilerEvent *evt, void *retval);
 
@@ -270,6 +294,7 @@ namespace Ogre
         void initWordMap();
     private:
         friend String getPropertyName(const ScriptCompiler *compiler, uint32 id);
+        String mSourceFile;
         // Resource group
         String mGroup;
         // The word -> id conversion table

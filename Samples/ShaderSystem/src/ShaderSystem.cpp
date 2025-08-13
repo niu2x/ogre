@@ -219,8 +219,11 @@ bool Sample_ShaderSystem::frameRenderingQueued( const FrameEvent& evt )
 //-----------------------------------------------------------------------
 void Sample_ShaderSystem::setupContent()
 {
-    mTextureAtlasFactory = OGRE_NEW TextureAtlasSamplerFactory;
-    mShaderGenerator->addSubRenderStateFactory(mTextureAtlasFactory);
+    mTextureAtlasFactory.reset(new TextureAtlasSamplerFactory);
+    mShaderGenerator->addSubRenderStateFactory(mTextureAtlasFactory.get());
+
+    mInstancedViewportsFactory.reset(new ShaderExInstancedViewportsFactory);
+    mShaderGenerator->addSubRenderStateFactory(mInstancedViewportsFactory.get());
 
     // Setup default effects values.
     mCurLightingModel       = SSLM_PerPixelLighting;
@@ -401,6 +404,11 @@ void Sample_ShaderSystem::setupUI()
 #ifdef RTSHADER_SYSTEM_BUILD_EXT_SHADERS
     mShadowMenu->addItem("PSSM 3");
     mShadowMenu->addItem("PSSM debug");
+
+    if(Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(RSC_VP_RT_INDEX_ANY_SHADER))
+    {
+        mShadowMenu->addItem("PSSM3 SP");
+    }
 #endif
 
 
@@ -868,6 +876,8 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
     // Integrated shadow PSSM with 3 splits.
     else if (menuIndex >= 1)
     {
+        auto casterMat = MaterialManager::getSingleton().getByName("PSSM/shadow_caster");
+        mSceneMgr->setShadowTextureCasterMaterial(casterMat);
         mSceneMgr->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE_INTEGRATED);
         mSceneMgr->setShadowFarDistance(3000);
 
@@ -897,7 +907,29 @@ void Sample_ShaderSystem::applyShadowType(int menuIndex)
     
         auto subRenderState = mShaderGenerator->createSubRenderState(SRS_SHADOW_MAPPING);
         subRenderState->setParameter("split_points", pssmSetup->getSplitPoints());
-        subRenderState->setParameter("debug", menuIndex > 1);
+        subRenderState->setParameter("debug", menuIndex == 2);
+        subRenderState->setParameter("array_texture", menuIndex == 3);
+
+        if(menuIndex == 3)
+        {
+            mSceneMgr->setShadowTextureCount(1);
+            ShadowTextureConfig shadowTextureConfig;
+            shadowTextureConfig.format = PF_DEPTH16;
+            shadowTextureConfig.width = 512;
+            shadowTextureConfig.height = 512;
+            shadowTextureConfig.depth = 3;
+            shadowTextureConfig.type = TEX_TYPE_2D_ARRAY;
+            shadowTextureConfig.extraFlags = TU_TARGET_ALL_LAYERS;
+            mSceneMgr->setShadowTextureConfig(0, shadowTextureConfig);
+
+            auto vprtState= mShaderGenerator->createSubRenderState("SGX_InstancedViewports");
+            vprtState->setParameter("schemeName", Any(MSN_SHADOWCASTER));
+            vprtState->setParameter("layeredTarget", true);
+            vprtState->setParameter("viewportGrid", Vector2(3, 1));
+
+            auto casterRenderState = mShaderGenerator->getRenderState(MSN_SHADERGEN, *casterMat, 0);
+            casterRenderState->addTemplateSubRenderState(vprtState);
+        }
         schemRenderState->addTemplateSubRenderState(subRenderState);        
     }
 #endif
@@ -918,12 +950,20 @@ void Sample_ShaderSystem::testCapabilities( const RenderSystemCapabilities* caps
 //-----------------------------------------------------------------------
 void Sample_ShaderSystem::unloadResources()
 {
-    if (mTextureAtlasFactory != NULL)
+    mShaderGenerator->removeAllShaderBasedTechniques("PSSM/shadow_caster");
+
+    if (mTextureAtlasFactory)
     {
         mTextureAtlasFactory->destroyAllInstances();
-        mShaderGenerator->removeSubRenderStateFactory(mTextureAtlasFactory);
-        OGRE_DELETE mTextureAtlasFactory;
-        mTextureAtlasFactory = NULL;
+        mShaderGenerator->removeSubRenderStateFactory(mTextureAtlasFactory.get());
+        mTextureAtlasFactory.reset();
+    }
+
+    if (mInstancedViewportsFactory)
+    {
+        mInstancedViewportsFactory->destroyAllInstances();
+        mShaderGenerator->removeSubRenderStateFactory(mInstancedViewportsFactory.get());
+        mInstancedViewportsFactory.reset();
     }
 }
 
@@ -1070,41 +1110,22 @@ void Sample_ShaderSystem::destroyInstancedViewports()
     mShaderGenerator->invalidateScheme(Ogre::MSN_SHADERGEN);
     mShaderGenerator->validateScheme(Ogre::MSN_SHADERGEN);
 
-    destroyInstancedViewportsFactory();
-
     for (int i = 0; i < 3; i++)
     {
         mSceneMgr->destroyCamera(StringUtil::format("InstancedCamera%d", i));
     }
 }
 //-----------------------------------------------------------------------
-void Sample_ShaderSystem::destroyInstancedViewportsFactory()
-{
-    if (mInstancedViewportsFactory != NULL)
-    {
-        mInstancedViewportsFactory->destroyAllInstances();
-        mShaderGenerator->removeSubRenderStateFactory(mInstancedViewportsFactory);
-        delete mInstancedViewportsFactory;
-        mInstancedViewportsFactory = NULL;
-    }
-}
-//-----------------------------------------------------------------------
 
 void Sample_ShaderSystem::createInstancedViewports()
 {
-    if (mInstancedViewportsFactory == NULL)
-    {
-        mInstancedViewportsFactory = OGRE_NEW ShaderExInstancedViewportsFactory;    
-        mShaderGenerator->addSubRenderStateFactory(mInstancedViewportsFactory);
-    }
-
     if (Root::getSingletonPtr()->getRenderSystem()->getName().find("Direct3D9") != String::npos)
     {
         mSceneMgr->getManualObject("TextureAtlasObject")->getParentSceneNode()->setVisible(false);
         mSceneMgr->setSkyBox(false, "");
     }
 
-    std::vector<Camera*> cameras = {mCamera};
+    std::vector<const Camera*> cameras = {mCamera};
     for (int i = 0; i < 3; i++)
     {
         auto cam = mSceneMgr->createCamera(StringUtil::format("InstancedCamera%d", i));
@@ -1114,9 +1135,10 @@ void Sample_ShaderSystem::createInstancedViewports()
         cameras.push_back(cam);
     }
 
+    mSceneMgr->setVPRTCameras(cameras);
+
     mInstancedViewportsSubRenderState = mShaderGenerator->createSubRenderState("SGX_InstancedViewports");
     mInstancedViewportsSubRenderState->setParameter("viewportGrid", Vector2(2, 2));
-    mInstancedViewportsSubRenderState->setParameter("cameras", cameras);
     Ogre::RTShader::RenderState* renderState = mShaderGenerator->getRenderState(Ogre::MSN_SHADERGEN);
     renderState->addTemplateSubRenderState(mInstancedViewportsSubRenderState);
 

@@ -119,8 +119,18 @@ namespace Ogre {
         for (pugi::xml_node& bonElem : mBonesNode.children())
         {
             String name = bonElem.attribute("name").value();
-            int id = StringConverter::parseInt(bonElem.attribute("id").value());
-            skel->createBone(name,id) ;
+
+            int id = -1;
+            if(auto idattr = bonElem.attribute("id"))
+            {
+                id = StringConverter::parseInt(idattr.value());
+                skel->createBone(name,id) ;
+            }
+            else
+            {
+                id = skel->createBone(name)->getHandle();
+            }
+
 
             max_id = std::max(id, max_id);
         }
@@ -443,24 +453,20 @@ namespace Ogre {
 
         unsigned short numBones = pSkel->getNumBones();
         LogManager::getSingleton().logMessage("There are " + StringConverter::toString(numBones) + " bones.");
-        unsigned short i;
-        for (i = 0; i < numBones; ++i)
+        for (Bone* pBone : pSkel->getBones())
         {
-            LogManager::getSingleton().logMessage("   Exporting Bone number " + StringConverter::toString(i));
-            Bone* pBone = pSkel->getBone(i);
+            LogManager::getSingleton().logMessage("   Exporting Bone number " + StringConverter::toString(pBone->getHandle()));
             writeBone(bonesElem, pBone);
         }
 
         // Write parents
         pugi::xml_node hierElem = rootNode.append_child("bonehierarchy");
-        for (i = 0; i < numBones; ++i)
+        for (Bone* pBone : pSkel->getBones())
         {
-            Bone* pBone = pSkel->getBone(i);
             String name = pBone->getName() ;
 
-            if ((pBone->getParent())!=NULL) // root bone
+            if (auto pParent = pBone->getParent())
             {
-                Bone* pParent = (Bone*)pBone->getParent();
                 writeBoneParent(hierElem, name, pParent->getName());
             }
         }
@@ -472,8 +478,7 @@ namespace Ogre {
     {
         pugi::xml_node boneElem = bonesElement.append_child("bone");
 
-        // Bone name & handle
-        boneElem.append_attribute("id") = StringConverter::toString(pBone->getHandle()).c_str();
+        // Bone name. Handle is implied by the order
         boneElem.append_attribute("name") = pBone->getName().c_str();
 
         // Position

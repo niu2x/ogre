@@ -180,7 +180,8 @@ namespace Ogre
     RenderTexture *HardwarePixelBuffer::getRenderTarget(size_t zoffset) const
     {
         assert(mUsage & TU_RENDERTARGET);
-        return mSliceTRT.at(zoffset);
+        OgreAssert(zoffset < mSliceTRT.size(), "out of range");
+        return mSliceTRT[zoffset];
     }
     //-----------------------------------------------------------------------------    
 
@@ -191,9 +192,9 @@ namespace Ogre
     }
 
 
-    String HardwarePixelBuffer::getNameForRenderTexture(const String& parentName) const
+    String HardwarePixelBuffer::getNameForRenderTexture(const String& parentName, uint32 layer) const
     {
-        // we need to add the pointer value, as the parent texture can have multiple slices or faces
-        return StringUtil::format("%s:buf%p", parentName.c_str(), this);
+        // the parent texture can either have multiple slices or faces - so we can call both layer here
+        return StringUtil::format("%s:layer%d", parentName.c_str(), layer);
     }
 }
