@@ -5,5 +5,6 @@ target_sources(${HYUE_LIB} PRIVATE
 )
 
 target_include_directories(${HYUE_LIB} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    include/
 )

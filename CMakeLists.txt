@@ -16,9 +16,10 @@ cxx_project_preset(${HYUE_LIB})
 
 target_include_directories(${HYUE_LIB} PUBLIC
     # During build, use local path
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     # When installed, use relative path
-    $<INSTALL_INTERFACE:include>
+    # $<INSTALL_INTERFACE:include>
+    include/
 )
 
 add_subdirectory(main)
@@ -28,6 +29,6 @@ find_package(Boost REQUIRED COMPONENTS
     log
 )
 
-target_link_libraries(${HYUE_LIB} PRIVATE
+target_link_libraries(${HYUE_LIB} PUBLIC
     Boost::log
 )

@@ -7,6 +7,9 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/utility/setup/console.hpp>
 
+#include <hyue/log.h>
+#include "init_logging.h"
+
 namespace hyue {
 
 namespace log = boost::log;
@@ -34,7 +37,7 @@ void init_logging() {
 }
 
 void panic(const std::string &panic_msg) {
-    // LOG(fatal) << panic_msg;
+    LOG(fatal) << panic_msg;
     throw std::runtime_error(panic_msg);
 }
 
