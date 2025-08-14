@@ -489,5 +489,3 @@ include(Packaging)
 
 # Show feature summary
 include(OgreFeatureSummary)
-
-add_subdirectory(niu2x-RPG)
