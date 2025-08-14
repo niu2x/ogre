@@ -22,3 +22,12 @@ target_include_directories(${HYUE_LIB} PUBLIC
 )
 
 add_subdirectory(main)
+
+# set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost REQUIRED COMPONENTS 
+    log
+)
+
+target_link_libraries(${HYUE_LIB} PRIVATE
+    Boost::log
+)
