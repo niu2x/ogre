@@ -1,0 +1,1 @@
+#include <hyue/Singleton.h>
