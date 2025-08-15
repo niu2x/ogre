@@ -8,6 +8,8 @@
 #include <boost/log/utility/setup/console.hpp>
 
 #include <hyue/log.h>
+#include <hyue/exception.h>
+
 #include "init_logging.h"
 
 namespace hyue {
