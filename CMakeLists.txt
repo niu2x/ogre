@@ -9,6 +9,8 @@ list(APPEND CMAKE_MODULE_PATH
 
 include(cxx_project)
 
+option(HYUE_BUILD_TEST "build UnitTest" OFF)
+
 set(HYUE_LIB hyue)
 
 add_library(${HYUE_LIB} SHARED "")
@@ -32,3 +34,7 @@ find_package(Boost CONFIG REQUIRED COMPONENTS
 target_link_libraries(${HYUE_LIB} PUBLIC
     Boost::log
 )
+
+if(HYUE_BUILD_TEST)
+    add_subdirectory(UnitTest)
+endif()
