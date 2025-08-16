@@ -25,7 +25,7 @@ target_include_directories(${HYUE_LIB} PUBLIC
 add_subdirectory(main)
 
 # set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost REQUIRED COMPONENTS 
+find_package(Boost CONFIG REQUIRED COMPONENTS 
     log
 )
 
