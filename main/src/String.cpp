@@ -71,7 +71,8 @@ bool StringUtils::ends_with(const String &str, const String &pattern, bool ignor
 
 StringVector StringUtils::split(const String& str, const String& delims, bool compress_token) {
     StringVector split_vec;
-    boost::split(split_vec, str, boost::is_any_of(delims), boost::token_compress_on);
+    auto compress_mode = compress_token? boost::token_compress_on : boost::token_compress_off;
+    boost::split(split_vec, str, boost::is_any_of(delims), compress_mode);
     return split_vec;
 }
 

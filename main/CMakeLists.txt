@@ -12,3 +12,7 @@ target_include_directories(${HYUE_LIB} PUBLIC
     # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     include/
 )
+
+target_link_libraries(${HYUE_LIB} PUBLIC 
+    dl
+)
