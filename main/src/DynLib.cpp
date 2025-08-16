@@ -40,4 +40,10 @@ String DynLib::get_dyn_lib_error()
     return dlerror();
 }
 
+
+void* DynLib::get_symbol(const String& name) const
+{
+    return (void*)dlsym( handle_, name.c_str());
+}
+
 }
