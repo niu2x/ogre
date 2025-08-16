@@ -5,6 +5,7 @@ target_sources(${HYUE_LIB} PRIVATE
     src/Any.cpp
     src/DynLib.cpp
     src/Singleton.cpp
+    src/String.cpp
 )
 
 target_include_directories(${HYUE_LIB} PUBLIC
