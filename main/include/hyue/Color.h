@@ -7,11 +7,13 @@
 #include <hyue/endian.h>
 
 namespace hyue {
-
-typedef uint32_t RGBA;
-typedef uint32_t ARGB;
-typedef uint32_t ABGR;
-typedef uint32_t BGRA;
+/**
+ * R在高位(0xFF000000)、A在低位(0x000000FF)
+ */
+using RGBA = uint32_t;
+using ARGB = uint32_t;
+using ABGR = uint32_t;
+using BGRA = uint32_t;
 
 class HYUE_API Color
 {
