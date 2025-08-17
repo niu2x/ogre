@@ -55,3 +55,22 @@ TEST(StringUtils, split) {
     EXPECT_EQ(StringUtils::split("AA,,BB", ","), (StringVector{"AA", "", "BB"}));
     EXPECT_EQ(StringUtils::split("AA,,BB", ",", true), (StringVector{"AA","BB"}));
 }
+
+TEST(StringUtils, normalize_file_path) {
+    EXPECT_EQ(StringUtils::normalize_file_path(""), "");
+    EXPECT_EQ(StringUtils::normalize_file_path("A"), "A");
+    EXPECT_EQ(StringUtils::normalize_file_path("A/B"), "A/B");
+    EXPECT_EQ(StringUtils::normalize_file_path("A/./B"), "A/B");
+    EXPECT_EQ(StringUtils::normalize_file_path("A/../B"), "B");
+    EXPECT_EQ(StringUtils::normalize_file_path("./A/../B"), "B");
+    EXPECT_EQ(StringUtils::normalize_file_path("./B"), "B");
+    EXPECT_EQ(StringUtils::normalize_file_path("/B"), "/B");
+    EXPECT_EQ(StringUtils::normalize_file_path("/B/"), "/B/");
+    EXPECT_EQ(StringUtils::normalize_file_path("/B\\A"), "/B/A");
+}
+
+TEST(StringUtils, format) {
+    EXPECT_EQ(StringUtils::format("%d", 1), "1");
+    EXPECT_EQ(StringUtils::format("%c", 65), "A");
+    EXPECT_EQ(StringUtils::format("%s!", "hello"), "hello!");
+}

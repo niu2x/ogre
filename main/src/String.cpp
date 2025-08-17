@@ -1,10 +1,13 @@
 #include <hyue/String.h>
 
-#include <boost/algorithm/string.hpp>
+#include <stdarg.h>
 
 #include <algorithm>
 #include <cstring>
 
+#include <boost/algorithm/string.hpp>
+
+#include <hyue/exception.h>
 
 #define strnicmp strncasecmp
 
@@ -77,15 +80,128 @@ StringVector StringUtils::split(const String& str, const String& delims, bool co
 }
 
 
-String StringUtils::standardise_dir_path(const String& init)
+// String StringUtils::standardise_dir_path(const String& init)
+// {
+//     String path = init;
+//     std::replace( path.begin(), path.end(), '\\', '/' );
+//     if( path[path.length() - 1] != '/' )
+//         path += '/';
+//     return path;
+// }
+
+
+
+String StringUtils::normalize_file_path(const String& init)
 {
-    String path = init;
-    std::replace( path.begin(), path.end(), '\\', '/' );
-    if( path[path.length() - 1] != '/' )
-        path += '/';
-    return path;
+    const char* buffer_src = init.c_str();
+    int path_len = (int)init.size();
+    int index_src = 0;
+    int index_dst = 0;
+    int meta_path_area = 0;
+
+    char reserved_buf[1024];
+    char* buffer_dst = reserved_buf;
+    bool is_dest_allocated = false;
+    if (path_len > 1023)
+    {
+        //if source path is to long ensure we don't do a buffer overrun by allocating some
+        //new memory
+        is_dest_allocated = true;
+        buffer_dst = new char[path_len + 1];
+    }
+
+    //The outer loop loops over directories
+    while (index_src < path_len)
+    {       
+        if (index_src && ((buffer_src[index_src] == '\\') || (buffer_src[index_src] == '/')))
+        {
+            //check if we have a directory delimiter if so skip it (we should already
+            //have written such a delimiter by this point
+            ++index_src;
+            continue;
+        }
+        else
+        {
+            //check if there is a directory to skip of type ".\"
+            if ((buffer_src[index_src] == '.') && 
+                ((buffer_src[index_src + 1] == '\\') || (buffer_src[index_src + 1] == '/')))
+            {
+                index_src += 2;
+                continue;           
+            }
+
+            //check if there is a directory to skip of type "..\"
+            else if ((buffer_src[index_src] == '.') && (buffer_src[index_src + 1] == '.') &&
+                ((buffer_src[index_src + 2] == '\\') || (buffer_src[index_src + 2] == '/')))
+            {
+                if (index_dst > meta_path_area)
+                {
+                    //skip a directory backward in the destination path
+                    do {
+                        --index_dst;
+                    }
+                    while ((index_dst > meta_path_area) && (buffer_dst[index_dst - 1] != '/'));
+                    index_src += 3;
+                    continue;
+                }
+                else
+                {
+                    //we are about to write "..\" to the destination buffer
+                    //ensure we will not remove this in future "skip directories"
+                    meta_path_area += 3;
+                }
+            }
+        }
+
+        //transfer the current directory name from the source to the destination
+        while (index_src < path_len)
+        {
+            char cur_char = buffer_src[index_src];
+            if ((cur_char == '\\') || (cur_char == '/')) cur_char = '/';
+            buffer_dst[index_dst] = cur_char;
+            ++index_dst;
+            ++index_src;
+            if (cur_char == '/') break;
+        }
+    }
+    buffer_dst[index_dst] = 0;
+
+    String normalized(buffer_dst); 
+    if (is_dest_allocated)
+    {
+        delete[] buffer_dst;
+    }
+
+    return normalized;      
 }
 
+String StringUtils::format(const char* fmt, ...)
+{
+    // try to use a stack buffer and fall back to heap for large strings
+    char sbuf[1024];
+    size_t bsize = sizeof(sbuf);
+    std::vector<char> hbuf;
+    char* pbuf = sbuf;
+
+    while (true)
+    {
+        va_list va;
+        va_start(va, fmt);
+        int len = vsnprintf(pbuf, bsize, fmt, va);
+        va_end(va);
+
+        HYUE_ASSERT(len >= 0, "Check format string for errors");
+        if (size_t(len) >= bsize)
+        {
+            hbuf.resize(len + 1);
+            pbuf = hbuf.data();
+            bsize = hbuf.size();
+            continue;
+        }
+        pbuf[bsize - 1] = 0;
+        return String(pbuf, len);
+    }
+}
 
 
 }
