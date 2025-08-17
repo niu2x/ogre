@@ -340,7 +340,6 @@ struct X8B8G8R8toR8G8B8A8
 
 inline int doOptimizedConversion(const hyue::PixelBox& src, const hyue::PixelBox& dst)
 {
-    ;
     switch (FMTCONVERTERID(src.format, dst.format)) {
         // Register converters here
         CASECONVERTER(A8R8G8B8toA8B8G8R8);
