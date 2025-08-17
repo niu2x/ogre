@@ -9,7 +9,7 @@ namespace hyue {
 
 struct HYUE_API Box
 {
-    uint32_t left, top, right, bottom, front, back;
+    int left, top, right, bottom, front, back;
     /// Parameterless constructor for setting the members manually
     Box()
         : left(0), top(0), right(1), bottom(1), front(0), back(1)
@@ -23,13 +23,7 @@ struct HYUE_API Box
         @param  b   y value of bottom edge
         @note @copydetails Ogre::Box
     */
-    Box(uint32_t l, uint32_t t, uint32_t r, uint32_t b):
-        left(l),
-        top(t),   
-        right(r),
-        bottom(b),
-        front(0),
-        back(1)
+    Box(int l, int t, int r, int b) : left(l), top(t), right(r), bottom(b), front(0), back(1)
     {
         assert(right >= left && bottom >= top && back >= front);
     }
@@ -48,22 +42,19 @@ struct HYUE_API Box
         @param  b  z value of back edge
         @note @copydetails Ogre::Box
     */
-    Box( uint32_t l, uint32_t t, uint32_t f, uint32_t r, uint32_t b, uint32_t b ):
-        left(l),
-        top(t),   
-        right(r),
-        bottom(b),
-        front(f),
-        back(b)
+    Box(int l, int t, int ff, int r, int b, int bb) : left(l), top(t), right(r), bottom(b), front(ff), back(bb)
     {
         // assert(right >= left && bottom >= top && back >= front);
     }
 
     /// @overload
     explicit Box(const ivec3& size)
-        : left(0), top(0), right(size[0]), bottom(size[1]), front(0), back(size[2])
-    {
-    }
+    : left(0)
+    , top(0)
+    , right(size.a[0])
+    , bottom(size.a[1])
+    , front(0)
+    , back(size.a[2]) { }
 
     /// Return true if the other box is a part of this one
     bool contains(const Box &def) const
@@ -73,16 +64,16 @@ struct HYUE_API Box
     }
     
     /// Get the width of this box
-    uint32_t get_width() const { return right-left; }
+    int get_width() const { return right - left; }
     /// Get the height of this box
-    uint32_t get_height() const { return bottom-top; }
+    int get_height() const { return bottom - top; }
     /// Get the depth of this box
-    uint32_t get_depth() const { return back-front; }
+    int get_depth() const { return back - front; }
 
     /// origin (top, left, front) of the box
-    ivec3 get_origin() const { return ivec3(left, top, front); }
+    ivec3 get_origin() const { return ivec3 { left, top, front }; }
     /// size (width, height, depth) of the box
-    ivec3 get_size() const { return ivec3(get_width(), get_height(), get_depth()); }
+    ivec3 get_size() const { return ivec3 { get_width(), get_height(), get_depth() }; }
 };
 
 }
