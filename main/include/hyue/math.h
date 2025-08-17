@@ -5,6 +5,7 @@
 #include <boost/qvm/mat.hpp>
 #include <boost/qvm/vec.hpp>
 #include <boost/qvm/mat_operations.hpp>
+#include <boost/qvm/vec_operations.hpp>
 
 #include <hyue/export.h>
 
@@ -29,4 +30,5 @@ namespace hyue {
 using vec3 = boost::qvm::vec<float, 3>;
 using ivec3 = boost::qvm::vec<int, 3>;
 
+using boost::qvm::operator==;
 }
