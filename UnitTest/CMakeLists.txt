@@ -2,7 +2,10 @@ enable_testing()
 
 find_package(GTest REQUIRED)
 
-add_executable(unit_test test_string.cpp)
+add_executable(unit_test 
+    test_string.cpp
+    test_bitwise.cpp
+)
 
 # Link libraries
 target_link_libraries(unit_test PRIVATE 

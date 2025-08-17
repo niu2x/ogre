@@ -9,21 +9,8 @@
     #undef bswap64
 #endif
 
-#ifndef __has_builtin
-    // Compatibility with non-clang compilers
-    #define __has_builtin(x) 0
-#endif
-
 namespace hyue {
-/** \addtogroup Core
- *  @{
- */
-/** \addtogroup Math
- *  @{
- */
 
-/** Class for manipulating bit patterns.
- */
 class HYUE_API Bitwise {
 public:
     /** Returns value with reversed bytes order.
@@ -58,32 +45,32 @@ public:
 
     /** Reverses byte order of buffer. Use bswap16/32/64 instead if possible.
      */
-    static inline void bswapBuffer(void* pData, size_t size)
+    static inline void bswap_buffer(void* p_data, size_t size)
     {
-        char swapByte;
-        for (char *p0 = (char*)pData, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1) {
-            swapByte = *p0;
+        char swap_byte;
+        for (char *p0 = (char*)p_data, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1) {
+            swap_byte = *p0;
             *p0 = *p1;
-            *p1 = swapByte;
+            *p1 = swap_byte;
         }
     }
     /** Reverses byte order of chunks in buffer, where 'size' is size of one chunk.
      */
-    static inline void bswapChunks(void* pData, size_t size, size_t count)
+    static inline void bswap_chunks(void* p_data, size_t size, size_t count)
     {
         for (size_t c = 0; c < count; ++c) {
-            char swapByte;
-            for (char *p0 = (char*)pData + c * size, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1) {
-                swapByte = *p0;
+            char swap_byte;
+            for (char *p0 = (char*)p_data + c * size, *p1 = p0 + size - 1; p0 < p1; ++p0, --p1) {
+                swap_byte = *p0;
                 *p0 = *p1;
-                *p1 = swapByte;
+                *p1 = swap_byte;
             }
         }
     }
 
     /** Returns the most significant bit set in a value.
      */
-    static inline unsigned int mostSignificantBitSet(unsigned int value)
+    static inline int get_most_significant_bit_set(uint32_t value)
     {
         //                                     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
         static const unsigned char msb[16] = { 0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4 };
@@ -108,7 +95,7 @@ public:
         @note 0 and 1 are powers of two, so
             firstPO2From(0)==0 and firstPO2From(1)==1.
     */
-    static inline uint32_t firstPO2From(uint32_t n)
+    static inline uint32_t get_first_pow2_from(uint32_t n)
     {
         --n;
         n |= n >> 16;
@@ -123,7 +110,7 @@ public:
         @note 0 and 1 are treat as power of two.
     */
     template <typename T>
-    static inline bool isPO2(T n)
+    static inline bool is_pow2(T n)
     {
         return (n & (n - 1)) == 0;
     }
@@ -131,7 +118,7 @@ public:
         remove right-hand zeros.
     */
     template <typename T>
-    static inline unsigned int getBitShift(T mask)
+    static inline unsigned int get_bit_shift(T mask)
     {
         if (mask == 0)
             return 0;
@@ -150,32 +137,32 @@ public:
         This routine is useful for colour conversion.
     */
     template <typename SrcT, typename DestT>
-    static inline DestT convertBitPattern(SrcT srcValue, SrcT srcBitMask, DestT destBitMask)
+    static inline DestT convert_bit_pattern(SrcT src_value, SrcT src_bitmask, DestT dest_bitmask)
     {
         // Mask off irrelevant source value bits (if any)
-        srcValue = srcValue & srcBitMask;
+        src_value = src_value & src_bitmask;
 
         // Shift source down to bottom of DWORD
-        const unsigned int srcBitShift = getBitShift(srcBitMask);
-        srcValue >>= srcBitShift;
+        auto src_bit_shift = get_bit_shift(src_bitmask);
+        src_value >>= src_bit_shift;
 
         // Get max value possible in source from srcMask
-        const SrcT srcMax = srcBitMask >> srcBitShift;
+        const SrcT src_max = src_bitmask >> src_bit_shift;
 
         // Get max available in dest
-        const unsigned int destBitShift = getBitShift(destBitMask);
-        const DestT destMax = destBitMask >> destBitShift;
+        auto dest_bit_shift = get_bit_shift(dest_bitmask);
+        const DestT dest_max = dest_bitmask >> dest_bit_shift;
 
         // Scale source value into destination, and shift back
-        DestT destValue = (srcValue * destMax) / srcMax;
-        return (destValue << destBitShift);
+        DestT destValue = (src_value * dest_max) / src_max;
+        return (destValue << dest_bit_shift);
     }
 
     /**
      * Convert N bit colour channel value to P bits. It fills P bits with the
      * bit pattern repeated. (this is /((1<<n)-1) in fixed point)
      */
-    static inline unsigned int fixedToFixed(uint32_t value, unsigned int n, unsigned int p)
+    static inline unsigned int fixed_to_fixed(uint32_t value, unsigned int n, unsigned int p)
     {
         if (n > p) {
             // Less bits required than available; this is easy
@@ -197,7 +184,7 @@ public:
      * Convert floating point colour channel value between 0.0 and 1.0 (otherwise clamped)
      * to integer of a certain number of bits. Works for any value of bits between 0 and 31.
      */
-    static inline unsigned int floatToFixed(const float value, const unsigned int bits)
+    static inline unsigned int float_to_fixed(const float value, const unsigned int bits)
     {
         if (value <= 0.0f)
             return 0;
@@ -210,7 +197,7 @@ public:
     /**
      * Fixed point to float
      */
-    static inline float fixedToFloat(unsigned value, unsigned int bits)
+    static inline float fixed_to_float(unsigned value, unsigned int bits)
     {
         return (float)value / (float)((1 << bits) - 1);
     }
@@ -218,7 +205,7 @@ public:
     /**
      * Write a n*8 bits integer value to memory in native endian.
      */
-    static inline void intWrite(void* dest, const int n, const unsigned int value)
+    static inline void int_write(void* dest, const int n, const uint32_t value)
     {
         switch (n) {
             case 1:
@@ -246,7 +233,7 @@ public:
     /**
      * Read a n*8 bits integer value to memory in native endian.
      */
-    static inline unsigned int intRead(const void* src, int n)
+    static inline uint32_t int_read(const void* src, int n)
     {
         switch (n) {
             case 1:
@@ -270,18 +257,18 @@ public:
     /** Convert a float32 to a float16 (NV_half_float)
         Courtesy of meshoptimizer
     */
-    static inline uint16_t floatToHalf(float i)
+    static inline uint16_t float_to_half(float i)
     {
         union {
             float f;
             uint32_t i;
         } v;
         v.f = i;
-        return floatToHalfI(v.i);
+        return float_to_half_u32(v.i);
     }
     /** Converts float in uint32_t format to a a half in uint16_t format
      */
-    static inline uint16_t floatToHalfI(uint32_t ui)
+    static inline uint16_t float_to_half_u32(uint32_t ui)
     {
         int s = (ui >> 16) & 0x8000;
         int em = ui & 0x7fffffff;
@@ -305,19 +292,19 @@ public:
      * Convert a float16 (NV_half_float) to a float32
      * Courtesy of meshoptimizer
      */
-    static inline float halfToFloat(uint16_t y)
+    static inline float half_to_float(uint16_t y)
     {
         union {
             float f;
             uint32_t i;
         } v;
-        v.i = halfToFloatI(y);
+        v.i = half_to_float_u16(y);
         return v.f;
     }
     /** Converts a half in uint16_t format to a float
         in uint32_t format
      */
-    static inline uint32_t halfToFloatI(uint16_t h)
+    static inline uint32_t half_to_float_u16(uint16_t h)
     {
         unsigned int s = unsigned(h & 0x8000) << 16;
         int em = h & 0x7fff;
