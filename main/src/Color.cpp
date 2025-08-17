@@ -14,7 +14,6 @@ constexpr Color g_color_white(1.0, 1.0, 1.0);
 constexpr Color g_color_red(1.0, 0.0, 0.0);
 constexpr Color g_color_green(0.0, 1.0, 0.0);
 constexpr Color g_color_blue(0.0, 0.0, 1.0);
-
 } 
 
 const Color &Color::ZERO = g_color_zero;
@@ -313,6 +312,7 @@ void Color::set_HSB(float hue, float saturation, float brightness)
 
 
 }
+
 //---------------------------------------------------------------------
 void Color::get_HSB(float* hue, float* saturation, float* brightness) const
 {

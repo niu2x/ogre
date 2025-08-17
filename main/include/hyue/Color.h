@@ -65,7 +65,7 @@ public:
     void set_BGRA(BGRA val);
 
     void set_ABGR(ABGR val);
-    
+
     void saturate(void)
     {
         if (r < 0)
