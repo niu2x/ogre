@@ -2,6 +2,10 @@
 
 #include <climits>
 
+#include <boost/qvm/mat.hpp>
+#include <boost/qvm/vec.hpp>
+#include <boost/qvm/mat_operations.hpp>
+
 #include <hyue/export.h>
 
 namespace hyue::math {
@@ -15,9 +19,14 @@ HYUE_API inline bool equal(float a, float b,
 }
 HYUE_API inline bool equal(double a, double b,
     double tolerance = std::numeric_limits<double>::epsilon()) {
-    
     return std::abs(b-a) <= tolerance;
 }
 
+}
+
+namespace hyue {
+
+using vec3 = boost::qvm::vec<float, 3>;
+using ivec3 = boost::qvm::vec<int, 3>;
 
 }

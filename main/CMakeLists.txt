@@ -8,6 +8,7 @@ target_sources(${HYUE_LIB} PRIVATE
     src/String.cpp
     src/Color.cpp
     src/Root.cpp
+    src/PixelFormat.cpp
 )
 
 target_include_directories(${HYUE_LIB} PUBLIC
