@@ -9,7 +9,7 @@ struct PixelFormatDescription {
     /* Name of the format, as in the enum */
     const String name;
     /* Number of bytes one element (colour value) takes. */
-    unsigned char elemBytes;
+    uint8_t elem_bytes;
     /* Pixel format flags, see enum PixelFormatFlags for the bit field
      * definitions
      */
@@ -19,18 +19,18 @@ struct PixelFormatDescription {
     PixelComponentType componentType;
     /** Component count
      */
-    unsigned char componentCount;
+    uint8_t num_component;
     /* Number of bits for red(or luminance), green, blue, alpha
      */
-    unsigned char rbits, gbits, bbits, abits; /*, ibits, dbits, ... */
+    uint8_t rbits, gbits, bbits, abits; /*, ibits, dbits, ... */
 
     /* Masks and shifts as used by packers/unpackers */
     uint64_t rmask, gmask, bmask, amask;
-    unsigned char rshift, gshift, bshift, ashift;
+    uint8_t rshift, gshift, bshift, ashift;
 };
 //-----------------------------------------------------------------------
 /** Pixel format database */
-PixelFormatDescription _pixelFormats[PF_COUNT] = {
+PixelFormatDescription _pixelFormats[] = {
     //-----------------------------------------------------------------------
     { "PF_UNKNOWN",
       /* Bytes per element */
@@ -38,7 +38,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       0,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       0,
       /* rbits, gbits, bbits, abits */
       0,
@@ -61,7 +61,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_LUMINANCE | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1,
       /* rbits, gbits, bbits, abits */
       8,
@@ -84,7 +84,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_LUMINANCE | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SHORT,
+      PixelComponentType::SHORT,
       1,
       /* rbits, gbits, bbits, abits */
       16,
@@ -105,9 +105,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       1,
       /* Flags */
-      PFF_HASALPHA,
+      PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1,
       /* rbits, gbits, bbits, abits */
       0,
@@ -128,9 +128,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       2,
       /* Flags */
-      PFF_HASALPHA | PFF_LUMINANCE,
+      PFF_HAS_ALPHA | PFF_LUMINANCE,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       2,
       /* rbits, gbits, bbits, abits */
       8,
@@ -153,7 +153,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       5,
@@ -176,7 +176,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       5,
@@ -197,9 +197,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       2,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       4,
@@ -221,9 +221,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
         /* Bytes per element */
         2,
         /* Flags */
-        PFF_HASALPHA | PFF_NATIVEENDIAN,
+        PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
         /* Component type and count */
-        PCT_BYTE,
+        PixelComponentType::BYTE,
         4,
         /* rbits, gbits, bbits, abits */
         5,
@@ -247,7 +247,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -270,7 +270,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -291,9 +291,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       8,
@@ -315,9 +315,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
         /* Bytes per element */
         4,
         /* Flags */
-        PFF_HASALPHA | PFF_NATIVEENDIAN,
+        PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
         /* Component type and count */
-        PCT_BYTE,
+        PixelComponentType::BYTE,
         4,
         /* rbits, gbits, bbits, abits */
         8,
@@ -339,9 +339,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       8,
@@ -362,9 +362,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       10,
@@ -385,9 +385,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       10,
@@ -410,7 +410,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3, // No alpha
       /* rbits, gbits, bbits, abits */
       0,
@@ -431,9 +431,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -454,9 +454,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -477,9 +477,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -500,9 +500,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -525,7 +525,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT16,
+      PixelComponentType::FLOAT16,
       3,
       /* rbits, gbits, bbits, abits */
       16,
@@ -546,9 +546,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       8,
       /* Flags */
-      PFF_FLOAT | PFF_HASALPHA,
+      PFF_FLOAT | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_FLOAT16,
+      PixelComponentType::FLOAT16,
       4,
       /* rbits, gbits, bbits, abits */
       16,
@@ -571,7 +571,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT32,
+      PixelComponentType::FLOAT32,
       3,
       /* rbits, gbits, bbits, abits */
       32,
@@ -592,9 +592,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       16,
       /* Flags */
-      PFF_FLOAT | PFF_HASALPHA,
+      PFF_FLOAT | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_FLOAT32,
+      PixelComponentType::FLOAT32,
       4,
       /* rbits, gbits, bbits, abits */
       32,
@@ -617,7 +617,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -640,7 +640,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -661,9 +661,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       8,
@@ -686,7 +686,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_LUMINANCE | PFF_DEPTH | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SHORT,
+      PixelComponentType::SHORT,
       1,
       /* rbits, gbits, bbits, abits */
       16,
@@ -707,9 +707,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       8,
       /* Flags */
-      PFF_HASALPHA,
+      PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_SHORT,
+      PixelComponentType::SHORT,
       4,
       /* rbits, gbits, bbits, abits */
       16,
@@ -732,7 +732,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       3,
@@ -755,7 +755,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT16,
+      PixelComponentType::FLOAT16,
       1,
       /* rbits, gbits, bbits, abits */
       16,
@@ -778,7 +778,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT32,
+      PixelComponentType::FLOAT32,
       1,
       /* rbits, gbits, bbits, abits */
       32,
@@ -801,7 +801,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SHORT,
+      PixelComponentType::SHORT,
       2,
       /* rbits, gbits, bbits, abits */
       16,
@@ -824,7 +824,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT16,
+      PixelComponentType::FLOAT16,
       2,
       /* rbits, gbits, bbits, abits */
       16,
@@ -847,7 +847,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT32,
+      PixelComponentType::FLOAT32,
       2,
       /* rbits, gbits, bbits, abits */
       32,
@@ -870,7 +870,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       0,
       /* Component type and count */
-      PCT_SHORT,
+      PixelComponentType::SHORT,
       3,
       /* rbits, gbits, bbits, abits */
       16,
@@ -893,7 +893,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -914,9 +914,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -939,7 +939,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -960,9 +960,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -983,9 +983,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -1006,9 +1006,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -1031,7 +1031,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_FLOAT,
       /* Component type and count */
-      PCT_FLOAT32,
+      PixelComponentType::FLOAT32,
       1,
       /* rbits, gbits, bbits, abits */
       11,
@@ -1054,7 +1054,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       1,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1077,7 +1077,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       2,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1100,7 +1100,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1121,9 +1121,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_INTEGER | PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_INTEGER | PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       4,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1146,7 +1146,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       1,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1169,7 +1169,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       2,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1192,7 +1192,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       3,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1213,9 +1213,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       8,
       /* Flags */
-      PFF_INTEGER | PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_INTEGER | PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       4,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1238,7 +1238,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       1,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1261,7 +1261,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       2,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1284,7 +1284,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       3,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1305,9 +1305,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       16,
       /* Flags */
-      PFF_INTEGER | PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_INTEGER | PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       4,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1330,7 +1330,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       1,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1353,7 +1353,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       2,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1376,7 +1376,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1397,9 +1397,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_INTEGER | PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_INTEGER | PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       4,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1422,7 +1422,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       1,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1445,7 +1445,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       2,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1468,7 +1468,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       3,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1489,9 +1489,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       8,
       /* Flags */
-      PFF_INTEGER | PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_INTEGER | PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       4,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1514,7 +1514,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       1,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1537,7 +1537,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       2,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1560,7 +1560,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_INTEGER | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       3,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1581,9 +1581,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       16,
       /* Flags */
-      PFF_INTEGER | PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_INTEGER | PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_SINT,
+      PixelComponentType::SINT,
       4,
       /* rbits, gbits, bbits, abits */
       32,
@@ -1606,7 +1606,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       9,
@@ -1629,7 +1629,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1, // Red only
       /* rbits, gbits, bbits, abits */
       0,
@@ -1652,7 +1652,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1, // Red only
       /* rbits, gbits, bbits, abits */
       0,
@@ -1675,7 +1675,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       2, // Red-Green only
       /* rbits, gbits, bbits, abits */
       0,
@@ -1698,7 +1698,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       2, // Red-Green only
       /* rbits, gbits, bbits, abits */
       0,
@@ -1721,7 +1721,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -1744,7 +1744,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -1765,9 +1765,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -1790,7 +1790,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1813,7 +1813,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       2,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1836,7 +1836,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1859,7 +1859,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       2,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1882,7 +1882,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1903,9 +1903,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       4,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       8,
@@ -1928,7 +1928,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       1,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1951,7 +1951,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       2,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1974,7 +1974,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       16,
@@ -1995,9 +1995,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       8,
       /* Flags */
-      PFF_HASALPHA | PFF_NATIVEENDIAN,
+      PFF_HAS_ALPHA | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       16,
@@ -2021,7 +2021,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2044,7 +2044,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2065,9 +2065,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2088,9 +2088,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2113,7 +2113,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_COMPRESSED,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       3,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2134,9 +2134,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2157,9 +2157,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2180,9 +2180,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2203,9 +2203,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2226,9 +2226,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2249,9 +2249,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2272,9 +2272,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2295,9 +2295,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2318,9 +2318,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2341,9 +2341,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2364,9 +2364,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2387,9 +2387,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2410,9 +2410,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2433,9 +2433,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2456,9 +2456,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2479,9 +2479,9 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Bytes per element */
       0,
       /* Flags */
-      PFF_COMPRESSED | PFF_HASALPHA,
+      PFF_COMPRESSED | PFF_HAS_ALPHA,
       /* Component type and count */
-      PCT_BYTE,
+      PixelComponentType::BYTE,
       4,
       /* rbits, gbits, bbits, abits */
       0,
@@ -2503,7 +2503,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_LUMINANCE | PFF_DEPTH | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       1,
       /* rbits, gbits, bbits, abits */
       32,
@@ -2526,7 +2526,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_LUMINANCE | PFF_DEPTH | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_FLOAT32,
+      PixelComponentType::FLOAT32,
       1,
       /* rbits, gbits, bbits, abits */
       32,
@@ -2548,7 +2548,7 @@ PixelFormatDescription _pixelFormats[PF_COUNT] = {
       /* Flags */
       PFF_LUMINANCE | PFF_DEPTH | PFF_NATIVEENDIAN,
       /* Component type and count */
-      PCT_UINT,
+      PixelComponentType::UINT,
       1,
       /* rbits, gbits, bbits, abits */
       24,

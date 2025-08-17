@@ -266,6 +266,22 @@ public:
         v.f = i;
         return float_to_half_u32(v.i);
     }
+
+    /**
+     * Convert a float16 (NV_half_float) to a float32
+     * Courtesy of meshoptimizer
+     */
+    static inline float half_to_float(uint16_t y)
+    {
+        union {
+            float f;
+            uint32_t i;
+        } v;
+        v.i = half_to_float_u16(y);
+        return v.f;
+    }
+
+private:
     /** Converts float in uint32_t format to a a half in uint16_t format
      */
     static inline uint16_t float_to_half_u32(uint32_t ui)
@@ -288,19 +304,6 @@ public:
         return (unsigned short)(s | h);
     }
 
-    /**
-     * Convert a float16 (NV_half_float) to a float32
-     * Courtesy of meshoptimizer
-     */
-    static inline float half_to_float(uint16_t y)
-    {
-        union {
-            float f;
-            uint32_t i;
-        } v;
-        v.i = half_to_float_u16(y);
-        return v.f;
-    }
     /** Converts a half in uint16_t format to a float
         in uint32_t format
      */

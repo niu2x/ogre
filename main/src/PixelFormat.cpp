@@ -28,8 +28,8 @@ PixelBox PixelBox::getSubVolume(const Box& def, bool resetOrigin /* = true */) c
 
     // Calculate new pixelbox and optionally reset origin.
     PixelBox rval(def, format, data);
-    rval.rowPitch = rowPitch;
-    rval.slicePitch = slicePitch;
+    rval.row_pitch = row_pitch;
+    rval.slice_pitch = slice_pitch;
 
     if (resetOrigin) {
         if (PixelUtil::isCompressed(format)) {
@@ -52,7 +52,7 @@ PixelBox PixelBox::getSubVolume(const Box& def, bool resetOrigin /* = true */) c
 }
 uint8_t* PixelBox::getTopLeftFrontPixelPtr() const
 {
-    return data + (left + top * rowPitch + front * slicePitch) * PixelUtil::getNumElemBytes(format);
+    return data + (left + top * row_pitch + front * slice_pitch) * PixelUtil::getNumElemBytes(format);
 }
 //-----------------------------------------------------------------------
 /**
@@ -62,12 +62,10 @@ uint8_t* PixelBox::getTopLeftFrontPixelPtr() const
 static inline const PixelFormatDescription& getDescriptionFor(const PixelFormat fmt)
 {
     const int ord = (int)fmt;
-    assert(ord >= 0 && ord < PF_COUNT);
-
     return _pixelFormats[ord];
 }
 //-----------------------------------------------------------------------
-uint8_t PixelUtil::getNumElemBytes(PixelFormat format) { return getDescriptionFor(format).elemBytes; }
+uint8_t PixelUtil::getNumElemBytes(PixelFormat format) { return getDescriptionFor(format).elem_bytes; }
 //-----------------------------------------------------------------------
 static size_t astc_slice_size(int width, int height, int blockWidth, int blockHeight)
 {
@@ -79,73 +77,73 @@ size_t PixelUtil::getMemorySize(int width, int height, int depth, PixelFormat fo
         switch (format) {
             // DXT formats work by dividing the image into 4x4 blocks, then encoding each
             // 4x4 block with a certain number of bytes.
-            case PF_DXT1:
+            case PixelFormat::DXT1:
                 return ((width + 3) / 4) * ((height + 3) / 4) * 8 * depth;
-            case PF_DXT2:
-            case PF_DXT3:
-            case PF_DXT4:
-            case PF_DXT5:
+            case PixelFormat::DXT2:
+            case PixelFormat::DXT3:
+            case PixelFormat::DXT4:
+            case PixelFormat::DXT5:
                 return ((width + 3) / 4) * ((height + 3) / 4) * 16 * depth;
-            case PF_BC4_SNORM:
-            case PF_BC4_UNORM:
+            case PixelFormat::BC4_SNORM:
+            case PixelFormat::BC4_UNORM:
                 return ((width + 3) / 4) * ((height + 3) / 4) * 8 * depth;
-            case PF_BC5_SNORM:
-            case PF_BC5_UNORM:
-            case PF_BC6H_SF16:
-            case PF_BC6H_UF16:
-            case PF_BC7_UNORM:
+            case PixelFormat::BC5_SNORM:
+            case PixelFormat::BC5_UNORM:
+            case PixelFormat::BC6H_SF16:
+            case PixelFormat::BC6H_UF16:
+            case PixelFormat::BC7_UNORM:
                 return ((width + 3) / 4) * ((height + 3) / 4) * 16 * depth;
 
             // Size calculations from the PVRTC OpenGL extension spec
             // http://www.khronos.org/registry/gles/extensions/IMG/IMG_texture_compression_pvrtc.txt
             // Basically, 32 bytes is the minimum texture size.  Smaller textures are padded up to 32 bytes
-            case PF_PVRTC_RGB2:
-            case PF_PVRTC_RGBA2:
-            case PF_PVRTC2_2BPP:
+            case PixelFormat::PVRTC_RGB2:
+            case PixelFormat::PVRTC_RGBA2:
+            case PixelFormat::PVRTC2_2BPP:
                 return (std::max((int)width, 16) * std::max((int)height, 8) * 2 + 7) / 8;
-            case PF_PVRTC_RGB4:
-            case PF_PVRTC_RGBA4:
-            case PF_PVRTC2_4BPP:
+            case PixelFormat::PVRTC_RGB4:
+            case PixelFormat::PVRTC_RGBA4:
+            case PixelFormat::PVRTC2_4BPP:
                 return (std::max((int)width, 8) * std::max((int)height, 8) * 4 + 7) / 8;
 
             // see https://registry.khronos.org/OpenGL-Refpages/es3/html/glCompressedTexImage2D.xhtml
-            case PF_ETC1_RGB8:
-            case PF_ETC2_RGB8:
-            case PF_ETC2_RGB8A1:
-            case PF_ATC_RGB:
+            case PixelFormat::ETC1_RGB8:
+            case PixelFormat::ETC2_RGB8:
+            case PixelFormat::ETC2_RGB8A1:
+            case PixelFormat::ATC_RGB:
                 return ((width + 3) / 4) * ((height + 3) / 4) * 8;
-            case PF_ETC2_RGBA8:
-            case PF_ATC_RGBA_EXPLICIT_ALPHA:
-            case PF_ATC_RGBA_INTERPOLATED_ALPHA:
+            case PixelFormat::ETC2_RGBA8:
+            case PixelFormat::ATC_RGBA_EXPLICIT_ALPHA:
+            case PixelFormat::ATC_RGBA_INTERPOLATED_ALPHA:
                 return ((width + 3) / 4) * ((height + 3) / 4) * 16;
 
-            case PF_ASTC_RGBA_4X4_LDR:
+            case PixelFormat::ASTC_RGBA_4X4_LDR:
                 return astc_slice_size(width, height, 4, 4) * depth;
-            case PF_ASTC_RGBA_5X4_LDR:
+            case PixelFormat::ASTC_RGBA_5X4_LDR:
                 return astc_slice_size(width, height, 5, 4) * depth;
-            case PF_ASTC_RGBA_5X5_LDR:
+            case PixelFormat::ASTC_RGBA_5X5_LDR:
                 return astc_slice_size(width, height, 5, 5) * depth;
-            case PF_ASTC_RGBA_6X5_LDR:
+            case PixelFormat::ASTC_RGBA_6X5_LDR:
                 return astc_slice_size(width, height, 6, 5) * depth;
-            case PF_ASTC_RGBA_6X6_LDR:
+            case PixelFormat::ASTC_RGBA_6X6_LDR:
                 return astc_slice_size(width, height, 6, 6) * depth;
-            case PF_ASTC_RGBA_8X5_LDR:
+            case PixelFormat::ASTC_RGBA_8X5_LDR:
                 return astc_slice_size(width, height, 8, 5) * depth;
-            case PF_ASTC_RGBA_8X6_LDR:
+            case PixelFormat::ASTC_RGBA_8X6_LDR:
                 return astc_slice_size(width, height, 8, 6) * depth;
-            case PF_ASTC_RGBA_8X8_LDR:
+            case PixelFormat::ASTC_RGBA_8X8_LDR:
                 return astc_slice_size(width, height, 8, 8) * depth;
-            case PF_ASTC_RGBA_10X5_LDR:
+            case PixelFormat::ASTC_RGBA_10X5_LDR:
                 return astc_slice_size(width, height, 10, 5) * depth;
-            case PF_ASTC_RGBA_10X6_LDR:
+            case PixelFormat::ASTC_RGBA_10X6_LDR:
                 return astc_slice_size(width, height, 10, 6) * depth;
-            case PF_ASTC_RGBA_10X8_LDR:
+            case PixelFormat::ASTC_RGBA_10X8_LDR:
                 return astc_slice_size(width, height, 10, 8) * depth;
-            case PF_ASTC_RGBA_10X10_LDR:
+            case PixelFormat::ASTC_RGBA_10X10_LDR:
                 return astc_slice_size(width, height, 10, 10) * depth;
-            case PF_ASTC_RGBA_12X10_LDR:
+            case PixelFormat::ASTC_RGBA_12X10_LDR:
                 return astc_slice_size(width, height, 12, 10) * depth;
-            case PF_ASTC_RGBA_12X12_LDR:
+            case PixelFormat::ASTC_RGBA_12X12_LDR:
                 return astc_slice_size(width, height, 12, 12) * depth;
             default:
                 panic("Invalid compressed pixel format");
@@ -156,11 +154,11 @@ size_t PixelUtil::getMemorySize(int width, int height, int depth, PixelFormat fo
     }
 }
 //-----------------------------------------------------------------------
-uint8_t PixelUtil::getNumElemBits(PixelFormat format) { return getDescriptionFor(format).elemBytes * 8; }
+uint8_t PixelUtil::getNumElemBits(PixelFormat format) { return getDescriptionFor(format).elem_bytes * 8; }
 //-----------------------------------------------------------------------
 unsigned int PixelUtil::getFlags(PixelFormat format) { return getDescriptionFor(format).flags; }
 //-----------------------------------------------------------------------
-bool PixelUtil::hasAlpha(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_HASALPHA) > 0; }
+bool PixelUtil::hasAlpha(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_HAS_ALPHA) > 0; }
 //-----------------------------------------------------------------------
 bool PixelUtil::isFloatingPoint(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_FLOAT) > 0; }
 //-----------------------------------------------------------------------
@@ -203,7 +201,10 @@ void PixelUtil::getBitShifts(PixelFormat format, unsigned char rgba[4])
 //-----------------------------------------------------------------------
 const String& PixelUtil::getFormatName(PixelFormat srcformat) { return getDescriptionFor(srcformat).name; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isAccessible(PixelFormat srcformat) { return (srcformat != PF_UNKNOWN) && !isCompressed(srcformat); }
+bool PixelUtil::isAccessible(PixelFormat srcformat)
+{
+    return (srcformat != PixelFormat::UNKNOWN) && !isCompressed(srcformat);
+}
 //-----------------------------------------------------------------------
 PixelComponentType PixelUtil::getComponentType(PixelFormat fmt)
 {
@@ -214,7 +215,7 @@ PixelComponentType PixelUtil::getComponentType(PixelFormat fmt)
 uint8_t PixelUtil::getComponentCount(PixelFormat fmt)
 {
     const PixelFormatDescription& des = getDescriptionFor(fmt);
-    return des.componentCount;
+    return des.num_component;
 }
 //-----------------------------------------------------------------------
 PixelFormat PixelUtil::getFormatFromName(const String& name, bool accessibleOnly, bool caseSensitive)
@@ -225,7 +226,7 @@ PixelFormat PixelUtil::getFormatFromName(const String& name, bool accessibleOnly
         StringUtils::upper(&tmp);
     }
 
-    for (int i = 0; i < PF_COUNT; ++i) {
+    for (int i = 0; i < (int)PixelFormat::COUNT; ++i) {
         PixelFormat pf = static_cast<PixelFormat>(i);
         if (!accessibleOnly || isAccessible(pf)) {
             if (tmp == getFormatName(pf))
@@ -235,15 +236,15 @@ PixelFormat PixelUtil::getFormatFromName(const String& name, bool accessibleOnly
 
     // allow look-up by alias name
     if (tmp == "PF_BYTE_RGB")
-        return PF_BYTE_RGB;
+        return PixelFormat::BYTE_RGB;
     if (tmp == "PF_BYTE_RGBA")
-        return PF_BYTE_RGBA;
+        return PixelFormat::BYTE_RGBA;
     if (tmp == "PF_BYTE_BGR")
-        return PF_BYTE_BGR;
+        return PixelFormat::BYTE_BGR;
     if (tmp == "PF_BYTE_BGRA")
-        return PF_BYTE_BGRA;
+        return PixelFormat::BYTE_BGRA;
 
-    return PF_UNKNOWN;
+    return PixelFormat::UNKNOWN;
 }
 //-----------------------------------------------------------------------
 PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits, ushort floatBits)
@@ -251,23 +252,23 @@ PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits
     switch (integerBits) {
         case 16:
             switch (fmt) {
-                case PF_R8G8B8:
-                case PF_X8R8G8B8:
-                    return PF_R5G6B5;
+                case PixelFormat::R8G8B8:
+                case PixelFormat::X8R8G8B8:
+                    return PixelFormat::R5G6B5;
 
-                case PF_B8G8R8:
-                case PF_X8B8G8R8:
-                    return PF_B5G6R5;
+                case PixelFormat::B8G8R8:
+                case PixelFormat::X8B8G8R8:
+                    return PixelFormat::B5G6R5;
 
-                case PF_A8R8G8B8:
-                case PF_R8G8B8A8:
-                case PF_A8B8G8R8:
-                case PF_B8G8R8A8:
-                    return PF_A4R4G4B4;
+                case PixelFormat::A8R8G8B8:
+                case PixelFormat::R8G8B8A8:
+                case PixelFormat::A8B8G8R8:
+                case PixelFormat::B8G8R8A8:
+                    return PixelFormat::A4R4G4B4;
 
-                case PF_A2R10G10B10:
-                case PF_A2B10G10R10:
-                    return PF_A1R5G5B5;
+                case PixelFormat::A2R10G10B10:
+                case PixelFormat::A2B10G10R10:
+                    return PixelFormat::A1R5G5B5;
 
                 default:
                     // use original image format
@@ -277,17 +278,17 @@ PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits
 
         case 32:
             switch (fmt) {
-                case PF_R5G6B5:
-                    return PF_X8R8G8B8;
+                case PixelFormat::R5G6B5:
+                    return PixelFormat::X8R8G8B8;
 
-                case PF_B5G6R5:
-                    return PF_X8B8G8R8;
+                case PixelFormat::B5G6R5:
+                    return PixelFormat::X8B8G8R8;
 
-                case PF_A4R4G4B4:
-                    return PF_A8R8G8B8;
+                case PixelFormat::A4R4G4B4:
+                    return PixelFormat::A8R8G8B8;
 
-                case PF_A1R5G5B5:
-                    return PF_A2R10G10B10;
+                case PixelFormat::A1R5G5B5:
+                    return PixelFormat::A2R10G10B10;
 
                 default:
                     // use original image format
@@ -303,14 +304,14 @@ PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits
     switch (floatBits) {
         case 16:
             switch (fmt) {
-                case PF_FLOAT32_R:
-                    return PF_FLOAT16_R;
+                case PixelFormat::FLOAT32_R:
+                    return PixelFormat::FLOAT16_R;
 
-                case PF_FLOAT32_RGB:
-                    return PF_FLOAT16_RGB;
+                case PixelFormat::FLOAT32_RGB:
+                    return PixelFormat::FLOAT16_RGB;
 
-                case PF_FLOAT32_RGBA:
-                    return PF_FLOAT16_RGBA;
+                case PixelFormat::FLOAT32_RGBA:
+                    return PixelFormat::FLOAT16_RGBA;
 
                 default:
                     // use original image format
@@ -320,14 +321,14 @@ PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits
 
         case 32:
             switch (fmt) {
-                case PF_FLOAT16_R:
-                    return PF_FLOAT32_R;
+                case PixelFormat::FLOAT16_R:
+                    return PixelFormat::FLOAT32_R;
 
-                case PF_FLOAT16_RGB:
-                    return PF_FLOAT32_RGB;
+                case PixelFormat::FLOAT16_RGB:
+                    return PixelFormat::FLOAT32_RGB;
 
-                case PF_FLOAT16_RGBA:
-                    return PF_FLOAT32_RGBA;
+                case PixelFormat::FLOAT16_RGBA:
+                    return PixelFormat::FLOAT32_RGBA;
 
                 default:
                     // use original image format
@@ -361,7 +362,7 @@ void PixelUtil::packColour(const uint8_t r,
                              | ((Bitwise::fixed_to_fixed(b, 8, des.bbits) << des.bshift) & des.bmask)
                              | ((Bitwise::fixed_to_fixed(a, 8, des.abits) << des.ashift) & des.amask);
         // And write to memory
-        Bitwise::int_write(dest, des.elemBytes, value);
+        Bitwise::int_write(dest, des.elem_bytes, value);
     } else {
         // Convert to float
         packColour((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f, pf, dest);
@@ -380,62 +381,62 @@ void PixelUtil::packColour(const float r, const float g, const float b, const fl
                                    | ((Bitwise::float_to_fixed(b, des.bbits) << des.bshift) & des.bmask)
                                    | ((Bitwise::float_to_fixed(a, des.abits) << des.ashift) & des.amask);
         // And write to memory
-        Bitwise::int_write(dest, des.elemBytes, value);
+        Bitwise::int_write(dest, des.elem_bytes, value);
     } else {
         switch (pf) {
-            case PF_FLOAT32_R:
+            case PixelFormat::FLOAT32_R:
                 ((float*)dest)[0] = r;
                 break;
-            case PF_FLOAT32_GR:
+            case PixelFormat::FLOAT32_GR:
                 ((float*)dest)[0] = g;
                 ((float*)dest)[1] = r;
                 break;
-            case PF_FLOAT32_RGB:
+            case PixelFormat::FLOAT32_RGB:
                 ((float*)dest)[0] = r;
                 ((float*)dest)[1] = g;
                 ((float*)dest)[2] = b;
                 break;
-            case PF_FLOAT32_RGBA:
+            case PixelFormat::FLOAT32_RGBA:
                 ((float*)dest)[0] = r;
                 ((float*)dest)[1] = g;
                 ((float*)dest)[2] = b;
                 ((float*)dest)[3] = a;
                 break;
-            case PF_DEPTH16:
-            case PF_FLOAT16_R:
+            case PixelFormat::DEPTH16:
+            case PixelFormat::FLOAT16_R:
                 ((uint16_t*)dest)[0] = Bitwise::float_to_half(r);
                 break;
-            case PF_FLOAT16_GR:
+            case PixelFormat::FLOAT16_GR:
                 ((uint16_t*)dest)[0] = Bitwise::float_to_half(g);
                 ((uint16_t*)dest)[1] = Bitwise::float_to_half(r);
                 break;
-            case PF_FLOAT16_RGB:
+            case PixelFormat::FLOAT16_RGB:
                 ((uint16_t*)dest)[0] = Bitwise::float_to_half(r);
                 ((uint16_t*)dest)[1] = Bitwise::float_to_half(g);
                 ((uint16_t*)dest)[2] = Bitwise::float_to_half(b);
                 break;
-            case PF_FLOAT16_RGBA:
+            case PixelFormat::FLOAT16_RGBA:
                 ((uint16_t*)dest)[0] = Bitwise::float_to_half(r);
                 ((uint16_t*)dest)[1] = Bitwise::float_to_half(g);
                 ((uint16_t*)dest)[2] = Bitwise::float_to_half(b);
                 ((uint16_t*)dest)[3] = Bitwise::float_to_half(a);
                 break;
-            case PF_SHORT_RGB:
+            case PixelFormat::SHORT_RGB:
                 ((uint16_t*)dest)[0] = (uint16_t)Bitwise::float_to_fixed(r, 16);
                 ((uint16_t*)dest)[1] = (uint16_t)Bitwise::float_to_fixed(g, 16);
                 ((uint16_t*)dest)[2] = (uint16_t)Bitwise::float_to_fixed(b, 16);
                 break;
-            case PF_SHORT_RGBA:
+            case PixelFormat::SHORT_RGBA:
                 ((uint16_t*)dest)[0] = (uint16_t)Bitwise::float_to_fixed(r, 16);
                 ((uint16_t*)dest)[1] = (uint16_t)Bitwise::float_to_fixed(g, 16);
                 ((uint16_t*)dest)[2] = (uint16_t)Bitwise::float_to_fixed(b, 16);
                 ((uint16_t*)dest)[3] = (uint16_t)Bitwise::float_to_fixed(a, 16);
                 break;
-            case PF_BYTE_LA:
+            case PixelFormat::BYTE_LA:
                 ((uint8_t*)dest)[0] = (uint8_t)Bitwise::float_to_fixed(r, 8);
                 ((uint8_t*)dest)[1] = (uint8_t)Bitwise::float_to_fixed(a, 8);
                 break;
-            case PF_A8:
+            case PixelFormat::A8:
                 ((uint8_t*)dest)[0] = (uint8_t)Bitwise::float_to_fixed(r, 8);
                 break;
             default:
@@ -451,7 +452,7 @@ void PixelUtil::unpackColour(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, Pix
     const PixelFormatDescription& des = getDescriptionFor(pf);
     if (des.flags & PFF_NATIVEENDIAN) {
         // Shortcut for integer formats unpacking
-        const unsigned int value = Bitwise::int_read(src, des.elemBytes);
+        const unsigned int value = Bitwise::int_read(src, des.elem_bytes);
         if (des.flags & PFF_LUMINANCE) {
             // Luminance format -- only rbits used
             *r = *g = *b = (uint8_t)Bitwise::fixed_to_fixed((value & des.rmask) >> des.rshift, des.rbits, 8);
@@ -460,7 +461,7 @@ void PixelUtil::unpackColour(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, Pix
             *g = (uint8_t)Bitwise::fixed_to_fixed((value & des.gmask) >> des.gshift, des.gbits, 8);
             *b = (uint8_t)Bitwise::fixed_to_fixed((value & des.bmask) >> des.bshift, des.bbits, 8);
         }
-        if (des.flags & PFF_HASALPHA) {
+        if (des.flags & PFF_HAS_ALPHA) {
             *a = (uint8_t)Bitwise::fixed_to_fixed((value & des.amask) >> des.ashift, des.abits, 8);
         } else {
             *a = 255; // No alpha, default a component to full
@@ -481,7 +482,7 @@ void PixelUtil::unpackColour(float* r, float* g, float* b, float* a, PixelFormat
     const PixelFormatDescription& des = getDescriptionFor(pf);
     if (des.flags & PFF_NATIVEENDIAN) {
         // Shortcut for integer formats unpacking
-        const unsigned int value = Bitwise::int_read(src, des.elemBytes);
+        const unsigned int value = Bitwise::int_read(src, des.elem_bytes);
         if (des.flags & PFF_LUMINANCE) {
             // Luminance format -- only rbits used
             *r = *g = *b = Bitwise::fixed_to_float((value & des.rmask) >> des.rshift, des.rbits);
@@ -490,68 +491,68 @@ void PixelUtil::unpackColour(float* r, float* g, float* b, float* a, PixelFormat
             *g = Bitwise::fixed_to_float((value & des.gmask) >> des.gshift, des.gbits);
             *b = Bitwise::fixed_to_float((value & des.bmask) >> des.bshift, des.bbits);
         }
-        if (des.flags & PFF_HASALPHA) {
+        if (des.flags & PFF_HAS_ALPHA) {
             *a = Bitwise::fixed_to_float((value & des.amask) >> des.ashift, des.abits);
         } else {
             *a = 1.0f; // No alpha, default a component to full
         }
     } else {
         switch (pf) {
-            case PF_FLOAT32_R:
+            case PixelFormat::FLOAT32_R:
                 *r = *g = *b = ((const float*)src)[0];
                 *a = 1.0f;
                 break;
-            case PF_FLOAT32_GR:
+            case PixelFormat::FLOAT32_GR:
                 *g = ((const float*)src)[0];
                 *r = *b = ((const float*)src)[1];
                 *a = 1.0f;
                 break;
-            case PF_FLOAT32_RGB:
+            case PixelFormat::FLOAT32_RGB:
                 *r = ((const float*)src)[0];
                 *g = ((const float*)src)[1];
                 *b = ((const float*)src)[2];
                 *a = 1.0f;
                 break;
-            case PF_FLOAT32_RGBA:
+            case PixelFormat::FLOAT32_RGBA:
                 *r = ((const float*)src)[0];
                 *g = ((const float*)src)[1];
                 *b = ((const float*)src)[2];
                 *a = ((const float*)src)[3];
                 break;
-            case PF_FLOAT16_R:
+            case PixelFormat::FLOAT16_R:
                 *r = *g = *b = Bitwise::half_to_float(((const uint16_t*)src)[0]);
                 *a = 1.0f;
                 break;
-            case PF_FLOAT16_GR:
+            case PixelFormat::FLOAT16_GR:
                 *g = Bitwise::half_to_float(((const uint16_t*)src)[0]);
                 *r = *b = Bitwise::half_to_float(((const uint16_t*)src)[1]);
                 *a = 1.0f;
                 break;
-            case PF_FLOAT16_RGB:
+            case PixelFormat::FLOAT16_RGB:
                 *r = Bitwise::half_to_float(((const uint16_t*)src)[0]);
                 *g = Bitwise::half_to_float(((const uint16_t*)src)[1]);
                 *b = Bitwise::half_to_float(((const uint16_t*)src)[2]);
                 *a = 1.0f;
                 break;
-            case PF_FLOAT16_RGBA:
+            case PixelFormat::FLOAT16_RGBA:
                 *r = Bitwise::half_to_float(((const uint16_t*)src)[0]);
                 *g = Bitwise::half_to_float(((const uint16_t*)src)[1]);
                 *b = Bitwise::half_to_float(((const uint16_t*)src)[2]);
                 *a = Bitwise::half_to_float(((const uint16_t*)src)[3]);
                 break;
-            case PF_SHORT_RGB:
+            case PixelFormat::SHORT_RGB:
                 *r = Bitwise::fixed_to_float(((const uint16_t*)src)[0], 16);
                 *g = Bitwise::fixed_to_float(((const uint16_t*)src)[1], 16);
                 *b = Bitwise::fixed_to_float(((const uint16_t*)src)[2], 16);
                 *a = 1.0f;
                 break;
-            case PF_SHORT_RGBA:
+            case PixelFormat::SHORT_RGBA:
                 *r = Bitwise::fixed_to_float(((const uint16_t*)src)[0], 16);
                 *g = Bitwise::fixed_to_float(((const uint16_t*)src)[1], 16);
                 *b = Bitwise::fixed_to_float(((const uint16_t*)src)[2], 16);
                 *a = Bitwise::fixed_to_float(((const uint16_t*)src)[3], 16);
                 break;
-            case PF_BYTE_LA:
+            case PixelFormat::BYTE_LA:
                 *r = *g = *b = Bitwise::fixed_to_float(((const uint8_t*)src)[0], 8);
                 *a = Bitwise::fixed_to_float(((const uint8_t*)src)[1], 8);
                 break;
@@ -595,11 +596,11 @@ void PixelUtil::bulkPixelConversion(const PixelBox& src, const PixelBox& dst)
         const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
 
         // Calculate pitches+skips in bytes
-        const size_t srcRowPitchBytes = src.rowPitch * srcPixelSize;
+        const size_t srcRow_pitchBytes = src.row_pitch * srcPixelSize;
         // const size_t srcRowSkipBytes = src.getRowSkip()*srcPixelSize;
         const size_t srcSliceSkipBytes = src.getSliceSkip() * srcPixelSize;
 
-        const size_t dstRowPitchBytes = dst.rowPitch * dstPixelSize;
+        const size_t dstRow_pitchBytes = dst.row_pitch * dstPixelSize;
         // const size_t dstRowSkipBytes = dst.getRowSkip()*dstPixelSize;
         const size_t dstSliceSkipBytes = dst.getSliceSkip() * dstPixelSize;
 
@@ -608,31 +609,31 @@ void PixelUtil::bulkPixelConversion(const PixelBox& src, const PixelBox& dst)
         for (size_t z = src.front; z < src.back; z++) {
             for (size_t y = src.top; y < src.bottom; y++) {
                 memcpy(dstptr, srcptr, rowSize);
-                srcptr += srcRowPitchBytes;
-                dstptr += dstRowPitchBytes;
+                srcptr += srcRow_pitchBytes;
+                dstptr += dstRow_pitchBytes;
             }
             srcptr += srcSliceSkipBytes;
             dstptr += dstSliceSkipBytes;
         }
         return;
     }
-    // Converting to PF_X8R8G8B8 is exactly the same as converting to
-    // PF_A8R8G8B8. (same with PF_X8B8G8R8 and PF_A8B8G8R8)
-    if (dst.format == PF_X8R8G8B8 || dst.format == PF_X8B8G8R8) {
-        // Do the same conversion, with PF_A8R8G8B8, which has a lot of
+    // Converting to PixelFormat::X8R8G8B8 is exactly the same as converting to
+    // PixelFormat::A8R8G8B8. (same with PixelFormat::X8B8G8R8 and PixelFormat::A8B8G8R8)
+    if (dst.format == PixelFormat::X8R8G8B8 || dst.format == PixelFormat::X8B8G8R8) {
+        // Do the same conversion, with PixelFormat::A8R8G8B8, which has a lot of
         // optimized conversions
         PixelBox tempdst = dst;
-        tempdst.format = dst.format == PF_X8R8G8B8 ? PF_A8R8G8B8 : PF_A8B8G8R8;
+        tempdst.format = dst.format == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8 : PixelFormat::A8B8G8R8;
         bulkPixelConversion(src, tempdst);
         return;
     }
-    // Converting from PF_X8R8G8B8 is exactly the same as converting from
-    // PF_A8R8G8B8, given that the destination format does not have alpha.
-    if ((src.format == PF_X8R8G8B8 || src.format == PF_X8B8G8R8) && !hasAlpha(dst.format)) {
-        // Do the same conversion, with PF_A8R8G8B8, which has a lot of
+    // Converting from PixelFormat::X8R8G8B8 is exactly the same as converting from
+    // PixelFormat::A8R8G8B8, given that the destination format does not have alpha.
+    if ((src.format == PixelFormat::X8R8G8B8 || src.format == PixelFormat::X8B8G8R8) && !hasAlpha(dst.format)) {
+        // Do the same conversion, with PixelFormat::A8R8G8B8, which has a lot of
         // optimized conversions
         PixelBox tempsrc = src;
-        tempsrc.format = src.format == PF_X8R8G8B8 ? PF_A8R8G8B8 : PF_A8B8G8R8;
+        tempsrc.format = src.format == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8 : PixelFormat::A8B8G8R8;
         bulkPixelConversion(tempsrc, dst);
         return;
     }
@@ -687,11 +688,11 @@ void PixelUtil::bulkPixelVerticalFlip(const PixelBox& box)
     const size_t copySize = box.get_width() * pixelSize;
 
     // Calculate pitches in bytes
-    const size_t rowPitchBytes = box.rowPitch * pixelSize;
-    const size_t slicePitchBytes = box.slicePitch * pixelSize;
+    const size_t row_pitchBytes = box.row_pitch * pixelSize;
+    const size_t slice_pitchBytes = box.slice_pitch * pixelSize;
 
     uint8_t* basesrcptr = box.getTopLeftFrontPixelPtr();
-    uint8_t* basedstptr = basesrcptr + (box.bottom - box.top - 1) * rowPitchBytes;
+    uint8_t* basedstptr = basesrcptr + (box.bottom - box.top - 1) * row_pitchBytes;
     uint8_t* tmpptr = (uint8_t*)malloc(copySize);
 
     // swap rows
@@ -704,11 +705,11 @@ void PixelUtil::bulkPixelVerticalFlip(const PixelBox& box)
             memcpy(tmpptr, dstptr, copySize);
             memcpy(dstptr, srcptr, copySize);
             memcpy(srcptr, tmpptr, copySize);
-            srcptr += rowPitchBytes;
-            dstptr -= rowPitchBytes;
+            srcptr += row_pitchBytes;
+            dstptr -= row_pitchBytes;
         }
-        basesrcptr += slicePitchBytes;
-        basedstptr += slicePitchBytes;
+        basesrcptr += slice_pitchBytes;
+        basedstptr += slice_pitchBytes;
     }
 
     free(tmpptr);
@@ -719,7 +720,7 @@ Color PixelBox::getColourAt(size_t x, size_t y, size_t z) const
     Color cv;
 
     size_t pixelSize = PixelUtil::getNumElemBytes(format);
-    size_t pixelOffset = pixelSize * (z * slicePitch + y * rowPitch + x);
+    size_t pixelOffset = pixelSize * (z * slice_pitch + y * row_pitch + x);
     PixelUtil::unpackColour(&cv, format, (unsigned char*)data + pixelOffset);
 
     return cv;
@@ -728,7 +729,7 @@ Color PixelBox::getColourAt(size_t x, size_t y, size_t z) const
 void PixelBox::setColourAt(Color const& cv, size_t x, size_t y, size_t z)
 {
     size_t pixelSize = PixelUtil::getNumElemBytes(format);
-    size_t pixelOffset = pixelSize * (z * slicePitch + y * rowPitch + x);
+    size_t pixelOffset = pixelSize * (z * slice_pitch + y * row_pitch + x);
     PixelUtil::packColour(cv, format, (unsigned char*)data + pixelOffset);
 }
 
