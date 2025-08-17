@@ -7,6 +7,7 @@ target_sources(${HYUE_LIB} PRIVATE
     src/Singleton.cpp
     src/String.cpp
     src/Color.cpp
+    src/Root.cpp
 )
 
 target_include_directories(${HYUE_LIB} PUBLIC

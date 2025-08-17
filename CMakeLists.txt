@@ -38,3 +38,7 @@ target_link_libraries(${HYUE_LIB} PUBLIC
 if(HYUE_BUILD_TEST)
     add_subdirectory(UnitTest)
 endif()
+
+if(HYUE_BUILD_EXAMPLE)
+    add_subdirectory(Example)
+endif()

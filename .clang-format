@@ -1,6 +1,6 @@
 ﻿---
 Language: Cpp 
-BasedOnStyle: LLVM
+BasedOnStyle: Webkit
 ColumnLimit: '120'
 ConstructorInitializerIndentWidth: '0'
 TabWidth: '4'
@@ -22,5 +22,4 @@ BreakBeforeBinaryOperators: true
 PenaltyBreakAssignment: 100
 PenaltyReturnTypeOnItsOwnLine: 100
 AlignAfterOpenBracket: Align
-BreakBeforeBraces: Allman
 ...

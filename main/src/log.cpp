@@ -1,10 +1,12 @@
 #include <stdexcept>
 
-#include <boost/log/attributes/scoped_attribute.hpp>
 #include <boost/log/core.hpp>
-#include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/sinks/text_file_backend.hpp>
+// #include <boost/log/sinks/text_ostream_backend.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/console.hpp>
 
 #include <hyue/log.h>
@@ -16,7 +18,7 @@ namespace hyue {
 
 namespace log = boost::log;
 
-void init_logging() {
+void init_logging(const String &log_file) {
     // 添加全局属性 AppName
     log::core::get()->add_global_attribute(
         "AppName",
@@ -30,9 +32,28 @@ void init_logging() {
             log::expressions::stream 
                 << "[" 
                 << log::expressions::attr<std::string>("AppName") 
+                << "] ["
+                << log::trivial::severity
                 << "] "
                 << log::expressions::smessage
-            )
+        )
+    );
+
+    log::add_file_log(
+        log::keywords::file_name = log_file,
+        log::keywords::rotation_size = 10 * 1024 * 1024, // 日志文件大小达到10MB时轮转
+        log::keywords::max_size = 50 * 1024 * 1024,     // 最大保留50MB日志
+        log::keywords::time_based_rotation = log::sinks::file::rotation_at_time_point(0, 0, 0), // 每天午夜轮转
+        log::keywords::format = (
+            log::expressions::stream 
+                << "[" 
+                << log::expressions::attr<std::string>("AppName") 
+                << "] ["
+                << log::trivial::severity
+                << "] "
+                << log::expressions::smessage
+        ),
+        log::keywords::auto_flush = true
     );
 
     log::add_common_attributes();

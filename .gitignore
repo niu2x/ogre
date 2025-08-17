@@ -22,3 +22,4 @@ cmake-build-*/
 
 # Ignore vim files
 *.swp
+hyue.log

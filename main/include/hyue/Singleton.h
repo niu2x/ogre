@@ -24,7 +24,7 @@ public:
         return singleton_;
     }
 private:
-    static T *singleton_ = nullptr;
+    static T* singleton_;
 };
 
 }
