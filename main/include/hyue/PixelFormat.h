@@ -280,22 +280,22 @@ using PixelFormatList = std::vector<PixelFormat>;
  */
 enum PixelFormatFlags {
     /// This format has an alpha channel
-    PFF_HAS_ALPHA = 0x00000001,
+    PFF_HAS_ALPHA = 1 << 0,
     /** This format is compressed. This invalidates the values in elemBytes,
         elemBits and the bit counts as these might not be fixed in a compressed format. */
-    PFF_COMPRESSED = 0x00000002,
+    PFF_COMPRESSED = 1 << 1,
     /// This is a floating point format
-    PFF_FLOAT = 0x00000004,
+    PFF_FLOAT = 1 << 2,
     /// This is a depth format (for depth textures)
-    PFF_DEPTH = 0x00000008,
+    PFF_DEPTH = 1 << 3,
     /** Format is in native endian. Generally true for the 16, 24 and 32 bits
         formats which can be represented as machine integers. */
-    PFF_NATIVEENDIAN = 0x00000010,
+    PFF_NATIVEENDIAN = 1 << 4,
     /** This is an intensity format instead of a RGB one. The luminance
         replaces R,G and B. (but not A) */
-    PFF_LUMINANCE = 0x00000020,
+    PFF_LUMINANCE = 1 << 5,
     /// This is an integer format
-    PFF_INTEGER = 0x00000040
+    PFF_INTEGER = 1 << 6,
 };
 
 /** Pixel component format */
@@ -334,7 +334,7 @@ public:
     , data((uint8_t*)pixel_data)
     , format(pixel_format)
     {
-        setConsecutive();
+        set_consecutive();
     }
     /** Constructor providing width, height and depth. This constructor
         assumes the pixel data is laid out consecutively in memory. (this
@@ -350,13 +350,13 @@ public:
     , data((uint8_t*)pixelData)
     , format(pixel_format)
     {
-        setConsecutive();
+        set_consecutive();
     }
 
     /** Set the row_pitch and slice_pitch so that the buffer is laid out consecutive
         in memory.
     */
-    void setConsecutive()
+    void set_consecutive()
     {
         row_pitch = get_width();
         slice_pitch = get_width() * get_height();
@@ -365,24 +365,24 @@ public:
         one row and the leftmost pixel of the next row. (IE this is zero if rows
         are consecutive).
     */
-    size_t getRowSkip() const { return row_pitch - get_width(); }
+    size_t get_row_skip() const { return row_pitch - get_width(); }
     /** Get the number of elements between one past the right bottom pixel of
         one slice and the left top pixel of the next slice. (IE this is zero if slices
         are consecutive).
     */
-    size_t getSliceSkip() const { return slice_pitch - (get_height() * row_pitch); }
+    size_t get_slice_skip() const { return slice_pitch - (get_height() * row_pitch); }
 
     /** Return whether this buffer is laid out consecutive in memory (ie the pitches
         are equal to the dimensions)
     */
-    bool isConsecutive() const { return row_pitch == get_width() && slice_pitch == get_width() * get_height(); }
+    bool is_consecutive() const { return row_pitch == get_width() && slice_pitch == get_width() * get_height(); }
     /** Return the size (in bytes) this image would take if it was
         laid out consecutive in memory
     */
-    size_t getConsecutiveSize() const;
+    size_t get_consecutive_size() const;
     /** Return a subvolume of this PixelBox.
         @param def  Defines the bounds of the subregion to return
-        @param resetOrigin Whether to reset left/top/front of returned PixelBox to zero
+        @param reset_prigin Whether to reset left/top/front of returned PixelBox to zero
             together with adjusting data pointer to compensate this, or do nothing
             so that returned PixelBox will have left/top/front of requested Box
         @return A pixel box describing the region and the data in it
@@ -391,26 +391,26 @@ public:
             the data of object.
         @throws Exception(ERR_INVALIDPARAMS) if def is not fully contained
     */
-    PixelBox getSubVolume(const Box& def, bool resetOrigin = true) const;
+    PixelBox get_sub_volume(const Box& def, bool reset_prigin = true) const;
 
     /** Return a data pointer pointing to top left front pixel of the pixel box.
         @remarks Non consecutive pixel boxes are supported.
      */
-    uint8_t* getTopLeftFrontPixelPtr() const;
+    uint8_t* get_top_left_front_pixel_ptr() const;
 
     /**
      * Get colour value from a certain location in the PixelBox. The z coordinate
      * is only valid for cubemaps and volume textures. This uses the first (largest)
      * mipmap.
      */
-    Color getColourAt(size_t x, size_t y, size_t z) const;
+    Color get_color(size_t x, size_t y, size_t z) const;
 
     /**
      * Set colour value at a certain location in the PixelBox. The z coordinate
      * is only valid for cubemaps and volume textures. This uses the first (largest)
      * mipmap.
      */
-    void setColourAt(Color const& cv, size_t x, size_t y, size_t z);
+    void set_color(const Color& cv, size_t x, size_t y, size_t z);
 
 public:
     /// The data pointer

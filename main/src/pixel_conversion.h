@@ -13,8 +13,8 @@ struct PixelBoxConverter {
                                       + (src.left + src.top * src.row_pitch + src.front * src.slice_pitch);
         typename U::DstType* dstptr = reinterpret_cast<typename U::DstType*>(dst.data)
                                       + (dst.left + dst.top * dst.row_pitch + dst.front * dst.slice_pitch);
-        const size_t srcSliceSkip = src.getSliceSkip();
-        const size_t dstSliceSkip = dst.getSliceSkip();
+        const size_t src_slice_skip = src.get_slice_skip();
+        const size_t dst_slice_skip = dst.get_slice_skip();
         const size_t k = src.right - src.left;
         for (size_t z = src.front; z < src.back; z++) {
             for (size_t y = src.top; y < src.bottom; y++) {
@@ -24,8 +24,8 @@ struct PixelBoxConverter {
                 srcptr += src.row_pitch;
                 dstptr += dst.row_pitch;
             }
-            srcptr += srcSliceSkip;
-            dstptr += dstSliceSkip;
+            srcptr += src_slice_skip;
+            dstptr += dst_slice_skip;
         }
     }
 };
