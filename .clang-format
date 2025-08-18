@@ -1,10 +1,9 @@
 ﻿---
 Language: Cpp 
-BasedOnStyle: Webkit
+BasedOnStyle: WebKit
 ColumnLimit: '120'
 ConstructorInitializerIndentWidth: '0'
 TabWidth: '4'
-PointerAlignment: Left
 UseTab: Never
 IndentCaseLabels: true
 FixNamespaceComments: true
