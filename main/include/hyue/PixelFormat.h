@@ -403,14 +403,14 @@ public:
     uint8_t* get_top_left_front_pixel_ptr() const;
 
     /**
-     * Get colour value from a certain location in the PixelBox. The z coordinate
+     * Get color value from a certain location in the PixelBox. The z coordinate
      * is only valid for cubemaps and volume textures. This uses the first (largest)
      * mipmap.
      */
     Color get_color(size_t x, size_t y, size_t z) const;
 
     /**
-     * Set colour value at a certain location in the PixelBox. The z coordinate
+     * Set color value at a certain location in the PixelBox. The z coordinate
      * is only valid for cubemaps and volume textures. This uses the first (largest)
      * mipmap.
      */
@@ -445,7 +445,7 @@ public:
 
            Passing PF_UNKNOWN will result in returning a size of 0 bytes.
     */
-    static uint8_t getNumElemBytes(PixelFormat format);
+    static uint8_t get_elem_bytes(PixelFormat format);
 
     /** Returns the size in bits of an element of the given pixel format.
       @return
@@ -453,7 +453,7 @@ public:
 
            Passing PF_UNKNOWN will result in returning a size of 0 bits.
     */
-    static uint8_t getNumElemBits(PixelFormat format);
+    static uint8_t get_elem_bits(PixelFormat format);
 
     /** Returns the size in memory of a region with the given extents and pixel
         format with consecutive memory layout.
@@ -472,7 +472,7 @@ public:
             width * height * depth * PixelUtil::getNumElemBytes(format). In the compressed
             case, this does serious magic.
     */
-    static size_t getMemorySize(int width, int height, int depth, PixelFormat format);
+    static size_t get_memory_size(int width, int height, int depth, PixelFormat format);
 
     /** Returns the property flags for this pixel format
       @return
@@ -481,68 +481,68 @@ public:
 
            This replaces the separate functions for formatHasAlpha, formatIsFloat, ...
     */
-    static unsigned int getFlags(PixelFormat format);
+    static uint32_t get_flags(PixelFormat format);
 
     /** Shortcut method to determine if the format has an alpha component */
-    static bool hasAlpha(PixelFormat format);
+    static bool has_alpha(PixelFormat format);
     /** Shortcut method to determine if the format is floating point */
-    static bool isFloatingPoint(PixelFormat format);
+    static bool is_floating_point(PixelFormat format);
     /** Shortcut method to determine if the format is integer */
-    static bool isInteger(PixelFormat format);
+    static bool is_integer(PixelFormat format);
     /** Shortcut method to determine if the format is compressed */
-    static bool isCompressed(PixelFormat format);
+    static bool is_compressed(PixelFormat format);
     /** Shortcut method to determine if the format is a depth format. */
-    static bool isDepth(PixelFormat format);
+    static bool is_depth(PixelFormat format);
     /** Shortcut method to determine if the format is in native endian format. */
-    static bool isNativeEndian(PixelFormat format);
+    static bool is_native_endian(PixelFormat format);
     /** Shortcut method to determine if the format is a luminance format. */
-    static bool isLuminance(PixelFormat format);
+    static bool is_luminance(PixelFormat format);
 
     /** Gives the number of bits (RGBA) for a format. See remarks.
-      @remarks      For non-colour formats (dxt, depth) this returns [0,0,0,0].
+      @remarks      For non-color formats (dxt, depth) this returns [0,0,0,0].
     */
-    static void getBitDepths(PixelFormat format, int rgba[4]);
+    static void get_bit_depths(PixelFormat format, int rgba[4]);
 
     /** Gives the masks for the R, G, B and A component
       @note         Only valid for native endian formats
     */
-    static void getBitMasks(PixelFormat format, uint64_t rgba[4]);
+    static void get_bit_masks(PixelFormat format, uint64_t rgba[4]);
 
     /** Gives the bit shifts for R, G, B and A component
     @note           Only valid for native endian formats
     */
-    static void getBitShifts(PixelFormat format, unsigned char rgba[4]);
+    static void get_bit_shifts(PixelFormat format, unsigned char rgba[4]);
 
     /** Gets the name of an image format
      */
     static const String& getFormatName(PixelFormat srcformat);
 
-    /** Returns whether the format can be packed or unpacked with the packColour()
-    and unpackColour() functions. This is generally not true for compressed
+    /** Returns whether the format can be packed or unpacked with the pack_color()
+    and unpack_color() functions. This is generally not true for compressed
     formats as they are special. It can only be true for formats with a
     fixed element size.
     */
-    static bool isAccessible(PixelFormat srcformat);
+    static bool is_accessible(PixelFormat src_format);
 
     /** Returns the component type for a certain pixel format. Returns PCT_BYTE
         in case there is no clear component type like with compressed formats.
         This is one of PCT_BYTE, PCT_SHORT, PCT_FLOAT16, PCT_FLOAT32.
     */
-    static PixelComponentType getComponentType(PixelFormat fmt);
+    static PixelComponentType get_component_type(PixelFormat fmt);
 
     /** Returns the component count for a certain pixel format. Returns 3(no alpha) or
         4 (has alpha) in case there is no clear component type like with compressed formats.
      */
-    static uint8_t getComponentCount(PixelFormat fmt);
+    static uint8_t get_component_count(PixelFormat fmt);
 
     /** Gets the format from given name.
         @param  name            The string of format name
-        @param  accessibleOnly  If true, non-accessible format will treat as invalid format,
+        @param  accessible_only  If true, non-accessible format will treat as invalid format,
                                 otherwise, all supported format are valid.
         @param  caseSensitive   Should be set true if string match should use case sensitivity.
         @return                The format match the format name, or PF_UNKNOWN if is invalid name.
     */
-    static PixelFormat getFormatFromName(const String& name, bool accessibleOnly = false, bool caseSensitive = false);
+    static PixelFormat get_format_from_name(const String& name, bool accessible_only = false, bool case_sensitive = false);
 
     /** Returns the similar format but according with given bit depths.
         @param fmt      The original format.
@@ -553,56 +553,47 @@ public:
         @return        The format that similar original format with bit depth according
                         with preferred bit depth, or original format if no conversion occurring.
     */
-    static PixelFormat getFormatForBitDepths(PixelFormat fmt, ushort integerBits, ushort floatBits);
+    static PixelFormat get_format_for_bit_depths(PixelFormat fmt, ushort integer_bits, ushort float_bits);
 
-    /** Pack a colour value to memory
-        @param colour   The colour
-        @param pf       Pixelformat in which to write the colour
+    /** Pack a color value to memory
+        @param color   The color
+        @param pf       Pixelformat in which to write the color
         @param dest     Destination memory location
     */
-    static void packColour(const Color& colour, const PixelFormat pf, void* dest)
+    static void pack_color(const Color& color, const PixelFormat pf, void* dest)
     {
-        packColour(colour.r, colour.g, colour.b, colour.a, pf, dest);
+        pack_color(color.r, color.g, color.b, color.a, pf, dest);
     }
-    /** Pack a colour value to memory
-        @param r,g,b,a  The four colour components, range 0.0f to 1.0f
+    /** Pack a color value to memory
+        @param r,g,b,a  The four color components, range 0.0f to 1.0f
                         (an exception to this case exists for floating point pixel
                         formats, which don't clamp to 0.0f..1.0f)
-        @param pf       Pixelformat in which to write the colour
+        @param pf       Pixelformat in which to write the color
         @param dest     Destination memory location
     */
     static void
-    packColour(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a, const PixelFormat pf, void* dest);
+    pack_color(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a, const PixelFormat pf, void* dest);
     /// @overload
     static void
-    packColour(const float r, const float g, const float b, const float a, const PixelFormat pf, void* dest);
+    pack_color(const float r, const float g, const float b, const float a, const PixelFormat pf, void* dest);
 
-    /** Unpack a colour value from memory
-        @param colour   The colour is returned here
-        @param pf       Pixelformat in which to read the colour
-        @param src      Source memory location
-    */
-    static void unpackColour(Color& colour, PixelFormat pf, const void* src)
-    {
-        unpackColour(&colour.r, &colour.g, &colour.b, &colour.a, pf, src);
-    }
     /// @overload
-    static void unpackColour(Color* colour, PixelFormat pf, const void* src)
+    static void unpack_color(Color* color, PixelFormat pf, const void* src)
     {
-        unpackColour(&colour->r, &colour->g, &colour->b, &colour->a, pf, src);
+        unpack_color(&color->r, &color->g, &color->b, &color->a, pf, src);
     }
-    /** Unpack a colour value from memory
-        @param r,g,b,a  The four colour channels are returned here
-        @param pf       Pixelformat in which to read the colour
+    /** Unpack a color value from memory
+        @param r,g,b,a  The four color channels are returned here
+        @param pf       Pixelformat in which to read the color
         @param src      Source memory location
     */
-    static void unpackColour(float* r, float* g, float* b, float* a, PixelFormat pf, const void* src);
+    static void unpack_color(float* r, float* g, float* b, float* a, PixelFormat pf, const void* src);
     /** @overload
-        @note This function returns the colour components in 8 bit precision,
+        @note This function returns the color components in 8 bit precision,
             this will lose precision when coming from #PF_A2R10G10B10 or floating
             point formats.
     */
-    static void unpackColour(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, PixelFormat pf, const void* src);
+    static void unpack_color(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, PixelFormat pf, const void* src);
 
     /** Convert consecutive pixels from one format to another. No dithering or filtering is being done.
         Converting from RGB to luminance takes the R channel.  In case the source and destination format match,
@@ -614,9 +605,11 @@ public:
         @param  count       The number of pixels to convert
      */
     static void
-    bulkPixelConversion(void* src, PixelFormat srcFormat, void* dst, PixelFormat dstFormat, unsigned int count)
+    bulk_pixel_conversion(void* src, PixelFormat srcFormat, void* dst, PixelFormat dstFormat, int count)
     {
-        bulkPixelConversion(PixelBox(count, 1, 1, srcFormat, src), PixelBox(count, 1, 1, dstFormat, dst));
+        PixelBox _src(count, 1, 1, srcFormat, src);
+        PixelBox _dst(count, 1, 1, dstFormat, dst);
+        bulk_pixel_conversion(&_src, &_dst);
     }
 
     /** Convert pixels from one format to another. No dithering or filtering is being done. Converting
@@ -626,13 +619,13 @@ public:
         @remarks The source and destination boxes must have the same
         dimensions. In case the source and destination format match, a plain copy is done.
     */
-    static void bulkPixelConversion(const PixelBox& src, const PixelBox& dst);
+    static void bulk_pixel_conversion(const PixelBox* src, const PixelBox* dst);
 
     /** Flips pixels inplace in vertical direction.
         @param  box         PixelBox containing pixels, pitches and format
         @remarks Non consecutive pixel boxes are supported.
      */
-    static void bulkPixelVerticalFlip(const PixelBox& box);
+    static void bulk_pixel_vertical_flip(const PixelBox* box);
 };
 
 // inline const String& to_string(PixelFormat v) { return PixelUtil::getFormatName(v); }

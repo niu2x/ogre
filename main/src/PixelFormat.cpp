@@ -16,13 +16,13 @@ namespace hyue {
 //-----------------------------------------------------------------------
 size_t PixelBox::get_consecutive_size() const
 {
-    return PixelUtil::getMemorySize(get_width(), get_height(), get_depth(), format);
+    return PixelUtil::get_memory_size(get_width(), get_height(), get_depth(), format);
 }
 PixelBox PixelBox::get_sub_volume(const Box& def, bool resetOrigin /* = true */) const
 {
     HYUE_ASSERT(contains(def), "");
 
-    if (PixelUtil::isCompressed(format)
+    if (PixelUtil::is_compressed(format)
         && (def.left != left || def.top != top || def.right != right || def.bottom != bottom))
         panic("Cannot return subvolume of compressed PixelBuffer with less than slice granularity");
 
@@ -32,10 +32,10 @@ PixelBox PixelBox::get_sub_volume(const Box& def, bool resetOrigin /* = true */)
     rval.slice_pitch = slice_pitch;
 
     if (resetOrigin) {
-        if (PixelUtil::isCompressed(format)) {
+        if (PixelUtil::is_compressed(format)) {
             if (rval.front > 0) {
                 rval.data = (uint8_t*)rval.data
-                            + rval.front * PixelUtil::getMemorySize(get_width(), get_height(), 1, format);
+                            + rval.front * PixelUtil::get_memory_size(get_width(), get_height(), 1, format);
                 rval.back -= rval.front;
                 rval.front = 0;
             }
@@ -52,7 +52,7 @@ PixelBox PixelBox::get_sub_volume(const Box& def, bool resetOrigin /* = true */)
 }
 uint8_t* PixelBox::get_top_left_front_pixel_ptr() const
 {
-    return data + (left + top * row_pitch + front * slice_pitch) * PixelUtil::getNumElemBytes(format);
+    return data + (left + top * row_pitch + front * slice_pitch) * PixelUtil::get_elem_bytes(format);
 }
 //-----------------------------------------------------------------------
 /**
@@ -65,15 +65,15 @@ static inline const PixelFormatDescription& getDescriptionFor(const PixelFormat 
     return _pixelFormats[ord];
 }
 //-----------------------------------------------------------------------
-uint8_t PixelUtil::getNumElemBytes(PixelFormat format) { return getDescriptionFor(format).elem_bytes; }
+uint8_t PixelUtil::get_elem_bytes(PixelFormat format) { return getDescriptionFor(format).elem_bytes; }
 //-----------------------------------------------------------------------
 static size_t astc_slice_size(int width, int height, int blockWidth, int blockHeight)
 {
     return ((width + blockWidth - 1) / blockWidth) * ((height + blockHeight - 1) / blockHeight) * 16;
 }
-size_t PixelUtil::getMemorySize(int width, int height, int depth, PixelFormat format)
+size_t PixelUtil::get_memory_size(int width, int height, int depth, PixelFormat format)
 {
-    if (isCompressed(format)) {
+    if (is_compressed(format)) {
         switch (format) {
             // DXT formats work by dividing the image into 4x4 blocks, then encoding each
             // 4x4 block with a certain number of bytes.
@@ -150,29 +150,29 @@ size_t PixelUtil::getMemorySize(int width, int height, int depth, PixelFormat fo
         }
         return -1;
     } else {
-        return width * height * depth * getNumElemBytes(format);
+        return width * height * depth * get_elem_bytes(format);
     }
 }
 //-----------------------------------------------------------------------
-uint8_t PixelUtil::getNumElemBits(PixelFormat format) { return getDescriptionFor(format).elem_bytes * 8; }
+uint8_t PixelUtil::get_elem_bits(PixelFormat format) { return getDescriptionFor(format).elem_bytes * 8; }
 //-----------------------------------------------------------------------
-unsigned int PixelUtil::getFlags(PixelFormat format) { return getDescriptionFor(format).flags; }
+unsigned int PixelUtil::get_flags(PixelFormat format) { return getDescriptionFor(format).flags; }
 //-----------------------------------------------------------------------
-bool PixelUtil::hasAlpha(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_HAS_ALPHA) > 0; }
+bool PixelUtil::has_alpha(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_HAS_ALPHA) > 0; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isFloatingPoint(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_FLOAT) > 0; }
+bool PixelUtil::is_floating_point(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_FLOAT) > 0; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isInteger(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_INTEGER) > 0; }
+bool PixelUtil::is_integer(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_INTEGER) > 0; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isCompressed(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_COMPRESSED) > 0; }
+bool PixelUtil::is_compressed(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_COMPRESSED) > 0; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isDepth(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_DEPTH) > 0; }
+bool PixelUtil::is_depth(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_DEPTH) > 0; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isNativeEndian(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_NATIVEENDIAN) > 0; }
+bool PixelUtil::is_native_endian(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_NATIVEENDIAN) > 0; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isLuminance(PixelFormat format) { return (PixelUtil::getFlags(format) & PFF_LUMINANCE) > 0; }
+bool PixelUtil::is_luminance(PixelFormat format) { return (PixelUtil::get_flags(format) & PFF_LUMINANCE) > 0; }
 //-----------------------------------------------------------------------
-void PixelUtil::getBitDepths(PixelFormat format, int rgba[4])
+void PixelUtil::get_bit_depths(PixelFormat format, int rgba[4])
 {
     const PixelFormatDescription& des = getDescriptionFor(format);
     rgba[0] = des.rbits;
@@ -181,7 +181,7 @@ void PixelUtil::getBitDepths(PixelFormat format, int rgba[4])
     rgba[3] = des.abits;
 }
 //-----------------------------------------------------------------------
-void PixelUtil::getBitMasks(PixelFormat format, uint64_t rgba[4])
+void PixelUtil::get_bit_masks(PixelFormat format, uint64_t rgba[4])
 {
     const PixelFormatDescription& des = getDescriptionFor(format);
     rgba[0] = des.rmask;
@@ -190,7 +190,7 @@ void PixelUtil::getBitMasks(PixelFormat format, uint64_t rgba[4])
     rgba[3] = des.amask;
 }
 //---------------------------------------------------------------------
-void PixelUtil::getBitShifts(PixelFormat format, unsigned char rgba[4])
+void PixelUtil::get_bit_shifts(PixelFormat format, unsigned char rgba[4])
 {
     const PixelFormatDescription& des = getDescriptionFor(format);
     rgba[0] = des.rshift;
@@ -201,34 +201,34 @@ void PixelUtil::getBitShifts(PixelFormat format, unsigned char rgba[4])
 //-----------------------------------------------------------------------
 const String& PixelUtil::getFormatName(PixelFormat srcformat) { return getDescriptionFor(srcformat).name; }
 //-----------------------------------------------------------------------
-bool PixelUtil::isAccessible(PixelFormat srcformat)
+bool PixelUtil::is_accessible(PixelFormat srcformat)
 {
-    return (srcformat != PixelFormat::UNKNOWN) && !isCompressed(srcformat);
+    return (srcformat != PixelFormat::UNKNOWN) && !is_compressed(srcformat);
 }
 //-----------------------------------------------------------------------
-PixelComponentType PixelUtil::getComponentType(PixelFormat fmt)
+PixelComponentType PixelUtil::get_component_type(PixelFormat fmt)
 {
     const PixelFormatDescription& des = getDescriptionFor(fmt);
     return des.componentType;
 }
 //-----------------------------------------------------------------------
-uint8_t PixelUtil::getComponentCount(PixelFormat fmt)
+uint8_t PixelUtil::get_component_count(PixelFormat fmt)
 {
     const PixelFormatDescription& des = getDescriptionFor(fmt);
     return des.num_component;
 }
 //-----------------------------------------------------------------------
-PixelFormat PixelUtil::getFormatFromName(const String& name, bool accessibleOnly, bool caseSensitive)
+PixelFormat PixelUtil::get_format_from_name(const String& name, bool accessible_only, bool case_sensitive)
 {
     String tmp = name;
-    if (!caseSensitive) {
+    if (!case_sensitive) {
         // We are stored upper-case format names.
         StringUtils::upper(&tmp);
     }
 
     for (int i = 0; i < (int)PixelFormat::COUNT; ++i) {
         PixelFormat pf = static_cast<PixelFormat>(i);
-        if (!accessibleOnly || isAccessible(pf)) {
+        if (!accessible_only || is_accessible(pf)) {
             if (tmp == getFormatName(pf))
                 return pf;
         }
@@ -247,9 +247,9 @@ PixelFormat PixelUtil::getFormatFromName(const String& name, bool accessibleOnly
     return PixelFormat::UNKNOWN;
 }
 //-----------------------------------------------------------------------
-PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits, ushort floatBits)
+PixelFormat PixelUtil::get_format_for_bit_depths(PixelFormat fmt, ushort integer_bits, ushort float_bits)
 {
-    switch (integerBits) {
+    switch (integer_bits) {
         case 16:
             switch (fmt) {
                 case PixelFormat::R8G8B8:
@@ -301,7 +301,7 @@ PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits
             break;
     }
 
-    switch (floatBits) {
+    switch (float_bits) {
         case 16:
             switch (fmt) {
                 case PixelFormat::FLOAT32_R:
@@ -347,7 +347,7 @@ PixelFormat PixelUtil::getFormatForBitDepths(PixelFormat fmt, ushort integerBits
 /*************************************************************************
  * Pixel packing/unpacking utilities
  */
-void PixelUtil::packColour(const uint8_t r,
+void PixelUtil::pack_color(const uint8_t r,
                            const uint8_t g,
                            const uint8_t b,
                            const uint8_t a,
@@ -365,11 +365,11 @@ void PixelUtil::packColour(const uint8_t r,
         Bitwise::int_write(dest, des.elem_bytes, value);
     } else {
         // Convert to float
-        packColour((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f, pf, dest);
+        pack_color((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, (float)a / 255.0f, pf, dest);
     }
 }
 //-----------------------------------------------------------------------
-void PixelUtil::packColour(const float r, const float g, const float b, const float a, const PixelFormat pf, void* dest)
+void PixelUtil::pack_color(const float r, const float g, const float b, const float a, const PixelFormat pf, void* dest)
 {
     // Catch-it-all here
     const PixelFormatDescription& des = getDescriptionFor(pf);
@@ -447,7 +447,7 @@ void PixelUtil::packColour(const float r, const float g, const float b, const fl
     }
 }
 //-----------------------------------------------------------------------
-void PixelUtil::unpackColour(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, PixelFormat pf, const void* src)
+void PixelUtil::unpack_color(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, PixelFormat pf, const void* src)
 {
     const PixelFormatDescription& des = getDescriptionFor(pf);
     if (des.flags & PFF_NATIVEENDIAN) {
@@ -469,7 +469,7 @@ void PixelUtil::unpackColour(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, Pix
     } else {
         // Do the operation with the more generic floating point
         float rr = 0, gg = 0, bb = 0, aa = 0;
-        unpackColour(&rr, &gg, &bb, &aa, pf, src);
+        unpack_color(&rr, &gg, &bb, &aa, pf, src);
         *r = (uint8_t)Bitwise::float_to_fixed(rr, 8);
         *g = (uint8_t)Bitwise::float_to_fixed(gg, 8);
         *b = (uint8_t)Bitwise::float_to_fixed(bb, 8);
@@ -477,7 +477,7 @@ void PixelUtil::unpackColour(uint8_t* r, uint8_t* g, uint8_t* b, uint8_t* a, Pix
     }
 }
 //-----------------------------------------------------------------------
-void PixelUtil::unpackColour(float* r, float* g, float* b, float* a, PixelFormat pf, const void* src)
+void PixelUtil::unpack_color(float* r, float* g, float* b, float* a, PixelFormat pf, const void* src)
 {
     const PixelFormatDescription& des = getDescriptionFor(pf);
     if (des.flags & PFF_NATIVEENDIAN) {
@@ -565,49 +565,49 @@ void PixelUtil::unpackColour(float* r, float* g, float* b, float* a, PixelFormat
 }
 //-----------------------------------------------------------------------
 /* Convert pixels from one format to another */
-void PixelUtil::bulkPixelConversion(const PixelBox& src, const PixelBox& dst)
+void PixelUtil::bulk_pixel_conversion(const PixelBox* src, const PixelBox* dst)
 {
-    HYUE_ASSERT(src.get_size() == dst.get_size(), "");
+    HYUE_ASSERT(src->get_size() == dst->get_size(), "");
 
     // Check for compressed formats, we don't support decompression, compression or recoding
-    if (PixelUtil::isCompressed(src.format) || PixelUtil::isCompressed(dst.format)) {
-        HYUE_ASSERT(src.format == dst.format && src.is_consecutive() && dst.is_consecutive(),
+    if (PixelUtil::is_compressed(src->format) || PixelUtil::is_compressed(dst->format)) {
+        HYUE_ASSERT(src->format == dst->format && src->is_consecutive() && dst->is_consecutive(),
                     "This method can not be used to compress or decompress images");
         // we can copy with slice granularity, useful for Tex2DArray handling
-        size_t bytesPerSlice = getMemorySize(src.get_width(), src.get_height(), 1, src.format);
-        memcpy(dst.data + bytesPerSlice * dst.front,
-               src.data + bytesPerSlice * src.front,
-               bytesPerSlice * src.get_depth());
+        size_t bytesPerSlice = get_memory_size(src->get_width(), src->get_height(), 1, src->format);
+        memcpy(dst->data + bytesPerSlice * dst->front,
+               src->data + bytesPerSlice * src->front,
+               bytesPerSlice * src->get_depth());
         return;
     }
 
     // The easy case
-    if (src.format == dst.format) {
-        uint8_t* srcptr = src.get_top_left_front_pixel_ptr();
-        uint8_t* dstptr = dst.get_top_left_front_pixel_ptr();
+    if (src->format == dst->format) {
+        uint8_t* srcptr = src->get_top_left_front_pixel_ptr();
+        uint8_t* dstptr = dst->get_top_left_front_pixel_ptr();
 
         // Everything consecutive?
-        if (src.is_consecutive() && dst.is_consecutive()) {
-            memcpy(dstptr, srcptr, src.get_consecutive_size());
+        if (src->is_consecutive() && dst->is_consecutive()) {
+            memcpy(dstptr, srcptr, src->get_consecutive_size());
             return;
         }
 
-        const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
-        const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
+        const size_t srcPixelSize = PixelUtil::get_elem_bytes(src->format);
+        const size_t dstPixelSize = PixelUtil::get_elem_bytes(dst->format);
 
         // Calculate pitches+skips in bytes
-        const size_t srcRow_pitchBytes = src.row_pitch * srcPixelSize;
-        // const size_t srcRowSkipBytes = src.get_row_skip()*srcPixelSize;
-        const size_t srcSliceSkipBytes = src.get_slice_skip() * srcPixelSize;
+        const size_t srcRow_pitchBytes = src->row_pitch * srcPixelSize;
+        // const size_t srcRowSkipBytes = src->get_row_skip()*srcPixelSize;
+        const size_t srcSliceSkipBytes = src->get_slice_skip() * srcPixelSize;
 
-        const size_t dstRow_pitchBytes = dst.row_pitch * dstPixelSize;
-        // const size_t dstRowSkipBytes = dst.get_row_skip()*dstPixelSize;
-        const size_t dstSliceSkipBytes = dst.get_slice_skip() * dstPixelSize;
+        const size_t dstRow_pitchBytes = dst->row_pitch * dstPixelSize;
+        // const size_t dstRowSkipBytes = dst->get_row_skip()*dstPixelSize;
+        const size_t dstSliceSkipBytes = dst->get_slice_skip() * dstPixelSize;
 
         // Otherwise, copy per row
-        const size_t rowSize = src.get_width() * srcPixelSize;
-        for (size_t z = src.front; z < src.back; z++) {
-            for (size_t y = src.top; y < src.bottom; y++) {
+        const size_t rowSize = src->get_width() * srcPixelSize;
+        for (size_t z = src->front; z < src->back; z++) {
+            for (size_t y = src->top; y < src->bottom; y++) {
                 memcpy(dstptr, srcptr, rowSize);
                 srcptr += srcRow_pitchBytes;
                 dstptr += dstRow_pitchBytes;
@@ -619,51 +619,51 @@ void PixelUtil::bulkPixelConversion(const PixelBox& src, const PixelBox& dst)
     }
     // Converting to PixelFormat::X8R8G8B8 is exactly the same as converting to
     // PixelFormat::A8R8G8B8. (same with PixelFormat::X8B8G8R8 and PixelFormat::A8B8G8R8)
-    if (dst.format == PixelFormat::X8R8G8B8 || dst.format == PixelFormat::X8B8G8R8) {
+    if (dst->format == PixelFormat::X8R8G8B8 || dst->format == PixelFormat::X8B8G8R8) {
         // Do the same conversion, with PixelFormat::A8R8G8B8, which has a lot of
         // optimized conversions
-        PixelBox tempdst = dst;
-        tempdst.format = dst.format == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8 : PixelFormat::A8B8G8R8;
-        bulkPixelConversion(src, tempdst);
+        PixelBox tempdst = *dst;
+        tempdst.format = dst->format == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8 : PixelFormat::A8B8G8R8;
+        bulk_pixel_conversion(src, &tempdst);
         return;
     }
     // Converting from PixelFormat::X8R8G8B8 is exactly the same as converting from
     // PixelFormat::A8R8G8B8, given that the destination format does not have alpha.
-    if ((src.format == PixelFormat::X8R8G8B8 || src.format == PixelFormat::X8B8G8R8) && !hasAlpha(dst.format)) {
+    if ((src->format == PixelFormat::X8R8G8B8 || src->format == PixelFormat::X8B8G8R8) && !has_alpha(dst->format)) {
         // Do the same conversion, with PixelFormat::A8R8G8B8, which has a lot of
         // optimized conversions
-        PixelBox tempsrc = src;
-        tempsrc.format = src.format == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8 : PixelFormat::A8B8G8R8;
-        bulkPixelConversion(tempsrc, dst);
+        PixelBox tempsrc = *src;
+        tempsrc.format = src->format == PixelFormat::X8R8G8B8 ? PixelFormat::A8R8G8B8 : PixelFormat::A8B8G8R8;
+        bulk_pixel_conversion(&tempsrc, dst);
         return;
     }
 
-    if (doOptimizedConversion(src, dst)) {
+    if (doOptimizedConversion(*src, *dst)) {
         // If so, good
         return;
     }
 
-    const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
-    const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
-    uint8_t* srcptr = src.get_top_left_front_pixel_ptr();
-    uint8_t* dstptr = dst.get_top_left_front_pixel_ptr();
+    const size_t srcPixelSize = PixelUtil::get_elem_bytes(src->format);
+    const size_t dstPixelSize = PixelUtil::get_elem_bytes(dst->format);
+    uint8_t* srcptr = src->get_top_left_front_pixel_ptr();
+    uint8_t* dstptr = dst->get_top_left_front_pixel_ptr();
 
     // Old way, not taking into account box dimensions
-    // uint8_t *srcptr = static_cast<uint8_t*>(src.data), *dstptr = static_cast<uint8_t*>(dst.data);
+    // uint8_t *srcptr = static_cast<uint8_t*>(src->data), *dstptr = static_cast<uint8_t*>(dst.data);
 
     // Calculate pitches+skips in bytes
-    const size_t srcRowSkipBytes = src.get_row_skip() * srcPixelSize;
-    const size_t srcSliceSkipBytes = src.get_slice_skip() * srcPixelSize;
-    const size_t dstRowSkipBytes = dst.get_row_skip() * dstPixelSize;
-    const size_t dstSliceSkipBytes = dst.get_slice_skip() * dstPixelSize;
+    const size_t srcRowSkipBytes = src->get_row_skip() * srcPixelSize;
+    const size_t srcSliceSkipBytes = src->get_slice_skip() * srcPixelSize;
+    const size_t dstRowSkipBytes = dst->get_row_skip() * dstPixelSize;
+    const size_t dstSliceSkipBytes = dst->get_slice_skip() * dstPixelSize;
 
     // The brute force fallback
     float r = 0, g = 0, b = 0, a = 1;
-    for (size_t z = src.front; z < src.back; z++) {
-        for (size_t y = src.top; y < src.bottom; y++) {
-            for (size_t x = src.left; x < src.right; x++) {
-                unpackColour(&r, &g, &b, &a, src.format, srcptr);
-                packColour(r, g, b, a, dst.format, dstptr);
+    for (size_t z = src->front; z < src->back; z++) {
+        for (size_t y = src->top; y < src->bottom; y++) {
+            for (size_t x = src->left; x < src->right; x++) {
+                unpack_color(&r, &g, &b, &a, src->format, srcptr);
+                pack_color(r, g, b, a, dst->format, dstptr);
                 srcptr += srcPixelSize;
                 dstptr += dstPixelSize;
             }
@@ -675,25 +675,25 @@ void PixelUtil::bulkPixelConversion(const PixelBox& src, const PixelBox& dst)
     }
 }
 //-----------------------------------------------------------------------
-void PixelUtil::bulkPixelVerticalFlip(const PixelBox& box)
+void PixelUtil::bulk_pixel_vertical_flip(const PixelBox* box)
 {
     // Check for compressed formats, we don't support decompression, compression or recoding
-    HYUE_ASSERT(!PixelUtil::isCompressed(box.format), "This method can not be used for compressed formats");
+    HYUE_ASSERT(!PixelUtil::is_compressed(box->format), "This method can not be used for compressed formats");
 
-    const size_t pixelSize = PixelUtil::getNumElemBytes(box.format);
-    const size_t copySize = box.get_width() * pixelSize;
+    const size_t pixelSize = PixelUtil::get_elem_bytes(box->format);
+    const size_t copySize = box->get_width() * pixelSize;
 
     // Calculate pitches in bytes
-    const size_t row_pitchBytes = box.row_pitch * pixelSize;
-    const size_t slice_pitchBytes = box.slice_pitch * pixelSize;
+    const size_t row_pitchBytes = box->row_pitch * pixelSize;
+    const size_t slice_pitchBytes = box->slice_pitch * pixelSize;
 
-    uint8_t* basesrcptr = box.get_top_left_front_pixel_ptr();
-    uint8_t* basedstptr = basesrcptr + (box.bottom - box.top - 1) * row_pitchBytes;
+    uint8_t* basesrcptr = box->get_top_left_front_pixel_ptr();
+    uint8_t* basedstptr = basesrcptr + (box->bottom - box->top - 1) * row_pitchBytes;
     uint8_t* tmpptr = (uint8_t*)malloc(copySize);
 
     // swap rows
-    const size_t halfRowCount = (box.bottom - box.top) >> 1;
-    for (size_t z = box.front; z < box.back; z++) {
+    const size_t halfRowCount = (box->bottom - box->top) >> 1;
+    for (size_t z = box->front; z < box->back; z++) {
         uint8_t* srcptr = basesrcptr;
         uint8_t* dstptr = basedstptr;
         for (size_t y = 0; y < halfRowCount; y++) {
@@ -715,18 +715,18 @@ Color PixelBox::get_color(size_t x, size_t y, size_t z) const
 {
     Color cv;
 
-    size_t pixelSize = PixelUtil::getNumElemBytes(format);
+    size_t pixelSize = PixelUtil::get_elem_bytes(format);
     size_t pixelOffset = pixelSize * (z * slice_pitch + y * row_pitch + x);
-    PixelUtil::unpackColour(&cv, format, (unsigned char*)data + pixelOffset);
+    PixelUtil::unpack_color(&cv, format, (unsigned char*)data + pixelOffset);
 
     return cv;
 }
 
 void PixelBox::set_color(const Color& cv, size_t x, size_t y, size_t z)
 {
-    size_t pixelSize = PixelUtil::getNumElemBytes(format);
+    size_t pixelSize = PixelUtil::get_elem_bytes(format);
     size_t pixelOffset = pixelSize * (z * slice_pitch + y * row_pitch + x);
-    PixelUtil::packColour(cv, format, (unsigned char*)data + pixelOffset);
+    PixelUtil::pack_color(cv, format, (unsigned char*)data + pixelOffset);
 }
 
 } // namespace hyue
