@@ -1,6 +1,6 @@
 #pragma once
 
-#include <climits>
+#include <limits>
 
 #include <boost/qvm/mat.hpp>
 #include <boost/qvm/vec.hpp>
