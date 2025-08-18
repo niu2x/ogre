@@ -254,6 +254,8 @@ enum class PixelFormat {
 // endianness aware aliases
 #if HYUE_ENDIAN_BIG
     /// @copydoc R8G8B8
+
+    // R is lower address
     BYTE_RGB = R8G8B8,
     /// @copydoc B8G8R8
     BYTE_BGR = B8G8R8,
@@ -263,6 +265,8 @@ enum class PixelFormat {
     BYTE_RGBA = R8G8B8A8,
 #else
     /// @copydoc B8G8R8
+
+    // R is lower address
     BYTE_RGB = B8G8R8,
     /// @copydoc R8G8B8
     BYTE_BGR = R8G8B8,
