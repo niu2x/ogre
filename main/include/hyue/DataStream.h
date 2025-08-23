@@ -5,8 +5,6 @@
 
 #include <hyue/type.h>
 
-#define HYUE_STREAM_TEMP_SIZE 128
-
 namespace hyue {
 
 class HYUE_API DataStream {
@@ -14,11 +12,11 @@ public:
     enum AccessMode { READ = 1, WRITE = 2 };
 
     /// Constructor for creating unnamed streams
-    DataStream(uint16_t access_mode = READ) : size_(0), access_(access_mode) { }
+    DataStream(uint16_t access_mode = READ);
     /// Constructor for creating named streams
-    DataStream(const String& name, uint16_t access_mode = READ) : name_(name), size_(0), access_(access_mode) { }
+    DataStream(const String& name, uint16_t access_mode = READ);
 
-    virtual ~DataStream() { }
+    virtual ~DataStream() = 0;
 
     /// Returns the name of the stream, if it has one.
     const String& get_name(void) const { return name_; }
@@ -31,7 +29,12 @@ public:
 
     // Streaming operators
     template <typename T>
-    DataStream& operator>>(T& val);
+    DataStream& operator>>(T& val)
+    {
+        read(reinterpret_cast<void*>(&val), sizeof(T));
+        return *this;
+    }
+
     /** Read the requisite number of bytes from the stream,
         stopping at the end of the file.
     @param buf Reference to a buffer pointer
@@ -45,13 +48,7 @@ public:
     @param count Number of bytes to write
     @return The number of bytes written
     */
-    virtual size_t write(const void* buf, size_t count)
-    {
-        (void)buf;
-        (void)count;
-        // default to not supported
-        return 0;
-    }
+    virtual size_t write(const void* buf, size_t count);
 
     /** Get a single line from the stream.
 
@@ -171,7 +168,7 @@ public:
         when the stream is destroyed.
     @param readOnly Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(const DataStreamPtr& source_stream, bool free_on_close = true, bool readOnly = false);
+    MemoryDataStream(DataStreamPtr source_stream, bool free_on_close = true, bool readOnly = false);
 
     /** Create a named stream which pre-buffers the contents of
         another stream.
@@ -201,10 +198,7 @@ public:
     when the stream is destroyed.
     @param readOnly Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(const String& name,
-                     const DataStreamPtr& source_stream,
-                     bool freeOnClose = true,
-                     bool readOnly = false);
+    MemoryDataStream(const String& name, DataStreamPtr source_stream, bool freeOnClose = true, bool readOnly = false);
 
     /** Create a stream with a brand new empty memory chunk.
     @param size The size of the memory chunk to create in bytes

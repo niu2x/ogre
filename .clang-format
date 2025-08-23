@@ -1,5 +1,5 @@
 ﻿---
-Language: Cpp 
+Language: Cpp
 BasedOnStyle: WebKit
 ColumnLimit: '120'
 ConstructorInitializerIndentWidth: '0'
@@ -14,11 +14,13 @@ SortIncludes: false
 AlignConsecutiveMacros: true
 BinPackArguments: false
 BinPackParameters: false
-PackConstructorInitializers: CurrentLine
+PackConstructorInitializers: Never
 AllowAllParametersOfDeclarationOnNextLine: false
 AlignOperands: Align
 BreakBeforeBinaryOperators: true
 PenaltyBreakAssignment: 100
 PenaltyReturnTypeOnItsOwnLine: 100
 AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: None
+BreakConstructorInitializers: BeforeColon
 ...
