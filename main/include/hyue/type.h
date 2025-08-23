@@ -9,6 +9,7 @@
 #include <iosfwd>
 
 #include <string>
+#include <any>
 
 #include <vector>
 #include <map>
@@ -21,5 +22,11 @@ namespace hyue {
 using String = std::string;
 using StringVector = std::vector<String>;
 using StringVectorPtr = std::shared_ptr<StringVector>;
+
+using Any = std::any;
+using std::any_cast;
+
+template<class T>
+using SharedPtr = std::shared_ptr<T>;
 
 } // namespace hyue
