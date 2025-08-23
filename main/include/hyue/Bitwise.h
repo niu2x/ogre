@@ -1,6 +1,5 @@
 #pragma once
 
-#include <hyue/type.h>
 #include <hyue/endian.h>
 
 #ifdef bswap16

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <hyue/type.h>
+
 #include <boost/predef/other/endian.h>
 
 #if BOOST_ENDIAN_BIG_BYTE

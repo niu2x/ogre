@@ -1,7 +1,5 @@
 #pragma once
 
-#include <hyue/type.h>
-
 #include <hyue/Singleton.h>
 #include <hyue/Archive.h>
 #include <hyue/ArchiveFactory.h>

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <hyue/type.h>
 #include <hyue/Color.h>
 #include <hyue/Box.h>
 #include <hyue/endian.h>

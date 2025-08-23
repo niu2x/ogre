@@ -1,10 +1,10 @@
-#pragma once
+// #pragma once
 
-#include <any>
+// #include <any>
 
-namespace hyue {
+// namespace hyue {
 
-using Any = std::any;
-using std::any_cast;
+// using Any = std::any;
+// using std::any_cast;
 
-}
+// }

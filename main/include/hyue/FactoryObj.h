@@ -1,5 +1,7 @@
 #pragma once
 
+#include <hyue/type.h>
+
 namespace hyue {
 
 template <typename T>
