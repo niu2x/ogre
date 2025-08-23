@@ -6,6 +6,8 @@ function(cxx_project_preset)
             CXX_VISIBILITY_PRESET hidden
             VISIBILITY_INLINES_HIDDEN ON
             POSITION_INDEPENDENT_CODE ON
+            CXX_STANDARD_REQUIRED ON
+            CXX_EXTENSIONS OFF
         )
     endforeach()
 endfunction()
