@@ -3,7 +3,7 @@
 #include <dlfcn.h>
 
 #include <hyue/log.h>
-#include <hyue/exception.h>
+#include <hyue/panic.h>
 
 namespace hyue {
 

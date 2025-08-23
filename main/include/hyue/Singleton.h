@@ -2,7 +2,7 @@
 
 #include <boost/noncopyable.hpp>
 
-#include <hyue/exception.h>
+#include <hyue/panic.h>
 
 namespace hyue {
 

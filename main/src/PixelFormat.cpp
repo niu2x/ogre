@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include <hyue/exception.h>
+#include <hyue/panic.h>
 #include <hyue/Bitwise.h>
 
 #include "PixelFormatDescription.h"

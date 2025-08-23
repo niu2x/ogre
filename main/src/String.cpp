@@ -7,7 +7,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include <hyue/exception.h>
+#include <hyue/panic.h>
 
 #define strnicmp strncasecmp
 
