@@ -2,7 +2,6 @@
 
 #include <hyue/Color.h>
 #include <hyue/Box.h>
-#include <hyue/endian.h>
 
 namespace hyue {
 

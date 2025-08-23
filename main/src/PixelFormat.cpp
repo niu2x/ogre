@@ -9,7 +9,7 @@
 #include "PixelFormatDescription.h"
 
 namespace {
-#include "pixel_conversion.h"
+#include "pixel_conversion.inl"
 }
 
 namespace hyue {

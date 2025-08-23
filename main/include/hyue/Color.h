@@ -2,10 +2,6 @@
 
 #include <hyue/type.h>
 
-#include <ostream>
-
-#include <hyue/endian.h>
-
 namespace hyue {
 /**
  * R在高位(0xFF000000)、A在低位(0x000000FF)
@@ -249,11 +245,7 @@ public:
 
     void get_HSB(float* hue, float* saturation, float* brightness) const;
 
-    inline friend std::ostream& operator << ( std::ostream& o, const Color& c )
-    {
-        o << "Color(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";
-        return o;
-    }
+    friend std::ostream& operator<<(std::ostream& o, const Color& c);
 
 public:
     float r,g,b,a;

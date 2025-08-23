@@ -1,7 +1,3 @@
-#pragma once
-
-#include <hyue/endian.h>
-
 #define FMTCONVERTERID(from, to) ((((uint32_t)from) << 8) | ((uint32_t)to))
 using PF = hyue::PixelFormat;
 

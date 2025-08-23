@@ -1,5 +1,6 @@
 #include <hyue/Color.h>
 
+#include <ostream>
 #include <cmath>
 
 #include <hyue/math.h>
@@ -351,6 +352,11 @@ void Color::get_HSB(float* hue, float* saturation, float* brightness) const
     }
 }
 
+std::ostream& operator<<(std::ostream& o, const Color& c)
+{
+    o << "Color(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";
+    return o;
+}
 
 }
 
