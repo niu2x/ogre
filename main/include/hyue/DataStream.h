@@ -60,7 +60,7 @@ public:
         If you used this function, you <b>must</b> open the stream in <b>binary mode</b>,
         otherwise, it'll produce unexpected results.
     @param buf Reference to a buffer pointer
-    @param maxCount The maximum length of data to be read, excluding the terminating character
+    @param max_count The maximum length of data to be read, excluding the terminating character
     @param delim The delimiter to stop at
     @return The number of bytes read, excluding the terminating character
     */
@@ -117,7 +117,10 @@ public:
     /** Returns the total size of the data to be read from the stream,
         or 0 if this is indeterminate for this stream.
     */
-    size_t size(void) const { return size_; }
+    size_t get_size(void) const
+    {
+        return size_;
+    }
 
     /** Close the stream; this makes further operations invalid. */
     virtual void close(void) = 0;
@@ -140,22 +143,9 @@ using DataStreamList = std::list<DataStreamPtr>;
  */
 class HYUE_API MemoryDataStream : public DataStream {
 public:
-    MemoryDataStream(void* pMem, size_t size, bool free_on_close = false, bool readOnly = false);
+    MemoryDataStream(void* p_mem, size_t size, bool free_on_close = false, bool read_only = false);
 
-    MemoryDataStream(const String& name, void* pMem, size_t size, bool free_on_close = false, bool readOnly = false);
-
-    /** Create a stream which pre-buffers the contents of another stream.
-
-        This constructor can be used to intentionally read in the entire
-        contents of another stream, copying them to the internal buffer
-        and thus making them available in memory as a single unit.
-    @param source_stream Another DataStream which will provide the source
-        of data
-    @param free_on_close If true, the memory associated will be destroyed
-        when the stream is destroyed.
-    @param readOnly Whether to make the stream on this memory read-only once created
-    */
-    MemoryDataStream(DataStream& source_stream, bool free_on_close = true, bool readOnly = false);
+    MemoryDataStream(const String& name, void* p_mem, size_t size, bool free_on_close = false, bool read_only = false);
 
     /** Create a stream which pre-buffers the contents of another stream.
 
@@ -166,10 +156,9 @@ public:
         of data
     @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
-    @param readOnly Whether to make the stream on this memory read-only once created
+    @param read_only Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(DataStreamPtr source_stream, bool free_on_close = true, bool readOnly = false);
-
+    MemoryDataStream(DataStream* source_stream, bool free_on_close = true, bool read_only = false);
     /** Create a named stream which pre-buffers the contents of
         another stream.
 
@@ -181,40 +170,24 @@ public:
         of data
     @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
-    @param readOnly Whether to make the stream on this memory read-only once created
+    @param read_only Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(const String& name, DataStream& source_stream, bool free_on_close = true, bool readOnly = false);
-
-    /** Create a named stream which pre-buffers the contents of
-    another stream.
-
-    This constructor can be used to intentionally read in the entire
-    contents of another stream, copying them to the internal buffer
-    and thus making them available in memory as a single unit.
-    @param name The name to give the stream
-    @param source_stream Another DataStream which will provide the source
-    of data
-    @param freeOnClose If true, the memory associated will be destroyed
-    when the stream is destroyed.
-    @param readOnly Whether to make the stream on this memory read-only once created
-    */
-    MemoryDataStream(const String& name, DataStreamPtr source_stream, bool freeOnClose = true, bool readOnly = false);
-
+    MemoryDataStream(const String& name, DataStream* source_stream, bool free_on_close = true, bool read_only = false);
     /** Create a stream with a brand new empty memory chunk.
     @param size The size of the memory chunk to create in bytes
-    @param freeOnClose If true, the memory associated will be destroyed
+    @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
-    @param readOnly Whether to make the stream on this memory read-only once created
+    @param read_only Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(size_t size, bool freeOnClose = true, bool readOnly = false);
+    MemoryDataStream(size_t size, bool free_on_close = true, bool read_only = false);
     /** Create a named stream with a brand new empty memory chunk.
     @param name The name to give the stream
     @param size The size of the memory chunk to create in bytes
-    @param freeOnClose If true, the memory associated will be destroyed
+    @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
-    @param readOnly Whether to make the stream on this memory read-only once created
+    @param read_only Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(const String& name, size_t size, bool freeOnClose = true, bool readOnly = false);
+    MemoryDataStream(const String& name, size_t size, bool free_on_close = true, bool read_only = false);
 
     ~MemoryDataStream();
 
@@ -281,7 +254,7 @@ class HYUE_API FileStreamDataStream : public DataStream {
 public:
     /** Construct a read-only stream from an STL stream
     @param s Pointer to source stream
-    @param freeOnClose Whether to delete the underlying stream on
+    @param free_on_close Whether to delete the underlying stream on
         destruction of this class
     */
     FileStreamDataStream(std::ifstream* s, bool free_on_close = true);
