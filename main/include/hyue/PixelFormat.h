@@ -2,10 +2,9 @@
 
 #include <vector>
 
-#include <hyue/export.h>
+#include <hyue/type.h>
 #include <hyue/Color.h>
 #include <hyue/Box.h>
-#include <hyue/String.h>
 #include <hyue/endian.h>
 
 namespace hyue {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hyue/String.h>
+#include <hyue/type.h>
 
 namespace hyue {
 

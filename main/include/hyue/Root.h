@@ -1,8 +1,7 @@
 #pragma once
 
-#include <hyue/export.h>
+#include <hyue/type.h>
 #include <hyue/Singleton.h>
-#include <hyue/String.h>
 
 namespace hyue {
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <hyue/String.h>
+#include <hyue/StringUtils.h>
 
 using namespace hyue;
 

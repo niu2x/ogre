@@ -4,6 +4,7 @@
 
 #include <hyue/panic.h>
 #include <hyue/Bitwise.h>
+#include <hyue/StringUtils.h>
 
 #include "PixelFormatDescription.h"
 

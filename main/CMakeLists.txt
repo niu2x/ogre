@@ -5,7 +5,8 @@ target_sources(${HYUE_LIB} PRIVATE
     src/Any.cpp
     src/DynLib.cpp
     src/Singleton.cpp
-    src/String.cpp
+    src/StringUtils.cpp
+    src/DataStream.cpp
     src/Color.cpp
     src/Root.cpp
     src/PixelFormat.cpp
