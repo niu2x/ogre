@@ -323,7 +323,7 @@ public:
 
 private:
     /// Reference to source stream (read)
-    std::ifstream* in_stream_;
+    std::istream* in_stream_;
     /// Reference to source file stream (read-only)
     std::ifstream* read_only_stream_;
     /// Reference to source file stream (read-write)

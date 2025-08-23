@@ -6,6 +6,7 @@
 
 #include <hyue/StringUtils.h>
 #include <hyue/panic.h>
+#include <hyue/log.h>
 
 #define HYUE_STREAM_TEMP_SIZE 128
 
@@ -387,7 +388,7 @@ FileStreamDataStream::FileStreamDataStream(std::ifstream* s, bool free_on_close)
 : DataStream(),
   in_stream_(s),
   read_only_stream_(s),
-  stream_(0),
+  stream_(nullptr),
   free_on_close_(free_on_close)
 {
     // calculate the size
@@ -396,4 +397,218 @@ FileStreamDataStream::FileStreamDataStream(std::ifstream* s, bool free_on_close)
     in_stream_->seekg(0, std::ios_base::beg);
     determine_access();
 }
+
+//-----------------------------------------------------------------------
+FileStreamDataStream::FileStreamDataStream(const String& name, std::ifstream* s, bool free_on_close)
+: DataStream(name),
+  in_stream_(s),
+  read_only_stream_(s),
+  stream_(nullptr),
+  free_on_close_(free_on_close)
+{
+    // calculate the size
+    in_stream_->seekg(0, std::ios_base::end);
+    size_ = (size_t)in_stream_->tellg();
+    in_stream_->seekg(0, std::ios_base::beg);
+    determine_access();
+}
+
+FileStreamDataStream::FileStreamDataStream(const String& name, std::ifstream* s, size_t in_size, bool free_on_close)
+: DataStream(name),
+  in_stream_(s),
+  read_only_stream_(s),
+  stream_(nullptr),
+  free_on_close_(free_on_close)
+{
+    // Size is passed in
+    size_ = in_size;
+    determine_access();
+}
+//---------------------------------------------------------------------
+FileStreamDataStream::FileStreamDataStream(std::fstream* s, bool free_on_close)
+: DataStream(0),
+  in_stream_(s),
+  read_only_stream_(nullptr),
+  stream_(s),
+  free_on_close_(free_on_close)
+{
+    // writeable!
+    // calculate the size
+    in_stream_->seekg(0, std::ios_base::end);
+    size_ = (size_t)in_stream_->tellg();
+    in_stream_->seekg(0, std::ios_base::beg);
+    determine_access();
+}
+//-----------------------------------------------------------------------
+FileStreamDataStream::FileStreamDataStream(const String& name, std::fstream* s, bool free_on_close)
+: DataStream(name, 0),
+  in_stream_(s),
+  read_only_stream_(nullptr),
+  stream_(s),
+  free_on_close_(free_on_close)
+{
+    // writeable!
+    // calculate the size
+    in_stream_->seekg(0, std::ios_base::end);
+    size_ = (size_t)in_stream_->tellg();
+    in_stream_->seekg(0, std::ios_base::beg);
+    determine_access();
+}
+//-----------------------------------------------------------------------
+FileStreamDataStream::FileStreamDataStream(const String& name, std::fstream* s, size_t in_size, bool free_on_close)
+: DataStream(name, 0),
+  in_stream_(s),
+  read_only_stream_(nullptr),
+  stream_(s),
+  free_on_close_(free_on_close)
+{
+    // writeable!
+    // Size is passed in
+    size_ = in_size;
+    determine_access();
+}
+
+void FileStreamDataStream::determine_access()
+{
+    access_ = 0;
+    if (in_stream_)
+        access_ |= READ;
+    if (stream_)
+        access_ |= WRITE;
+}
+
+FileStreamDataStream::~FileStreamDataStream()
+{
+    close();
+}
+
+//-----------------------------------------------------------------------
+size_t FileStreamDataStream::read(void* buf, size_t count)
+{
+    in_stream_->read(static_cast<char*>(buf), static_cast<std::streamsize>(count));
+    return (size_t)in_stream_->gcount();
+}
+//-----------------------------------------------------------------------
+size_t FileStreamDataStream::write(const void* buf, size_t count)
+{
+    size_t written = 0;
+    if (is_writeable() && stream_) {
+        stream_->write(static_cast<const char*>(buf), static_cast<std::streamsize>(count));
+        written = count;
+    }
+    return written;
+}
+
+size_t FileStreamDataStream::read_line(char* buf, size_t max_count, const String& delim)
+{
+    if (delim.empty()) {
+        panic("No delimiter provided, FileStreamDataStream::readLine");
+    }
+
+    if (delim.size() > 1) {
+        LOG(warning) << "FileStreamDataStream::readLine - using only first delimiter";
+    }
+
+    // Deal with both Unix & Windows LFs
+    bool trim_CR = false;
+    if (delim.at(0) == '\n') {
+        trim_CR = true;
+    }
+    // max_count + 1 since count excludes terminator in getline
+    in_stream_->getline(buf, static_cast<std::streamsize>(max_count + 1), delim.at(0));
+    size_t ret = (size_t)in_stream_->gcount();
+    // three options
+    // 1) we had an eof before we read a whole line
+    // 2) we ran out of buffer space
+    // 3) we read a whole line - in this case the delim character is taken from the stream but not written in the buffer
+    // so the read data is of length ret-1 and thus ends at index ret-2 in all cases the buffer will be null terminated
+    // for us
+
+    if (in_stream_->eof()) {
+        // no problem
+    } else if (in_stream_->fail()) {
+        // Did we fail because of max_count hit? No - no terminating character
+        // in included in the count in this case
+        if (ret == max_count) {
+            // clear failbit for next time
+            in_stream_->clear();
+        } else {
+            panic("Streaming error occurred, FileStreamDataStream::readLine");
+        }
+    } else {
+        // we need to adjust ret because we want to use it as a
+        // pointer to the terminating null character and it is
+        // currently the length of the data read from the stream
+        // i.e. 1 more than the length of the data in the buffer and
+        // hence 1 more than the _index_ of the NULL character
+        --ret;
+    }
+
+    // trim off CR if we found CR/LF
+    if (trim_CR && ret && buf[ret - 1] == '\r') {
+        --ret;
+        buf[ret] = '\0';
+    }
+    return ret;
+}
+
+void FileStreamDataStream::skip(long count)
+{
+#if defined(STLPORT)
+    // Workaround for STLport issues: After reached eof of file stream,
+    // it's seems the stream was putted in intermediate state, and will be
+    // fail if try to repositioning relative to current position.
+    // Note: tellg() fail in this case too.
+    if (in_stream_->eof()) {
+        in_stream_->clear();
+        // Use seek relative to either begin or end to bring the stream
+        // back to normal state.
+        in_stream_->seekg(0, std::ios::end);
+    }
+#endif
+    in_stream_->clear(); // Clear fail status in case eof was set
+    in_stream_->seekg(static_cast<std::ifstream::pos_type>(count), std::ios::cur);
+}
+
+void FileStreamDataStream::seek(size_t pos)
+{
+    in_stream_->clear(); // Clear fail status in case eof was set
+    in_stream_->seekg(static_cast<std::streamoff>(pos), std::ios::beg);
+}
+//-----------------------------------------------------------------------
+size_t FileStreamDataStream::tell(void) const
+{
+    in_stream_->clear(); // Clear fail status in case eof was set
+    return (size_t)in_stream_->tellg();
+}
+//-----------------------------------------------------------------------
+bool FileStreamDataStream::is_eof(void) const
+{
+    return in_stream_->eof();
+}
+
+void FileStreamDataStream::close(void)
+{
+    access_ = 0;
+    if (in_stream_) {
+        // Unfortunately, there is no file-specific shared class hierarchy between fstream and ifstream (!!)
+        if (read_only_stream_)
+            read_only_stream_->close();
+        if (stream_) {
+            stream_->flush();
+            stream_->close();
+        }
+
+        if (free_on_close_) {
+            // delete the stream too
+            delete read_only_stream_;
+            delete stream_;
+        }
+
+        in_stream_ = 0;
+        read_only_stream_ = 0;
+        stream_ = 0;
+    }
+}
+
 } // namespace hyue
