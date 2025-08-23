@@ -10,6 +10,7 @@ target_sources(${HYUE_LIB} PRIVATE
     src/Color.cpp
     src/Root.cpp
     src/PixelFormat.cpp
+    src/Archive.cpp
 )
 
 target_include_directories(${HYUE_LIB} PUBLIC

@@ -14,5 +14,6 @@ namespace hyue {
 
 using String = std::string;
 using StringVector = std::vector<String>;
+using StringVectorPtr = std::shared_ptr<StringVector>;
 
 } // namespace hyue
