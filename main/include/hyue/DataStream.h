@@ -1,6 +1,6 @@
 #pragma once
 
-#include <istream>
+#include <iosfwd>
 #include <list>
 
 #include <hyue/type.h>
@@ -323,7 +323,7 @@ public:
 
 private:
     /// Reference to source stream (read)
-    std::istream* in_stream_;
+    std::ifstream* in_stream_;
     /// Reference to source file stream (read-only)
     std::ifstream* read_only_stream_;
     /// Reference to source file stream (read-write)

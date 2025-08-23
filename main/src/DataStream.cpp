@@ -1,5 +1,7 @@
 #include <hyue/DataStream.h>
 
+#include <fstream>
+
 #include <string.h>
 
 #include <hyue/StringUtils.h>
@@ -378,4 +380,20 @@ void MemoryDataStream::close(void)
     }
 }
 
+//-----------------------------------------------------------------------
+// FileStreamDataStream
+//-----------------------------------------------------------------------
+FileStreamDataStream::FileStreamDataStream(std::ifstream* s, bool free_on_close)
+: DataStream(),
+  in_stream_(s),
+  read_only_stream_(s),
+  stream_(0),
+  free_on_close_(free_on_close)
+{
+    // calculate the size
+    in_stream_->seekg(0, std::ios_base::end);
+    size_ = (size_t)in_stream_->tellg();
+    in_stream_->seekg(0, std::ios_base::beg);
+    determine_access();
+}
 } // namespace hyue
