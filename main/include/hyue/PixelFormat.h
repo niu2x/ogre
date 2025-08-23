@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include <hyue/type.h>
 #include <hyue/Color.h>
 #include <hyue/Box.h>

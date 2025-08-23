@@ -3,9 +3,15 @@
 #include <cstddef>
 #include <cstdint>
 
+#include <limits>
 #include <memory>
+
+#include <iosfwd>
+
 #include <string>
+
 #include <vector>
+#include <map>
 #include <list>
 
 #include <hyue/export.h>

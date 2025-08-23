@@ -1,8 +1,5 @@
 #pragma once
 
-#include <iosfwd>
-#include <list>
-
 #include <hyue/type.h>
 
 namespace hyue {

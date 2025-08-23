@@ -1,13 +1,11 @@
 #pragma once
 
-#include <limits>
+#include <hyue/type.h>
 
 #include <boost/qvm/mat.hpp>
 #include <boost/qvm/vec.hpp>
 #include <boost/qvm/mat_operations.hpp>
 #include <boost/qvm/vec_operations.hpp>
-
-#include <hyue/export.h>
 
 namespace hyue::math {
 

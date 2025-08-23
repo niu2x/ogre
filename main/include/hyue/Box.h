@@ -1,8 +1,6 @@
 #pragma once
 
-#include <cstdint>
-
-#include <hyue/export.h>
+#include <hyue/type.h>
 #include <hyue/math.h>
 
 namespace hyue {

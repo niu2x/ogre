@@ -1,9 +1,9 @@
 #pragma once
 
-#include <cstdint>
+#include <hyue/type.h>
+
 #include <ostream>
 
-#include <hyue/export.h>
 #include <hyue/endian.h>
 
 namespace hyue {
