@@ -1,10 +1,11 @@
 #pragma once
 
 #include <istream>
-#include <cstdint>
-#include <cstddef>
+#include <list>
 
-#include <hyue/export.h>
+#include <hyue/type.h>
+
+#define HYUE_STREAM_TEMP_SIZE 128
 
 namespace hyue {
 
@@ -16,6 +17,9 @@ public:
     DataStream(uint16_t access_mode = READ) : size_(0), access_(access_mode) { }
     /// Constructor for creating named streams
     DataStream(const String& name, uint16_t access_mode = READ) : name_(name), size_(0), access_(access_mode) { }
+
+    virtual ~DataStream() { }
+
     /// Returns the name of the stream, if it has one.
     const String& get_name(void) const { return name_; }
     /// Gets the access mode of the stream
@@ -25,7 +29,6 @@ public:
     /** Reports whether this stream is writeable. */
     virtual bool is_writeable() const { return (access_ & WRITE) != 0; }
 
-    virtual ~DataStream() { }
     // Streaming operators
     template <typename T>
     DataStream& operator>>(T& val);
@@ -64,7 +67,7 @@ public:
     @param delim The delimiter to stop at
     @return The number of bytes read, excluding the terminating character
     */
-    virtual size_t readLine(char* buf, size_t maxCount, const String& delim = "\n");
+    virtual size_t read_line(char* buf, size_t max_count, const String& delim = "\n");
 
     /** Returns a String containing the next line of data, optionally
         trimmed for whitespace.
@@ -80,14 +83,14 @@ public:
         trimAfter If true, the line is trimmed for whitespace (as in
         String.trim(true,true))
     */
-    virtual String getLine(bool trimAfter = true);
+    virtual String get_line(bool trim_after = true);
 
     /** Returns a String containing the entire stream.
 
         This is a convenience method for text streams only, allowing you to
         retrieve a String object containing all the data in the stream.
     */
-    virtual String getAsString(void);
+    virtual String get_as_string(void);
 
     /** Skip a single line from the stream.
     @note
@@ -97,7 +100,7 @@ public:
         delim The delimiter(s) to stop at
     @return The number of bytes skipped
     */
-    virtual size_t skipLine(const String& delim = "\n");
+    virtual size_t skip_line(const String& delim = "\n");
 
     /** Skip a defined number of bytes. This can also be a negative value, in which case
     the file pointer rewinds a defined number of bytes. */
@@ -112,12 +115,12 @@ public:
 
     /** Returns true if the stream has reached the end.
      */
-    virtual bool eof(void) const = 0;
+    virtual bool is_eof(void) const = 0;
 
     /** Returns the total size of the data to be read from the stream,
         or 0 if this is indeterminate for this stream.
     */
-    size_t size(void) const { return mSize; }
+    size_t size(void) const { return size_; }
 
     /** Close the stream; this makes further operations invalid. */
     virtual void close(void) = 0;
@@ -129,77 +132,46 @@ protected:
     size_t size_;
     /// What type of access is allowed (AccessMode)
     uint16_t access_;
-
-#define OGRE_STREAM_TEMP_SIZE 128
 };
 
+using DataStreamPtr = std::shared_ptr<DataStream>;
+
 /// List of DataStream items
-typedef std::list<DataStreamPtr> DataStreamList;
+using DataStreamList = std::list<DataStreamPtr>;
 
 /** Common subclass of DataStream for handling data from chunks of memory.
  */
-class _OgreExport MemoryDataStream : public DataStream {
-private:
-    /// Pointer to the start of the data area
-    uchar* mData;
-    /// Pointer to the current position in the memory
-    uchar* mPos;
-    /// Pointer to the end of the memory
-    uchar* mEnd;
-    /// Do we delete the memory on close
-    bool mFreeOnClose;
-
+class HYUE_API MemoryDataStream : public DataStream {
 public:
-    /** Wrap an existing memory chunk in a stream.
-    @param pMem Pointer to the existing memory
-    @param size The size of the memory chunk in bytes
-    @param freeOnClose If true, the memory associated will be destroyed
-        when the stream is closed. Note: it's important that if you set
-        this option to true, that you allocated the memory using OGRE_ALLOC_T
-        with a category of MEMCATEGORY_GENERAL to ensure the freeing of memory
-        matches up.
-    @param readOnly Whether to make the stream on this memory read-only once created
-    */
-    MemoryDataStream(void* pMem, size_t size, bool freeOnClose = false, bool readOnly = false);
+    MemoryDataStream(void* pMem, size_t size, bool free_on_close = false, bool readOnly = false);
 
-    /** Wrap an existing memory chunk in a named stream.
-    @param name The name to give the stream
-    @param pMem Pointer to the existing memory
-    @param size The size of the memory chunk in bytes
-    @param freeOnClose If true, the memory associated will be destroyed
-        when the stream is destroyed. Note: it's important that if you set
-        this option to true, that you allocated the memory using OGRE_ALLOC_T
-        with a category of MEMCATEGORY_GENERAL ensure the freeing of memory
-        matches up.
-    @param readOnly Whether to make the stream on this memory read-only once created
-    */
-    MemoryDataStream(const String& name, void* pMem, size_t size, bool freeOnClose = false, bool readOnly = false);
+    MemoryDataStream(const String& name, void* pMem, size_t size, bool free_on_close = false, bool readOnly = false);
 
     /** Create a stream which pre-buffers the contents of another stream.
 
         This constructor can be used to intentionally read in the entire
         contents of another stream, copying them to the internal buffer
         and thus making them available in memory as a single unit.
-    @param sourceStream Another DataStream which will provide the source
+    @param source_stream Another DataStream which will provide the source
         of data
-    @param freeOnClose If true, the memory associated will be destroyed
+    @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
     @param readOnly Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(DataStream& sourceStream, bool freeOnClose = true, bool readOnly = false);
+    MemoryDataStream(DataStream& source_stream, bool free_on_close = true, bool readOnly = false);
 
     /** Create a stream which pre-buffers the contents of another stream.
 
         This constructor can be used to intentionally read in the entire
         contents of another stream, copying them to the internal buffer
         and thus making them available in memory as a single unit.
-    @param sourceStream Another DataStream which will provide the source
+    @param source_stream Another DataStream which will provide the source
         of data
-    @param freeOnClose If true, the memory associated will be destroyed
+    @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
     @param readOnly Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(const DataStreamPtr& sourceStream, bool freeOnClose = true, bool readOnly = false);
+    MemoryDataStream(const DataStreamPtr& source_stream, bool free_on_close = true, bool readOnly = false);
 
     /** Create a named stream which pre-buffers the contents of
         another stream.
@@ -208,13 +180,13 @@ public:
         contents of another stream, copying them to the internal buffer
         and thus making them available in memory as a single unit.
     @param name The name to give the stream
-    @param sourceStream Another DataStream which will provide the source
+    @param source_stream Another DataStream which will provide the source
         of data
-    @param freeOnClose If true, the memory associated will be destroyed
+    @param free_on_close If true, the memory associated will be destroyed
         when the stream is destroyed.
     @param readOnly Whether to make the stream on this memory read-only once created
     */
-    MemoryDataStream(const String& name, DataStream& sourceStream, bool freeOnClose = true, bool readOnly = false);
+    MemoryDataStream(const String& name, DataStream& source_stream, bool free_on_close = true, bool readOnly = false);
 
     /** Create a named stream which pre-buffers the contents of
     another stream.
@@ -223,14 +195,14 @@ public:
     contents of another stream, copying them to the internal buffer
     and thus making them available in memory as a single unit.
     @param name The name to give the stream
-    @param sourceStream Another DataStream which will provide the source
+    @param source_stream Another DataStream which will provide the source
     of data
     @param freeOnClose If true, the memory associated will be destroyed
     when the stream is destroyed.
     @param readOnly Whether to make the stream on this memory read-only once created
     */
     MemoryDataStream(const String& name,
-                     const DataStreamPtr& sourceStream,
+                     const DataStreamPtr& source_stream,
                      bool freeOnClose = true,
                      bool readOnly = false);
 
@@ -253,10 +225,10 @@ public:
     ~MemoryDataStream();
 
     /** Get a pointer to the start of the memory block this stream holds. */
-    uchar* getPtr(void) { return mData; }
+    uint8_t* get_ptr(void) { return data_; }
 
     /** Get a pointer to the current position in the memory block this stream holds. */
-    uchar* getCurrentPtr(void) { return mPos; }
+    uint8_t* get_current_ptr(void) { return pos_; }
 
     /** @copydoc DataStream::read
      */
@@ -266,13 +238,13 @@ public:
      */
     size_t write(const void* buf, size_t count) override;
 
-    /** @copydoc DataStream::readLine
+    /** @copydoc DataStream::read_line
      */
-    size_t readLine(char* buf, size_t maxCount, const String& delim = "\n") override;
+    size_t read_line(char* buf, size_t maxCount, const String& delim = "\n") override;
 
-    /** @copydoc DataStream::skipLine
+    /** @copydoc DataStream::skip_line
      */
-    size_t skipLine(const String& delim = "\n") override;
+    size_t skip_line(const String& delim = "\n") override;
 
     /** @copydoc DataStream::skip
      */
@@ -288,92 +260,65 @@ public:
 
     /** @copydoc DataStream::eof
      */
-    bool eof(void) const override;
+    bool is_eof(void) const override;
 
     /** @copydoc DataStream::close
      */
     void close(void) override;
 
     /** Sets whether or not to free the encapsulated memory on close. */
-    void setFreeOnClose(bool free) { mFreeOnClose = free; }
+    void set_free_on_close(bool free) { free_on_close_ = free; }
+
+private:
+    /// Pointer to the start of the data area
+    uint8_t* data_;
+    /// Pointer to the current position in the memory
+    uint8_t* pos_;
+    /// Pointer to the end of the memory
+    uint8_t* end_;
+    /// Do we delete the memory on close
+    bool free_on_close_;
 };
 
 /** Common subclass of DataStream for handling data from
     std::basic_istream.
 */
-class _OgreExport FileStreamDataStream : public DataStream {
-private:
-    /// Reference to source stream (read)
-    std::istream* mInStream;
-    /// Reference to source file stream (read-only)
-    std::ifstream* mFStreamRO;
-    /// Reference to source file stream (read-write)
-    std::fstream* mFStream;
-    bool mFreeOnClose;
-
-    void determineAccess();
-
+class HYUE_API FileStreamDataStream : public DataStream {
 public:
     /** Construct a read-only stream from an STL stream
     @param s Pointer to source stream
     @param freeOnClose Whether to delete the underlying stream on
         destruction of this class
     */
-    FileStreamDataStream(std::ifstream* s, bool freeOnClose = true);
+    FileStreamDataStream(std::ifstream* s, bool free_on_close = true);
     /** Construct a read-write stream from an STL stream
     @param s Pointer to source stream
-    @param freeOnClose Whether to delete the underlying stream on
+    @param free_on_close Whether to delete the underlying stream on
     destruction of this class
     */
-    FileStreamDataStream(std::fstream* s, bool freeOnClose = true);
+    FileStreamDataStream(std::fstream* s, bool free_on_close = true);
 
     /** Construct named read-only stream from an STL stream
     @param name The name to give this stream
     @param s Pointer to source stream
-    @param freeOnClose Whether to delete the underlying stream on
+    @param free_on_close Whether to delete the underlying stream on
         destruction of this class
     */
-    FileStreamDataStream(const String& name, std::ifstream* s, bool freeOnClose = true);
+    FileStreamDataStream(const String& name, std::ifstream* s, bool free_on_close = true);
 
     /** Construct named read-write stream from an STL stream
     @param name The name to give this stream
     @param s Pointer to source stream
-    @param freeOnClose Whether to delete the underlying stream on
+    @param free_on_close Whether to delete the underlying stream on
     destruction of this class
     */
-    FileStreamDataStream(const String& name, std::fstream* s, bool freeOnClose = true);
+    FileStreamDataStream(const String& name, std::fstream* s, bool free_on_close = true);
 
-    /** Construct named read-only stream from an STL stream, and tell it the size
 
-        This variant tells the class the size of the stream too, which
-        means this class does not need to seek to the end of the stream
-        to determine the size up-front. This can be beneficial if you have
-        metadata about the contents of the stream already.
-    @param name The name to give this stream
-    @param s Pointer to source stream
-    @param size Size of the stream contents in bytes
-    @param freeOnClose Whether to delete the underlying stream on
-        destruction of this class. If you specify 'true' for this you
-        must ensure that the stream was allocated using OGRE_NEW_T with
-        MEMCATEGRORY_GENERAL.
-    */
-    FileStreamDataStream(const String& name, std::ifstream* s, size_t size, bool freeOnClose = true);
+    FileStreamDataStream(const String& name, std::ifstream* s, size_t size, bool free_on_close = true);
 
-    /** Construct named read-write stream from an STL stream, and tell it the size
-
-    This variant tells the class the size of the stream too, which
-    means this class does not need to seek to the end of the stream
-    to determine the size up-front. This can be beneficial if you have
-    metadata about the contents of the stream already.
-    @param name The name to give this stream
-    @param s Pointer to source stream
-    @param size Size of the stream contents in bytes
-    @param freeOnClose Whether to delete the underlying stream on
-    destruction of this class. If you specify 'true' for this you
-    must ensure that the stream was allocated using OGRE_NEW_T with
-    MEMCATEGRORY_GENERAL.
-    */
-    FileStreamDataStream(const String& name, std::fstream* s, size_t size, bool freeOnClose = true);
+ 
+    FileStreamDataStream(const String& name, std::fstream* s, size_t size, bool free_on_close = true);
 
     ~FileStreamDataStream();
 
@@ -385,9 +330,9 @@ public:
      */
     size_t write(const void* buf, size_t count) override;
 
-    /** @copydoc DataStream::readLine
+    /** @copydoc DataStream::read_line
      */
-    size_t readLine(char* buf, size_t maxCount, const String& delim = "\n") override;
+    size_t read_line(char* buf, size_t maxCount, const String& delim = "\n") override;
 
     /** @copydoc DataStream::skip
      */
@@ -403,11 +348,23 @@ public:
 
     /** @copydoc DataStream::eof
      */
-    bool eof(void) const override;
+    bool is_eof(void) const override;
 
     /** @copydoc DataStream::close
      */
     void close(void) override;
+
+private:
+    /// Reference to source stream (read)
+    std::istream* in_stream_;
+    /// Reference to source file stream (read-only)
+    std::ifstream* read_only_stream_;
+    /// Reference to source file stream (read-write)
+    std::fstream* stream_;
+
+    bool free_on_close_;
+
+    void determine_access();
 };
 
 /** Common subclass of DataStream for handling data from C-style file
@@ -419,9 +376,7 @@ public:
     and libraries still wedded to the old FILE handle access, this stream
     wrapper provides some backwards compatibility.
 */
-class _OgreExport FileHandleDataStream : public DataStream {
-private:
-    FILE* mFileHandle;
+class HYUE_API FileHandleDataStream : public DataStream {
 
 public:
     /// Create stream from a C file handle
@@ -452,11 +407,14 @@ public:
 
     /** @copydoc DataStream::eof
      */
-    bool eof(void) const override;
+    bool is_eof(void) const override;
 
     /** @copydoc DataStream::close
      */
     void close(void) override;
+
+private:
+    FILE* file_handle_;
 };
 /** @} */
 /** @} */
