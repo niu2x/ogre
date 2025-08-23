@@ -611,4 +611,76 @@ void FileStreamDataStream::close(void)
     }
 }
 
+//-----------------------------------------------------------------------
+// FileHandleDataStream
+//-----------------------------------------------------------------------
+FileHandleDataStream::FileHandleDataStream(FILE* handle, uint16_t access_mode)
+: DataStream(access_mode),
+  file_handle_(handle)
+{
+    // Determine size
+    fseek(file_handle_, 0, SEEK_END);
+    size_ = ftell(file_handle_);
+    fseek(file_handle_, 0, SEEK_SET);
+}
+//-----------------------------------------------------------------------
+FileHandleDataStream::FileHandleDataStream(const String& name, FILE* handle, uint16_t access_mode)
+: DataStream(name, access_mode),
+  file_handle_(handle)
+{
+    // Determine size
+    fseek(file_handle_, 0, SEEK_END);
+    size_ = ftell(file_handle_);
+    fseek(file_handle_, 0, SEEK_SET);
+}
+//-----------------------------------------------------------------------
+FileHandleDataStream::~FileHandleDataStream()
+{
+    close();
+}
+
+//-----------------------------------------------------------------------
+size_t FileHandleDataStream::read(void* buf, size_t count)
+{
+    return fread(buf, 1, count, file_handle_);
+}
+//-----------------------------------------------------------------------
+size_t FileHandleDataStream::write(const void* buf, size_t count)
+{
+    if (!is_writeable())
+        return 0;
+    else
+        return fwrite(buf, 1, count, file_handle_);
+}
+//---------------------------------------------------------------------
+//-----------------------------------------------------------------------
+void FileHandleDataStream::skip(long count)
+{
+    fseek(file_handle_, count, SEEK_CUR);
+}
+//-----------------------------------------------------------------------
+void FileHandleDataStream::seek(size_t pos)
+{
+    fseek(file_handle_, static_cast<long>(pos), SEEK_SET);
+}
+//-----------------------------------------------------------------------
+size_t FileHandleDataStream::tell(void) const
+{
+    return ftell(file_handle_);
+}
+//-----------------------------------------------------------------------
+bool FileHandleDataStream::is_eof(void) const
+{
+    return feof(file_handle_) != 0;
+}
+//-----------------------------------------------------------------------
+void FileHandleDataStream::close(void)
+{
+    access_ = 0;
+    if (file_handle_ != 0) {
+        fclose(file_handle_);
+        file_handle_ = 0;
+    }
+}
+
 } // namespace hyue
