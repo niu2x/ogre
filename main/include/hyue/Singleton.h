@@ -1,5 +1,7 @@
 #pragma once
 
+#include <hyue/type.h>
+
 #include <boost/noncopyable.hpp>
 
 #include <hyue/panic.h>

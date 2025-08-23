@@ -1,18 +1,16 @@
 #pragma once
 
+#include <hyue/type.h>
+
 #include <hyue/Singleton.h>
+#include <hyue/Archive.h>
+#include <hyue/ArchiveFactory.h>
 
 namespace hyue {
 
-class HYUE_API ArchiveManager : public Singleton<ArchiveManager> {
-private:
-    typedef std::map<String, ArchiveFactory*> ArchiveFactoryMap;
-    /// Factories available to create archives, indexed by archive type (String identifier e.g. 'Zip')
-    ArchiveFactoryMap mArchFactories;
-    /// Currently loaded archives
-    typedef std::map<String, Archive*> ArchiveMap;
-    ArchiveMap mArchives;
+using ArchiveMap = std::map<String, Archive*>;
 
+class HYUE_API ArchiveManager : public Singleton<ArchiveManager> {
 public:
     /** Default constructor - should never get called by a client app.
      */
@@ -21,23 +19,7 @@ public:
      */
     virtual ~ArchiveManager();
 
-    /** Opens an archive for file reading.
-
-        The archives are created using class factories within
-        extension libraries.
-        @param filename
-            The filename that will be opened
-        @param archiveType
-            The type of archive that this is. For example: "Zip".
-        @param readOnly
-            Whether the Archive is read only
-        @return
-            If the function succeeds, a valid pointer to an Archive
-            object is returned.
-        @par
-            If the function fails, an exception is thrown.
-    */
-    Archive* load(const String& filename, const String& archiveType, bool readOnly);
+    Archive* load(const String& filename, const String& archive_type, bool read_only);
 
     /** Unloads an archive.
 
@@ -49,21 +31,25 @@ public:
         You must ensure that this archive is not being used before removing it.
     */
     void unload(const String& filename);
-    typedef MapIterator<ArchiveMap> ArchiveMapIterator;
-    /** Get an iterator over the Archives in this Manager. */
-    ArchiveMapIterator getArchiveIterator(void);
 
+    const ArchiveMap* get_archives() const;
     /** Adds a new ArchiveFactory to the list of available factories.
 
         Plugin developers who add new archive codecs need to call
         this after defining their ArchiveFactory subclass and
         Archive subclasses for their archive type.
     */
-    void addArchiveFactory(ArchiveFactory* factory);
-    /// @copydoc Singleton::getSingleton()
-    static ArchiveManager& getSingleton(void);
-    /// @copydoc Singleton::getSingleton()
-    static ArchiveManager* getSingletonPtr(void);
+    void add_archive_factory(ArchiveFactory* factory);
+
+private:
+    ArchiveFactory* get_archive_factory(const String& archive_type);
+
+private:
+    using ArchiveFactoryMap = std::map<String, ArchiveFactory*>;
+    /// Factories available to create archives, indexed by archive type (String identifier e.g. 'Zip')
+    ArchiveFactoryMap arch_factories_;
+    /// Currently loaded archives
+    ArchiveMap archives_;
 };
 
 } // namespace hyue
