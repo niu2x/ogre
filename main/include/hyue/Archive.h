@@ -145,8 +145,7 @@ public:
         instead of files
     @return A list of filenames matching the criteria, all are fully qualified
     */
-    virtual StringVector find(const String& pattern, bool recursive = true, bool dirs = false) const
-        = 0;
+    virtual StringVector find(const String& pattern, bool recursive = true, bool dirs = false) const = 0;
 
     /** Find out if the named file exists (note: fully qualified filename required) */
     virtual bool exists(const String& filename) const = 0;

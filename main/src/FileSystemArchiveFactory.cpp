@@ -243,7 +243,7 @@ StringVector FileSystemArchive::list(bool recursive, bool dirs) const
 
 bool wildcard_match(const String& path, const String& pattern)
 {
-    return fnmatch(pattern.c_str(), path.c_str(), FNM_PATHNAME) == 0;
+    return fnmatch(pattern.c_str(), path.c_str(), 0) == 0;
 }
 
 void FileSystemArchive::find_files_recursive(const FilePath& path,
