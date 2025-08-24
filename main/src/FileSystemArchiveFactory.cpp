@@ -9,6 +9,7 @@
 
 #include <hyue/panic.h>
 #include <hyue/log.h>
+#include <hyue/StringUtils.h>
 
 namespace hyue {
 
@@ -124,6 +125,11 @@ FilePath concatenate_path(const FilePath& base, const FilePath& name)
         return name;
     else
         return base / name;
+}
+
+bool is_absolute_path(const FilePath& path)
+{
+    return path.is_absolute();
 }
 
 size_t get_file_size(const String& full_path)
@@ -318,6 +324,62 @@ void FileSystemArchive::find_files(const String& pattern,
     find_files_recursive(name_, pattern, recursive, dirs, simple_list, detail_list);
 }
 
+FileInfoListPtr FileSystemArchive::list_file_info(bool recursive, bool dirs) const
+{
+    auto ret = std::make_shared<FileInfoList>();
+
+    find_files("*", recursive, dirs, nullptr, ret.get());
+
+    return ret;
+}
+
+StringVectorPtr FileSystemArchive::find(const String& pattern, bool recursive, bool dirs) const
+{
+    auto ret = std::make_shared<StringVector>();
+
+    find_files(pattern, recursive, dirs, ret.get(), 0);
+
+    return ret;
+}
+
+FileInfoListPtr FileSystemArchive::find_file_info(const String& pattern,
+                                                  bool recursive,
+                                                  bool dirs) const
+{
+    auto ret = std::make_shared<FileInfoList>();
+
+    find_files(pattern, recursive, dirs, 0, ret.get());
+
+    return ret;
+}
+
+bool FileSystemArchive::exists(const String& filename) const
+{
+    if (filename.empty())
+        return false;
+
+    String full_path = concatenate_path(name_, filename);
+
+    struct stat st;
+    bool ret = (stat(full_path.c_str(), &st) == 0);
+
+    // stat will return true if the filename is absolute, but we need to check
+    // the file is actually in this archive
+    if (ret && is_absolute_path(filename)) {
+        // only valid if full path starts with our base
+        if (is_case_sensitive()) {
+            ret = StringUtils::starts_with(full_path, name_, false);
+        } else {
+
+            ret = StringUtils::starts_with(full_path, name_, true);
+        }
+    }
+
+    return ret;
+}
+
+//-----------------------------------------------------------------------
+// FileSystemArchiveFactory
 //-----------------------------------------------------------------------
 const String& FileSystemArchiveFactory::get_type(void) const
 {

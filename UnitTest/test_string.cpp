@@ -31,7 +31,10 @@ TEST(StringUtils, starts_with) {
     EXPECT_TRUE(StringUtils::starts_with("A", "A"));
     EXPECT_TRUE(StringUtils::starts_with("AB", "A"));
     EXPECT_TRUE(StringUtils::starts_with("你好", "你"));
+    EXPECT_TRUE(StringUtils::starts_with("a", "A", true));
+    EXPECT_TRUE(StringUtils::starts_with("A", "a", true));
 
+    EXPECT_FALSE(StringUtils::starts_with("a", "A"));
     EXPECT_FALSE(StringUtils::starts_with("A", ""));
     EXPECT_FALSE(StringUtils::starts_with("A", "B"));
     EXPECT_FALSE(StringUtils::starts_with("AB", "B"));

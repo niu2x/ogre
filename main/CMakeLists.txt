@@ -11,6 +11,7 @@ target_sources(${HYUE_LIB} PRIVATE
     src/Root.cpp
     src/PixelFormat.cpp
     src/Archive.cpp
+    src/ArchiveFactory.cpp
     src/ArchiveManager.cpp
     src/FileSystemArchiveFactory.cpp
 )
