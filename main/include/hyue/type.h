@@ -34,7 +34,6 @@ namespace hyue {
 
 using String = std::string;
 using StringVector = std::vector<String>;
-using StringVectorPtr = std::shared_ptr<StringVector>;
 
 using Any = std::any;
 using std::any_cast;

@@ -37,20 +37,20 @@ public:
     void remove(const String& filename) override;
 
     /// @copydoc Archive::list
-    StringVectorPtr list(bool recursive = true, bool dirs = false) const override;
+    StringVector list(bool recursive = true, bool dirs = false) const override;
 
     /// @copydoc Archive::listFileInfo
-    FileInfoListPtr list_file_info(bool recursive = true, bool dirs = false) const override;
+    FileInfoList list_file_info(bool recursive = true, bool dirs = false) const override;
 
     /// @copydoc Archive::find
-    StringVectorPtr find(const String& pattern,
-                         bool recursive = true,
-                         bool dirs = false) const override;
+    StringVector find(const String& pattern,
+                      bool recursive = true,
+                      bool dirs = false) const override;
 
     /// @copydoc Archive::findFileInfo
-    FileInfoListPtr find_file_info(const String& pattern,
-                                   bool recursive = true,
-                                   bool dirs = false) const override;
+    FileInfoList find_file_info(const String& pattern,
+                                bool recursive = true,
+                                bool dirs = false) const override;
 
     /// @copydoc Archive::exists
     bool exists(const String& filename) const override;
@@ -233,11 +233,11 @@ void FileSystemArchive::remove(const String& filename)
     ::remove(full_path.c_str());
 }
 
-StringVectorPtr FileSystemArchive::list(bool recursive, bool dirs) const
+StringVector FileSystemArchive::list(bool recursive, bool dirs) const
 {
     // directory change requires locking due to saved returns
-    auto ret = std::make_shared<StringVector>();
-    find_files("*", recursive, dirs, ret.get(), nullptr);
+    StringVector ret;
+    find_files("*", recursive, dirs, &ret, nullptr);
     return ret;
 }
 
@@ -324,31 +324,31 @@ void FileSystemArchive::find_files(const String& pattern,
     find_files_recursive(name_, pattern, recursive, dirs, simple_list, detail_list);
 }
 
-FileInfoListPtr FileSystemArchive::list_file_info(bool recursive, bool dirs) const
+FileInfoList FileSystemArchive::list_file_info(bool recursive, bool dirs) const
 {
-    auto ret = std::make_shared<FileInfoList>();
+    FileInfoList ret;
 
-    find_files("*", recursive, dirs, nullptr, ret.get());
+    find_files("*", recursive, dirs, nullptr, &ret);
 
     return ret;
 }
 
-StringVectorPtr FileSystemArchive::find(const String& pattern, bool recursive, bool dirs) const
+StringVector FileSystemArchive::find(const String& pattern, bool recursive, bool dirs) const
 {
-    auto ret = std::make_shared<StringVector>();
+    StringVector ret;
 
-    find_files(pattern, recursive, dirs, ret.get(), 0);
+    find_files(pattern, recursive, dirs, &ret, nullptr);
 
     return ret;
 }
 
-FileInfoListPtr FileSystemArchive::find_file_info(const String& pattern,
-                                                  bool recursive,
-                                                  bool dirs) const
+FileInfoList FileSystemArchive::find_file_info(const String& pattern,
+                                               bool recursive,
+                                               bool dirs) const
 {
-    auto ret = std::make_shared<FileInfoList>();
+    FileInfoList ret;
 
-    find_files(pattern, recursive, dirs, 0, ret.get());
+    find_files(pattern, recursive, dirs, nullptr, &ret);
 
     return ret;
 }
