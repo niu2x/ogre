@@ -137,6 +137,7 @@ namespace {
         #endif
 
     }
+
     //-----------------------------------------------------------------------
 #ifdef _OGRE_FILESYSTEM_ARCHIVE_UNICODE
     static bool is_reserved_dir (const wchar_t *fn)
@@ -546,27 +547,5 @@ namespace {
         {
             return 0;
         }
-
-    }
-    //-----------------------------------------------------------------------
-    const String& FileSystemArchiveFactory::getType(void) const
-    {
-        static String name = "FileSystem";
-        return name;
-    }
-
-    Archive *FileSystemArchiveFactory::createInstance( const String& name, bool readOnly )
-    {
-        return OGRE_NEW FileSystemArchive(name, getType(), readOnly);
-    }
-
-    void FileSystemArchiveFactory::setIgnoreHidden(bool ignore)
-    {
-        gIgnoreHidden = ignore;
-    }
-
-    bool FileSystemArchiveFactory::getIgnoreHidden()
-    {
-        return gIgnoreHidden;
     }
 }

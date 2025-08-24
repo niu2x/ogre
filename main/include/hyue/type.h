@@ -8,6 +8,8 @@
 
 #include <iosfwd>
 
+#include <filesystem>
+
 #include <string>
 #include <any>
 
@@ -15,17 +17,18 @@
 #include <map>
 #include <list>
 
-#include <boost/predef/other/endian.h>
+#include <boost/predef.h>
 
 #include <hyue/export.h>
 
-#if BOOST_ENDIAN_BIG_BYTE
-    #define HYUE_ENDIAN_BIG 1
-#elif BOOST_ENDIAN_LITTLE_BYTE
-    #define HYUE_ENDIAN_LITTLE 1
-#else
-    #error "Unknown Endian"
+#define HYUE_ENDIAN_BIG    BOOST_ENDIAN_BIG_BYTE
+#define HYUE_ENDIAN_LITTLE BOOST_ENDIAN_LITTLE_BYTE
+
+#if !(HYUE_ENDIAN_BIG || HYUE_ENDIAN_LITTLE)
+    #error "unknown endian"
 #endif
+
+#define HYUE_OS_WINDOWS BOOST_OS_WINDOWS
 
 namespace hyue {
 
@@ -38,5 +41,8 @@ using std::any_cast;
 
 template<class T>
 using SharedPtr = std::shared_ptr<T>;
+
+namespace std_fs = std::filesystem;
+using FilePath = std::filesystem::path;
 
 } // namespace hyue

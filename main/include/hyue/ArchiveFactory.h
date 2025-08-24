@@ -1,6 +1,7 @@
 #pragma once
 
 #include <hyue/FactoryObj.h>
+#include <hyue/Archive.h>
 
 namespace hyue {
 

@@ -1,7 +1,7 @@
 ﻿---
 Language: Cpp
 BasedOnStyle: WebKit
-ColumnLimit: '120'
+ColumnLimit: '100'
 ConstructorInitializerIndentWidth: '0'
 TabWidth: '4'
 UseTab: Never
@@ -13,7 +13,7 @@ NamespaceIndentation: None
 SortIncludes: false
 AlignConsecutiveMacros: true
 BinPackArguments: false
-BinPackParameters: false
+BinPackParameters: OnePerLine
 PackConstructorInitializers: Never
 AllowAllParametersOfDeclarationOnNextLine: false
 AlignOperands: Align
@@ -21,6 +21,7 @@ BreakBeforeBinaryOperators: true
 PenaltyBreakAssignment: 100
 PenaltyReturnTypeOnItsOwnLine: 100
 AlignAfterOpenBracket: Align
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: false
+AllowAllArgumentsOnNextLine: false
 BreakConstructorInitializers: BeforeColon
 ...
