@@ -19,9 +19,6 @@ find_package(Boost CONFIG REQUIRED COMPONENTS
     log
 )
 
-set(libzip_DIR build_deps/libzip/lib/cmake/libzip)
-find_package(libzip REQUIRED)
-
 cxx_project_preset(${HYUE_LIB})
 
 target_include_directories(${HYUE_LIB} PUBLIC
@@ -30,7 +27,6 @@ target_include_directories(${HYUE_LIB} PUBLIC
 
 target_link_libraries(${HYUE_LIB} PUBLIC
     Boost::log
-    libzip::zip
 )
 
 add_subdirectory(main)

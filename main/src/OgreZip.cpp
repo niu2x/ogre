@@ -31,57 +31,6 @@ THE SOFTWARE.
 #include <zip.h>
 
 namespace Ogre {
-namespace {
-    class ZipArchive : public Archive
-    {
-    protected:
-        /// Handle to root zip file
-        zip_t* mZipFile;
-        MemoryDataStreamPtr mBuffer;
-        /// File list (since zziplib seems to only allow scanning of dir tree once)
-        FileInfoList mFileList;
-        OGRE_AUTO_MUTEX;
-    public:
-        ZipArchive(const String& name, const String& archType, const uint8* externBuf = 0, size_t externBufSz = 0);
-        ~ZipArchive();
-        /// @copydoc Archive::isCaseSensitive
-        bool isCaseSensitive(void) const override { return OGRE_RESOURCEMANAGER_STRICT != 0; }
-
-        /// @copydoc Archive::load
-        void load() override;
-        /// @copydoc Archive::unload
-        void unload() final override;
-
-        /// @copydoc Archive::open
-        DataStreamPtr open(const String& filename, bool readOnly = true) const override;
-
-        /// @copydoc Archive::create
-        DataStreamPtr create(const String& filename) override;
-
-        /// @copydoc Archive::remove
-        void remove(const String& filename) override;
-
-        /// @copydoc Archive::list
-        StringVectorPtr list(bool recursive = true, bool dirs = false) const override;
-
-        /// @copydoc Archive::listFileInfo
-        FileInfoListPtr listFileInfo(bool recursive = true, bool dirs = false) const override;
-
-        /// @copydoc Archive::find
-        StringVectorPtr find(const String& pattern, bool recursive = true,
-            bool dirs = false) const override;
-
-        /// @copydoc Archive::findFileInfo
-        FileInfoListPtr findFileInfo(const String& pattern, bool recursive = true,
-            bool dirs = false) const override;
-
-        /// @copydoc Archive::exists
-        bool exists(const String& filename) const override;
-
-        /// @copydoc Archive::getModifiedTime
-        time_t getModifiedTime(const String& filename) const override;
-    };
-}
     //-----------------------------------------------------------------------
     ZipArchive::ZipArchive(const String& name, const String& archType, const uint8* externBuf, size_t externBufSz)
         : Archive(name, archType), mZipFile(0)
@@ -299,22 +248,7 @@ namespace {
         }
 
     }
-    //-----------------------------------------------------------------------
-    //  ZipArchiveFactory
-    //-----------------------------------------------------------------------
-    Archive *ZipArchiveFactory::createInstance( const String& name, bool readOnly )
-    {
-        if(!readOnly)
-            return NULL;
 
-        return OGRE_NEW ZipArchive(name, getType());
-    }
-    //-----------------------------------------------------------------------
-    const String& ZipArchiveFactory::getType(void) const
-    {
-        static String name = "Zip";
-        return name;
-    }
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     //  EmbeddedZipArchiveFactory

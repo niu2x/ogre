@@ -13,7 +13,7 @@ struct HYUE_API FileInfo {
     /// The file's fully qualified name
     String filename;
     /// Path name; separated by '/' and ending with '/'
-    String path;
+    String dir;
     /// Base filename
     String basename;
     /// Compressed size

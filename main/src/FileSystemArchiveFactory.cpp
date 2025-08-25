@@ -304,9 +304,9 @@ void FileSystemArchive::find_files_recursive(const FilePath& path,
 
                 FileInfo f_info;
                 f_info.archive = this;
-                f_info.filename = entry_path.filename();
-                f_info.path = entry_path;
-                f_info.basename = entry_path.stem();
+                f_info.filename = entry_path;
+                f_info.dir = entry_path.parent_path();
+                f_info.basename = entry_path.filename();
                 f_info.compressed_size = file_size;
                 f_info.uncompressed_size = file_size;
                 detail_list->push_back(std::move(f_info));
