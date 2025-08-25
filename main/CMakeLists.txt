@@ -14,6 +14,7 @@ target_sources(${HYUE_LIB} PRIVATE
     src/ArchiveFactory.cpp
     src/ArchiveManager.cpp
     src/FileSystemArchiveFactory.cpp
+    src/ZipArchiveFactory.cpp
 )
 
 target_include_directories(${HYUE_LIB} PUBLIC

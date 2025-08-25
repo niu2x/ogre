@@ -131,7 +131,7 @@ protected:
     uint16_t access_;
 };
 
-using DataStreamPtr = std::shared_ptr<DataStream>;
+using DataStreamPtr = SharedPtr<DataStream>;
 
 /// List of DataStream items
 using DataStreamList = std::list<DataStreamPtr>;
@@ -243,6 +243,8 @@ private:
     /// Do we delete the memory on close
     bool free_on_close_;
 };
+
+using MemoryDataStreamPtr = SharedPtr<MemoryDataStream>;
 
 /** Common subclass of DataStream for handling data from
     std::basic_istream.
