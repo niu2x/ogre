@@ -179,9 +179,11 @@ StringVector ZipArchive::list(bool recursive, bool dirs) const
 {
     StringVector ret;
 
-    for (auto& f : file_list_)
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty()))
+    for (auto& f : file_list_) {
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty())) {
             ret.push_back(f.filename);
+        }
+    }
 
     return ret;
 }
@@ -189,9 +191,11 @@ StringVector ZipArchive::list(bool recursive, bool dirs) const
 FileInfoList ZipArchive::list_file_info(bool recursive, bool dirs) const
 {
     FileInfoList ret;
-    for (auto& f : file_list_)
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty()))
+    for (auto& f : file_list_) {
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty())) {
             ret.push_back(f);
+        }
+    }
 
     return ret;
 }
@@ -200,10 +204,13 @@ StringVector ZipArchive::find(const String& pattern, bool recursive, bool dirs) 
 {
     StringVector ret;
 
-    for (auto& f : file_list_)
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive))
-            if (StringUtils::fnmatch(f.filename, pattern))
+    for (auto& f : file_list_) {
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive)) {
+            if (StringUtils::fnmatch(f.filename, pattern)) {
                 ret.push_back(f.filename);
+            }
+        }
+    }
 
     return ret;
 }
@@ -212,11 +219,14 @@ FileInfoList ZipArchive::find_file_info(const String& pattern, bool recursive, b
 {
     FileInfoList ret;
     // If pattern contains a directory name, do a full match
-    for (auto& f : file_list_)
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive))
+    for (auto& f : file_list_) {
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive)) {
             // Check name matches pattern (zip is case insensitive)
-            if (StringUtils::fnmatch(f.filename, pattern))
+            if (StringUtils::fnmatch(f.filename, pattern)) {
                 ret.push_back(f);
+            }
+        }
+    }
 
     return ret;
 }
@@ -224,11 +234,6 @@ FileInfoList ZipArchive::find_file_info(const String& pattern, bool recursive, b
 bool ZipArchive::exists(const String& filename) const
 {
     String clean_name = filename;
-
-    if (filename.rfind('/') != String::npos) {
-        StringVector tokens = StringUtils::split(filename, "/");
-        clean_name = tokens[tokens.size() - 1];
-    }
 
     return std::find_if(file_list_.begin(),
                         file_list_.end(),
