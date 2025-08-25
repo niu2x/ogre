@@ -3,6 +3,8 @@
 #include <hyue/Archive.h>
 #include <hyue/DataStream.h>
 
+#include <zip.h>
+
 namespace hyue {
 
 class ZipArchive : public Archive {

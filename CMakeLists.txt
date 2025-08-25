@@ -13,12 +13,16 @@ option(HYUE_BUILD_TEST "build UnitTest" OFF)
 
 set(HYUE_LIB hyue)
 
+add_library(${HYUE_LIB} SHARED "")
+
+include(build_deps)
+
 # set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost CONFIG REQUIRED COMPONENTS 
     log
 )
 
-add_library(${HYUE_LIB} SHARED "")
+find_package(libzip REQUIRED)
 
 cxx_project_preset(${HYUE_LIB})
 
@@ -28,6 +32,7 @@ target_include_directories(${HYUE_LIB} PUBLIC
 
 target_link_libraries(${HYUE_LIB} PUBLIC
     Boost::log
+    libzip::zip
 )
 
 add_subdirectory(main)
