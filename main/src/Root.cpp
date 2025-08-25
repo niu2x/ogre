@@ -16,6 +16,8 @@ Root::Root(const String &log_file) {
 
     archive_factories_.push_back(std::make_unique<FileSystemArchiveFactory>());
     archive_factories_.push_back(std::make_unique<ZipArchiveFactory>());
+
+    archive_manager_ = std::make_unique<ArchiveManager>();
     for (auto& item : archive_factories_) {
         ArchiveManager::get_singleton()->add_archive_factory(item.get());
     }
@@ -23,6 +25,7 @@ Root::Root(const String &log_file) {
 
 Root::~Root()
 {
+    archive_manager_.reset();
     archive_factories_.clear();
 }
 

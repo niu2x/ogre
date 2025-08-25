@@ -24,4 +24,7 @@ AlignAfterOpenBracket: Align
 AllowShortFunctionsOnASingleLine: false
 AllowAllArgumentsOnNextLine: false
 BreakConstructorInitializers: BeforeColon
+AlignConsecutiveDeclarations: true          # 对齐连续声明
+AlignConsecutiveAssignments: true           # 对齐连续赋值
+# AlignConsecutiveMacros: true              # 对齐连续宏
 ...

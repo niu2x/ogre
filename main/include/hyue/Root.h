@@ -2,6 +2,7 @@
 
 #include <hyue/Singleton.h>
 #include <hyue/ArchiveFactory.h>
+#include <hyue/ArchiveManager.h>
 
 namespace hyue {
 
@@ -12,6 +13,7 @@ public:
 
 private:
     std::vector<std::unique_ptr<ArchiveFactory>> archive_factories_;
+    std::unique_ptr<ArchiveManager>              archive_manager_;
 };
 
 } // namespace hyue
