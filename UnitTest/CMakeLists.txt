@@ -8,6 +8,8 @@ add_executable(unit_test
     test_archive.cpp
 )
 
+cxx_project_preset(unit_test)
+
 # Link libraries
 target_link_libraries(unit_test PRIVATE 
     # test_lib 
@@ -21,4 +23,3 @@ target_compile_definitions(unit_test PRIVATE
 )
 
 add_test(NAME hyue_unit_test COMMAND unit_test)
-
