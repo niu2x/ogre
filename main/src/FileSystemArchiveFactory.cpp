@@ -3,7 +3,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <fnmatch.h>
 
 #include <fstream>
 
@@ -241,11 +240,6 @@ StringVector FileSystemArchive::list(bool recursive, bool dirs) const
     return ret;
 }
 
-bool wildcard_match(const String& path, const String& pattern)
-{
-    return fnmatch(pattern.c_str(), path.c_str(), 0) == 0;
-}
-
 void FileSystemArchive::find_files_recursive(const FilePath& path,
                                              const String& pattern,
                                              bool recursive,
@@ -290,7 +284,7 @@ void FileSystemArchive::find_files_recursive(const FilePath& path,
             }
         }
 
-        should_add = should_add && wildcard_match(entry_path, pattern);
+        should_add = should_add && StringUtils::fnmatch(entry_path, pattern);
 
         // todo pattern
         if (should_add) {

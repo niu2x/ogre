@@ -30,6 +30,8 @@ struct HYUE_API StringUtils {
     static String format(const char* fmt, ...);
 
     static void split_filename(const String& filename, String* dir, String* basename);
+
+    static bool fnmatch(const String& path, const String& pattern);
 };
 
 } // namespace hyue

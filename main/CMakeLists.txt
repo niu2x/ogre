@@ -26,6 +26,6 @@ target_link_libraries(${HYUE_LIB} PUBLIC
     dl
 )
 
-target_precompile_headers(${HYUE_LIB} PRIVATE 
-    include/hyue/type.h
-)
+# target_precompile_headers(${HYUE_LIB} PRIVATE 
+#     include/hyue/type.h
+# )

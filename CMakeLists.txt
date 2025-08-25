@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17.0)
 
-project(HYUE VERSION 0.1.0 LANGUAGES CXX)
+project(HYUE VERSION 0.1.0 LANGUAGES CXX C)
 
 # Include necessary submodules
 list(APPEND CMAKE_MODULE_PATH

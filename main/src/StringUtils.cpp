@@ -1,6 +1,7 @@
 #include <hyue/StringUtils.h>
 
 #include <stdarg.h>
+#include <fnmatch.h>
 
 #include <algorithm>
 #include <cstring>
@@ -81,6 +82,11 @@ void StringUtils::split_filename(const String& filename, String* dir, String* ba
         *dir = path.parent_path();
     if (basename)
         *basename = path.filename();
+}
+
+bool StringUtils::fnmatch(const String& path, const String& pattern)
+{
+    return ::fnmatch(pattern.c_str(), path.c_str(), 0) == 0;
 }
 
 // String StringUtils::standardise_dir_path(const String& init)

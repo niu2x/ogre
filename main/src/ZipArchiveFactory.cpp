@@ -2,6 +2,8 @@
 
 #include <hyue/StringUtils.h>
 #include <hyue/Archive.h>
+#include <hyue/log.h>
+#include <hyue/panic.h>
 #include <hyue/DataStream.h>
 
 extern "C" {
@@ -89,9 +91,10 @@ DataStreamPtr open_file_stream(const String& full_path,
 void ZipArchive::load()
 {
     if (!zip_file_) {
-        if (!buffer_)
-            buffer_ = std::make_shared<MemoryDataStream>(
-                open_file_stream(name_, std::ios::binary).get());
+        if (!buffer_) {
+            auto file_stream = open_file_stream(name_, std::ios::binary);
+            buffer_ = std::make_shared<MemoryDataStream>(file_stream.get());
+        }
 
         zip_file_ = zip_stream_open((const char*)buffer_->get_ptr(), buffer_->get_size(), 0, 'r');
 
@@ -123,6 +126,114 @@ void ZipArchive::load()
             file_list_.push_back(info);
         }
     }
+}
+
+void ZipArchive::unload()
+{
+    if (zip_file_) {
+        zip_close(zip_file_);
+        zip_file_ = nullptr;
+    }
+    file_list_.clear();
+    buffer_.reset();
+}
+
+DataStreamPtr ZipArchive::open(const String& filename, bool readOnly) const
+{
+    // zip is not threadsafe
+    String look_ip_filename = filename;
+
+    bool open = zip_entry_open(zip_file_, look_ip_filename.c_str(), true) == 0;
+
+    if (!open) {
+        LOG(error) << "could not open " + look_ip_filename;
+        return nullptr;
+    }
+
+    // Construct & return stream
+    auto ret = std::make_shared<MemoryDataStream>(look_ip_filename,
+                                                  zip_entry_size(zip_file_),
+                                                  true,
+                                                  true);
+
+    if (zip_entry_noallocread(zip_file_, ret->get_ptr(), ret->get_size()) < 0) {
+        panic("could not read " + look_ip_filename);
+    }
+
+    zip_entry_close(zip_file_);
+    return ret;
+}
+
+DataStreamPtr ZipArchive::create(const String& filename)
+{
+    panic("Modification of zipped archives is not implemented");
+    return nullptr;
+}
+//---------------------------------------------------------------------
+void ZipArchive::remove(const String& filename)
+{
+    panic("Modification of zipped archives is not implemented");
+}
+
+StringVector ZipArchive::list(bool recursive, bool dirs) const
+{
+    StringVector ret;
+
+    for (auto& f : file_list_)
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty()))
+            ret.push_back(f.filename);
+
+    return ret;
+}
+//-----------------------------------------------------------------------
+FileInfoList ZipArchive::list_file_info(bool recursive, bool dirs) const
+{
+    FileInfoList ret;
+    for (auto& f : file_list_)
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty()))
+            ret.push_back(f);
+
+    return ret;
+}
+//-----------------------------------------------------------------------
+StringVector ZipArchive::find(const String& pattern, bool recursive, bool dirs) const
+{
+    StringVector ret;
+
+    for (auto& f : file_list_)
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive))
+            if (StringUtils::fnmatch(f.filename, pattern))
+                ret.push_back(f.filename);
+
+    return ret;
+}
+//-----------------------------------------------------------------------
+FileInfoList ZipArchive::find_file_info(const String& pattern, bool recursive, bool dirs) const
+{
+    FileInfoList ret;
+    // If pattern contains a directory name, do a full match
+    for (auto& f : file_list_)
+        if ((dirs == (f.compressed_size == size_t(0))) && (recursive))
+            // Check name matches pattern (zip is case insensitive)
+            if (StringUtils::fnmatch(f.filename, pattern))
+                ret.push_back(f);
+
+    return ret;
+}
+
+bool ZipArchive::exists(const String& filename) const
+{
+    String clean_name = filename;
+
+    if (filename.rfind('/') != String::npos) {
+        StringVector tokens = StringUtils::split(filename, "/");
+        clean_name = tokens[tokens.size() - 1];
+    }
+
+    return std::find_if(file_list_.begin(),
+                        file_list_.end(),
+                        [&clean_name](auto& fi) { return fi.filename == clean_name; })
+           != file_list_.end();
 }
 
 //-----------------------------------------------------------------------
