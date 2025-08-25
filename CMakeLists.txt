@@ -15,13 +15,11 @@ set(HYUE_LIB hyue)
 
 add_library(${HYUE_LIB} SHARED "")
 
-include(build_deps)
-
-# set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost CONFIG REQUIRED COMPONENTS 
     log
 )
 
+set(libzip_DIR build_deps/libzip/lib/cmake/libzip)
 find_package(libzip REQUIRED)
 
 cxx_project_preset(${HYUE_LIB})
@@ -38,7 +36,7 @@ target_link_libraries(${HYUE_LIB} PUBLIC
 add_subdirectory(main)
 
 if(HYUE_BUILD_TEST)
-    add_subdirectory(UnitTest)
+    add_subdirectory(unittest)
 endif()
 
 if(HYUE_BUILD_EXAMPLE)
