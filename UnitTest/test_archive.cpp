@@ -10,9 +10,9 @@ TEST(FileSystemArchive, list)
 
     archive->load();
 
-    EXPECT_EQ(archive->find("*archive*").size(), 1);
-    EXPECT_EQ(archive->find("*archive*", false, true).size(), 0);
-    EXPECT_EQ(archive->find("*.cpp", false, false).size(), 3);
+    EXPECT_EQ(archive->find("*test_archive*").size(), 1);
+    EXPECT_EQ(archive->find("*test_archive*", false, true).size(), 0);
+    EXPECT_EQ(archive->find("*.cpp", false, false).size(), UNIT_TEST_COUNT);
 
     archive->unload();
 
