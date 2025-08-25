@@ -32,7 +32,7 @@ public:
     void unload() final override;
 
     /// @copydoc Archive::open
-    DataStreamPtr open(const String& filename, bool readOnly = true) const override;
+    DataStreamPtr open(const String& filename, bool read_only = true) const override;
 
     /// @copydoc Archive::create
     DataStreamPtr create(const String& filename) override;
@@ -147,7 +147,7 @@ void ZipArchive::unload()
     buffer_.reset();
 }
 
-DataStreamPtr ZipArchive::open(const String& filename, bool readOnly) const
+DataStreamPtr ZipArchive::open(const String& filename, bool read_only) const
 {
     // zip is not threadsafe
     String look_ip_filename = filename;
@@ -266,6 +266,63 @@ const String& ZipArchiveFactory::get_type(void) const
 {
     static String name = "Zip";
     return name;
+}
+
+//-----------------------------------------------------------------------
+// EmbeddedZipArchiveFactory
+//-----------------------------------------------------------------------
+struct EmbeddedFileData {
+    const uint8_t* file_data;
+    size_t         file_size;
+};
+
+using EmbbedFileDataList = std::map<String, EmbeddedFileData>;
+
+EmbbedFileDataList g_embedded_file_data_list;
+
+EmbeddedZipArchiveFactory::EmbeddedZipArchiveFactory()
+{
+}
+
+EmbeddedZipArchiveFactory::~EmbeddedZipArchiveFactory()
+{
+}
+
+//-----------------------------------------------------------------------
+Archive* EmbeddedZipArchiveFactory::create_instance(const String& name, bool read_only)
+{
+    auto it = g_embedded_file_data_list.find(name);
+    if (it == g_embedded_file_data_list.end())
+        return nullptr;
+
+    return new ZipArchive(name, get_type(), it->second.file_data, it->second.file_size);
+}
+void EmbeddedZipArchiveFactory::destroy_instance(Archive* ptr)
+{
+    // remove_embbedded_file(ptr->getName());
+    ZipArchiveFactory::destroy_instance(ptr);
+}
+
+const String& EmbeddedZipArchiveFactory::get_type(void) const
+{
+    static String name = "EmbeddedZip";
+    return name;
+}
+
+void EmbeddedZipArchiveFactory::add_embbedded_file(const String&  name,
+                                                   const uint8_t* file_data,
+                                                   size_t         file_size)
+{
+
+    EmbeddedFileData new_embedded;
+    new_embedded.file_data = file_data;
+    new_embedded.file_size = file_size;
+    g_embedded_file_data_list.emplace(name, new_embedded);
+}
+//-----------------------------------------------------------------------
+void EmbeddedZipArchiveFactory::remove_embbedded_file(const String& name)
+{
+    g_embedded_file_data_list.erase(name);
 }
 
 } // namespace hyue
