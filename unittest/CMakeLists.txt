@@ -6,25 +6,25 @@ file(GLOB test_src "test_*.cpp")
 
 list(LENGTH test_src test_src_length)
 
-add_executable(unit_test "")
+add_executable(unittest "")
 
-target_sources(unit_test PRIVATE
+target_sources(unittest PRIVATE
     ${test_src}
 )
 
-cxx_project_preset(unit_test)
+cxx_project_preset(unittest)
 
 # Link libraries
-target_link_libraries(unit_test PRIVATE 
+target_link_libraries(unittest PRIVATE 
     # test_lib 
     GTest::GTest 
     GTest::Main
     ${HYUE_LIB}
 )
 
-target_compile_definitions(unit_test PRIVATE
-    UNIT_TEST_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
-    UNIT_TEST_COUNT=${test_src_length}
+target_compile_definitions(unittest PRIVATE
+    UNITTEST_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+    UNITTEST_COUNT=${test_src_length}
 )
 
-add_test(NAME hyue_unit_test COMMAND unit_test)
+add_test(NAME hyue_unittest COMMAND unittest)
