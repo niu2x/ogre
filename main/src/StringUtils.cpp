@@ -74,6 +74,15 @@ StringVector StringUtils::split(const String& str, const String& delims, bool co
     return split_vec;
 }
 
+void StringUtils::split_filename(const String& filename, String* dir, String* basename)
+{
+    FilePath path = filename;
+    if (dir)
+        *dir = path.parent_path();
+    if (basename)
+        *basename = path.filename();
+}
+
 // String StringUtils::standardise_dir_path(const String& init)
 // {
 //     String path = init;
