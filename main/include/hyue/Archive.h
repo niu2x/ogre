@@ -20,6 +20,8 @@ struct HYUE_API FileInfo {
     size_t compressed_size;
     /// Uncompressed size
     size_t uncompressed_size;
+    // is dir
+    bool is_dir;
 };
 
 using FileInfoList = std::vector<FileInfo>;

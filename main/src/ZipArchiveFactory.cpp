@@ -93,8 +93,13 @@ void ZipArchive::load()
     if (!zip_file_) {
         if (!buffer_) {
             auto file_stream = open_file_stream(name_, std::ios::binary);
-            buffer_ = std::make_shared<MemoryDataStream>(file_stream.get());
+            if(file_stream) {
+                buffer_ = std::make_shared<MemoryDataStream>(file_stream.get());
+            }
         }
+
+        if(!buffer_)
+            return;
 
         zip_file_ = zip_stream_open((const char*)buffer_->get_ptr(), buffer_->get_size(), 0, 'r');
 
@@ -103,6 +108,7 @@ void ZipArchive::load()
         for (int i = 0; i < n; ++i) {
             FileInfo info;
             info.archive = this;
+
 
             zip_entry_openbyindex(zip_file_, i);
 
@@ -119,7 +125,10 @@ void ZipArchive::load()
                 StringUtils::split_filename(info.filename, &info.dir, &info.basename);
                 // Set compressed size to -1 for folders; anyway nobody will check
                 // the compressed size of a folder, and if he does, its useless anyway
-                info.compressed_size = 0;
+                info.is_dir = true;
+            }
+            else {
+                info.is_dir = false;
             }
 
             zip_entry_close(zip_file_);
@@ -180,7 +189,7 @@ StringVector ZipArchive::list(bool recursive, bool dirs) const
     StringVector ret;
 
     for (auto& f : file_list_) {
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty())) {
+        if ((dirs == f.is_dir) && (recursive || f.dir.empty())) {
             ret.push_back(f.filename);
         }
     }
@@ -192,7 +201,7 @@ FileInfoList ZipArchive::list_file_info(bool recursive, bool dirs) const
 {
     FileInfoList ret;
     for (auto& f : file_list_) {
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive || f.dir.empty())) {
+        if ((dirs == f.is_dir) && (recursive || f.dir.empty())) {
             ret.push_back(f);
         }
     }
@@ -205,7 +214,7 @@ StringVector ZipArchive::find(const String& pattern, bool recursive, bool dirs) 
     StringVector ret;
 
     for (auto& f : file_list_) {
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive)) {
+        if ((dirs == f.is_dir) && (recursive)) {
             if (StringUtils::fnmatch(f.filename, pattern)) {
                 ret.push_back(f.filename);
             }
@@ -220,7 +229,7 @@ FileInfoList ZipArchive::find_file_info(const String& pattern, bool recursive, b
     FileInfoList ret;
     // If pattern contains a directory name, do a full match
     for (auto& f : file_list_) {
-        if ((dirs == (f.compressed_size == size_t(0))) && (recursive)) {
+        if ((dirs == f.is_dir) && (recursive)) {
             // Check name matches pattern (zip is case insensitive)
             if (StringUtils::fnmatch(f.filename, pattern)) {
                 ret.push_back(f);

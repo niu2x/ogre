@@ -263,6 +263,7 @@ void FileSystemArchive::find_files_recursive(const FilePath& path,
         auto entry_path = entry.path();
 
         bool should_add = false;
+        bool is_dir = false;
 
         if (std_fs::is_directory(entry.status())) {
             if (recursive) {
@@ -277,6 +278,8 @@ void FileSystemArchive::find_files_recursive(const FilePath& path,
             if (dirs) {
                 should_add = true;
             }
+
+            is_dir = true;
 
         } else if (std_fs::is_regular_file(entry.status())) {
             if (!dirs) {
@@ -293,9 +296,7 @@ void FileSystemArchive::find_files_recursive(const FilePath& path,
             }
 
             if (detail_list) {
-
                 auto file_size = get_file_size(entry_path);
-
                 FileInfo f_info;
                 f_info.archive = this;
                 f_info.filename = entry_path;
@@ -303,6 +304,7 @@ void FileSystemArchive::find_files_recursive(const FilePath& path,
                 f_info.basename = entry_path.filename();
                 f_info.compressed_size = file_size;
                 f_info.uncompressed_size = file_size;
+                f_info.is_dir = is_dir;
                 detail_list->push_back(std::move(f_info));
             }
         }

@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 
 #include <hyue/FileSystemArchiveFactory.h>
+#include <hyue/ZipArchiveFactory.h>
+
 #include <hyue/StringUtils.h>
 
 using namespace hyue;
@@ -109,5 +111,70 @@ TEST(FileSystemArchive, exists)
 
     archive->unload();
 
+    factory.destroy_instance(archive);
+}
+
+TEST(ZipArchiveFactory, non_exists)
+{
+    ZipArchiveFactory factory;
+    auto archive = factory.create_instance(UNITTEST_DIR "/non_exists.zip");
+    archive->load();
+
+    EXPECT_EQ(archive->list().size(), 0);
+
+    archive->unload();
+    factory.destroy_instance(archive);
+}
+
+
+TEST(ZipArchiveFactory, list)
+{
+    ZipArchiveFactory factory;
+    auto archive = factory.create_instance(UNITTEST_DIR "/test.zip");
+    archive->load();
+
+    EXPECT_EQ(archive->list().size(), 2);
+    EXPECT_EQ(archive->list(false).size(), 0);
+    EXPECT_EQ(archive->list(false, true).size(), 1);
+    EXPECT_EQ(archive->list(true, true).size(), 3);
+
+    archive->unload();
+    factory.destroy_instance(archive);
+}
+
+TEST(ZipArchiveFactory, find)
+{
+    ZipArchiveFactory factory;
+    auto archive = factory.create_instance(UNITTEST_DIR "/test.zip");
+    archive->load();
+
+    EXPECT_EQ(archive->find("*.jpg").size(), 1);
+    EXPECT_EQ(archive->find("*.txt").size(), 1);
+    EXPECT_EQ(archive->find("a/*.txt").size(), 0);
+    EXPECT_EQ(archive->find("*a/*.txt").size(), 1);
+    EXPECT_EQ(archive->find("*").size(), 2);
+
+    archive->unload();
+    factory.destroy_instance(archive);
+}
+
+TEST(ZipArchiveFactory, open)
+{
+    ZipArchiveFactory factory;
+    auto archive = factory.create_instance(UNITTEST_DIR "/test.zip");
+    archive->load();
+
+    EXPECT_EQ(archive->open("test.txt"), nullptr);
+    EXPECT_NE(archive->open("test/a/1.txt"), nullptr);
+
+    auto data_stream = archive->open("test/a/1.txt");
+    EXPECT_EQ(data_stream->get_as_string(), "hello, yue!\n");
+    data_stream.reset();
+
+    data_stream = archive->open("test/b/2.jpg");
+    EXPECT_EQ(data_stream->get_as_string(), "");
+    data_stream.reset();
+
+    archive->unload();
     factory.destroy_instance(archive);
 }
